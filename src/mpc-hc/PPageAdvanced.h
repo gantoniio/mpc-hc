@@ -1,5 +1,5 @@
 /*
-* (C) 2015-2016 see Authors.txt
+* (C) 2015-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -190,6 +190,8 @@ private:
         USE_LEGACY_TOOLBAR,
         YDL_MAX_HEIGHT,
         YDL_AUDIO_ONLY,
+        SAVEIMAGE_POSITION,
+        SAVEIMAGE_CURRENTTIME
     };
 
     enum {

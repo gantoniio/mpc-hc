@@ -677,9 +677,11 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
+#if USE_DRDUMP_CRASH_REPORTER
             if (CrashReporter::IsEnabled()) {
                 CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(s.language).dllPath);
             }
+#endif
             break;
         case MpcEvent::STREAM_POS_UPDATE_REQUEST:
             OnTimer(TIMER_STREAMPOSPOLLER);
@@ -3904,6 +3906,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (s.nCLSwitches & CLSW_SLAVE) {
         SendAPICommand(CMD_CONNECT, L"%d", PtrToInt(GetSafeHwnd()));
+        s.nCLSwitches &= ~CLSW_SLAVE;
     }
 
     POSITION pos = s.slFilters.GetHeadPosition();
@@ -3972,6 +3975,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             p->subs.AddTailList(&s.slSubs);
         }
         OpenMedia(p);
+        s.nCLSwitches &= ~CLSW_DVD;
     } else if (s.nCLSwitches & CLSW_CD) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         fSetForegroundWindow = true;
@@ -3994,8 +3998,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         m_wndPlaylistBar.Open(sl, true);
         applyRandomizeSwitch();
         OpenCurPlaylistItem();
+        s.nCLSwitches &= ~CLSW_CD;
     } else if (s.nCLSwitches & CLSW_DEVICE) {
         SendMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+        s.nCLSwitches &= ~CLSW_DEVICE;
     } else if (!s.slFiles.IsEmpty()) {
         CAtlList<CString> sl;
         sl.AddTailList(&s.slFiles);
@@ -4059,6 +4065,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 s.nCLSwitches &= ~CLSW_STARTVALID;
                 s.rtStart = 0;
             }
+            s.nCLSwitches &= ~CLSW_ADD;
         }
     } else {
         applyRandomizeSwitch();
@@ -4066,25 +4073,29 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (s.nCLSwitches & CLSW_PRESET1) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_MINIMAL);
+        s.nCLSwitches &= ~CLSW_PRESET1;
     } else if (s.nCLSwitches & CLSW_PRESET2) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_COMPACT);
+        s.nCLSwitches &= ~CLSW_PRESET2;
     } else if (s.nCLSwitches & CLSW_PRESET3) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
+        s.nCLSwitches &= ~CLSW_PRESET3;
     }
     if (s.nCLSwitches & CLSW_MUTE) {
         if (!IsMuted()) {
             SendMessage(WM_COMMAND, ID_VOLUME_MUTE);
         }
+        s.nCLSwitches &= ~CLSW_MUTE;
     }
     if (s.nCLSwitches & CLSW_VOLUME) {
         m_wndToolBar.SetVolume(s.nCmdVolume);
+        s.nCLSwitches &= ~CLSW_VOLUME;
     }
 
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
         SetForegroundWindow();
     }
 
-    s.nCLSwitches = CLSW_NONE;
 
     return TRUE;
 }
@@ -4874,11 +4885,42 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
 }
 
-static CString MakeSnapshotFileName(LPCTSTR prefix)
+CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
 {
-    CTime t = CTime::GetCurrentTime();
+    CAppSettings& s = AfxGetAppSettings();
+    CString prefix;
     CString fn;
-    fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), AfxGetAppSettings().strSnapshotExt.GetString());
+
+    ASSERT(!thumbnails || GetPlaybackMode() == PM_FILE);
+
+    if (GetPlaybackMode() == PM_FILE) {
+        if (thumbnails) {
+            prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
+        } else {
+            if (s.bSaveImagePosition) {
+                prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
+            } else {
+                prefix.Format(_T("%s"), GetFileName().GetString());
+            }
+        }
+    } else if (GetPlaybackMode() == PM_DVD) {
+        if (s.bSaveImagePosition) {
+            prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
+        } else {
+            prefix = _T("dvd_snapshot");
+        }
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
+    } else {
+        prefix = _T("snapshot");
+    }
+
+    if (!thumbnails && s.bSaveImageCurrentTime) {
+        CTime t = CTime::GetCurrentTime();
+        fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), s.strSnapshotExt.GetString());
+    } else {
+        fn.Format(_T("%s%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), s.strSnapshotExt.GetString());
+    }
     return fn;
 }
 
@@ -4935,16 +4977,7 @@ void CMainFrame::OnFileSaveImage()
     }
 
     CPath psrc(s.strSnapshotPath);
-
-    CStringW prefix = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
-    }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
 
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
@@ -5004,18 +5037,9 @@ void CMainFrame::OnFileSaveImageAuto()
         return;
     }
 
-    CStringW prefix = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
-    }
-
     CString fn;
-    fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(prefix).GetString());
-    SaveImage(fn);
+    fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE).GetString());
+    SaveImage(fn.GetString());
 }
 
 void CMainFrame::OnUpdateFileSaveImage(CCmdUI* pCmdUI)
@@ -5034,13 +5058,7 @@ void CMainFrame::OnFileSaveThumbnails()
     }
 
     CPath psrc(s.strSnapshotPath);
-    CStringW prefix = _T("thumbs");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
-    } else {
-        ASSERT(FALSE);
-    }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(TRUE));
 
     CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, nullptr, (LPCTSTR)psrc,
                              _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
@@ -5967,6 +5985,11 @@ void CMainFrame::OnViewForceInputHighColorResolution()
 void CMainFrame::OnViewFullFloatingPointProcessing()
 {
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    if (!r.m_AdvRendSets.bVMR9FullFloatingPointProcessing) {
+        if (AfxMessageBox(_T("WARNING: Full Floating Point processing can sometimes cause problems. With some videos it can cause the player to freeze, crash, or display corrupted video. This happens mostly with Intel GPUs.\n\nAre you really sure that you want to enable this setting?"), MB_YESNO) == IDNO) {
+            return;
+        }
+    }
     r.m_AdvRendSets.bVMR9FullFloatingPointProcessing = !r.m_AdvRendSets.bVMR9FullFloatingPointProcessing;
     if (r.m_AdvRendSets.bVMR9FullFloatingPointProcessing) {
         r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing = false;
@@ -7193,14 +7216,18 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayFramestep(UINT nID)
 {
+    if (!m_pFS) {
+        return;
+    }
+
     m_OSD.EnableShowMessage(false);
-    if (m_pFS && m_fQuicktimeGraph) {
+    if (m_fQuicktimeGraph) {
         if (GetMediaState() != State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
         m_pFS->Step((nID == ID_PLAY_FRAMESTEP) ? 1 : -1, nullptr);
-    } else if (m_pFS && nID == ID_PLAY_FRAMESTEP) {
+    } else if (nID == ID_PLAY_FRAMESTEP) {
         if (GetMediaState() != State_Paused && !queue_ffdshow_support) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
@@ -7270,7 +7297,7 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 
     if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && !m_fLiveWM
             && (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title))) {
-        if (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
+        if (m_pFS && (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME))) {
             fEnable = true;
         } else if (pCmdUI->m_nID == ID_PLAY_FRAMESTEP) {
             fEnable = true;
@@ -13977,6 +14004,8 @@ REFERENCE_TIME CMainFrame::GetDur() const
     return (GetLoadState() == MLS::LOADED ? stop : 0);
 }
 
+#define MAX_FASTSEEK_INACCURACY (20 * 10000000)
+
 bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const
 {
     bool ret = false;
@@ -13985,16 +14014,23 @@ bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REF
         const auto cbegin = m_kfs.cbegin();
         const auto cend = m_kfs.cend();
         ASSERT(std::is_sorted(cbegin, cend));
-        auto upper = std::upper_bound(cbegin, cend, rtTarget);
+        auto upper = std::lower_bound(cbegin, cend, rtTarget);
         if (upper == cbegin) {
             // we assume that streams always start with keyframe
-            rtLower = *cbegin;
-            rtUpper = (++upper != cend) ? *upper : rtLower;
+            rtUpper = *upper;
+            rtLower = 0;
         } else if (upper == cend) {
             rtLower = rtUpper = *(--upper);
         } else {
             rtUpper = *upper;
             rtLower = *(--upper);
+        }
+        // ignore keyframes if they are too far away
+        if ((rtLower > 0) && (abs(rtTarget - rtLower) > MAX_FASTSEEK_INACCURACY)) {
+            rtLower = rtTarget;
+        }
+        if (abs(rtUpper - rtTarget) > MAX_FASTSEEK_INACCURACY) {
+            rtUpper = rtTarget;
         }
         ret = true;
     } else {
@@ -14051,6 +14087,11 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
     }
     m_nStepForwardCount = 0;
+
+    // skip seeks when duration is unknown
+    if (!m_wndSeekBar.HasDuration()) {
+        return;
+    }
 
     if (!IsPlaybackCaptureMode()) {
         __int64 start, stop;
@@ -14899,9 +14940,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         CloseMediaPrivate();
     }
 
-    // keep only those command-line switches
-    // TODO: I have no idea why we need it here in CloseMedia()/OnFilePostClosemedia()
-    s.nCLSwitches &= CLSW_OPEN | CLSW_PLAY | CLSW_AFTERPLAYBACK_MASK | CLSW_NOFOCUS;
 
     // graph is destroyed, update stuff
     OnFilePostClosemedia(bNextIsQueued);
