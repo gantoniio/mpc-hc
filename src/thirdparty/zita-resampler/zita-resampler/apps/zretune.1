@@ -1,4 +1,4 @@
-.TH zretune 1  "Sect 2012" "version 0.0.1" "USER COMMANDS"
+.TH zretune 1  "Sept 2012" "version 0.0.1" "USER COMMANDS"
 .SH NAME
 zretune \- resample an audio file in order to change its pitch
 .SH SYNOPSIS
@@ -10,7 +10,7 @@ resamples an audio file by a the inverse of a ratio expressed in cents,
 without changing the nominal sample rate. The result is to change the
 musical pitch and lenght of the file. Input can be any audio file
 readable by the libsndfile library. The output file type is either
-WAV or CAF.
+WAV, WAVEX, CAF, AIFF or FLAC.
 .SH OPTIONS
 .TP
 .B --help
@@ -34,6 +34,12 @@ filename extension.
 .TP
 .B --caf
 Produce a Core Audio file.
+.TP
+.B --aiff
+Produce an AIFF file.
+.TP
+.B --flac
+Produce a FLAC file.
 .SS Output sample format
 .TP
 .B --16bit

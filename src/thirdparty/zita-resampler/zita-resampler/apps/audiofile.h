@@ -1,21 +1,22 @@
-// ----------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 //
-//  Copyright (C) 2006-2011 Fons Adriaensen <fons@linuxaudio.org>
+//    Copyright (C) 2009-2014 Fons Adriaensen <fons@linuxaudio.org>
 //    
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 3 of the License, or
-//  (at your option) any later version.
+//    This program is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//    You should have received a copy of the GNU General Public License
+//    along with this program; if not, write to the Free Software
+//    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
-// ----------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 
 
 #ifndef __AUDIOFILE_H
@@ -44,7 +45,9 @@ public:
 	TYPE_OTHER,
 	TYPE_CAF,
         TYPE_WAV,
-        TYPE_AMB
+        TYPE_AMB,
+	TYPE_AIFF,
+	TYPE_FLAC
     };
 
     enum
@@ -77,6 +80,8 @@ public:
 	ERR_WRITE   = -8
     };
 
+    enum { BUFFSIZE = 1024 };
+
     Audiofile (void);
     ~Audiofile (void);
 
@@ -85,22 +90,30 @@ public:
     int form (void) const { return _form; }
     int rate (void) const { return _rate; }
     int chan (void) const { return _chan; }
-    uint32_t size (void) const { return _size; }
+    uint64_t size (void) const { return _size; }
+
+    const char *typestr (void) const { return _typestr [_type]; }
+    const char *formstr (void) const { return _formstr [_form]; }
+    const char *dithstr (void) const { return _dithstr [_dith_type]; }
+
+    int enc_type (const char *s);
+    int enc_form (const char *s);
+    int enc_dith (const char *s);
 
     int open_read (const char *name);
     int open_write (const char *name, int type, int form, int rate, int chan);
-    int set_dither (int type);
     int close (void);
+    int set_dither (int type);
+    float *get_buffer (void);
 
-    int seek (uint32_t posit);
-    int read  (float *data, uint32_t frames);
-    int write (float *data, uint32_t frames);
+    int64_t seek (int64_t posit, int mode = SEEK_SET);
+    int read  (float *data, uint64_t frames);
+    int write (float *data, uint64_t frames);
+
 
 private:
 
-    enum { BUFFSIZE = 1024 };
-
-    void reset (void);
+    void clear (void);
 
     SNDFILE  *_sndfile;
     int       _mode;
@@ -108,10 +121,15 @@ private:
     int       _form;
     int       _rate;
     int       _chan;
-    uint32_t  _size;
+    uint64_t  _size;
     int       _dith_type;
     Dither   *_dith_proc;
     int16_t  *_dith_buff;
+    float    *_data_buff;
+
+    static const char *_typestr [];
+    static const char *_formstr [];
+    static const char *_dithstr [];
 };
 
 

@@ -9,7 +9,8 @@ zresample \- resample and change sample format of audio files
 copies an audio file, changing the sample rate and/or the
 sample format. For 16-bit output it can also dither the
 audio signal. Input can be any audio file readable by the
-libsndfile library. The output file type is either WAV or CAF.
+libsndfile library. The output file type is either WAV, WAVEX,
+CAF, AIFF or FLAC.
 .SH OPTIONS
 .TP
 .B --help
@@ -27,6 +28,9 @@ with both
 and
 .B b
 less than or equal to 1000. 
+.TP
+.B --gain gain
+Gain in dB, default zero.
 .SS Output file type
 .TP
 .B --wav
@@ -41,6 +45,12 @@ filename extension.
 .TP
 .B --caf
 Produce a Core Audio file.
+.TP
+.B --aiff
+Produce an AIFF file.
+.TP
+.B --flac
+Produce a FLAC file.
 .SS Output sample format
 .TP
 .B --16bit

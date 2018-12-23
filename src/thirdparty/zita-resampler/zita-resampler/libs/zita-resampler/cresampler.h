@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 //
-//  Copyright (C) 2006-2012 Fons Adriaensen <fons@linuxaudio.org>
+//  Copyright (C) 2013 Fons Adriaensen <fons@linuxaudio.org>
 //    
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,28 +18,19 @@
 // ----------------------------------------------------------------------------
 
 
-#ifndef __VRESAMPLER_H
-#define __VRESAMPLER_H
+#ifndef __CRESAMPLER_H
+#define __CRESAMPLER_H
 
 
-#include <zita-resampler/resampler-table.h>
-
-
-class VResampler
+class CResampler
 {
 public:
 
-    VResampler (void);
-    ~VResampler (void);
+    CResampler (void);
+    ~CResampler (void);
 
     int  setup (double       ratio,
-                unsigned int nchan,
-                unsigned int hlen);
-
-    int  setup (double       ratio,
-                unsigned int nchan,
-                unsigned int hlen,
-                double       frel);
+                unsigned int nchan);
 
     void   clear (void);
     int    reset (void);
@@ -48,9 +39,8 @@ public:
     double inpdist (void) const;
     int    process (void);
     
+    void set_ratio (double r);    
     void set_phase (double p);
-    void set_rrfilt (double t);
-    void set_rratio (double r);    
 
     unsigned int         inp_count;
     unsigned int         out_count;
@@ -61,23 +51,14 @@ public:
 
 private:
 
-    enum { NPHASE = 256 };
-
-    Resampler_table     *_table;
     unsigned int         _nchan;
     unsigned int         _inmax;
     unsigned int         _index;
     unsigned int         _nread;
     unsigned int         _nzero;
-    double               _ratio;
     double               _phase;
     double               _pstep;
-    double               _qstep;
-    double               _wstep;
     float               *_buff;
-    float               *_c1;
-    float               *_c2;
-    void                *_dummy [8];
 };
 
 

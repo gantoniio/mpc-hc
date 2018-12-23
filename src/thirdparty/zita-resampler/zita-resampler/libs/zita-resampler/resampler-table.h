@@ -21,13 +21,10 @@
 #ifndef __RESAMPLER_TABLE_H
 #define __RESAMPLER_TABLE_H
 
-
-//#include <pthread.h>
 #include <mutex>
 
-
 #define ZITA_RESAMPLER_MAJOR_VERSION 1
-#define ZITA_RESAMPLER_MINOR_VERSION 3
+#define ZITA_RESAMPLER_MINOR_VERSION 6
 
 
 extern int zita_resampler_major_version (void);
@@ -40,17 +37,13 @@ private:
 
     friend class Resampler_table;
 
-    //Resampler_mutex (void) { pthread_mutex_init (&_mutex, 0); }
-    //~Resampler_mutex (void) { pthread_mutex_destroy (&_mutex); }
-    //void lock (void) { pthread_mutex_lock (&_mutex); }
-    //void unlock (void) { pthread_mutex_unlock (&_mutex); }
-    Resampler_mutex (void) { }
-    ~Resampler_mutex (void) { }
-    void lock (void) { _mutex.lock(); }
-    void unlock (void) { _mutex.unlock(); }
+    Resampler_mutex(void) {  }
+    ~Resampler_mutex(void) {  }
+    void lock(void) { _mutex.lock(); }
+    void unlock(void) { _mutex.unlock(); }
 
-    //pthread_mutex_t  _mutex;
     std::mutex _mutex;
+
 };
 
 

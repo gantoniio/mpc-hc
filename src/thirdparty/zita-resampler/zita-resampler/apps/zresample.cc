@@ -27,7 +27,7 @@
 #include "audiofile.h"
 
 
-enum { HELP, CAF, WAV, AMB, BIT16, BIT24, FLOAT, RATE, REC, TRI, LIPS, PAD };
+enum { HELP, CAF, WAV, AMB, AIFF, FLAC, BIT16, BIT24, FLOAT, RATE, GAIN, REC, TRI, LIPS, PAD };
 enum { BUFFSIZE = 0x4000, FILTSIZE = 96 };
 
 
@@ -35,18 +35,20 @@ static unsigned int type = Audiofile::TYPE_WAV;
 static unsigned int form = Audiofile::FORM_24BIT;
 static unsigned int rout = 0;
 static unsigned int dith = Audiofile::DITHER_NONE;
+static float        gain = 0.0f;
 static bool         zpad = false;
 
 
 static void help (void)
 {
     fprintf (stderr, "\nzresample %s\n", VERSION);
-    fprintf (stderr, "(C) 2007-2012 Fons Adriaensen  <fons@linuxaudio.org>\n");
+    fprintf (stderr, "(C) 2007-2015 Fons Adriaensen  <fons@linuxaudio.org>\n");
     fprintf (stderr, "Usage: zresample <options> <input file> <output file>.\n");
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  Display this text:     --help\n");
-    fprintf (stderr, "  Output file type:      --caf, --wav, --amb\n");
+    fprintf (stderr, "  Output file type:      --caf, --wav, --amb, --aiff, --flac\n");
     fprintf (stderr, "  Output sample rate:    --rate <sample rate>\n");
+    fprintf (stderr, "  Additional gain (dB):  --gain [0.0]\n");
     fprintf (stderr, "  Output sample format:  --16bit, --24bit, --float\n");
     fprintf (stderr, "  Dither type (16 bit):  --rec, --tri, --lips\n");
     fprintf (stderr, "  Add zero padding :     --pad\n");
@@ -62,10 +64,13 @@ static struct option options [] =
     { "caf",   0, 0, CAF   },
     { "wav",   0, 0, WAV   },
     { "amb",   0, 0, AMB   },
+    { "aiff",  0, 0, AIFF  },
+    { "flac",  0, 0, FLAC  },
     { "16bit", 0, 0, BIT16 },
     { "24bit", 0, 0, BIT24 },
     { "float", 0, 0, FLOAT },
     { "rate",  1, 0, RATE  },
+    { "gain",  1, 0, GAIN  },
     { "rec",   0, 0, REC   },
     { "tri",   0, 0, TRI   },
     { "lips",  0, 0, LIPS  },
@@ -95,6 +100,12 @@ static void procoptions (int ac, char *av [])
 	case AMB:
 	    type = Audiofile::TYPE_AMB;
 	    break;
+	case AIFF:
+	    type = Audiofile::TYPE_AIFF;
+	    break;
+	case FLAC:
+	    type = Audiofile::TYPE_FLAC;
+	    break;
 	case BIT16:
 	    form = Audiofile::FORM_16BIT;
 	    break;
@@ -108,6 +119,13 @@ static void procoptions (int ac, char *av [])
 	    if (sscanf (optarg, "%d", &rout) != 1)
 	    {
 		fprintf (stderr, "Illegal value for --rate option: '%s'.\n", optarg);
+		exit (1);
+	    }
+	    break;
+	case GAIN:
+	    if (sscanf (optarg, "%f", &gain) != 1)
+	    {
+		fprintf (stderr, "Illegal value for --gain option: '%s'.\n", optarg);
 		exit (1);
 	    }
 	    break;
@@ -133,7 +151,7 @@ int main (int ac, char *av [])
     Audiofile     Ainp;
     Audiofile     Aout;
     Resampler     R;
-    unsigned int  k, chan, rinp, z1, z2;
+    unsigned int  i, k, chan, rinp, z1, z2;
     float         *inpb, *outb;
     bool          done;
 
@@ -204,6 +222,7 @@ int main (int ac, char *av [])
 	z2 = R.inpsize () / 2;
     }
 
+    gain = powf (10.0f, 0.05f * gain);
     inpb = new float [chan * BUFFSIZE];
     if (rout != rinp)
     {
@@ -231,6 +250,10 @@ int main (int ac, char *av [])
                 k = Ainp.read (inpb, BUFFSIZE);
 	        if (k)
 	        {
+		    if (fabsf (gain - 1.0f) > 1e-3f)
+		    {
+		        for (i = 0; i < k; i++) inpb [i] *= gain;
+		    }
 		    // Process next 'k' input samples.
                     R.inp_count = k;
                     R.inp_data = inpb;
@@ -259,7 +282,14 @@ int main (int ac, char *av [])
 	while (1)
 	{
             k = Ainp.read (inpb, BUFFSIZE);
-	    if (k) Aout.write (inpb, k);
+	    if (k)
+	    {
+  	        if (fabsf (gain - 1.0f) > 1e-3f)
+		{
+		    for (i = 0; i < k; i++) inpb [i] *= gain;
+		}
+		Aout.write (inpb, k);
+	    }
 	    else break;
 	}
     }

@@ -27,7 +27,7 @@
 #include "audiofile.h"
 
 
-enum { HELP, CAF, WAV, AMB, BIT16, BIT24, FLOAT, CENT, REC, TRI, LIPS, PAD };
+enum { HELP, CAF, WAV, AMB, AIFF, FLAC, BIT16, BIT24, FLOAT, CENT, REC, TRI, LIPS, PAD };
 enum { BUFFSIZE = 0x4000, FILTSIZE = 96 };
 
 
@@ -45,7 +45,7 @@ static void help (void)
     fprintf (stderr, "Usage: zretune <options> <input file> <output file>.\n");
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  Display this text:     --help\n");
-    fprintf (stderr, "  Output file type:      --caf, --wav, --amb\n");
+    fprintf (stderr, "  Output file type:      --caf, --wav, --amb, --aiff, --flac\n");
     fprintf (stderr, "  Resampling ratio:      --cent <pitch change>\n");
     fprintf (stderr, "  Output sample format:  --16bit, --24bit, --float\n");
     fprintf (stderr, "  Dither type (16 bit):  --rec, --tri, --lips\n");
@@ -62,6 +62,8 @@ static struct option options [] =
     { "caf",   0, 0, CAF   },
     { "wav",   0, 0, WAV   },
     { "amb",   0, 0, AMB   },
+    { "aiff",  0, 0, AIFF  },
+    { "flac",  0, 0, FLAC  },
     { "16bit", 0, 0, BIT16 },
     { "24bit", 0, 0, BIT24 },
     { "float", 0, 0, FLOAT },
@@ -94,6 +96,12 @@ static void procoptions (int ac, char *av [])
 	    break;
 	case AMB:
 	    type = Audiofile::TYPE_AMB;
+	    break;
+	case AIFF:
+	    type = Audiofile::TYPE_AIFF;
+	    break;
+	case FLAC:
+	    type = Audiofile::TYPE_FLAC;
 	    break;
 	case BIT16:
 	    form = Audiofile::FORM_16BIT;

@@ -1,21 +1,22 @@
-// ----------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 //
-//  Copyright (C) 2006-2011 Fons Adriaensen <fons@linuxaudio.org>
+//    Copyright (C) 2010-2014 Fons Adriaensen <fons@linuxaudio.org>
 //    
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 3 of the License, or
-//  (at your option) any later version.
+//    This program is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//    You should have received a copy of the GNU General Public License
+//    along with this program; if not, write to the Free Software
+//    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
-// ----------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 
 
 #ifndef __DITHER_H
@@ -31,9 +32,9 @@ public:
 
     Dither (void);
     void reset (void);
-    void proc_rectangular (const float *srce, int16_t *dest, int step, int nsam);
-    void proc_triangular  (const float *srce, int16_t *dest, int step, int nsam);
-    void proc_lipschitz   (const float *srce, int16_t *dest, int step, int nsam); 
+    void proc_rectangular (int nsam, const float *srce, int16_t *dest, int ds, int dd);
+    void proc_triangular  (int nsam, const float *srce, int16_t *dest, int ds, int dd);
+    void proc_lipschitz   (int nsam, const float *srce, int16_t *dest, int ds, int dd); 
 
 private:
 
