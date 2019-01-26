@@ -74,7 +74,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
     2. Run:
 
         ```text
-        git clone --recursive https://github.com/mpc-hc/mpc-hc.git
+        git clone --recursive https://github.com/clsid2/mpc-hc.git
         ```
 
         or
