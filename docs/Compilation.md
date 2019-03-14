@@ -64,7 +64,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
   ```
 * If you installed the MSYS/MinGW package in another directory you will have to use that path in the previous steps.
 * If you don't have Git installed then the revision number will be a hard-coded one, like 1.6.3.0.
-
+* If you don't install Python, you cannot do the the 8.step of Part C.
 
 ## Part C: Downloading and compiling the MPC-HC source
 
