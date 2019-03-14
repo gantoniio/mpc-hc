@@ -49,7 +49,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
     REM SET "MSYS2_PATH_TYPE=inherit"
     REM `MPCHC_GIT` is optional to set if you chose to add it in `PATH` when installing it and have set `MSYS2_PATH_TYPE`
     SET "MPCHC_GIT=C:\Program Files\Git"
-    REM Optional, if you plan to modify the translations, install Python 2.7 or set the variable to its path
+    REM Optional, if you plan to modify the translations, install Python 2.7 and set the variable to its path
     SET "MPCHC_PYTHON=C:\Python27"
     REM Optional, If you want to customize the Windows SDK version used, set the variable
     SET "MPCHC_WINSDK_VER=8.1"
@@ -64,7 +64,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
   ```
 * If you installed the MSYS/MinGW package in another directory you will have to use that path in the previous steps.
 * If you don't have Git installed then the revision number will be a hard-coded one, like 1.6.3.0.
-* If you don't install Python, you cannot do the the 8.step of Part C.
+* If you don't install Python, you cannot do the the 8 step of Part C.
 
 ## Part C: Downloading and compiling the MPC-HC source
 
