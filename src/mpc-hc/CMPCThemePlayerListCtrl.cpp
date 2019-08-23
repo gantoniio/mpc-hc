@@ -343,7 +343,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem) {
                         rText.left += 2; //more ident after image
                 }
             }
-            if (0 != (GetExtendedStyle() & LVS_EX_CHECKBOXES)) {
+            if (0 != (GetExtendedStyle() & LVS_EX_CHECKBOXES) && INDEXTOSTATEIMAGEMASK(0) != GetItemState(nItem, LVIS_STATEIMAGEMASK)) {
                 isChecked = (TRUE == GetCheck(nItem));
                 if (nSubItem == 0) {
                     int cbSize = GetSystemMetrics(SM_CXMENUCHECK);
