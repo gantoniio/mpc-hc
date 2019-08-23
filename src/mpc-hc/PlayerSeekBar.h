@@ -54,6 +54,7 @@ private:
 
     CMPCThemeToolTipCtrl m_tooltip;
     enum { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE } m_tooltipState;
+    CFont mpcThemeFont;
     TOOLINFO m_ti;
     CPoint m_tooltipPoint;
     bool m_bIgnoreLastTooltipPoint;

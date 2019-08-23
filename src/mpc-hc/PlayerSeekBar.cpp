@@ -67,7 +67,13 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
     }
 
     // Should never be RTLed
+    if (!AfxGetAppSettings().bMPCThemeLoaded) {
+        CMPCThemeUtil::getFontByType(mpcThemeFont, GetWindowDC(), CMPCThemeUtil::MessageFont);
+        SetFont(&mpcThemeFont);
+    }
+
     ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
+
 
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
     m_tooltip.SetMaxTipWidth(-1);
