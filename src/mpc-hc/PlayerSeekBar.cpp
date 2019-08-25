@@ -66,12 +66,12 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
         return FALSE;
     }
 
-    // Should never be RTLed
     if (!AfxGetAppSettings().bMPCThemeLoaded) {
         CMPCThemeUtil::getFontByType(mpcThemeFont, GetWindowDC(), CMPCThemeUtil::MessageFont);
         SetFont(&mpcThemeFont);
     }
 
+    // Should never be RTLed
     ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
 
 
