@@ -31,7 +31,9 @@ END_MESSAGE_MAP()
 
 void CMPCThemeEdit::PreSubclassWindow() {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
-        ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);
+        if (WS_EX_CLIENTEDGE == (GetStyle() & WS_EX_CLIENTEDGE)) {
+            ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);
+        }
         CRect r;
         GetClientRect(r);
         r.DeflateRect(2, 2); //some default padding for those spaceless fonts
