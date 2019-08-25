@@ -126,9 +126,6 @@
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
-    <PreBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">taskkill /IM mpc-hc.exe /FI "STATUS eq RUNNING"</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="!$(Configuration.Contains('Lite'))">
     <Link>
