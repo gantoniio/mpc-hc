@@ -231,7 +231,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_DVD_SUB_NEXT, ID_DVD_SUB_PREV, OnDvdSub)
     ON_COMMAND(ID_DVD_SUB_ONOFF, OnDvdSubOnOff)
 
-
     ON_COMMAND(ID_FILE_OPENQUICK, OnFileOpenQuick)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENMEDIA, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_OPENMEDIA, OnFileOpenmedia)
@@ -367,7 +366,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_D3DFULLSCREEN, OnUpdateViewD3DFullscreen)
     ON_UPDATE_COMMAND_UI(ID_VIEW_DISABLEDESKTOPCOMPOSITION, OnUpdateViewDisableDesktopComposition)
     ON_UPDATE_COMMAND_UI(ID_VIEW_ALTERNATIVEVSYNC, OnUpdateViewAlternativeVSync)
-
 
     ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_INCREASE, OnUpdateViewVSyncOffsetIncrease)
     ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_DECREASE, OnUpdateViewVSyncOffsetDecrease)
@@ -861,7 +859,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     VERIFY(m_popupMenu.LoadMenu(IDR_POPUP));
     VERIFY(m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN));
-
     CreateDynamicMenus();
 
     // create a view to occupy the client area of the frame
@@ -988,7 +985,6 @@ void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStru
             cm->MeasureItem(lpMeasureItemStruct);
             return;
         }
-
     }
     
     CFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
@@ -1261,7 +1257,6 @@ void CMainFrame::EnableDocking(DWORD dwDockStyle) {
             }
         }
     }
-    //CFrameWnd::EnableDocking( dwDockStyle);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2381,7 +2376,6 @@ void CMainFrame::GraphEventComplete()
     //    m_pSubtitlesProviders->Upload();
     //}
 
-
     if (s.fLoopForever || m_nLoops < s.nLoops) {
         if (bBreak) {
             DoAfterPlaybackEvent();
@@ -2837,8 +2831,6 @@ void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
-
-
 void CMainFrame::OnInitMenu(CMenu* pMenu)
 {
     __super::OnInitMenu(pMenu);
@@ -2875,7 +2867,6 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
         }*/
 
         if (pSubMenu) {
-
             mii.fMask = MIIM_STATE | MIIM_SUBMENU | MIIM_ID;
             mii.fType = MF_POPUP;
             mii.wID = itemID; // save ID after set popup type
@@ -3075,11 +3066,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         }
     }
 
-
     if (m_pActiveContextMenu == pPopupMenu) {
         m_eventc.FireEvent(MpcEvent::CONTEXT_MENU_POPUP_INITIALIZED);
     }
-
 }
 
 void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
@@ -4150,7 +4139,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
         SetForegroundWindow();
     }
-
 
     return TRUE;
 }
@@ -6452,7 +6440,6 @@ void CMainFrame::OnViewDebugShaders()
     }
 }
 
-
 void CMainFrame::OnUpdateViewDebugShaders(CCmdUI* pCmdUI)
 {
     const auto& dlg = m_pDebugShaders;
@@ -8091,7 +8078,6 @@ void CMainFrame::SetVolumeBoost(UINT nAudioBoost)
         UINT nMaxNormFactor, nBoost;
         pASF->GetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nBoost);
 
-
         CString strBoost;
         strBoost.Format(IDS_BOOST_OSD, nAudioBoost);
         pASF->SetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nAudioBoost);
@@ -8348,7 +8334,6 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
         mii.fMask = MIIM_FTYPE | MIIM_STATE;
         mii.fType = (bRadio ? MFT_RADIOCHECK : 0) | (cii.fType & MFT_OWNERDRAW); //preserve owner draw flag
         mii.fState = (bRadio ? MFS_DISABLED : 0) | (bChecked || bRadio ? MFS_CHECKED : 0);
-
         VERIFY(pCmdUI->m_pMenu->SetMenuItemInfo(pCmdUI->m_nID, &mii));
     }
 }
@@ -10141,7 +10126,6 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
             videoSize = GetVideoSize();
         }
 
-
         CSize videoTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
 
         CSize controlsSize;
@@ -11526,7 +11510,6 @@ void CMainFrame::UpdateChapterInInfoBar()
     }
 }
 
-
 void CMainFrame::OpenSetupStatsBar()
 {
     m_wndStatsBar.RemoveAllLines();
@@ -12458,7 +12441,6 @@ void CMainFrame::SendNowPlayingToSkype()
 
     m_pSkypeMoodMsgHandler->SendMoodMessage(msg);
 }
-
 
 // dynamic menus
 
@@ -15069,7 +15051,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         CloseMediaPrivate();
     }
 
-
     // graph is destroyed, update stuff
     OnFilePostClosemedia(bNextIsQueued);
 }
@@ -15484,7 +15465,6 @@ void CMainFrame::SetClosedCaptions(bool enable)
     }
 }
 
-
 LPCTSTR CMainFrame::GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const
 {
     switch (ATR.AudioFormat) {
@@ -15708,7 +15688,6 @@ void CMainFrame::SendNowPlayingToApi()
     if (!AfxGetAppSettings().hMasterWnd) {
         return;
     }
-
 
     if (GetLoadState() == MLS::LOADED) {
         CPlaylistItem pli;
@@ -16018,7 +15997,6 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
         }
     }
 }
-
 
 // TODO : to be finished !
 //void CMainFrame::AutoSelectTracks()
@@ -16703,7 +16681,6 @@ void CMainFrame::UpdateUILanguage()
     // Reload the main menus
     m_popupMenu.DestroyMenu();
     m_popupMenu.LoadMenu(IDR_POPUP);
-
     m_mainPopupMenu.DestroyMenu();
     m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN);
 
@@ -16723,7 +16700,6 @@ void CMainFrame::UpdateUILanguage()
     m_popupMenu.fulfillThemeReqs();
     m_mainPopupMenu.fulfillThemeReqs();
     defaultMPCThemeMenu->fulfillThemeReqs(true);
-
 
     // Reload the dynamic menus
     CreateDynamicMenus();
@@ -17392,7 +17368,6 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
 
     return true;
 }
-
 
 void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection) {
     __super::OnSettingChange(uFlags, lpszSection);
