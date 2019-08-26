@@ -12,6 +12,7 @@ public:
     virtual void SendScrollMsg(WORD wSBcode, WORD wHiWPARAM);
     void setScrollWindow(CWnd* m_SBRepl) { this->m_scrollWindow = m_SBRepl; };
     void updateScrollInfo();
+	BOOL PreTranslateMessage(MSG* pMsg);
 	void updateScrollInfo(int nPos);
 protected:
     CWnd* m_scrollWindow; //real parent is window we overlay the SB

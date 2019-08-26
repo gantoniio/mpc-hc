@@ -174,3 +174,17 @@ void CMPCThemeScrollBar::updateScrollInfo() {
     }
 }
 
+BOOL CMPCThemeScrollBar::PreTranslateMessage(MSG* pMsg) {
+    switch (pMsg->message) {
+    case WM_MOUSEWHEEL:
+        //windows with integrated scrollbars handle mousewheel messages themselves
+        //we have to send it manually since our parent is not the scrollwindow
+        if (nullptr != m_scrollWindow && ::IsWindow(m_scrollWindow->m_hWnd)) {
+            m_scrollWindow->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
+            return TRUE;
+        }
+        break;
+    }
+    return __super::PreTranslateMessage(pMsg);
+}
+
