@@ -403,7 +403,7 @@ CSize CMPCThemeUtil::GetTextSize(CString str, HDC hDC, int type) {
 
     //CSize cs = pDC->GetTextExtent(str);
     CRect r = { 0 };
-    pDC->DrawText(str, r, DT_SINGLELINE | DT_EXPANDTABS | DT_CALCRECT);
+    pDC->DrawText(str, r, DT_SINGLELINE | DT_CALCRECT);
     CSize cs = r.Size();
 
     pDC->SelectObject(pOldFont);

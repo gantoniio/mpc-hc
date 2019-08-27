@@ -345,23 +345,24 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
         if ((lpDrawItemStruct->itemState & ODS_SELECTED) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
             pDC->FillSolidRect(&rectM, TextSelectColor);
         }
+        CString left, right;
+        GetStrings(menuObject, left, right);
 
         if (lpDrawItemStruct->itemState & ODS_NOACCEL) { //removing single &s before drawtext
-            CString t = menuObject->m_strCaption;
-            t.Replace(TEXT("&&"), TEXT("{{amp}}"));
-            t.Remove(TEXT('&'));
-            t.Replace(TEXT("{{amp}}"), TEXT("&&"));
+            left.Replace(TEXT("&&"), TEXT("{{amp}}"));
+            left.Remove(TEXT('&'));
+            left.Replace(TEXT("{{amp}}"), TEXT("&&"));
 
-            pDC->DrawText(t, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | DT_EXPANDTABS);
+            pDC->DrawText(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE);
         }
         else {
-            pDC->DrawText(menuObject->m_strCaption, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | DT_EXPANDTABS);
+            pDC->DrawText(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE);
         }
 
         if (!menuObject->isMenubar) {
 
-            if (menuObject->m_strAccel.GetLength() > 0) {
-                pDC->DrawText(menuObject->m_strAccel, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
+            if (right.GetLength() > 0) {
+                pDC->DrawText(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
             }
 
 
@@ -400,6 +401,21 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
     ExcludeClipRect(lpDrawItemStruct->hDC, rectFull.left, rectFull.top, rectFull.right, rectFull.bottom);
 }
 
+void CMPCThemeMenu::GetStrings(MenuObject* mo, CString& left, CString& right) {
+    if (mo->m_strAccel.GetLength() > 0) {
+        left = mo->m_strCaption;
+        right = mo->m_strAccel;
+    } else {
+        CString text = mo->m_strCaption;
+        if (!AfxExtractSubString(left, text, 0, _T('\t'))) {
+            left = _T("");
+        }
+        if (!AfxExtractSubString(right, text, 1, _T('\t'))) {
+            right = _T("");
+        }
+    }
+}
+
 void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct) {
     initDimensions();
 
@@ -416,11 +432,13 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct) {
             lpMeasureItemStruct->itemWidth = cs.cx;
             lpMeasureItemStruct->itemHeight = height.cy + rowPadding;
         } else {
-            CSize cs = CMPCThemeUtil::GetTextSize(mo->m_strCaption, hDC, CMPCThemeUtil::MenuFont);
+            CString left, right;
+            GetStrings(mo, left, right);
+            CSize cs = CMPCThemeUtil::GetTextSize(left, hDC, CMPCThemeUtil::MenuFont);
             lpMeasureItemStruct->itemHeight = height.cy + rowPadding;
             lpMeasureItemStruct->itemWidth = iconSpacing + postTextSpacing + subMenuPadding + cs.cx;
-            if (mo->m_strAccel.GetLength() > 0) {
-                CSize csAccel = CMPCThemeUtil::GetTextSize(mo->m_strAccel, hDC, CMPCThemeUtil::MenuFont);
+            if (right.GetLength() > 0) {
+                CSize csAccel = CMPCThemeUtil::GetTextSize(right, hDC, CMPCThemeUtil::MenuFont);
                 lpMeasureItemStruct->itemWidth += accelSpacing + csAccel.cx;
             }
         }

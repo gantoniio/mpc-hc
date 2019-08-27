@@ -24,6 +24,7 @@ public:
     static UINT getPosFromID(CMenu* parent, UINT nID);
     static CMPCThemeMenu* getParentMenu(UINT itemID);
     virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+	void GetStrings(MenuObject* mo, CString& left, CString& right);
     virtual void MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct);
     virtual BOOL AppendMenu(UINT nFlags, UINT_PTR nIDNewItem = 0, LPCTSTR lpszNewItem = NULL);
     virtual BOOL DeleteMenu(UINT nPosition, UINT nFlags);
