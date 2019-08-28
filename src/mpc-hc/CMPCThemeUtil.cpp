@@ -554,7 +554,7 @@ void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSi
             pDC->FillSolidRect(drawRect, bgClr);
             if (checkState == BST_INDETERMINATE) {
                 drawRect.DeflateRect(2, 2);
-                pDC->FillSolidRect(drawRect, CMPCTheme::TextFGColor);
+                pDC->FillSolidRect(drawRect, CMPCTheme::CheckColor);
             }
         } else {
             int left = index * size;
@@ -565,7 +565,7 @@ void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSi
         pDC->FrameRect(rectCheck, &brush);
         rectCheck.DeflateRect(1, 1);
         pDC->FillSolidRect(rectCheck, bgClr);
-        if (checkState) {
+        if (BST_CHECKED == checkState) {
             CBitmap checkBMP;
             CDC dcCheckBMP;
             dcCheckBMP.CreateCompatibleDC(pDC);
@@ -581,6 +581,9 @@ void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSi
             pDC->SetBkColor(CMPCTheme::CheckColor);
             pDC->SetTextColor(bgClr);
             pDC->BitBlt(left, top, width, height, &dcCheckBMP, 0, 0, SRCCOPY);
+        } else if (BST_INDETERMINATE == checkState) {
+            rectCheck.DeflateRect(2, 2);
+            pDC->FillSolidRect(rectCheck, CMPCTheme::CheckColor);
         }
     }
     pDC->SetBkColor(oldBkClr);
@@ -589,8 +592,7 @@ void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSi
 
 bool CMPCThemeUtil::canUseWin10DarkTheme() {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
-//        return false; //FIXME.  return false to test behavior for OS < Win10 1809
-
+        return false; //FIXME.  return false to test behavior for OS < Win10 1809
         RTL_OSVERSIONINFOW osvi = GetRealOSVersion();
         bool ret = (osvi.dwMajorVersion = 10 && osvi.dwMajorVersion >= 0 && osvi.dwBuildNumber >= 17763); //dark theme first available in win 10 1809
         return ret;

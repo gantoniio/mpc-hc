@@ -319,7 +319,6 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem) {
                 lvi.mask = LVIF_IMAGE;
                 GetItem(&lvi);
 
-                isChecked = (BST_CHECKED == lvi.iImage);
                 if (nSubItem == 0) {
                     contentLeft = rIcon.left;
                     if (hasCBImages) { //draw manually to match theme
@@ -328,7 +327,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem) {
                             rIcon.DeflateRect(0, (rIcon.Height() - rIcon.Width()) / 2); //as tall as wide
                         }
 
-                        CMPCThemeUtil::drawCheckBox(isChecked, false, false, rIcon, &dcMem);
+                        CMPCThemeUtil::drawCheckBox(lvi.iImage, false, false, rIcon, &dcMem);
                     } else {
                         if (dwStyle == LVS_ICON) {
                         } else if (dwStyle == LVS_SMALLICON || dwStyle == LVS_LIST || dwStyle == LVS_REPORT) {
