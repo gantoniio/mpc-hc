@@ -3794,6 +3794,11 @@ BEGIN
     IDS_MESSAGEBOX_CONTINUE "&Continue"
 END
 
+STRINGTABLE
+BEGIN
+    IDS_AG_TOGGLE_MPCTHEME  "Toggle Dark Theme"
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
