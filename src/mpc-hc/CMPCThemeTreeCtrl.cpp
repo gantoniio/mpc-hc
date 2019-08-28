@@ -17,7 +17,6 @@ CMPCThemeTreeCtrl::CMPCThemeTreeCtrl():
 
 }
 
-
 CMPCThemeTreeCtrl::~CMPCThemeTreeCtrl() {
     if (nullptr != themedSBHelper) {
         delete themedSBHelper;
@@ -57,7 +56,6 @@ void CMPCThemeTreeCtrl::fulfillThemeReqs() {
         SetExtendedStyle(TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER); //optional
     }
 }
-
 
 BEGIN_MESSAGE_MAP(CMPCThemeTreeCtrl, CTreeCtrl)
     ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, &CMPCThemeTreeCtrl::OnNMCustomdraw)
@@ -205,15 +203,12 @@ BOOL CMPCThemeTreeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
     return ret;
 }
 
-
-
 void CMPCThemeTreeCtrl::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
     __super::OnVScroll(nSBCode, nPos, pScrollBar);
     if (nullptr != themedSBHelper) {
         themedSBHelper->updateScrollInfo();
     }
 }
-
 
 void CMPCThemeTreeCtrl::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
