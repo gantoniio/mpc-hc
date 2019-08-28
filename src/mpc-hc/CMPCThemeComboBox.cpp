@@ -52,11 +52,13 @@ CMPCThemeComboBox::~CMPCThemeComboBox() {
 }
 
 void CMPCThemeComboBox::themeDropDown() {
-    if (IsWindows10OrGreater() && false == isThemedDropDown) {
-        COMBOBOXINFO info = { sizeof(COMBOBOXINFO) };
-        if (GetComboBoxInfo(&info)) {
-            SetWindowTheme(info.hwndList, L"DarkMode_Explorer", NULL);
-            isThemedDropDown = true;
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        if (CMPCThemeUtil::canUseWin10DarkTheme() && false == isThemedDropDown) {
+            COMBOBOXINFO info = { sizeof(COMBOBOXINFO) };
+            if (GetComboBoxInfo(&info)) {
+                SetWindowTheme(info.hwndList, L"DarkMode_Explorer", NULL);
+                isThemedDropDown = true;
+            }
         }
     }
 }
