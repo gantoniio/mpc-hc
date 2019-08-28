@@ -4004,3 +4004,7 @@ msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
 msgstr ""
 
+msgctxt "IDS_AG_TOGGLE_MPCTHEME"
+msgid "Toggle Dark Theme"
+msgstr ""
+
