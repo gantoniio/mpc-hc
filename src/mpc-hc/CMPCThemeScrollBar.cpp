@@ -168,7 +168,9 @@ void CMPCThemeScrollBar::updateScrollInfo() {
         m_scrollWindow->GetScrollInfo(m_bHorizontal ? SB_HORZ : SB_VERT, &si);
         siSelf.cbSize = sizeof(SCROLLINFO);
         siSelf.fMask = SIF_ALL;
+        GetScrollInfo(&siSelf);
         if (si.nMax != siSelf.nMax || si.nMin != siSelf.nMin || si.nPos != siSelf.nPos || si.nPage != siSelf.nPage) {
+            si.fMask |= SIF_DISABLENOSCROLL;
             SetScrollInfo(&si);
         }
     }
