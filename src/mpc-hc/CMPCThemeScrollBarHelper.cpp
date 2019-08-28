@@ -141,7 +141,10 @@ bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM 
                 list->Scroll(size);
                 pParent->SetRedraw();
                 list->Invalidate();
-                list->GetHeaderCtrl()->Invalidate();
+                CHeaderCtrl* hdrCtrl = list->GetHeaderCtrl();
+                if (nullptr != hdrCtrl) {
+                    hdrCtrl->Invalidate();
+                }
             }
             return true; //processed
         }
