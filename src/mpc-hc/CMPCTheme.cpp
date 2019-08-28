@@ -79,12 +79,12 @@ const COLORREF CMPCTheme::SliderChannelColor = COLORREF(RGB(109, 109, 109));
 const COLORREF CMPCTheme::EditBorderColor = COLORREF(RGB(106, 106, 106));
 
 const COLORREF CMPCTheme::TreeCtrlLineColor = COLORREF(RGB(106, 106, 106));
-const COLORREF CMPCTheme::TreeCtrlHoverColor = COLORREF(RGB(77, 77, 77));;
-const COLORREF CMPCTheme::TreeCtrlFocusColor = COLORREF(RGB(98, 98, 98));;
+const COLORREF CMPCTheme::TreeCtrlHoverColor = COLORREF(RGB(77, 77, 77));
+const COLORREF CMPCTheme::TreeCtrlFocusColor = COLORREF(RGB(98, 98, 98));
 
-const COLORREF CMPCTheme::CheckColor = COLORREF(RGB(222, 222, 222));;
+const COLORREF CMPCTheme::CheckColor = COLORREF(RGB(222, 222, 222));
 
-const COLORREF CMPCTheme::ColumnHeaderHotColor = COLORREF(RGB(67, 67, 67));;
+const COLORREF CMPCTheme::ColumnHeaderHotColor = COLORREF(RGB(67, 67, 67));
 
 const COLORREF CMPCTheme::StaticEtchedColor = COLORREF(RGB(65, 65, 65));
 
