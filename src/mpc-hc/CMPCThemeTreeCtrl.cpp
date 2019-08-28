@@ -149,7 +149,11 @@ void CMPCThemeTreeCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult) {
             } else {
                 pstCD->clrTextBk = CMPCTheme::ContentBGColor;
             }
-            pstCD->clrText = CMPCTheme::TextFGColor;
+            if (0 == (pNMCD->uItemState & CDIS_DISABLED) && IsWindowEnabled()) {
+                pstCD->clrText = CMPCTheme::TextFGColor;
+            } else {
+                pstCD->clrText = CMPCTheme::ButtonDisabledFGColor;
+            }
             *pResult = CDRF_DODEFAULT;
             break;
         default:
