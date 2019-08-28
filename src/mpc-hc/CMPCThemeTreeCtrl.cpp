@@ -4,12 +4,17 @@
 #include "CMPCThemeUtil.h"
 
 
-CMPCThemeTreeCtrl::CMPCThemeTreeCtrl() {
-    m_brBkgnd.CreateSolidBrush(CMPCTheme::InlineEditBorderColor);
-    themedSBHelper = nullptr;
-    if (!CMPCThemeUtil::canUseWin10DarkTheme()) {
-        themedSBHelper = DEBUG_NEW CMPCThemeScrollBarHelper(this);
+CMPCThemeTreeCtrl::CMPCThemeTreeCtrl():
+    themedSBHelper(nullptr),
+    themedToolTipCid((UINT_PTR)-1)
+{
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        m_brBkgnd.CreateSolidBrush(CMPCTheme::InlineEditBorderColor);
+        if (!CMPCThemeUtil::canUseWin10DarkTheme()) {
+            themedSBHelper = DEBUG_NEW CMPCThemeScrollBarHelper(this);
+        }
     }
+
 }
 
 
@@ -20,7 +25,9 @@ CMPCThemeTreeCtrl::~CMPCThemeTreeCtrl() {
 }
 
 BOOL CMPCThemeTreeCtrl::PreCreateWindow(CREATESTRUCT& cs) {
-    cs.dwExStyle |= WS_EX_CLIENTEDGE;
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        cs.dwExStyle |= WS_EX_CLIENTEDGE;
+    }
     return __super::PreCreateWindow(cs);
 }
 
@@ -188,11 +195,13 @@ void CMPCThemeTreeCtrl::OnNcPaint() {
 //no end scroll notification for treectrl, so handle mousewheel, v and h scrolls :-/
 BOOL CMPCThemeTreeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
     BOOL ret = __super::OnMouseWheel(nFlags, zDelta, pt);
-    if (nullptr != themedSBHelper) {
-        themedSBHelper->updateScrollInfo();
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        if (nullptr != themedSBHelper) {
+            themedSBHelper->updateScrollInfo();
+        }
+        ScreenToClient(&pt);
+        updateToolTip(pt);
     }
-    ScreenToClient(&pt);
-    updateToolTip(pt);
     return ret;
 }
 

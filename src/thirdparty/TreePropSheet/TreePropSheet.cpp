@@ -265,7 +265,7 @@ void CTreePropSheet::SetTabCtrlFont(CTabCtrl* ctrl) {
 
 //added for mpc-hc theming
 void CTreePropSheet::SetTreeCtrlTheme(CTreeCtrl *ctrl) {
-    SetWindowTheme(GetSafeHwnd(), L"Explorer", NULL);
+    SetWindowTheme(ctrl->GetSafeHwnd(), L"Explorer", NULL);
 }
 
 
