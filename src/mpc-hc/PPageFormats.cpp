@@ -97,7 +97,7 @@ void CPPageFormats::UpdateMediaCategoryState(int iItem)
 
     CFileAssoc::reg_state_t state = s.fileAssoc.IsRegistered(m_mf[m_list.GetItemData(iItem)]);
 
-    SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
+    SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? BST_INDETERMINATE : (state == CFileAssoc::ALL_REGISTERED) ? BST_CHECKED : BST_UNCHECKED);
 }
 
 bool CPPageFormats::IsNeededIconsLib()
@@ -167,7 +167,7 @@ void CPPageFormats::LoadSettings()
         if (!m_bHaveRegisteredCategory && state != CFileAssoc::NOT_REGISTERED) {
             m_bHaveRegisteredCategory = true;
         }
-        SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
+        SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? BST_INDETERMINATE : (state == CFileAssoc::ALL_REGISTERED) ? BST_CHECKED : BST_UNCHECKED);
 
         if (!fSetContextFiles && s.fileAssoc.AreRegisteredFileContextMenuEntries(m_mf[i]) != CFileAssoc::NOT_REGISTERED) {
             fSetContextFiles = TRUE;
