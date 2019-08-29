@@ -99,7 +99,8 @@ void CMPCThemeScrollBarHelper::updateScrollInfo() {
 
 //clistctrl does not seem to scroll when receiving thumb messages, so we handle them here
 //this will allow the scrollbar to update as well
-//thanks to flyhigh for this solution https://www.codeproject.com/Articles/14724/Replace-a-Window-s-Internal-Scrollbar-with-a-custo 
+//inspired by flyhigh https://www.codeproject.com/Articles/14724/Replace-a-Window-s-Internal-Scrollbar-with-a-custo
+//changed to avoid glitchy redraws and only update the scrollbar that has been changed
 bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM wParam, LPARAM lParam) {
     if (message == WM_VSCROLL || message == WM_HSCROLL) {
         WORD sbCode = LOWORD(wParam);
@@ -111,27 +112,25 @@ bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM 
             int nPos = HIWORD(wParam);
             CRect rcClient;
             list->GetClientRect(&rcClient);
-            list->GetScrollInfo(SB_VERT, &siv);
-            list->GetScrollInfo(SB_HORZ, &sih);
-            SIZE sizeAll;
-            if (sih.nPage == 0) {
-                sizeAll.cx = rcClient.right;
-            } else {
-                sizeAll.cx = rcClient.right*(sih.nMax + 1) / sih.nPage;
-            }
-            if (siv.nPage == 0) {
-                sizeAll.cy = rcClient.bottom;
-            } else {
-                sizeAll.cy = rcClient.bottom*(siv.nMax + 1) / siv.nPage;
-            }
 
+            SIZE sizeAll;
             SIZE size = { 0,0 };
             if (WM_VSCROLL == message) {
-                size.cx = sizeAll.cx*sih.nPos / (sih.nMax + 1);
+                list->GetScrollInfo(SB_VERT, &siv);
+                if (siv.nPage == 0) {
+                    sizeAll.cy = rcClient.bottom;
+                } else {
+                    sizeAll.cy = rcClient.bottom * (siv.nMax + 1) / siv.nPage;
+                }
                 size.cy = sizeAll.cy*(nPos - siv.nPos) / (siv.nMax + 1);
             } else {
+                list->GetScrollInfo(SB_HORZ, &sih);
+                if (sih.nPage == 0) {
+                    sizeAll.cx = rcClient.right;
+                } else {
+                    sizeAll.cx = rcClient.right * (sih.nMax + 1) / sih.nPage;
+                }
                 size.cx = sizeAll.cx*(nPos - sih.nPos) / (sih.nMax + 1);
-                size.cy = sizeAll.cy*siv.nPos / (siv.nMax + 1);
             }
             //adipose: this code is needed to prevent listctrl glitchy drawing.
             //scroll sends a cascade of redraws which are untenable during a thumb drag
