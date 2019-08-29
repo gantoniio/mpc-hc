@@ -1494,7 +1494,9 @@ BOOL CMPlayerCApp::InitInstance()
 
     bool bHookingSuccessful = MH_Initialize() == MH_OK;
 
+#ifndef _DEBUG 
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
+#endif
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
 #if 0
