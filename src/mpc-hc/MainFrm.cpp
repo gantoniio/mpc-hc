@@ -521,6 +521,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
     ON_WM_DRAWITEM()
         ON_WM_SETTINGCHANGE()
+        ON_WM_NCCALCSIZE()
         END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -17377,5 +17378,15 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection) {
             UpdateUILanguage(); //cheap way to rebuild menus--we want to do this to force them to re-measure
         }
         RecalcLayout();
+    }
+}
+
+
+void CMainFrame::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
+    if (IsWindows10OrGreater() &&  AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
+        __super::OnNcCalcSize(bCalcValidRects, lpncsp);
+        lpncsp->rgrc[0].top -= 6;
+    } else {
+        __super::OnNcCalcSize(bCalcValidRects, lpncsp);
     }
 }

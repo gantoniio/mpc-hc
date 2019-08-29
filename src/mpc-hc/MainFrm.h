@@ -1130,4 +1130,5 @@ private:
     CMPCThemeUtil* fileDialogHookHelper;
 public:
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+	afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
 };
