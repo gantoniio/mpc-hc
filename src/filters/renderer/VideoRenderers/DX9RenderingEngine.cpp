@@ -153,6 +153,7 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString* _pErro
     , m_bForceInputHighColorResolution(false)
     , m_RenderingPath(RENDERING_PATH_DRAW)
     , m_SurfaceType(D3DFMT_UNKNOWN)
+    , m_TemporarySurfaceType(D3DFMT_UNKNOWN)
     , m_bFullFloatingPointProcessing(false)
     , m_bHalfFloatingPointProcessing(false)
     , m_bColorManagement(false)
@@ -542,7 +543,7 @@ HRESULT CDX9RenderingEngine::InitTemporaryVideoTextures(int count)
                      m_nativeVideoSize.cy,
                      1,
                      D3DUSAGE_RENDERTARGET,
-                     m_SurfaceType,
+                     m_TemporarySurfaceType,
                      D3DPOOL_DEFAULT,
                      &m_pTemporaryVideoTextures[i],
                      nullptr);
@@ -596,7 +597,7 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
                      m_TemporaryScreenSpaceTextureSize.cy,
                      1,
                      D3DUSAGE_RENDERTARGET,
-                     m_SurfaceType,
+                     m_TemporarySurfaceType,
                      D3DPOOL_DEFAULT,
                      &m_pTemporaryScreenSpaceTextures[i],
                      nullptr);

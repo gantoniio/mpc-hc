@@ -638,10 +638,16 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     // set color formats
     if (m_bFullFloatingPointProcessing) {
-        m_SurfaceType = D3DFMT_A32B32G32R32F;
+        m_TemporarySurfaceType = D3DFMT_A32B32G32R32F;
     } else if (m_bHalfFloatingPointProcessing) {
-        m_SurfaceType = D3DFMT_A16B16G16R16F;
+        m_TemporarySurfaceType = D3DFMT_A16B16G16R16F;
     } else if (m_bForceInputHighColorResolution || m_bHighColorResolution) {
+        m_TemporarySurfaceType = D3DFMT_A2R10G10B10;
+    } else {
+        m_TemporarySurfaceType = D3DFMT_X8R8G8B8;
+    }
+
+    if (m_bForceInputHighColorResolution || m_bHighColorResolution) {
         m_SurfaceType = D3DFMT_A2R10G10B10;
     } else {
         m_SurfaceType = D3DFMT_X8R8G8B8;

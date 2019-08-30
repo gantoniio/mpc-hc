@@ -61,6 +61,7 @@ namespace DSObjects
         bool                        m_bD3DX;
         RenderingPath               m_RenderingPath;
         D3DFORMAT                   m_SurfaceType;
+        D3DFORMAT                   m_TemporarySurfaceType;
         CComPtr<IDirect3DTexture9>  m_pVideoTexture[MAX_VIDEO_SURFACES];
         CComPtr<IDirect3DSurface9>  m_pVideoSurface[MAX_VIDEO_SURFACES];
 
