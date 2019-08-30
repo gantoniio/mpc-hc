@@ -1131,4 +1131,5 @@ private:
 public:
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 	afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
+    afx_msg BOOL OnNcActivate(BOOL bActive);
 };

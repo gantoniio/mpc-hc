@@ -108,6 +108,8 @@
 #include "YoutubeDL.h"
 #include "CMPCThemeMenu.h"
 #include "CMPCThemeDockBar.h"
+
+#include <dwmapi.h>
 #undef SubclassWindow
 
 // IID_IAMLine21Decoder
@@ -522,6 +524,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_DRAWITEM()
         ON_WM_SETTINGCHANGE()
         ON_WM_NCCALCSIZE()
+        ON_WM_NCACTIVATE()
         END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -843,6 +846,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
+
+    static CRect borderThickness;
+    SetRectEmpty(&borderThickness);
+    if (0 != (GetStyle() & WS_THICKFRAME)) {
+        AdjustWindowRectEx(&borderThickness, GetStyle() & ~WS_CAPTION, FALSE, NULL);
+        borderThickness.left *= -1;
+        borderThickness.right *= -1;
+    } else if (0 != (GetStyle() & WS_BORDER)) {
+        borderThickness.SetRect(1, 1, 1, 1);
+    }
+    MARGINS margins = { 0 };
+    DwmExtendFrameIntoClientArea(GetSafeHwnd(), &margins);
+    //SetWindowPos(NULL, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 
     if (IsWindows8Point1OrGreater()) {
         m_dpi.Override(m_hWnd);
@@ -17389,4 +17405,14 @@ void CMainFrame::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
     } else {
         __super::OnNcCalcSize(bCalcValidRects, lpncsp);
     }
+}
+
+
+BOOL CMainFrame::OnNcActivate(BOOL bActive) {
+    if (IsWindows10OrGreater() && AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
+        return 0;
+    } else {
+        return __super::OnNcActivate(bActive);
+    }
+
 }
