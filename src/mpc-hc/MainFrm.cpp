@@ -17399,7 +17399,7 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection) {
 
 
 void CMainFrame::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
-    if (IsWindows10OrGreater() &&  AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
+    if (IsWindows10OrGreater() && AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
         __super::OnNcCalcSize(bCalcValidRects, lpncsp);
         lpncsp->rgrc[0].top -= 6;
     } else {
@@ -17410,7 +17410,8 @@ void CMainFrame::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
 
 BOOL CMainFrame::OnNcActivate(BOOL bActive) {
     if (IsWindows10OrGreater() && AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
-        return 0;
+        return __super::OnNcActivate(bActive);
+        //return 0;
     } else {
         return __super::OnNcActivate(bActive);
     }
