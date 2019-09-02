@@ -592,7 +592,7 @@ void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSi
 
 bool CMPCThemeUtil::canUseWin10DarkTheme() {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
-        return false; //FIXME.  return false to test behavior for OS < Win10 1809
+//        return false; //FIXME.  return false to test behavior for OS < Win10 1809
         RTL_OSVERSIONINFOW osvi = GetRealOSVersion();
         bool ret = (osvi.dwMajorVersion = 10 && osvi.dwMajorVersion >= 0 && osvi.dwBuildNumber >= 17763); //dark theme first available in win 10 1809
         return ret;
