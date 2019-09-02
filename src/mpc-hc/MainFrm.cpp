@@ -17410,8 +17410,7 @@ void CMainFrame::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
 
 BOOL CMainFrame::OnNcActivate(BOOL bActive) {
     if (IsWindows10OrGreater() && AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
-        return __super::OnNcActivate(bActive);
-        //return 0;
+        return TRUE;
     } else {
         return __super::OnNcActivate(bActive);
     }
