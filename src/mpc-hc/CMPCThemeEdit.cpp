@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(CMPCThemeEdit, CEdit)
     ON_WM_MOUSEWHEEL()
     ON_WM_VSCROLL()
     ON_WM_HSCROLL()
+    ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 
@@ -110,4 +111,12 @@ void CMPCThemeEdit::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
     if (nullptr != themedSBHelper) {
         themedSBHelper->updateScrollInfo();
     } 
+}
+
+
+void CMPCThemeEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+    __super::OnKeyDown(nChar, nRepCnt, nFlags);
+    if (nullptr != themedSBHelper) {
+        themedSBHelper->updateScrollInfo();
+    }
 }

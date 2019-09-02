@@ -2,13 +2,12 @@
 #include <afxwin.h>
 #include "CMPCThemeScrollBarHelper.h"
 class CMPCThemeEdit :
-	public CEdit
-    ,public CMPCThemeScrollable
-
+    public CEdit
+    , public CMPCThemeScrollable
 {
-    DECLARE_DYNAMIC(CMPCThemeEdit)
 public:
-	CMPCThemeEdit();
+    DECLARE_DYNAMIC(CMPCThemeEdit)
+    CMPCThemeEdit();
 	virtual ~CMPCThemeEdit();
     void PreSubclassWindow();
     void setBuddy(CWnd* buddyWindow) { this->buddy = buddyWindow; };
@@ -25,5 +24,7 @@ protected:
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
     afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+public:
+    afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 

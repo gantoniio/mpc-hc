@@ -2,6 +2,7 @@
 #include "CMPCThemeScrollBar.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeListBox.h"
+#include "CMPCThemeEdit.h"
 
 IMPLEMENT_DYNAMIC(CMPCThemeScrollBar, CXeScrollBarBase)
 
@@ -9,7 +10,10 @@ BEGIN_MESSAGE_MAP(CMPCThemeScrollBar, CXeScrollBarBase)
 //    ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
-CMPCThemeScrollBar::CMPCThemeScrollBar() {
+CMPCThemeScrollBar::CMPCThemeScrollBar():
+    haveInitScrollInfo(false)
+    ,disableNoScroll(false)
+{
 }
 
 
@@ -160,8 +164,17 @@ void CMPCThemeScrollBar::SendScrollMsg(WORD wSBcode, WORD wHiWPARAM /*= 0*/) {
     }
 }
 
+void CMPCThemeScrollBar::setScrollWindow(CWnd* window) {
+    this->m_scrollWindow = window;
+    if (DYNAMIC_DOWNCAST(CMPCThemeEdit, window)) {
+        disableNoScroll = true;
+    } else if (DYNAMIC_DOWNCAST(CMPCThemeListBox, window)) {
+        disableNoScroll = 0 != (window->GetStyle() & LBS_DISABLENOSCROLL);
+    }
+}
+
 void CMPCThemeScrollBar::updateScrollInfo() {
-    if (GetStyle()&WS_VISIBLE) {
+    if (GetStyle() & WS_VISIBLE) {
         SCROLLINFO si = { 0 }, siSelf = { 0 };
         si.cbSize = sizeof(SCROLLINFO);
         si.fMask = SIF_ALL;
@@ -169,9 +182,12 @@ void CMPCThemeScrollBar::updateScrollInfo() {
         siSelf.cbSize = sizeof(SCROLLINFO);
         siSelf.fMask = SIF_ALL;
         GetScrollInfo(&siSelf);
-        if (si.nMax != siSelf.nMax || si.nMin != siSelf.nMin || si.nPos != siSelf.nPos || si.nPage != siSelf.nPage) {
-            si.fMask |= SIF_DISABLENOSCROLL;
+        if (si.nMax != siSelf.nMax || si.nMin != siSelf.nMin || si.nPos != siSelf.nPos || si.nPage != siSelf.nPage || !haveInitScrollInfo) {
+            if (disableNoScroll) {
+                si.fMask |= SIF_DISABLENOSCROLL;
+            }
             SetScrollInfo(&si);
+            haveInitScrollInfo = true;
         }
     }
 }
