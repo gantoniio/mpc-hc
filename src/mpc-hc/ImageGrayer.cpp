@@ -139,9 +139,33 @@ bool ImageGrayer::Gray(const CImage& imgSource, CImage& imgDest, float brightnes
 
 bool ImageGrayer::UpdateColor(const CImage& imgSource, CImage& imgDest, bool disabled, mpcColorStyle colorStyle)
 {
-    // Only support 32-bit image for now
+    // Force to 32-bit
+    CImage img32;
+    CImage const *imgSrc;
     if (imgSource.GetBPP() != 32) {
-        return false;
+        if (!img32.Create(imgSource.GetWidth(), imgSource.GetHeight(), 32, CImage::createAlphaChannel)) {
+            return false;
+        }
+
+        HDC const iDC = img32.GetDC();
+        BOOL const bbResult = imgSource.BitBlt(iDC, 0, 0, SRCCOPY);
+        img32.ReleaseDC();
+
+        if (!bbResult) {
+            return false;
+        }
+
+        BYTE* bits = static_cast<BYTE*>(img32.GetBits());
+        for (int y = 0; y < img32.GetHeight(); y++, bits += img32.GetPitch()) {
+            RGBQUAD* p = reinterpret_cast<RGBQUAD*>(bits);
+            for (int x = 0; x < img32.GetWidth(); x++) {
+                HLS hls(p[x]);
+                p[x].rgbReserved = 255;
+            }
+        }
+        imgSrc = &img32;
+    } else {
+        imgSrc = &imgSource;
     }
 
     if (colorStyle == ImageGrayer::classicGrayscale) {
@@ -155,10 +179,10 @@ bool ImageGrayer::UpdateColor(const CImage& imgSource, CImage& imgDest, bool dis
     } else { //mpcMono
         imgDest.Destroy();
 
-        if (!imgDest.Create(imgSource.GetWidth(), imgSource.GetHeight(), imgSource.GetBPP())) {
+        if (!imgDest.Create(imgSrc->GetWidth(), imgSrc->GetHeight(), imgSrc->GetBPP())) {
             return false;
         }
-        BOOL bCopied = imgSource.BitBlt(imgDest.GetDC(), 0, 0);
+        BOOL bCopied = imgSrc->BitBlt(imgDest.GetDC(), 0, 0);
         imgDest.ReleaseDC();
         if (!bCopied) {
             return false;
