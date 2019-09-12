@@ -15,6 +15,7 @@ protected:
 public:
     virtual ~CMPCThemeFrameWnd();
     virtual void RecalcLayout(BOOL bNotify = TRUE);
+    BOOL SetMenuBarState(DWORD dwState);
     CRect getTitleBarRect();
     CRect getSysMenuIconRect();
 protected:
@@ -23,17 +24,15 @@ protected:
     void recalcTitleBar();
     CMPCThemeTitleBarControlButton minimizeButton, maximizeButton, closeButton;
     void GetIconRects(CRect titlebarRect, CRect& closeRect, CRect& maximizeRect, CRect& minimizeRect);
-    void checkFrame(LONG style);
+    bool checkFrame(LONG style);
     void recalcFrame();
-    void allowMPCThemeFrameAdjust(bool allow);
     enum frameState {
         frameNormal,
         frameThemed,
     };
 private:
     TITLEBARINFO titleBarInfo;
-    frameState currentFrameState, wantFrameState;
-    bool frameChanged, disableFrameAdjust;
+    frameState currentFrameState;
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
