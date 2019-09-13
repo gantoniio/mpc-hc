@@ -144,11 +144,11 @@ void CMPCThemeUtil::makeThemed(CWnd* pObject, CWnd* tChild) {
 LRESULT CALLBACK wndProcFileDialog(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     WNDPROC wndProcSink = NULL;
     wndProcSink = (WNDPROC)GetProp(hWnd, _T("WNDPROC_SINK"));
-    VERIFY(wndProcSink);
+    if (!wndProcSink)
+        return 0;
     if (WM_CTLCOLOREDIT == uMsg) {
         return (LRESULT)CMPCThemeUtil::getCtlColorFileDialog((HDC)wParam, CTLCOLOR_EDIT);
     }
-    if (!wndProcSink) return 0;
     return ::CallWindowProc(wndProcSink, hWnd, uMsg, wParam, lParam);
 }
 
@@ -181,7 +181,7 @@ void CMPCThemeUtil::subClassFileDialog(CWnd* wnd, HWND hWnd, bool findSink) {
                     allocatedWindows.push_back(pObject);
                     pObject->SubclassWindow(pChild);
                     if (nullptr == GetProp(hWnd, _T("WNDPROC_SINK"))) {
-                        LONG_PTR wndProcOld = ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG)wndProcFileDialog);
+                        LONG_PTR wndProcOld = ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)wndProcFileDialog);
                         SetProp(hWnd, _T("WNDPROC_SINK"), (HANDLE)wndProcOld);
                     }
                 }
