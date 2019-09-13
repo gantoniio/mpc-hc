@@ -33,7 +33,9 @@ CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
 }
 
 LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    if (uMsg == WM_WINDOWPOSCHANGING) {
+    if (uMsg == WM_WINDOWPOSCHANGING &&
+        (WS_THICKFRAME) == (GetStyle() & (WS_THICKFRAME | WS_CAPTION)) &&
+        currentFrameState != frameThemedTopBorder) {
         WINDOWPOS* wp = (WINDOWPOS*)lParam;
         if (nullptr != wp) {
             wp->flags |= SWP_NOREDRAW; //prevents corruption of the border when disabling caption
