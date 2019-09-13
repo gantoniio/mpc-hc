@@ -157,9 +157,9 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
-IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
+IMPLEMENT_DYNAMIC(CMainFrame, CMPCThemeFrameWnd)
 
-BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
+BEGIN_MESSAGE_MAP(CMainFrame, CMPCThemeFrameWnd)
     ON_WM_NCCREATE()
     ON_WM_CREATE()
     ON_WM_DESTROY()
@@ -522,10 +522,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE(WM_LOADSUBTITLES, OnLoadSubtitles)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
     ON_WM_DRAWITEM()
-        ON_WM_SETTINGCHANGE()
-        ON_WM_NCCALCSIZE()
-        ON_WM_NCACTIVATE()
-        END_MESSAGE_MAP()
+    ON_WM_SETTINGCHANGE()
+    END_MESSAGE_MAP()
 
 #ifdef _DEBUG
 const TCHAR* GetEventString(LONG evCode)
@@ -788,10 +786,10 @@ CMainFrame::CMainFrame()
     , watchingFileDialog(false)
     , fileDialogHookHelper(nullptr)
 {
-    // Don't let CFrameWnd handle automatically the state of the menu items.
+    // Don't let CMPCThemeFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
     // disabled but it avoids some unwanted cases where programmatically
-    // disabled menu items are always re-enabled by CFrameWnd.
+    // disabled menu items are always re-enabled by CMPCThemeFrameWnd.
     m_bAutoMenuEnable = FALSE;
 
     EventRouter::EventSelection receives;
@@ -846,19 +844,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
-
-    static CRect borderThickness;
-    SetRectEmpty(&borderThickness);
-    if (0 != (GetStyle() & WS_THICKFRAME)) {
-        AdjustWindowRectEx(&borderThickness, GetStyle() & ~WS_CAPTION, FALSE, NULL);
-        borderThickness.left *= -1;
-        borderThickness.right *= -1;
-    } else if (0 != (GetStyle() & WS_BORDER)) {
-        borderThickness.SetRect(1, 1, 1, 1);
-    }
-    MARGINS margins = { 0 };
-    DwmExtendFrameIntoClientArea(GetSafeHwnd(), &margins);
-    //SetWindowPos(NULL, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 
     if (IsWindows8Point1OrGreater()) {
         m_dpi.Override(m_hWnd);
@@ -1004,7 +989,7 @@ void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStru
         }
     }
     
-    CFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+    CMPCThemeFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
 }
 
 void CMainFrame::OnDestroy()
@@ -6281,6 +6266,7 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
     } else {
         VERIFY(AdjustWindowRectEx(windowRect, GetWindowStyle(m_hWnd), dwMenuFlags == AFX_MBV_KEEPVISIBLE, GetWindowExStyle(m_hWnd)));
     }
+
     VERIFY(SetWindowPos(nullptr, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(), uFlags));
 }
 
@@ -17395,24 +17381,4 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection) {
         }
         RecalcLayout();
     }
-}
-
-
-void CMainFrame::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
-    if (IsWindows10OrGreater() && AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
-        __super::OnNcCalcSize(bCalcValidRects, lpncsp);
-        lpncsp->rgrc[0].top -= 6;
-    } else {
-        __super::OnNcCalcSize(bCalcValidRects, lpncsp);
-    }
-}
-
-
-BOOL CMainFrame::OnNcActivate(BOOL bActive) {
-    if (IsWindows10OrGreater() && AfxGetAppSettings().eCaptionMenuMode == MpcCaptionState::MODE_FRAMEONLY) {
-        return TRUE;
-    } else {
-        return __super::OnNcActivate(bActive);
-    }
-
 }

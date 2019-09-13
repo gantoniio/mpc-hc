@@ -18,8 +18,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeFrameWnd, CFrameWnd)
 	ON_WM_NCMOUSELEAVE()
 END_MESSAGE_MAP()
 
-
 CMPCThemeFrameWnd::CMPCThemeFrameWnd():
+    CMPCThemeFrameUtil(this),
     minimizeButton(HTMINBUTTON),
     maximizeButton(HTMAXBUTTON),
     closeButton(HTCLOSE),
@@ -32,9 +32,19 @@ CMPCThemeFrameWnd::CMPCThemeFrameWnd():
 CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
 }
 
+LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    if (uMsg == WM_WINDOWPOSCHANGING) {
+        WINDOWPOS* wp = (WINDOWPOS*)lParam;
+        if (nullptr != wp) {
+            wp->flags |= SWP_NOREDRAW; //prevents corruption of the border when disabling caption
+        }
+    }
+    return __super::WindowProc(uMsg, wParam, lParam);
+}
+
 void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
     recalcTitleBar();
-    if (currentFrameState == frameThemed)  {
+    if (currentFrameState == frameThemedCaption)  {
         CRect titleBarRect = getTitleBarRect();
         m_rectBorder.top = titleBarRect.bottom;
         if (GetMenuBarState() == AFX_MBS_VISIBLE) {
@@ -75,7 +85,7 @@ void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
 
 BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState) {
     BOOL ret = __super::SetMenuBarState(dwState);
-    if (ret && currentFrameState == frameThemed) {
+    if (ret && currentFrameState == frameThemedCaption) {
         RecalcLayout();
         DrawMenuBar();
     }
@@ -84,13 +94,17 @@ BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState) {
 
 CRect CMPCThemeFrameWnd::getTitleBarRect() {
     CRect cr;
-    GetClientRect(&cr);
+    GetClientRect(cr);
+    CRect wr;
+    GetClientRect(wr);
+
     if (IsZoomed()) {
-        cr.top += borders.top / 2; //invisible area when maximized
+        cr.top += borders.top + 1; //invisible area when maximized
+        cr.bottom = cr.top + titlebarHeight;
     } else {
         cr.top += 1; //border
+        cr.bottom = cr.top + titlebarHeight;
     }
-    cr.bottom = cr.top + titlebarHeight;
     return cr;
 }
 
@@ -111,9 +125,11 @@ CRect CMPCThemeFrameWnd::getSysMenuIconRect() {
 bool CMPCThemeFrameWnd::checkFrame(LONG style) {
     frameState oldState = currentFrameState;
     currentFrameState = frameNormal;
-    if ((WS_THICKFRAME | WS_CAPTION) == (style & (WS_THICKFRAME | WS_CAPTION))) {
-        if (AfxGetAppSettings().bMPCThemeLoaded && IsWindows10OrGreater()) {
-            currentFrameState = frameThemed;
+    if (AfxGetAppSettings().bMPCThemeLoaded && IsWindows10OrGreater()) {
+        if ((WS_THICKFRAME | WS_CAPTION) == (style & (WS_THICKFRAME | WS_CAPTION))) {
+            currentFrameState = frameThemedCaption;
+        } else if ((WS_THICKFRAME) == (style & (WS_THICKFRAME | WS_CAPTION))) {
+            currentFrameState = frameThemedTopBorder;
         }
     }
     return (oldState == currentFrameState);
@@ -151,30 +167,43 @@ void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect
         closeRightX = titlebarRect.right;
     }
 
-    CRect iconDimRect(0, 0, CMPCTheme::W10TitlebarIconWidth, titlebarRect.Height() - 1);
-
+    int iconHeight;
+    if (IsZoomed()) { //fixme--check for dpi specific settings. this seems right at 96dpi, though
+        iconHeight = titlebarRect.Height() - 2;
+    } else {
+        iconHeight = titlebarRect.Height() - 1;
+    }
+    CRect iconDimRect(0, 0, CMPCTheme::W10TitlebarIconWidth, iconHeight);
     closeRect = CRect(closeRightX - iconDimRect.Width(), titlebarRect.top, closeRightX, titlebarRect.top + iconDimRect.Height());
     maximizeRect = CRect(closeRect.left - 1 - iconDimRect.Width(), titlebarRect.top, closeRect.left - 1, titlebarRect.top + iconDimRect.Height());
     minimizeRect = CRect(maximizeRect.left - 1 - iconDimRect.Width(), titlebarRect.top, maximizeRect.left - 1, titlebarRect.top + iconDimRect.Height());
 }
 
 void CMPCThemeFrameWnd::OnPaint() {
-	if ((WS_THICKFRAME) == (GetStyle() & (WS_THICKFRAME))) {
-		CPaintDC dc(this);
+	if (currentFrameState != frameNormal) {
         CRect titleBarRect = getTitleBarRect();
+
+        CPaintDC dc(this);
 
         CDC dcMem;
         CBitmap bmMem;
-        CRect memRect = titleBarRect;
-        memRect.top -= 1;
+        CRect memRect = { 0,0,titleBarRect.right, titleBarRect.bottom };
         CMPCThemeUtil::initMemDC(&dc, dcMem, bmMem, memRect);
 
         CRect topBorderRect = { titleBarRect.left, titleBarRect.top - 1, titleBarRect.right, titleBarRect.top };
         dcMem.FillSolidRect(topBorderRect, CMPCTheme::W10DarkThemeWindowBorderColor);
 
+        COLORREF titleBarColor;
+        if (IsWindowForeground()) {
+            titleBarColor = CMPCTheme::W10DarkThemeTitlebarBGColor;
+        } else {
+            titleBarColor = CMPCTheme::W10DarkThemeTitlebarInactiveBGColor;
+        }
+
+
         dcMem.FillSolidRect(titleBarRect, titleBarColor);
 
-        if (currentFrameState == frameThemed) {
+        if (currentFrameState == frameThemedCaption) {
 
             CFont f;
             CMPCThemeUtil::getFontByType(f, &dcMem, CMPCThemeUtil::CaptionFont);
@@ -212,19 +241,21 @@ void CMPCThemeFrameWnd::OnPaint() {
 
 void CMPCThemeFrameWnd::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
     if (IsWindows10OrGreater() && AfxGetAppSettings().bMPCThemeLoaded) {
-        if (currentFrameState == frameThemed) {
+        if (currentFrameState != frameNormal) {
             if (bCalcValidRects) {
-                lpncsp->rgrc[0].left += borders.left + 1;
-                lpncsp->rgrc[0].right -= borders.right + 1;
-                lpncsp->rgrc[0].bottom -= borders.bottom + 1;
+                if (currentFrameState == frameThemedCaption) {
+                    lpncsp->rgrc[0].left += borders.left + 1;
+                    lpncsp->rgrc[0].right -= borders.right + 1;
+                    lpncsp->rgrc[0].bottom -= borders.bottom + 1;
+                } else {
+                    __super::OnNcCalcSize(bCalcValidRects, lpncsp);
+                    lpncsp->rgrc[0].top -= 6;
+                }
             } else {
                 __super::OnNcCalcSize(bCalcValidRects, lpncsp);
             }
         } else {
             __super::OnNcCalcSize(bCalcValidRects, lpncsp);
-            if ((WS_THICKFRAME) == (GetStyle() & (WS_CAPTION | WS_THICKFRAME))) {
-//                lpncsp->rgrc[0].top -= 6;
-            }
         }
         recalcFrame(); //framechanged--if necessary we recalculate everything; if done internally this should be a no-op
     } else {
@@ -243,14 +274,8 @@ void CMPCThemeFrameWnd::recalcFrame() {
         } else if (0 != (style & WS_BORDER)) {
             borders = { 1,1,1,1 };
         }
+        
         SetWindowPos(NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-    }
-    if (currentFrameState == frameThemed) {
-        if (GetForegroundWindow() == this) {
-            titleBarColor = CMPCTheme::W10DarkThemeTitlebarBGColor;
-        } else {
-            titleBarColor = CMPCTheme::W10DarkThemeTitlebarInactiveBGColor;
-        }
     }
 }
 
@@ -265,7 +290,7 @@ void CMPCThemeFrameWnd::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized
 }
 
 LRESULT CMPCThemeFrameWnd::OnNcHitTest(CPoint point) {
-	if (currentFrameState == frameThemed) {
+	if (currentFrameState == frameThemedCaption) {
 		LRESULT result = 0;
 
         result = CWnd::OnNcHitTest(point);
@@ -297,7 +322,7 @@ LRESULT CMPCThemeFrameWnd::OnNcHitTest(CPoint point) {
 }
 
 void CMPCThemeFrameWnd::OnNcMouseLeave() {
-    if (currentFrameState == frameThemed) {
+    if (currentFrameState == frameThemedCaption) {
         CWnd::OnNcMouseLeave();
 	} else {
 		__super::OnNcMouseLeave();
@@ -307,7 +332,7 @@ void CMPCThemeFrameWnd::OnNcMouseLeave() {
 void CMPCThemeFrameWnd::recalcTitleBar() {
     titlebarHeight = CRect(titleBarInfo.rcTitleBar).Height() + borders.top;
     if (IsZoomed()) {
-        titlebarHeight -= borders.top / 2;
+        titlebarHeight -= borders.top;
     }
 }
 

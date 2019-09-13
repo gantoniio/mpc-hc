@@ -103,6 +103,15 @@ const COLORREF CMPCTheme::StatusBarSeparatorColor = COLORREF(RGB(247, 247, 247))
 const COLORREF CMPCTheme::W10DarkThemeFileDialogInjectedTextColor = COLORREF(RGB(255, 255, 255));
 const COLORREF CMPCTheme::W10DarkThemeFileDialogInjectedBGColor = COLORREF(RGB(56, 56, 56));
 const COLORREF CMPCTheme::W10DarkThemeFileDialogInjectedEditBorderColor = COLORREF(RGB(155, 155, 155));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarBGColor = COLORREF(RGB(0, 0, 0));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarInactiveBGColor = COLORREF(RGB(43, 43, 43));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarFGColor = COLORREF(RGB(255, 255, 255));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarInactiveFGColor = COLORREF(RGB(170, 170, 170));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarIconPenColor = COLORREF(RGB(255, 255, 255));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarControlHoverBGColor = COLORREF(RGB(43, 43, 43));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarInactiveControlHoverBGColor = COLORREF(RGB(65, 65, 65));
+const COLORREF CMPCTheme::W10DarkThemeTitlebarControlPushedBGColor = COLORREF(RGB(70, 70, 70));
+const COLORREF CMPCTheme::W10DarkThemeWindowBorderColor = COLORREF(RGB(57, 57, 57));
 
 
 const COLORREF CMPCTheme::ProgressBarBGColor = COLORREF(RGB(0, 0, 0));
@@ -240,3 +249,40 @@ const UINT CMPCTheme::ThemeRadios[5] = {
     IDB_DT_RADIO_192,
 };
 
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::minimizeIcon ({
+    {2,6,newPath},
+    {11,6,closePath},
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::restoreIcon({
+    {2,4,newPath},
+    {9,4,linePath},
+    {9,11,linePath},
+    {2,11,linePath},
+    {2,4,linePath},
+    {4,4,newPath},
+    {4,2,linePath},
+    {11,2,linePath},
+    {11,9,linePath},
+    {9,9,linePath}
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::maximizeIcon({
+    {1,1,newPath},
+    {1,10,linePath},
+    {10,10,linePath},
+    {10,1,linePath},
+    {1,1,linePath}
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::closeIcon({
+    {1,1,newPath},
+    {10,10,closePath},
+    {1,10,newPath},
+    {10,1,closePath}
+ });
+
+
+const int CMPCTheme::W10TitlebarIconPathHeight = 12;
+const int CMPCTheme::W10TitlebarIconPathWidth = 12;
+const int CMPCTheme::W10TitlebarIconWidth = 45;

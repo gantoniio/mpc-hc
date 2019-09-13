@@ -44,6 +44,7 @@
 #include "TimerWrappers.h"
 #include "VMROSD.h"
 #include "CMPCThemeMenu.h"
+#include "CMPCThemeFrameWnd.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -140,7 +141,7 @@ struct SubtitleInput {
         : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
 
-class CMainFrame : public CFrameWnd, public CDropClient
+class CMainFrame : public CMPCThemeFrameWnd, public CDropClient
 {
 public:
 
@@ -1130,6 +1131,4 @@ private:
     CMPCThemeUtil* fileDialogHookHelper;
 public:
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
-	afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
-    afx_msg BOOL OnNcActivate(BOOL bActive);
 };

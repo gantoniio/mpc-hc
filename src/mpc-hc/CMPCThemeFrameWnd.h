@@ -14,6 +14,7 @@ protected:
 	DECLARE_DYNAMIC(CMPCThemeFrameWnd)
 public:
     virtual ~CMPCThemeFrameWnd();
+    LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
     virtual void RecalcLayout(BOOL bNotify = TRUE);
     BOOL SetMenuBarState(DWORD dwState);
     CRect getTitleBarRect();
@@ -28,7 +29,8 @@ protected:
     void recalcFrame();
     enum frameState {
         frameNormal,
-        frameThemed,
+        frameThemedCaption,
+        frameThemedTopBorder,
     };
 private:
     TITLEBARINFO titleBarInfo;

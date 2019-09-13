@@ -27,6 +27,7 @@ public:
     static const COLORREF LightColor;
     static const COLORREF CloseHoverColor;
     static const COLORREF ClosePushColor;
+    static const COLORREF CloseColor;
     static const COLORREF WindowBorderColorLight;
     static const COLORREF WindowBorderColorDim;
     static const COLORREF NoBorderColor;
@@ -103,6 +104,15 @@ public:
     static const COLORREF W10DarkThemeFileDialogInjectedTextColor;
     static const COLORREF W10DarkThemeFileDialogInjectedBGColor;
     static const COLORREF W10DarkThemeFileDialogInjectedEditBorderColor;
+    static const COLORREF W10DarkThemeTitlebarBGColor;
+    static const COLORREF W10DarkThemeTitlebarInactiveBGColor;
+    static const COLORREF W10DarkThemeTitlebarFGColor;
+    static const COLORREF W10DarkThemeTitlebarInactiveFGColor;
+    static const COLORREF W10DarkThemeTitlebarIconPenColor;
+    static const COLORREF W10DarkThemeTitlebarControlHoverBGColor;
+    static const COLORREF W10DarkThemeTitlebarInactiveControlHoverBGColor;
+    static const COLORREF W10DarkThemeTitlebarControlPushedBGColor;
+    static const COLORREF W10DarkThemeWindowBorderColor;
 
     static const COLORREF ProgressBarBGColor;
     static const COLORREF ProgressBarColor;
@@ -148,5 +158,24 @@ public:
 
     const static UINT ThemeCheckBoxes[5];
     const static UINT ThemeRadios[5];
+
+    enum pathState {
+        linePath,
+        newPath,
+        closePath
+    };
+
+    struct pathPoint {
+        int x;
+        int y;
+        pathState state;
+    };
+    static const std::vector<pathPoint> minimizeIcon;
+    static const std::vector<pathPoint> maximizeIcon;
+    static const std::vector<pathPoint> restoreIcon;
+    static const std::vector<pathPoint> closeIcon;
+    static const int W10TitlebarIconPathHeight;
+    static const int W10TitlebarIconPathWidth;
+    static const int W10TitlebarIconWidth;
 
 };

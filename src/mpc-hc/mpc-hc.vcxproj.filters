@@ -589,6 +589,15 @@
     <ClCompile Include="..\thirdparty\MessageBoxDialog\MessageBoxDialog.cpp">
       <Filter>MPCTheme\thirdparty</Filter>
     </ClCompile>
+    <ClCompile Include="CMPCThemeFrameWnd.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
+    <ClCompile Include="CMPCThemeFrameUtil.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
+    <ClCompile Include="CMPCThemeTitleBarControlButton.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1107,6 +1116,15 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\MessageBoxDialog\MessageBoxDialog.h">
       <Filter>MPCTheme\thirdparty</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemeFrameWnd.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemeTitleBarControlButton.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemeFrameUtil.h">
+      <Filter>MPCTheme</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

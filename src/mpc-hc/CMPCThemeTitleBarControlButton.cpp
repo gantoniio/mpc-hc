@@ -3,6 +3,7 @@
 
 BEGIN_MESSAGE_MAP(CMPCThemeTitleBarControlButton, CMFCButton)
     ON_WM_PAINT()
+    ON_CONTROL_REFLECT(BN_CLICKED, &CMPCThemeTitleBarControlButton::OnBnClicked)
 END_MESSAGE_MAP()
 
 CMPCThemeTitleBarControlButton::CMPCThemeTitleBarControlButton(LRESULT _buttonType) : CMFCButton()
@@ -12,12 +13,14 @@ CMPCThemeTitleBarControlButton::CMPCThemeTitleBarControlButton(LRESULT _buttonTy
     case HTCLOSE:
         hoverColor = CMPCTheme::CloseHoverColor;
         pushedColor = CMPCTheme::ClosePushColor;
+        hoverInactiveColor = CMPCTheme::CloseHoverColor;
         break;
     case HTMINBUTTON:
     case HTMAXBUTTON:
     default:
         hoverColor = CMPCTheme::W10DarkThemeTitlebarControlHoverBGColor;
         pushedColor = CMPCTheme::W10DarkThemeTitlebarControlPushedBGColor;
+        hoverInactiveColor = CMPCTheme::W10DarkThemeTitlebarInactiveControlHoverBGColor;
         break;
     }
 }
@@ -27,7 +30,11 @@ const std::vector<CMPCTheme::pathPoint>& CMPCThemeTitleBarControlButton::getIcon
     case HTMINBUTTON:
         return CMPCTheme::minimizeIcon;
     case HTMAXBUTTON:
-        return CMPCTheme::maximizeIcon;
+        if (parent->IsWindowZoomed()) {
+            return CMPCTheme::restoreIcon;
+        } else {
+            return CMPCTheme::maximizeIcon;
+        }
     case HTCLOSE:
     default:
         return CMPCTheme::closeIcon;
@@ -80,13 +87,42 @@ void CMPCThemeTitleBarControlButton::OnPaint() {
     if (IsPushed()) {
         dc.FillSolidRect(cr, pushedColor);
     } else if (IsHighlighted()) {
-        dc.FillSolidRect(cr, hoverColor);
+        if (parent->IsWindowForeground()) {
+            dc.FillSolidRect(cr, hoverColor);
+        } else {
+            dc.FillSolidRect(cr, hoverInactiveColor);
+        }
     } else {
         if (nullptr != parent) {
-            dc.FillSolidRect(cr, parent->getTitleBarColor());
+            COLORREF tbColor;
+            if (parent->IsWindowForeground()) {
+                tbColor = CMPCTheme::W10DarkThemeTitlebarBGColor;
+            } else {
+                tbColor = CMPCTheme::W10DarkThemeTitlebarInactiveBGColor;
+            }
+            dc.FillSolidRect(cr, tbColor);
         }
     }
     DpiHelper dpiWindow;
     dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
     drawTitleBarButton(&dc, cr, getIconPath(), dpiWindow.ScaleFactorX(), true);
+}
+
+
+void CMPCThemeTitleBarControlButton::OnBnClicked() {
+    switch (buttonType) {
+    case HTCLOSE:
+        parent->PostWindowMessage(WM_CLOSE, 0, 0);
+        break;
+    case HTMINBUTTON:
+        parent->PostWindowMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+        break;
+    case HTMAXBUTTON:
+        if (parent->IsWindowZoomed()) {
+            parent->PostWindowMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
+        } else {
+            parent->PostWindowMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+        }
+        break;
+    }
 }
