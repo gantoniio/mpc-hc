@@ -29,6 +29,10 @@ CMPCThemeFrameWnd::CMPCThemeFrameWnd():
 {
 }
 
+BOOL CMPCThemeFrameWnd::PreCreateWindow(CREATESTRUCT& cs) {
+    return CFrameWnd::PreCreateWindow(cs);
+}
+
 CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
 }
 
@@ -221,7 +225,9 @@ void CMPCThemeFrameWnd::OnPaint() {
             CMPCThemeUtil::getFontByType(font, &dcMem, CMPCThemeUtil::CaptionFont);
             dcMem.SetBkColor(titleBarColor);
             dcMem.SetTextColor(CMPCTheme::W10DarkThemeTitlebarFGColor);
-            dcMem.DrawText(m_strTitle, captionRect, DT_LEFT | DT_WORD_ELLIPSIS | DT_VCENTER | DT_SINGLELINE);
+            CString windowText;
+            GetWindowText(windowText);
+            dcMem.DrawText(windowText, captionRect, DT_LEFT | DT_WORD_ELLIPSIS | DT_VCENTER | DT_SINGLELINE);
 
             CRect sysMenuIconRect = getSysMenuIconRect();
             int sysIconDim = sysMenuIconRect.Width();

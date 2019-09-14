@@ -10,7 +10,8 @@ class CMPCThemeFrameWnd :
 {
 public:
 	CMPCThemeFrameWnd();
-protected: 
+    BOOL PreCreateWindow(CREATESTRUCT& cs);
+protected:
 	DECLARE_DYNAMIC(CMPCThemeFrameWnd)
 public:
     virtual ~CMPCThemeFrameWnd();
