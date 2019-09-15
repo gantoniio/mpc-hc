@@ -1238,7 +1238,7 @@ void CPlayerSubresyncBar::DoCustomPrePaint() {
     }
 }
 
-void CPlayerSubresyncBar::GetCustomTextColors(int nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) {
+void CPlayerSubresyncBar::GetCustomTextColors(DWORD_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) {
     COLORREF fadeText, normalText, activeNormalText, activeFadeText;
     COLORREF bgNormalOdd, bgNormalEven, bgMod, bgAdjust;
     bool useFadeText;

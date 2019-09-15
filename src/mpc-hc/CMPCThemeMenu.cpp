@@ -115,7 +115,7 @@ BOOL CMPCThemeMenu::RemoveMenu(UINT nPosition, UINT nFlags) {
 
 BOOL CMPCThemeMenu::AppendMenu(UINT nFlags, UINT_PTR nIDNewItem, LPCTSTR lpszNewItem ) {
     BOOL ret = CMenu::AppendMenu(nFlags, nIDNewItem, lpszNewItem);
-    fulfillThemeReqsItem(nIDNewItem);
+    fulfillThemeReqsItem((UINT)nIDNewItem);
     return ret;
 }
 

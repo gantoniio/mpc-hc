@@ -3054,14 +3054,14 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             int k = 0;
             CString label = s.m_pnspresets[i].Tokenize(_T(","), k);
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START + i, label));
-            CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, ID_PANNSCAN_PRESETS_START + i, true);
+            CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, (UINT)(ID_PANNSCAN_PRESETS_START + i), true);
         }
         //if (j > 0)
         {
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START + i, ResStr(IDS_PANSCAN_EDIT)));
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND | MF_SEPARATOR));
             if (s.bMPCThemeLoaded) {
-                CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, ID_PANNSCAN_PRESETS_START + i, true);
+                CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, (UINT)(ID_PANNSCAN_PRESETS_START + i), true);
                 UINT pos = CMPCThemeMenu::getPosFromID(pPopupMenu, ID_VIEW_RESET); //separator is inserted right before view_reset
                 CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, pos-1);
             }
@@ -10274,7 +10274,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
 
     if (!s.HasFixedWindowSize()) {
         ShowWindow(SW_SHOWNOACTIVATE);
-        if (dScale == ZOOM_DEFAULT_LEVEL) {
+        if (dScale == (double)ZOOM_DEFAULT_LEVEL) {
             if (s.fRememberWindowSize) return; // ignore default auto-zoom setting
             dScale =
                 s.iZoomLevel == 0 ? 0.5 :
@@ -10282,9 +10282,9 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
                 s.iZoomLevel == 2 ? 2.0 :
                 s.iZoomLevel == 3 ? GetZoomAutoFitScale(false) :
                 s.iZoomLevel == 4 ? GetZoomAutoFitScale(true) : 1.0;
-        } else if (dScale == ZOOM_AUTOFIT) {
+        } else if (dScale == (double)ZOOM_AUTOFIT) {
             dScale = GetZoomAutoFitScale(false);
-        } else if (dScale == ZOOM_AUTOFIT_LARGER) {
+        } else if (dScale == (double)ZOOM_AUTOFIT_LARGER) {
             dScale = GetZoomAutoFitScale(true);
         } else if (dScale <= 0.0) {
             ASSERT(FALSE);
