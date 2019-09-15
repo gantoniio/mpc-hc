@@ -5,6 +5,7 @@
 #include "mplayerc.h"
 #include "SVGImage.h"
 #include <gdiplusgraphics.h>
+#include <../src/mfc/oleimpl2.h>
 
 IMPLEMENT_DYNAMIC(CMPCThemeFrameWnd, CFrameWnd)
 
@@ -25,68 +26,109 @@ CMPCThemeFrameWnd::CMPCThemeFrameWnd():
     closeButton(HTCLOSE),
     currentFrameState(frameNormal),
     titleBarInfo({ 0 }),
+    drawCustomFrame(false),
     titlebarHeight(30) //sane default, should be updated as soon as created
 {
-}
-
-BOOL CMPCThemeFrameWnd::PreCreateWindow(CREATESTRUCT& cs) {
-    return CFrameWnd::PreCreateWindow(cs);
 }
 
 CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
 }
 
 LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    if (uMsg == WM_WINDOWPOSCHANGING &&
-        (WS_THICKFRAME) == (GetStyle() & (WS_THICKFRAME | WS_CAPTION)) &&
-        currentFrameState != frameThemedTopBorder) {
-        WINDOWPOS* wp = (WINDOWPOS*)lParam;
-        if (nullptr != wp) {
-            wp->flags |= SWP_NOREDRAW; //prevents corruption of the border when disabling caption
+    if (drawCustomFrame) {
+        if (uMsg == WM_WINDOWPOSCHANGING &&
+            (WS_THICKFRAME) == (GetStyle() & (WS_THICKFRAME | WS_CAPTION)) &&
+            currentFrameState != frameThemedTopBorder) {
+            WINDOWPOS* wp = (WINDOWPOS*)lParam;
+            if (nullptr != wp) {
+                wp->flags |= SWP_NOREDRAW; //prevents corruption of the border when disabling caption
+            }
         }
     }
     return __super::WindowProc(uMsg, wParam, lParam);
 }
 
 void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
-    recalcTitleBar();
-    if (currentFrameState == frameThemedCaption)  {
-        CRect titleBarRect = getTitleBarRect();
-        m_rectBorder.top = titleBarRect.bottom;
-        if (GetMenuBarState() == AFX_MBS_VISIBLE) {
-            m_rectBorder.top += GetSystemMetrics(SM_CYMENU);
+    if (drawCustomFrame) {
+        recalcTitleBar();
+        int clientTop;
+        if (currentFrameState == frameThemedCaption) {
+            CRect titleBarRect = getTitleBarRect();
+            clientTop = titleBarRect.bottom;
+            if (GetMenuBarState() == AFX_MBS_VISIBLE) {
+                clientTop += GetSystemMetrics(SM_CYMENU);
+            }
+
+            CRect sysMenuIconRect = getSysMenuIconRect();
+            CRect closeRect, maximizeRect, minimizeRect;
+            GetIconRects(titleBarRect, closeRect, maximizeRect, minimizeRect);
+
+            if (IsWindow(closeButton.m_hWnd)) {
+                closeButton.MoveWindow(closeRect, TRUE);
+                closeButton.ShowWindow(SW_SHOW);
+            }
+            if (IsWindow(minimizeButton.m_hWnd)) {
+                minimizeButton.MoveWindow(minimizeRect, TRUE);
+                minimizeButton.ShowWindow(SW_SHOW);
+            }
+            if (IsWindow(maximizeButton.m_hWnd)) {
+                maximizeButton.MoveWindow(maximizeRect, TRUE);
+                maximizeButton.ShowWindow(SW_SHOW);
+            }
+        } else {
+            m_rectBorder.top = borders.top;
+            if (IsWindow(closeButton.m_hWnd)) {
+                closeButton.ShowWindow(SW_HIDE);
+            }
+            if (IsWindow(minimizeButton.m_hWnd)) {
+                minimizeButton.ShowWindow(SW_HIDE);
+            }
+            if (IsWindow(maximizeButton.m_hWnd)) {
+                maximizeButton.ShowWindow(SW_HIDE);
+            }
         }
 
-        CRect sysMenuIconRect = getSysMenuIconRect();
-        CRect closeRect, maximizeRect, minimizeRect;
-        GetIconRects(titleBarRect, closeRect, maximizeRect, minimizeRect);
+        //begin standard CFrameWnd::RecalcLayout code
+        if (m_bInRecalcLayout)
+            return;
 
-        if (IsWindow(closeButton.m_hWnd)) {
-            closeButton.MoveWindow(closeRect, TRUE);
-            closeButton.ShowWindow(SW_SHOW);
+        m_bInRecalcLayout = TRUE;
+        // clear idle flags for recalc layout if called elsewhere
+        if (m_nIdleFlags & idleNotify)
+            bNotify = TRUE;
+        m_nIdleFlags &= ~(idleLayout | idleNotify);
+
+        // call the layout hook -- OLE support uses this hook
+        if (bNotify && m_pNotifyHook != NULL)
+            m_pNotifyHook->OnRecalcLayout();
+
+        // reposition all the child windows (regardless of ID)
+        if (GetStyle() & FWS_SNAPTOBARS) {
+            CRect rect(0, 0, 32767, 32767);
+            RepositionBars(0, 0xffff, AFX_IDW_PANE_FIRST, reposQuery,
+                &rect, &rect, FALSE);
+            RepositionBars(0, 0xffff, AFX_IDW_PANE_FIRST, reposExtra,
+                &m_rectBorder, &rect, TRUE);
+            CalcWindowRect(&rect);
+            SetWindowPos(NULL, 0, 0, rect.Width(), rect.Height(),
+                SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+        } else {
+            //begin mpc-hc code to to position inside virtual client rect
+            CRect cr;
+            GetClientRect(cr);
+            cr.top = clientTop;
+            //end mpc-hc code to to position inside virtual client rect
+            RepositionBars(0, 0xffff, AFX_IDW_PANE_FIRST, reposExtra, &m_rectBorder, &cr /* mpc-hc, pass virtual client rect */);
         }
-        if (IsWindow(minimizeButton.m_hWnd)) {
-            minimizeButton.MoveWindow(minimizeRect, TRUE);
-            minimizeButton.ShowWindow(SW_SHOW);
-        }
-        if (IsWindow(maximizeButton.m_hWnd)) {
-            maximizeButton.MoveWindow(maximizeRect, TRUE);
-            maximizeButton.ShowWindow(SW_SHOW);
-        }
+        m_bInRecalcLayout = FALSE;
+        //end CFrameWnd::RecalcLayout code
+
+
+        Invalidate(TRUE);
+        RedrawWindow();
     } else {
-        m_rectBorder.top = borders.top;
-        if (IsWindow(closeButton.m_hWnd)) {
-            closeButton.ShowWindow(SW_HIDE);
-        }
-        if (IsWindow(minimizeButton.m_hWnd)) {
-            minimizeButton.ShowWindow(SW_HIDE);
-        }
-        if (IsWindow(maximizeButton.m_hWnd)) {
-            maximizeButton.ShowWindow(SW_HIDE);
-        }
+        __super::RecalcLayout(bNotify);
     }
-	__super::RecalcLayout(bNotify);
-    Invalidate(FALSE);
 }
 
 BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState) {
@@ -131,7 +173,7 @@ CRect CMPCThemeFrameWnd::getSysMenuIconRect() {
 bool CMPCThemeFrameWnd::checkFrame(LONG style) {
     frameState oldState = currentFrameState;
     currentFrameState = frameNormal;
-    if (AfxGetAppSettings().bMPCThemeLoaded && IsWindows10OrGreater()) {
+    if (drawCustomFrame) {
         if ((WS_THICKFRAME | WS_CAPTION) == (style & (WS_THICKFRAME | WS_CAPTION))) {
             currentFrameState = frameThemedCaption;
         } else if ((WS_THICKFRAME) == (style & (WS_THICKFRAME | WS_CAPTION))) {
@@ -142,7 +184,7 @@ bool CMPCThemeFrameWnd::checkFrame(LONG style) {
 }
 
 int CMPCThemeFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-    if (AfxGetAppSettings().bMPCThemeLoaded && IsWindows10OrGreater()) {
+    if (drawCustomFrame) {
         int res = CWnd::OnCreate(lpCreateStruct);
 
         if (res == -1)
@@ -216,7 +258,7 @@ void CMPCThemeFrameWnd::OnPaint() {
             dcMem.SelectObject(f);
 
             CRect captionRect = titleBarRect;
-            DpiHelper dpi = DpiHelper();
+            DpiHelper dpi;
             dpi.Override(AfxGetMainWnd()->GetSafeHwnd());
             captionRect.left += dpi.ScaleX(30);
             captionRect.right -= dpi.ScaleX(125);
@@ -248,7 +290,13 @@ void CMPCThemeFrameWnd::OnPaint() {
 }
 
 void CMPCThemeFrameWnd::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
-    if (IsWindows10OrGreater() && AfxGetAppSettings().bMPCThemeLoaded) {
+    if (AfxGetAppSettings().bMPCThemeLoaded && IsWindows10OrGreater() && !AfxGetAppSettings().bWindows10AccentColorsEnabled) {
+        drawCustomFrame = true;
+    } else {
+        drawCustomFrame = false;
+    }
+
+    if (drawCustomFrame) {
         if (currentFrameState != frameNormal) {
             if (bCalcValidRects) {
                 if (currentFrameState == frameThemedCaption) {
@@ -288,13 +336,17 @@ void CMPCThemeFrameWnd::recalcFrame() {
 }
 
 void CMPCThemeFrameWnd::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized) {
-    if (titleBarInfo.cbSize == 0) { //only check this once, as it can be wrong later
-        titleBarInfo = { sizeof(TITLEBARINFO) };
-        GetTitleBarInfo(&titleBarInfo);
+    if (drawCustomFrame) {
+        if (titleBarInfo.cbSize == 0) { //only check this once, as it can be wrong later
+            titleBarInfo = { sizeof(TITLEBARINFO) };
+            GetTitleBarInfo(&titleBarInfo);
+        }
+        recalcFrame();
+        CWnd::OnActivate(nState, pWndOther, bMinimized);
+        Invalidate(TRUE);
+    } else {
+        __super::OnActivate(nState, pWndOther, bMinimized);
     }
-    recalcFrame();
-    CWnd::OnActivate(nState, pWndOther, bMinimized);
-    Invalidate(TRUE);
 }
 
 LRESULT CMPCThemeFrameWnd::OnNcHitTest(CPoint point) {

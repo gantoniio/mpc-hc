@@ -629,6 +629,7 @@ public:
     bool            bMPCThemeLoaded;
     bool            bMPCTheme;
     bool            bWindows10DarkThemeActive;
+    bool            bWindows10AccentColorsEnabled;
     CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
 

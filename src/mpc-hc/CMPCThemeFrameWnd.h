@@ -10,7 +10,6 @@ class CMPCThemeFrameWnd :
 {
 public:
 	CMPCThemeFrameWnd();
-    BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
 	DECLARE_DYNAMIC(CMPCThemeFrameWnd)
 public:
@@ -36,6 +35,7 @@ protected:
 private:
     TITLEBARINFO titleBarInfo;
     frameState currentFrameState;
+    bool drawCustomFrame;
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

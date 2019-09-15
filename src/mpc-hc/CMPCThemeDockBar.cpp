@@ -23,7 +23,7 @@ BOOL CMPCThemeDockBar::OnEraseBkgnd(CDC* pDC) {
         return __super::OnEraseBkgnd(pDC);
     }
 
-    CBrush backBrush(RGB(0, 255, 255));
+    CBrush backBrush(CMPCTheme::WindowBGColor);
 
     CBrush* pOldBrush = pDC->SelectObject(&backBrush);
     CRect rect;

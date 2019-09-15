@@ -160,6 +160,7 @@ CAppSettings::CAppSettings()
     , bMPCTheme(false)
     , bMPCThemeLoaded(false)
     , bWindows10DarkThemeActive(false)
+    , bWindows10AccentColorsEnabled(false)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
@@ -1545,6 +1546,12 @@ void CAppSettings::LoadSettings()
             DWORD useTheme = -1;
             if (ERROR_SUCCESS == key.QueryDWORDValue(_T("AppsUseLightTheme"), useTheme)) {
                 if (0 == useTheme) bWindows10DarkThemeActive = true;
+            }
+        }
+        if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\DWM"), KEY_READ)) {
+            DWORD useColorPrevalence = -1;
+            if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ColorPrevalence"), useColorPrevalence)) {
+                if (1 == useColorPrevalence) bWindows10AccentColorsEnabled = true;
             }
         }
     }
