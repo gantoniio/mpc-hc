@@ -7,7 +7,7 @@
 
 class CMPCThemeListCtrlCustomInterface {
 public:
-    virtual void GetCustomTextColors(DWORD_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) = 0;
+    virtual void GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) = 0;
     virtual void DoCustomPrePaint() = 0;
     virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) = 0;
 };

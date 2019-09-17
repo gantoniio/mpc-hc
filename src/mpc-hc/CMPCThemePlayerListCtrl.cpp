@@ -467,32 +467,34 @@ BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC) {
             gridPen.CreatePen(PS_SOLID, 1, CMPCTheme::ListCtrlGridColor);
             oldPen = pDC->SelectObject(&gridPen);
 
-            CRect gr;
-            for (int x = 0; x < themedHdrCtrl.GetItemCount(); x++) {
-                themedHdrCtrl.GetItemRect(x, gr);
-                pDC->MoveTo(gr.right, r.top);
-                pDC->LineTo(gr.right, r.bottom);
-            }
-            gr.bottom = 0;
-            for (int y = 0; y < GetItemCount() || gr.bottom < r.bottom; y++) {
-                if (y >= GetItemCount()) {
-                    gr.OffsetRect(0, gr.Height());
-                } else {
-                    GetItemRect(y, gr, LVIR_BOUNDS);
+            if (GetItemCount() > 0) {
+                CRect gr;
+                for (int x = 0; x < themedHdrCtrl.GetItemCount(); x++) {
+                    themedHdrCtrl.GetItemRect(x, gr);
+                    pDC->MoveTo(gr.right, r.top);
+                    pDC->LineTo(gr.right, r.bottom);
                 }
-                {
-                    CPen horzPen;
-                    pDC->MoveTo(r.left, gr.bottom - 1);
-                    if (nullptr != customThemeInterface) {
-                        COLORREF horzGridColor, tmp;
-                        customThemeInterface->GetCustomGridColors(y, horzGridColor, tmp);
-                        horzPen.CreatePen(PS_SOLID, 1, horzGridColor);
-                        pDC->SelectObject(&horzPen);
-                        pDC->LineTo(r.right, gr.bottom - 1);
-                        pDC->SelectObject(&gridPen);
-                        horzPen.DeleteObject();
+                gr.bottom = 0;
+                for (int y = 0; y < GetItemCount() || gr.bottom < r.bottom; y++) {
+                    if (y >= GetItemCount()) {
+                        gr.OffsetRect(0, gr.Height());
                     } else {
-                        pDC->LineTo(r.right, gr.bottom - 1);
+                        GetItemRect(y, gr, LVIR_BOUNDS);
+                    }
+                    {
+                        CPen horzPen;
+                        pDC->MoveTo(r.left, gr.bottom - 1);
+                        if (nullptr != customThemeInterface) {
+                            COLORREF horzGridColor, tmp;
+                            customThemeInterface->GetCustomGridColors(y, horzGridColor, tmp);
+                            horzPen.CreatePen(PS_SOLID, 1, horzGridColor);
+                            pDC->SelectObject(&horzPen);
+                            pDC->LineTo(r.right, gr.bottom - 1);
+                            pDC->SelectObject(&gridPen);
+                            horzPen.DeleteObject();
+                        } else {
+                            pDC->LineTo(r.right, gr.bottom - 1);
+                        }
                     }
                 }
             }
