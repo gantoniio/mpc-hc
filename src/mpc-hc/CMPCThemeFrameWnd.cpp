@@ -51,7 +51,7 @@ LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
     if (drawCustomFrame) {
         recalcTitleBar();
-        int clientTop=0;
+        int clientTop = 0;
         if (currentFrameState == frameThemedCaption) {
             CRect titleBarRect = getTitleBarRect();
             clientTop = titleBarRect.bottom;
