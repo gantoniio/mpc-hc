@@ -666,7 +666,7 @@ int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
 
         return (int)dlgMessage.DoModal();
     } else {
-        return CWinApp::DoMessageBox(lpszPrompt, nType, nIDPrompt);
+        return CWinAppEx::DoMessageBox(lpszPrompt, nType, nIDPrompt);
     }
 }
 
@@ -1003,7 +1003,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
-        return CWinApp::GetProfileBinary(lpszSection, lpszEntry, ppData, pBytes);
+        return CWinAppEx::GetProfileBinary(lpszSection, lpszEntry, ppData, pBytes);
     } else {
         if (!lpszSection || !lpszEntry || !ppData || !pBytes) {
             ASSERT(FALSE);
@@ -1059,7 +1059,7 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
 
     int res = nDefault;
     if (m_pszRegistryKey) {
-        res = CWinApp::GetProfileInt(lpszSection, lpszEntry, nDefault);
+        res = CWinAppEx::GetProfileInt(lpszSection, lpszEntry, nDefault);
     } else {
         if (!lpszSection || !lpszEntry) {
             ASSERT(FALSE);
@@ -1090,7 +1090,7 @@ CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, L
 
     CString res;
     if (m_pszRegistryKey) {
-        res = CWinApp::GetProfileString(lpszSection, lpszEntry, lpszDefault);
+        res = CWinAppEx::GetProfileString(lpszSection, lpszEntry, lpszDefault);
     } else {
         if (!lpszSection || !lpszEntry) {
             ASSERT(FALSE);
@@ -1123,7 +1123,7 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
-        return CWinApp::WriteProfileBinary(lpszSection, lpszEntry, pData, nBytes);
+        return CWinAppEx::WriteProfileBinary(lpszSection, lpszEntry, pData, nBytes);
     } else {
         if (!lpszSection || !lpszEntry || !pData || !nBytes) {
             ASSERT(FALSE);
@@ -1160,7 +1160,7 @@ BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int n
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
-        return CWinApp::WriteProfileInt(lpszSection, lpszEntry, nValue);
+        return CWinAppEx::WriteProfileInt(lpszSection, lpszEntry, nValue);
     } else {
         if (!lpszSection || !lpszEntry) {
             ASSERT(FALSE);
@@ -1190,7 +1190,7 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
     if (m_pszRegistryKey) {
-        return CWinApp::WriteProfileString(lpszSection, lpszEntry, lpszValue);
+        return CWinAppEx::WriteProfileString(lpszSection, lpszEntry, lpszValue);
     } else {
         if (!lpszSection) {
             ASSERT(FALSE);
@@ -1209,7 +1209,7 @@ BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
 
         InitProfile();
 
-        // Mimic CWinApp::WriteProfileString() behavior
+        // Mimic CWinAppEx::WriteProfileString() behavior
         if (lpszEntry) {
             if (lpszValue) {
                 CString& old = m_ProfileMap[sectionStr][keyStr];
@@ -2080,12 +2080,12 @@ int CMPlayerCApp::ExitInstance()
 
     OleUninitialize();
 
-    return CWinApp::ExitInstance();
+    return CWinAppEx::ExitInstance();
 }
 
 // CMPlayerCApp message handlers
 
-BEGIN_MESSAGE_MAP(CMPlayerCApp, CWinApp)
+BEGIN_MESSAGE_MAP(CMPlayerCApp, CWinAppEx)
     ON_COMMAND(ID_HELP_ABOUT, OnAppAbout)
     ON_COMMAND(ID_FILE_EXIT, OnFileExit)
     ON_COMMAND(ID_HELP_SHOWCOMMANDLINESWITCHES, OnHelpShowcommandlineswitches)
