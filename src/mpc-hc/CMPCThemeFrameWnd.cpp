@@ -141,6 +141,14 @@ void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
     }
 }
 
+void CMPCThemeFrameWnd::SetMenuBarVisibility(DWORD dwStyle) {
+    __super::SetMenuBarVisibility(dwStyle);
+    if (currentFrameState == frameThemedCaption && 0 != (dwStyle & AFX_MBS_VISIBLE)) {
+        Invalidate();
+        DrawMenuBar();
+    }
+}
+
 BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState) {
     BOOL ret = __super::SetMenuBarState(dwState);
     if (ret && currentFrameState == frameThemedCaption) {

@@ -16,6 +16,7 @@ public:
     virtual ~CMPCThemeFrameWnd();
     LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
     virtual void RecalcLayout(BOOL bNotify = TRUE);
+    virtual void SetMenuBarVisibility(DWORD dwStyle);
     BOOL SetMenuBarState(DWORD dwState);
     CRect getTitleBarRect();
     CRect getSysMenuIconRect();
