@@ -2,8 +2,9 @@
 #include <vector>
 #include "mplayerc.h"
 #include <afxcmn.h>
+#include "CMPCTheme.h"
 
-
+class CMPCThemeTitleBarControlButton;
 class CMPCThemeUtil
 {
 public:
@@ -50,7 +51,10 @@ public:
     static void DrawBufferedText(CDC* pDC, CString text, CRect rect, UINT format);
     static void Draw2BitTransparent(CDC& dc, int left, int top, int width, int height, CBitmap& bmp, COLORREF fgColor);
     static void dbg(CString text, ...);
+    static float getConstantFByDPI(CWnd* window, const float* constants);
+    static int getConstantByDPI(CWnd* window, const int* constants);
     static UINT getResourceByDPI(CDC* pDC, const UINT* resources);
+	static const std::vector<CMPCTheme::pathPoint> getIconPathByDPI(CMPCThemeTitleBarControlButton* button);
     static void drawCheckBox(UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio = false);
     static bool canUseWin10DarkTheme();
     static UINT defaultLogo();

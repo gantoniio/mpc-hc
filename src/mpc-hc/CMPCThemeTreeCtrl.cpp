@@ -2,6 +2,7 @@
 #include "CMPCThemeTreeCtrl.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
+#undef SubclassWindow
 
 
 CMPCThemeTreeCtrl::CMPCThemeTreeCtrl():

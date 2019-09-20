@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "VersionHelpersInternal.h"
 #include "CMPCThemeFrameWnd.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
@@ -21,9 +22,9 @@ END_MESSAGE_MAP()
 
 CMPCThemeFrameWnd::CMPCThemeFrameWnd():
     CMPCThemeFrameUtil(this),
-    minimizeButton(HTMINBUTTON),
-    maximizeButton(HTMAXBUTTON),
-    closeButton(HTCLOSE),
+    minimizeButton(SC_MINIMIZE),
+    maximizeButton(SC_MAXIMIZE),
+    closeButton(SC_CLOSE),
     currentFrameState(frameNormal),
     titleBarInfo({ 0 }),
     drawCustomFrame(false),
@@ -32,6 +33,15 @@ CMPCThemeFrameWnd::CMPCThemeFrameWnd():
 }
 
 CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
+    if (closeButton.m_hWnd) {
+        closeButton.DestroyWindow();
+    }
+    if (minimizeButton.m_hWnd) {
+        minimizeButton.DestroyWindow();
+    }
+    if (maximizeButton.m_hWnd) {
+        maximizeButton.DestroyWindow();
+    }
 }
 
 LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -208,6 +218,9 @@ int CMPCThemeFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect& maximizeRect, CRect& minimizeRect) {
+    DpiHelper dpi;
+    dpi.Override(AfxGetMainWnd()->GetSafeHwnd());
+
     int closeRightX;
     if (IsZoomed()) {
         closeRightX = titlebarRect.right - 2;
@@ -216,20 +229,24 @@ void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect
     }
 
     int iconHeight;
-    if (IsZoomed()) { //fixme--check for dpi specific settings. this seems right at 96dpi, though
+    if (IsZoomed()) { //fixme--works at 96dpi, 120dpi
         iconHeight = titlebarRect.Height() - 2;
     } else {
         iconHeight = titlebarRect.Height() - 1;
     }
-    CRect iconDimRect(0, 0, CMPCTheme::W10TitlebarIconWidth, iconHeight);
-    closeRect = CRect(closeRightX - iconDimRect.Width(), titlebarRect.top, closeRightX, titlebarRect.top + iconDimRect.Height());
-    maximizeRect = CRect(closeRect.left - 1 - iconDimRect.Width(), titlebarRect.top, closeRect.left - 1, titlebarRect.top + iconDimRect.Height());
-    minimizeRect = CRect(maximizeRect.left - 1 - iconDimRect.Width(), titlebarRect.top, maximizeRect.left - 1, titlebarRect.top + iconDimRect.Height());
+    int buttonWidth = CMPCThemeUtil::getConstantByDPI(this, CMPCTheme::W10TitlebarButtonWidth);
+    int buttonSpacing = CMPCThemeUtil::getConstantByDPI(this, CMPCTheme::W10TitlebarButtonSpacing);
+    CRect buttonDimRect(0, 0, buttonWidth, iconHeight);
+    closeRect = CRect(closeRightX - buttonDimRect.Width(), titlebarRect.top, closeRightX, titlebarRect.top + buttonDimRect.Height());
+    maximizeRect = CRect(closeRect.left - buttonSpacing - buttonDimRect.Width(), titlebarRect.top, closeRect.left - buttonSpacing, titlebarRect.top + buttonDimRect.Height());
+    minimizeRect = CRect(maximizeRect.left - buttonSpacing - buttonDimRect.Width(), titlebarRect.top, maximizeRect.left - buttonSpacing, titlebarRect.top + buttonDimRect.Height());
 }
 
 void CMPCThemeFrameWnd::OnPaint() {
 	if (currentFrameState != frameNormal) {
+        CRect closeRect, maximizeRect, minimizeRect;
         CRect titleBarRect = getTitleBarRect();
+        GetIconRects(titleBarRect, closeRect, maximizeRect, minimizeRect);
 
         CPaintDC dc(this);
 
@@ -260,8 +277,12 @@ void CMPCThemeFrameWnd::OnPaint() {
             CRect captionRect = titleBarRect;
             DpiHelper dpi;
             dpi.Override(AfxGetMainWnd()->GetSafeHwnd());
-            captionRect.left += dpi.ScaleX(30);
-            captionRect.right -= dpi.ScaleX(125);
+
+            CRect sysMenuIconRect = getSysMenuIconRect();
+            int sysIconDim = sysMenuIconRect.Width();
+
+            captionRect.left += sysMenuIconRect.right + dpi.ScaleX(4);
+            captionRect.right = minimizeRect.left - dpi.ScaleX(4);
 
             CFont font;
             CMPCThemeUtil::getFontByType(font, &dcMem, CMPCThemeUtil::CaptionFont);
@@ -271,8 +292,6 @@ void CMPCThemeFrameWnd::OnPaint() {
             GetWindowText(windowText);
             dcMem.DrawText(windowText, captionRect, DT_LEFT | DT_WORD_ELLIPSIS | DT_VCENTER | DT_SINGLELINE);
 
-            CRect sysMenuIconRect = getSysMenuIconRect();
-            int sysIconDim = sysMenuIconRect.Width();
             HICON icon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(m_nIDHelp), IMAGE_ICON, sysIconDim, sysIconDim, LR_SHARED);
             ::DrawIconEx(dcMem.m_hDC, sysMenuIconRect.left, sysMenuIconRect.top, icon, 0, 0, 0, nullptr, DI_NORMAL);
         }

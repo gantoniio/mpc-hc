@@ -1,22 +1,23 @@
 #include "stdafx.h"
 #include "CMPCThemeTitleBarControlButton.h"
+#include "CMPCThemeUtil.h"
 
 BEGIN_MESSAGE_MAP(CMPCThemeTitleBarControlButton, CMFCButton)
     ON_WM_PAINT()
     ON_CONTROL_REFLECT(BN_CLICKED, &CMPCThemeTitleBarControlButton::OnBnClicked)
 END_MESSAGE_MAP()
 
-CMPCThemeTitleBarControlButton::CMPCThemeTitleBarControlButton(LRESULT _buttonType) : CMFCButton()
+CMPCThemeTitleBarControlButton::CMPCThemeTitleBarControlButton(WPARAM _buttonType) : CMFCButton()
 , parent(nullptr) {
     this->buttonType = _buttonType;
     switch (buttonType) {
-    case HTCLOSE:
+    case SC_CLOSE:
         hoverColor = CMPCTheme::CloseHoverColor;
         pushedColor = CMPCTheme::ClosePushColor;
         hoverInactiveColor = CMPCTheme::CloseHoverColor;
         break;
-    case HTMINBUTTON:
-    case HTMAXBUTTON:
+    case SC_MINIMIZE:
+    case SC_MAXIMIZE:
     default:
         hoverColor = CMPCTheme::W10DarkThemeTitlebarControlHoverBGColor;
         pushedColor = CMPCTheme::W10DarkThemeTitlebarControlPushedBGColor;
@@ -25,32 +26,27 @@ CMPCThemeTitleBarControlButton::CMPCThemeTitleBarControlButton(LRESULT _buttonTy
     }
 }
 
-const std::vector<CMPCTheme::pathPoint>& CMPCThemeTitleBarControlButton::getIconPath() {
-    switch (buttonType) {
-    case HTMINBUTTON:
-        return CMPCTheme::minimizeIcon;
-    case HTMAXBUTTON:
-        if (parent->IsWindowZoomed()) {
-            return CMPCTheme::restoreIcon;
-        } else {
-            return CMPCTheme::maximizeIcon;
-        }
-    case HTCLOSE:
-    default:
-        return CMPCTheme::closeIcon;
-    }
-}
 
 void CMPCThemeTitleBarControlButton::setParentFrame(CMPCThemeFrameUtil* _parent) {
     this->parent = _parent;
 }
 
+WPARAM CMPCThemeTitleBarControlButton::getButtonType() {
+    if (buttonType == SC_MAXIMIZE && parent->IsWindowZoomed()) {
+        return SC_RESTORE;
+    }
+    return buttonType;
+}
+
 void CMPCThemeTitleBarControlButton::drawTitleBarButton(CDC* pDC, CRect iconRect, std::vector<CMPCTheme::pathPoint> icon, double dpiScaling, bool antiAlias) {
+    int iconWidth = CMPCThemeUtil::getConstantByDPI(this, CMPCTheme::W10TitlebarIconPathWidth);
+    int iconHeight = CMPCThemeUtil::getConstantByDPI(this, CMPCTheme::W10TitlebarIconPathHeight);
+    float penThickness = CMPCThemeUtil::getConstantFByDPI(this, CMPCTheme::W10TitlebarIconPathThickness);
     CRect pathRect = {
-        iconRect.left + (iconRect.Width() - CMPCTheme::W10TitlebarIconPathWidth) / 2,
-        iconRect.top + (iconRect.Height() - CMPCTheme::W10TitlebarIconPathHeight) / 2,
-        CMPCTheme::W10TitlebarIconPathWidth,
-        CMPCTheme::W10TitlebarIconPathHeight
+        iconRect.left + (iconRect.Width() - iconWidth) / 2,
+        iconRect.top + (iconRect.Height() - iconHeight) / 2,
+        iconWidth,
+        iconHeight
     };
 
     Gdiplus::Graphics gfx(pDC->m_hDC);
@@ -59,7 +55,10 @@ void CMPCThemeTitleBarControlButton::drawTitleBarButton(CDC* pDC, CRect iconRect
     }
     Gdiplus::Color lineClr;
     lineClr.SetFromCOLORREF(CMPCTheme::W10DarkThemeTitlebarIconPenColor);
-    Gdiplus::Pen iPen(lineClr, 1.5);
+    Gdiplus::Pen iPen(lineClr, penThickness);
+    if (penThickness >= 2) {
+        iPen.SetLineCap(Gdiplus::LineCapSquare, Gdiplus::LineCapSquare, Gdiplus::DashCapFlat);
+    }
     Gdiplus::REAL lastX = 0, lastY = 0;
     for (u_int i = 0; i < icon.size(); i++) {
         CMPCTheme::pathPoint p = icon[i];
@@ -70,7 +69,7 @@ void CMPCThemeTitleBarControlButton::drawTitleBarButton(CDC* pDC, CRect iconRect
             lastY = y;
         } else if ((p.state == CMPCTheme::linePath || p.state == CMPCTheme::closePath) && i > 0) {
             gfx.DrawLine(&iPen, lastX, lastY, x, y);
-            if (antiAlias) {
+            if (antiAlias && penThickness < 2) {
                 gfx.DrawLine(&iPen, lastX, lastY, x, y); //draw again to brighten the AA diagonals
             }
             lastX = x;
@@ -105,19 +104,18 @@ void CMPCThemeTitleBarControlButton::OnPaint() {
     }
     DpiHelper dpiWindow;
     dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
-    drawTitleBarButton(&dc, cr, getIconPath(), dpiWindow.ScaleFactorX(), true);
+    drawTitleBarButton(&dc, cr, CMPCThemeUtil::getIconPathByDPI(this), dpiWindow.ScaleFactorX(), true);
 }
-
 
 void CMPCThemeTitleBarControlButton::OnBnClicked() {
     switch (buttonType) {
-    case HTCLOSE:
+    case SC_CLOSE:
         parent->PostWindowMessage(WM_CLOSE, 0, 0);
         break;
-    case HTMINBUTTON:
+    case SC_MINIMIZE:
         parent->PostWindowMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
         break;
-    case HTMAXBUTTON:
+    case SC_MAXIMIZE:
         if (parent->IsWindowZoomed()) {
             parent->PostWindowMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
         } else {

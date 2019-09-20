@@ -8,6 +8,7 @@
 #include "CMPCThemeSliderCtrl.h"
 #include "CMPCThemeTabCtrl.h"
 #include "VersionHelpersInternal.h"
+#include "CMPCThemeTitleBarControlButton.h"
 #undef SubclassWindow
 
 CBrush CMPCThemeUtil::contentBrush = CBrush();
@@ -501,17 +502,83 @@ void CMPCThemeUtil::dbg(CString text, ...) {
     va_end(args);
 }
 
+float CMPCThemeUtil::getConstantFByDPI(CWnd* window, const float* constants) {
+    int index;
+    DpiHelper dpiWindow;
+    dpiWindow.Override(window->GetSafeHwnd());
+    int dpi = dpiWindow.DPIX();
+
+    if (dpi < 120) index = 0;
+    else if (dpi < 144) index = 1;
+    else if (dpi < 168) index = 2;
+    else if (dpi < 192) index = 3;
+    else index = 4;
+
+    return constants[index];
+}
+
+int CMPCThemeUtil::getConstantByDPI(CWnd* window, const int* constants) {
+    int index;
+    DpiHelper dpiWindow;
+    dpiWindow.Override(window->GetSafeHwnd());
+    int dpi = dpiWindow.DPIX();
+
+    if (dpi < 120) index = 0;
+    else if (dpi < 144) index = 1;
+    else if (dpi < 168) index = 2;
+    else if (dpi < 192) index = 3;
+    else index = 4;
+
+    return constants[index];
+}
+
 UINT CMPCThemeUtil::getResourceByDPI(CDC* pDC, const UINT* resources) {
     int index;
     int dpi = pDC->GetDeviceCaps(LOGPIXELSX);
     if (dpi < 120) index = 0;
     else if (dpi < 144) index = 1;
     else if (dpi < 168) index = 2;
-    else if (dpi < 196) index = 3;
+    else if (dpi < 192) index = 3;
     else index = 4;
 
     return resources[index];
 }
+
+const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThemeTitleBarControlButton *button) {
+    int index;
+    DpiHelper dpiWindow;
+    dpiWindow.Override(button->GetSafeHwnd());
+
+    int dpi = dpiWindow.DPIX();
+    switch (button->getButtonType()) {
+    case SC_MINIMIZE:
+        if (dpi < 120) return CMPCTheme::minimizeIcon96;
+        else if (dpi < 144) return CMPCTheme::minimizeIcon120;
+        else if (dpi < 168) return CMPCTheme::minimizeIcon144;
+        else if (dpi < 192) return CMPCTheme::minimizeIcon168;
+        else return CMPCTheme::minimizeIcon192;
+    case SC_RESTORE:
+        if (dpi < 120) return CMPCTheme::restoreIcon96;
+        else if (dpi < 144) return CMPCTheme::restoreIcon120;
+        else if (dpi < 168) return CMPCTheme::restoreIcon144;
+        else if (dpi < 192) return CMPCTheme::restoreIcon168;
+        else return CMPCTheme::restoreIcon192;
+    case SC_MAXIMIZE:
+        if (dpi < 120) return CMPCTheme::maximizeIcon96;
+        else if (dpi < 144) return CMPCTheme::maximizeIcon120;
+        else if (dpi < 168) return CMPCTheme::maximizeIcon144;
+        else if (dpi < 192) return CMPCTheme::maximizeIcon168;
+        else return CMPCTheme::maximizeIcon192;
+    case SC_CLOSE:
+    default:
+        if (dpi < 120) return CMPCTheme::closeIcon96;
+        else if (dpi < 144) return CMPCTheme::closeIcon120;
+        else if (dpi < 168) return CMPCTheme::closeIcon144;
+        else if (dpi < 192) return CMPCTheme::closeIcon168;
+        else return CMPCTheme::closeIcon192;
+    }
+}
+
 
 void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio) {
     COLORREF borderClr, bgClr;

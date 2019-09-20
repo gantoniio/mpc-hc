@@ -1,8 +1,5 @@
 #pragma once
-#include "stdafx.h"
-#include "VersionHelpersInternal.h"
 #include "mplayerc.h"
-#undef SubclassWindow
 
 class CMPCTheme {
 public:
@@ -166,16 +163,17 @@ public:
     };
 
     struct pathPoint {
-        int x;
-        int y;
+        float x;
+        float y;
         pathState state;
     };
-    static const std::vector<pathPoint> minimizeIcon;
-    static const std::vector<pathPoint> maximizeIcon;
-    static const std::vector<pathPoint> restoreIcon;
-    static const std::vector<pathPoint> closeIcon;
-    static const int W10TitlebarIconPathHeight;
-    static const int W10TitlebarIconPathWidth;
-    static const int W10TitlebarIconWidth;
-
+    static const std::vector<pathPoint> minimizeIcon96, minimizeIcon120, minimizeIcon144, minimizeIcon168, minimizeIcon192;
+    static const std::vector<pathPoint> maximizeIcon96, maximizeIcon120, maximizeIcon144, maximizeIcon168, maximizeIcon192;
+    static const std::vector<pathPoint> restoreIcon96, restoreIcon120, restoreIcon144, restoreIcon168, restoreIcon192;
+    static const std::vector<pathPoint> closeIcon96, closeIcon120, closeIcon144, closeIcon168, closeIcon192;
+    static const int CMPCTheme::W10TitlebarIconPathHeight[5];
+    static const int CMPCTheme::W10TitlebarIconPathWidth[5];
+    static const float CMPCTheme::W10TitlebarIconPathThickness[5];
+    static const int CMPCTheme::W10TitlebarButtonWidth[5];
+    static const int CMPCTheme::W10TitlebarButtonSpacing[5];
 };

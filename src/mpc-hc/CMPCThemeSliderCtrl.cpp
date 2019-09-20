@@ -2,6 +2,7 @@
 #include "CMPCThemeSliderCtrl.h"
 #include "CMPCTheme.h"
 #include "mplayerc.h"
+#undef SubclassWindow
 
 CMPCThemeSliderCtrl::CMPCThemeSliderCtrl() 
     :m_bDrag(false), m_bHover(false) {

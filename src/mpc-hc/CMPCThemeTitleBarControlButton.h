@@ -4,12 +4,12 @@
 class CMPCThemeTitleBarControlButton :
     public CMFCButton {
 public:
-    CMPCThemeTitleBarControlButton(LRESULT buttonType);
+    CMPCThemeTitleBarControlButton(WPARAM _buttonType);
     void setParentFrame(CMPCThemeFrameUtil* parent);
+    WPARAM getButtonType();
 protected:
     void drawTitleBarButton(CDC* pDC, CRect iconRect, std::vector<CMPCTheme::pathPoint> icon, double dpiScaling, bool antiAlias = false);
-    const std::vector<CMPCTheme::pathPoint>& getIconPath();
-    LRESULT buttonType;
+    WPARAM buttonType;
     COLORREF hoverColor, pushedColor, hoverInactiveColor;
     CMPCThemeFrameUtil* parent;
 public:

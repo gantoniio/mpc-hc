@@ -3,6 +3,7 @@
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
 #include "mplayerc.h"
+#undef SubclassWindow
 
 CMPCThemePlayerListCtrl::CMPCThemePlayerListCtrl(int tStartEditingDelay) : CPlayerListCtrl(tStartEditingDelay) {
     themeGridLines = false;
