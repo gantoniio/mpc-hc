@@ -237,7 +237,7 @@ void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect
     }
 
     int iconHeight;
-    if (IsZoomed()) { //fixme--works at 96dpi, 120dpi
+    if (IsZoomed()) { //works at 96dpi, 120dpi, 144dpi, 168dpi, 192dpi
         iconHeight = titlebarRect.Height() - 2;
     } else {
         iconHeight = titlebarRect.Height() - 1;
