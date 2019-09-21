@@ -414,7 +414,7 @@ const int CMPCTheme::W10TitlebarIconPathWidth[5] = {
 
 const float CMPCTheme::W10TitlebarIconPathThickness[5] = {
     1,
-    1, //should be 16, but to match windows 10
+    1,
     1,
     1,
     2,
