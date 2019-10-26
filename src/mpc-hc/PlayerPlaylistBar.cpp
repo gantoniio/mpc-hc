@@ -1160,7 +1160,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     CSize bulletWidth = pDC->GetTextExtent(bullet);
 
     if (s.bMPCThemeLoaded) {
-        textcolor = CMPCTheme::TextFGColor;
+        textcolor = fPlaying ? (!!m_list.GetItemState(nItem, LVIS_SELECTED) ? CMPCTheme::ActivePlayListItemHLColor : CMPCTheme::ActivePlayListItemColor) : CMPCTheme::TextFGColor;
         if (pli.m_fInvalid) {
             textcolor = CMPCTheme::ContentTextDisabledFGColorFade2;
         }
