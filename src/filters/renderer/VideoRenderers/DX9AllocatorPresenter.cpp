@@ -753,17 +753,25 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
         if (m_pD3DEx) {
             HRESULT getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
-            pp.BackBufferWidth = szDesktopSize.cx;
-            pp.BackBufferHeight = szDesktopSize.cy;
 
-            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
             if (getModeResult == D3DERR_NOTAVAILABLE) {
                 m_pD3DEx = nullptr;
                 Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
                 if (!m_pD3DEx) {
                     Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
                 }
+                getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             }
+            CHECK_HR(getModeResult);
+
+            m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
+            m_refreshRate = DisplayMode.RefreshRate;
+
+            pp.BackBufferWidth = szDesktopSize.cx;
+            pp.BackBufferHeight = szDesktopSize.cy;
+
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
+
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
@@ -775,10 +783,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                          &pp, nullptr, &m_pD3DDevEx);
             }
 
-            getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
-            CHECK_HR(getModeResult);
-            m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
-            m_refreshRate = DisplayMode.RefreshRate;
 
 
             if (m_pD3DDevEx) {
