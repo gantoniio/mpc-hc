@@ -179,13 +179,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
     if (!m_pD3DEx) {
-        Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-    }
-    if (!m_pD3DEx) {
         m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-        if (!m_pD3D) {
-            m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
-        }
     } else {
         m_pD3D = m_pD3DEx;
     }
@@ -757,10 +751,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             if (getModeResult == D3DERR_NOTAVAILABLE) {
                 m_pD3DEx = nullptr;
                 Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-                if (!m_pD3DEx) {
-                    Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
+                if (nullptr != m_pD3DEx) {
+                    getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
                 }
-                getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             }
             CHECK_HR(getModeResult);
 
