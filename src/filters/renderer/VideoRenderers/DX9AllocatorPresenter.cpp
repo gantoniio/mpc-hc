@@ -766,7 +766,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_refreshRate = DisplayMode.RefreshRate;
-
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
