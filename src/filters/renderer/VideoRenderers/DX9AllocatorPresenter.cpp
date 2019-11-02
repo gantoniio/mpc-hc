@@ -752,15 +752,19 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
-            CHECK_HR(m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr));
-            m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
-            m_refreshRate = DisplayMode.RefreshRate;
+            HRESULT getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
             bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
-
-            if (!bTryToReset) {
+            if (getModeResult == D3DERR_NOTAVAILABLE) {
+                m_pD3DEx = nullptr;
+                Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+                if (!m_pD3DEx) {
+                    Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
+                }
+            }
+            if (!bTryToReset || getModeResult == D3DERR_NOTAVAILABLE) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
                 // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
@@ -770,6 +774,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                          GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
                          &pp, nullptr, &m_pD3DDevEx);
             }
+
+            getModeResult = m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
+            CHECK_HR(getModeResult);
+            m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
+            m_refreshRate = DisplayMode.RefreshRate;
+
+
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_DisplayType = DisplayMode.Format;

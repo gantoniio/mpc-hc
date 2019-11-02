@@ -1565,7 +1565,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
         }
 
         if (nPCIVendor == 0x8086) { // Disable ResetDevice for Intel, until can fix ...
-            return;
+           // return;
         }
     }
 
