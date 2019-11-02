@@ -764,7 +764,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                     Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
                 }
             }
-            if (!bTryToReset || getModeResult == D3DERR_NOTAVAILABLE) {
+            if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
                 // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
