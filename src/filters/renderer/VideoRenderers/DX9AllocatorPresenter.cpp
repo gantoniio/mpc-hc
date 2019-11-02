@@ -782,9 +782,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                          GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
                          &pp, nullptr, &m_pD3DDevEx);
             }
-
-
-
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_DisplayType = DisplayMode.Format;
