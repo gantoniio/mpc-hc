@@ -504,7 +504,7 @@ void CPlayerSeekBar::OnPaint()
     const CAppSettings& s = AfxGetAppSettings();
     if (s.bMPCThemeLoaded) {
         // Thumb
-        {
+        if (!s.bMPCThemeFillSeekbarAndVolume) { //no thumb while showing seek progress
             CRect r(GetThumbRect());
             if (DraggingThumb()) {
                 dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
@@ -524,6 +524,9 @@ void CPlayerSeekBar::OnPaint()
             ExtSelectClipRgn(dc, rg, RGN_XOR);
 
             m_lastThumbRect = r;
+        } else {
+            CRect r(GetThumbRect());
+            m_lastThumbRect = r;
         }
 
         const CRect channelRect(GetChannelRect());
@@ -536,7 +539,7 @@ void CPlayerSeekBar::OnPaint()
                     REFERENCE_TIME rtChap;
                     if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
                         long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
-                        CRect r(chanPos, channelRect.top, chanPos + 1, channelRect.bottom);
+                        CRect r(chanPos, channelRect.top+1, chanPos + 1, channelRect.bottom-1);
                         if (r.right < channelRect.right) {
                             r.right++;
                         }
@@ -552,7 +555,18 @@ void CPlayerSeekBar::OnPaint()
 
         // Channel
         {
-            dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor: CMPCTheme::ScrollBGColor);
+            if (s.bMPCThemeFillSeekbarAndVolume) {
+                long seekPos = ChannelPointFromPosition(m_rtPos);
+                CRect r, playedRect, unplayedRect;
+                playedRect = channelRect;
+                playedRect.right = playedRect.left+seekPos;
+                dc.FillSolidRect(&playedRect, CMPCTheme::ScrollProgressColor);
+                unplayedRect = channelRect;
+                unplayedRect.left = playedRect.right + 1;
+                dc.FillSolidRect(&unplayedRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
+            } else {
+                dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
+            }
             CRect r(channelRect);
             CBrush fb;
             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);

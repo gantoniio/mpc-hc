@@ -161,6 +161,7 @@ CAppSettings::CAppSettings()
     , bMPCThemeLoaded(false)
     , bWindows10DarkThemeActive(false)
     , bWindows10AccentColorsEnabled(false)
+    , bMPCThemeFillSeekbarAndVolume(true)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
@@ -875,6 +876,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOUPLOADSUBTITLES, bAutoUploadSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, bPreferHearingImpairedSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEME, bMPCTheme);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, bMPCThemeFillSeekbarAndVolume);
+    
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
@@ -1558,6 +1561,7 @@ void CAppSettings::LoadSettings()
             }
         }
     }
+    bMPCThemeFillSeekbarAndVolume = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, TRUE);
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);

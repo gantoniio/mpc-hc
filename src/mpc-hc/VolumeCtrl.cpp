@@ -132,18 +132,31 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 
                     CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
 
-                    CPen shadow;
-                    CPen light;
                     if (s.bMPCThemeLoaded) {
-                        shadow.CreatePen(PS_SOLID, 1, CMPCTheme::ShadowColor);
-                        light.CreatePen(PS_SOLID, 1, CMPCTheme::LightColor);
                         CRect r(pNMCD->rc);
-                        r.DeflateRect(0, 6, 0, 6);
-                        dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
-                        CBrush fb;
-                        fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
-                        dc.FrameRect(r, &fb);
+                        if (!s.bMPCThemeFillSeekbarAndVolume) {
+                            r.DeflateRect(0, 6, 0, 6);
+                            dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
+                            CBrush fb;
+                            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+                            dc.FrameRect(r, &fb);
+                        } else {
+                            r.DeflateRect(0, 4, 0, 4);
+                            CRect filledRect, unfilledRect;
+                            filledRect = r;
+                            filledRect.right = thumbRect.left + thumbRect.Width() / 2;
+                            dc.FillSolidRect(&filledRect, CMPCTheme::ScrollProgressColor);
+                            unfilledRect = channelRect;
+                            unfilledRect.left = filledRect.right + 1;
+                            dc.FillSolidRect(&unfilledRect, CMPCTheme::ScrollBGColor);
+
+                            CBrush fb;
+                            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+                            dc.FrameRect(r, &fb);
+                        }
                     } else {
+                        CPen shadow;
+                        CPen light;
                         shadow.CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
                         light.CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
                         CPen* old = dc.SelectObject(&light);
@@ -167,16 +180,18 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
                     COLORREF light = GetSysColor(COLOR_3DHILIGHT);
                     if (s.bMPCThemeLoaded) {
-                        CBrush fb;
-                        if (m_bDrag) {
-                            dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
-                        } else if(m_bHover) {
-                            dc.FillSolidRect(r, CMPCTheme::ScrollThumbHoverColor);
-                        } else {
-                            dc.FillSolidRect(r, CMPCTheme::ScrollThumbColor);
+                        if (!s.bMPCThemeFillSeekbarAndVolume) {
+                            CBrush fb;
+                            if (m_bDrag) {
+                                dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
+                            } else if (m_bHover) {
+                                dc.FillSolidRect(r, CMPCTheme::ScrollThumbHoverColor);
+                            } else {
+                                dc.FillSolidRect(r, CMPCTheme::ScrollThumbColor);
+                            }
+                            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+                            dc.FrameRect(r, &fb);
                         }
-                        fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
-                        dc.FrameRect(r, &fb);
                     } else {
 
                         dc.Draw3dRect(&r, light, 0);
