@@ -72,6 +72,7 @@
 #define IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES _T("PreferHearingImpairedSubtitles")
 #define IDS_RS_MPCTHEME                     _T("MPCTheme")
 #define IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME  _T("MPCThemeFillSeekbarAndVolume")
+#define IDS_RS_SEEKBARHEIGHT                _T("SeekbarHeight")
 #define IDS_RS_SUBTITLEPATHS                _T("SubtitlePaths")
 #define IDS_RS_USEDEFAULTSUBTITLESSTYLE     _T("UseDefaultsubtitlesStyle")
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")

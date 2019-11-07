@@ -632,6 +632,7 @@ public:
     bool            bWindows10DarkThemeActive;
     bool            bWindows10AccentColorsEnabled;
     bool            bMPCThemeFillSeekbarAndVolume;
+    int             iSeekbarHeight;
     CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
 

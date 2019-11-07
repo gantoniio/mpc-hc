@@ -877,7 +877,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, bPreferHearingImpairedSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEME, bMPCTheme);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, bMPCThemeFillSeekbarAndVolume);
-    
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKBARHEIGHT, iSeekbarHeight);
+
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
@@ -1562,6 +1563,8 @@ void CAppSettings::LoadSettings()
         }
     }
     bMPCThemeFillSeekbarAndVolume = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, TRUE);
+    iSeekbarHeight= pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKBARHEIGHT, 4);
+    if (iSeekbarHeight < 4 || iSeekbarHeight > 8) iSeekbarHeight = 4;
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);

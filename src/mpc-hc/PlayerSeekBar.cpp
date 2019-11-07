@@ -257,8 +257,10 @@ CRect CPlayerSeekBar::GetChannelRect() const
     if (m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         r.bottom += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
-    CSize s(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
-    r.DeflateRect(s.cx, s.cy, s.cx, s.cy);
+    //CSize s(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
+    //r.DeflateRect(s.cx, s.cy, s.cx, s.cy);
+    int pad = (r.Height() - m_pMainFrame->m_dpi.ScaleFloorY(AfxGetAppSettings().iSeekbarHeight))/2;
+    r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(8), pad);
     return r;
 }
 
