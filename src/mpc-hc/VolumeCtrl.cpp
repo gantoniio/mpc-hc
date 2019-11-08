@@ -133,20 +133,23 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
 
                     if (s.bMPCThemeLoaded) {
+                        DpiHelper dpiWindow;
+                        dpiWindow.Override(GetSafeHwnd());
+
                         CRect r(pNMCD->rc);
                         if (!s.bMPCThemeFillSeekbarAndVolume) {
-                            r.DeflateRect(0, 6, 0, 6);
+                            r.DeflateRect(0, dpiWindow.ScaleFloorY(6), 0, dpiWindow.ScaleFloorY(6));
                             dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
                             CBrush fb;
                             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
                             dc.FrameRect(r, &fb);
                         } else {
-                            r.DeflateRect(0, 4, 0, 4);
+                            r.DeflateRect(0, dpiWindow.ScaleFloorY(4), 0, dpiWindow.ScaleFloorY(4));
                             CRect filledRect, unfilledRect;
                             filledRect = r;
                             filledRect.right = thumbRect.left + thumbRect.Width() / 2;
                             dc.FillSolidRect(&filledRect, CMPCTheme::ScrollProgressColor);
-                            unfilledRect = channelRect;
+                            unfilledRect = r;
                             unfilledRect.left = filledRect.right + 1;
                             dc.FillSolidRect(&unfilledRect, CMPCTheme::ScrollBGColor);
 
