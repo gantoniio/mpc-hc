@@ -129,6 +129,8 @@ const COLORREF CMPCTheme::ActivePlayListItemColor = COLORREF(RGB(38, 160, 218));
 const COLORREF CMPCTheme::ActivePlayListItemHLColor = COLORREF(RGB(0, 40, 110));
 const COLORREF CMPCTheme::StaticLinkColor = COLORREF(RGB(38, 160, 218));
 
+const COLORREF CMPCTheme::SeekbarCurrentPositionColor = COLORREF(RGB(38, 160, 218));
+
 wchar_t* const CMPCTheme::uiTextFont = L"Segoe UI";
 wchar_t* const CMPCTheme::uiStaticTextFont = L"Segoe UI Semilight";
 wchar_t* const CMPCTheme::uiSymbolFont = L"MS UI Gothic";

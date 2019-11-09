@@ -163,7 +163,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, _T("When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."));
     addBoolItem(LOOP_FOLDER_NEXT_FILE, IDS_RS_LOOP_FOLDER_NEXT_FILE, false, s.bLoopFolderOnPlayNextFile, _T("Loop back to first file in folder after playing the last file."));
     addBoolItem(MPCTHEME_FILL_SEEK_BAR_AND_VOLUME, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, true, s.bMPCThemeFillSeekbarAndVolume, _T("(MPC Dark Theme) Fill seek bar and volume from left to right, instead of showing dragger"));
-    addIntItem(SEEKBAR_HEIGHT, IDS_RS_SEEKBARHEIGHT, 4, s.iSeekbarHeight, std::make_pair(4, 8), _T("Seekbar height (at 96dpi, otherwise scaled)"));
+    addIntItem(SEEKBAR_HEIGHT, IDS_RS_SEEKBARHEIGHT, MIN_SEEKBAR_HEIGHT, s.iSeekbarHeight, std::make_pair(MIN_SEEKBAR_HEIGHT, MAX_SEEKBAR_HEIGHT), _T("Seekbar height (at 96dpi, otherwise scaled)"));
 }   
 
 BOOL CPPageAdvanced::OnApply()

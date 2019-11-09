@@ -125,6 +125,7 @@ public:
     static const COLORREF ActivePlayListItemColor;
     static const COLORREF ActivePlayListItemHLColor;
     static const COLORREF StaticLinkColor;
+    static const COLORREF SeekbarCurrentPositionColor;
 
     static const BYTE GripperBitsH[10];
     static const BYTE GripperBitsV[8];

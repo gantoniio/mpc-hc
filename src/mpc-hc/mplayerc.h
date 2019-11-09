@@ -46,6 +46,9 @@
 // define the default logo we use
 #define DEF_LOGO IDF_LOGO3
 
+#define MIN_SEEKBAR_HEIGHT 15
+#define MAX_SEEKBAR_HEIGHT 32
+
 extern HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper = nullptr);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);

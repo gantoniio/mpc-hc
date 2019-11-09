@@ -30,6 +30,7 @@
 #define TOOLTIP_HIDE_TIMEOUT 3000
 #define HOVER_CAPTURED_TIMEOUT 100
 #define ADD_TO_BOTTOM_WITHOUT_CONTROLBAR 2
+#define SEEK_DRAGGER_OVERLAP 5
 
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
@@ -118,7 +119,12 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
 CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
-    ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded && s.bMPCThemeFillSeekbarAndVolume) {
+        ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iSeekbarHeight); //expand the toolbar if using "fill" mode
+    } else {
+        ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
+    }
     if (!m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         ret.cy += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
@@ -257,10 +263,19 @@ CRect CPlayerSeekBar::GetChannelRect() const
     if (m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         r.bottom += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
-    //CSize s(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
-    //r.DeflateRect(s.cx, s.cy, s.cx, s.cy);
-    int pad = (r.Height() - m_pMainFrame->m_dpi.ScaleFloorY(AfxGetAppSettings().iSeekbarHeight))/2;
-    r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(8), pad);
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.bMPCThemeLoaded && s.bMPCThemeFillSeekbarAndVolume) { //no thumb so we can use all the space
+        r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(2), m_pMainFrame->m_dpi.ScaleFloorX(2));
+    } else {
+        int useHeight = m_pMainFrame->m_dpi.ScaleFloorX(s.iSeekbarHeight);
+        if (useHeight > r.Height() - m_pMainFrame->m_dpi.ScaleFloorX(2)) { //minimum space to fit dragger and pad toolbar
+            useHeight = r.Height() - m_pMainFrame->m_dpi.ScaleFloorX(2);
+        }
+        int pad = (r.Height() - useHeight) / 2 + m_pMainFrame->m_dpi.ScaleFloorY(SEEK_DRAGGER_OVERLAP);
+        r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(8), pad);
+    }
+
     return r;
 }
 
@@ -269,7 +284,7 @@ CRect CPlayerSeekBar::GetThumbRect() const
     const CRect channelRect(GetChannelRect());
     const long x = channelRect.left + ChannelPointFromPosition(m_rtPos);
     CSize s;
-    s.cy = m_pMainFrame->m_dpi.ScaleFloorY(5);
+    s.cy = m_pMainFrame->m_dpi.ScaleFloorY(SEEK_DRAGGER_OVERLAP);
     s.cx = m_pMainFrame->m_dpi.TransposeScaledY(channelRect.Height()) / 2 + s.cy;
     CRect r(x + 1 - s.cx, channelRect.top - s.cy, x + s.cx, channelRect.bottom + s.cy);
     return r;
@@ -559,13 +574,17 @@ void CPlayerSeekBar::OnPaint()
         {
             if (s.bMPCThemeFillSeekbarAndVolume) {
                 long seekPos = ChannelPointFromPosition(m_rtPos);
-                CRect r, playedRect, unplayedRect;
+                CRect r, playedRect, unplayedRect, curPosRect;
                 playedRect = channelRect;
-                playedRect.right = playedRect.left+seekPos;
+                playedRect.right = playedRect.left + seekPos - m_pMainFrame->m_dpi.ScaleX(2) + 1;
                 dc.FillSolidRect(&playedRect, CMPCTheme::ScrollProgressColor);
                 unplayedRect = channelRect;
-                unplayedRect.left = playedRect.right + 1;
+                unplayedRect.left = playedRect.left + seekPos + m_pMainFrame->m_dpi.ScaleX(2);
                 dc.FillSolidRect(&unplayedRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
+                curPosRect = channelRect;
+                curPosRect.left = playedRect.right;
+                curPosRect.right = unplayedRect.left;
+                dc.FillSolidRect(&curPosRect, CMPCTheme::SeekbarCurrentPositionColor);
             } else {
                 dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
             }
