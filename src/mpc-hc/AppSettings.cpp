@@ -161,8 +161,8 @@ CAppSettings::CAppSettings()
     , bMPCThemeLoaded(false)
     , bWindows10DarkThemeActive(false)
     , bWindows10AccentColorsEnabled(false)
-    , bMPCThemeFillSeekbarAndVolume(true)
-    , iSeekbarHeight(MIN_SEEKBAR_HEIGHT)
+    , bModernSeekbar(true)
+    , iModernSeekbarHeight(MIN_MODERN_SEEKBAR_HEIGHT)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
@@ -877,8 +877,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOUPLOADSUBTITLES, bAutoUploadSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, bPreferHearingImpairedSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEME, bMPCTheme);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, bMPCThemeFillSeekbarAndVolume);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKBARHEIGHT, iSeekbarHeight);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBAR, bModernSeekbar);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, iModernSeekbarHeight);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
@@ -1563,9 +1563,9 @@ void CAppSettings::LoadSettings()
             }
         }
     }
-    bMPCThemeFillSeekbarAndVolume = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEMEFILLSEEKBARANDVOLUME, TRUE);
-    iSeekbarHeight= pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKBARHEIGHT, MIN_SEEKBAR_HEIGHT);
-    if (iSeekbarHeight < MIN_SEEKBAR_HEIGHT || iSeekbarHeight > MAX_SEEKBAR_HEIGHT) iSeekbarHeight = MIN_SEEKBAR_HEIGHT;
+    bModernSeekbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBAR, TRUE);
+    iModernSeekbarHeight= pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, MIN_MODERN_SEEKBAR_HEIGHT);
+    if (iModernSeekbarHeight < MIN_MODERN_SEEKBAR_HEIGHT || iModernSeekbarHeight > MAX_MODERN_SEEKBAR_HEIGHT) iModernSeekbarHeight = DEF_MODERN_SEEKBAR_HEIGHT;
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);

@@ -137,7 +137,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                         dpiWindow.Override(GetSafeHwnd());
 
                         CRect r(pNMCD->rc);
-                        if (!s.bMPCThemeFillSeekbarAndVolume) {
+                        if (!s.bModernSeekbar) {
                             r.DeflateRect(0, dpiWindow.ScaleFloorY(6), 0, dpiWindow.ScaleFloorY(6));
                             dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
                             CBrush fb;
@@ -183,7 +183,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
                     COLORREF light = GetSysColor(COLOR_3DHILIGHT);
                     if (s.bMPCThemeLoaded) {
-                        if (!s.bMPCThemeFillSeekbarAndVolume) {
+                        if (!s.bModernSeekbar) {
                             CBrush fb;
                             if (m_bDrag) {
                                 dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);

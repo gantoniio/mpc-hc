@@ -120,8 +120,8 @@ CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCThemeLoaded && s.bMPCThemeFillSeekbarAndVolume) {
-        ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iSeekbarHeight); //expand the toolbar if using "fill" mode
+    if (s.bMPCThemeLoaded && s.bModernSeekbar) {
+        ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iModernSeekbarHeight); //expand the toolbar if using "fill" mode
     } else {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
     }
@@ -265,15 +265,11 @@ CRect CPlayerSeekBar::GetChannelRect() const
     }
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (s.bMPCThemeLoaded && s.bMPCThemeFillSeekbarAndVolume) { //no thumb so we can use all the space
+    if (s.bMPCThemeLoaded && s.bModernSeekbar) { //no thumb so we can use all the space
         r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(2), m_pMainFrame->m_dpi.ScaleFloorX(2));
     } else {
-        int useHeight = m_pMainFrame->m_dpi.ScaleFloorX(s.iSeekbarHeight);
-        if (useHeight > r.Height() - m_pMainFrame->m_dpi.ScaleFloorX(2)) { //minimum space to fit dragger and pad toolbar
-            useHeight = r.Height() - m_pMainFrame->m_dpi.ScaleFloorX(2);
-        }
-        int pad = (r.Height() - useHeight) / 2 + m_pMainFrame->m_dpi.ScaleFloorY(SEEK_DRAGGER_OVERLAP);
-        r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(8), pad);
+        CSize sz(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
+        r.DeflateRect(sz.cx, sz.cy, sz.cx, sz.cy);
     }
 
     return r;
@@ -521,7 +517,7 @@ void CPlayerSeekBar::OnPaint()
     const CAppSettings& s = AfxGetAppSettings();
     if (s.bMPCThemeLoaded) {
         // Thumb
-        if (!s.bMPCThemeFillSeekbarAndVolume) { //no thumb while showing seek progress
+        if (!s.bModernSeekbar) { //no thumb while showing seek progress
             CRect r(GetThumbRect());
             if (DraggingThumb()) {
                 dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
@@ -572,7 +568,7 @@ void CPlayerSeekBar::OnPaint()
 
         // Channel
         {
-            if (s.bMPCThemeFillSeekbarAndVolume) {
+            if (s.bModernSeekbar) {
                 long seekPos = ChannelPointFromPosition(m_rtPos);
                 CRect r, playedRect, unplayedRect, curPosRect;
                 playedRect = channelRect;
