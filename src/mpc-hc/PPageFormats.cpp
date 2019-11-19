@@ -256,41 +256,6 @@ BOOL CPPageFormats::OnInitDialog()
 
     if (IsWindows8OrGreater()) {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_SHOW);
-#if 0 //what is the purpose of all this code shifting controls by 5 pixels??? maybe to do with extra tall button and aligning better?
-        auto offsetControlBottomRight = [this](int nID, int dx, int dy) {
-            CRect r;
-            GetDlgItem(nID)->GetWindowRect(r);
-            ScreenToClient(r);
-            r.BottomRight().Offset(dx, dy);
-            GetDlgItem(nID)->MoveWindow(r);
-        };
-
-        auto moveControl = [this](int nID, int dx, int dy) {
-            CRect r;
-            GetDlgItem(nID)->GetWindowRect(r);
-            ScreenToClient(r);
-            r.OffsetRect(dx, dy);
-            GetDlgItem(nID)->MoveWindow(r);
-        };
-
-        const int dy = DpiHelper().ScaleY(-5); // TODO: use the helper from parent dialog
-
-        offsetControlBottomRight(IDC_STATIC2, 0, dy);
-        offsetControlBottomRight(IDC_LIST1, 0, dy);
-
-        moveControl(IDC_EDIT1, 0, dy);
-        moveControl(IDC_BUTTON2, 0, dy);
-        moveControl(IDC_BUTTON_EXT_SET, 0, dy);
-
-        CRect r;
-        GetDlgItem(IDC_STATIC3)->GetWindowRect(r);
-        ScreenToClient(r);
-        r.TopLeft().Offset(0, dy);
-        GetDlgItem(IDC_STATIC3)->MoveWindow(r);
-
-        moveControl(IDC_CHECK8, 0, dy);
-        moveControl(IDC_BUTTON1, 0, dy);
-#endif
     } else {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_HIDE);
     }
