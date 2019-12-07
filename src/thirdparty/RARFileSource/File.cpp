@@ -173,7 +173,7 @@ DWORD CRFSFile::ReadThread::ThreadStart() {
     }
 }
 
-DWORD CRFSFile::ReadThread::ThreadStart(void *param) {
+DWORD WINAPI CRFSFile::ReadThread::ThreadStartStatic(void *param) {
     ReadThread* t = (ReadThread*)param;
     if (t) {
         return t->ThreadStart();

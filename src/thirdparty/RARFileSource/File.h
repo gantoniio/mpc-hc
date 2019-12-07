@@ -40,7 +40,7 @@ public:
     public:
         ReadThread(CRFSFile* file, LONGLONG llPosition, DWORD lLength, BYTE* pBuffer);
         DWORD ThreadStart();
-        static DWORD ThreadStart(void* param);
+        static DWORD WINAPI ThreadStartStatic(void* param);
         CRFSFile* file;
         LONGLONG llPosition;
         DWORD lLength;
