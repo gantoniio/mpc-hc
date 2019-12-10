@@ -322,6 +322,8 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
             (*files_found)++;
         }
     } while (MergeArchive(rarArchive, NULL, false, 'E'));
+
+    return S_OK;
 }
 
 /* static */
