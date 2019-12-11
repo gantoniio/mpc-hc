@@ -102,8 +102,34 @@ STDMETHODIMP CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, REC
     return Render(spd, rt, bbox, true);
 }
 
-STDMETHODIMP CPGSSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
-{
+STDMETHODIMP CPGSSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft, SubPicDesc& spd) {
+    const auto& pPresentationSegment = m_pPresentationSegments.GetAt(pos);
+    if (pPresentationSegment) {
+        MaxTextureSize.cx = VideoSize.cx = pPresentationSegment->video_descriptor.nVideoWidth;
+        MaxTextureSize.cy = VideoSize.cy = pPresentationSegment->video_descriptor.nVideoHeight;
+
+        // The subs will be directly rendered into the proper position!
+        VideoTopLeft.x = 0; //pObject->m_horizontal_position;
+        //VideoTopLeft.y = 0; //pObject->m_vertical_position;
+
+        //if vidrect.top > 0 then the video is vertically centered and has black bars. 
+        //we should be able to safely shift the subs down the same amount (vidrect.top=bar width)
+        //assume we don't want to offset further than 33% of the original video frame as subs should typicall fit in that space
+        //scaled to video resolution
+        
+        VideoTopLeft.y = std::min(
+            (LONG)MulDiv(spd.vidrect.top, VideoSize.cy, spd.vidrect.bottom - spd.vidrect.top),
+            VideoSize.cy / 3
+        );
+
+        return S_OK;
+    }
+
+    ASSERT(FALSE);
+    return E_INVALIDARG;
+}
+
+STDMETHODIMP CPGSSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) {
     const auto& pPresentationSegment = m_pPresentationSegments.GetAt(pos);
     if (pPresentationSegment) {
         MaxTextureSize.cx = VideoSize.cx = pPresentationSegment->video_descriptor.nVideoWidth;
@@ -499,7 +525,7 @@ void CPGSSub::RemoveOldSegments(REFERENCE_TIME rt)
 }
 
 STDMETHODIMP CPGSSub::GetRelativeTo(POSITION pos, RelativeTo& relativeTo) {
-    relativeTo = RelativeTo::VIDEO;
+    relativeTo = VIDEO;
     return S_OK;
 }
 

@@ -144,7 +144,8 @@ public IUnknown {
     STDMETHOD_(bool, IsAnimated)(POSITION pos) PURE;
 
     STDMETHOD(Render)(SubPicDesc & spd, REFERENCE_TIME rt, double fps, RECT & bbox) PURE;
-    STDMETHOD(GetTextureSize)(POSITION pos, SIZE & MaxTextureSize, SIZE & VirtualSize, POINT & VirtualTopLeft) PURE;
+    STDMETHOD(GetTextureSize)(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft, SubPicDesc& spd) PURE;
+    STDMETHOD(GetTextureSize)(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) PURE;
     STDMETHOD(GetRelativeTo)(POSITION pos, RelativeTo & relativeTo) PURE;
 };
 
