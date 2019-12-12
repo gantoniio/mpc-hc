@@ -571,13 +571,7 @@ DWORD CSubPicQueue::ThreadProc()
                         POINT   virtualTopLeft;
                         HRESULT hr2;
 
-                        pSubPic.Release();
-                        if (FAILED(m_pAllocator->AllocDynamic(&pSubPic))) break;
-
-                        SubPicDesc spd;
-                        pSubPic->GetDesc(spd);
-
-                        if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(pos, maxTextureSize, virtualSize, virtualTopLeft, spd))) {
+                        if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(pos, maxTextureSize, virtualSize, virtualTopLeft))) {
                             m_pAllocator->SetMaxTextureSize(maxTextureSize);
                         }
 
