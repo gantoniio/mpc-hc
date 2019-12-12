@@ -149,9 +149,9 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
 
             if ((dCRVideoHeight > dCRVideoWidth) != (videoAR > subtitleAR)) {
                 if (dCRVideoHeight > windowRect.Height()) { //this must be letterbox cropped, and the window isn't showing the black bars, so subs could get lost
-                    scaleFactor = (double)windowRect.Height() / m_virtualTextureSize.cy;
-                    offset.y = lround((szVideo.cy - windowRect.Height()) / 2.0);
-                    offset.x += (dCRVideoHeight - windowRect.Height()) * subtitleAR / 2;
+                    scaleFactor = double(windowRect.Height()) / m_virtualTextureSize.cy;
+                    offset.y = lround((szVideo.cy - (long)windowRect.Height()) / 2.0);
+                    offset.x += lround((dCRVideoHeight - windowRect.Height()) * subtitleAR / 2.0);
                 } else {
                     scaleFactor = dCRVideoHeight / m_virtualTextureSize.cy;
                     offset.y = lround((szVideo.cy - dCRVideoHeight) / 2.0);
