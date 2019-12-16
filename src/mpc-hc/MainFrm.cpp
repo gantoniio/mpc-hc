@@ -9993,6 +9993,12 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             // left and top parts are allowed to be negative
             videoRect.left   = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
             videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight);
+            auto align = AfxGetAppSettings().iVerticalAlignVideo;
+            if (align == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
+                videoRect.top -= lround((dWRHeight - dScaledVRHeight) / 2);
+            } else if (align == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
+                videoRect.top += lround((dWRHeight - dScaledVRHeight) / 2);
+            }
             // right and bottom parts are always at picture center or beyond, so never negative
             videoRect.right  = lround(videoRect.left + dScaledVRWidth);
             videoRect.bottom = lround(videoRect.top  + dScaledVRHeight);
