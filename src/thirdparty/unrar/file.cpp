@@ -1,5 +1,4 @@
 #include "rar.hpp"
-#include "rar.hpp"
 
 File::File()
 {
