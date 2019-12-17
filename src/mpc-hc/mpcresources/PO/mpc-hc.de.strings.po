@@ -3932,7 +3932,7 @@ msgid "Align Top"
 msgstr ""
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
-msgid "Align Center"
+msgid "Align Middle"
 msgstr ""
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"

@@ -3804,7 +3804,7 @@ BEGIN
     IDS_YOUTUBEDL_NOT_FOUND "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
     IDS_CONTROLS_YOUTUBEDL  "Calling youtube-dl..."
     IDS_VERTICAL_ALIGN_VIDEO_TOP "Align Top"
-    IDS_VERTICAL_ALIGN_VIDEO_MIDDLE "Align Center"
+    IDS_VERTICAL_ALIGN_VIDEO_MIDDLE "Align Middle"
     IDS_VERTICAL_ALIGN_VIDEO_BOTTOM "Align Bottom"
 END
 
