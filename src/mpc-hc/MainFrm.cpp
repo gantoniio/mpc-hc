@@ -9695,7 +9695,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 {
-    CComQIPtr<ID3DFullscreenControl> pD3DFS;
+        CComQIPtr<ID3DFullscreenControl> pD3DFS;
     if (m_pMFVDC) {
         pD3DFS = m_pMFVDC;
     } else {
@@ -9720,6 +9720,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             m_OSD.SetVideoWindow(m_pVideoWnd);
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+                m_pMFVDC->SetFullscreen(FALSE);
             } else {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
             }
@@ -9730,6 +9731,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
+
             if (m_fFirstFSAfterLaunchOnFS) {
                 if (s.fRememberZoomLevel) {
                     ZoomVideoWindow();
@@ -9758,6 +9760,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             m_OSD.SetVideoWindow(m_pVideoWnd);
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+                m_pMFVDC->SetFullscreen(TRUE);
             } else {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
             }
