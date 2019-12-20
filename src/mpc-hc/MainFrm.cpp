@@ -9695,7 +9695,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 {
-        CComQIPtr<ID3DFullscreenControl> pD3DFS;
+    CComQIPtr<ID3DFullscreenControl> pD3DFS;
     if (m_pMFVDC) {
         pD3DFS = m_pMFVDC;
     } else {
@@ -9731,7 +9731,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
-
             if (m_fFirstFSAfterLaunchOnFS) {
                 if (s.fRememberZoomLevel) {
                     ZoomVideoWindow();
