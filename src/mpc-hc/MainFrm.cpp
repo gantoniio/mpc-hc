@@ -9738,7 +9738,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             }
             MoveVideoWindow();
             m_OSD.EnableShowMessage(true);
-
         } else {
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
@@ -9764,6 +9763,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             }
 
             MoveVideoWindow();
+
             m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
         }
     }
