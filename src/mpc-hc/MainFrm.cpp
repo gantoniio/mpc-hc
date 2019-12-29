@@ -9570,9 +9570,16 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
 
+    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+        BOOL setDisabled = TRUE;
+        ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setDisabled, sizeof(setDisabled));
+    }
+
     if (!m_fFullScreen) {
+
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
         m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
+
 
         if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
@@ -9660,6 +9667,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     m_fFullScreen = !m_fFullScreen;
     s.fLastFullScreen = m_fFullScreen;
 
+
     // Temporarily hide the OSD message if there is one, it will
     // be restored after. This avoid positioning problems.
     m_OSD.HideMessage(true);
@@ -9686,11 +9694,17 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     m_OSD.HideMessage(false);
 
+    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+        RedrawWindow();
+        BOOL setDisabled = FALSE;
+        ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setDisabled, sizeof(setDisabled));
+    }
     if (m_fFullScreen) {
         m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
     } else {
         m_eventc.FireEvent(MpcEvent::SWITCHED_FROM_FULLSCREEN);
     }
+
 }
 
 void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
