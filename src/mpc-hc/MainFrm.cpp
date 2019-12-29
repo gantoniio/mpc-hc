@@ -9695,7 +9695,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     m_OSD.HideMessage(false);
 
     if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
-        RedrawWindow();
+        m_wndView.RedrawWindow(nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
         BOOL setDisabled = FALSE;
         ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setDisabled, sizeof(setDisabled));
     }
