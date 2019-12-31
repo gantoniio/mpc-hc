@@ -34,6 +34,7 @@ CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
     : m_fSelfDrawn(fSelfDrawn)
     ,m_bDrag(false)
     ,m_bHover(false)
+    ,modernStyle(AfxGetAppSettings().bModernSeekbar)
 {
 }
 
@@ -68,7 +69,10 @@ void CVolumeCtrl::SetPosInternal(int pos)
 {
     SetPos(pos);
     GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(pos), SB_THUMBPOSITION), reinterpret_cast<LPARAM>(m_hWnd)); // this will be reflected back on us
-    m_bDrag = true;
+    POINT p;
+    ::GetCursorPos(&p);
+    ScreenToClient(&p);
+    checkHover(p);
 }
 
 void CVolumeCtrl::IncreaseVolume()
@@ -141,7 +145,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                         dpiWindow.Override(GetSafeHwnd());
 
                         CRect r(pNMCD->rc);
-                        if (!s.bModernSeekbar) {
+                        if (!modernStyle) {
                             r.DeflateRect(0, dpiWindow.ScaleFloorY(6), 0, dpiWindow.ScaleFloorY(6));
                             dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
                             CBrush fb;
@@ -189,7 +193,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
                     COLORREF light = GetSysColor(COLOR_3DHILIGHT);
                     if (s.bMPCThemeLoaded) {
-                        if (!s.bModernSeekbar) {
+                        if (!modernStyle) {
                             CBrush fb;
                             if (m_bDrag) {
                                 dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
@@ -236,7 +240,7 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
     GetRange(start, stop);
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (!(s.bMPCThemeLoaded && s.bModernSeekbar)) {
+    if (!(s.bMPCThemeLoaded && modernStyle)) {
         r.left += 3;
         r.right -= 4;
     }
@@ -248,7 +252,7 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
     } else {
         int w = r.right - r.left;
         if (start < stop) {
-            if (!(s.bMPCThemeLoaded && s.bModernSeekbar)) {
+            if (!(s.bMPCThemeLoaded && modernStyle)) {
                 SetPosInternal(start + ((stop - start) * (point.x - r.left) + (w / 2)) / w);
             } else {
                 SetPosInternal(start + lround((stop - start) * float(point.x - r.left) / w));
@@ -256,7 +260,7 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
         }
     }
     m_bDrag = true;
-    if (s.bMPCThemeLoaded && s.bModernSeekbar && m_bDrag) {
+    if (s.bMPCThemeLoaded && modernStyle) {
         if (themedToolTip.m_hWnd) {
             TOOLINFO ti = { sizeof(TOOLINFO) };
             ti.uFlags = TTF_TRACK | TTF_IDISHWND | TTF_ABSOLUTE;
@@ -326,7 +330,7 @@ BOOL CVolumeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
 
 void CVolumeCtrl::invalidateThumb() {
     const CAppSettings& s = AfxGetAppSettings();
-    if (!(s.bMPCThemeLoaded && s.bModernSeekbar)) {
+    if (!(s.bMPCThemeLoaded && modernStyle)) {
         SetRangeMax(100, TRUE);
     }
 }
@@ -390,7 +394,7 @@ void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point) {
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (s.bMPCThemeLoaded && s.bModernSeekbar && m_bDrag) {
+    if (s.bMPCThemeLoaded && modernStyle && m_bDrag) {
         updateModernVolCtrl(point);
     } else {
         CSliderCtrl::OnMouseMove(nFlags, point);
@@ -400,7 +404,7 @@ void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point) {
 
 void CVolumeCtrl::OnLButtonUp(UINT nFlags, CPoint point) {
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCThemeLoaded && s.bModernSeekbar) {
+    if (s.bMPCThemeLoaded && modernStyle) {
         if (m_bDrag) ReleaseCapture();
         m_bDrag = false;
         if (themedToolTip.m_hWnd) {

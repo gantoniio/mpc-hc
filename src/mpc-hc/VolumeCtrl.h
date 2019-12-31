@@ -44,6 +44,7 @@ protected:
     void getCustomChannelRect(LPRECT rc);
     void updateModernVolCtrl(CPoint point);
     bool m_bDrag, m_bHover;
+    bool modernStyle;
     CMPCThemeToolTipCtrl themedToolTip;
 
     DECLARE_MESSAGE_MAP()
