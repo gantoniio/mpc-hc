@@ -185,7 +185,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE_VOID(WM_DISPLAYCHANGE, OnDisplayChange)
     ON_WM_WINDOWPOSCHANGING()
 
-    ON_MESSAGE(0x02E0, OnDpiChanged)
+    ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
 
     ON_WM_SYSCOMMAND()
     ON_WM_ACTIVATEAPP()
@@ -787,6 +787,7 @@ CMainFrame::CMainFrame()
     , watchingFileDialog(false)
     , fileDialogHookHelper(nullptr)
     , delayingFullScreen(false)
+    , restoringWindowRect(false)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -1607,7 +1608,9 @@ LRESULT CMainFrame::OnDpiChanged(WPARAM wParam, LPARAM lParam)
     m_dpi.Override(LOWORD(wParam), HIWORD(wParam));
     m_eventc.FireEvent(MpcEvent::DPI_CHANGED);
     CMPCThemeMenu::clearDimensions();
-    MoveWindow(reinterpret_cast<RECT*>(lParam));
+    if (!restoringWindowRect) { //do not adjust for DPI if restoring saved window position
+        MoveWindow(reinterpret_cast<RECT*>(lParam));
+    }
     RecalcLayout();
     return 0;
 }
@@ -9357,7 +9360,9 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         CRect windowRect(rcLastWindowPos.TopLeft(), windowSize);
         if ((!iMonitor && CMonitors::IsOnScreen(windowRect))
                 || (iMonitor && monitor.IsOnMonitor(windowRect))) {
+            restoringWindowRect = true;
             MoveWindow(windowRect);
+            restoringWindowRect = false;
             bRestoredWindowPosition = true;
         }
     }

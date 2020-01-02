@@ -434,6 +434,7 @@ protected:
     bool m_bFirstPlay;
     bool m_bOpeningInAutochangedMonitorMode;
     bool m_bPausedForAutochangeMonitorMode;
+    bool restoringWindowRect;
 
     bool m_fAudioOnly;
     CString m_LastOpenBDPath;
