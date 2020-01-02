@@ -53,7 +53,6 @@
 #define MIN_FULLSCREEN_DELAY 0
 #define MAX_FULLSCREEN_DELAY 500
 
-
 extern HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper = nullptr);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);

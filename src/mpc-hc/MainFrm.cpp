@@ -9590,7 +9590,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     }
 
     if (!m_fFullScreen) {
-
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
         m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
 
