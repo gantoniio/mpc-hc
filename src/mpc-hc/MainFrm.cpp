@@ -9594,7 +9594,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
         m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
 
-
         if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
             ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
@@ -9680,7 +9679,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     m_fFullScreen = !m_fFullScreen;
     s.fLastFullScreen = m_fFullScreen;
-
 
     // Temporarily hide the OSD message if there is one, it will
     // be restored after. This avoid positioning problems.
