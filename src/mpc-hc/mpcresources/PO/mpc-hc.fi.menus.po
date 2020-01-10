@@ -712,3 +712,4 @@ msgstr "Lahjoita"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "Tietoja..."
+

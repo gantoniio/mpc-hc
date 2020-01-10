@@ -712,3 +712,4 @@ msgstr "&Doniraj"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "O progr&amu..."
+

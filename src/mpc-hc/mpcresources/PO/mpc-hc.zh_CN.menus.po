@@ -712,3 +712,4 @@ msgstr "捐献(&D)"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "关于(&A)..."
+

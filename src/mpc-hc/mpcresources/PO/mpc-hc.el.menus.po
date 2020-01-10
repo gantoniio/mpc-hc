@@ -712,3 +712,4 @@ msgstr "&Δωρεά"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Περί..."
+

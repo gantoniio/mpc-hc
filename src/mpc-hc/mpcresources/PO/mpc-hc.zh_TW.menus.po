@@ -713,3 +713,4 @@ msgstr "捐贈(&D)"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "關於(&A)..."
+

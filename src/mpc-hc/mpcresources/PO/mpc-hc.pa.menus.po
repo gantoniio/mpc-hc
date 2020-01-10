@@ -712,3 +712,4 @@ msgstr "ਦਾਨ ਦਿਓ(&D)"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "...ਇਸ ਬਾਰੇ(&A)"
+

@@ -712,3 +712,4 @@ msgstr "Աջակցեք!"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Ծրագրի մասին..."
+

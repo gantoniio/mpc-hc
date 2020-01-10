@@ -713,3 +713,4 @@ msgstr "&Wspomóż"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&O programie..."
+

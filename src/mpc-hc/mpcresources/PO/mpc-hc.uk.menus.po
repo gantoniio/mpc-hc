@@ -712,3 +712,4 @@ msgstr "Допомогти матеріально"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Про програму..."
+

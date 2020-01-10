@@ -712,3 +712,4 @@ msgstr "寄付(&D)"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "バージョン情報(&A)..."
+

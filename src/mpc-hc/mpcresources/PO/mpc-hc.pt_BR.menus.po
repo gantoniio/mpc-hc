@@ -712,3 +712,4 @@ msgstr "Doar para o projeto"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "Sobre..."
+
