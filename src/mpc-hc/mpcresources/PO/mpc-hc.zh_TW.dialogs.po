@@ -22,6 +22,10 @@ msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
 msgstr "選擇媒體類型"
 
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Select Media Type"
+msgstr ""
+
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
 msgstr "確定"

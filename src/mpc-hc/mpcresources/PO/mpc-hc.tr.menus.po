@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "&Dosya"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "&Hızlı Dosya Aç..."

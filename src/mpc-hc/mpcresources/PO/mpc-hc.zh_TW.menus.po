@@ -22,6 +22,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "檔案(&F)"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "快速開啟檔案(&Q)..."
