@@ -3810,8 +3810,8 @@ msgid "Fetching supported languages..."
 msgstr "S'estan buscant idiomes compatibles..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "No s'ha pogut guardar a \"%S\" amb el nom d'usuari \"%S\".\n\nSi us plau, introdueixi el nom d'usuari i contrasenya correctes o restableixi les credencials per iniciar sessió com a usuari anònim."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "No s'ha pogut guardar a \"%1\" amb el nom d'usuari \"%2\".\n\nSi us plau, introdueixi el nom d'usuari i contrasenya correctes o restableixi les credencials per iniciar sessió com a usuari anònim."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."

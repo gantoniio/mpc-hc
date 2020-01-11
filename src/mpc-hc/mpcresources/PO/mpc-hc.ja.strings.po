@@ -3810,8 +3810,8 @@ msgid "Fetching supported languages..."
 msgstr "サポートされている言語を取得しています..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "\"%S\" にログインできませんでした。( ユーザー名: \"%S\" ) \n\n正しいユーザー名とパスワードを入力するか、匿名ユーザーとしてログインするために資格情報をリセットしてください。"
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "\"%1\" にログインできませんでした。( ユーザー名: \"%2\" ) \n\n正しいユーザー名とパスワードを入力するか、匿名ユーザーとしてログインするために資格情報をリセットしてください。"
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
