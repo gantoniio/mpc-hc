@@ -21,10 +21,6 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Percorso"
 
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "Video"
