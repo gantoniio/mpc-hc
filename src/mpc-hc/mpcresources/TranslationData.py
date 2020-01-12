@@ -113,9 +113,9 @@ class TranslationData:
         line = f.readline()
         if line.startswith(u'#'):
             header = []
-            header.append(line.rstrip(u'\r\n'))
+            header.append(line.rstrip(u'\n'))
             for line in f:
-                line = line.rstrip(u'\r\n')
+                line = line.rstrip(u'\n')
                 header.append(line)
                 if not line:
                     # Ensure a final line-break is added
