@@ -312,7 +312,7 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
                 redirectedToFirstVolume = true;
             }
         } else {
-            break; //we already redirected once, so exit the loop now
+            break; //we have redirected once, or we already have the first volume, so exit the loop now
         }
     } while (redirectedToFirstVolume); //only loop if we are redirecting to the first volume
 
