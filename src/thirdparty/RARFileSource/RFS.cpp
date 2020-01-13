@@ -279,7 +279,10 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
     bool rewound = false;
 
     while (!rarArchive.IsOpened()) {
-        rarArchive.Open(archive_name);
+        if (!rarArchive.Open(archive_name)) {
+            ErrorMsg(GetLastError(), L"Could not open archive.");
+            return E_FAIL;
+        }
 
         if (!rarArchive.IsArchive(false)) {
             ErrorMsg(GetLastError(), L"Could not read RAR header.");
@@ -304,6 +307,7 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
                 *Num-- = L'r';
                 *Num-- = L'a';
                 *Num-- = L'r';
+                *Num = L'.'; //presumably was a 3 char extension if we are here, but set the '.' anyway
                 rarArchive.Close();
                 rewound = true;
             }
