@@ -121,7 +121,10 @@
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>MPCHC_LITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">false</ShowIncludes>
+      <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">
+      </ShowIncludes>
+      <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">
+      </ShowIncludes>
     </ClCompile>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>

@@ -738,6 +738,8 @@ public:
     afx_msg LRESULT OnLoadSubtitles(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnGetSubtitles(WPARAM, LPARAM lParam);
 
+	afx_msg LRESULT OnColorProfileChanged(WPARAM, LPARAM lParam);
+
     // menu item handlers
 
     afx_msg void OnFileOpenQuick();

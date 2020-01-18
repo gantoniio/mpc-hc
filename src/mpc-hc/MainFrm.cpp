@@ -110,6 +110,8 @@
 #include "CMPCThemeDockBar.h"
 #include "CMPCThemeMiniDockFrameWnd.h"
 
+#include "ColorProfileUtil.h"
+
 #include <dwmapi.h>
 #undef SubclassWindow
 
@@ -523,6 +525,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_MESSAGE(WM_LOADSUBTITLES, OnLoadSubtitles)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
+    ON_MESSAGE(WM_COLOR_PROFILE_CHANGED, OnColorProfileChanged)
     ON_WM_DRAWITEM()
     ON_WM_SETTINGCHANGE()
     END_MESSAGE_MAP()
@@ -982,6 +985,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     UpdateSkypeHandler();
 
+	ColorProfileUtil::listenForProfileChange(this);
+
     m_popupMenu.fulfillThemeReqs();
     m_mainPopupMenu.fulfillThemeReqs();
     return 0;
@@ -1016,6 +1021,8 @@ void CMainFrame::OnDestroy()
             TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR);
         }
     }
+
+	ColorProfileUtil::stopListeningForProfileChange();
 
     if (m_pFullscreenWnd) {
         if (m_pFullscreenWnd->IsWindow()) {
@@ -6420,6 +6427,7 @@ void CMainFrame::OnUpdateViewCapture(CCmdUI* pCmdUI)
 void CMainFrame::OnViewDebugShaders()
 {
     auto& dlg = m_pDebugShaders;
+
     if (dlg && !dlg->m_hWnd) {
         // something has destroyed the dialog and we didn't know about it
         dlg = nullptr;
@@ -17301,6 +17309,14 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 
     pSubtitlesInfo->fileContents = UTF16To8(content);
     return TRUE;
+}
+
+LRESULT CMainFrame::OnColorProfileChanged(WPARAM, LPARAM lParam){
+	if (m_fAudioOnly && AfxGetAppSettings().bEnableCoverArt || GetLoadState() != MLS::LOADED) {
+		UpdateControlState(CMainFrame::UPDATE_LOGO);
+	}
+
+	return TRUE;
 }
 
 static const CString ydl_whitelist[] = {
