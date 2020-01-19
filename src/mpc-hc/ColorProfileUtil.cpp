@@ -36,11 +36,11 @@ TCHAR* ColorProfileUtil::getIccProfilePath(HWND wnd) {
 			if (lResult == ERROR_SUCCESS) {
 				TCHAR* tmpProfilePath = DEBUG_NEW TCHAR[icmProfilePathSize + dwKeySize];
 				tmpProfilePath[0] = 0;
-				TCHAR* lastSlash = _tcsrchr(iccProfilePath, _T('\\'));
+				_tcscat_s(tmpProfilePath, icmProfilePathSize + dwKeySize, iccProfilePath);
+				TCHAR* lastSlash = _tcsrchr(tmpProfilePath, _T('\\'));
 				if (lastSlash) {
 					*(lastSlash + 1) = 0; //terminate after slash
 				}
-				_tcscat_s(tmpProfilePath, icmProfilePathSize + dwKeySize, iccProfilePath);
 				_tcscat_s(tmpProfilePath, icmProfilePathSize + dwKeySize, iccFile);
 				delete[] iccProfilePath;
 				iccProfilePath = tmpProfilePath;
