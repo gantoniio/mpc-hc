@@ -9,6 +9,6 @@ namespace Gdiplus { //avoid GDIPLUS min/max issues when including atlimage
 class ColorProfileUtil {
 public:
 	static TCHAR* getIccProfilePath(HWND wnd);
-    static bool applyColorProfile(HWND wnd, CImage &image);
+	static bool applyColorProfile(HWND wnd, CImage &image);
 };
 
