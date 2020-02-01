@@ -389,7 +389,7 @@ bool CMPCThemeUtil::getFixedFont(CFont& font, CDC* pDC)
 
 bool CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underline, bool bold)
 {
-    /* adipose: works poorly for dialogs as they cannot be scaled to fit zoomed fonts, only us for menus and status bars*/
+    /* adipose: works poorly for dialogs as they cannot be scaled to fit zoomed fonts, only use for menus and status bars*/
     NONCLIENTMETRICS m;
     GetMetrics(&m);
 
