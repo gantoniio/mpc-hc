@@ -23,7 +23,6 @@
 #include "mplayerc.h"
 #include "PPageAccelTbl.h"
 #include "AppSettings.h"
-#include "Translations.h"
 
 
 struct APP_COMMAND {
