@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "PPageAccelTbl.h"
 #include "AppSettings.h"
+#include "Translations.h"
 
 
 struct APP_COMMAND {
@@ -1065,7 +1066,8 @@ void  CPPageAccelTbl::FilterList()
 {
     CString filter;
     filterEdit.GetWindowText(filter);
-    filter = NormalizeUnicodeStrForSearch(filter);
+    LANGID langid = AfxGetAppSettings().language;
+    filter = NormalizeUnicodeStrForSearch(filter, langid);
 
     m_list.SetRedraw(false);
     m_list.DeleteAllItems();
@@ -1079,9 +1081,12 @@ void  CPPageAccelTbl::FilterList()
         id.Format(_T("%u"), wc.cmd);
         sname = wc.GetName();
 
-        sname = NormalizeUnicodeStrForSearch(sname);
-        id = NormalizeUnicodeStrForSearch(id);
-        hotkey = NormalizeUnicodeStrForSearch(hotkey);
+        sname = NormalizeUnicodeStrForSearch(sname, langid);
+        id = NormalizeUnicodeStrForSearch(id, langid);
+        hotkey = NormalizeUnicodeStrForSearch(hotkey, langid);
+        if (hotkey.Find(_T("ctrl + m"))!=-1) {
+            int a = 1;
+        }
 
         if (filter.IsEmpty() || sname.Find(filter) != -1 || hotkey.Find(filter) != -1 || id.Find(filter) != -1) {
             int row = m_list.InsertItem(m_list.GetItemCount(), wc.GetName(), COL_CMD);
