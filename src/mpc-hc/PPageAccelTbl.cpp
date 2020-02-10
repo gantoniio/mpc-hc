@@ -1083,9 +1083,6 @@ void  CPPageAccelTbl::FilterList()
         sname = NormalizeUnicodeStrForSearch(sname, langid);
         id = NormalizeUnicodeStrForSearch(id, langid);
         hotkey = NormalizeUnicodeStrForSearch(hotkey, langid);
-        if (hotkey.Find(_T("ctrl + m"))!=-1) {
-            int a = 1;
-        }
 
         if (filter.IsEmpty() || sname.Find(filter) != -1 || hotkey.Find(filter) != -1 || id.Find(filter) != -1) {
             int row = m_list.InsertItem(m_list.GetItemCount(), wc.GetName(), COL_CMD);
