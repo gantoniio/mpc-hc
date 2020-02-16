@@ -312,12 +312,14 @@ void CSubtitleDlDlg::OnCancel()
     ShowWindow(SW_HIDE);
 }
 
-void CSubtitleDlDlg::OnRefresh() {
+void CSubtitleDlDlg::OnRefresh()
+{
     m_list.DeleteAllItems();
     m_pMainFrame->m_pSubtitlesProviders->Search(FALSE);
 }
 
-void CSubtitleDlDlg::OnManualSearch() {
+void CSubtitleDlDlg::OnManualSearch()
+{
     m_list.DeleteAllItems();
     UpdateData(TRUE);
     m_pMainFrame->m_pSubtitlesProviders->ManualSearch(FALSE, manualSearch);
@@ -401,15 +403,16 @@ void CSubtitleDlDlg::OnDestroy()
     RemoveAllAnchors();
 
     const CHeaderCtrl& pHC = *m_list.GetHeaderCtrl();
-    CString strColumnWidth;
-
-    for (int i = 0; i < pHC.GetItemCount(); ++i) {
-        int w = m_list.GetColumnWidth(i);
-        strColumnWidth.AppendFormat(L"%d,", w);
+    if (pHC) {
+        CString strColumnWidth;
+        for (int i = 0; i < pHC.GetItemCount(); ++i) {
+            int w = m_list.GetColumnWidth(i);
+            strColumnWidth.AppendFormat(L"%d,", w);
+        }
+        AfxGetApp()->WriteProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, strColumnWidth);
+        AfxGetApp()->WriteProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN, m_ps.m_nSortColumn);
+        AfxGetApp()->WriteProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTORDER, m_ps.m_fSortOrder);
     }
-    AfxGetApp()->WriteProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, strColumnWidth);
-    AfxGetApp()->WriteProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN, m_ps.m_nSortColumn);
-    AfxGetApp()->WriteProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTORDER, m_ps.m_fSortOrder);
 
     __super::OnDestroy();
 }

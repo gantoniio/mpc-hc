@@ -525,7 +525,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
     ON_WM_DRAWITEM()
     ON_WM_SETTINGCHANGE()
-    END_MESSAGE_MAP()
+END_MESSAGE_MAP()
 
 #ifdef _DEBUG
 const TCHAR* GetEventString(LONG evCode)
@@ -824,7 +824,9 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
-    if (defaultMPCThemeMenu != nullptr) delete defaultMPCThemeMenu;
+    if (defaultMPCThemeMenu != nullptr) {
+        delete defaultMPCThemeMenu;
+    }
 }
 
 int CMainFrame::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
@@ -910,34 +912,44 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     EnableDocking(CBRS_ALIGN_ANY);
 
-    m_wndSubresyncBar.Create(this, AFX_IDW_DOCKBAR_TOP, &m_csSubLock);
-    m_wndSubresyncBar.SetBarStyle(m_wndSubresyncBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndSubresyncBar.EnableDocking(CBRS_ALIGN_ANY);
-    m_wndSubresyncBar.SetHeight(200);
-    m_controls.m_panels[CMainFrameControls::Panel::SUBRESYNC] = &m_wndSubresyncBar;
-
-    m_wndPlaylistBar.Create(this, AFX_IDW_DOCKBAR_BOTTOM);
-    m_wndPlaylistBar.SetBarStyle(m_wndPlaylistBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndPlaylistBar.EnableDocking(CBRS_ALIGN_ANY);
-    m_wndPlaylistBar.SetHeight(100);
-    m_controls.m_panels[CMainFrameControls::Panel::PLAYLIST] = &m_wndPlaylistBar;
-    //m_wndPlaylistBar.LoadPlaylist(GetRecentFile()); //adipose 2019-11-12; do this later after activating the frame
-
-    m_wndEditListEditor.Create(this, AFX_IDW_DOCKBAR_RIGHT);
-    m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndEditListEditor.EnableDocking(CBRS_ALIGN_ANY);
-    m_controls.m_panels[CMainFrameControls::Panel::EDL] = &m_wndEditListEditor;
-    m_wndEditListEditor.SetHeight(100);
-
-    m_wndCaptureBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
-    m_wndCaptureBar.SetBarStyle(m_wndCaptureBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndCaptureBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
-    m_controls.m_panels[CMainFrameControls::Panel::CAPTURE] = &m_wndCaptureBar;
-
-    m_wndNavigationBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
-    m_wndNavigationBar.SetBarStyle(m_wndNavigationBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-    m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
-    m_controls.m_panels[CMainFrameControls::Panel::NAVIGATION] = &m_wndNavigationBar;
+    bResult = m_wndSubresyncBar.Create(this, AFX_IDW_DOCKBAR_TOP, &m_csSubLock);
+    if (bResult) {
+        m_wndSubresyncBar.SetBarStyle(m_wndSubresyncBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+        m_wndSubresyncBar.EnableDocking(CBRS_ALIGN_ANY);
+        m_wndSubresyncBar.SetHeight(200);
+        m_controls.m_panels[CMainFrameControls::Panel::SUBRESYNC] = &m_wndSubresyncBar;
+    }
+    bResult = bResult && m_wndPlaylistBar.Create(this, AFX_IDW_DOCKBAR_BOTTOM);
+    if (bResult) {
+        m_wndPlaylistBar.SetBarStyle(m_wndPlaylistBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+        m_wndPlaylistBar.EnableDocking(CBRS_ALIGN_ANY);
+        m_wndPlaylistBar.SetHeight(100);
+        m_controls.m_panels[CMainFrameControls::Panel::PLAYLIST] = &m_wndPlaylistBar;
+        //m_wndPlaylistBar.LoadPlaylist(GetRecentFile()); //adipose 2019-11-12; do this later after activating the frame
+    }
+    bResult = bResult && m_wndEditListEditor.Create(this, AFX_IDW_DOCKBAR_RIGHT);
+    if (bResult) {
+        m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+        m_wndEditListEditor.EnableDocking(CBRS_ALIGN_ANY);
+        m_controls.m_panels[CMainFrameControls::Panel::EDL] = &m_wndEditListEditor;
+        m_wndEditListEditor.SetHeight(100);
+    }
+    bResult = bResult && m_wndCaptureBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
+    if (bResult) {
+        m_wndCaptureBar.SetBarStyle(m_wndCaptureBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+        m_wndCaptureBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
+        m_controls.m_panels[CMainFrameControls::Panel::CAPTURE] = &m_wndCaptureBar;
+    }
+    bResult = bResult && m_wndNavigationBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
+    if (bResult) {
+        m_wndNavigationBar.SetBarStyle(m_wndNavigationBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+        m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT | CBRS_ALIGN_RIGHT);
+        m_controls.m_panels[CMainFrameControls::Panel::NAVIGATION] = &m_wndNavigationBar;
+    }
+    if (!bResult) {
+        TRACE(_T("Failed to create all dockable bars\n"));
+        return -1;
+    }
 
     // Hide all controls initially
     for (const auto& pair : m_controls.m_toolbars) {
@@ -987,14 +999,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     return 0;
 }
 
-void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct) {
+void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
+{
     if (lpMeasureItemStruct->CtlType == ODT_MENU)  {
         if (CMPCThemeMenu* cm = CMPCThemeMenu::getParentMenu(lpMeasureItemStruct->itemID)) {
             cm->MeasureItem(lpMeasureItemStruct);
             return;
         }
     }
-    
+
     CFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
 }
 
@@ -1248,7 +1261,8 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
     }
 }
 
-void CMainFrame::EnableDocking(DWORD dwDockStyle) {
+void CMainFrame::EnableDocking(DWORD dwDockStyle)
+{
     ASSERT((dwDockStyle & ~(CBRS_ALIGN_ANY | CBRS_FLOAT_MULTI)) == 0);
 
     m_pFloatingFrameClass = RUNTIME_CLASS(CMPCThemeMiniDockFrameWnd);
@@ -1258,8 +1272,8 @@ void CMainFrame::EnableDocking(DWORD dwDockStyle) {
             if (pDock == NULL) {
                 pDock = new CMPCThemeDockBar;
                 if (!pDock->Create(this,
-                    WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CHILD | WS_VISIBLE |
-                    dwDockBarMap[i][1], dwDockBarMap[i][0])) {
+                                   WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CHILD | WS_VISIBLE |
+                                   dwDockBarMap[i][1], dwDockBarMap[i][0])) {
                     AfxThrowResourceException();
                 }
             }
@@ -1784,49 +1798,51 @@ bool g_bExternalSubtitleTime = false;
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
     switch (nIDEvent) {
-    case TIMER_WINDOW_FULLSCREEN:
-        if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
-            BOOL setEnabled = FALSE;
-            ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
-        }
-        KillTimer(TIMER_WINDOW_FULLSCREEN);
-        delayingFullScreen = false;
-        break;
-    case TIMER_STREAMPOSPOLLER:
+        case TIMER_WINDOW_FULLSCREEN:
+            if (AfxGetAppSettings().iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+                BOOL setEnabled = FALSE;
+                ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
+            }
+            KillTimer(TIMER_WINDOW_FULLSCREEN);
+            delayingFullScreen = false;
+            break;
+        case TIMER_STREAMPOSPOLLER:
             if (GetLoadState() == MLS::LOADED) {
                 REFERENCE_TIME rtNow = 0, rtDur = 0;
                 switch (GetPlaybackMode()) {
                     case PM_FILE:
                         g_bExternalSubtitleTime = false;
-                        m_pMS->GetCurrentPosition(&rtNow);
-                        m_pMS->GetDuration(&rtDur);
+                        if (m_pMS) {
+                            m_pMS->GetCurrentPosition(&rtNow);
+                            m_pMS->GetDuration(&rtDur);
 
-                        if (m_bRememberFilePos && !m_fEndOfStream) {
-                            CFilePositionList& fp = AfxGetAppSettings().filePositions;
-                            FILE_POSITION* filePosition = fp.GetLatestEntry();
-                            if (filePosition) {
-                                bool bSave = std::abs(filePosition->llPosition - rtNow) > 300000000;
-                                filePosition->llPosition = rtNow;
-                                if (bSave) {
-                                    fp.SaveLatestEntry();
+                            if (m_bRememberFilePos && !m_fEndOfStream) {
+                                CFilePositionList& fp = AfxGetAppSettings().filePositions;
+                                FILE_POSITION* filePosition = fp.GetLatestEntry();
+                                if (filePosition) {
+                                    bool bSave = std::abs(filePosition->llPosition - rtNow) > 300000000;
+                                    filePosition->llPosition = rtNow;
+                                    if (bSave) {
+                                        fp.SaveLatestEntry();
+                                    }
                                 }
                             }
-                        }
 
-                        // Casimir666 : autosave subtitle sync after play
-                        if (m_nCurSubtitle >= 0 && m_rtCurSubPos != rtNow) {
-                            if (m_lSubtitleShift) {
-                                if (m_wndSubresyncBar.SaveToDisk()) {
-                                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_AG_SUBTITLES_SAVED), 500);
-                                } else {
-                                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_MAINFRM_4));
+                            // Casimir666 : autosave subtitle sync after play
+                            if (m_nCurSubtitle >= 0 && m_rtCurSubPos != rtNow) {
+                                if (m_lSubtitleShift) {
+                                    if (m_wndSubresyncBar.SaveToDisk()) {
+                                        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_AG_SUBTITLES_SAVED), 500);
+                                    } else {
+                                        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_MAINFRM_4));
+                                    }
                                 }
+                                m_nCurSubtitle = -1;
+                                m_lSubtitleShift = 0;
                             }
-                            m_nCurSubtitle = -1;
-                            m_lSubtitleShift = 0;
-                        }
 
-                        m_wndStatusBar.SetStatusTimer(rtNow, rtDur, IsSubresyncBarVisible(), GetTimeFormat());
+                            m_wndStatusBar.SetStatusTimer(rtNow, rtDur, IsSubresyncBarVisible(), GetTimeFormat());
+                        }
                         break;
                     case PM_DVD:
                         g_bExternalSubtitleTime = true;
@@ -1857,7 +1873,9 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             if (m_wndCaptureBar.m_capdlg.m_pMux) {
                                 CComQIPtr<IMediaSeeking> pMuxMS = m_wndCaptureBar.m_capdlg.m_pMux;
                                 if (!pMuxMS || FAILED(pMuxMS->GetCurrentPosition(&rtNow))) {
-                                    m_pMS->GetCurrentPosition(&rtNow);
+                                    if (m_pMS) {
+                                        m_pMS->GetCurrentPosition(&rtNow);
+                                    }
                                 }
                             }
                             if (m_rtDurationOverride >= 0) {
@@ -3064,7 +3082,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             if (s.bMPCThemeLoaded) {
                 CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, (UINT)(ID_PANNSCAN_PRESETS_START + i), true);
                 UINT pos = CMPCThemeMenu::getPosFromID(pPopupMenu, ID_VIEW_RESET); //separator is inserted right before view_reset
-                CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, pos-1);
+                CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, pos - 1);
             }
         }
     }
@@ -4374,7 +4392,7 @@ void CMainFrame::OnFileSaveAs()
         return;
     }
 
-    if (pli->m_bYoutubeDL || in.Find(_T("://")) >=0) {
+    if (pli->m_bYoutubeDL || in.Find(_T("://")) >= 0) {
         // URL
         if (pli->m_bYoutubeDL) {
             out = _T("%(title)s.%(ext)s");
@@ -6450,12 +6468,14 @@ void CMainFrame::OnUpdateViewDebugShaders(CCmdUI* pCmdUI)
     pCmdUI->SetCheck(dlg && dlg->m_hWnd && dlg->IsWindowVisible());
 }
 
-void CMainFrame::OnUpdateViewMPCTheme(CCmdUI* pCmdUI) {
+void CMainFrame::OnUpdateViewMPCTheme(CCmdUI* pCmdUI)
+{
     const CAppSettings& s = AfxGetAppSettings();
     pCmdUI->SetCheck(s.bMPCTheme);
 }
 
-void CMainFrame::OnViewMPCTheme() {
+void CMainFrame::OnViewMPCTheme()
+{
     CAppSettings& s = AfxGetAppSettings();
     s.bMPCTheme = !s.bMPCTheme;
 }
@@ -7405,7 +7425,9 @@ void CMainFrame::OnPlaySeek(UINT nID)
 
     const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
     REFERENCE_TIME rtSeekTo = rtPos + rtJumpDiff;
-    if (rtSeekTo < 0) rtSeekTo = 0;
+    if (rtSeekTo < 0) {
+        rtSeekTo = 0;
+    }
 
     if (s.bFastSeek && !m_kfs.empty()) {
         REFERENCE_TIME rtMaxForwardDiff;
@@ -7465,13 +7487,13 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
             rtMin = rtPos + 10000LL; // at least one millisecond later
             rtMax = GetDur();
             rtTarget = rtMin;
-        }
-        else {
+        } else {
             rtMin = 0;
-            if (GetMediaState() == State_Paused)
+            if (GetMediaState() == State_Paused) {
                 rtMax = rtPos - 10000LL;
-            else
+            } else {
                 rtMax = rtPos - 5000000LL;
+            }
             rtTarget = rtMax;
         }
 
@@ -7899,7 +7921,8 @@ void CMainFrame::OnPlayAudio(UINT nID)
     }
 }
 
-void CMainFrame::OnSubtitlesDefaultStyle(){
+void CMainFrame::OnSubtitlesDefaultStyle()
+{
     CAppSettings& s = AfxGetAppSettings();
     if (!m_pSubStreams.IsEmpty()) {
         s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
@@ -9598,7 +9621,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
 
-    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+    if (s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         BOOL setEnabled = TRUE;
         ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
     }
@@ -9725,11 +9748,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         m_eventc.FireEvent(MpcEvent::SWITCHED_FROM_FULLSCREEN);
     }
 
-    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+    if (s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         UINT_PTR timerID = 0;
-        if (s.iFullscreenDelay > 0) {
-            timerID = SetTimer(TIMER_WINDOW_FULLSCREEN, s.iFullscreenDelay, nullptr);
-        }
+        timerID = SetTimer(TIMER_WINDOW_FULLSCREEN, s.iFullscreenDelay, nullptr);
         if (0 == timerID) {
             BOOL setEnabled = FALSE;
             ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
@@ -10092,9 +10113,13 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             m_pCAP->SetVideoAngle(v);
             UpdateSubAspectRatioCompensation();
         } else  {
-            m_pBV->SetDefaultSourcePosition();
-            m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
-            m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
+            if (m_pBV) {
+                m_pBV->SetDefaultSourcePosition();
+                m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
+            }
+            if (m_pVW) {
+                m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
+            }
 
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoPosition(nullptr, &windowRect);
@@ -10318,7 +10343,9 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
     if (!s.HasFixedWindowSize()) {
         ShowWindow(SW_SHOWNOACTIVATE);
         if (dScale == (double)ZOOM_DEFAULT_LEVEL) {
-            if (s.fRememberWindowSize) return; // ignore default auto-zoom setting
+            if (s.fRememberWindowSize) {
+                return;    // ignore default auto-zoom setting
+            }
             dScale =
                 s.iZoomLevel == 0 ? 0.5 :
                 s.iZoomLevel == 1 ? 1.0 :
@@ -10402,9 +10429,6 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
     LONG width = wa.right - wa.left;
     LONG height = wa.bottom - wa.top;
-    if (bLargerOnly && (arxy.cx + decorationsSize.cx <= width && arxy.cy + decorationsSize.cy <= height)) {
-        return 1.0;
-    }
 
     double sx = ((double)width  * s.nAutoFitFactor / 100 - decorationsSize.cx) / arxy.cx;
     double sy = ((double)height * s.nAutoFitFactor / 100 - decorationsSize.cy) / arxy.cy;
@@ -10416,6 +10440,10 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
     if (sy < 0.0) {
         ASSERT(FALSE);
         sy = 0.0;
+    }
+
+    if (bLargerOnly && sy >= 1.0) {
+        return 1.0;
     }
 
     return sy;
@@ -11965,9 +11993,9 @@ int CMainFrame::SetupSubtitleStreams()
                             auto findCode = [](const CString & name, const CString & code) {
                                 int nPos = code.IsEmpty() ? -1 : name.Find(code);
                                 return nPos == 0 && name.GetLength() == code.GetLength()
-                                    || nPos > 0 && name[nPos - 1] == _T('\t')
-                                    || nPos > 0 && name[nPos - 1] == _T('[') && name.GetLength() >= (nPos + code.GetLength() + 1) && name[nPos + code.GetLength()] == _T(']')
-                                    || nPos > 0 && name[nPos - 1] == _T('.') && name.GetLength() >= (nPos + code.GetLength() + 1) && name[nPos + code.GetLength()] == _T('.');
+                                       || nPos > 0 && name[nPos - 1] == _T('\t')
+                                       || nPos > 0 && name[nPos - 1] == _T('[') && name.GetLength() >= (nPos + code.GetLength() + 1) && name[nPos + code.GetLength()] == _T(']')
+                                       || nPos > 0 && name[nPos - 1] == _T('.') && name.GetLength() >= (nPos + code.GetLength() + 1) && name[nPos + code.GetLength()] == _T('.');
                             };
 
                             // match anything that starts with the language name or that seems to use a code that matches
@@ -15509,17 +15537,21 @@ void CMainFrame::SetColorControl(DWORD flags, int& brightness, int& contrast, in
         ClrValues.Saturation = IntToFixed(saturation + 100, 100);
 
         hr = m_pMFVP->SetProcAmpValues(flags, &ClrValues);
-        
+
     }
     // Workaround: with Intel driver the minimum values of the supported range may not actually work
     if (FAILED(hr)) {
         if (flags & ProcAmp_Brightness) {
             cr = pApp->GetColorControl(ProcAmp_Brightness);
-            if (brightness == cr->MinValue) { brightness = cr->MinValue + 1; }
+            if (brightness == cr->MinValue) {
+                brightness = cr->MinValue + 1;
+            }
         }
         if (flags & ProcAmp_Hue) {
             cr = pApp->GetColorControl(ProcAmp_Hue);
-            if (hue == cr->MinValue) { hue = cr->MinValue + 1; }
+            if (hue == cr->MinValue) {
+                hue = cr->MinValue + 1;
+            }
         }
     }
 }
@@ -16446,14 +16478,16 @@ HRESULT CMainFrame::UpdateThumbnailClip()
     return m_pTaskbarList->SetThumbnailClip(m_hWnd, &r);
 }
 
-BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT & rect, CWnd * pParentWnd, LPCTSTR lpszMenuName, DWORD dwExStyle, CCreateContext * pContext)
+BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, LPCTSTR lpszMenuName, DWORD dwExStyle, CCreateContext* pContext)
 {
-    if (defaultMPCThemeMenu == nullptr) defaultMPCThemeMenu = new CMPCThemeMenu();
+    if (defaultMPCThemeMenu == nullptr) {
+        defaultMPCThemeMenu = new CMPCThemeMenu();
+    }
     if (lpszMenuName != NULL) {
         defaultMPCThemeMenu->LoadMenu(lpszMenuName);
 
         if (!CreateEx(dwExStyle, lpszClassName, lpszWindowName, dwStyle,
-            rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, pParentWnd->GetSafeHwnd(), defaultMPCThemeMenu->m_hMenu, (LPVOID)pContext)) {
+                      rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, pParentWnd->GetSafeHwnd(), defaultMPCThemeMenu->m_hMenu, (LPVOID)pContext)) {
             return FALSE;
         }
         defaultMPCThemeMenu->fulfillThemeReqs(true);
@@ -16463,7 +16497,8 @@ BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwS
     return FALSE;
 }
 
-void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper) {
+void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper)
+{
     if (AfxGetAppSettings().bWindows10DarkThemeActive) { //hard coded behavior for windows 10 dark theme file dialogs, irrespsective of theme loaded by user (fixing windows bugs)
         watchingFileDialog = true;
         fileDialogHookHelper = helper;
@@ -16738,7 +16773,7 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
 
 void CMainFrame::UpdateUILanguage()
 {
-//    CMenu  defaultMenu;
+    //    CMenu  defaultMenu;
     CMenu* oldMenu;
 
     // Destroy the dynamic menus before reloading the main menus
@@ -16969,7 +17004,7 @@ CString CMainFrame::GetFileName()
 {
     CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
     if (pli) {
-        CString path(m_wndPlaylistBar.GetCurFileName());    
+        CString path(m_wndPlaylistBar.GetCurFileName());
         if (!pli->m_bYoutubeDL && m_pFSF) {
             CComHeapPtr<OLECHAR> pFN;
             if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
@@ -17385,7 +17420,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         filenames.RemoveAll();
         if (!v_url.IsEmpty() && (!s.bYDLAudioOnly || a_url.IsEmpty())) {
             filenames.AddTail(v_url);
-            
+
         }
         if (!a_url.IsEmpty()) {
             filenames.AddTail(a_url);
@@ -17434,7 +17469,7 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
     startup_info.cb = sizeof(STARTUPINFO);
 
     if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, false, 0,
-        NULL, NULL, &startup_info, &proc_info)) {
+                       NULL, NULL, &startup_info, &proc_info)) {
         return false;
     }
 
@@ -17444,7 +17479,8 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
     return true;
 }
 
-void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection) {
+void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
+{
     __super::OnSettingChange(uFlags, lpszSection);
     if (SPI_SETNONCLIENTMETRICS == uFlags) {
         CMPCThemeMenu::clearDimensions();
