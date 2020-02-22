@@ -90,6 +90,10 @@ msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
 msgstr "P&roperties"
 
+msgctxt "ID_FILE_OPEN_LOCATION"
+msgid "Open File &Location"
+msgstr ""
+
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
 msgstr "E&xit"
@@ -494,6 +498,30 @@ msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
 msgstr "Cen&tre"
 
+msgctxt "ID_PANSCAN_ROTATEXP"
+msgid "Rotate &X+"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEXM"
+msgid "Rotate X-"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEYP"
+msgid "Rotate &Y+"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEYM"
+msgid "Rotate Y-"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEZP"
+msgid "Rotate &Z+"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEZM"
+msgid "Rotate Z-"
+msgstr ""
+
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
 msgstr "Re&set"
@@ -713,3 +741,4 @@ msgstr "&Donate"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&About..."
+
