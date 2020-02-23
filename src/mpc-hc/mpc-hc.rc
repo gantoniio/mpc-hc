@@ -3869,10 +3869,14 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE     "Loop back to first file in folder after playing the last file."
-    IDS_PPAGEADVANCED_MODERNSEEKBAR             "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
-    IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT       "Modern seekbar height (at 96dpi, otherwise scaled)"
-    IDS_PPAGEADVANCED_FULLSCREEN_DELAY          "Delay before showing fullscreen video, to prevent visual glitches."
+    IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE 
+                            "Loop back to first file in folder after playing the last file."
+    IDS_PPAGEADVANCED_MODERNSEEKBAR 
+                            "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
+    IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT 
+                            "Modern seekbar height (at 96dpi, otherwise scaled)"
+    IDS_PPAGEADVANCED_FULLSCREEN_DELAY 
+                            "Delay before showing fullscreen video, to prevent visual glitches."
 END
 
 #endif    // English (United States) resources
