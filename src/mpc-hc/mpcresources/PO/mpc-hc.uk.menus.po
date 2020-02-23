@@ -89,6 +89,10 @@ msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
 msgstr "В&ластивості"
 
+msgctxt "ID_FILE_OPEN_LOCATION"
+msgid "Open File &Location"
+msgstr ""
+
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
 msgstr "В&ихід"

@@ -89,6 +89,10 @@ msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
 msgstr "প্রোপার্টিস (&R)"
 
+msgctxt "ID_FILE_OPEN_LOCATION"
+msgid "Open File &Location"
+msgstr ""
+
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
 msgstr "প্রোগ্রাম বন্ধ করি (&X)"
