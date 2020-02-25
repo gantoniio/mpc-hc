@@ -1651,7 +1651,7 @@ BEGIN
             MENUITEM "Cen&ter",                     ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
             MENUITEM "Rotate 90 Cloc&kwise",        ID_PANSCAN_ROTATEZM
-            MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZP
+            MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZ270
             MENUITEM SEPARATOR
             MENUITEM "Re&set",                      ID_VIEW_RESET
         END
@@ -1828,7 +1828,7 @@ BEGIN
             MENUITEM "Cen&ter",                     ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
             MENUITEM "Rotate 90 Cloc&kwise",        ID_PANSCAN_ROTATEZM
-            MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZP
+            MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZ270
             MENUITEM SEPARATOR
             MENUITEM "Re&set",                      ID_VIEW_RESET
         END
@@ -2148,7 +2148,7 @@ BEGIN
                 MENUITEM "Cen&ter",                     ID_PANSCAN_CENTER
                 MENUITEM SEPARATOR
                 MENUITEM "Rotate 90 Cloc&kwise",        ID_PANSCAN_ROTATEZM
-                MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZP
+                MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZ270
                 MENUITEM SEPARATOR
                 MENUITEM "Re&set",                      ID_VIEW_RESET
             END
