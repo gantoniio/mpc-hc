@@ -1652,6 +1652,8 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Rotate 90 Cloc&kwise",        ID_PANSCAN_ROTATEZM
             MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZ270
+            MENUITEM "&Flip (x=180)",               ID_PANSCAN_ROTATEXM
+            MENUITEM "&Mirror (y=180)",             ID_PANSCAN_ROTATEYM
             MENUITEM SEPARATOR
             MENUITEM "Re&set",                      ID_VIEW_RESET
         END
@@ -1829,6 +1831,8 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Rotate 90 Cloc&kwise",        ID_PANSCAN_ROTATEZM
             MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZ270
+            MENUITEM "&Flip (x=180)",               ID_PANSCAN_ROTATEXM
+            MENUITEM "&Mirror (y=180)",             ID_PANSCAN_ROTATEYM
             MENUITEM SEPARATOR
             MENUITEM "Re&set",                      ID_VIEW_RESET
         END
@@ -2149,6 +2153,8 @@ BEGIN
                 MENUITEM SEPARATOR
                 MENUITEM "Rotate 90 Cloc&kwise",        ID_PANSCAN_ROTATEZM
                 MENUITEM "Rotate 90 Counter-Clock&wise",ID_PANSCAN_ROTATEZ270
+                MENUITEM "&Flip (x=180)",               ID_PANSCAN_ROTATEXM
+                MENUITEM "&Mirror (y=180)",              ID_PANSCAN_ROTATEYM
                 MENUITEM SEPARATOR
                 MENUITEM "Re&set",                      ID_VIEW_RESET
             END

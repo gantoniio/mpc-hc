@@ -506,6 +506,14 @@ msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate 90 Counter-Clock&wise"
 msgstr ""
 
+msgctxt "ID_PANSCAN_ROTATEXM"
+msgid "&Flip (x=180)"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEYM"
+msgid "&Mirror (y=180)"
+msgstr ""
+
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
 msgstr "重設(&S)"
