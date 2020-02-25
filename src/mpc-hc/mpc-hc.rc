@@ -1650,6 +1650,11 @@ BEGIN
             MENUITEM "Move &Down",                  ID_PANSCAN_MOVEDOWN
             MENUITEM "Cen&ter",                     ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
+            MENUITEM "Rotate Cloc&kwise",           ID_PANSCAN_ROTATEZM
+            MENUITEM "Rotate Counter-Clock&wise",   ID_PANSCAN_ROTATEZ270
+            MENUITEM "&Flip Vertically",            ID_PANSCAN_ROTATEXM
+            MENUITEM "&Mirror",                     ID_PANSCAN_ROTATEYM
+            MENUITEM SEPARATOR
             MENUITEM "Re&set",                      ID_VIEW_RESET
         END
         MENUITEM SEPARATOR
@@ -1823,6 +1828,11 @@ BEGIN
             MENUITEM "Move &Up",                    ID_PANSCAN_MOVEUP
             MENUITEM "Move &Down",                  ID_PANSCAN_MOVEDOWN
             MENUITEM "Cen&ter",                     ID_PANSCAN_CENTER
+            MENUITEM SEPARATOR
+            MENUITEM "Rotate Cloc&kwise",           ID_PANSCAN_ROTATEZM
+            MENUITEM "Rotate Counter-Clock&wise",   ID_PANSCAN_ROTATEZ270
+            MENUITEM "&Flip Vertically",            ID_PANSCAN_ROTATEXM
+            MENUITEM "&Mirror",                     ID_PANSCAN_ROTATEYM
             MENUITEM SEPARATOR
             MENUITEM "Re&set",                      ID_VIEW_RESET
         END
@@ -2140,6 +2150,11 @@ BEGIN
                 MENUITEM "Move &Up",                    ID_PANSCAN_MOVEUP
                 MENUITEM "Move &Down",                  ID_PANSCAN_MOVEDOWN
                 MENUITEM "Cen&ter",                     ID_PANSCAN_CENTER
+                MENUITEM SEPARATOR
+                MENUITEM "Rotate Cloc&kwise",           ID_PANSCAN_ROTATEZM
+                MENUITEM "Rotate Counter-Clock&wise",   ID_PANSCAN_ROTATEZ270
+                MENUITEM "&Flip Vertically",            ID_PANSCAN_ROTATEXM
+                MENUITEM "&Mirror",                     ID_PANSCAN_ROTATEYM
                 MENUITEM SEPARATOR
                 MENUITEM "Re&set",                      ID_VIEW_RESET
             END
