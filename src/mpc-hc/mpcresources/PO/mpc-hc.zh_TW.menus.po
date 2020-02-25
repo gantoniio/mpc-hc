@@ -499,19 +499,19 @@ msgid "Cen&ter"
 msgstr "置中(&T)"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
-msgid "Rotate 90 Cloc&kwise"
+msgid "Rotate Cloc&kwise"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
-msgid "Rotate 90 Counter-Clock&wise"
+msgid "Rotate Counter-Clock&wise"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEXM"
-msgid "&Flip (x=180)"
+msgid "&Flip Vertically"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEYM"
-msgid "&Mirror (y=180)"
+msgid "&Mirror"
 msgstr ""
 
 msgctxt "ID_VIEW_RESET"

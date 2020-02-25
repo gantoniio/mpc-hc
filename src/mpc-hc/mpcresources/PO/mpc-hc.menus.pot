@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-02-25 06:15:36+0000\n"
+"POT-Creation-Date: 2020-02-25 18:25:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -494,19 +494,19 @@ msgid "Cen&ter"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEZM"
-msgid "Rotate 90 Cloc&kwise"
+msgid "Rotate Cloc&kwise"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
-msgid "Rotate 90 Counter-Clock&wise"
+msgid "Rotate Counter-Clock&wise"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEXM"
-msgid "&Flip (x=180)"
+msgid "&Flip Vertically"
 msgstr ""
 
 msgctxt "ID_PANSCAN_ROTATEYM"
-msgid "&Mirror (y=180)"
+msgid "&Mirror"
 msgstr ""
 
 msgctxt "ID_VIEW_RESET"
