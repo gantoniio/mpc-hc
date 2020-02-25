@@ -498,28 +498,12 @@ msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
 msgstr "Középre állítás"
 
-msgctxt "ID_PANSCAN_ROTATEXP"
-msgid "Rotate &X+"
-msgstr ""
-
-msgctxt "ID_PANSCAN_ROTATEXM"
-msgid "Rotate X-"
-msgstr ""
-
-msgctxt "ID_PANSCAN_ROTATEYP"
-msgid "Rotate &Y+"
-msgstr ""
-
-msgctxt "ID_PANSCAN_ROTATEYM"
-msgid "Rotate Y-"
-msgstr ""
-
-msgctxt "ID_PANSCAN_ROTATEZP"
-msgid "Rotate &Z+"
-msgstr ""
-
 msgctxt "ID_PANSCAN_ROTATEZM"
-msgid "Rotate Z-"
+msgid "Rotate 90 Cloc&kwise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEZ270"
+msgid "Rotate 90 Counter-Clock&wise"
 msgstr ""
 
 msgctxt "ID_VIEW_RESET"
