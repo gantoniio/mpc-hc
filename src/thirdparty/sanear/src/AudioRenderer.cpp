@@ -632,12 +632,12 @@ namespace SaneAudioRenderer
         CAutoLock objectLock(this);
         assert(m_device);
 
-		REFERENCE_TIME startTimeOffset;
-		if (m_externalClock) {
-			startTimeOffset = 0;
-		} else {
-			startTimeOffset = m_myClock.GetPrivateTime() - m_startTime;
-		}
+        REFERENCE_TIME startTimeOffset;
+        if (m_externalClock) {
+	        startTimeOffset = 0;
+        } else {
+	        startTimeOffset = m_myClock.GetPrivateTime() - m_startTime;
+        }
 
         REFERENCE_TIME jitter = m_startClockOffset - (startTimeOffset) + m_device->GetPosition();
 
