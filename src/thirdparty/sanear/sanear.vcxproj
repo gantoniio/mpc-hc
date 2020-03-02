@@ -31,7 +31,7 @@
     </When>
     <Otherwise>
       <PropertyGroup>
-        <SanearPlatformPropsPath>..\sanear-platform.props</SanearPlatformPropsPath>
+        <SanearPlatformPropsPath>sanear-platform.props</SanearPlatformPropsPath>
       </PropertyGroup>
     </Otherwise>
   </Choose>
@@ -62,7 +62,7 @@
     </When>
     <Otherwise>
       <PropertyGroup>
-        <SanearPropsPath>..\sanear.props</SanearPropsPath>
+        <SanearPropsPath>sanear.props</SanearPropsPath>
       </PropertyGroup>
     </Otherwise>
   </Choose>
