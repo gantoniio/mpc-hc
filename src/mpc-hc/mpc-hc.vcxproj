@@ -81,7 +81,7 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\DSUtil;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo\library\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -184,6 +184,7 @@
     <ClCompile Include="CMPCThemeStatusBar.cpp" />
     <ClCompile Include="CMPCThemeTabCtrl.cpp" />
     <ClCompile Include="ColorButton.cpp" />
+    <ClCompile Include="ColorProfileUtil.cpp" />
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
     <ClCompile Include="CoverArt.cpp" />
@@ -366,6 +367,7 @@
     <ClInclude Include="CMPCThemeTabCtrl.h" />
     <ClInclude Include="CMPCThemeWin10Api.h" />
     <ClInclude Include="ColorButton.h" />
+    <ClInclude Include="ColorProfileUtil.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
     <ClInclude Include="CoverArt.h" />
@@ -704,7 +706,7 @@
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\sanear\sanear\sanear.vcxproj">
+    <ProjectReference Include="..\thirdparty\sanear\sanear.vcxproj">
       <Project>{bb2b61af-734a-4dad-9326-07f4f9ea088f}</Project>
       <Private>false</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>

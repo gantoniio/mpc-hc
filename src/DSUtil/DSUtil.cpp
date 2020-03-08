@@ -34,6 +34,7 @@
 #include "moreuuids.h"
 #include <dxva.h>
 #include <dxva2api.h>
+#include <locale.h>
 
 int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
 {
@@ -1849,4 +1850,41 @@ void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
 
     r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + ::GetSystemMetrics(SM_CXEDGE) + szText.cx + tm.tmAveCharWidth;
     pComboBox->MoveWindow(r);
+}
+
+CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid) {
+    if (srcStr.IsEmpty()) return srcStr;
+    wchar_t* src;
+
+    _locale_t locale;
+    LCID lcid = MAKELCID(MAKELANGID(langid, SUBLANG_DEFAULT), SORT_DEFAULT);
+    wchar_t localeName[32];
+    if (0 == LCIDToLocaleName(lcid, localeName, 32, LOCALE_ALLOW_NEUTRAL_NAMES)) { //try to lowercase by locale, but if not, do a regular MakeLower()
+        srcStr.MakeLower();
+        src = srcStr.GetBuffer();
+    } else {
+        src = srcStr.GetBuffer();
+        locale = _wcreate_locale(LC_ALL, localeName);
+        _wcslwr_s_l(src, wcslen(src) + 1, locale);
+    }
+
+    int dstLen = wcslen(src) * 4;
+    wchar_t* dest = DEBUG_NEW wchar_t[dstLen];
+
+    int cchActual = NormalizeString(NormalizationKD, src, -1, dest, dstLen);
+    if (cchActual <= 0) dest[0] = 0;
+    WORD* rgType = DEBUG_NEW WORD[dstLen];
+    GetStringTypeW(CT_CTYPE3, dest, -1, rgType);
+    PWSTR pszWrite = dest;
+    for (int i = 0; dest[i]; i++) {
+        if (!(rgType[i] & C3_NONSPACING)) {
+            *pszWrite++ = dest[i];
+        }
+    }
+    *pszWrite = 0;
+    delete[] rgType;
+
+    CString ret = dest;
+    delete[] dest;
+    return ret;
 }

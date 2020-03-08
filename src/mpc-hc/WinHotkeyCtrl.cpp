@@ -137,13 +137,16 @@ void CWinHotkeyCtrl::SetWinHotkey(UINT vkCode, UINT fModifiers)
     UpdateText();
 }
 
-void CWinHotkeyCtrl::DrawButton(CRect rectButton) {
+void CWinHotkeyCtrl::DrawButton(CRect rectButton)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CWindowDC dc(this);
         bool disabled = 0 != (GetStyle() & (ES_READONLY | WS_DISABLED));
         bool selected = GetButtonThemeState() == PBS_PRESSED;
         bool highlighted = GetButtonThemeState() == PBS_HOT;
+        CFont* pOldFont = dc.SelectObject(GetFont());
         CMPCThemeButton::drawButtonBase(&dc, rectButton, GetButtonText(), selected, highlighted, false, disabled, true);
+        dc.SelectObject(pOldFont);
     } else {
         __super::DrawButton(rectButton);
     }
@@ -271,7 +274,7 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd*, CPoint pt)
     }
 
     UINT uMenuID = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERPOSANIMATION | TPM_NONOTIFY | TPM_RETURNCMD,
-                                  pt.x, pt.y, this, nullptr);
+                                       pt.x, pt.y, this, nullptr);
 
     if (uMenuID) {
         switch (uMenuID) {

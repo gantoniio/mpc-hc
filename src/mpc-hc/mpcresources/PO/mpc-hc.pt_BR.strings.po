@@ -2,29 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Alex Luís Silva <alex.mooca@hotmail.com>, 2014-2016
-# Alex Luís Silva <alex.mooca@hotmail.com>, 2014
-# brunoarmanelli <brunoarmanelli@me.com>, 2014
-# Charles Fernando da Silva <eu.charles@hotmail.com>, 2015
-# Edgar Peres <edgarvperes@gmail.com>, 2015
-# Eduardo Addad de Oliveira <duduaddad@gmail.com>, 2016
-# Erick Simões <erick.simoes@yahoo.com.br>, 2014-2015
-# Everton Leite <etcholeite@gmail.com>, 2015-2017
-# Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
-# Roger Filipe Barros <lipe2000@outlook.com>, 2013-2014
-# Luis Henrique <henriqlh@gmail.com>, 2014
-# Matheus Clemente <matheus.xb@gmail.com>, 2015
-# Michael Moser <michi.celin@gmail.com>, 2016
-# mvpetri <mvpetri@gmail.com>, 2014
-# Raphael Mendonça, 2014
-# Underground78, 2014
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
-"PO-Revision-Date: 2017-08-02 00:27+0000\n"
-"Last-Translator: Everton Leite <etcholeite@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
+"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/mpchc/teams/106126/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -914,6 +900,10 @@ msgstr "Reproduzir\nReproduzir"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Pausa\nPausa"
+
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr ""
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -3824,8 +3814,8 @@ msgid "Fetching supported languages..."
 msgstr "Buscando idiomas suportados..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Falha ao acessar \"%S\" com o nome de usuário \"%S\".\n\nPor favor, digite o nome de usuário e senha corretos ou redefina as credenciais para acessar como usuário anônimo."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Falha ao acessar \"%1\" com o nome de usuário \"%2\".\n\nPor favor, digite o nome de usuário e senha corretos ou redefina as credenciais para acessar como usuário anônimo."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -3947,6 +3937,38 @@ msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_USE_YDL"
+msgid "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
+msgid "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT"
+msgid "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_ONLY"
+msgid "Instructs Youtube-DL to prefer an audio-only stream (if available)"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
+msgid "Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
+msgid "Include video position in filename"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
+msgid "Include current time in filename"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
+msgid "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tInicia o modo tela cheia"
@@ -4035,7 +4057,27 @@ msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
 msgstr ""
 
+msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
+msgid "Toggle Default Subtitle Style"
+msgstr ""
+
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
+msgid "Loop back to first file in folder after playing the last file."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
+msgid "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
+msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
+msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr ""
 

@@ -2,14 +2,16 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013-2017
+# MPC HC <adiposegithub@gmail.com>, 2020
+# Dogers <dogers@the-marines.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
-"PO-Revision-Date: 2017-08-01 21:08+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/mpc-hc/mpc-hc/language/en_GB/)\n"
+"POT-Creation-Date: 2020-02-16 05:57:19+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: Dogers <dogers@the-marines.com>, 2020\n"
+"Language-Team: English (United Kingdom) (https://www.transifex.com/mpchc/teams/106126/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -146,15 +148,15 @@ msgstr "Repeat Forever"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
-msgstr ""
+msgstr "Never"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Only when switching different video types"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
-msgstr ""
+msgstr "Always (default)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -170,7 +172,7 @@ msgstr "Never if possible (fastest, but not supported by most filters)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Only when switching different video types"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -602,7 +604,7 @@ msgstr "&Channels"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr ""
+msgstr "MPC Video Renderer"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -638,7 +640,7 @@ msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -654,7 +656,7 @@ msgstr "Only available if you have DirectX 9 installed. Very stable but it will 
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Colour\" desktop colour space recommended."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -670,7 +672,7 @@ msgstr "Same as the normal Null renderer, but this will only connect to uncompre
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -718,7 +720,7 @@ msgstr "Puts VMR-9 (renderless) into mixer mode, this means most of the controls
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
+msgstr "High-quality renderer, requires a GPU that supports D3D9 or later."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -899,6 +901,10 @@ msgstr "Play\nPlay"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Pause\nPause"
+
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr ""
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -2346,7 +2352,7 @@ msgstr "The thumbnails would be too small, impossible to create the file.\n\nTry
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr ""
+msgstr "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -3809,8 +3815,8 @@ msgid "Fetching supported languages..."
 msgstr "Fetching supported languages..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -3902,35 +3908,67 @@ msgstr "/playnext\t\tOpen next file in the folder after playback"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
-msgstr ""
+msgstr "/mute\t\tMute the audio"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tSet Volume, where N is a range from 0 to 100"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-msgstr ""
+msgstr "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
-msgstr ""
+msgstr "Calling youtube-dl..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr ""
+msgstr "Align Top"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
-msgstr ""
+msgstr "Align Middle"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
+msgstr "Align Bottom"
+
+msgctxt "IDS_PPAGEADVANCED_USE_YDL"
+msgid "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
+msgstr "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
+
+msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
+msgid "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
+msgstr "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
+
+msgctxt "IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT"
+msgid "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
+msgstr "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
+
+msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_ONLY"
+msgid "Instructs Youtube-DL to prefer an audio-only stream (if available)"
+msgstr "Instructs Youtube-DL to prefer an audio-only stream (if available)"
+
+msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
+msgid "Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s"
 msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
+msgid "Include video position in filename"
+msgstr "Include video position in filename"
+
+msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
+msgid "Include current time in filename"
+msgstr "Include current time in filename"
+
+msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
+msgid "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
+msgstr "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3998,29 +4036,49 @@ msgstr "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
-msgstr ""
+msgstr "&Abort"
 
 msgctxt "IDS_MESSAGEBOX_RETRY"
 msgid "&Retry"
-msgstr ""
+msgstr "&Retry"
 
 msgctxt "IDS_MESSAGEBOX_IGNORE"
 msgid "&Ignore"
-msgstr ""
+msgstr "&Ignore"
 
 msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
-msgstr ""
+msgstr "&Continue"
+
+msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
+msgid "Toggle Default Subtitle Style"
+msgstr "Toggle Default Subtitle Style"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
-msgstr ""
+msgstr "Toggle Dark Theme"
+
+msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
+msgid "Loop back to first file in folder after playing the last file."
+msgstr "Loop back to first file in folder after playing the last file."
+
+msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
+msgid "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
+msgstr "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
+
+msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
+msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
+msgstr "Modern seekbar height (at 96dpi, otherwise scaled)"
+
+msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
+msgid "Delay before showing fullscreen video, to prevent visual glitches."
+msgstr "Delay before showing fullscreen video, to prevent visual glitches."
 

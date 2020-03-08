@@ -45,8 +45,9 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, C
         AddPage(&m_res);
     }
 
-    if (CPPageFileMediaInfo::HasMediaInfo())
+    if (CPPageFileMediaInfo::HasMediaInfo()) {
         AddPage(&m_mi);
+    }
 }
 
 CPPageFileInfoSheet::~CPPageFileInfoSheet()
@@ -80,6 +81,8 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
     m_Button_MI.ShowWindow(SW_HIDE);
 
     GetTabControl()->SetFocus();
+
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
 
     return FALSE;  // return TRUE unless you set the focus to a control
 }

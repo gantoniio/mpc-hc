@@ -50,7 +50,10 @@ private:
     CImageList m_fakeImageList;
     CMPCThemePlayerListCtrl m_list;
 
-    EventClient m_eventc;
+	int m_itemHeight = 0;
+	bool createdWindow;
+
+	EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 
     int m_nTimeColWidth;
@@ -158,7 +161,7 @@ public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
-    afx_msg void OnLvnBeginlabeleditList(NMHDR * pNMHDR, LRESULT * pResult);
+    afx_msg void OnLvnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnXButtonDown(UINT nFlags, UINT nButton, CPoint point);
     afx_msg void OnXButtonUp(UINT nFlags, UINT nButton, CPoint point);

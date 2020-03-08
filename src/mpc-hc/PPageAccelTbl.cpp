@@ -141,7 +141,8 @@ BOOL CPPageAccelTbl::PreTranslateMessage(MSG* pMsg)
 }
 
 
-void CPPageAccelTbl::SetupList(bool allowResize) {
+void CPPageAccelTbl::SetupList(bool allowResize)
+{
     for (int row = 0; row < m_list.GetItemCount(); row++) {
         wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(row));
 
@@ -947,7 +948,10 @@ BOOL CPPageAccelTbl::OnInitDialog()
 
     //this list was created dynamically but lives in a dialog.  if we don't inherit the parent font,
     //it will be scaled by text zoom settings, which looks bad in an unscaled dialog
-    m_list.SetFont(GetFont());
+    CFont* curDialogFont = GetFont();
+    if (curDialogFont && curDialogFont->m_hObject) {
+        m_list.SetFont(curDialogFont);
+    }
 
     for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
         m_list.DeleteColumn(0);
@@ -1051,15 +1055,18 @@ void CPPageAccelTbl::OnBnClickedReset()
     SetModified();
 }
 
-void CPPageAccelTbl::OnChangeFilterEdit() {
+void CPPageAccelTbl::OnChangeFilterEdit()
+{
     KillTimer(filterTimerID);
     filterTimerID = SetTimer(2, 100, NULL);
 }
 
-void  CPPageAccelTbl::FilterList() {
+void  CPPageAccelTbl::FilterList()
+{
     CString filter;
     filterEdit.GetWindowText(filter);
-    filter.MakeLower();
+    LANGID langid = AfxGetAppSettings().language;
+    filter = NormalizeUnicodeStrForSearch(filter, langid);
 
     m_list.SetRedraw(false);
     m_list.DeleteAllItems();
@@ -1073,9 +1080,9 @@ void  CPPageAccelTbl::FilterList() {
         id.Format(_T("%u"), wc.cmd);
         sname = wc.GetName();
 
-        sname.MakeLower();
-        id.MakeLower();
-        hotkey.MakeLower();
+        sname = NormalizeUnicodeStrForSearch(sname, langid);
+        id = NormalizeUnicodeStrForSearch(id, langid);
+        hotkey = NormalizeUnicodeStrForSearch(hotkey, langid);
 
         if (filter.IsEmpty() || sname.Find(filter) != -1 || hotkey.Find(filter) != -1 || id.Find(filter) != -1) {
             int row = m_list.InsertItem(m_list.GetItemCount(), wc.GetName(), COL_CMD);
@@ -1186,7 +1193,8 @@ void CPPageAccelTbl::OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-int CPPageAccelTbl::CompareFunc(LPARAM lParam1, LPARAM lParam2) {
+int CPPageAccelTbl::CompareFunc(LPARAM lParam1, LPARAM lParam2)
+{
     int result;
 
     CString strItem1 = m_list.GetItemText(static_cast<int>(lParam1), sortColumn);
@@ -1207,12 +1215,14 @@ int CPPageAccelTbl::CompareFunc(LPARAM lParam1, LPARAM lParam2) {
     }
 }
 
-static int CALLBACK StaticCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
-    CPPageAccelTbl *ppAccelTbl = (CPPageAccelTbl*)lParamSort;
+static int CALLBACK StaticCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+    CPPageAccelTbl* ppAccelTbl = (CPPageAccelTbl*)lParamSort;
     return ppAccelTbl->CompareFunc(lParam1, lParam2);
 }
 
-void CPPageAccelTbl::UpdateHeaderSort(int column, int sort) {
+void CPPageAccelTbl::UpdateHeaderSort(int column, int sort)
+{
     CHeaderCtrl* hdr = m_list.GetHeaderCtrl();
     HDITEMW hItem = { 0 };
     hItem.mask = HDI_FORMAT;
@@ -1225,12 +1235,13 @@ void CPPageAccelTbl::UpdateHeaderSort(int column, int sort) {
             hItem.fmt &= ~HDF_SORTUP;
         } else { //no sort
             hItem.fmt &= ~(HDF_SORTUP | HDF_SORTDOWN);
-       }
+        }
         hdr->SetItem(column, &hItem);
     }
 }
 
-void CPPageAccelTbl::OnListColumnClick(NMHDR* pNMHDR, LRESULT* pResult) {
+void CPPageAccelTbl::OnListColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
+{
     NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
     int colToSort = pNMListView->iSubItem;
     if (colToSort == sortColumn) {
@@ -1246,7 +1257,8 @@ void CPPageAccelTbl::OnListColumnClick(NMHDR* pNMHDR, LRESULT* pResult) {
     UpdateHeaderSort(sortColumn, sortDirection);
 }
 
-void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult) {
+void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
+{
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
 

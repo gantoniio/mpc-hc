@@ -38,6 +38,7 @@ CPlayerSubresyncBar::CPlayerSubresyncBar(CMainFrame* pMainFrame)
     , m_lastSegment(-1)
     , m_rt(0)
     , m_mode(NONE)
+	, createdWindow(false)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -70,6 +71,8 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
     m_strNo = m_strNoMenu = ResStr(IDS_SUBRESYNC_NO);
     m_strYes.Remove(_T('&'));
     m_strNo.Remove(_T('&'));
+
+	createdWindow = true;
 
     return TRUE;
 }
@@ -1227,7 +1230,8 @@ void CPlayerSubresyncBar::OnLvnKeydownList(NMHDR* pNMHDR, LRESULT* pResult)
 static CUIntArray m_itemGroups;
 static int m_totalGroups;
 
-void CPlayerSubresyncBar::DoCustomPrePaint() {
+void CPlayerSubresyncBar::DoCustomPrePaint()
+{
     m_itemGroups.SetSize(m_list.GetItemCount());
     m_totalGroups = 0;
     for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
@@ -1238,7 +1242,8 @@ void CPlayerSubresyncBar::DoCustomPrePaint() {
     }
 }
 
-void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) {
+void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk)
+{
     COLORREF fadeText, normalText, activeNormalText, activeFadeText;
     COLORREF bgNormalOdd, bgNormalEven, bgMod, bgAdjust;
     bool useFadeText;
@@ -1264,11 +1269,11 @@ void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLOR
     }
 
     if ((iSubItem == COL_START || iSubItem == COL_END || iSubItem == COL_TEXT || iSubItem == COL_STYLE
-        || iSubItem == COL_LAYER || iSubItem == COL_ACTOR || iSubItem == COL_EFFECT)
-        && m_mode == TEXTSUB) {
+            || iSubItem == COL_LAYER || iSubItem == COL_ACTOR || iSubItem == COL_EFFECT)
+            && m_mode == TEXTSUB) {
         useFadeText = false;
     } else if ((iSubItem == COL_START)
-        && m_mode == VOBSUB) {
+               && m_mode == VOBSUB) {
         useFadeText = false;
     } else {
         useFadeText = true;
@@ -1297,7 +1302,8 @@ void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLOR
     }
 }
 
-void CPlayerSubresyncBar::GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) {
+void CPlayerSubresyncBar::GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor)
+{
     bool bSeparator = nItem < m_list.GetItemCount() - 1 && (m_displayData[nItem + 1].flags & TSEP);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         horzGridColor = bSeparator ? CMPCTheme::SubresyncGridSepColor : CMPCTheme::ListCtrlGridColor;
@@ -1439,8 +1445,19 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
 
 void CPlayerSubresyncBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-    __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
-    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+	__super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+
+	if (createdWindow) {
+		//after creation, measureitem is called once for every window resize.  we will cache the default before DPI scaling
+		if (m_itemHeight == 0) {
+			m_itemHeight = lpMeasureItemStruct->itemHeight;
+		}
+		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
+	} else {
+		//before creation, we must return a valid DPI scaled value, to prevent visual glitches when icon height has been tweaked.
+		//we cannot cache this value as it may be different from that calculated after font has been set
+		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+	}
 }
 
 int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)

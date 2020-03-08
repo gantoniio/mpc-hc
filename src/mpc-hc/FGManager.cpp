@@ -32,7 +32,7 @@
 #include "PathUtils.h"
 #include "SyncAllocatorPresenter.h"
 #include "mplayerc.h"
-#include "sanear/sanear/src/Factory.h"
+#include "sanear/src/Factory.h"
 #include <d3d9.h>
 #include <evr.h>
 #include <evr9.h>
@@ -1384,7 +1384,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_RFS
     if (src[SRC_RFS]) {
         pFGF = DEBUG_NEW CFGFilterInternal<CRARFileSource>();
-        pFGF->m_chkbytes.AddTail(_T("0,7,,526172211A0700"));
+        pFGF->m_chkbytes.AddTail(_T("0,7,,526172211A0700")); //rar4 signature
+        pFGF->m_chkbytes.AddTail(_T("0,8,,526172211A070100")); //rar5 signature
         pFGF->m_extensions.AddTail(_T(".rar"));
         m_source.AddTail(pFGF);
     }

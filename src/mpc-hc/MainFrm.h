@@ -178,6 +178,7 @@ private:
         TIMER_STATS,
         TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS,
         TIMER_32HZ,
+        TIMER_WINDOW_FULLSCREEN,
         TIMER_ONETIME_START,
         TIMER_ONETIME_END = TIMER_ONETIME_START + 127,
     };
@@ -345,6 +346,8 @@ private:
     bool m_bBuffering;
 
     bool m_fLiveWM;
+
+    bool delayingFullScreen;
 
     void SendStatusMessage(CString msg, int nTimeOut);
     CString m_playingmsg, m_closingmsg;
@@ -763,6 +766,7 @@ public:
     afx_msg void OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI);
     afx_msg void OnFileProperties();
     afx_msg void OnUpdateFileProperties(CCmdUI* pCmdUI);
+    afx_msg void OnFileOpenLocation();
     afx_msg void OnFileCloseAndRestore();
     afx_msg void OnFileCloseMedia(); // no menu item
     afx_msg void OnUpdateFileClose(CCmdUI* pCmdUI);
@@ -1044,14 +1048,14 @@ public:
     HRESULT UpdateThumbarButton(MPC_PLAYSTATE iPlayState);
     HRESULT UpdateThumbnailClip();
     BOOL Create(LPCTSTR lpszClassName,
-        LPCTSTR lpszWindowName,
-        DWORD dwStyle = WS_OVERLAPPEDWINDOW,
-        const RECT& rect = rectDefault,
-        CWnd* pParentWnd = NULL,        // != NULL for popups
-        LPCTSTR lpszMenuName = NULL,
-        DWORD dwExStyle = 0,
-        CCreateContext* pContext = NULL);
-    CMPCThemeMenu *defaultMPCThemeMenu = nullptr;
+                LPCTSTR lpszWindowName,
+                DWORD dwStyle = WS_OVERLAPPEDWINDOW,
+                const RECT& rect = rectDefault,
+                CWnd* pParentWnd = NULL,        // != NULL for popups
+                LPCTSTR lpszMenuName = NULL,
+                DWORD dwExStyle = 0,
+                CCreateContext* pContext = NULL);
+    CMPCThemeMenu* defaultMPCThemeMenu = nullptr;
     void enableFileDialogHook(CMPCThemeUtil* helper);
 
 protected:
@@ -1131,5 +1135,5 @@ private:
     HWND fileDialogHandle;
     CMPCThemeUtil* fileDialogHookHelper;
 public:
-	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+    afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 };

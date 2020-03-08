@@ -32,7 +32,7 @@
 #include "WinAPIUtils.h"
 #include "moreuuids.h"
 #include "mplayerc.h"
-#include "../thirdparty/sanear/sanear/src/Factory.h"
+#include "../thirdparty/sanear/src/Factory.h"
 #include <VersionHelpersInternal.h>
 #include <mvrInterfaces.h>
 
@@ -163,6 +163,7 @@ CAppSettings::CAppSettings()
     , bWindows10AccentColorsEnabled(false)
     , bModernSeekbar(true)
     , iModernSeekbarHeight(DEF_MODERN_SEEKBAR_HEIGHT)
+    , iFullscreenDelay(MIN_FULLSCREEN_DELAY)
     , iVerticalAlignVideo(verticalAlignVideoType::ALIGN_MIDDLE)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
@@ -467,6 +468,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_UPLOAD },
     { ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE },
     { ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES },
+    { ID_FILE_OPEN_LOCATION,           VK_F10, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,IDS_AG_OPEN_FILE_LOCATION },
     { ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT },
     { ID_PLAY_PLAYPAUSE,             VK_SPACE, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAYPAUSE,   APPCOMMAND_MEDIA_PLAY_PAUSE, wmcmd::LUP, wmcmd::LUP },
     { ID_PLAY_PLAY,                         0, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAY,        APPCOMMAND_MEDIA_PLAY },
@@ -881,6 +883,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEME, bMPCTheme);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBAR, bModernSeekbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, iModernSeekbarHeight);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_DELAY, iFullscreenDelay);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VERTICALALIGNVIDEO, static_cast<int>(iVerticalAlignVideo));
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
@@ -1556,19 +1559,30 @@ void CAppSettings::LoadSettings()
         if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"), KEY_READ)) {
             DWORD useTheme = -1;
             if (ERROR_SUCCESS == key.QueryDWORDValue(_T("AppsUseLightTheme"), useTheme)) {
-                if (0 == useTheme) bWindows10DarkThemeActive = true;
+                if (0 == useTheme) {
+                    bWindows10DarkThemeActive = true;
+                }
             }
         }
         if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\DWM"), KEY_READ)) {
             DWORD useColorPrevalence = -1;
             if (ERROR_SUCCESS == key.QueryDWORDValue(_T("ColorPrevalence"), useColorPrevalence)) {
-                if (1 == useColorPrevalence) bWindows10AccentColorsEnabled = true;
+                if (1 == useColorPrevalence) {
+                    bWindows10AccentColorsEnabled = true;
+                }
             }
         }
     }
     bModernSeekbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBAR, TRUE);
-    iModernSeekbarHeight= pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, MIN_MODERN_SEEKBAR_HEIGHT);
-    if (iModernSeekbarHeight < MIN_MODERN_SEEKBAR_HEIGHT || iModernSeekbarHeight > MAX_MODERN_SEEKBAR_HEIGHT) iModernSeekbarHeight = DEF_MODERN_SEEKBAR_HEIGHT;
+    iModernSeekbarHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, DEF_MODERN_SEEKBAR_HEIGHT);
+    if (iModernSeekbarHeight < MIN_MODERN_SEEKBAR_HEIGHT || iModernSeekbarHeight > MAX_MODERN_SEEKBAR_HEIGHT) {
+        iModernSeekbarHeight = DEF_MODERN_SEEKBAR_HEIGHT;
+    }
+
+    iFullscreenDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_DELAY, MIN_FULLSCREEN_DELAY);
+    if (iFullscreenDelay < MIN_FULLSCREEN_DELAY || iFullscreenDelay > MAX_FULLSCREEN_DELAY) {
+        iFullscreenDelay = MIN_FULLSCREEN_DELAY;
+    }
 
     int tVertAlign = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VERTICALALIGNVIDEO, static_cast<int>(verticalAlignVideoType::ALIGN_MIDDLE));
     if (tVertAlign < static_cast<int>(verticalAlignVideoType::ALIGN_MIDDLE) || tVertAlign > static_cast<int>(verticalAlignVideoType::ALIGN_BOTTOM)) {
@@ -1890,7 +1904,7 @@ void CAppSettings::LoadSettings()
     bSaveImageCurrentTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, FALSE);
 
     bAllowInaccurateFastseek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, TRUE);
-    bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, FALSE);    
+    bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, FALSE);
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;

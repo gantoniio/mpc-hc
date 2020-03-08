@@ -50,6 +50,9 @@
 #define DEF_MODERN_SEEKBAR_HEIGHT 12
 #define MAX_MODERN_SEEKBAR_HEIGHT 64
 
+#define MIN_FULLSCREEN_DELAY 0
+#define MAX_FULLSCREEN_DELAY 500
+
 extern HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper = nullptr);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
@@ -133,7 +136,7 @@ public:
     CMPlayerCApp();
     ~CMPlayerCApp();
 
-	int DoMessageBox(LPCTSTR lpszPrompt, UINT nType, UINT nIDPrompt);
+    int DoMessageBox(LPCTSTR lpszPrompt, UINT nType, UINT nIDPrompt);
 
     EventRouter m_eventd;
 

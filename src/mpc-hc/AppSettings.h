@@ -22,7 +22,7 @@
 #pragma once
 #include "../Subtitles/STS.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
-#include "../thirdparty/sanear/sanear/src/Interfaces.h"
+#include "../thirdparty/sanear/src/Interfaces.h"
 #include "DVBChannel.h"
 #include "FileAssoc.h"
 #include "FilterEnum.h"
@@ -633,6 +633,7 @@ public:
     bool            bWindows10AccentColorsEnabled;
     bool            bModernSeekbar;
     int             iModernSeekbarHeight;
+    int             iFullscreenDelay;
 
     enum class verticalAlignVideoType {
         ALIGN_MIDDLE,

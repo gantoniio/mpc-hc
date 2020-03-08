@@ -4,8 +4,10 @@
 class CMPCThemeToolTipCtrl;
 
 
-class CMPCThemeToolTipCtrl : public CToolTipCtrl {
-    class CMPCThemeToolTipCtrlHelper : public CWnd {
+class CMPCThemeToolTipCtrl : public CToolTipCtrl
+{
+    class CMPCThemeToolTipCtrlHelper : public CWnd
+    {
     private:
         CMPCThemeToolTipCtrl* tt;
     public:
@@ -19,14 +21,14 @@ class CMPCThemeToolTipCtrl : public CToolTipCtrl {
 
     DECLARE_DYNAMIC(CMPCThemeToolTipCtrl)
 private:
-    bool useFlickerHelper;
+    bool useFlickerHelper, basicMode;
     CMPCThemeToolTipCtrlHelper* helper;
     void makeHelper();
 public:
-	CMPCThemeToolTipCtrl();
-	virtual ~CMPCThemeToolTipCtrl();
+    CMPCThemeToolTipCtrl();
+    virtual ~CMPCThemeToolTipCtrl();
     void enableFlickerHelper();
-	static void drawText(CDC & dc, CMPCThemeToolTipCtrl * tt, CRect & rect, bool calcRect=false);
+    static void drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& rect, bool calcRect = false);
     static void paintTT(CDC& dc, CMPCThemeToolTipCtrl* tt);
     DECLARE_MESSAGE_MAP()
     afx_msg void OnPaint();

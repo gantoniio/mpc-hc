@@ -460,9 +460,6 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 if (*(DWORD*)(LPCSTR)str == 0x75b22630) {
                     return "video/x-ms-wmv";
                 }
-                if (!strncmp((LPCSTR)str + 4, "moov", 4)) {
-                    return "video/quicktime";
-                }
             }
 
             if (redir
@@ -479,46 +476,29 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 }
             }
         }
-    } else if (!fn.IsEmpty()) {
-        FILE* f = nullptr;
-        if (!_tfopen_s(&f, fn, _T("rb"))) {
-            CStringA str;
-            str.ReleaseBufferSetLength((int)fread(str.GetBuffer(10240), 1, 10240, f));
-            body = AToT(str);
-            fclose(f);
-        }
     }
 
     // Try to guess from the extension if we don't have much info yet
     if (!fn.IsEmpty() && (ct.IsEmpty() || ct == _T("text/plain"))) {
         CPath p(fn);
         CString ext = p.GetExtension().MakeLower();
-        if (ext == _T(".asx")) {
-            ct = _T("video/x-ms-asf");
+        if (ext == _T(".mpcpl")) {
+            ct = _T("application/x-mpc-playlist");
         } else if (ext == _T(".pls")) {
             ct = _T("audio/x-scpls");
         } else if (ext == _T(".m3u") || ext == _T(".m3u8")) {
             ct = _T("audio/x-mpegurl");
-        } else if (ext == _T(".qtl")) {
-            ct = _T("application/x-quicktimeplayer");
-        } else if (ext == _T(".mpcpl")) {
-            ct = _T("application/x-mpc-playlist");
-        } else if (ext == _T(".ram")) {
-            ct = _T("audio/x-pn-realaudio");
         } else if (ext == _T(".bdmv")) {
             ct = _T("application/x-bdmv-playlist");
+        } else if (ext == _T(".asx")) {
+            ct = _T("video/x-ms-asf");
+        } else if (ext == _T(".swf")) {
+            ct = _T("application/x-shockwave-flash");
+        } else if (ext == _T(".qtl")) {
+            ct = _T("application/x-quicktimeplayer");
+        } else if (ext == _T(".ram") || ext == _T(".ra")) {
+            ct = _T("audio/x-pn-realaudio");
         }
-    }
-
-    if (body.GetLength() >= 4) { // here only those which cannot be opened through dshow
-        CStringA str = TToA(body);
-        if (!strncmp((LPCSTR)str, ".ra", 3)) {
-            return "audio/x-pn-realaudio";
-        }
-        if (!strncmp((LPCSTR)str, "FWS", 3)) {
-            return "application/x-shockwave-flash";
-        }
-
     }
 
     if (redir && !ct.IsEmpty()) {
@@ -653,7 +633,8 @@ CMPlayerCApp::~CMPlayerCApp()
 }
 
 int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
-    UINT nIDPrompt) {
+                               UINT nIDPrompt)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
 
         CWnd* pParentWnd = CWnd::GetActiveWindow();
@@ -662,7 +643,7 @@ int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
         }
 
         CMPCThemeMsgBox dlgMessage(pParentWnd, lpszPrompt, _T(""), nType,
-            nIDPrompt);
+                                   nIDPrompt);
 
         return (int)dlgMessage.DoModal();
     } else {
@@ -1494,7 +1475,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     bool bHookingSuccessful = MH_Initialize() == MH_OK;
 
-#ifndef _DEBUG 
+#ifndef _DEBUG
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 #endif
 
@@ -1637,8 +1618,7 @@ BOOL CMPlayerCApp::InitInstance()
             if (playlistPath.FileExists()) {
                 try {
                     CFile::Remove(playlistPath);
-                }
-                catch (...) {}
+                } catch (...) {}
             }
         }
     }
@@ -1755,7 +1735,9 @@ BOOL CMPlayerCApp::InitInstance()
                 } else {
                     ASSERT(FALSE);
                 }
-                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd)) {
+                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd) &&
+                    (!(m_s->nCLSwitches & CLSW_ADD) || m_s->nCLSwitches & CLSW_PLAY) //do not restore when adding to playlist of minimized player, unless also playing
+                    ) {
                     ShowWindow(hWnd, SW_RESTORE);
                 }
                 if (SendCommandLine(hWnd)) {
@@ -1831,8 +1813,8 @@ BOOL CMPlayerCApp::InitInstance()
         scroll to the current file in the playlist.  We call after activating
         the frame to fix this issue.
     */
-    pFrame->m_wndPlaylistBar.LoadPlaylist(pFrame->GetRecentFile()); 
-    
+    pFrame->m_wndPlaylistBar.LoadPlaylist(pFrame->GetRecentFile());
+
     pFrame->UpdateWindow();
 
 

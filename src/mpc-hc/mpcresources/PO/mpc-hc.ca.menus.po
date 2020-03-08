@@ -2,22 +2,16 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos, 2015
-# Adolfo Jayme Barrientos, 2015
-# Adolfo Jayme Barrientos, 2014
-# papu, 2014-2016
-# Roger <roger.espolet@gmail.com>, 2016
-# Roger <roger.espolet@gmail.com>, 2016
-# Roger <roger.espolet@gmail.com>, 2017
-# Roger <roger.espolet@gmail.com>, 2016
-# papu, 2014
+# MPC HC <adiposegithub@gmail.com>, 2020
+# Roger Espolet <roger.espolet@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2017-08-13 20:49+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
+"POT-Creation-Date: 2019-08-03 00:05:32+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2020\n"
+"Language-Team: Catalan (https://www.transifex.com/mpchc/teams/106126/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -96,6 +90,10 @@ msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
 msgstr "Pr&opietats"
 
+msgctxt "ID_FILE_OPEN_LOCATION"
+msgid "Open File &Location"
+msgstr ""
+
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
 msgstr "&Surt"
@@ -150,7 +148,7 @@ msgstr "&Depuració dels shaders"
 
 msgctxt "ID_VIEW_MPCTHEME"
 msgid "Dark Theme (restart)"
-msgstr ""
+msgstr "Tema fosc (cal reiniciar)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -499,6 +497,22 @@ msgstr "Mou cap a&vall"
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
 msgstr "Centr&a"
+
+msgctxt "ID_PANSCAN_ROTATEZM"
+msgid "Rotate Cloc&kwise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEZ270"
+msgid "Rotate Counter-Clock&wise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEXM"
+msgid "&Flip Vertically"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEYM"
+msgid "&Mirror"
+msgstr ""
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
