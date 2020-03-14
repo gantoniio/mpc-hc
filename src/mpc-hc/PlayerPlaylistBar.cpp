@@ -387,8 +387,15 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
     std::vector<int> idx;
 
     CWebTextFile f(CTextFile::UTF8);
-    if (!f.Open(fn) || !f.ReadString(str) || str != _T("#EXTM3U")) {
+    if (!f.Open(fn) || !f.ReadString(str)) {
         return false;
+    }
+
+    bool isExt = false;
+    if (str == _T("#EXTM3U")) {
+        isExt = true;
+    } else {
+        f.Seek(0, CFile::SeekPosition::begin);
     }
 
     if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
@@ -400,27 +407,28 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
 
     bool success = false;
 
-    CString lastTitle = _T("");
     while (f.ReadString(str)) {
-        CAtlList<CString> sl;
-        Explode(str, sl, ':', 2);
-        if (sl.GetCount() == 2) {
-            CString key = sl.RemoveHead();
-            CString value = sl.RemoveHead();
-            if (key == _T("#EXTINF")) {
-                int findDelim;
-                if (-1 == (findDelim = value.Find(_T(",")) )) {
-                    continue; //discard invalid EXTINF line
-                }
-                if (f.ReadString(str)) {
-                    pli.m_label = value.Mid(findDelim + 1);
-                    pli.m_fns.RemoveAll();
-                    pli.m_fns.AddTail(str);
-                    m_pl.AddTail(pli);
-                    success = true;
-                    continue;
-                } else {
-                    break; //we could not read any more from the file, so the loop should break (and we have to discard this last EXTINF that has no valid filename)
+        if (isExt) {
+            CAtlList<CString> sl;
+            Explode(str, sl, ':', 2);
+            if (sl.GetCount() == 2) {
+                CString key = sl.RemoveHead();
+                CString value = sl.RemoveHead();
+                if (key == _T("#EXTINF")) {
+                    int findDelim;
+                    if (-1 == (findDelim = value.Find(_T(",")))) {
+                        continue; //discard invalid EXTINF line
+                    }
+                    if (f.ReadString(str)) {
+                        pli.m_label = value.Mid(findDelim + 1);
+                        pli.m_fns.RemoveAll();
+                        pli.m_fns.AddTail(str);
+                        m_pl.AddTail(pli);
+                        success = true;
+                        continue;
+                    } else {
+                        break; //we could not read any more from the file, so the loop should break (and we have to discard this last EXTINF that has no valid filename)
+                    }
                 }
             }
         }
