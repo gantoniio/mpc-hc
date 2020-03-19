@@ -2422,17 +2422,29 @@ void CMainFrame::OnABRepeat(UINT nID) {
             if (nID == ID_PLAY_REPEAT_AB_MARK_A) {
                 if (abRepeatPositionAEnabled) {
                     abRepeatPositionAEnabled = false;
-                } else if (SUCCEEDED(m_pMS->GetCurrentPosition(&abRepeatPositionA)) && abRepeatPositionA > 0) {
-                    abRepeatPositionAEnabled = true;
+                } else if (SUCCEEDED(m_pMS->GetCurrentPosition(&abRepeatPositionA))) {
+                    if (abRepeatPositionA < fileEndPosition) {
+                        abRepeatPositionAEnabled = true;
+                        if (abRepeatPositionBEnabled && abRepeatPositionA >= abRepeatPositionB) {
+                            abRepeatPositionBEnabled = false;
+                            abRepeatPositionB = 0;
+                        }
+                    } else {
+                        abRepeatPositionA = 0;
+                    }
                 }
             } else if (nID == ID_PLAY_REPEAT_AB_MARK_B) {
                 if (abRepeatPositionBEnabled) {
                     abRepeatPositionBEnabled = false;
-                } else if (SUCCEEDED(m_pMS->GetCurrentPosition(&abRepeatPositionB)) && abRepeatPositionB < fileEndPosition) {
-                    abRepeatPositionBEnabled = true;
-                    m_pMS->SetPositions(nullptr, AM_SEEKING_NoPositioning, &abRepeatPositionB, AM_SEEKING_AbsolutePositioning);
-                    if (GetMediaState() == State_Running) {
-                        PerformABRepeat(); //we just set loop point B, so we need to repeat right now
+                } else if (SUCCEEDED(m_pMS->GetCurrentPosition(&abRepeatPositionB))) {
+                    if (abRepeatPositionB > 0 && abRepeatPositionB > abRepeatPositionA && fileEndPosition >= abRepeatPositionB) {
+                        abRepeatPositionBEnabled = true;
+                        m_pMS->SetPositions(nullptr, AM_SEEKING_NoPositioning, &abRepeatPositionB, AM_SEEKING_AbsolutePositioning);
+                        if (GetMediaState() == State_Running) {
+                            PerformABRepeat(); //we just set loop point B, so we need to repeat right now
+                        }
+                    } else {
+                        abRepeatPositionB = 0;
                     }
                 }
             } else { /* ID_PLAY_REPEAT_AB */
