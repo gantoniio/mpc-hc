@@ -23,7 +23,7 @@
 #include "CoverArt.h"
 #include "DSMPropertyBag.h"
 
-CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& path, const CString& author)
+CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& path, const CString& author, bool & isFileArt)
 {
     if (!path.IsEmpty()) {
         CAtlList<CString> files;
@@ -31,8 +31,11 @@ CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& pa
         FindFiles(filename_no_ext + _T(".jp*g"), files);
         FindFiles(filename_no_ext + _T(".bmp"), files);
         if (!files.IsEmpty()) {
+            isFileArt = true;
             return files.GetHead();
         }
+
+        isFileArt = false;
 
         FindFiles(path + _T("\\*front*.png"), files);
         FindFiles(path + _T("\\*front*.jp*g"), files);

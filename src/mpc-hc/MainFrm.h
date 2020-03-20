@@ -376,6 +376,7 @@ private:
 
     CString m_currentCoverAuthor;
     CString m_currentCoverPath;
+    bool currentCoverIsFileArt = false;
 
     CAutoPtr<SkypeMoodMsgHandler> m_pSkypeMoodMsgHandler;
     void SendNowPlayingToSkype();
