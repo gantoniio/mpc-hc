@@ -25,6 +25,7 @@
 
 CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& path, const CString& author, bool & isFileArt)
 {
+    isFileArt = false;
     if (!path.IsEmpty()) {
         CAtlList<CString> files;
         FindFiles(filename_no_ext + _T(".png"), files);
@@ -34,8 +35,6 @@ CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& pa
             isFileArt = true;
             return files.GetHead();
         }
-
-        isFileArt = false;
 
         FindFiles(path + _T("\\*front*.png"), files);
         FindFiles(path + _T("\\*front*.jp*g"), files);
