@@ -73,6 +73,10 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr ""
 
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr ""
+
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "파일"
@@ -131,6 +135,18 @@ msgstr ""
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
 msgstr ""
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
@@ -1857,6 +1873,10 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "MPC-HC 업데이트를 정기적으로 확인하시겠습니까?\n\n이 기능은 기타 옵션 페이지에서 나중에 비활성화 할 수 있습니다."
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr ""
+
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2628,6 +2648,10 @@ msgstr "캡쳐 토글"
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "셰이더 디버그 토글"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr ""
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"

@@ -73,6 +73,10 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "قائمة التشغيل"
 
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr ""
+
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "الملفات"
@@ -132,6 +136,18 @@ msgstr "وضع الإعادة: حسب قائمة التشغيل"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "وضع الإعادة: ملف"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr ""
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -1857,6 +1873,10 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "هل تريد الفحص بشكل دوري على تحديثات MPC-HC؟\n\nيمكن تعطيل هذه الخاصية في وقت لاحق من صفحة الخيارات المتنوعة."
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr ""
+
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2628,6 +2648,10 @@ msgstr "تبديل شريط الالتقاط"
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "تبديل تصحيح المظللات"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr ""
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"

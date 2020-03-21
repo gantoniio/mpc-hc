@@ -494,6 +494,9 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_PLAY_REPEAT_FOREVER,               0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOP_FOREVER },
     { ID_PLAY_REPEAT_ONEFILE,               0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_FILE },
     { ID_PLAY_REPEAT_WHOLEPLAYLIST,         0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_PLAYLIST },
+    { ID_PLAY_REPEAT_AB,                    0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_AB },
+    { ID_PLAY_REPEAT_AB_MARK_A,      VK_OEM_4, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_AB_MARK_A },
+    { ID_PLAY_REPEAT_AB_MARK_B,      VK_OEM_6, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_AB_MARK_B },
     { ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN, wmcmd::X2DOWN },
     { ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN, wmcmd::X1DOWN },
     { ID_NAVIGATE_SKIPFORWARDFILE,    VK_NEXT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_NEXT_FILE },
@@ -518,6 +521,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_VIEW_PRESETS_NORMAL,             '3', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_NORMAL },
     { ID_VIEW_FULLSCREEN,           VK_RETURN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_FULLSCREEN, 0, wmcmd::LDBLCLK, wmcmd::LDBLCLK },
     { ID_VIEW_FULLSCREEN_SECONDARY,    VK_F11, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_39 },
+    { ID_VIEW_ZOOM_25,               VK_OEM_3, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_25 }, /* VK_OEM_3 is `~ on US keyboards*/
     { ID_VIEW_ZOOM_50,                    '1', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_50 },
     { ID_VIEW_ZOOM_100,                   '2', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_100 },
     { ID_VIEW_ZOOM_200,                   '3', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_200 },

@@ -74,6 +74,10 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "Wiedergabeliste"
 
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr ""
+
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "Dateien"
@@ -133,6 +137,18 @@ msgstr "Wiederholung: Wiedergabeliste"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "Wiederholung: Datei"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr ""
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -1858,6 +1874,10 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "Neue Programmversionen können über ein Hinweisfenster umgehend heruntergeladen werden. Die dazu hier getroffene Einstellung lässt sich später jederzeit ändern.\n\nAutomatische Update-Prüfung jetzt aktivieren?"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr ""
+
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50 %"
@@ -2629,6 +2649,10 @@ msgstr "Ansicht: Aufnahme (ein/aus)"
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "Shader-Debugger (ein/aus)"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr ""
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"

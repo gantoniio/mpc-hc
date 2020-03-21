@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-02-25 18:25:51+0000\n"
+"POT-Creation-Date: 2020-03-20 18:57:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,6 +167,10 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&Zoom"
+msgstr ""
+
+msgctxt "ID_VIEW_ZOOM_25"
+msgid "&25%"
 msgstr ""
 
 msgctxt "ID_VIEW_ZOOM_50"
@@ -567,6 +571,18 @@ msgstr ""
 
 msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
 msgid "&Playlist"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_AB"
+msgid "A-B (&Reset)"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
+msgid "A-B (Mark &A)"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
+msgid "A-B (Mark &B)"
 msgstr ""
 
 msgctxt "ID_PLAY_DECRATE"
