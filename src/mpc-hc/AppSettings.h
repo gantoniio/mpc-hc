@@ -636,6 +636,7 @@ public:
     bool            bModernSeekbar;
     int             iModernSeekbarHeight;
     int             iFullscreenDelay;
+    bool            bOSDShowPercent;
 
     enum class verticalAlignVideoType {
         ALIGN_MIDDLE,

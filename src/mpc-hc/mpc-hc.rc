@@ -3913,6 +3913,8 @@ BEGIN
                             "Modern seekbar height (at 96dpi, otherwise scaled)"
     IDS_PPAGEADVANCED_FULLSCREEN_DELAY 
                             "Delay before showing fullscreen video, to prevent visual glitches."
+    IDS_PPAGEADVANCED_OSD_SHOWPERCENT 
+                            "Show percentage complete / remaining instead of time elapsed / remaining."
 END
 
 #endif    // English (United States) resources

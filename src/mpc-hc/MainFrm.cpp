@@ -14460,7 +14460,11 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_wndStatusBar.SetStatusTimer(rtPos, stop, IsSubresyncBarVisible(), GetTimeFormat());
 
         if (bShowOSD) {
-            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+            if (AfxGetAppSettings().bOSDShowPercent) {
+                m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetPercentComplete(), 1500);
+            } else {
+                m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+            }
         }
     }
 

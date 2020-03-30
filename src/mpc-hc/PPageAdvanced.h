@@ -202,7 +202,8 @@ private:
         LOOP_FOLDER_NEXT_FILE,
         MPCTHEME_MODERNSEEKBAR,
         MODERNSEEKBAR_HEIGHT,
-        FULLSCREEN_DELAY
+        FULLSCREEN_DELAY,
+        OSD_SHOWPERCENT
     };
 
     enum {
