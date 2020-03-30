@@ -4106,3 +4106,7 @@ msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr "延後顯示全螢幕視訊，以避免畫面不正常"
 
+msgctxt "IDS_PPAGEADVANCED_OSD_SHOWPERCENT"
+msgid "Show percentage complete / remaining instead of time elapsed / remaining."
+msgstr ""
+
