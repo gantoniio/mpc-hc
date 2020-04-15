@@ -146,7 +146,7 @@ void CMPCThemeMenu::fulfillThemeReqs(bool isMenubar)
         int iMaxItems = GetMenuItemCount();
         for (int i = 0; i < iMaxItems; i++) {
             CString nameHolder;
-            MenuObject* pObject = new MenuObject;
+            MenuObject* pObject = DEBUG_NEW MenuObject;
             allocatedItems.push_back(pObject);
             pObject->m_hIcon = NULL;
             pObject->isMenubar = isMenubar;
