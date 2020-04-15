@@ -1912,7 +1912,6 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
-    UnloadASS();
     Empty();
 }
 /*
@@ -2022,6 +2021,7 @@ void CSimpleTextSubtitle::Empty()
     m_styles.Free();
     m_segments.RemoveAll();
     RemoveAll();
+    UnloadASS();
 }
 
 static bool SegmentCompStart(const STSSegment& segment, REFERENCE_TIME start)
