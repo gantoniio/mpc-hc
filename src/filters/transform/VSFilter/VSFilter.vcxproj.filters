@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\..\mpc-hc\ColorButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mpc-hc\CMPCTheme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VSFilter.def">
