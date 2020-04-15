@@ -152,6 +152,9 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 
                 pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
             }
+
+            pRTS->m_pPin = pReceivePin;
+            pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset);
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {
                 return E_FAIL;
@@ -435,7 +438,10 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
+
+            LPCSTR data = (LPCSTR)pSample->data.data();
+            int dataSize = (int)pSample->data.size();
+            CStringW str = UTF8To16(CStringA(data, dataSize));
             FastTrim(str);
             if (!str.IsEmpty()) {
                 STSEntry stse;
@@ -463,6 +469,10 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                     pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
                               stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
                     bInvalidate = true;
+                }
+
+                if (pRTS->m_assloaded) {
+                    ass_process_chunk(pRTS->m_track.get(), (char*)data, dataSize, pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
                 }
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {

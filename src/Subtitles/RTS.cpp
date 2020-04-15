@@ -26,6 +26,7 @@
 #include "ColorConvTable.h"
 #include "RTS.h"
 #include "../DSUtil/PathUtils.h"
+#include <ppl.h>
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -2948,8 +2949,81 @@ struct LSub {
     }
 };
 
+namespace {
+    inline POINT GetRectPos(RECT rect) {
+        return { rect.left, rect.top };
+    }
+
+    inline SIZE GetRectSize(RECT rect) {
+        return { rect.right - rect.left, rect.bottom - rect.top };
+    }
+}
+
+void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect &rcDirty) {
+    if (image) {
+        RECT pRect = { 0 };
+        for (auto i = image; i != nullptr; i = i->next) {
+            RECT rect1 = pRect;
+            RECT rect2 = { i->dst_x, i->dst_y, i->dst_x + i->w, i->dst_y + i->h };
+            UnionRect(&pRect, &rect1, &rect2);
+        }
+
+        const POINT pixelsPoint = GetRectPos(pRect);
+        const SIZE pixelsSize = GetRectSize(pRect);
+        rcDirty.IntersectRect(CRect(pixelsPoint, pixelsSize), CRect(0, 0, spd.w, spd.h));
+
+        BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
+
+        for (auto i = image; i != nullptr; i = i->next) {
+            concurrency::parallel_for(0, i->h, [&](int y)
+                {
+                    for (int x = 0; x < i->w; ++x) {
+                        BYTE* dst = &pixelBytes[((ptrdiff_t)i->dst_y + y - pixelsPoint.y) * spd.pitch + ((ptrdiff_t)i->dst_x + x - pixelsPoint.x) * 4];
+
+                        uint32_t srcA = (i->bitmap[y * i->stride + x] * (0xff - (i->color & 0x000000ff))) >> 8;
+                        uint32_t compA = 0xff - srcA;
+
+                        dst[3] = srcA + ((dst[3] * compA) >> 8); //A
+                        dst[2] = (((i->color & 0xff000000) >> 24) * srcA + (dst[2]) * compA) >> 8; //R
+                        dst[1] = (((i->color & 0x00ff0000) >> 16) * srcA + dst[1] * compA) >> 8; //G
+                        dst[0] = (((i->color & 0x0000ff00) >> 8) * srcA + dst[0] * compA) >> 8; //B
+
+                    }
+                }, concurrency::static_partitioner());
+        }
+    }
+}
+
 STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
+
+    if (m_assloaded) {
+        if (spd.bpp != 32) {
+            ASSERT(FALSE);
+            return E_INVALIDARG;
+        }
+
+        if (!m_assfontloaded) {
+            LoadASSFont(m_pPin, m_ass.get(), m_renderer.get());
+            m_assfontloaded = true;
+        }
+
+        ass_set_frame_size(m_renderer.get(), spd.w, spd.h);
+
+        int changed = 1;
+        ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), rt / 10000, &changed);
+
+        if (!image) {
+            return E_FAIL;
+        }
+
+        CRect rcDirty;
+        AssFlatten(image, spd, rcDirty);
+
+        bbox = rcDirty;
+        return S_OK;
+    }
+
     CRect bbox2(0, 0, 0, 0);
 
     if (m_size != CSize(spd.w * 8, spd.h * 8) || m_vidrect != CRect(spd.vidrect.left * 8, spd.vidrect.top * 8, spd.vidrect.right * 8, spd.vidrect.bottom * 8)) {

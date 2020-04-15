@@ -25,6 +25,7 @@
 #include <array>
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
+#include "ass.hpp"
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
 
@@ -218,6 +219,19 @@ public:
 
     void SetStr(int i, CStringA str, bool fUnicode /* ignored */);
     void SetStr(int i, CStringW str, bool fUnicode);
+public:
+    IPin* m_pPin;
+    bool LoadASSFile();
+    bool LoadASSTrack(char* data, int size);
+    void UnloadASS();
+    void LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer* renderer);
+    IFilterGraph* m_pGraph;
+    void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
+    bool m_assloaded;
+    bool m_assfontloaded;
+    std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
+    std::unique_ptr<ASS_Renderer, ASS_RendererDeleter> m_renderer;
+    std::unique_ptr<ASS_Track, ASS_TrackDeleter> m_track;
 };
 
 extern const BYTE CharSetList[];
