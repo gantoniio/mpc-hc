@@ -321,6 +321,12 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
         return RFS_E_ENCRYPTED;
     }
 
+    MediaType* mType;
+    CRFSList<MediaType> mediaTypeList(true);
+    if (getMediaTypeList(&mediaTypeList) == -1) {
+        return E_OUTOFMEMORY;
+    }
+
     size_t bytesRead;
     do {
         rarArchive.Seek(rarArchive.NextBlockPos, SEEK_SET); //when switching volumes, we may find ourselves mid-block. works first time as well
@@ -350,9 +356,16 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
             wcscpy(rfname, rarArchive.FileName);
             file->rarFilename = rfname;
             file->startingBlockPos = rarArchive.CurBlockPos;
-            file_list->InsertLast(file);
-            (*ok_files_found)++;
             (*files_found)++;
+            if (!checkFileForMediaType(file, &mediaTypeList, &mType)) {
+                return E_OUTOFMEMORY;
+            }
+            if (mType) {
+                file->media_type.SetType(&mType->majorType);
+                file->media_type.SetSubtype(&mType->subType);
+                file_list->InsertLast(file);
+                (*ok_files_found)++;
+            }
             rarArchive.Seek(rarArchive.NextBlockPos, SEEK_SET); //seek to next block before continuing
         }
     } while (MergeArchive(rarArchive, NULL, false, 'E'));
