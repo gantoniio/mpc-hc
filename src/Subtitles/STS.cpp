@@ -30,8 +30,10 @@
 
 #include "../DSUtil/PathUtils.h"
 #include "../DSUtil/DSMPropertyBag.h"
+#include "../DSUtil/DSUtil.h"
 #include  <comutil.h>
 #include <regex>
+#include "SSASub.h"
 
 struct htmlcolor {
     LPCTSTR name;
@@ -245,6 +247,15 @@ const TCHAR* CharSetNames[] = {
 const int CharSetLen = _countof(CharSetList);
 
 //
+
+static size_t CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to, CString s = _T("")) {
+    size_t n = 0;
+    f->Seek(from, CFile::begin);
+    while (f->ReadString(s) && f->GetPosition() < to) {
+        n++;
+    }
+    return n;
+}
 
 static int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 {
@@ -1912,6 +1923,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
+    UnloadASS();
     Empty();
 }
 /*
@@ -1932,6 +1944,7 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 {
     if (this != &sts) {
         Empty();
+        UnloadASS();
 
         m_name = sts.m_name;
         m_mode = sts.m_mode;
@@ -2021,7 +2034,6 @@ void CSimpleTextSubtitle::Empty()
     m_styles.Free();
     m_segments.RemoveAll();
     RemoveAll();
-    UnloadASS();
 }
 
 static bool SegmentCompStart(const STSSegment& segment, REFERENCE_TIME start)
@@ -2690,6 +2702,7 @@ void CSimpleTextSubtitle::CreateSegments()
 bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString videoName)
 {
     Empty();
+    UnloadASS();
 
     CWebTextFile f(CTextFile::UTF8);
     if (!f.Open(fn)) {
@@ -2701,15 +2714,91 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString vi
         name = guessed;
     }
 
-    if (lstrcmpi(PathFindExtensionW(fn), L".ass") == 0 || lstrcmpi(PathFindExtensionW(fn), L".ssa") == 0) {
-        m_path = f.GetFilePath();
-        LoadASSFile();
-    }
-
     return Open(&f, CharSet, name);
 }
 
-bool CSimpleTextSubtitle::LoadASSFile() {
+bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
+    Empty();
+    UnloadASS();
+
+    
+    if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ass") == 0 || lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ssa") == 0) {
+        m_path = f->GetFilePath();
+        LoadASSFile(Subtitle::SubType::SSA);
+        m_subtitleType = Subtitle::SubType::SSA;
+        OpenSubStationAlpha(f, *this, CharSet);
+    } else if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".srt") == 0) {
+        m_path = f->GetFilePath();
+        LoadASSFile(Subtitle::SubType::SRT);
+        m_subtitleType = Subtitle::SubType::SRT;
+        OpenSubRipper(f, *this, CharSet);
+    }
+        
+    if (m_assloaded) {
+        m_name = name;
+        m_encoding = f->GetEncoding();
+        m_mode = TIME;
+        m_path = f->GetFilePath();
+
+        CreateDefaultStyle(CharSet);
+
+        ChangeUnknownStylesToDefault();
+
+        if (m_dstScreenSize == CSize(0, 0)) {
+            m_dstScreenSize = CSize(384, 288);
+        }
+        return true;
+    }
+    
+
+    ULONGLONG pos = f->GetPosition();
+
+    for (ptrdiff_t i = 0; i < nOpenFuncts; i++) {
+        if (!OpenFuncts[i].open(f, *this, CharSet)) {
+            if (!IsEmpty()) {
+                CString lastLine;
+                size_t n = CountLines(f, pos, f->GetPosition(), lastLine);
+                CString msg;
+                msg.Format(_T("Unable to parse the subtitle file. Syntax error at line %Iu:\n\"%s\""), n + 1, lastLine.GetString());
+                AfxMessageBox(msg, MB_OK | MB_ICONERROR);
+                Empty();
+                break;
+            }
+
+            f->Seek(pos, CFile::begin);
+            Empty();
+            continue;
+        }
+
+        m_name = name;
+        m_subtitleType = OpenFuncts[i].type;
+        m_mode = OpenFuncts[i].mode;
+        m_encoding = f->GetEncoding();
+        m_path = f->GetFilePath();
+
+        // No need to call Sort() or CreateSegments(), everything is done on the fly
+
+        CWebTextFile f2(CTextFile::UTF8);
+        if (f2.Open(f->GetFilePath() + _T(".style"))) {
+            OpenSubStationAlpha(&f2, *this, CharSet);
+        }
+
+        CreateDefaultStyle(CharSet);
+
+        ChangeUnknownStylesToDefault();
+
+        if (m_dstScreenSize == CSize(0, 0)) {
+            m_dstScreenSize = CSize(384, 288);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     UnloadASS();
     m_assfontloaded = false;
 
@@ -2717,7 +2806,19 @@ bool CSimpleTextSubtitle::LoadASSFile() {
 
     m_ass = decltype(m_ass)(ass_library_init());
     m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
-    m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), "UTF-8"));
+
+    AssFSettings settings;
+    if (subType == Subtitle::SRT) {
+        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), GetACP(), settings));
+        if (m_dstScreenSize == CSize(0, 0)) {
+            m_dstScreenSize = CSize(settings.SrtResX, settings.SrtResY);
+        }
+    } else { //subType == Subtitle::SSA/ASS
+        m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), "UTF-8"));
+        if (m_dstScreenSize == CSize(0, 0)) {
+            m_dstScreenSize = CSize(settings.SrtResX, settings.SrtResY);
+        }
+    }
 
     if (!m_track) return false;
 
@@ -2775,66 +2876,6 @@ void CSimpleTextSubtitle::UnloadASS() {
     if (m_track) m_track.reset();
     if (m_renderer) m_renderer.reset();
     if (m_ass) m_ass.reset();
-}
-
-static size_t CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to, CString s = _T(""))
-{
-    size_t n = 0;
-    f->Seek(from, CFile::begin);
-    while (f->ReadString(s) && f->GetPosition() < to) {
-        n++;
-    }
-    return n;
-}
-
-bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
-{
-    Empty();
-
-    ULONGLONG pos = f->GetPosition();
-
-    for (ptrdiff_t i = 0; i < nOpenFuncts; i++) {
-        if (!OpenFuncts[i].open(f, *this, CharSet)) {
-            if (!IsEmpty()) {
-                CString lastLine;
-                size_t n = CountLines(f, pos, f->GetPosition(), lastLine);
-                CString msg;
-                msg.Format(_T("Unable to parse the subtitle file. Syntax error at line %Iu:\n\"%s\""), n + 1, lastLine.GetString());
-                AfxMessageBox(msg, MB_OK | MB_ICONERROR);
-                Empty();
-                break;
-            }
-
-            f->Seek(pos, CFile::begin);
-            Empty();
-            continue;
-        }
-
-        m_name = name;
-        m_subtitleType = OpenFuncts[i].type;
-        m_mode = OpenFuncts[i].mode;
-        m_encoding = f->GetEncoding();
-        m_path = f->GetFilePath();
-
-        // No need to call Sort() or CreateSegments(), everything is done on the fly
-
-        CWebTextFile f2(CTextFile::UTF8);
-        if (f2.Open(f->GetFilePath() + _T(".style"))) {
-            OpenSubStationAlpha(&f2, *this, CharSet);
-        }
-
-        CreateDefaultStyle(CharSet);
-
-        ChangeUnknownStylesToDefault();
-
-        if (m_dstScreenSize == CSize(0, 0)) {
-            m_dstScreenSize = CSize(384, 288);
-        }
-
-        return true;
-    }
-
-    return false;
 }
 
 bool CSimpleTextSubtitle::Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid)

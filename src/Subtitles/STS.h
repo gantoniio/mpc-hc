@@ -25,7 +25,7 @@
 #include <array>
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
-#include "ass.hpp"
+#include "SSASub.h"
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
 
@@ -221,7 +221,7 @@ public:
     void SetStr(int i, CStringW str, bool fUnicode);
 public:
     IPin* m_pPin;
-    bool LoadASSFile();
+    bool LoadASSFile(Subtitle::SubType subType);
     bool LoadASSTrack(char* data, int size);
     void UnloadASS();
     void LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer* renderer);
