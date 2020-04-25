@@ -1923,7 +1923,9 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
+#if USE_LIBASS
     UnloadASS();
+#endif
     Empty();
 }
 /*
@@ -1944,7 +1946,9 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 {
     if (this != &sts) {
         Empty();
+#if USE_LIBASS
         UnloadASS();
+#endif
 
         m_name = sts.m_name;
         m_mode = sts.m_mode;
@@ -2702,7 +2706,9 @@ void CSimpleTextSubtitle::CreateSegments()
 bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString videoName)
 {
     Empty();
+#if USE_LIBASS
     UnloadASS();
+#endif
 
     CWebTextFile f(CTextFile::UTF8);
     if (!f.Open(fn)) {
@@ -2719,9 +2725,10 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString vi
 
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
     Empty();
+
+#if USE_LIBASS
     UnloadASS();
 
-    
     if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ass") == 0 || lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ssa") == 0) {
         m_path = f->GetFilePath();
         LoadASSFile(Subtitle::SubType::SSA);
@@ -2749,7 +2756,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
         }
         return true;
     }
-    
+#endif
 
     ULONGLONG pos = f->GetPosition();
 
@@ -2805,7 +2812,13 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     if (m_path.IsEmpty()) return false;
 
     m_ass = decltype(m_ass)(ass_library_init());
+    ass_set_extract_fonts(m_ass.get(), true);
+    ass_set_style_overrides(m_ass.get(), NULL);
+
     m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
+    ass_set_use_margins(m_renderer.get(), false);
+    ass_set_font_scale(m_renderer.get(), 1.0);
+    ass_set_hinting(m_renderer.get(), ASS_HINTING_NONE);
 
     AssFSettings settings;
     if (subType == Subtitle::SRT) {
@@ -2822,10 +2835,10 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
 
     if (!m_track) return false;
 
-    ass_set_fonts(m_renderer.get(), NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, NULL);
+    ass_set_fonts(m_renderer.get(), NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, 1);
 
     m_assloaded = true;
-    m_assfontloaded = true;
+    //m_assfontloaded = true;
     return true;
 }
 
@@ -2841,7 +2854,7 @@ bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size) {
 
     ass_process_codec_private(m_track.get(), data, size);
 
-    ass_set_fonts(m_renderer.get(), NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, NULL);
+    ass_set_fonts(m_renderer.get(), NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, 1);
 
     m_assloaded = true;
     return true;
@@ -2861,14 +2874,15 @@ void CSimpleTextSubtitle::LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer
                 if (wcscmp(mime.GetBSTR(), L"application/x-truetype-font") == 0 ||
                     wcscmp(mime.GetBSTR(), L"application/vnd.ms-opentype") == 0) // TODO: more mimes?
                 {
-                    ass_add_font(ass, "", (char*)pData, len);
+                    ass_add_font(ass, (char*)name, (char*)pData, len);
                     // TODO: clear these fonts somewhere?
                 }
                 CoTaskMemFree(pData);
             }
         }
+        m_assfontloaded = true;
     }
-    ass_set_fonts(renderer, NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, NULL);
+    ass_set_fonts(renderer, NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, 1);
 }
 
 void CSimpleTextSubtitle::UnloadASS() {

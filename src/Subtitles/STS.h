@@ -21,6 +21,8 @@
 
 #pragma once
 
+#define USE_LIBASS 1
+
 #include <atlcoll.h>
 #include <array>
 #include "TextFile.h"
