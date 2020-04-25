@@ -17454,6 +17454,7 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
                            UTF8To16(data.fileName.c_str()), Subtitle::HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),
                            ISOLang::ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
         m_wndSubtitlesDownloadDialog.DoDownloaded(*data.pSubtitlesInfo);
+        pRTS->SetFilterGraph(m_pGB);
 
         SubtitleInput subElement = pRTS.Detach();
         m_pSubStreams.AddTail(subElement);

@@ -134,6 +134,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 return E_FAIL;
             }
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+            IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
+            pRTS->SetFilterGraph(fg);
             pRTS->m_name = name;
             pRTS->m_lcid = lcid;
             pRTS->m_dstScreenSize = CSize(384, 288);
