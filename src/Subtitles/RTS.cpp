@@ -2983,7 +2983,8 @@ void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect &rcDirty) {
                         uint32_t srcA = (i->bitmap[y * i->stride + x] * (0xff - (i->color & 0x000000ff))) >> 8;
                         uint32_t compA = 0xff - srcA;
 
-                        dst[3] = srcA + ((dst[3] * compA) >> 8); //A
+
+                        dst[3] = 0xff - (srcA + (((0xff-dst[3]) * compA) >> 8)); //A.  this is inverted alpha, so we invert it before multiplying and then invert it again
                         dst[2] = (((i->color & 0xff000000) >> 24) * srcA + (dst[2]) * compA) >> 8; //R
                         dst[1] = (((i->color & 0x00ff0000) >> 16) * srcA + dst[1] * compA) >> 8; //G
                         dst[0] = (((i->color & 0x0000ff00) >> 8) * srcA + dst[0] * compA) >> 8; //B
@@ -3004,19 +3005,16 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             return E_INVALIDARG;
         }
 
-        if (!m_assfontloaded) {
+        if (!m_assfontloaded && m_pPin) {
             LoadASSFont(m_pPin, m_ass.get(), m_renderer.get());
         }
 
-        //ass_set_style_overrides()
+        m_size = CSize(spd.w, spd.h);
+        m_vidrect = CRect(spd.vidrect.left, spd.vidrect.top, spd.vidrect.right, spd.vidrect.bottom);
         ass_set_frame_size(m_renderer.get(), spd.w, spd.h);
 
         int changed = 1;
         ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), rt / 10000, &changed);
-
-        if (changed) {
-            changed = 1;
-        }
 
         if (!image) {
             return E_FAIL;

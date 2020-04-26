@@ -1918,6 +1918,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_assloaded(false)
     , m_assfontloaded(false)
     , m_pGraph(nullptr)
+    , m_pPin(nullptr)
 {
 }
 
@@ -2818,7 +2819,6 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
     ass_set_use_margins(m_renderer.get(), false);
     ass_set_font_scale(m_renderer.get(), 1.0);
-    ass_set_hinting(m_renderer.get(), ASS_HINTING_NONE);
 
     AssFSettings settings;
     if (subType == Subtitle::SRT) {
@@ -2835,10 +2835,11 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
 
     if (!m_track) return false;
 
-    ass_set_fonts(m_renderer.get(), NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, 1);
+    ass_set_fonts(m_renderer.get(), NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
 
     m_assloaded = true;
-    //m_assfontloaded = true;
+    m_assfontloaded = true;
+
     return true;
 }
 
@@ -2853,8 +2854,7 @@ bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size) {
     if (!m_track) return false;
 
     ass_process_codec_private(m_track.get(), data, size);
-
-    ass_set_fonts(m_renderer.get(), NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, 1);
+    ass_set_fonts(m_renderer.get(), NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0); //don't set m_assfontloaded here, in case we can load embedded fonts later?
 
     m_assloaded = true;
     return true;
@@ -2881,8 +2881,8 @@ void CSimpleTextSubtitle::LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer
             }
         }
         m_assfontloaded = true;
+        ass_set_fonts(renderer, NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
     }
-    ass_set_fonts(renderer, NULL, NULL, ASS_FONTPROVIDER_DIRECTWRITE, NULL, 1);
 }
 
 void CSimpleTextSubtitle::UnloadASS() {
