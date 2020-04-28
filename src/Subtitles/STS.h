@@ -222,18 +222,21 @@ public:
     void SetStr(int i, CStringA str, bool fUnicode /* ignored */);
     void SetStr(int i, CStringW str, bool fUnicode);
 public:
-    IPin* m_pPin;
     bool LoadASSFile(Subtitle::SubType subType);
-    bool LoadASSTrack(char* data, int size);
+    bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
     void UnloadASS();
+    void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
     void LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer* renderer);
     IFilterGraph* m_pGraph;
     void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
+    void SetPin(IPin* i) { m_pPin = i; };
     bool m_assloaded;
     bool m_assfontloaded;
     std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
     std::unique_ptr<ASS_Renderer, ASS_RendererDeleter> m_renderer;
     std::unique_ptr<ASS_Track, ASS_TrackDeleter> m_track;
+protected:
+    IPin* m_pPin;
 };
 
 extern const BYTE CharSetList[];

@@ -1947,9 +1947,6 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 {
     if (this != &sts) {
         Empty();
-#if USE_LIBASS
-        UnloadASS();
-#endif
 
         m_name = sts.m_name;
         m_mode = sts.m_mode;
@@ -1966,6 +1963,11 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
         CopyStyles(sts.m_styles);
         m_segments.Copy(sts.m_segments);
         __super::Copy(sts);
+
+#if USE_LIBASS
+        UnloadASS();
+        LoadASSFile(m_subtitleType);
+#endif
     }
 }
 
@@ -2843,7 +2845,7 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     return true;
 }
 
-bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size) {
+bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size, Subtitle::SubType subType) {
     UnloadASS();
     m_assfontloaded = false;
 
@@ -2851,9 +2853,18 @@ bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size) {
     m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
     m_track = decltype(m_track)(ass_new_track(m_ass.get()));
 
-    if (!m_track) return false;
-
-    ass_process_codec_private(m_track.get(), data, size);
+    AssFSettings settings;
+    if (subType == Subtitle::SRT) {
+        char outBuffer[1024];
+        srt_header(outBuffer, settings);
+        ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
+        std::stringstream srtData;
+        srtData.write(data, size);
+        srt_read_data(m_ass.get(), m_track.get(), srtData, GetACP(), settings);
+    } else { //subType == Subtitle::SSA/ASS
+        if (!m_track) return false;
+        ass_process_codec_private(m_track.get(), data, size);
+    }
     ass_set_fonts(m_renderer.get(), NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0); //don't set m_assfontloaded here, in case we can load embedded fonts later?
 
     m_assloaded = true;
@@ -2890,6 +2901,54 @@ void CSimpleTextSubtitle::UnloadASS() {
     if (m_track) m_track.reset();
     if (m_renderer) m_renderer.reset();
     if (m_ass) m_ass.reset();
+}
+
+void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop) {
+#if USE_LIBASS
+    if (m_subtitleType == Subtitle::SRT) { //received SRT sample, try to use libass to handle
+        AssFSettings settings;
+        if (!m_assloaded) { //create ass header
+            UnloadASS();
+            m_assfontloaded = false;
+
+            m_ass = decltype(m_ass)(ass_library_init());
+            m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
+            m_track = decltype(m_track)(ass_new_track(m_ass.get()));
+
+            char outBuffer[1024];
+            srt_header(outBuffer, settings);
+            ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
+            m_assloaded = true;
+        }
+
+        if (m_assloaded) {
+            char subLineData[1024]{};
+            strncpy_s(subLineData, _countof(subLineData), data, dataSize);
+            std::string str = subLineData;
+
+            // This is the way i use to get a unique id for the subtitle line
+            // It will only fail in the case there is 2 or more lines with the same start timecode
+            // (Need to check if the matroska muxer join lines in such a case)
+            REFERENCE_TIME m_iSubLineCount = tStart / 10000;
+
+            // Change srt tags to ass tags
+            ParseSrtLine(str, settings);
+
+            // Add the custom tags
+            str.insert(0, ws2s(settings.CustomTags));
+
+            // Add blur
+            char blur[20]{};
+            _snprintf_s(blur, _TRUNCATE, "{\\blur%u}", settings.FontBlur);
+            str.insert(0, blur);
+
+            // ASS in MKV: ReadOrder, Layer, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+            char outBuffer[1024]{};
+            _snprintf_s(outBuffer, _TRUNCATE, "%lld,0,Default,Main,0,0,0,,%s", m_iSubLineCount, str.c_str());
+            ass_process_chunk(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))), tStart / 10000, (tStop - tStart) / 10000);
+        }
+    }
+#endif
 }
 
 bool CSimpleTextSubtitle::Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid)

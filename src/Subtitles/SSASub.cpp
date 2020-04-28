@@ -239,15 +239,7 @@ void ParseSrtLine(std::string& srtLine, const AssFSettings& settings) {
     srtLine.assign(subtitle_output);
 }
 
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const AssFSettings& settings) {
-    // Convert SRT to ASS
-    std::ifstream srtFile(fname, std::ios::in);
-    std::string lineIn;
-    std::string lineOut;
-    char inBuffer[1024];
-    char outBuffer[1024];
-    int start[4], end[4];
-    ASS_Track* track = ass_new_track(library);
+void srt_header(char (&outBuffer)[1024], const AssFSettings& settings) {
     double resx = settings.SrtResX / 384.0;
     double resy = settings.SrtResY / 288.0;
 
@@ -258,6 +250,7 @@ ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage,
         "ScriptType: v4.00+\n"
         "WrapStyle: 0\n"
         "ScaledBorderAndShadow: %s\n"
+        "Kerning: %s\n"
         "YCbCr Matrix: TV.709\n"
         "PlayResX: %u\n"
         "PlayResY: %u\n"
@@ -268,16 +261,47 @@ ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage,
         "Style: Default,%s,%u,&H%X,&H%X,&H%X,&H%X,0,0,0,0,%u,%u,%u,0,1,%u,%u,%u,%u,%u,%u,1"
         "\n\n[Events]\n"
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n\n",
-        settings.ScaledBorderAndShadow ? "yes" : "no", settings.SrtResX, settings.SrtResY,
+        settings.ScaledBorderAndShadow ? "yes" : "no",
+        settings.Kerning ? "yes" : "no",
+        settings.SrtResX, settings.SrtResY,
         ws2s(settings.FontName).c_str(), (int)std::round(settings.FontSize * resy), settings.ColorPrimary,
         settings.ColorSecondary, settings.ColorOutline, settings.ColorShadow,
         settings.FontScaleX, settings.FontScaleY, settings.FontSpacing, settings.FontOutline,
         settings.FontShadow, settings.LineAlignment, (int)std::round(settings.MarginLeft * resx),
         (int)std::round(settings.MarginRight * resx), (int)std::round(settings.MarginVertical * resy));
+}
+
+ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const AssFSettings& settings) {
+    std::ifstream srtFile(fname, std::ios::in);
+    ASS_Track* track = ass_new_track(library);
+    return srt_read_data(library, track, srtFile, codePage, settings);
+}
+
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const AssFSettings& settings) {
+    // Convert SRT to ASS
+    std::string lineIn;
+    std::string lineOut;
+    char inBuffer[1024];
+    char outBuffer[1024];
+    int start[4], end[4];
+
+    srt_header(outBuffer, settings);
+
     ass_process_data(track, outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
 
-    while (!srtFile.eof()) {
-        srtFile.getline(inBuffer, sizeof(inBuffer) - 1);
+    char BOM[4];
+    stream.read(BOM, 3);
+    if (stream.fail()) {
+        return track;
+    }
+    if (BOM[0] == 0xEF && BOM[1] == 0xBB && BOM[2] == 0xBF) { //utf-8 BOM is here for some reason, we don't need it
+        //we seeked past it
+    } else {
+        stream.seekg(std::ios_base::beg);
+    }
+
+    while (!stream.eof()) {
+        stream.getline(inBuffer, sizeof(inBuffer) - 1);
         lineIn.assign(inBuffer);
         if (lineIn.empty())
             continue;
@@ -286,11 +310,11 @@ ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage,
         if (sscanf_s(inBuffer, "%d:%2d:%2d%*1[,.]%3d --> %d:%2d:%2d%*1[,.]%3d", &start[0], &start[1],
             &start[2], &start[3], &end[0], &end[1], &end[2], &end[3]) == 8) {
             lineOut.clear();
-            srtFile.getline(inBuffer, sizeof(inBuffer) - 1);
+            stream.getline(inBuffer, sizeof(inBuffer) - 1);
             lineIn.assign(inBuffer);
             while (!lineIn.empty()) {
                 lineOut.append(lineIn);
-                srtFile.getline(inBuffer, sizeof(inBuffer) - 1);
+                stream.getline(inBuffer, sizeof(inBuffer) - 1);
                 lineIn.assign(inBuffer);
                 if (!lineIn.empty())
                     lineOut.append("\\N");

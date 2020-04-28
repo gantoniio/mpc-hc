@@ -153,10 +153,10 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 }
 
                 pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
-            }
 
-            pRTS->m_pPin = pReceivePin;
-            pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset);
+                pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
+                    m_mt.subtype == MEDIASUBTYPE_UTF8 ? Subtitle::SRT : Subtitle::ASS);
+            }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {
                 return E_FAIL;
@@ -437,6 +437,15 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
+            LPCSTR data = (LPCSTR)pSample->data.data();
+            int dataSize = (int)pSample->data.size();
+            if (dataSize > 0) {
+                IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
+                pRTS->SetFilterGraph(fg);
+                pRTS->SetPin(this);
+                pRTS->LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
+            }
+
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 

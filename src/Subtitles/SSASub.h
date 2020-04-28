@@ -1,6 +1,7 @@
 #pragma once
 #include "ass/ass.h"
 #include <string>
+#include <streambuf>
 
 struct ASS_LibraryDeleter {
     void operator()(ASS_Library* p) { if (p) ass_library_done(p); }
@@ -21,7 +22,7 @@ struct AssFSettings {
     BOOL DisableFontLigatures = FALSE;
     BOOL DisableAutoLoad = FALSE;
     BOOL Kerning = FALSE;
-    std::wstring FontName = L"Calibri";
+    std::wstring FontName = L"Arial";
     DWORD FontSize = 18;
     DWORD FontScaleX = 100;
     DWORD FontScaleY = 100;
@@ -48,6 +49,8 @@ struct AssFSettings {
 
 std::string ConsumeAttribute(const char** ppsz_subtitle, std::string& attribute_value);
 ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const AssFSettings& settings);
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const AssFSettings& settings);
+void srt_header(char (&outBuffer)[1024], const AssFSettings& settings);
 void ConvertCPToUTF8(UINT CP, std::string& codepage_str);
 std::string GetTag(const char** line, bool b_closing);
 bool IsClosed(const char* psz_subtitle, const char* psz_tagname);
