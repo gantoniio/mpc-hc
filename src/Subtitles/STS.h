@@ -60,6 +60,12 @@ public:
     double     fGaussianBlur;
     double     fontAngleZ, fontAngleX, fontAngleY;
     double     fontShiftX, fontShiftY;
+    DWORD      SrtResX = 1920;
+    DWORD      SrtResY = 1080;
+    bool       Kerning = false;
+    bool       ScaledBorderAndShadow = true;
+    CString    customTags;
+
     RelativeTo relativeTo;
 
     STSStyle();
@@ -222,6 +228,7 @@ public:
     void SetStr(int i, CStringA str, bool fUnicode /* ignored */);
     void SetStr(int i, CStringW str, bool fUnicode);
 public:
+    STSStyle m_styleOverride; // the app can decide to use this style instead of a built-in one
     bool LoadASSFile(Subtitle::SubType subType);
     bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
     void UnloadASS();

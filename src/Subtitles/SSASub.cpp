@@ -5,6 +5,7 @@
 #include <codecvt>
 #include <Shlwapi.h>
 #include "SSASub.h"
+#include "STS.h"
 
 std::string ConsumeAttribute(const char** ppsz_subtitle, std::string& attribute_value) {
     const char* psz_subtitle = *ppsz_subtitle;
@@ -74,7 +75,7 @@ std::string ConsumeAttribute(const char** ppsz_subtitle, std::string& attribute_
     return std::string(psz_attribute_name);
 }
 
-void ParseSrtLine(std::string& srtLine, const AssFSettings& settings) {
+void ParseSrtLine(std::string& srtLine, const STSStyle& style) {
     const char* psz_subtitle = srtLine.data();
     std::string subtitle_output;
 
@@ -108,7 +109,7 @@ void ParseSrtLine(std::string& srtLine, const AssFSettings& settings) {
                         } else if (attribute_name == "family") {
                         }
                         if (attribute_name == "size") {
-                            double resy = settings.SrtResY / 288.0;
+                            double resy = style.SrtResY / 288.0;
                             int font_size = (int)std::round(std::stod(attribute_value) * resy);
                             subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
                         } else if (attribute_name == "color") {
@@ -151,10 +152,11 @@ void ParseSrtLine(std::string& srtLine, const AssFSettings& settings) {
                     } else if (tagname == "s") {
                         subtitle_output.append("{\\s0}");
                     } else if (tagname == "font") {
-                        double resy = settings.SrtResY / 288.0;
-                        int font_size = (int)std::round(settings.FontSize * resy);
+                        double resy = style.SrtResY / 288.0;
+                        int font_size = (int)std::round(style.fontSize * resy);
                         subtitle_output.append("{\\c}");
-                        subtitle_output.append("{\\fn" + ws2s(settings.FontName) + "}");
+                        CT2CA tmpFontName(style.fontName);
+                        subtitle_output.append("{\\fn" + std::string(tmpFontName) + "}");
                         subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
                     } else {
                         // Unknown closing tag. If it is closing an unknown tag, ignore it. Otherwise, display it
@@ -213,7 +215,7 @@ void ParseSrtLine(std::string& srtLine, const AssFSettings& settings) {
             } else if (psz_subtitle[1] == 'S' || psz_subtitle[1] == 's') {
                 int size = atoi(&psz_subtitle[3]);
                 if (size) {
-                    double resy = settings.SrtResY / 288.0;
+                    double resy = style.SrtResY / 288.0;
                     int font_size = (int)std::round(size * resy);
                     subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
                 }
@@ -239,9 +241,11 @@ void ParseSrtLine(std::string& srtLine, const AssFSettings& settings) {
     srtLine.assign(subtitle_output);
 }
 
-void srt_header(char (&outBuffer)[1024], const AssFSettings& settings) {
-    double resx = settings.SrtResX / 384.0;
-    double resy = settings.SrtResY / 288.0;
+void srt_header(char (&outBuffer)[1024], const STSStyle& style) {
+    double resx = style.SrtResX / 384.0;
+    double resy = style.SrtResY / 288.0;
+
+    CT2CA tmpFontName(style.fontName);
 
     // Generate a standard ass header
     _snprintf_s(outBuffer, _TRUNCATE, "[Script Info]\n"
@@ -258,26 +262,26 @@ void srt_header(char (&outBuffer)[1024], const AssFSettings& settings) {
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
         "BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, "
         "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
-        "Style: Default,%s,%u,&H%X,&H%X,&H%X,&H%X,0,0,0,0,%u,%u,%u,0,1,%u,%u,%u,%u,%u,%u,1"
+        "Style: Default,%s,%u,&H%X,&H%X,&H%X,&H%X,0,0,0,0,%lf,%lf,%lf,0,%u,%lf,%lf,%u,%u,%u,%u,1"
         "\n\n[Events]\n"
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n\n",
-        settings.ScaledBorderAndShadow ? "yes" : "no",
-        settings.Kerning ? "yes" : "no",
-        settings.SrtResX, settings.SrtResY,
-        ws2s(settings.FontName).c_str(), (int)std::round(settings.FontSize * resy), settings.ColorPrimary,
-        settings.ColorSecondary, settings.ColorOutline, settings.ColorShadow,
-        settings.FontScaleX, settings.FontScaleY, settings.FontSpacing, settings.FontOutline,
-        settings.FontShadow, settings.LineAlignment, (int)std::round(settings.MarginLeft * resx),
-        (int)std::round(settings.MarginRight * resx), (int)std::round(settings.MarginVertical * resy));
+        style.ScaledBorderAndShadow ? "yes" : "no",
+        style.Kerning ? "yes" : "no",
+        style.SrtResX, style.SrtResY,
+        std::string(tmpFontName).c_str(), (int)std::round(style.fontSize * resy), style.colors[0],
+        style.colors[1], style.colors[2], style.colors[3],
+        style.fontScaleX, style.fontScaleY, style.fontSpacing, (style.borderStyle == 1 ? 4 : 1), style.outlineWidthX,
+        style.shadowDepthX, style.scrAlignment, (int)std::round(style.marginRect.left * resx),
+        (int)std::round(style.marginRect.right * resx), (int)std::round(style.marginRect.top * resy));
 }
 
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const AssFSettings& settings) {
+ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style) {
     std::ifstream srtFile(fname, std::ios::in);
     ASS_Track* track = ass_new_track(library);
-    return srt_read_data(library, track, srtFile, codePage, settings);
+    return srt_read_data(library, track, srtFile, codePage, style);
 }
 
-ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const AssFSettings& settings) {
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style) {
     // Convert SRT to ASS
     std::string lineIn;
     std::string lineOut;
@@ -285,7 +289,7 @@ ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &s
     char outBuffer[1024];
     int start[4], end[4];
 
-    srt_header(outBuffer, settings);
+    srt_header(outBuffer, style);
 
     ass_process_data(track, outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
 
@@ -325,13 +329,13 @@ ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &s
             if (codePage != 0)
                 ConvertCPToUTF8(codePage, lineOut);
 
-            ParseSrtLine(lineOut, settings);
+            ParseSrtLine(lineOut, style);
 
-            _snprintf_s(outBuffer, _TRUNCATE, "Dialogue: 0,%d:%02d:%02d.%02d,%d:%02d:%02d.%02d,"
-                "Default,,0,0,0,,{\\blur%u}%s%s",
+            CT2CA tmpCustomTags(style.customTags);
+            _snprintf_s(outBuffer, _TRUNCATE, "Dialogue: 0,%d:%02d:%02d.%02d,%d:%02d:%02d.%02d,Default,,0,0,0,,{\\blur%u}%s%s",
                 start[0], start[1], start[2],
                 (int)floor((double)start[3] / 10.0), end[0], end[1],
-                end[2], (int)floor((double)end[3] / 10.0), settings.FontBlur, ws2s(settings.CustomTags).c_str(), lineOut.c_str());
+                end[2], (int)floor((double)end[3] / 10.0), style.fBlur, std::string(tmpCustomTags).c_str(), lineOut.c_str());
             ass_process_data(track, outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
         }
     }

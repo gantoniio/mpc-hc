@@ -2737,6 +2737,10 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
         LoadASSFile(Subtitle::SubType::SSA);
         m_subtitleType = Subtitle::SubType::SSA;
         OpenSubStationAlpha(f, *this, CharSet);
+        CWebTextFile f2(CTextFile::UTF8);
+        if (f2.Open(f->GetFilePath() + _T(".style"))) {
+            OpenSubStationAlpha(&f2, *this, CharSet);
+        }
     } else if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".srt") == 0) {
         m_path = f->GetFilePath();
         LoadASSFile(Subtitle::SubType::SRT);
@@ -2822,22 +2826,22 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     ass_set_use_margins(m_renderer.get(), false);
     ass_set_font_scale(m_renderer.get(), 1.0);
 
-    AssFSettings settings;
     if (subType == Subtitle::SRT) {
-        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), GetACP(), settings));
+        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), GetACP(), m_styleOverride));
         if (m_dstScreenSize == CSize(0, 0)) {
-            m_dstScreenSize = CSize(settings.SrtResX, settings.SrtResY);
+            m_dstScreenSize = CSize(m_styleOverride.SrtResX, m_styleOverride.SrtResY);
         }
     } else { //subType == Subtitle::SSA/ASS
         m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), "UTF-8"));
         if (m_dstScreenSize == CSize(0, 0)) {
-            m_dstScreenSize = CSize(settings.SrtResX, settings.SrtResY);
+            m_dstScreenSize = CSize(m_styleOverride.SrtResX, m_styleOverride.SrtResY);
         }
     }
 
     if (!m_track) return false;
 
-    ass_set_fonts(m_renderer.get(), NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
+    CT2CA tmpFontName(m_styleOverride.fontName);
+    ass_set_fonts(m_renderer.get(), NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
 
     m_assloaded = true;
     m_assfontloaded = true;
@@ -2853,19 +2857,20 @@ bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size, Subtitle::SubType s
     m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
     m_track = decltype(m_track)(ass_new_track(m_ass.get()));
 
-    AssFSettings settings;
     if (subType == Subtitle::SRT) {
         char outBuffer[1024];
-        srt_header(outBuffer, settings);
+        srt_header(outBuffer, m_styleOverride);
         ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
         std::stringstream srtData;
         srtData.write(data, size);
-        srt_read_data(m_ass.get(), m_track.get(), srtData, GetACP(), settings);
+        srt_read_data(m_ass.get(), m_track.get(), srtData, GetACP(), m_styleOverride);
     } else { //subType == Subtitle::SSA/ASS
         if (!m_track) return false;
         ass_process_codec_private(m_track.get(), data, size);
     }
-    ass_set_fonts(m_renderer.get(), NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0); //don't set m_assfontloaded here, in case we can load embedded fonts later?
+    CT2CA tmpFontName(m_styleOverride.fontName);
+    ass_set_fonts(m_renderer.get(), NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
+    //don't set m_assfontloaded here, in case we can load embedded fonts later?
 
     m_assloaded = true;
     return true;
@@ -2892,7 +2897,8 @@ void CSimpleTextSubtitle::LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer
             }
         }
         m_assfontloaded = true;
-        ass_set_fonts(renderer, NULL, "Arial", ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
+        CT2CA tmpFontName(m_styleOverride.fontName);
+        ass_set_fonts(renderer, NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
     }
 }
 
@@ -2906,7 +2912,6 @@ void CSimpleTextSubtitle::UnloadASS() {
 void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop) {
 #if USE_LIBASS
     if (m_subtitleType == Subtitle::SRT) { //received SRT sample, try to use libass to handle
-        AssFSettings settings;
         if (!m_assloaded) { //create ass header
             UnloadASS();
             m_assfontloaded = false;
@@ -2916,7 +2921,7 @@ void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME
             m_track = decltype(m_track)(ass_new_track(m_ass.get()));
 
             char outBuffer[1024];
-            srt_header(outBuffer, settings);
+            srt_header(outBuffer, m_styleOverride);
             ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
             m_assloaded = true;
         }
@@ -2932,14 +2937,15 @@ void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME
             REFERENCE_TIME m_iSubLineCount = tStart / 10000;
 
             // Change srt tags to ass tags
-            ParseSrtLine(str, settings);
+            ParseSrtLine(str, m_styleOverride);
 
             // Add the custom tags
-            str.insert(0, ws2s(settings.CustomTags));
+            CT2CA tmpCustomTags(m_styleOverride.customTags);
+            str.insert(0, std::string(tmpCustomTags));
 
             // Add blur
             char blur[20]{};
-            _snprintf_s(blur, _TRUNCATE, "{\\blur%u}", settings.FontBlur);
+            _snprintf_s(blur, _TRUNCATE, "{\\blur%u}", m_styleOverride.fBlur);
             str.insert(0, blur);
 
             // ASS in MKV: ReadOrder, Layer, Style, Name, MarginL, MarginR, MarginV, Effect, Text

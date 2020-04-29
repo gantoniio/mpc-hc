@@ -3,6 +3,8 @@
 #include <string>
 #include <streambuf>
 
+class STSStyle;
+
 struct ASS_LibraryDeleter {
     void operator()(ASS_Library* p) { if (p) ass_library_done(p); }
 };
@@ -15,46 +17,14 @@ struct ASS_TrackDeleter {
     void operator()(ASS_Track* p) { if (p) ass_free_track(p); }
 };
 
-struct AssFSettings {
-    BOOL TrayIcon = FALSE;
-    BOOL NativeSize = FALSE;
-    BOOL ScaledBorderAndShadow = TRUE;
-    BOOL DisableFontLigatures = FALSE;
-    BOOL DisableAutoLoad = FALSE;
-    BOOL Kerning = FALSE;
-    std::wstring FontName = L"Arial";
-    DWORD FontSize = 18;
-    DWORD FontScaleX = 100;
-    DWORD FontScaleY = 100;
-    DWORD FontSpacing = 0;
-    DWORD FontBlur = 0;
-    DWORD FontOutline = 2;
-    DWORD FontShadow = 3;
-    DWORD LineAlignment = 2;
-    DWORD MarginLeft = 20;
-    DWORD MarginRight = 20;
-    DWORD MarginVertical = 10;
-    DWORD ColorPrimary = 0x00FFFFFF;
-    DWORD ColorSecondary = 0x00FFFF;
-    DWORD ColorOutline = 0;
-    DWORD ColorShadow = 0x7F000000;
-    DWORD CustomRes = 0;
-    DWORD SrtResX = 1920;
-    DWORD SrtResY = 1080;
-    std::wstring CustomTags = L"";
-    std::wstring ExtraFontsDir = L"{FILE_DIR}";
-    std::wstring ExtraSubsDir = L"Subs";
-};
-
-
 std::string ConsumeAttribute(const char** ppsz_subtitle, std::string& attribute_value);
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const AssFSettings& settings);
-ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const AssFSettings& settings);
-void srt_header(char (&outBuffer)[1024], const AssFSettings& settings);
+ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style);
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style);
+void srt_header(char (&outBuffer)[1024], const STSStyle& style);
 void ConvertCPToUTF8(UINT CP, std::string& codepage_str);
 std::string GetTag(const char** line, bool b_closing);
 bool IsClosed(const char* psz_subtitle, const char* psz_tagname);
-void ParseSrtLine(std::string& srtLine, const AssFSettings& settings);
+void ParseSrtLine(std::string& srtLine, const STSStyle& style);
 std::string GetTag(const char** line, bool b_closing);
 void MatchColorSrt(std::string& fntColor);
 std::string ws2s(const std::wstring& wstr);
