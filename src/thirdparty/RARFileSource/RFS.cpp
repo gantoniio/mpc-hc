@@ -88,24 +88,27 @@ int g_cTemplates = sizeof (g_Templates) / sizeof (g_Templates [0]);
 #endif
 
 /* static */
-const
-file_type_t CRARFileSource::s_file_types [] =
-{
-	{ "avi", &MEDIASUBTYPE_Avi },
-	{ "mpg", &MEDIASUBTYPE_MPEG1System },
-	{ "vob", &MEDIASUBTYPE_MPEG2_PROGRAM },
-	{ "mkv", &MEDIASUBTYPE_Matroska },
-	{ "mka", &MEDIASUBTYPE_Matroska },
-	{ "mks", &MEDIASUBTYPE_Matroska },
-	{ "mov", &MEDIASUBTYPE_QTMovie },
-	{ "mp4", &MEDIASUBTYPE_QTMovie },
-	{ "wav", &MEDIASUBTYPE_WAVE },
-	{ "mp3", &MEDIASUBTYPE_MPEG1Audio },
-	{ "mpa", &MEDIASUBTYPE_MPEG1Audio },
-	{ "mpv", &MEDIASUBTYPE_MPEG1Video },
-	{ "dat", &MEDIASUBTYPE_MPEG1VideoCD },
-	{ NULL, NULL }
-};
+const std::vector<std::wstring> CRARFileSource::s_file_types
+({
+	L"avi",
+	L"mpg",
+	L"vob",
+	L"mkv",
+	L"mka",
+	L"mks",
+	L"mov",
+	L"mp4",
+	L"wav",
+	L"mp3",
+	L"mpa",
+	L"mpv",
+	L"dat",
+    L"ogm", 
+    L"ogg",
+    L"flac",
+    L"m2ts",
+    L"mk3d",
+});
 
 #ifdef STANDALONE_FILTER
 
@@ -321,12 +324,6 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
         return RFS_E_ENCRYPTED;
     }
 
-    MediaType* mType;
-    CRFSList<MediaType> mediaTypeList(true);
-    if (getMediaTypeList(&mediaTypeList) == -1) {
-        return E_OUTOFMEMORY;
-    }
-
     size_t bytesRead;
     do {
         rarArchive.Seek(rarArchive.NextBlockPos, SEEK_SET); //when switching volumes, we may find ourselves mid-block. works first time as well
@@ -357,14 +354,15 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
             file->rarFilename = rfname;
             file->startingBlockPos = rarArchive.CurBlockPos;
             (*files_found)++;
-            if (!checkFileForMediaType(file, &mediaTypeList, &mType)) {
-                return E_OUTOFMEMORY;
-            }
-            if (mType) {
-                file->media_type.SetType(&mType->majorType);
-                file->media_type.SetSubtype(&mType->subType);
-                file_list->InsertLast(file);
-                (*ok_files_found)++;
+
+            wchar_t* ext = PathFindExtension(fname);
+
+            if (*ext == L'.') {
+                ext++;
+                if (std::find(s_file_types.begin(), s_file_types.end(), ext) != s_file_types.end()) {
+                    file_list->InsertLast(file);
+                    (*ok_files_found)++;
+                }
             }
             rarArchive.Seek(rarArchive.NextBlockPos, SEEK_SET); //seek to next block before continuing
         }
