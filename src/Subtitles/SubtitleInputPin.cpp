@@ -153,7 +153,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 }
 
                 pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
-
+                pRTS->SetPin(pReceivePin);
                 pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
                     m_mt.subtype == MEDIASUBTYPE_UTF8 ? Subtitle::SRT : Subtitle::ASS);
             }
