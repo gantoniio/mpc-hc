@@ -226,6 +226,7 @@ CAppSettings::CAppSettings()
     , iYDLVideoFormat(0)
     , bYDLAudioOnly(false)
     , sYDLCommandLine(_T(""))
+    , bSnapShotSubtitles(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
