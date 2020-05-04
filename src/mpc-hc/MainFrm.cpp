@@ -4930,7 +4930,7 @@ HRESULT CMainFrame::GetCurrentFrame(std::vector<BYTE>& dib, CString& errmsg) {
     errmsg.Empty();
 
     OAFilterState fs = GetMediaState();
-    if (m_eMediaLoadState != MLS::LOADED || (fs != State_Paused && fs != State_Running)) {
+    if (m_eMediaLoadState != MLS::LOADED || m_fAudioOnly || (fs != State_Paused && fs != State_Running)) {
         return E_ABORT;
     }
 
@@ -5353,14 +5353,22 @@ CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
 
     ASSERT(!thumbnails || GetPlaybackMode() == PM_FILE);
 
+    auto videoFn = GetFileName();
+    if (!s.bSnapShotKeepVideoExtension) {
+        int nPos = videoFn.ReverseFind('.');
+        if (nPos != -1) {
+            videoFn = videoFn.Left(nPos);
+        }
+    }
+
     if (GetPlaybackMode() == PM_FILE) {
         if (thumbnails) {
-            prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
+            prefix.Format(_T("%s_thumbs"), videoFn.GetString());
         } else {
             if (s.bSaveImagePosition) {
-                prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
+                prefix.Format(_T("%s_snapshot_%s"), videoFn.GetString(), GetVidPos().GetString());
             } else {
-                prefix.Format(_T("%s"), GetFileName().GetString());
+                prefix.Format(_T("%s"), videoFn.GetString());
             }
         }
     } else if (GetPlaybackMode() == PM_DVD) {
