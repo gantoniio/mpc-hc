@@ -749,3 +749,4 @@ msgstr "Zaslat dar"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&O programu..."
+
