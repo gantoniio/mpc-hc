@@ -575,7 +575,7 @@ public:
     bool DoCapture(), StartCapture(), StopCapture();
 
     void DoAfterPlaybackEvent();
-    bool SearchInDir(bool bDirForward, bool bLoop = false);
+    bool SearchInDir(bool bDirForward, bool bLoop = false, bool force = false);
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);

@@ -3670,20 +3670,32 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     bool bOpenNextInPlaylist = false;
 
     if (wParam == PM_FILE) {
-        m_wndPlaylistBar.SetCurValid(false);
-
-        if (m_wndPlaylistBar.IsAtEnd()) {
-            m_nLoops++;
-        }
-
-        if (s.fLoopForever || m_nLoops < s.nLoops) {
+        if (m_wndPlaylistBar.GetCount() == 1) {
             if (m_nLastSkipDirection == ID_NAVIGATE_SKIPBACK) {
-                bOpenNextInPlaylist = m_wndPlaylistBar.SetPrev();
-            } else {
-                bOpenNextInPlaylist = m_wndPlaylistBar.SetNext();
+                if (!(bOpenNextInPlaylist = SearchInDir(false, s.bLoopFolderOnPlayNextFile, true))) {
+                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
+                }
+            } else if (m_nLastSkipDirection == ID_NAVIGATE_SKIPFORWARD) {
+                if (!(bOpenNextInPlaylist = SearchInDir(true, s.bLoopFolderOnPlayNextFile, true))) {
+                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+                }
             }
-        } else if (m_wndPlaylistBar.GetCount() > 1) {
-            DoAfterPlaybackEvent();
+        } else {
+            m_wndPlaylistBar.SetCurValid(false);
+
+            if (m_wndPlaylistBar.IsAtEnd()) {
+                m_nLoops++;
+            }
+
+            if (s.fLoopForever || m_nLoops < s.nLoops) {
+                if (m_nLastSkipDirection == ID_NAVIGATE_SKIPBACK) {
+                    bOpenNextInPlaylist = m_wndPlaylistBar.SetPrev();
+                } else {
+                    bOpenNextInPlaylist = m_wndPlaylistBar.SetNext();
+                }
+            } else if (m_wndPlaylistBar.GetCount() > 1) {
+                DoAfterPlaybackEvent();
+            }
         }
     }
 
@@ -10938,6 +10950,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         if (FAILED(hr)) {
             if (bMainFile) {
+                pOFD->title = fn; //we can use this later for skipping to the next file
+
                 if (s.fReportFailedPins) {
                     CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
                     if (pGBDE && pGBDE->GetCount()) {
@@ -12548,9 +12562,9 @@ void CMainFrame::CloseMediaPrivate()
     m_AudDispName.Empty();
 }
 
-bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
+bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/, bool force /*= false */)
 {
-    ASSERT(GetPlaybackMode() == PM_FILE);
+    ASSERT(GetPlaybackMode() == PM_FILE || force);
     auto pFileData = dynamic_cast<OpenFileData*>(m_lastOMD.m_p);
     if (!pFileData) {
         ASSERT(FALSE);
