@@ -25,11 +25,13 @@
 #include "RenderersSettings.h"
 #include <initguid.h>
 #include <mvrInterfaces.h>
-
+#include "IPinHook.h"
 
 using namespace DSObjects;
 
 extern bool g_bExternalSubtitleTime;
+extern bool g_bExternalSubtitle;
+extern double g_dRate;
 
 CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString& _Error)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
@@ -124,9 +126,14 @@ HRESULT CmadVRAllocatorPresenter::RenderEx3(REFERENCE_TIME rtStart,
 
     __super::SetPosition(viewportRect, croppedVideoRect);
     if (!g_bExternalSubtitleTime) {
-        SetTime(rtStart);
+        if (g_bExternalSubtitle && g_dRate != 0.0) {
+            const REFERENCE_TIME sampleTime = rtStart - g_tSegmentStart;
+            SetTime(g_tSegmentStart + sampleTime * g_dRate);
+        } else {
+            SetTime(rtStart);
+        }
     }
-    if (atpf > 0) {
+    if (atpf > 0 && m_pSubPicQueue) {
         m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
     }
@@ -150,6 +157,11 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     }
 
     (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
+
+    CComQIPtr<IBaseFilter> pBF = m_pMVR;
+    CComPtr<IPin> pPin = GetFirstPin(pBF);
+    CComQIPtr<IMemInputPin> pMemInputPin = pPin;
+    HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
 
     return S_OK;
 }

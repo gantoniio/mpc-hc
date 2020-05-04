@@ -267,6 +267,12 @@ CString CPlayerStatusBar::PreparePathStatusMessage(CPath path)
     return path;
 }
 
+CString CPlayerStatusBar::GetTimerOSD() const
+{
+    return timerOSD;
+}
+
+
 CString CPlayerStatusBar::GetStatusTimer() const
 {
     CString strResult;
@@ -331,10 +337,23 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
         rstr.Format(_T("%I64d"), rtDur - rtNow);
     }
 
+    CString percentComplete;
     if (!s.fRemainingTime) {
-        str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
+        if ((rtDur <= 0) || (rtDur < rtNow)) {
+            str = posstr;
+        } else {
+            str = posstr + _T(" / ") + durstr;
+            percentComplete.Format(_T(" [%3.2f%%]"), 100.f * (float(rtNow) / float(rtDur)));
+            timerOSD = str + percentComplete;
+        }
     } else {
-        str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
+        if ((rtDur <= 0) || (rtDur < rtNow)) {
+            str = posstr;
+        } else {
+            str = _T("- ") + rstr + _T(" / ") + durstr;
+            percentComplete.Format(_T(" [%3.2f%%]"), 100.f * (float(rtDur - rtNow) / float(rtDur)));
+            timerOSD = str + percentComplete;
+        }
     }
 
     SetStatusTimer(str);

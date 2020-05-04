@@ -1309,6 +1309,22 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 #endif //_DEBUG
 
+typedef HIMC(WINAPI* pfnImmAssociateContext)(HWND, HIMC);
+void dynImmAssociateContext(HWND hWnd, HIMC himc) {
+    HMODULE hImm32;
+    pfnImmAssociateContext pImmAssociateContext;
+
+    hImm32 = LoadLibrary(_T("imm32.dll"));
+    if (NULL == hImm32) return; // No East Asian support
+    pImmAssociateContext = (pfnImmAssociateContext)GetProcAddress(hImm32, "ImmAssociateContext");
+    if (NULL == pImmAssociateContext) {
+        FreeLibrary(hImm32);
+        return;
+    }
+    pImmAssociateContext(hWnd, himc);
+    FreeLibrary(hImm32);
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
 void CMainFrame::OnSetFocus(CWnd* pOldWnd)
@@ -1316,6 +1332,9 @@ void CMainFrame::OnSetFocus(CWnd* pOldWnd)
     // forward focus to the view window
     if (IsWindow(m_wndView.m_hWnd)) {
         m_wndView.SetFocus();
+        dynImmAssociateContext(m_wndView.m_hWnd, NULL);
+    } else {
+        dynImmAssociateContext(m_hWnd, NULL);
     }
 }
 
@@ -1806,6 +1825,8 @@ LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)
 
 bool g_bNoDuration = false;
 bool g_bExternalSubtitleTime = false;
+bool g_bExternalSubtitle = false;
+double g_dRate = 1.0;
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
@@ -7025,7 +7046,7 @@ void CMainFrame::OnViewRotate(UINT nID)
                     m_AngleY = 180;
                 }
                 break;
-            case ID_PANSCAN_ROTATEZ270:
+            case ID_PANSCAN_ROTATEZM:
                 if (m_AngleZ > 270) {
                     m_AngleZ = 270;
                 } else if (m_AngleZ > 180) {
@@ -7041,7 +7062,7 @@ void CMainFrame::OnViewRotate(UINT nID)
             case ID_PANSCAN_ROTATEZP:
                 m_AngleZ += 2;
                 break;
-            case ID_PANSCAN_ROTATEZM:
+            case ID_PANSCAN_ROTATEZ270:
                 if (m_AngleZ >= 270) {
                     m_AngleZ = 0;
                 } else if (m_AngleZ >= 180) {
@@ -10522,6 +10543,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
                 return;    // ignore default auto-zoom setting
             }
             dScale =
+                s.iZoomLevel == -1 ? 0.25 :
                 s.iZoomLevel == 0 ? 0.5 :
                 s.iZoomLevel == 1 ? 1.0 :
                 s.iZoomLevel == 2 ? 2.0 :
@@ -12467,6 +12489,8 @@ void CMainFrame::CloseMediaPrivate()
         CAutoLock cAutoLock(&m_csSubLock);
         m_pSubStreams.RemoveAll();
     }
+    m_ExternalSubstreams.clear();
+
     m_pSubClock.Release();
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
@@ -14087,6 +14111,7 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
 
     if (pSubStream) {
         SubtitleInput subInput(pSubStream);
+        m_ExternalSubstreams.push_back(pSubStream);
         m_pSubStreams.AddTail(subInput);
 
         if (!m_posFirstExtSub) {
@@ -14238,6 +14263,7 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
         m_pCurrentSubInput = subInput;
 
         if (m_pCAP) {
+            g_bExternalSubtitle = (std::find(m_ExternalSubstreams.cbegin(), m_ExternalSubstreams.cend(), subInput.pSubStream) != m_ExternalSubstreams.cend());
             m_wndSubresyncBar.SetSubtitle(subInput.pSubStream, m_pCAP->GetFPS());
         }
     }
@@ -14460,7 +14486,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_wndStatusBar.SetStatusTimer(rtPos, stop, IsSubresyncBarVisible(), GetTimeFormat());
 
         if (bShowOSD) {
-            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetTimerOSD(), 1500);
         }
     }
 
