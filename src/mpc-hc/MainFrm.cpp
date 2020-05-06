@@ -3672,11 +3672,11 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     if (wParam == PM_FILE) {
         if (m_wndPlaylistBar.GetCount() == 1) {
             if (m_nLastSkipDirection == ID_NAVIGATE_SKIPBACK) {
-                if (!(bOpenNextInPlaylist = SearchInDir(false, s.bLoopFolderOnPlayNextFile, true))) {
+                if (!(bOpenNextInPlaylist = SearchInDir(false, s.bLoopFolderOnPlayNextFile))) {
                     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
                 }
             } else if (m_nLastSkipDirection == ID_NAVIGATE_SKIPFORWARD) {
-                if (!(bOpenNextInPlaylist = SearchInDir(true, s.bLoopFolderOnPlayNextFile, true))) {
+                if (!(bOpenNextInPlaylist = SearchInDir(true, s.bLoopFolderOnPlayNextFile))) {
                     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
                 }
             }
@@ -8792,7 +8792,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (GetPlaybackMode() == PM_FILE) {
+    if (GetPlaybackMode() == PM_FILE || CanSkipFromClosedFile()) {
         m_nLastSkipDirection = nID;
 
         if (!SeekToFileChapter((nID == ID_NAVIGATE_SKIPBACK) ? -1 : 1, true)) {
@@ -8832,22 +8832,29 @@ void CMainFrame::OnNavigateSkip(UINT nID)
     }
 }
 
+bool CMainFrame::CanSkipFromClosedFile() {
+    return GetPlaybackMode() == PM_NONE && m_wndPlaylistBar.GetCount() == 1 && AfxGetAppSettings().fUseSearchInFolder;
+}
+
 void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED
-                   && ((GetPlaybackMode() == PM_DVD
-                        && m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
-                        && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
-                       || (GetPlaybackMode() == PM_FILE  && s.fUseSearchInFolder)
-                       || (GetPlaybackMode() == PM_FILE  && !s.fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
-                       || (GetPlaybackMode() == PM_DIGITAL_CAPTURE && !m_pDVBState->bSetChannelActive)));
+    pCmdUI->Enable(
+        (GetLoadState() == MLS::LOADED
+        && ((GetPlaybackMode() == PM_DVD
+            && m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
+            && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
+            || (GetPlaybackMode() == PM_FILE  && s.fUseSearchInFolder)
+            || (GetPlaybackMode() == PM_FILE  && !s.fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
+            || (GetPlaybackMode() == PM_DIGITAL_CAPTURE && !m_pDVBState->bSetChannelActive)))
+        || (GetLoadState() == MLS::CLOSED && CanSkipFromClosedFile()) //to support skipping from broken file
+    );
 }
 
 void CMainFrame::OnNavigateSkipFile(UINT nID)
 {
-    if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_ANALOG_CAPTURE) {
+    if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_ANALOG_CAPTURE || CanSkipFromClosedFile()) {
         if (m_wndPlaylistBar.GetCount() == 1) {
             CAppSettings& s = AfxGetAppSettings();
             if (GetPlaybackMode() == PM_ANALOG_CAPTURE || !s.fUseSearchInFolder) {
@@ -8878,9 +8885,13 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
 
 void CMainFrame::OnUpdateNavigateSkipFile(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED
-                   && ((GetPlaybackMode() == PM_FILE && (m_wndPlaylistBar.GetCount() > 1 || AfxGetAppSettings().fUseSearchInFolder))
-                       || (GetPlaybackMode() == PM_ANALOG_CAPTURE && !m_fCapturing && m_wndPlaylistBar.GetCount() > 1)));
+    const CAppSettings& s = AfxGetAppSettings();
+    pCmdUI->Enable(
+        (GetLoadState() == MLS::LOADED
+        && ((GetPlaybackMode() == PM_FILE && (m_wndPlaylistBar.GetCount() > 1 || s.fUseSearchInFolder))
+            || (GetPlaybackMode() == PM_ANALOG_CAPTURE && !m_fCapturing && m_wndPlaylistBar.GetCount() > 1)))
+        || (GetLoadState() == MLS::CLOSED && CanSkipFromClosedFile())
+    );
 }
 
 void CMainFrame::OnNavigateGoto()
@@ -12562,18 +12573,27 @@ void CMainFrame::CloseMediaPrivate()
     m_AudDispName.Empty();
 }
 
-bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/, bool force /*= false */)
+bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
 {
-    ASSERT(GetPlaybackMode() == PM_FILE || force);
+    ASSERT(GetPlaybackMode() == PM_FILE || CanSkipFromClosedFile());
+
+    CString title;
+
     auto pFileData = dynamic_cast<OpenFileData*>(m_lastOMD.m_p);
     if (!pFileData) {
-        ASSERT(FALSE);
-        return false;
+        if (CanSkipFromClosedFile()) {
+            title = m_wndPlaylistBar.m_pl.GetHead().m_fns.GetHead();
+        } else {
+            ASSERT(FALSE);
+            return false;
+        }
+    } else {
+        title = pFileData->title;
     }
 
     std::set<CString, CStringUtils::LogicalLess> files;
     const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-    CString mask = pFileData->title.Left(pFileData->title.ReverseFind(_T('\\')) + 1) + _T("*.*");
+    CString mask = title.Left(title.ReverseFind(_T('\\')) + 1) + _T("*.*");
     CFileFind finder;
     BOOL bHasNext = finder.FindFile(mask);
 
@@ -12597,7 +12617,7 @@ bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/, bool forc
 
     // We make sure that the currently opened file is added to the list
     // even if it's of an unknown format.
-    auto current = files.insert(pFileData->title).first;
+    auto current = files.insert(title).first;
 
     if (bDirForward) {
         current++;
