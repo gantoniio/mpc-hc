@@ -576,6 +576,7 @@ public:
 
     void DoAfterPlaybackEvent();
     bool SearchInDir(bool bDirForward, bool bLoop = false);
+    CString lastOpenFile;
     bool CanSkipFromClosedFile();
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

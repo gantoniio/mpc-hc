@@ -8833,7 +8833,20 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 }
 
 bool CMainFrame::CanSkipFromClosedFile() {
-    return GetPlaybackMode() == PM_NONE && m_wndPlaylistBar.GetCount() == 1 && AfxGetAppSettings().fUseSearchInFolder;
+    if (GetPlaybackMode() == PM_NONE && AfxGetAppSettings().fUseSearchInFolder) {
+        if (m_wndPlaylistBar.GetCount() == 1) {
+            CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+            if (pli && !pli->m_fns.IsEmpty()) {
+                CString in = pli->m_fns.GetHead();
+                if (!(pli->m_bYoutubeDL || in.Find(_T("://")) >= 0)) {
+                    return true;
+                }
+            }
+        } else if (m_wndPlaylistBar.GetCount() == 0 && !lastOpenFile.IsEmpty()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
@@ -8855,7 +8868,7 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 void CMainFrame::OnNavigateSkipFile(UINT nID)
 {
     if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_ANALOG_CAPTURE || CanSkipFromClosedFile()) {
-        if (m_wndPlaylistBar.GetCount() == 1) {
+        if (m_wndPlaylistBar.GetCount() == 1 || CanSkipFromClosedFile()) {
             CAppSettings& s = AfxGetAppSettings();
             if (GetPlaybackMode() == PM_ANALOG_CAPTURE || !s.fUseSearchInFolder) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP); // do not remove this, unless you want a circular call with OnPlayPlay()
@@ -10956,7 +10969,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (fn.IsEmpty() && !bMainFile) {
             break;
         }
-
+        lastOpenFile = fn; //this is only used for skipping to other files, so it may not have been "open"
         HRESULT hr = m_pGB->RenderFile(CStringW(fn), nullptr);
 
         if (FAILED(hr)) {
@@ -12582,7 +12595,11 @@ bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
     auto pFileData = dynamic_cast<OpenFileData*>(m_lastOMD.m_p);
     if (!pFileData) {
         if (CanSkipFromClosedFile()) {
-            title = m_wndPlaylistBar.m_pl.GetHead().m_fns.GetHead();
+            if (m_wndPlaylistBar.GetCount() == 1) {
+                title = m_wndPlaylistBar.m_pl.GetHead().m_fns.GetHead();
+            } else {
+                title = lastOpenFile;
+            }
         } else {
             ASSERT(FALSE);
             return false;
