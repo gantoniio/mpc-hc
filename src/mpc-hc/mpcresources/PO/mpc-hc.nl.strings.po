@@ -4114,3 +4114,7 @@ msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
 msgstr ""
 
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
+
