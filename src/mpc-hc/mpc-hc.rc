@@ -3917,6 +3917,8 @@ BEGIN
                             "Render subtitles onto screenshots"
     IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION 
                             "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
+    IDS_SNAPSHOT_SUBTITLES
+                            "Include Subtitles"
 END
 
 #endif    // English (United States) resources
