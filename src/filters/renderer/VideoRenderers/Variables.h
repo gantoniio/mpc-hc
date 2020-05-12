@@ -20,5 +20,8 @@
 
 #pragma once
 
-inline double         g_dRate                 = 1.0;
-inline bool           g_bExternalSubtitle     = false;
+// Defined in MainFrm.cpp
+extern double g_dRate;
+extern bool g_bNoDuration;
+extern bool g_bExternalSubtitleTime;
+extern bool g_bExternalSubtitle;

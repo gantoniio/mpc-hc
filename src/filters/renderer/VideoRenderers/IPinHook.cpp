@@ -49,6 +49,8 @@ REFERENCE_TIME g_tSampleStart = 0;
 GUID g_guidDXVADecoder = GUID_NULL;
 int  g_nDXVAVersion = 0;
 
+extern double g_dRate;
+
 IPinCVtbl* g_pPinCVtbl = nullptr;
 IPinCVtbl* g_pPinCVtbl10BitWorkAround = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
@@ -281,6 +283,7 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
     g_tSegmentStart = 0;
     g_tSampleStart = 0;
+    g_dRate = 1.0;
 
     UnhookNewSegmentAndReceive();
 
