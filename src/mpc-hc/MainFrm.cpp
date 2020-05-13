@@ -10950,6 +10950,15 @@ CWnd* CMainFrame::GetModalParent()
     return pParentWnd;
 }
 
+void CMainFrame::ShowMediaTypesDialog() {
+    CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
+    if (pGBDE && pGBDE->GetCount()) {
+        showingModalDialog = true;
+        CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
+        showingModalDialog = false;
+    }
+}
+
 // Called from GraphThread
 void CMainFrame::OpenFile(OpenFileData* pOFD)
 {
@@ -10977,10 +10986,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 pOFD->title = fn; //we can use this later for skipping to the next file
 
                 if (s.fReportFailedPins) {
-                    CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
-                    if (pGBDE && pGBDE->GetCount()) {
-                        CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
-                    }
+                    ShowMediaTypesDialog();
                 }
 
                 UINT err;
@@ -11071,10 +11077,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     }
 
     if (s.fReportFailedPins) {
-        CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
-        if (pGBDE && pGBDE->GetCount()) {
-            CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
-        }
+        ShowMediaTypesDialog();
     }
 
     if (!(m_pAMOP = m_pGB)) {
@@ -11290,10 +11293,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     CAppSettings& s = AfxGetAppSettings();
 
     if (s.fReportFailedPins) {
-        CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
-        if (pGBDE && pGBDE->GetCount()) {
-            CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
-        }
+        ShowMediaTypesDialog();
     }
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -15177,6 +15177,9 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     // close the current graph before opening new media
     if (GetLoadState() != MLS::CLOSED) {
+        if (showingModalDialog) {
+            return; //close will fail if the modal dialog is showing.  since modal means nothing else can happen, we just give up
+        }
         CloseMedia(true);
         ASSERT(GetLoadState() == MLS::CLOSED);
     }

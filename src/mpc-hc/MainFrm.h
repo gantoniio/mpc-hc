@@ -457,6 +457,9 @@ protected:
 
     CWnd* GetModalParent();
 
+    bool showingModalDialog;
+    void ShowMediaTypesDialog();
+
     void OpenCreateGraphObject(OpenMediaData* pOMD);
     void OpenFile(OpenFileData* pOFD);
     void OpenDVD(OpenDVDData* pODD);
