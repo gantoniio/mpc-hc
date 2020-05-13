@@ -48,6 +48,7 @@
 #include <mfapi.h>
 #include "SyncRenderer.h"
 #include "Utils.h"
+#include "Variables.h"
 
 #if (0)     // Set to 1 to activate SyncRenderer traces
 #define TRACE_SR   TRACE
