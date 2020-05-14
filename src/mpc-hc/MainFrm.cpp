@@ -801,6 +801,7 @@ CMainFrame::CMainFrame()
     , abRepeatPositionBEnabled(false)
     , abRepeatPositionA(0)
     , abRepeatPositionB(0)
+    , mediaTypesDlg(nullptr)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -11187,7 +11188,10 @@ void CMainFrame::ShowMediaTypesDialog() {
     CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
     if (pGBDE && pGBDE->GetCount()) {
         showingModalDialog = true;
-        CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
+        mediaTypesDlg = DEBUG_NEW CMediaTypesDlg(pGBDE, GetModalParent());
+        mediaTypesDlg->DoModal();
+        delete mediaTypesDlg;
+        mediaTypesDlg = nullptr;
         showingModalDialog = false;
     }
 }
@@ -15411,7 +15415,11 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     // close the current graph before opening new media
     if (GetLoadState() != MLS::CLOSED) {
         if (showingModalDialog) {
-            return; //close will fail if the modal dialog is showing.  since modal means nothing else can happen, we just give up
+            if (mediaTypesDlg) {
+                mediaTypesDlg->SendMessage(WM_EXTERNALCLOSE, 0, 0);
+            } else {
+                return; //close will fail if the modal dialog is showing.  since modal means nothing else can happen, we just give up
+            }
         }
         CloseMedia(true);
         ASSERT(GetLoadState() == MLS::CLOSED);

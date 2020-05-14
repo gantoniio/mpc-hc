@@ -53,6 +53,7 @@ class CFullscreenWnd;
 class SkypeMoodMsgHandler;
 struct DisplayMode;
 enum MpcCaptionState;
+class CMediaTypesDlg;
 
 interface IDSMChapterBag;
 interface IGraphBuilder2;
@@ -465,6 +466,7 @@ protected:
     CWnd* GetModalParent();
 
     bool showingModalDialog;
+    CMediaTypesDlg* mediaTypesDlg;
     void ShowMediaTypesDialog();
 
     void OpenCreateGraphObject(OpenMediaData* pOMD);
