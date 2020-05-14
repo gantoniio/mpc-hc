@@ -11187,6 +11187,7 @@ CWnd* CMainFrame::GetModalParent()
 void CMainFrame::ShowMediaTypesDialog() {
     CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
     if (pGBDE && pGBDE->GetCount()) {
+        CAutoLock lck(&lockModalDialog); //put a lock here in case this somehow gets called twice?
         showingModalDialog = true;
         mediaTypesDlg = DEBUG_NEW CMediaTypesDlg(pGBDE, GetModalParent());
         mediaTypesDlg->DoModal();

@@ -153,6 +153,6 @@ void CMediaTypesDlg::OnCbnSelchangeCombo1()
 }
 
 LRESULT CMediaTypesDlg::OnExternalClose(WPARAM wParam, LPARAM lParam) {
-    EndDialog(0);
+    EndDialog(IDCANCEL);
     return LRESULT();
 }

@@ -466,6 +466,7 @@ protected:
     CWnd* GetModalParent();
 
     bool showingModalDialog;
+    CCritSec lockModalDialog;
     CMediaTypesDlg* mediaTypesDlg;
     void ShowMediaTypesDialog();
 
