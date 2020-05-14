@@ -4922,7 +4922,18 @@ HRESULT CMainFrame::GetDisplayedImage(std::vector<BYTE>& dib, CString& errmsg) {
     errmsg.Empty();
     HRESULT hr;
 
-    if (m_pMFVDC) {
+	if (m_pCAP) {
+		LPVOID dibImage = nullptr;
+		hr = m_pCAP->GetDisplayedImage(&dibImage);
+
+		if (S_OK == hr && dibImage) {
+			const BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)dibImage;
+			dib.resize(sizeof(BITMAPINFOHEADER) + bih->biSizeImage);
+			memcpy(dib.data(), dibImage, sizeof(BITMAPINFOHEADER) + bih->biSizeImage);
+			LocalFree(dibImage);
+		}
+	}
+	else if (m_pMFVDC) {
         hr = GetVideoDisplayControlFrame(m_pMFVDC, dib);
     } else if (m_pMVRFG) {
         hr = GetMadVRFrameGrabberFrame(m_pMVRFG, dib, true);
@@ -4931,7 +4942,7 @@ HRESULT CMainFrame::GetDisplayedImage(std::vector<BYTE>& dib, CString& errmsg) {
     }
 
     if (FAILED(hr)) {
-        errmsg.Format(L"IMFVideoDisplayControl::GetCurrentImage() failed, 0x%08x", hr);
+		errmsg.Format(L"CMainFrame::GetCurrentImage() failed, 0x%08x", hr);
     }
 
     return hr;
@@ -5012,7 +5023,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
             const int height = bih->biHeight;
 
             SubPicDesc spdRender;
-            spdRender.type = MSP_RGBA;
+			spdRender.type    = MSP_RGB32;
             spdRender.w = width;
             spdRender.h = abs(height);
             spdRender.bpp = 32;
@@ -5032,7 +5043,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
             hr = pSubPicProvider->Render(spdRender, rtNow, m_pCAP->GetFPS(), bbox);
             if (S_OK == hr) {
                 SubPicDesc spdTarget;
-                spdTarget.type = MSP_RGBA;
+				spdTarget.type    = MSP_RGB32;
                 spdTarget.w = width;
                 spdTarget.h = height;
                 spdTarget.bpp = 32;
@@ -5459,8 +5470,15 @@ void CMainFrame::OnFileSaveImage()
     CPath psrc(s.strSnapshotPath);
     psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
 
+    bool subtitleOptionSupported;
+    if (m_pMVRFG) {
+        subtitleOptionSupported = false;
+    } else {
+        subtitleOptionSupported = true;
+    }
+
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
-                        _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
+                        _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), subtitleOptionSupported);
 
     if (s.strSnapshotExt == _T(".bmp")) {
         fd.m_pOFN->nFilterIndex = 1;

@@ -27,7 +27,7 @@ IMPLEMENT_DYNAMIC(CSaveImageDialog, CFileDialog)
 CSaveImageDialog::CSaveImageDialog(
     int nJpegQuality,
     LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
-    LPCTSTR lpszFilter, CWnd* pParentWnd) :
+    LPCTSTR lpszFilter, CWnd* pParentWnd, bool subtitleOptionSupported /*=false*/) :
     CFileDialog(FALSE, lpszDefExt, lpszFileName,
                 OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
                 lpszFilter, pParentWnd, 0),
@@ -42,7 +42,10 @@ CSaveImageDialog::CSaveImageDialog(
     pfdc->AddEditBox(IDC_EDIT1, str);
     pfdc->EndVisualGroup();
 
-    pfdc->AddCheckButton(IDS_SNAPSHOT_SUBTITLES, ResStr(IDS_SNAPSHOT_SUBTITLES), AfxGetAppSettings().bSnapShotSubtitles);
+    bSubtitleOptionSupported = subtitleOptionSupported;
+    if (bSubtitleOptionSupported) {
+        pfdc->AddCheckButton(IDS_SNAPSHOT_SUBTITLES, ResStr(IDS_SNAPSHOT_SUBTITLES), AfxGetAppSettings().bSnapShotSubtitles);
+    }
 
     pfdc->Release();
 }
@@ -78,9 +81,12 @@ BOOL CSaveImageDialog::OnFileNameOK()
     }
 
     m_nJpegQuality = std::max(0, std::min(100, m_nJpegQuality));
-    BOOL bChecked;
-    pfdc->GetCheckButtonState(IDS_SNAPSHOT_SUBTITLES, &bChecked);
-    AfxGetAppSettings().bSnapShotSubtitles = !!bChecked;
+
+    if (bSubtitleOptionSupported) {
+        BOOL bChecked;
+        pfdc->GetCheckButtonState(IDS_SNAPSHOT_SUBTITLES, &bChecked);
+        AfxGetAppSettings().bSnapShotSubtitles = !!bChecked;
+    }
 
     return __super::OnFileNameOK();
 }
