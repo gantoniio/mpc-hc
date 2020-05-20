@@ -257,14 +257,8 @@ STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::Paint(bool bAll)
 STDMETHODIMP CMPCVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
     HRESULT hr = E_NOTIMPL;
-    if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
-        hr = pIExFilterConfig->GetBin("currentImageAR", (LPVOID*)lpDib, (unsigned int*)size); //PR submitted to MPCVR tree.  if accepted this will work.
-        if (S_OK == hr) { //if failed, defaults to old code which currently doesn't use DAR (2020-05-16)
-            return hr;
-        }
-    }
     if (CComQIPtr<IBasicVideo> pBV = m_pMPCVR) {
-        hr = pBV->GetCurrentImage((long*)size, (long*)lpDib); //SAR, not DAR
+        hr = pBV->GetCurrentImage((long*)size, (long*)lpDib);
     }
     return hr;
 }
