@@ -339,8 +339,6 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
     }
 }
 
-
-
 void CPlayerNavigationDialog::OnSize(UINT nType, int cx, int cy) {
     CMPCThemeResizableDialog::OnSize(nType, cx, cy);
     if (m_channelList.m_hWnd) {
