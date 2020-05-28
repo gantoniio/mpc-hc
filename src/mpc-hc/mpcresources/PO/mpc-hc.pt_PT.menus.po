@@ -748,3 +748,4 @@ msgstr "&Doar"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Acerca de..."
+
