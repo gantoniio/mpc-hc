@@ -2,6 +2,7 @@
 
 #include "DspChunk.h"
 #include "DspFormat.h"
+#include <memory>
 
 namespace SaneAudioRenderer
 {
@@ -90,7 +91,7 @@ namespace SaneAudioRenderer
 
         bool CheckLastInstances()
         {
-            if (!m_backend.unique())
+            if (m_backend.use_count() != 1)
                 return false;
 
             if (m_backend->audioClock && !IsLastInstance(m_backend->audioClock))
