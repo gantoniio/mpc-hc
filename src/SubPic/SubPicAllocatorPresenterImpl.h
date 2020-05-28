@@ -45,6 +45,7 @@ protected:
     CSize m_curSubtitleTextureSize;
     CSize m_nativeVideoSize, m_aspectRatio;
     CRect m_videoRect, m_windowRect;
+	bool  m_bOtherTransform = false;
 
     REFERENCE_TIME m_rtNow;
     double m_fps;
@@ -91,7 +92,7 @@ public:
     STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) PURE;
 
     STDMETHODIMP_(void) SetVideoSize(CSize szVideo, CSize szAspectRatio = CSize(0, 0));
-    STDMETHODIMP_(SIZE) GetVideoSize(bool bCorrectAR = true) const;
+    STDMETHODIMP_(SIZE) GetVideoSize(bool bCorrectAR) const;
     STDMETHODIMP_(SIZE) GetVisibleVideoSize() const {
         return m_nativeVideoSize;
     };
@@ -108,6 +109,7 @@ public:
 
     STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size) { return E_NOTIMPL; }
 
+	STDMETHODIMP GetDisplayedImage(LPVOID* dibImage) { return E_NOTIMPL; }
     STDMETHODIMP_(bool) ResetDevice() { return false; }
 
     STDMETHODIMP_(bool) DisplayChange() { return false; }

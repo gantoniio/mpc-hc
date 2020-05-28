@@ -25,13 +25,11 @@
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "moreuuids.h"
 #include "FilterInterfaces.h"
+#include "Variables.h"
 #include "IPinHook.h"
+#include "Utils.h"
 
 using namespace DSObjects;
-
-extern bool g_bExternalSubtitleTime;
-extern bool g_bExternalSubtitle;
-extern double g_dRate;
 
 //
 // CMPCVRAllocatorPresenter
@@ -39,7 +37,6 @@ extern double g_dRate;
 
 CMPCVRAllocatorPresenter::CMPCVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString& _Error)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
-    , m_ScreenSize(0, 0)
 {
     if (FAILED(hr)) {
         _Error += L"ISubPicAllocatorPresenterImpl failed\n";
@@ -51,11 +48,6 @@ CMPCVRAllocatorPresenter::CMPCVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CStri
 
 CMPCVRAllocatorPresenter::~CMPCVRAllocatorPresenter()
 {
-    if (m_pSRCB) {
-        // nasty, but we have to let it know about our death somehow
-        ((CSubRenderCallback*)(ISubRenderCallback*)m_pSRCB)->SetMPCVRAP(nullptr);
-    }
-
     // the order is important here
     m_pSubPicQueue = nullptr;
     m_pAllocator = nullptr;
@@ -70,7 +62,11 @@ STDMETHODIMP CMPCVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
         }
     }
 
-    return __super::NonDelegatingQueryInterface(riid, ppv);
+	return QI(ISubRenderCallback)
+		   QI(ISubRenderCallback2)
+		   QI(ISubRenderCallback3)
+		   QI(ISubRenderCallback4)
+		   __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 HRESULT CMPCVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
@@ -79,18 +75,17 @@ HRESULT CMPCVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         // release all resources
         m_pSubPicQueue = nullptr;
         m_pAllocator = nullptr;
-        __super::SetPosition(CRect(), CRect());
         return S_OK;
     }
 
     const CRenderersSettings& r = GetRenderersSettings();
 
-    MONITORINFO mi;
-    mi.cbSize = sizeof(MONITORINFO);
-    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
-        m_ScreenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
-    }
-    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, m_ScreenSize);
+	CSize screenSize;
+	MONITORINFO mi = { sizeof(MONITORINFO) };
+	if (GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+		screenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+	}
+	InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, screenSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(pD3DDev);
@@ -120,25 +115,34 @@ HRESULT CMPCVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
     return hr;
 }
 
-HRESULT CMPCVRAllocatorPresenter::Render(
-    REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME atpf,
-    int left, int top, int right, int bottom, int width, int height)
+
+// ISubRenderCallback4 (called through CSubRenderCallback)
+
+HRESULT CMPCVRAllocatorPresenter::RenderEx3(REFERENCE_TIME rtStart,
+											REFERENCE_TIME rtStop,
+											REFERENCE_TIME atpf,
+											RECT croppedVideoRect,
+											RECT originalVideoRect,
+											RECT viewportRect,
+											const double videoStretchFactor,
+											int xOffsetInPixels, DWORD flags)
 {
-    CRect wndRect(0, 0, width, height);
-    CRect videoRect(left, top, right, bottom);
-    __super::SetPosition(wndRect, videoRect); // needed? should be already set by the player
-    if (!g_bExternalSubtitleTime) {
-        if (g_bExternalSubtitle && g_dRate != 0.0) {
-            const REFERENCE_TIME sampleTime = rtStart - g_tSegmentStart;
-            SetTime(g_tSegmentStart + sampleTime * g_dRate);
-        } else {
-            SetTime(rtStart);
-        }
-    }
-    if (atpf > 0 && m_pSubPicQueue) {
-        m_pSubPicQueue->SetFPS(10000000.0 / atpf);
-    }
-    return AlphaBltSubPic(wndRect, videoRect);
+	CheckPointer(m_pSubPicQueue, E_UNEXPECTED);
+
+	if (!g_bExternalSubtitleTime) {
+		if (g_bExternalSubtitle && g_dRate != 0.0) {
+			const REFERENCE_TIME sampleTime = rtStart - g_tSegmentStart;
+			SetTime(g_tSegmentStart + sampleTime * g_dRate);
+		} else {
+			SetTime(rtStart);
+		}
+	}
+	if (atpf > 0) {
+		m_fps = 10000000.0 / atpf;
+		m_pSubPicQueue->SetFPS(m_fps);
+	}
+
+	return AlphaBltSubPic(viewportRect, croppedVideoRect, nullptr, videoStretchFactor, xOffsetInPixels);
 }
 
 // ISubPicAllocatorPresenter
@@ -161,13 +165,16 @@ STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    m_pSRCB = DEBUG_NEW CSubRenderCallback(this);
-    if (FAILED(pSR->SetCallback(m_pSRCB))) {
+    if (FAILED(pSR->SetCallback(this))) {
         m_pMPCVR = nullptr;
         return E_FAIL;
     }
 
     (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
+
+	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+		pIExFilterConfig->SetBool("lessRedraws", true);
+	}
 
     CComQIPtr<IBaseFilter> pBF = m_pMPCVR;
     CComPtr<IPin> pPin = GetFirstPin(pBF);
@@ -188,16 +195,26 @@ STDMETHODIMP_(void) CMPCVRAllocatorPresenter::SetPosition(RECT w, RECT v)
         pVW->SetWindowPosition(w.left, w.top, w.right - w.left, w.bottom - w.top);
     }
 
-    SetVideoSize(GetVideoSize(), GetVideoSize(true));
+	__super::SetPosition(w, v);
 }
 
 STDMETHODIMP CMPCVRAllocatorPresenter::SetRotation(int rotation)
 {
-    HRESULT hr = E_NOTIMPL;
-    if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
-        hr = pIExFilterConfig->SetInt("rotate", rotation);
-    }
-    return hr;
+	if (AngleStep90(rotation)) {
+		HRESULT hr = E_NOTIMPL;
+		if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+			int curRotation = rotation;
+			hr = pIExFilterConfig->GetInt("rotation", &curRotation);
+			if (SUCCEEDED(hr) && rotation != curRotation) {
+				hr = pIExFilterConfig->SetInt("rotation", rotation);
+				if (SUCCEEDED(hr)) {
+					m_bOtherTransform = true;
+				}
+			}
+		}
+		return hr;
+	}
+	return E_INVALIDARG;
 }
 
 STDMETHODIMP_(int) CMPCVRAllocatorPresenter::GetRotation()
@@ -244,6 +261,26 @@ STDMETHODIMP CMPCVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
         hr = pBV->GetCurrentImage((long*)size, (long*)lpDib);
     }
     return hr;
+}
+
+STDMETHODIMP CMPCVRAllocatorPresenter::GetDisplayedImage(LPVOID* dibImage)
+{
+	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+		unsigned size = 0;
+		HRESULT hr = pIExFilterConfig->GetBin("displayedImage", dibImage, &size);
+
+		return hr;
+	}
+
+	return E_FAIL;
+}
+STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::DisplayChange()
+{
+	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+		return SUCCEEDED(pIExFilterConfig->SetBool("displayChange", true));
+	}
+
+	return false;
 }
 
 STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::IsRendering()

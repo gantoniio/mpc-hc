@@ -44,6 +44,7 @@
 #include "TimerWrappers.h"
 #include "VMROSD.h"
 #include "CMPCThemeMenu.h"
+#include "../SubPic/MemSubPic.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -52,6 +53,7 @@ class CFullscreenWnd;
 class SkypeMoodMsgHandler;
 struct DisplayMode;
 enum MpcCaptionState;
+class CMediaTypesDlg;
 
 interface IDSMChapterBag;
 interface IGraphBuilder2;
@@ -59,6 +61,7 @@ interface IMFVideoDisplayControl;
 interface IMFVideoProcessor;
 interface IMadVRCommand;
 interface IMadVRInfo;
+interface IMadVRFrameGrabber;
 interface IMadVRSettings;
 interface IMadVRSubclassReplacement;
 interface ISubClock;
@@ -227,6 +230,7 @@ private:
     CComPtr<IMadVRSubclassReplacement> m_pMVRSR;
     CComPtr<IMadVRCommand> m_pMVRC;
     CComPtr<IMadVRInfo> m_pMVRI;
+    CComPtr<IMadVRFrameGrabber> m_pMVRFG;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;
@@ -361,11 +365,15 @@ private:
 
     void ShowOptions(int idPage = 0);
 
+    HRESULT GetDisplayedImage(std::vector<BYTE>& dib, CString& errmsg);
+    HRESULT GetCurrentFrame(std::vector<BYTE>& dib, CString& errmsg);
+    HRESULT GetOriginalFrame(std::vector<BYTE>& dib, CString& errmsg);
+    HRESULT RenderCurrentSubtitles(BYTE* pData);
     bool GetDIB(BYTE** ppData, long& size, bool fSilent = false);
     void SaveDIB(LPCTSTR fn, BYTE* pData, long size);
     CString MakeSnapshotFileName(BOOL thumbnails);
     BOOL IsRendererCompatibleWithSaveImage();
-    void SaveImage(LPCTSTR fn);
+    void SaveImage(LPCTSTR fn, bool displayed);
     void SaveThumbnails(LPCTSTR fn);
 
     //
@@ -456,6 +464,10 @@ protected:
     void DoTunerScan(TunerScanData* pTSD);
 
     CWnd* GetModalParent();
+
+    CCritSec lockModalDialog;
+    CMediaTypesDlg* mediaTypesErrorDlg;
+    void ShowMediaTypesDialog();
 
     void OpenCreateGraphObject(OpenMediaData* pOMD);
     void OpenFile(OpenFileData* pOFD);
@@ -576,6 +588,8 @@ public:
 
     void DoAfterPlaybackEvent();
     bool SearchInDir(bool bDirForward, bool bLoop = false);
+    CString lastOpenFile;
+    bool CanSkipFromClosedFile();
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
