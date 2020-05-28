@@ -2,7 +2,6 @@
 
 #include "DspChunk.h"
 #include "DspFormat.h"
-#include <memory>
 
 namespace SaneAudioRenderer
 {
