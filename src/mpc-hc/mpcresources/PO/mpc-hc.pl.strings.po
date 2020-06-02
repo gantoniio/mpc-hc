@@ -4114,8 +4114,8 @@ msgid "Render subtitles onto screenshots"
 msgstr " Renderuj napisy do zrzutów ekranu"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
-msgid "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
-msgstr " Zachowaj rozszerzenie pliku wideo jako część nazw plików shapshot (np. file.mkv.png) "
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr " Zachowaj rozszerzenie pliku wideo jako część nazw plików snapshot (np. file.mkv.png) "
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"

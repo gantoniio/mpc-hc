@@ -4112,7 +4112,7 @@ msgid "Render subtitles onto screenshots"
 msgstr "スクリーンショットに字幕を表示します"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
-msgid "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
 msgstr "スナップショットのファイル名の一部としてビデオ ファイル拡張子を保持します (例えば、file.mkv.png)"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
