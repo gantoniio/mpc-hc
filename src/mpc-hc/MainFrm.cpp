@@ -7255,29 +7255,55 @@ void CMainFrame::OnViewRotate(UINT nID)
     HRESULT hr = E_NOTIMPL;
 
     if (m_pCAP3) {
-        int rotation = m_pCAP3->GetRotation();
+        bool isFlip = m_AngleY == 180;
+        bool isMirror = m_AngleX == 180;
+
+        auto doRotate = [&](int degrees) {
+            int rotation = (360 - m_AngleZ) % 360;
+
+            rotation += degrees;
+            rotation %= 360;
+
+            ASSERT(rotation >= 0);
+
+            hr = m_pCAP3->SetRotation(isMirror ? (rotation + 180) % 360 : rotation);
+            if (!m_pMVRC) {
+                MoveVideoWindow(); // need for EVRcp and Sync renderer, also mpcvr
+            }
+            if (S_OK == hr) {
+                m_AngleZ = (360 - rotation) % 360;
+            }
+            return hr;
+        };
 
         switch (nID) {
             case ID_PANSCAN_ROTATEZP:
             case ID_PANSCAN_ROTATEZ270:
-                rotation += 270;
+                doRotate(270);
                 break;
             case ID_PANSCAN_ROTATEZM:
-                rotation += 90;
+                doRotate(90);
                 break;
+            case ID_PANSCAN_ROTATEYM:
+            {
+                isFlip = !isFlip;
+                m_pCAP3->SetFlip(isFlip != isMirror);
+                if (FAILED(doRotate(0))) isFlip = !isFlip;
+                break;
+            }
+            case ID_PANSCAN_ROTATEXM:
+            {
+                isMirror = !isMirror;
+                m_pCAP3->SetFlip(isFlip != isMirror);
+                if (FAILED(doRotate(0))) isMirror = !isMirror;
+                break;
+            }
             default:
                 return;
         }
-        rotation %= 360;
-        ASSERT(rotation >= 0);
+        m_AngleY = isFlip ? 180 : 0;
+        m_AngleX = isMirror ? 180 : 0;
 
-        hr = m_pCAP3->SetRotation(rotation);
-        if (!m_pMVRC) {
-            MoveVideoWindow(); // need for EVRcp and Sync renderer, also mpcvr
-        }
-        if (S_OK == hr) {
-            m_AngleZ = (360 - rotation) % 360;
-        }
     } else if (m_pCAP) {
         switch (nID) {
             case ID_PANSCAN_ROTATEXP:
@@ -11043,7 +11069,7 @@ bool CMainFrame::DeleteShaderFile(LPCWSTR label)
 	return false;
 }
 
-void CMainFrame::TidyShaderCashe()
+void CMainFrame::TidyShaderCache()
 {
 	CString appsavepath;
 	if (!AfxGetMyApp()->GetAppSavePath(appsavepath)) {
