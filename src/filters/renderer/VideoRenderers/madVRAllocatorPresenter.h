@@ -28,7 +28,6 @@ namespace DSObjects
     class CmadVRAllocatorPresenter : public CSubPicAllocatorPresenterImpl, ISubRenderCallback4
     {
         CComPtr<IUnknown> m_pMVR;
-
     public:
         CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString& _Error);
         virtual ~CmadVRAllocatorPresenter();
@@ -79,5 +78,12 @@ namespace DSObjects
 
         // ISubPicAllocatorPresenter2
         STDMETHODIMP_(bool) IsRendering() override;
+        // ISubPicAllocatorPresenter3
+		STDMETHODIMP SetRotation(int rotation) override;
+		STDMETHODIMP_(int) GetRotation() override;
+		STDMETHODIMP_(int) GetPixelShaderMode() override { return 9; }
+		STDMETHODIMP ClearPixelShaders(int target) override;
+		STDMETHODIMP AddPixelShader(int target, LPCWSTR name, LPCSTR profile, LPCSTR sourceCode) override;
+        STDMETHODIMP_(bool) ToggleStats() override;
     };
 }
