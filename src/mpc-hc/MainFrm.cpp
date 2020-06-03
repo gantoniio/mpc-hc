@@ -7266,7 +7266,7 @@ void CMainFrame::OnViewRotate(UINT nID)
 
             ASSERT(rotation >= 0);
 
-            hr = m_pCAP3->SetRotation(isMirror ? (rotation + 180) % 360 : rotation);
+            hr = m_pCAP3->SetRotation(isFlip ? (rotation + 180) % 360 : rotation);
             if (!m_pMVRC) {
                 MoveVideoWindow(); // need for EVRcp and Sync renderer, also mpcvr
             }
@@ -7277,27 +7277,27 @@ void CMainFrame::OnViewRotate(UINT nID)
         };
 
         switch (nID) {
-            case ID_PANSCAN_ROTATEZP:
+        case ID_PANSCAN_ROTATEXM:
+        {
+            isFlip = !isFlip;
+            m_pCAP3->SetFlip(isFlip != isMirror);
+            if (FAILED(doRotate(0))) isFlip = !isFlip;
+            break;
+        }
+        case ID_PANSCAN_ROTATEYM:
+        {
+            isMirror = !isMirror;
+            m_pCAP3->SetFlip(isFlip != isMirror);
+            if (FAILED(doRotate(0))) isMirror = !isMirror;
+            break;
+        }
+        case ID_PANSCAN_ROTATEZP:
             case ID_PANSCAN_ROTATEZ270:
                 doRotate(270);
                 break;
             case ID_PANSCAN_ROTATEZM:
                 doRotate(90);
                 break;
-            case ID_PANSCAN_ROTATEYM:
-            {
-                isFlip = !isFlip;
-                m_pCAP3->SetFlip(isFlip != isMirror);
-                if (FAILED(doRotate(0))) isFlip = !isFlip;
-                break;
-            }
-            case ID_PANSCAN_ROTATEXM:
-            {
-                isMirror = !isMirror;
-                m_pCAP3->SetFlip(isFlip != isMirror);
-                if (FAILED(doRotate(0))) isMirror = !isMirror;
-                break;
-            }
             default:
                 return;
         }
