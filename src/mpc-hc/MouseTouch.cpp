@@ -269,13 +269,15 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
 void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
 {
     GetWnd().SetFocus();
+    if (!m_bLeftDown) {
+        m_beginDragPoint = point;
+    }
     m_bLeftDown = false;
     SetCursor(nFlags, point);
     if (MVRDown(nFlags, point)) {
         return;
     }
     bool bIsOnFS = IsOnFullscreenWindow();
-    bool bIsMaximized = m_pMainFrame->IsZoomed();
     if ((!m_bD3DFS || !bIsOnFS) && (abs(GetMessageTime() - m_popupMenuUninitTime) < 2)) {
         return;
     }
@@ -314,10 +316,10 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         }
         return ret;
     };
-    m_drag = (!onButton() && !bIsOnFS && !bIsMaximized) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
+
+    m_drag = (!onButton() && !bIsOnFS) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
     if (m_drag == Drag::BEGIN_DRAG) {
         GetWnd().SetCapture();
-        m_beginDragPoint = point;
         GetWnd().ClientToScreen(&m_beginDragPoint);
     }
 }
@@ -478,15 +480,23 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
     bool ret = false;
     if (m_drag == Drag::BEGIN_DRAG) {
         ASSERT(!IsOnFullscreenWindow());
-        bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP, false);
-        if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
+        bool checkDrag = true;
+        if (m_pMainFrame->IsZoomed()) {
+            CPoint diff = screenPoint - m_beginDragPoint;
+            checkDrag = (diff.x * diff.x + diff.y * diff.y) > 900; //if dragged 30 pixels start dragging
+        }
+
+        if (checkDrag) {
+            bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP, false);
+            if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
                 (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint,
-                                                      GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {
-            VERIFY(ReleaseCapture());
-            m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
-            m_drag = Drag::DRAGGED;
-            m_bLeftDown = false;
-            ret = true;
+                    GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {
+                VERIFY(ReleaseCapture());
+                m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
+                m_drag = Drag::DRAGGED;
+                m_bLeftDown = false;
+                ret = true;
+            }
         }
     } else {
         m_drag = Drag::NO_DRAG;
