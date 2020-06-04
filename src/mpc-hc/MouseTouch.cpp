@@ -269,9 +269,6 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
 void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
 {
     GetWnd().SetFocus();
-    if (!m_bLeftDown) {
-        m_beginDragPoint = point;
-    }
     m_bLeftDown = false;
     SetCursor(nFlags, point);
     if (MVRDown(nFlags, point)) {
@@ -320,6 +317,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     m_drag = (!onButton() && !bIsOnFS) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
     if (m_drag == Drag::BEGIN_DRAG) {
         GetWnd().SetCapture();
+        m_beginDragPoint = point;
         GetWnd().ClientToScreen(&m_beginDragPoint);
     }
 }
