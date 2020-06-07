@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-03-10 15:14:13+0000\n"
+"POT-Creation-Date: 2020-06-07 21:04:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1663,6 +1663,10 @@ msgstr ""
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
+msgstr ""
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Duplicate shaders will be skipped silently.  MPC-VR will process all pre-resize shaders after resizing, but before the post-resize shaders."
 msgstr ""
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"

@@ -1669,6 +1669,10 @@ msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
 msgstr "เฉดเดอร์หลังการปรับขนาดที่พร้อม"
 
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Duplicate shaders will be skipped silently.  MPC-VR will process all pre-resize shaders after resizing, but before the post-resize shaders."
+msgstr ""
+
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
 msgstr "ดีบักเฉดเดอร์"
