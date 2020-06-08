@@ -1088,7 +1088,7 @@ BEGIN
     PUSHBUTTON      "",IDC_BUTTON9,328,215,17,14,BS_BITMAP | BS_FLAT
     PUSHBUTTON      "",IDC_BUTTON10,328,232,17,14,BS_BITMAP | BS_FLAT
     PUSHBUTTON      "",IDC_BUTTON11,328,249,17,14,BS_BITMAP | BS_FLAT
-    LTEXT           "Duplicate shaders will be skipped silently.  MPC-VR will process all pre-resize shaders after resizing, but before the post-resize shaders.",IDC_STATIC,6,180,344,17
+    LTEXT           "MPC-VR does not support pre-resize shaders. It will run them after resize, before the post-resize shaders.",IDC_STATIC5,6,180,344,17
 END
 
 IDD_DEBUGSHADERS_DLG DIALOGEX 0, 0, 373, 290
