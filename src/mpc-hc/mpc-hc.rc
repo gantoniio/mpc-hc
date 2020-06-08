@@ -3007,7 +3007,7 @@ BEGIN
     IDS_AG_SAVE_COPY        "Save a Copy"
     IDS_FASTSEEK_LATEST     "Latest keyframe"
     IDS_FASTSEEK_NEAREST    "Nearest keyframe"
-    IDS_HOOKS_FAILED        "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+    IDS_HOOKS_FAILED        "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
     IDS_PPAGEFULLSCREEN_SHOWNEVER "Never show"
     IDS_PPAGEFULLSCREEN_SHOWMOVED "Show when moving the cursor, hide after:"
     IDS_PPAGEFULLSCREEN_SHOHHOVERED "Show when hovering control, hide after:"
@@ -3916,7 +3916,7 @@ BEGIN
     IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES
                             "Render subtitles onto screenshots"
     IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION 
-                            "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
+                            "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
     IDS_SNAPSHOT_SUBTITLES
                             "Include Subtitles"
 END

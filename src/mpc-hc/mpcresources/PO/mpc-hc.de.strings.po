@@ -1578,8 +1578,8 @@ msgid "Nearest keyframe"
 msgstr "Mit näherem Keyframe"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "Initialisierungsfehler aufgetreten. Möglicherweise arbeitet die DVD-Wiedergabe nicht korrekt. Dies kann ein Hinweis auf Inkompatibilität mit bestimmten Sicherheitsprogrammen sein.\n\nDiesen Fehler jetzt melden?"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -4114,7 +4114,7 @@ msgid "Render subtitles onto screenshots"
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
-msgid "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
 msgstr ""
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"

@@ -45,9 +45,10 @@
 #define USE_STATIC_MEDIAINFO 0
 #endif
 
-#define USE_DRDUMP_CRASH_REPORTER 0
+#define USE_DRDUMP_CRASH_REPORTER 1
 
 #define SHADERS_DIR _T("Shaders")
+#define SHADERS_DIR11 _T("Shaders11")
 #define SHADERS_EXT _T(".hlsl")
 
 // If this is enabled, the registered LAV Filters can be loaded as internal filters

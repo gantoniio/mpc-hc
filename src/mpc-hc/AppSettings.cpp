@@ -228,6 +228,7 @@ CAppSettings::CAppSettings()
     , sYDLCommandLine(_T(""))
     , bSnapShotSubtitles(false)
     , bSnapShotKeepVideoExtension(true)
+    , bEnableCrashReporter(true)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -756,6 +757,10 @@ bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
             return IsCLSIDRegistered(CLSID_madVR);
         case VIDRNDT_DS_MPCVR:
             return IsCLSIDRegistered(CLSID_MPCVR);
+#ifdef _WIN64
+        case VIDRNDT_DS_OVERLAYMIXER:
+            return false;
+#endif
         default:
             return true;
     }
@@ -1149,6 +1154,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, sYDLCommandLine);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, bEnableCrashReporter);
+
     pApp->FlushProfile();
 }
 
@@ -1380,11 +1387,6 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
-#if USE_DRDUMP_CRASH_REPORTER
-    if (language && CrashReporter::IsEnabled()) {
-        CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(language).dllPath);
-    }
-#endif
 
     CreateCommands();
 
@@ -1942,6 +1944,8 @@ void CAppSettings::LoadSettings()
     bYDLAudioOnly   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
     sYDLCommandLine = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, _T(""));
 
+    bEnableCrashReporter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, TRUE);
+
     bInitialized = true;
 }
 
@@ -2143,10 +2147,13 @@ CString CAppSettings::ParseFileName(CString const& param)
 
     // Try to transform relative pathname into full pathname
     if (param.Find(_T(":")) < 0) {
-        fullPathName.ReleaseBuffer(GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr));
+        DWORD dwLen = GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr);
+        if (dwLen > 0 && dwLen < MAX_PATH) {
+            fullPathName.ReleaseBuffer(dwLen);
 
-        if (!fullPathName.IsEmpty() && PathUtils::Exists(fullPathName)) {
-            return fullPathName;
+            if (!fullPathName.IsEmpty() && PathUtils::Exists(fullPathName)) {
+                return fullPathName;
+            }
         }
     }
 

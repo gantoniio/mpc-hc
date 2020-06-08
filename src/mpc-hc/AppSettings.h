@@ -412,7 +412,7 @@ public:
 
 class CAppSettings
 {
-    bool bInitialized;
+    bool bInitialized = false;
 
     class CRecentFileAndURLList : public CRecentFileList
     {
@@ -790,6 +790,8 @@ public:
     int iYDLVideoFormat;
     bool bYDLAudioOnly;
     CString sYDLCommandLine;
+
+    bool bEnableCrashReporter;
 
 private:
     struct FilterKey {

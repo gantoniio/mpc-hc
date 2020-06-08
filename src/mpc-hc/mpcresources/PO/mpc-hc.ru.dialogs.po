@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Александр Станкович <sanekst00@yandex.ru>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-16 07:58:37+0000\n"
+"POT-Creation-Date: 2020-03-10 15:14:13+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Александр Станкович <sanekst00@yandex.ru>, 2020\n"
 "Language-Team: Russian (https://www.transifex.com/mpchc/teams/106126/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,7 +128,7 @@ msgstr "Переход..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Введите время в формате чч:мм:сс.мс, чтобы перейти к указанному моменту."
+msgstr "Введите время в формате [чч:]мм:сс.мс, чтобы перейти к указанному моменту."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -243,11 +244,11 @@ msgstr "Открывать файлы, используя"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "один проигрыватель для каждого файла"
+msgstr "Один проигрыватель для каждого файла"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "новый проигрыватель для каждого файла"
+msgstr "Новый проигрыватель для каждого файла"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -259,19 +260,19 @@ msgstr "В заголовке отображать"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "полный путь"
+msgstr "Полный путь"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "только имя файла"
+msgstr "Только имя файла"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "ничего"
+msgstr "Ничего"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "заменять имя файла названием"
+msgstr "Заменять имя файла названием"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -431,7 +432,7 @@ msgstr "По окончании воспроизведения"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
-msgstr ""
+msgstr "Масштаб и выравнивание"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -495,7 +496,7 @@ msgstr "Шаг скорости:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
-msgstr ""
+msgstr "Вертикал. выравнивание:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -883,7 +884,7 @@ msgstr "Масштаб: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
-msgstr ""
+msgstr "Сочетания клавиш"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -1267,7 +1268,7 @@ msgstr "Настройки"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
@@ -1747,7 +1748,7 @@ msgstr "Уровень:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
-msgstr ""
+msgstr "Игнорировать системный микшер каналов (в режиме WASAPI Exclusive игнорируется всегда)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"

@@ -313,22 +313,5 @@ STDMETHODIMP CmadVRAllocatorPresenter::AddPixelShader(int target, LPCWSTR name, 
 }
 
 STDMETHODIMP_(bool) CmadVRAllocatorPresenter::ToggleStats() {
-    if (debugShortcutDisabled) {
-        if (CComQIPtr<IMadVRSettings> pMVRS = m_pMVR) {
-            int sz = _countof(debugShortcut);
-            wchar_t ds[1024];
-            if (pMVRS->SettingsGetString(L"keyDebugOSD", ds, &sz) && wcsnlen_s(ds, _countof(debugShortcut))==0) {
-                BOOL debugOSD;
-                if (pMVRS->SettingsGetBoolean(L"DebugOSD", &debugOSD)) {
-                    debugOSD = !debugOSD;
-                    pMVRS->SettingsSetBoolean(L"DebugOSD", debugOSD);
-                    return debugOSD;
-                }
-            } else {
-                debugShortcutDisabled = false; //if they have changed the madvR shortcut we will no longer call from within mpc-hc to avoid double actions
-            }
-        }
-    }
-
     return false;
 }

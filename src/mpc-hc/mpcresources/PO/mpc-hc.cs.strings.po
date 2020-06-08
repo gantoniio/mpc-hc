@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Jindřich T, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
+"POT-Creation-Date: 2020-05-11 19:52:17+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Jindřich T, 2020\n"
 "Language-Team: Czech (https://www.transifex.com/mpchc/teams/106126/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +76,7 @@ msgstr "Seznam stop"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
-msgstr ""
+msgstr "A-B"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -139,15 +140,15 @@ msgstr "Režim opakování: Soubor"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
-msgstr ""
+msgstr "Opakování A-B: Reset pozic"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
 msgid "A-B Repeat: Mark A Position"
-msgstr ""
+msgstr "Opakování A-B: Označit pozici A"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
 msgid "A-B Repeat: Mark B Position"
-msgstr ""
+msgstr "Opakování A-B: Označit pozici B"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -163,15 +164,15 @@ msgstr "Opakovat donekonečna"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Pouze při přepínání různých video typů"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
-msgstr ""
+msgstr "Vždy (defaultní)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -187,7 +188,7 @@ msgstr "Nikdy, pokud je to možné (nejrychlejší, ale podporováno jen někter
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Pouze při přepínání různých video typů"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -619,7 +620,7 @@ msgstr "K&anály"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr ""
+msgstr "MPC video renderer"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -695,7 +696,7 @@ msgstr "Vysoce kvalitní renderer, vyžaduje GPU podporující D3D9 nebo nověj�
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "Stejný jako EVR (CP), ale s dodatečnými možnostmi pro synchronizaci videa s obnovovací frekvencí displeje pro minimalizaci vynechaných nebo opakovaných rámců."
+msgstr "Stejný jako EVR (CP), ale s dodatečnými možnostmi pro synchronizaci videa s obnovovací frekvencí displeje pro minimalizaci vynechaných nebo opakovaných video snímků."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -727,15 +728,15 @@ msgstr "Plocha videa bude vymezena jako textura a vykreslena v 3D režimu jako 2
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Pokud není podporován Pixel Shader 2.0, automaticky se použije simple bilinear."
+msgstr "Pokud není podporován Pixel Shader 2.0, automaticky se použije jednoduchý bilineární."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Přepne VMR-9 (renderless) do mixer režimu, to znamená, že většina nastavení v možnostech rendereru bude funkční a pro vykreslování snímků se použije samostatné pracovní vlákno."
+msgstr "Přepne VMR-9 (renderless) do mixer režimu, to znamená, že většina nastavení v možnostech rendereru bude funkční a pro vykreslování snímků se použije samostatné vlákno."
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
+msgstr "Vysoce kvalitní renderer, vyžaduje GPU podporující D3D9 nebo novější."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -759,23 +760,23 @@ msgstr "Nejbližší sousední pixel"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr "Bilinear"
+msgstr "Bilineární"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Bilinear (PS 2.0)"
+msgstr "Bilineární (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr "Bicubic A=-0.60 (PS 2.0)"
+msgstr "Bikubický A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr "Bicubic A=-0.75 (PS 2.0)"
+msgstr "Bikubický A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr "Bicubic A=-1.00 (PS 2.0)"
+msgstr "Bikubický A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -919,7 +920,7 @@ msgstr "Pozastavit\nPozastavit"
 
 msgctxt "IDS_AG_OPEN_FILE_LOCATION"
 msgid "Open File Location"
-msgstr ""
+msgstr "Otevřít umístění souboru"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1574,8 +1575,8 @@ msgid "Nearest keyframe"
 msgstr "Nejbližší klíčový snímek"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "Během inicializace došlo k chybě. Přehrávání DVD nemusí fungovat správně. To může být způsobeno nekompatibilitou s některými bezpečnostními nástroji.\n\nChcete tento problém nahlásit?"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1875,7 +1876,7 @@ msgstr "Chcete pravidelně kontrolovat dostupnost aktualizací MPC-HC?\n\nTato f
 
 msgctxt "IDS_ZOOM_25"
 msgid "25%"
-msgstr ""
+msgstr "25%"
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -2371,7 +2372,7 @@ msgstr "Soubor nelze vytvořit, protože miniatury by byly příliš malé.\n\nS
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr ""
+msgstr "Pro načtení titulků musíte použít některý z těchto video rendererů a otevřít daný soubor znovu.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR nebo Haali VR\n- RealMedia: Special renderer pro RealMedia nebo použijte DirectShow\n- QuickTime: DX7 nebo DX9 renderer pro QuickTime\n- ShockWave: N/A"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2651,7 +2652,7 @@ msgstr "Zobrazit/Skrýt ladění shaderů"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr ""
+msgstr "Velikost 25%"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -3623,11 +3624,11 @@ msgstr "Poskytovatel"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr "Neslišící"
+msgstr "Neslyšící"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr "Stahování"
+msgstr "Počet stažení"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
@@ -3839,7 +3840,7 @@ msgstr "Načítají se podporované jazyky..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Přihlášení k „%1“ pod uživatelským jménem „%2“ se nezdařilo.\n\nZadejte správné uživatelské jméno a heslo, nebo nastavte výchozí přihlašovací údaje a přihlaste se jako anonymní uživatel."
+msgstr "Přihlášení k \"%1\" pod uživatelským jménem \"%2\" se nezdařilo.\n\nZadejte správné uživatelské jméno a heslo anebo nastavte výchozí přihlašovací údaje a přihlaste se jako anonymní uživatel."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -3943,55 +3944,55 @@ msgstr "/volume N\tNastaví hlasitost N, kde N je v rozsahu od 0 do 100"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-msgstr ""
+msgstr "Youtube-dl se nepodařilo spustit. Ujistěte se, že se youtube-dl nachází v PATH."
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
-msgstr ""
+msgstr "Spouštím youtube-dl..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr ""
+msgstr "Zarovnat nahoru"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
-msgstr ""
+msgstr "Zarovnat doprostřed"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
-msgstr ""
+msgstr "Zarovnat dolů"
 
 msgctxt "IDS_PPAGEADVANCED_USE_YDL"
 msgid "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
-msgstr ""
+msgstr "Zpracuje HTTP(s) adresy pomocí Youtube-DL (pokud je dostupný). MPC obsahuje interní seznam adres, které jsou dle (ne)závadnosti zpracovány."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
 msgid "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
-msgstr ""
+msgstr "Může být použit k omezení rozlišení na základě šířky videa, které vybere Youtube-DL. Hodnota 0 znamená nejvyšší možné rozlišení."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT"
 msgid "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
-msgstr ""
+msgstr "Upřednostňovaný video formát streamů vybraných z Youtube-DL.\n0: Automaticky\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_ONLY"
 msgid "Instructs Youtube-DL to prefer an audio-only stream (if available)"
-msgstr ""
+msgstr "Youtube-DL bude preferovat pouze zvukový stream (pokud bude dostupný)"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
 msgid "Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s"
-msgstr ""
+msgstr "Parametry příkazové řádky ke stahování (\"uložit kopii\") pro použití s youtube-dl.exe\nPříklady:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s"
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
 msgid "Include video position in filename"
-msgstr ""
+msgstr "Přidat pozici videa ke jménu souboru"
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
 msgid "Include current time in filename"
-msgstr ""
+msgstr "Přidat aktuální čas ke jménu souboru"
 
 msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
 msgid "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
-msgstr ""
+msgstr "Při povolení této volby má rychlé hledání (po klíčových snímcích) maximální nepřesnost 20 vteřin. Při zakázání je nepřesnost menší."
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -4059,61 +4060,61 @@ msgstr "/shaderpreset \"Př\"\tPoužije předvolbu shaderů \"Př\""
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Storno"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
-msgstr ""
+msgstr "&Zrušit"
 
 msgctxt "IDS_MESSAGEBOX_RETRY"
 msgid "&Retry"
-msgstr ""
+msgstr "&Opakovat"
 
 msgctxt "IDS_MESSAGEBOX_IGNORE"
 msgid "&Ignore"
-msgstr ""
+msgstr "&Ignorovat"
 
 msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
-msgstr ""
+msgstr "&Pokračovat"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr ""
+msgstr "Zapnout/vypnout výchozí styl titulků"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
-msgstr ""
+msgstr "Zapnout/vypnout tmavý režim"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
-msgstr ""
+msgstr "Po přehrání posledního souboru v adresáři začne přehrávat od prvního."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
 msgid "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
-msgstr ""
+msgstr "Vyžaduje tmavý režim. Při zapnutí panel hledání a ukazatel hlasitosti neukazují posuvník na aktuální pozici, ale jsou zaplňovány zleva doprava."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr ""
+msgstr "Výška moderního panelu hledání (o DPI 96, jinak bude škálován)"
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
-msgstr ""
+msgstr "Zpoždění před zobrazením videa na celou obrazovku (k zabránění obrazových vad)."
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
 msgid "Render subtitles onto screenshots"
-msgstr ""
+msgstr "Vykreslit titulky do snímků obrazovky"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
-msgid "Keep video file extension as part of shapshot filenames (e.g., file.mkv.png)"
-msgstr ""
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr "Přidat příponu video souboru k názvu obrázku (např. soubor.mkv.png)"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
-msgstr ""
+msgstr "Včetně titulků"
 

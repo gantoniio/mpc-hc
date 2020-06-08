@@ -689,11 +689,6 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
-#if USE_DRDUMP_CRASH_REPORTER
-            if (CrashReporter::IsEnabled()) {
-                CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(s.language).dllPath);
-            }
-#endif
             break;
         case MpcEvent::STREAM_POS_UPDATE_REQUEST:
             OnTimer(TIMER_STREAMPOSPOLLER);
@@ -3121,6 +3116,26 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             continue;
         }
 
+        // "File -> Subtitles" submenu
+        if (firstSubItemID == ID_FILE_SUBTITLES_LOAD) {
+            UINT fState = (GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP)
+                ? MF_ENABLED
+                : (MF_DISABLED | MF_GRAYED);
+            pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
+            continue;
+        }
+
+        // renderer settings
+        if (firstSubItemID == ID_VIEW_TEARING_TEST) {
+            UINT fState = (MF_DISABLED | MF_GRAYED);
+            const CAppSettings& s = AfxGetAppSettings();
+            if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) {
+                fState = MF_ENABLED;
+            }
+            pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
+            continue;
+        }
+
         UINT itemID = pPopupMenu->GetMenuItemID(i);
         if (itemID == 0xFFFFFFFF) {
             mii.fMask = MIIM_ID;
@@ -3128,6 +3143,16 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             itemID = mii.wID;
         }
         CMPCThemeMenu* pSubMenu = nullptr;
+
+        // debug shaders
+        if (itemID == ID_VIEW_DEBUGSHADERS) {
+            UINT fState = (MF_DISABLED | MF_GRAYED);
+            if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP2) {
+                fState = MF_ENABLED;
+            }
+            pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
+            continue;
+        }
 
         if (itemID == ID_FILE_OPENDISC) {
             SetupOpenCDSubMenu();
@@ -5816,7 +5841,6 @@ void CMainFrame::OnUpdateViewDisplayRendererStats(CCmdUI* pCmdUI)
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC
-                      || s.iDSVideoRendererType == VIDRNDT_DS_MADVR
                       || s.iDSVideoRendererType == VIDRNDT_DS_MPCVR);
 
     pCmdUI->Enable(supported && GetLoadState() == MLS::LOADED && !m_fAudioOnly);
@@ -5834,7 +5858,6 @@ void CMainFrame::OnViewDisplayRendererStats()
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
                       || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                       || s.iDSVideoRendererType == VIDRNDT_DS_SYNC
-                      || s.iDSVideoRendererType == VIDRNDT_DS_MADVR
                       || s.iDSVideoRendererType == VIDRNDT_DS_MPCVR);
 
     if (supported) {
@@ -7303,7 +7326,6 @@ void CMainFrame::OnViewRotate(UINT nID)
         }
         m_AngleY = isFlip ? 180 : 0;
         m_AngleX = isMirror ? 180 : 0;
-
     } else if (m_pCAP) {
         switch (nID) {
             case ID_PANSCAN_ROTATEXP:
@@ -10961,12 +10983,22 @@ void CMainFrame::RepaintVideo()
     }
 }
 
-ShaderC* CMainFrame::GetShader(CString path)
+ShaderC* CMainFrame::GetShader(CString path, bool bD3D11)
 {
 	ShaderC* pShader = nullptr;
 
+    CString shadersDir = ShaderList::GetShadersDir();
+    CString shadersDir11 = ShaderList::GetShadersDir11();
+    CString tPath = path;
+    tPath.Replace(shadersDir, shadersDir11);
+
+    //if the shader exists in the Shaders11 folder, use that one
+    if (bD3D11 && ::PathFileExistsW(tPath)) {
+        path = tPath;
+    }
+
 	for (auto& shader : m_ShaderCache) {
-		if (shader.Match(path, false)) {
+		if (shader.Match(path, bD3D11)) {
 			pShader = &shader;
 			break;
 		}
@@ -10987,7 +11019,9 @@ ShaderC* CMainFrame::GetShader(CString path)
 					file.SeekToBegin();
 				}
 
-				if (shader.profile == L"ps_3_sw") {
+                if (bD3D11) {
+                    shader.profile = L"ps_4_0";
+                } else if (shader.profile == L"ps_3_sw") {
 					shader.profile = L"ps_3_0";
 				} else if (shader.profile != L"ps_2_0"
 						&& shader.profile != L"ps_2_a"
@@ -11110,14 +11144,14 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
 
     if (m_pCAP3) { //interfaces for madVR and MPC-VR
         const int PShaderMode = m_pCAP3->GetPixelShaderMode();
-        if (PShaderMode != 9) {
+        if (PShaderMode != 9 && PShaderMode != 11) {
             return;
         }
 
         if (bSetPreResize) {
             m_pCAP3->ClearPixelShaders(TARGET_FRAME);
             for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
-                ShaderC* pShader = GetShader(shader.filePath);
+                ShaderC* pShader = GetShader(shader.filePath, PShaderMode == 11);
                 if (pShader) {
                     CStringW label = pShader->label;
                     CStringA profile = pShader->profile;
@@ -11133,7 +11167,7 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
         if (bSetPostResize) {
             m_pCAP3->ClearPixelShaders(TARGET_SCREEN);
             for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPostResize()) {
-                ShaderC* pShader = GetShader(shader.filePath);
+                ShaderC* pShader = GetShader(shader.filePath, PShaderMode == 11);
                 if (pShader) {
                     CStringW label = pShader->label;
                     CStringA profile = pShader->profile;
@@ -12970,13 +13004,11 @@ void CMainFrame::CloseMediaPrivate()
     }
     m_pCB.Release();
 
-    SetSubtitle(SubtitleInput(nullptr));
     {
         CAutoLock cAutoLock(&m_csSubLock);
         m_pSubStreams.RemoveAll();
+        m_ExternalSubstreams.clear();
     }
-    m_ExternalSubstreams.clear();
-
     m_pSubClock.Release();
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
@@ -13120,8 +13152,8 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
         if (pTun) {
             BOOLEAN bPresent;
             BOOLEAN bLocked;
-            LONG lDbStrength;
-            LONG lPercentQuality;
+            LONG lDbStrength = 0;
+            LONG lPercentQuality = 0;
             int nOffset = pTSD->Offset ? 3 : 1;
             LONG lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
             m_bStopTunerScan = false;
@@ -14446,6 +14478,13 @@ void CMainFrame::SetupShadersSubMenu()
     CMenu& subMenu = m_shadersMenu;
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
+
+    if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_MADVR || s.iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
+        subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_ENABLED);
+    } else {
+        subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+        return;
+    }        
 
     VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT)));
     VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_DEBUGSHADERS, ResStr(IDS_SHADERS_DEBUG)));
