@@ -190,6 +190,17 @@ void CMPCThemeUtil::subClassFileDialog(CWnd* wnd, HWND hWnd, bool findSink)
                     pObject->setFileDialogChild(true);
                     allocatedWindows.push_back(pObject);
                     pObject->SubclassWindow(pChild);
+                } else if (0 == _tcsicmp(childWindowClass, WC_BUTTON)) {
+                    CWnd* c = CWnd::FromHandle(pChild);
+                    DWORD style = c->GetStyle();
+                    DWORD buttonType = (style & BS_TYPEMASK);
+                    if (buttonType == BS_CHECKBOX || buttonType == BS_AUTOCHECKBOX) {
+                        c->UnsubclassWindow();
+                        CMPCThemeRadioOrCheck* pObject = DEBUG_NEW CMPCThemeRadioOrCheck();
+                        pObject->setFileDialogChild(true);
+                        allocatedWindows.push_back(pObject);
+                        pObject->SubclassWindow(pChild);
+                    }
                 } else if (0 == _tcsicmp(childWindowClass, WC_EDIT)) {
                     CWnd* c = CWnd::FromHandle(pChild);
                     c->UnsubclassWindow();
@@ -311,6 +322,10 @@ HBRUSH CMPCThemeUtil::getCtlColorFileDialog(HDC hDC, UINT nCtlColor)
         ::SetBkColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedBGColor);
         return W10DarkThemeFileDialogInjectedBGBrush;
     } else if (CTLCOLOR_STATIC == nCtlColor) {
+        ::SetTextColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedTextColor);
+        ::SetBkColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedBGColor);
+        return W10DarkThemeFileDialogInjectedBGBrush;
+    } else if (CTLCOLOR_BTN == nCtlColor) {
         ::SetTextColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedTextColor);
         ::SetBkColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedBGColor);
         return W10DarkThemeFileDialogInjectedBGBrush;
@@ -561,6 +576,7 @@ void CMPCThemeUtil::Draw2BitTransparent(CDC& dc, int left, int top, int width, i
     dc.SetBkColor(crOldBkColor);
 }
 
+#if 0
 void CMPCThemeUtil::dbg(CString text, ...)
 {
     va_list args;
@@ -571,6 +587,7 @@ void CMPCThemeUtil::dbg(CString text, ...)
     OutputDebugString(_T("\n"));
     va_end(args);
 }
+#endif
 
 float CMPCThemeUtil::getConstantFByDPI(CWnd* window, const float* constants)
 {

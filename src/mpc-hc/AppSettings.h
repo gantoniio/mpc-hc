@@ -189,6 +189,18 @@ enum DVB_StopFilterGraph {
     DVB_STOP_FG_ALWAYS
 };
 
+struct ShaderC {
+	CString   label;
+	CString   profile;
+	CString   srcdata;
+	ULONGLONG length = 0;
+	FILETIME  ftwrite = {0,0};
+
+	bool Match(LPCWSTR _label, const bool _bD3D11) const {
+		return (label.CompareNoCase(_label) == 0 && (_bD3D11 == (profile == "ps_4_0")));
+	}
+};
+
 struct DisplayMode {
     bool  bValid = false;
     CSize size;
@@ -400,7 +412,7 @@ public:
 
 class CAppSettings
 {
-    bool bInitialized;
+    bool bInitialized = false;
 
     class CRecentFileAndURLList : public CRecentFileList
     {
@@ -574,7 +586,7 @@ public:
     CString         strAnalogVideo;
     CString         strAnalogAudio;
     int             iAnalogCountry;
-    CString         strBDANetworkProvider;
+    //CString         strBDANetworkProvider;
     CString         strBDATuner;
     CString         strBDAReceiver;
     //CString           strBDAStandard;
@@ -699,6 +711,8 @@ public:
     bool            bFavRelativeDrive;
     // Save Image...
     CString         strSnapshotPath, strSnapshotExt;
+    bool			bSnapShotSubtitles;
+    bool			bSnapShotKeepVideoExtension;
     // Save Thumbnails...
     int             iThumbRows, iThumbCols, iThumbWidth;
     // Save Subtitle
@@ -776,6 +790,8 @@ public:
     int iYDLVideoFormat;
     bool bYDLAudioOnly;
     CString sYDLCommandLine;
+
+    bool bEnableCrashReporter;
 
 private:
     struct FilterKey {

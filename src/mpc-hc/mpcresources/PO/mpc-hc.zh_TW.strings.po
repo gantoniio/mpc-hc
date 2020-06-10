@@ -1575,8 +1575,8 @@ msgid "Nearest keyframe"
 msgstr "最近的關鍵幀"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC 在初始化時遇到了一個問題。DVD 播放可能會不正常。這可能與某些安全工具的不相容性所致。\n\n您要回報這個問題嗎?"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -4105,4 +4105,16 @@ msgstr "現代搜尋列高度（96dpi 時，其他解析度時自動縮放）"
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr "延後顯示全螢幕視訊，以避免畫面不正常"
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
+msgid "Render subtitles onto screenshots"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr ""
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
 

@@ -34,9 +34,8 @@
 #define WEBSITE_URL  _T("https://github.com/clsid2/mpc-hc/releases")
 #define DOWNLOAD_URL _T("https://github.com/clsid2/mpc-hc/releases")
 #define UPDATE_URL   _T("https://github.com/clsid2/mpc-hc/raw/develop/version.txt")
-#define TRAC_URL     _T("https://trac.mpc-hc.org/")
-#define BUGS_URL     _T("https://trac.mpc-hc.org/wiki/How_to_Report_Issues")
-#define TOOLBARS_URL _T("https://trac.mpc-hc.org/wiki/Toolbar_images")
+#define TRAC_URL     _T("https://github.com/clsid2/mpc-hc/issues")
+#define BUGS_URL     _T("https://github.com/clsid2/mpc-hc/issues")
 
 #define USE_STATIC_UNRAR 1
 
@@ -46,9 +45,10 @@
 #define USE_STATIC_MEDIAINFO 0
 #endif
 
-#define USE_DRDUMP_CRASH_REPORTER 0
+#define USE_DRDUMP_CRASH_REPORTER 1
 
 #define SHADERS_DIR _T("Shaders")
+#define SHADERS_DIR11 _T("Shaders11")
 #define SHADERS_EXT _T(".hlsl")
 
 // If this is enabled, the registered LAV Filters can be loaded as internal filters

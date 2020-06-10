@@ -1575,8 +1575,8 @@ msgid "Nearest keyframe"
 msgstr "Image-clé la plus proche"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC a rencontré un problème pendant son initialisation. La lecture DVD pourrait ne pas fonctionner correctement. Ceci peut être causé par des incompatibilités avec certains outils de sécurisation.\n\nSouhaitez-vous signaler ce problème ?"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -4105,4 +4105,16 @@ msgstr "Hauteur de la barre de progression (à 96dpi, sinon, mis à l'échelle).
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr "Temporiser le basculement en plein écran de la vidéo, afin d'éviter les artéfacts visuels."
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
+msgid "Render subtitles onto screenshots"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr ""
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
 

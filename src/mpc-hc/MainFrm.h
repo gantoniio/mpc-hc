@@ -44,6 +44,7 @@
 #include "TimerWrappers.h"
 #include "VMROSD.h"
 #include "CMPCThemeMenu.h"
+#include "../SubPic/MemSubPic.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -52,6 +53,7 @@ class CFullscreenWnd;
 class SkypeMoodMsgHandler;
 struct DisplayMode;
 enum MpcCaptionState;
+class CMediaTypesDlg;
 
 interface IDSMChapterBag;
 interface IGraphBuilder2;
@@ -59,6 +61,7 @@ interface IMFVideoDisplayControl;
 interface IMFVideoProcessor;
 interface IMadVRCommand;
 interface IMadVRInfo;
+interface IMadVRFrameGrabber;
 interface IMadVRSettings;
 interface IMadVRSubclassReplacement;
 interface ISubClock;
@@ -222,11 +225,13 @@ private:
 
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
+    CComPtr<ISubPicAllocatorPresenter3> m_pCAP3;
 
     CComPtr<IMadVRSettings> m_pMVRS;
     CComPtr<IMadVRSubclassReplacement> m_pMVRSR;
     CComPtr<IMadVRCommand> m_pMVRC;
     CComPtr<IMadVRInfo> m_pMVRI;
+    CComPtr<IMadVRFrameGrabber> m_pMVRFG;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;
@@ -256,6 +261,7 @@ private:
     CCritSec m_csSubtitleManagementLock;
 
     CList<SubtitleInput> m_pSubStreams;
+    std::list<ISubStream*> m_ExternalSubstreams;
     POSITION m_posFirstExtSub;
     SubtitleInput m_pCurrentSubInput;
 
@@ -360,11 +366,15 @@ private:
 
     void ShowOptions(int idPage = 0);
 
+    HRESULT GetDisplayedImage(std::vector<BYTE>& dib, CString& errmsg);
+    HRESULT GetCurrentFrame(std::vector<BYTE>& dib, CString& errmsg);
+    HRESULT GetOriginalFrame(std::vector<BYTE>& dib, CString& errmsg);
+    HRESULT RenderCurrentSubtitles(BYTE* pData);
     bool GetDIB(BYTE** ppData, long& size, bool fSilent = false);
     void SaveDIB(LPCTSTR fn, BYTE* pData, long size);
     CString MakeSnapshotFileName(BOOL thumbnails);
     BOOL IsRendererCompatibleWithSaveImage();
-    void SaveImage(LPCTSTR fn);
+    void SaveImage(LPCTSTR fn, bool displayed);
     void SaveThumbnails(LPCTSTR fn);
 
     //
@@ -455,6 +465,10 @@ protected:
     void DoTunerScan(TunerScanData* pTSD);
 
     CWnd* GetModalParent();
+
+    CCritSec lockModalDialog;
+    CMediaTypesDlg* mediaTypesErrorDlg;
+    void ShowMediaTypesDialog();
 
     void OpenCreateGraphObject(OpenMediaData* pOMD);
     void OpenFile(OpenFileData* pOFD);
@@ -564,6 +578,12 @@ public:
 
     // shaders
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);
+	
+	std::list<ShaderC> m_ShaderCache;
+	ShaderC* GetShader(CString path, bool bD3D11);
+	bool SaveShaderFile(ShaderC* shader);
+	bool DeleteShaderFile(LPCWSTR label);
+	void TidyShaderCashe();
 
     // capturing
     bool m_fCapturing;
@@ -575,6 +595,8 @@ public:
 
     void DoAfterPlaybackEvent();
     bool SearchInDir(bool bDirForward, bool bLoop = false);
+    CString lastOpenFile;
+    bool CanSkipFromClosedFile();
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);

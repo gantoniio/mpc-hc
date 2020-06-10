@@ -162,7 +162,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, C
 
     if (bVideoSizeChanged || bAspectRatioChanged) {
         if (m_SubtitleTextureLimit == VIDEO) {
-            m_maxSubtitleTextureSize = m_curSubtitleTextureSize = GetVideoSize();
+            m_maxSubtitleTextureSize = m_curSubtitleTextureSize = GetVideoSize(true);
             m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
         }
     }
@@ -220,8 +220,9 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
         }
     }
 
-    if (bWindowPosChanged || bVideoRectChanged) {
+	if (bWindowPosChanged || bVideoRectChanged || m_bOtherTransform) {
         Paint(false);
+		m_bOtherTransform = false;
     }
 }
 

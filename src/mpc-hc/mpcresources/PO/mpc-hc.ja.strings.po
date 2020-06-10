@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# O SA, 2020
 # ever_green, 2020
-# OS, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-03-20 18:57:58+0000\n"
+"POT-Creation-Date: 2020-05-11 19:52:17+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: OS, 2020\n"
+"Last-Translator: ever_green, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,23 +145,23 @@ msgstr "A-B リピート: 区間をリセット"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
 msgid "A-B Repeat: Mark A Position"
-msgstr "A-B リピート: 開始点(A)を設定"
+msgstr "A-B リピート: 開始点 A を設定"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
 msgid "A-B Repeat: Mark B Position"
-msgstr "A-B リピート: 終了点(B)を設定"
+msgstr "A-B リピート: 終了点 B を設定"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "連続再生(無限): オン"
+msgstr "連続再生 (無限): オン"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "連続再生(無限): オフ"
+msgstr "連続再生 (無限): オフ"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "連続再生(無限)"
+msgstr "連続再生 (無限)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
@@ -429,11 +429,11 @@ msgstr "名前を付けて保存(&S)..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "名前順に並べ替える(&L)"
+msgstr "ラベルで並べ替え(&L)"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "パス順に並べ替える(&P)"
+msgstr "パスで並べ替え(&P)"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -1353,7 +1353,7 @@ msgstr "何もしない"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr "フォルダ内を順次再生する"
+msgstr "フォルダ内を順次再生"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
@@ -1405,7 +1405,7 @@ msgstr "下へ移動"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr "LCN 順に並べ替える"
+msgstr "LCN で並べ替え"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
@@ -1576,8 +1576,8 @@ msgid "Nearest keyframe"
 msgstr "最も近いキーフレーム"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC の初期化中に問題が発生しました。 DVD の再生が正しく機能しない可能性があります。これは特定のセキュリティ ツールとの互換性がないために発生することがあります。\n\nこの問題を報告しますか？"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -3553,7 +3553,7 @@ msgstr "再生終了後: モニタの電源を切る"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "再生終了後: フォルダ内を順次再生する"
+msgstr "再生終了後: フォルダ内を順次再生"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
@@ -4106,4 +4106,16 @@ msgstr "モダン シークバーの高さ (96dpi、それ以外の場合はス�
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr "視覚的な不具合を防ぐために、ビデオを全画面表示する前の遅延です。"
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
+msgid "Render subtitles onto screenshots"
+msgstr "スクリーンショットに字幕を表示します"
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr "スナップショットのファイル名の一部としてビデオ ファイル拡張子を保持します (例えば、file.mkv.png)"
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr "字幕を含める"
 

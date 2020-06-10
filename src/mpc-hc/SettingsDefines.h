@@ -200,6 +200,8 @@
 #define IDS_RS_SNAPSHOTPATH                 _T("SnapshotPath")
 #define IDS_RS_PRIORITY                     _T("Priority")
 #define IDS_RS_SNAPSHOTEXT                  _T("SnapshotExt")
+#define IDS_RS_SNAPSHOTSUBTITLES            _T("SnapshotSubtitles")
+#define IDS_RS_SNAPSHOTKEEPVIDEOEXTENSION   _T("SnapshotKeepVideoExtension")
 #define IDS_RS_LAUNCHFULLSCREEN             _T("LaunchFullScreen")
 #define IDS_RS_WEBROOT                      _T("WebRoot")
 #define IDS_RS_WEBSERVERLOCALHOSTONLY       _T("WebServerLocalhostOnly")
@@ -256,7 +258,7 @@
 #define IDS_RS_COUNTRY                      _T("Country")
 
 #define IDS_R_DVB                           _T("DVBConfiguration")
-#define IDS_RS_BDA_NETWORKPROVIDER          _T("BDANetworkProvider")
+//#define IDS_RS_BDA_NETWORKPROVIDER          _T("BDANetworkProvider")
 #define IDS_RS_BDA_TUNER                    _T("BDATuner")
 #define IDS_RS_BDA_RECEIVER                 _T("BDAReceiver")
 #define IDS_RS_BDA_STANDARD                 _T("BDAStandard")
@@ -340,3 +342,5 @@
 #define IDS_RS_YDL_VIDEO_FORMAT             _T("YDLVideoFormat")
 #define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")
 #define IDS_RS_YDL_COMMAND_LINE             _T("YDLCommandLine")
+
+#define IDS_RS_ENABLE_CRASH_REPORTER        _T("EnableCrashReporter")

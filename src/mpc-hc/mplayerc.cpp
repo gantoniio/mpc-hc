@@ -48,8 +48,6 @@
 #include "FGFilterLAV.h"
 #include "CMPCThemeMsgBox.h"
 
-#define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
-
 HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper/* = nullptr*/)
 {
     if (fn.IsEmpty()) {
@@ -326,6 +324,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 {
     CUrl url;
     CString ct, body;
+    BOOL parsebody = false;
 
     fn.Trim();
 
@@ -486,18 +485,32 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             ct = _T("application/x-mpc-playlist");
         } else if (ext == _T(".pls")) {
             ct = _T("audio/x-scpls");
+            parsebody = true;
         } else if (ext == _T(".m3u") || ext == _T(".m3u8")) {
             ct = _T("audio/x-mpegurl");
         } else if (ext == _T(".bdmv")) {
             ct = _T("application/x-bdmv-playlist");
         } else if (ext == _T(".asx")) {
             ct = _T("video/x-ms-asf");
+            parsebody = true;
         } else if (ext == _T(".swf")) {
             ct = _T("application/x-shockwave-flash");
         } else if (ext == _T(".qtl")) {
             ct = _T("application/x-quicktimeplayer");
-        } else if (ext == _T(".ram") || ext == _T(".ra")) {
+            parsebody = true;
+        } else if (ext == _T(".ram")) {
             ct = _T("audio/x-pn-realaudio");
+            parsebody = true;
+        }
+
+        if (parsebody) {
+            FILE* f = nullptr;
+            if (!_tfopen_s(&f, fn, _T("rb"))) {
+                CStringA str;
+                str.ReleaseBufferSetLength((int)fread(str.GetBuffer(10240), 1, 10240, f));
+                body = AToT(str);
+                fclose(f);
+            }
         }
     }
 
@@ -635,8 +648,8 @@ CMPlayerCApp::~CMPlayerCApp()
 int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
                                UINT nIDPrompt)
 {
-    if (AfxGetAppSettings().bMPCThemeLoaded) {
-
+    const CAppSettings& s = AfxGetAppSettings();
+    if (&s && s.IsInitialized() && s.bMPCThemeLoaded) {
         CWnd* pParentWnd = CWnd::GetActiveWindow();
         if (pParentWnd == NULL) {
             pParentWnd = GetMainWnd()->GetLastActivePopup();
@@ -1451,6 +1464,22 @@ BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
     }
 }
 
+BOOL RegQueryBoolValue(HKEY hKeyRoot, LPCWSTR lpSubKey, LPCWSTR lpValuename, BOOL defaultvalue) {
+    BOOL result = defaultvalue;
+    HKEY hKeyOpen;
+    DWORD rv = RegOpenKeyEx(hKeyRoot, lpSubKey, 0, KEY_READ, &hKeyOpen);
+    if (rv == ERROR_SUCCESS) {
+        DWORD data;
+        DWORD dwBufferSize = sizeof(DWORD);
+        rv = RegQueryValueEx(hKeyOpen, lpValuename, NULL, NULL, reinterpret_cast<LPBYTE>(&data), &dwBufferSize);
+        if (rv == ERROR_SUCCESS) {
+            result = (data > 0);
+        }
+        RegCloseKey(hKeyOpen);
+    }
+    return result;
+}
+
 BOOL CMPlayerCApp::InitInstance()
 {
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
@@ -1458,9 +1487,13 @@ BOOL CMPlayerCApp::InitInstance()
 
     // At this point we have not hooked this function yet so we get the real result
     if (!IsDebuggerPresent()) {
-#if USE_DRDUMP_CRASH_REPORTER
-        CrashReporter::Enable();
-        if (!CrashReporter::IsEnabled()) {
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+        if (RegQueryBoolValue(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC\\Settings"), _T("EnableCrashReporter"), true)) {
+            CrashReporter::Enable();
+            if (!CrashReporter::IsEnabled()) {
+                MPCExceptionHandler::Enable();
+            }
+        } else {
             MPCExceptionHandler::Enable();
         }
 #else
@@ -1498,9 +1531,7 @@ BOOL CMPlayerCApp::InitInstance()
     bHookingSuccessful &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
 
     if (!bHookingSuccessful) {
-        if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
-            ShellExecute(nullptr, _T("open"), HOOKS_BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
-        }
+        AfxMessageBox(IDS_HOOKS_FAILED);
     }
 
     // If those hooks fail it's annoying but try to run anyway without reporting any error in release mode
@@ -1765,6 +1796,13 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_s->UpdateSettings(); // update settings
     m_s->LoadSettings(); // read settings
+
+    #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+    if (!m_s->bEnableCrashReporter && CrashReporter::IsEnabled()) {
+        CrashReporter::Disable();
+        MPCExceptionHandler::Enable();
+    }
+    #endif
 
     m_AudioRendererDisplayName_CL = _T("");
 

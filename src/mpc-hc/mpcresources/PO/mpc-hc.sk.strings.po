@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-03-20 18:57:58+0000\n"
+"POT-Creation-Date: 2020-05-11 19:52:17+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2020\n"
 "Language-Team: Slovak (https://www.transifex.com/mpchc/teams/106126/sk/)\n"
@@ -1575,8 +1575,8 @@ msgid "Nearest keyframe"
 msgstr "Najbližšia kľúčová snímka"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC zaznamenal problém počas inicializácie. Prehrávanie DVD možno nebude pracovať správne. Môže to byť spôsobené nekompatibilitou s niektorými zabezpečovacími programami.\n\nChcete oznámiť túto chybu vývojárom?"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -4105,4 +4105,16 @@ msgstr "Výška moderného vyhľadávacieho panela (pri 96 dpi, inak škálovan�
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr "Oneskorenie pred zobrazením videa na celú obrazovku, aby sa zabránilo narušeniu obrazu."
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
+msgid "Render subtitles onto screenshots"
+msgstr "Vykresľovať titulky na snímkach obrazovky"
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr "Zachovať koncovku súboru s videom ako súčasť názvu súboru so snímkou (napr.: subor.mkv.png)"
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr "Zahrnúť titulky"
 
