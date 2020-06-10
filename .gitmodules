@@ -30,7 +30,7 @@
 	url = https://github.com/TsudaKageyu/minhook.git
 [submodule "src/thirdparty/libass/libass"]
 	path = src/thirdparty/libass/libass
-	url = https://github.com/libass/libass.git 
+	url = https://github.com/libass/libass.git
 [submodule "src/thirdparty/fontconfig/fontconfig"]
 	path = src/thirdparty/fontconfig/fontconfig
 	url = https://github.com/ShiftMediaProject/fontconfig.git
