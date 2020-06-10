@@ -28,9 +28,6 @@
 [submodule "src/thirdparty/minhook/minhook"]
 	path = src/thirdparty/minhook/minhook
 	url = https://github.com/TsudaKageyu/minhook.git
-[submodule "src/thirdparty/libass"]
-	path = src/thirdparty/libass
-	url = https://github.com/ShiftMediaProject/libass.git
 [submodule "src/thirdparty/libass/libass"]
 	path = src/thirdparty/libass/libass
 	url = https://github.com/libass/libass.git 
