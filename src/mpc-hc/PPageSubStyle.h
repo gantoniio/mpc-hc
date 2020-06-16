@@ -40,6 +40,8 @@ private:
     CMPCThemeButton m_font;
     int m_iCharset;
     CMPCThemeComboBox m_cbCharset;
+    int iOpenTypeLangHint;
+    CMPCThemeComboBox openTypeLangHint;
     int m_spacing;
     CMPCThemeSpinButtonCtrl m_spacingSpin;
     int m_angle;
@@ -64,6 +66,7 @@ private:
     std::array<CMPCThemeSliderCtrl, 4> m_alphaSliders;
     BOOL m_bLinkAlphaSliders;
     int m_iRelativeTo;
+    int iRenderUsingLibass;
 
     void AskColor(int i);
 

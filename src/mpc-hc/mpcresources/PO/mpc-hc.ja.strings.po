@@ -75,10 +75,6 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "再生リスト"
 
-msgctxt "IDS_PLAY_LOOPMODE_AB"
-msgid "A-B"
-msgstr "A-B"
-
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "ファイル"
@@ -86,6 +82,26 @@ msgstr "ファイル"
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
 msgstr "DVD"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr "A-B リピート: 区間をリセット"
+
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr "A-B"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr "A-B リピート: 開始点 A を設定"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr "A-B リピート: 終了点 B を設定"
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr "字幕を含める"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -138,18 +154,6 @@ msgstr "連続再生モード: 再生リスト"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "連続再生モード: ファイル"
-
-msgctxt "IDS_PLAYLOOPMODE_AB"
-msgid "A-B Repeat: Reset Positions"
-msgstr "A-B リピート: 区間をリセット"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
-msgid "A-B Repeat: Mark A Position"
-msgstr "A-B リピート: 開始点 A を設定"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
-msgid "A-B Repeat: Mark B Position"
-msgstr "A-B リピート: 終了点 B を設定"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -559,6 +563,10 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "オーバーレイ ミキサ レンダラ"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr "25%"
+
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "VMR-9 (ウィンドウ)"
@@ -883,6 +891,10 @@ msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr "LAV Filters を使用します。マイクロソフトのフィルタが通常、これらの形式にはより安定しているので、既定では無効になっています。\n内部フィルタを使用する場合は、ソースとデコードの両方で有効にすると、再生機能が向上します。"
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr "ファイルの場所を開く"
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "ナビゲーション バーの表示"
@@ -918,10 +930,6 @@ msgstr "再生\n再生"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "一時停止\n一時停止"
-
-msgctxt "IDS_AG_OPEN_FILE_LOCATION"
-msgid "Open File Location"
-msgstr "ファイルの場所を開く"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1875,10 +1883,6 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "MPC-HC の更新を定期的に確認しますか？\n\nこの機能はその他のオプションのページから後で無効にできます。"
 
-msgctxt "IDS_ZOOM_25"
-msgid "25%"
-msgstr "25%"
-
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2651,10 +2655,6 @@ msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "シェーダ デバッガの表示"
 
-msgctxt "IDS_AG_ZOOM_25"
-msgid "Zoom 25%"
-msgstr "拡大 25%"
-
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
 msgstr "拡大 50%"
@@ -2690,6 +2690,46 @@ msgstr "PnS: リセット"
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
 msgstr "PnS: 回転 X+ (上回転)"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "シーク バーの上に"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "シーク バーの下に"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "映像: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "適用"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "クリア"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "レイアウト"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "ピクセル:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "エンコーディング:"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr "拡大 25%"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2794,42 +2834,6 @@ msgstr "トップ リア センター"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "トップ リア 右"
-
-msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "シーク バーの上に"
-
-msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "シーク バーの下に"
-
-msgctxt "IDS_VIDEO_STREAM"
-msgid "Video: %s"
-msgstr "映像: %s"
-
-msgctxt "IDS_APPLY"
-msgid "Apply"
-msgstr "適用"
-
-msgctxt "IDS_CLEAR"
-msgid "Clear"
-msgstr "クリア"
-
-msgctxt "IDS_CANCEL"
-msgid "Cancel"
-msgstr "キャンセル"
-
-msgctxt "IDS_THUMB_THUMBNAILS"
-msgid "Layout"
-msgstr "レイアウト"
-
-msgctxt "IDS_THUMB_PIXELS"
-msgid "Pixels:"
-msgstr "ピクセル:"
-
-msgctxt "IDS_TEXTFILE_ENC"
-msgid "Encoding:"
-msgstr "エンコーディング:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -4114,8 +4118,4 @@ msgstr "スクリーンショットに字幕を表示します"
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
 msgstr "スナップショットのファイル名の一部としてビデオ ファイル拡張子を保持します (例えば、file.mkv.png)"
-
-msgctxt "IDS_SNAPSHOT_SUBTITLES"
-msgid "Include Subtitles"
-msgstr "字幕を含める"
 

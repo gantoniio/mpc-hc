@@ -73,10 +73,6 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "Λίστα αναπαραγωγής"
 
-msgctxt "IDS_PLAY_LOOPMODE_AB"
-msgid "A-B"
-msgstr ""
-
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "Αρχεία"
@@ -84,6 +80,26 @@ msgstr "Αρχεία"
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
 msgstr "DVD"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr ""
+
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr ""
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -136,18 +152,6 @@ msgstr "Λειτουργία επανάληψης: Λίστα αναπαραγω
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "Λειτουργία επανάληψης: Αρχείο"
-
-msgctxt "IDS_PLAYLOOPMODE_AB"
-msgid "A-B Repeat: Reset Positions"
-msgstr ""
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
-msgid "A-B Repeat: Mark A Position"
-msgstr ""
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
-msgid "A-B Repeat: Mark B Position"
-msgstr ""
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -557,6 +561,10 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Απόδοση μείκτη επικάλυψης"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr ""
+
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Απόδοση μείξης βίντεο 9 (σε παράθυρο)"
@@ -881,6 +889,10 @@ msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr "Χρησιμοποιεί LAV Filters. Απενεργοποιημένο από προεπιλογή, διότι τα φίλτρα της Microsoft είναι συνήθως πιο σταθερά γι αυτές τις μορφές.\nΕάν επιλέξετε να χρησιμοποιήσετε τα εσωτερικά φίλτρα, ενεργοποιήστε τα τόσο για την πηγή όσο και για την αποκωδικοποίηση, για να έχετε μια καλύτερη εμπειρία αναπαραγωγής."
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr ""
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "Εναλλαγή σε γραμμή περιήγησης"
@@ -916,10 +928,6 @@ msgstr "Αναπαραγωγή\nΑναπαραγωγή"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Παύση\nΠαύση"
-
-msgctxt "IDS_AG_OPEN_FILE_LOCATION"
-msgid "Open File Location"
-msgstr ""
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1873,10 +1881,6 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "Θέλετε να γίνεται έλεγχος περιοδικά για ενημερώσεις του MPC-HC;\n\nΑυτή η δυνατότητα μπορεί να απενεργοποιηθεί αργότερα από τη σελίδα επιλογών «Διάφορα»."
 
-msgctxt "IDS_ZOOM_25"
-msgid "25%"
-msgstr ""
-
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2649,10 +2653,6 @@ msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "Εναλλαγή εντοπισμού σφαλμάτων σκιάσεων"
 
-msgctxt "IDS_AG_ZOOM_25"
-msgid "Zoom 25%"
-msgstr ""
-
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
 msgstr "Μεγέθυνση 50%"
@@ -2688,6 +2688,46 @@ msgstr "Πανοραμική: Επαναφορά"
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
 msgstr "Πανοραμική: Περιστροφή X+"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "Πάνω από γραμμή αναζήτησης"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "Κάτω από γραμμή αναζήτησης"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Βίντεο: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Εφαρμογή"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Απαλοιφή"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Άκυρο"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Διάταξη"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Πίξελ:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "Κωδικοποίηση:"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr ""
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2792,42 +2832,6 @@ msgstr "Πίσω πάνω κέντρο"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "Μπροστά πάνω δεξιά"
-
-msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "Πάνω από γραμμή αναζήτησης"
-
-msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "Κάτω από γραμμή αναζήτησης"
-
-msgctxt "IDS_VIDEO_STREAM"
-msgid "Video: %s"
-msgstr "Βίντεο: %s"
-
-msgctxt "IDS_APPLY"
-msgid "Apply"
-msgstr "Εφαρμογή"
-
-msgctxt "IDS_CLEAR"
-msgid "Clear"
-msgstr "Απαλοιφή"
-
-msgctxt "IDS_CANCEL"
-msgid "Cancel"
-msgstr "Άκυρο"
-
-msgctxt "IDS_THUMB_THUMBNAILS"
-msgid "Layout"
-msgstr "Διάταξη"
-
-msgctxt "IDS_THUMB_PIXELS"
-msgid "Pixels:"
-msgstr "Πίξελ:"
-
-msgctxt "IDS_TEXTFILE_ENC"
-msgid "Encoding:"
-msgstr "Κωδικοποίηση:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -4111,9 +4115,5 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
-msgstr ""
-
-msgctxt "IDS_SNAPSHOT_SUBTITLES"
-msgid "Include Subtitles"
 msgstr ""
 

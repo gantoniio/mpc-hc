@@ -77,6 +77,9 @@
     <ClCompile Include="SSASub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OpenTypeLangTags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCDecoder.h">
@@ -149,6 +152,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SSASub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenTypeLangTags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

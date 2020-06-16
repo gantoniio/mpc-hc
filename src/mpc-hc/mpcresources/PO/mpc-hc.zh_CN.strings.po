@@ -75,10 +75,6 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "播放列表"
 
-msgctxt "IDS_PLAY_LOOPMODE_AB"
-msgid "A-B"
-msgstr "A-B循环"
-
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "文件"
@@ -86,6 +82,26 @@ msgstr "文件"
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
 msgstr "DVD"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr "重置A-B循环"
+
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr "A-B循环"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr "A-B循环：标记A点"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr "A-B循环：标记B点"
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -138,18 +154,6 @@ msgstr "重复模式: 播放列表"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "重复模式: 文件"
-
-msgctxt "IDS_PLAYLOOPMODE_AB"
-msgid "A-B Repeat: Reset Positions"
-msgstr "重置A-B循环"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
-msgid "A-B Repeat: Mark A Position"
-msgstr "A-B循环：标记A点"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
-msgid "A-B Repeat: Mark B Position"
-msgstr "A-B循环：标记B点"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -559,6 +563,10 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "覆盖合成渲染器"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr "25%"
+
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "VMR-9 (窗口化)"
@@ -883,6 +891,10 @@ msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr "使用 LAV Filters。 默认禁用，因为系统内置的微软滤镜通常更稳定。\n如果您选择内部滤镜, 为这些格式同时启用源滤镜和转换滤镜会获得更好的播放体验。"
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr "打开文件位置"
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "切换导航栏"
@@ -918,10 +930,6 @@ msgstr "播放\n播放"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "暂停\n暂停"
-
-msgctxt "IDS_AG_OPEN_FILE_LOCATION"
-msgid "Open File Location"
-msgstr "打开文件位置"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1875,10 +1883,6 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "您确实要定期检查 MPC-HC 的更新吗？\n\n此功能可以在其它选项页中被关闭。"
 
-msgctxt "IDS_ZOOM_25"
-msgid "25%"
-msgstr "25%"
-
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2651,10 +2655,6 @@ msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "切换调试着色器"
 
-msgctxt "IDS_AG_ZOOM_25"
-msgid "Zoom 25%"
-msgstr "缩放 25%"
-
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
 msgstr "缩放 50%"
@@ -2690,6 +2690,46 @@ msgstr "PnS 重置"
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
 msgstr "PnS 旋转 X+"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "在进度栏之上"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "在进度栏之下"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "视频: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "应用"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "清除"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "取消"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "版式"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "像素:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "编码:"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr "缩放 25%"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2794,42 +2834,6 @@ msgstr "上 后 中"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "上 后 右"
-
-msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "在进度栏之上"
-
-msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "在进度栏之下"
-
-msgctxt "IDS_VIDEO_STREAM"
-msgid "Video: %s"
-msgstr "视频: %s"
-
-msgctxt "IDS_APPLY"
-msgid "Apply"
-msgstr "应用"
-
-msgctxt "IDS_CLEAR"
-msgid "Clear"
-msgstr "清除"
-
-msgctxt "IDS_CANCEL"
-msgid "Cancel"
-msgstr "取消"
-
-msgctxt "IDS_THUMB_THUMBNAILS"
-msgid "Layout"
-msgstr "版式"
-
-msgctxt "IDS_THUMB_PIXELS"
-msgid "Pixels:"
-msgstr "像素:"
-
-msgctxt "IDS_TEXTFILE_ENC"
-msgid "Encoding:"
-msgstr "编码:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -4113,9 +4117,5 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
-msgstr ""
-
-msgctxt "IDS_SNAPSHOT_SUBTITLES"
-msgid "Include Subtitles"
 msgstr ""
 

@@ -74,10 +74,6 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "Llista de reproducció"
 
-msgctxt "IDS_PLAY_LOOPMODE_AB"
-msgid "A-B"
-msgstr ""
-
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "Fitxers"
@@ -85,6 +81,26 @@ msgstr "Fitxers"
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
 msgstr "DVDs"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr ""
+
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr ""
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -137,18 +153,6 @@ msgstr "Mode de repetició: Llista de reproducció"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "Mode de repetició: Fitxer"
-
-msgctxt "IDS_PLAYLOOPMODE_AB"
-msgid "A-B Repeat: Reset Positions"
-msgstr ""
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
-msgid "A-B Repeat: Mark A Position"
-msgstr ""
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
-msgid "A-B Repeat: Mark B Position"
-msgstr ""
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -558,6 +562,10 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Renderitzador Overlay Mixer"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr ""
+
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (de finestra)"
@@ -882,6 +890,10 @@ msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr "Usa els LAV Filters. Desactivat per defecte ja que els filtres de Microsoft solen ser més estables per aquests formats.\nSi esculls usar els filtres interns, habilita'ls ambdos l'origen i la decodificació per tenir una millor experiéncia de reproducció."
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr ""
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "Commuta la barra de navegació"
@@ -917,10 +929,6 @@ msgstr "Reprodueix\nReprodueix"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Pausa\nPausa"
-
-msgctxt "IDS_AG_OPEN_FILE_LOCATION"
-msgid "Open File Location"
-msgstr ""
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1874,10 +1882,6 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "Voleu que l'MPC-HC comprovi periòdicament si hi ha actualitzacions?\n\nPodeu desactivar aquesta funció més tard a la pàgina «Diversos» del menú d'opcions."
 
-msgctxt "IDS_ZOOM_25"
-msgid "25%"
-msgstr ""
-
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2650,10 +2654,6 @@ msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "Commuta la depuració dels PS"
 
-msgctxt "IDS_AG_ZOOM_25"
-msgid "Zoom 25%"
-msgstr ""
-
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
 msgstr "Zoom 50%"
@@ -2689,6 +2689,46 @@ msgstr "Reinicia el PnS"
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
 msgstr "Gira PnS X+"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "Per sobre de la barra de navegació"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "Per sota de la barra de navegació"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Vídeo: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Aplica"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Neteja"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Disposició"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Píxels:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "Codificació:"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr ""
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2793,42 +2833,6 @@ msgstr "Dalt Darrere Centre"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "Dalt Darrere Dreta"
-
-msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "Per sobre de la barra de navegació"
-
-msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "Per sota de la barra de navegació"
-
-msgctxt "IDS_VIDEO_STREAM"
-msgid "Video: %s"
-msgstr "Vídeo: %s"
-
-msgctxt "IDS_APPLY"
-msgid "Apply"
-msgstr "Aplica"
-
-msgctxt "IDS_CLEAR"
-msgid "Clear"
-msgstr "Neteja"
-
-msgctxt "IDS_CANCEL"
-msgid "Cancel"
-msgstr "Cancel·la"
-
-msgctxt "IDS_THUMB_THUMBNAILS"
-msgid "Layout"
-msgstr "Disposició"
-
-msgctxt "IDS_THUMB_PIXELS"
-msgid "Pixels:"
-msgstr "Píxels:"
-
-msgctxt "IDS_TEXTFILE_ENC"
-msgid "Encoding:"
-msgstr "Codificació:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -4112,9 +4116,5 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
-msgstr ""
-
-msgctxt "IDS_SNAPSHOT_SUBTITLES"
-msgid "Include Subtitles"
 msgstr ""
 

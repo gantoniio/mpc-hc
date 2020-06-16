@@ -75,10 +75,6 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "Плейлист"
 
-msgctxt "IDS_PLAY_LOOPMODE_AB"
-msgid "A-B"
-msgstr "A-B"
-
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "Файлы"
@@ -86,6 +82,26 @@ msgstr "Файлы"
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
 msgstr "DVD"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr "Повтор A-B: Сброс позиций"
+
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr "A-B"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr "Повтор A-B: Позиция метки A"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr "Повтор A-B: Позиция метки B"
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr "Добавить субтитры"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -138,18 +154,6 @@ msgstr "Режим повтора: Плейлист"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "Режим повтора: Файл"
-
-msgctxt "IDS_PLAYLOOPMODE_AB"
-msgid "A-B Repeat: Reset Positions"
-msgstr "Повтор A-B: Сброс позиций"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
-msgid "A-B Repeat: Mark A Position"
-msgstr "Повтор A-B: Позиция метки A"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
-msgid "A-B Repeat: Mark B Position"
-msgstr "Повтор A-B: Позиция метки B"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -559,6 +563,10 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Overlay Mixer Renderer"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr "25%"
+
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (оконный)"
@@ -883,6 +891,10 @@ msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr "Использует LAV Filters. По умолчанию отключено, так как фильтры Microsoft более стабильны для этих форматов.\nЕсли вы решите использовать встроенные фильтры, включите их как для источника, так и для декодирования, чтобы улучшить процесс воспроизведения."
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr "Расположение файла"
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "Вкл/откл отображение панели навигации"
@@ -918,10 +930,6 @@ msgstr "Воспроизведение\nВоспроизведение"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Пауза\nПауза"
-
-msgctxt "IDS_AG_OPEN_FILE_LOCATION"
-msgid "Open File Location"
-msgstr "Расположение файла"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1875,10 +1883,6 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "Вы хотите, чтобы плеер сам проверял наличие обновлений?\n\nЭту функция может быть отключена в настройках на странице \"Разное\"."
 
-msgctxt "IDS_ZOOM_25"
-msgid "25%"
-msgstr "25%"
-
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50%"
@@ -2651,10 +2655,6 @@ msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "Вкл/откл отладку шейдеров"
 
-msgctxt "IDS_AG_ZOOM_25"
-msgid "Zoom 25%"
-msgstr "Масштаб 25%"
-
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
 msgstr "Масштаб 50%"
@@ -2690,6 +2690,46 @@ msgstr "Положение кадра по умолчанию"
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
 msgstr "Вращение кадра X+"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "Над полосой прокрутки"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "Под полосой прокрутки"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Видео: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Применить"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Очистить"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Отмена"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Размешение"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Пиксели:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "Кодировка:"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr "Масштаб 25%"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2794,42 +2834,6 @@ msgstr "Верх. задний центр"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "Верх. задний правый"
-
-msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "Над полосой прокрутки"
-
-msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "Под полосой прокрутки"
-
-msgctxt "IDS_VIDEO_STREAM"
-msgid "Video: %s"
-msgstr "Видео: %s"
-
-msgctxt "IDS_APPLY"
-msgid "Apply"
-msgstr "Применить"
-
-msgctxt "IDS_CLEAR"
-msgid "Clear"
-msgstr "Очистить"
-
-msgctxt "IDS_CANCEL"
-msgid "Cancel"
-msgstr "Отмена"
-
-msgctxt "IDS_THUMB_THUMBNAILS"
-msgid "Layout"
-msgstr "Размешение"
-
-msgctxt "IDS_THUMB_PIXELS"
-msgid "Pixels:"
-msgstr "Пиксели:"
-
-msgctxt "IDS_TEXTFILE_ENC"
-msgid "Encoding:"
-msgstr "Кодировка:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -4114,8 +4118,4 @@ msgstr "Отрисовывать субтитры на снимках экран
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
 msgstr "Добавлять расширение видеофайла в имя файла снимка (например file.mkv.png)"
-
-msgctxt "IDS_SNAPSHOT_SUBTITLES"
-msgid "Include Subtitles"
-msgstr "Добавить субтитры"
 

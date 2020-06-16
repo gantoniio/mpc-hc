@@ -229,6 +229,7 @@ CAppSettings::CAppSettings()
     , bSnapShotSubtitles(false)
     , bSnapShotKeepVideoExtension(true)
     , bEnableCrashReporter(true)
+    , bRenderUsingLibass(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA

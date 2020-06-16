@@ -1077,6 +1077,22 @@ msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
 msgstr "সবগুলোর অস্বচ্ছতা একইমাত্রায় পরিবর্তন"
 
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC21"
+msgid "8-bit Character Set"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC22"
+msgid "OpenType Language"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Libass Options"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
+msgid "Render Subtitles Using libass"
+msgstr ""
+
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
 msgstr "আপনি যদি এই ফিল্টারসমূহের একাই-সক্ষম সংস্করণসমূহ অথবা অন্য প্রতিস্থাপন ব্যবহার করতে চান, তবে এখানে সেগুলো নিষ্ক্রিয় করুন।"

@@ -2998,35 +2998,35 @@ void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect &rcDirty) {
 STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
 
-#if USE_LIBASS
-    if (m_assloaded) {
-        if (spd.bpp != 32) {
-            ASSERT(FALSE);
-            return E_INVALIDARG;
+    if (usingLibass) {
+        if (m_assloaded) {
+            if (spd.bpp != 32) {
+                ASSERT(FALSE);
+                return E_INVALIDARG;
+            }
+
+            if (!m_assfontloaded && m_pPin) {
+                LoadASSFont(m_pPin, m_ass.get(), m_renderer.get());
+            }
+
+            m_size = CSize(spd.w, spd.h);
+            m_vidrect = CRect(spd.vidrect.left, spd.vidrect.top, spd.vidrect.right, spd.vidrect.bottom);
+            ass_set_frame_size(m_renderer.get(), spd.w, spd.h);
+
+            int changed = 1;
+            ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), rt / 10000, &changed);
+
+            if (!image) {
+                return E_FAIL;
+            }
+
+            CRect rcDirty;
+            AssFlatten(image, spd, rcDirty);
+
+            bbox = rcDirty;
+            return S_OK;
         }
-
-        if (!m_assfontloaded && m_pPin) {
-            LoadASSFont(m_pPin, m_ass.get(), m_renderer.get());
-        }
-
-        m_size = CSize(spd.w, spd.h);
-        m_vidrect = CRect(spd.vidrect.left, spd.vidrect.top, spd.vidrect.right, spd.vidrect.bottom);
-        ass_set_frame_size(m_renderer.get(), spd.w, spd.h);
-
-        int changed = 1;
-        ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), rt / 10000, &changed);
-
-        if (!image) {
-            return E_FAIL;
-        }
-
-        CRect rcDirty;
-        AssFlatten(image, spd, rcDirty);
-
-        bbox = rcDirty;
-        return S_OK;
     }
-#endif
 
     CRect bbox2(0, 0, 0, 0);
 

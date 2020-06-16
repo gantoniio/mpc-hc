@@ -21,13 +21,12 @@
 
 #pragma once
 
-#define USE_LIBASS 1
-
 #include <atlcoll.h>
 #include <array>
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
 #include "SSASub.h"
+#include "OpenTypeLangTags.h"
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
 
@@ -48,6 +47,8 @@ public:
     std::array<COLORREF, 4> colors;    // usually: {primary, secondary, outline/background, shadow}
     std::array<BYTE, 4> alpha;
     int        charSet;
+    int        fRenderUsingLibass = false;
+    OpenTypeLang::HintStr openTypeLangHint;
     CString    fontName;
     double     fontSize;               // height
     double     fontScaleX, fontScaleY; // percent
@@ -139,6 +140,7 @@ class CSimpleTextSubtitle : public CAtlArray<STSEntry>
 protected:
     CAtlArray<STSSegment> m_segments;
     virtual void OnChanged() {}
+    bool usingLibass;
 
 public:
     CString m_name;

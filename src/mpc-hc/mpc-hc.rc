@@ -661,33 +661,34 @@ BEGIN
 END
 
 IDD_PPAGESUBSTYLE DIALOGEX 0, 0, 355, 289
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+STYLE DS_SETFONT | WS_CHILD
 FONT 9, "Segoe UI", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Font",IDC_STATIC,6,6,126,134,WS_TABSTOP
+    GROUPBOX        "Font",IDC_STATIC,6,6,126,190,WS_TABSTOP
     PUSHBUTTON      "Font",IDC_BUTTON1,12,20,114,13
-    COMBOBOX        IDC_COMBO1,12,38,114,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Spacing",IDC_STATIC,12,61,67,8
-    EDITTEXT        IDC_EDIT3,84,59,42,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,59,14,13
-    LTEXT           "Angle (z,°)",IDC_STATIC,12,82,67,8
-    EDITTEXT        IDC_EDIT4,84,79,42,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,79,14,13
-    LTEXT           "Scale (x,%)",IDC_STATIC,12,102,67,8
-    EDITTEXT        IDC_EDIT5,84,100,42,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,100,14,13
-    LTEXT           "Scale (y,%)",IDC_STATIC,12,122,67,8
-    EDITTEXT        IDC_EDIT6,84,120,42,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,120,14,13
-    GROUPBOX        "Border Style",IDC_STATIC,6,145,126,82
-    CONTROL         "Outline",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,12,160,114,8
-    CONTROL         "Opaque box",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,12,174,114,8
-    LTEXT           "Width",IDC_STATIC,12,191,67,8
-    EDITTEXT        IDC_EDIT1,84,188,42,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,188,14,13
-    LTEXT           "Shadow",IDC_STATIC,12,209,67,8
-    EDITTEXT        IDC_EDIT2,84,206,42,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,206,14,13
+    COMBOBOX        IDC_COMBO1,12,58,114,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2,12,97,114,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Spacing",IDC_STATIC,12,120,67,8
+    EDITTEXT        IDC_EDIT3,84,118,42,13,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,118,14,13
+    LTEXT           "Angle (z,°)",IDC_STATIC,12,141,67,8
+    EDITTEXT        IDC_EDIT4,84,138,42,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,138,14,13
+    LTEXT           "Scale (x,%)",IDC_STATIC,12,161,67,8
+    EDITTEXT        IDC_EDIT5,84,159,42,13,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,159,14,13
+    LTEXT           "Scale (y,%)",IDC_STATIC,12,181,67,8
+    EDITTEXT        IDC_EDIT6,84,179,42,13,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,179,14,13
+    GROUPBOX        "Border Style",IDC_STATIC,6,201,126,82
+    CONTROL         "Outline",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,12,216,114,8
+    CONTROL         "Opaque box",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,12,230,114,8
+    LTEXT           "Width",IDC_STATIC,12,247,67,8
+    EDITTEXT        IDC_EDIT1,84,244,42,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,244,14,13
+    LTEXT           "Shadow",IDC_STATIC,12,265,67,8
+    EDITTEXT        IDC_EDIT2,84,262,42,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,112,262,14,13
     GROUPBOX        "Screen Alignment && Margins",IDC_STATIC,137,6,212,72
     CONTROL         "",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,49,12,8
     CONTROL         "",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,157,49,12,8
@@ -728,6 +729,10 @@ BEGIN
     CONTROL         "",IDC_COLORSHAD,"Button",BS_OWNERDRAW | WS_TABSTOP,204,168,24,14
     CONTROL         "",IDC_SLIDER4,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP | 0x400,233,169,113,12
     CONTROL         "Link alpha channels",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,216,196,132,10
+    LTEXT           "8-bit Character Set",IDC_STATIC21,12,46,112,8
+    LTEXT           "OpenType Language",IDC_STATIC22,12,86,112,8
+    GROUPBOX        "Libass Options",IDC_STATIC,137,233,212,50
+    CONTROL         "Render Subtitles Using libass",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,143,244,102,10
 END
 
 IDD_PPAGEINTERNALFILTERS DIALOGEX 0, 0, 355, 289
@@ -1314,8 +1319,11 @@ BEGIN
 
     IDD_PPAGESUBSTYLE, DIALOG
     BEGIN
-        VERTGUIDE, 10
-        VERTGUIDE, 119
+        VERTGUIDE, 12
+        VERTGUIDE, 124
+        VERTGUIDE, 143
+        VERTGUIDE, 349
+        HORZGUIDE, 283
     END
 
     IDD_PPAGEINTERNALFILTERS, DIALOG
@@ -2414,6 +2422,11 @@ BEGIN
     0
 END
 
+IDD_PPAGESUBSTYLE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2436,9 +2449,17 @@ BEGIN
     IDS_PLAY_LOOPMODE_FILE  "File"
     IDS_SUBTITLES_DEFAULT_STYLE "&Default Style"
     IDS_PLAY_LOOPMODE_PLAYLIST "Playlist"
-    IDS_PLAY_LOOPMODE_AB    "A-B"
     IDS_FAVFILES            "Files"
     IDS_FAVDVDS             "DVDs"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PLAYLOOPMODE_AB     "A-B Repeat: Reset Positions"
+    IDS_PLAY_LOOPMODE_AB    "A-B"
+    IDS_PLAYLOOPMODE_AB_MARK_A "A-B Repeat: Mark A Position"
+    IDS_PLAYLOOPMODE_AB_MARK_B "A-B Repeat: Mark B Position"
+    IDS_SNAPSHOT_SUBTITLES  "Include Subtitles"
 END
 
 STRINGTABLE
@@ -2457,9 +2478,6 @@ BEGIN
                             "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
     IDS_PLAYLOOPMODE_PLAYLIST "Repeat Mode: Playlist"
     IDS_PLAYLOOPMODE_FILE   "Repeat Mode: File"
-    IDS_PLAYLOOPMODE_AB     "A-B Repeat: Reset Positions"
-    IDS_PLAYLOOPMODE_AB_MARK_A "A-B Repeat: Mark A Position"
-    IDS_PLAYLOOPMODE_AB_MARK_B "A-B Repeat: Mark B Position"
     IDS_PLAYLOOP_FOREVER_ON "Repeat Forever: On"
     IDS_PLAYLOOP_FOREVER_OFF "Repeat Forever: Off"
     IDS_PLAYLOOP_FOREVER    "Repeat Forever"
@@ -2607,6 +2625,7 @@ BEGIN
                             "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
     IDS_PPAGE_OUTPUT_OLDRENDERER "Old Video Renderer"
     IDS_PPAGE_OUTPUT_OVERLAYMIXER "Overlay Mixer Renderer"
+    IDS_ZOOM_25             "25%"
     IDS_PPAGE_OUTPUT_VMR9WINDOWED "Video Mixing Renderer 9 (windowed)"
     IDS_PPAGE_OUTPUT_VMR9RENDERLESS "Video Mixing Renderer 9 (renderless)"
     IDS_PPAGE_OUTPUT_EVR    "Enhanced Video Renderer"
@@ -2740,6 +2759,7 @@ BEGIN
     IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
     IDS_INTERNAL_LAVF       "Uses LAV Filters"
     IDS_INTERNAL_LAVF_WMV   "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+    IDS_AG_OPEN_FILE_LOCATION "Open File Location"
 END
 
 STRINGTABLE
@@ -2762,7 +2782,6 @@ STRINGTABLE
 BEGIN
     ID_PLAY_PLAY            "Play\nPlay"
     ID_PLAY_PAUSE           "Pause\nPause"
-    IDS_AG_OPEN_FILE_LOCATION "Open File Location"
     ID_PLAY_STOP            "Stop\nStop"
     ID_PLAY_FRAMESTEP       "Step\nStep"
     ID_PLAY_DECRATE         "Decrease speed\nDecrease speed"
@@ -3112,7 +3131,6 @@ BEGIN
     IDS_SUBDL_DLG_SUBS_AVAIL "%d subtitle(s) available."
     IDS_UPDATE_CONFIG_AUTO_CHECK 
                             "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-    IDS_ZOOM_25             "25%"
     IDS_ZOOM_50             "50%"
     IDS_ZOOM_100            "100%"
     IDS_ZOOM_200            "200%"
@@ -3379,7 +3397,6 @@ BEGIN
     IDS_AG_TOGGLE_PLAYLIST  "Toggle Playlist Bar"
     IDS_AG_TOGGLE_CAPTURE   "Toggle Capture Bar"
     IDS_AG_TOGGLE_DEBUGSHADERS "Toggle Debug Shaders"
-    IDS_AG_ZOOM_25          "Zoom 25%"
     IDS_AG_ZOOM_50          "Zoom 50%"
     IDS_AG_ZOOM_100         "Zoom 100%"
     IDS_AG_ZOOM_200         "Zoom 200%"
@@ -3389,6 +3406,20 @@ BEGIN
     IDS_AG_VIDFRM_OUTSIDE   "VidFrm Outside"
     IDS_AG_PNS_RESET        "PnS Reset"
     IDS_AG_PNS_ROTATEX_P    "PnS Rotate X+"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_TIME_TOOLTIP_ABOVE  "Above seek bar"
+    IDS_TIME_TOOLTIP_BELOW  "Below seek bar"
+    IDS_VIDEO_STREAM        "Video: %s"
+    IDS_APPLY               "Apply"
+    IDS_CLEAR               "Clear"
+    IDS_CANCEL              "Cancel"
+    IDS_THUMB_THUMBNAILS    "Layout"
+    IDS_THUMB_PIXELS        "Pixels:"
+    IDS_TEXTFILE_ENC        "Encoding:"
+    IDS_AG_ZOOM_25          "Zoom 25%"
 END
 
 STRINGTABLE
@@ -3431,19 +3462,6 @@ BEGIN
     IDS_TOP_BACK_LEFT       "Top Back Left"
     IDS_TOP_BACK_CENTER     "Top Back Center"
     IDS_TOP_BACK_RIGHT      "Top Back Right"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_TIME_TOOLTIP_ABOVE  "Above seek bar"
-    IDS_TIME_TOOLTIP_BELOW  "Below seek bar"
-    IDS_VIDEO_STREAM        "Video: %s"
-    IDS_APPLY               "Apply"
-    IDS_CLEAR               "Clear"
-    IDS_CANCEL              "Cancel"
-    IDS_THUMB_THUMBNAILS    "Layout"
-    IDS_THUMB_PIXELS        "Pixels:"
-    IDS_TEXTFILE_ENC        "Encoding:"
 END
 
 STRINGTABLE
@@ -3913,12 +3931,9 @@ BEGIN
                             "Modern seekbar height (at 96dpi, otherwise scaled)"
     IDS_PPAGEADVANCED_FULLSCREEN_DELAY 
                             "Delay before showing fullscreen video, to prevent visual glitches."
-    IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES
-                            "Render subtitles onto screenshots"
+    IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES "Render subtitles onto screenshots"
     IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION 
                             "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
-    IDS_SNAPSHOT_SUBTITLES
-                            "Include Subtitles"
 END
 
 #endif    // English (United States) resources

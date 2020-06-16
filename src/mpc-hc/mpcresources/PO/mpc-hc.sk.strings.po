@@ -74,10 +74,6 @@ msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
 msgstr "Playlist"
 
-msgctxt "IDS_PLAY_LOOPMODE_AB"
-msgid "A-B"
-msgstr "A-B"
-
 msgctxt "IDS_FAVFILES"
 msgid "Files"
 msgstr "Súbory"
@@ -85,6 +81,26 @@ msgstr "Súbory"
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
 msgstr "DVD"
+
+msgctxt "IDS_PLAYLOOPMODE_AB"
+msgid "A-B Repeat: Reset Positions"
+msgstr "Opakovanie A-B: reset pozícií"
+
+msgctxt "IDS_PLAY_LOOPMODE_AB"
+msgid "A-B"
+msgstr "A-B"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
+msgid "A-B Repeat: Mark A Position"
+msgstr "Opakovanie A-B: označenie pozície A"
+
+msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
+msgid "A-B Repeat: Mark B Position"
+msgstr "Opakovanie A-B: označenie pozície B"
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr "Zahrnúť titulky"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -137,18 +153,6 @@ msgstr "Režim opakovania: playlist"
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
 msgstr "Režim opakovania: súbor"
-
-msgctxt "IDS_PLAYLOOPMODE_AB"
-msgid "A-B Repeat: Reset Positions"
-msgstr "Opakovanie A-B: reset pozícií"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
-msgid "A-B Repeat: Mark A Position"
-msgstr "Opakovanie A-B: označenie pozície A"
-
-msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
-msgid "A-B Repeat: Mark B Position"
-msgstr "Opakovanie A-B: označenie pozície B"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -558,6 +562,10 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Vykresľovanie Overlay Mixer"
 
+msgctxt "IDS_ZOOM_25"
+msgid "25%"
+msgstr "25 %"
+
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "VMR 9 (v okne)"
@@ -882,6 +890,10 @@ msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr "Používa súčasť LAV Filters. Pri predvolenom nastavení je táto možnosť zablokovaná, pretože filtre od spoločnosti Microsoft sú zvyčajne stabilnejšie pri týchto formátoch.\nAk chcete použiť interné filtre, zapnite ich pre zdroj a aj pre dekódovanie, aby bol dojem z prehrávania lepší."
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr "Otvoriť umiestnenie súboru"
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "Prepnúť panel navigácie"
@@ -917,10 +929,6 @@ msgstr "Prehrať\nPrehrať"
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Pozastaviť\nPozastaviť"
-
-msgctxt "IDS_AG_OPEN_FILE_LOCATION"
-msgid "Open File Location"
-msgstr "Otvoriť umiestnenie súboru"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
@@ -1874,10 +1882,6 @@ msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
 msgstr "Chcete pravidelne kontrolovať výskyt aktualizácií programu MPC-HC?\n\nTúto funkciu môžete neskôr vypnúť v sekcii s rôznymi nastaveniami programu."
 
-msgctxt "IDS_ZOOM_25"
-msgid "25%"
-msgstr "25 %"
-
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
 msgstr "50 %"
@@ -2650,10 +2654,6 @@ msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
 msgstr "Prepnúť ladenie shaderov"
 
-msgctxt "IDS_AG_ZOOM_25"
-msgid "Zoom 25%"
-msgstr "Priblíženie: 25 %"
-
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
 msgstr "Priblíženie: 50 %"
@@ -2689,6 +2689,46 @@ msgstr "PnS Reset"
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
 msgstr "PnS-otočenie X+"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "Nad panelom vyhľadávania"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "Pod panelom vyhľadávania"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Video: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Použiť"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Vyčistiť"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Zrušiť"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Rozloženie"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Pixely:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "Kódovanie:"
+
+msgctxt "IDS_AG_ZOOM_25"
+msgid "Zoom 25%"
+msgstr "Priblíženie: 25 %"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2793,42 +2833,6 @@ msgstr "Horný stredný - vzadu"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "Horný pravý - vzadu"
-
-msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "Nad panelom vyhľadávania"
-
-msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "Pod panelom vyhľadávania"
-
-msgctxt "IDS_VIDEO_STREAM"
-msgid "Video: %s"
-msgstr "Video: %s"
-
-msgctxt "IDS_APPLY"
-msgid "Apply"
-msgstr "Použiť"
-
-msgctxt "IDS_CLEAR"
-msgid "Clear"
-msgstr "Vyčistiť"
-
-msgctxt "IDS_CANCEL"
-msgid "Cancel"
-msgstr "Zrušiť"
-
-msgctxt "IDS_THUMB_THUMBNAILS"
-msgid "Layout"
-msgstr "Rozloženie"
-
-msgctxt "IDS_THUMB_PIXELS"
-msgid "Pixels:"
-msgstr "Pixely:"
-
-msgctxt "IDS_TEXTFILE_ENC"
-msgid "Encoding:"
-msgstr "Kódovanie:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -4113,8 +4117,4 @@ msgstr "Vykresľovať titulky na snímkach obrazovky"
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
 msgstr "Zachovať koncovku súboru s videom ako súčasť názvu súboru so snímkou (napr.: subor.mkv.png)"
-
-msgctxt "IDS_SNAPSHOT_SUBTITLES"
-msgid "Include Subtitles"
-msgstr "Zahrnúť titulky"
 
