@@ -253,8 +253,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>mkdir "generated\libxml"
-copy "libxml2\SMP\libxml\*.h" "generated\libxml"
+      <Command>if not exist "generated\libxml" mkdir "generated\libxml"
+copy /y "libxml2\SMP\libxml\*.h" "generated\libxml"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>

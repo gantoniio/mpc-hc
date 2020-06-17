@@ -306,9 +306,10 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <StringPooling>true</StringPooling>
       <AdditionalIncludeDirectories>..\include;.\</AdditionalIncludeDirectories>
+	  <DisableSpecificWarnings>4090;4244;4311;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

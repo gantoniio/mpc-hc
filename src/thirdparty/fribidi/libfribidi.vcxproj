@@ -118,7 +118,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatSpecificWarningsAsErrors>4113;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <DisableSpecificWarnings>4018;4244;4028;%(DisableSpecificWarnings)</DisableSpecificWarnings>
@@ -191,7 +191,7 @@
   <ItemDefinitionGroup>
     <PostBuildEvent>
       <Command>mkdir "generated"
-copy "fribidi\SMP\*.h" "generated"
+copy /y "fribidi\SMP\*.h" "generated"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>

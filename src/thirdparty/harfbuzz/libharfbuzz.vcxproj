@@ -265,10 +265,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatSpecificWarningsAsErrors>4113;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
-      <DisableSpecificWarnings>4244;4267;4805;4018;4146;4138;4068;4305;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4172;4244;4267;4805;4018;4146;4138;4068;4305;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
 	</ClCompile>
     <Lib>
       <AdditionalDependencies>freetype2.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -41,21 +41,16 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>freetype2\include;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>FT_CONFIG_OPTION_SYSTEM_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <WarningLevel>Level2</WarningLevel>
+	  <DisableSpecificWarnings>4312;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>16.0.29911.84</_ProjectFileVersion>
   </PropertyGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
-      <WarningLevel>Level4</WarningLevel>
-    </ClCompile>
-    <ResourceCompile>
-    </ResourceCompile>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
