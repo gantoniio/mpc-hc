@@ -2959,6 +2959,7 @@ namespace {
     }
 }
 
+#ifdef USE_LIBASS
 void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect &rcDirty) {
     if (image) {
         RECT pRect = { 0 };
@@ -2994,10 +2995,12 @@ void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect &rcDirty) {
         }
     }
 }
+#endif
 
 STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
 
+#ifdef USE_LIBASS
     if (usingLibass) {
         if (m_assloaded) {
             if (spd.bpp != 32) {
@@ -3027,6 +3030,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             return S_OK;
         }
     }
+#endif
 
     CRect bbox2(0, 0, 0, 0);
 

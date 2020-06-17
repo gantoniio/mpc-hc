@@ -25,7 +25,9 @@
 #include <array>
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
+#ifdef USE_LIBASS
 #include "SSASub.h"
+#endif
 #include "OpenTypeLangTags.h"
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
@@ -231,6 +233,7 @@ public:
     void SetStr(int i, CStringW str, bool fUnicode);
 public:
     STSStyle m_styleOverride; // the app can decide to use this style instead of a built-in one
+#ifdef USE_LIBASS
     bool LoadASSFile(Subtitle::SubType subType);
     bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
     void UnloadASS();
@@ -244,6 +247,7 @@ public:
     std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
     std::unique_ptr<ASS_Renderer, ASS_RendererDeleter> m_renderer;
     std::unique_ptr<ASS_Track, ASS_TrackDeleter> m_track;
+#endif
 protected:
     IPin* m_pPin;
 };

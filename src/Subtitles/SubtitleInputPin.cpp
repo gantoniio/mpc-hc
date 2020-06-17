@@ -134,8 +134,10 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 return E_FAIL;
             }
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+#ifdef USE_LIBASS
             IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
             pRTS->SetFilterGraph(fg);
+#endif
             pRTS->m_name = name;
             pRTS->m_lcid = lcid;
             pRTS->m_dstScreenSize = CSize(384, 288);
@@ -153,9 +155,11 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 }
 
                 pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
+#ifdef USE_LIBASS
                 pRTS->SetPin(pReceivePin);
                 pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
                     m_mt.subtype == MEDIASUBTYPE_UTF8 ? Subtitle::SRT : Subtitle::ASS);
+#endif
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {
@@ -437,6 +441,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
+#ifdef USE_LIBASS
             LPCSTR data = (LPCSTR)pSample->data.data();
             int dataSize = (int)pSample->data.size();
             if (dataSize > 0) {
@@ -445,6 +450,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 pRTS->SetPin(this);
                 pRTS->LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
             }
+#endif
 
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
@@ -482,9 +488,11 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                     bInvalidate = true;
                 }
 
+#ifdef USE_LIBASS
                 if (pRTS->m_assloaded) {
                     ass_process_chunk(pRTS->m_track.get(), (char*)data, dataSize, pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
                 }
+#endif
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;

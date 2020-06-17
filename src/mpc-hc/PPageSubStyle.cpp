@@ -168,6 +168,16 @@ BOOL CPPageSubStyle::OnInitDialog()
     }
 
     iRenderUsingLibass = m_stss.fRenderUsingLibass;
+#ifndef USE_LIBASS
+    CButton* pLibassCB = (CButton*)GetDlgItem(IDC_CHECK2);
+    if (pLibassCB) {
+        pLibassCB->ShowWindow(FALSE);
+    }
+    CStatic* pLibassGB = (CStatic*)GetDlgItem(IDC_STATIC_LIBASS);
+    if (pLibassGB) {
+        pLibassGB->ShowWindow(FALSE);
+    }
+#endif
     // TODO: allow floats in these edit boxes
     m_spacing = (int)m_stss.fontSpacing;
     m_spacingSpin.SetRange32(-10000, 10000);

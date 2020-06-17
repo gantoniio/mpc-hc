@@ -1,4 +1,6 @@
+
 #include "stdafx.h"
+#ifdef USE_LIBASS
 #include <ios>
 #include <algorithm>
 #include <fstream>
@@ -466,3 +468,5 @@ std::string ws2s(const std::wstring& wstr) {
 
     return converterX.to_bytes(wstr);
 }
+
+#endif
