@@ -3437,7 +3437,7 @@ STSStyle& operator <<= (STSStyle& s, const CString& style)
             s.relativeTo = (STSStyle::RelativeTo)GetInt(pszBuff, nBuffLength, L';');
             CStringA langTag = WToA(GetStrW(pszBuff, nBuffLength, L';'));
             int len = langTag.GetLength();
-            strncpy_s(s.openTypeLangHint, _countof(s.openTypeLangHint), langTag, std::min(OTLangHintLen, len + 1) );
+            strncpy_s(s.openTypeLangHint, _countof(s.openTypeLangHint), langTag, std::min(OpenTypeLang::OTLangHintLen, len + 1) );
             s.fRenderUsingLibass = GetInt(pszBuff, nBuffLength, L';');
         }
     } catch (...) {

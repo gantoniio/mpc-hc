@@ -160,7 +160,7 @@ BOOL CPPageSubStyle::OnInitDialog()
             str.Format(_T("%ls (%hs)"), OpenTypeLang::OpenTypeLangTags[i].langDescription, lang);
             openTypeLangHint.AddString(str);
             openTypeLangHint.SetItemData(t, i);
-            if (strncmp(m_stss.openTypeLangHint, OpenTypeLang::OpenTypeLangTags[i].lang, OTLangHintLen) == 0) {
+            if (strncmp(m_stss.openTypeLangHint, OpenTypeLang::OpenTypeLangTags[i].lang, OpenTypeLang::OTLangHintLen) == 0) {
                 iOpenTypeLangHint = t;
             }
             t++;
@@ -223,7 +223,7 @@ BOOL CPPageSubStyle::OnApply()
     }
     if (iOpenTypeLangHint >= 0) {
         int i = openTypeLangHint.GetItemData(iOpenTypeLangHint);
-        strncpy_s(m_stss.openTypeLangHint, _countof(m_stss.openTypeLangHint), OpenTypeLang::OpenTypeLangTags[i].lang, OTLangHintLen);
+        strncpy_s(m_stss.openTypeLangHint, _countof(m_stss.openTypeLangHint), OpenTypeLang::OpenTypeLangTags[i].lang, OpenTypeLang::OTLangHintLen);
     }
 
     m_stss.fRenderUsingLibass = iRenderUsingLibass;

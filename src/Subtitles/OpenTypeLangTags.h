@@ -1,16 +1,15 @@
 #pragma once
 
-constexpr int OTLangTagLen = 4; //see here: https://docs.microsoft.com/en-us/typography/opentype/spec/languagetags
-constexpr int OTLangHintLen = 3; //see harfbuzz hb-ot-tag-table.hh
+//see here: https://docs.microsoft.com/en-us/typography/opentype/spec/languagetags
+
 
 class OpenTypeLang {
 public:
-    typedef char TagStr[OTLangTagLen + 1];
+    constexpr static int OTLangHintLen = 3; //see harfbuzz hb-ot-tag-table.hh
     typedef char HintStr[OTLangHintLen + 1];
     typedef struct OpenTypeLangTag {
-        wchar_t* langDescription;
-        TagStr otTag;
         HintStr lang;
+        wchar_t* langDescription;
     } T;
-    static OpenTypeLangTag OpenTypeLangTags[603];
+    static OpenTypeLangTag OpenTypeLangTags[763];
 };
