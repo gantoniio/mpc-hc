@@ -395,6 +395,7 @@ private:
 
     MLS m_eMediaLoadState;
     CCritSec m_csLoadStateLock;
+    bool seekedToDVDTitleWithoutFlush;
 
     REFTIME GetAvgTimePerFrame() const;
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
