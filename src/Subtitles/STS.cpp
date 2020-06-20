@@ -2006,7 +2006,7 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
         __super::Copy(sts);
 
 #ifdef USE_LIBASS
-        if (usingLibass) {
+        if (sts.usingLibass) {
             UnloadASS();
             LoadASSFile(m_subtitleType);
         }
