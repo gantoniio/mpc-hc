@@ -2809,6 +2809,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         }
                         if (s.SelectedAudioRenderer() == AUDRNDT_INTERNAL) {
                             if (seekedToDVDTitleWithoutFlush) { //must have seeked here automatically through the API
+                                m_pDVDC->SetOption(DVD_ResetOnStop, TRUE);
+                                m_pMC->Stop();
+                                m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
+                                m_pMC->Run();
                                 OnNavigateMenu(ID_NAVIGATE_TITLEMENU); //will flush and set flag to false
                             } else {
                                 seekedToDVDTitleWithoutFlush = true; //we came here in a way that caused it to flush, so no action needed. set the flag in case it auto seeks here again
