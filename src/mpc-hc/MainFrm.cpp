@@ -798,7 +798,6 @@ CMainFrame::CMainFrame()
     , abRepeatPositionA(0)
     , abRepeatPositionB(0)
     , mediaTypesErrorDlg(nullptr)
-    , seekedToDVDTitleWithoutFlush(true)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -2806,17 +2805,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         Domain = _T("Video Title Set Menu");
                         if (s.fShowDebugInfo) {
                             m_OSD.DebugMessage(_T("%s"), Domain.GetString());
-                        }
-                        if (s.SelectedAudioRenderer() == AUDRNDT_INTERNAL) {
-                            if (seekedToDVDTitleWithoutFlush) { //must have seeked here automatically through the API
-                                m_pDVDC->SetOption(DVD_ResetOnStop, TRUE);
-                                m_pMC->Stop();
-                                m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
-                                m_pMC->Run();
-                                OnNavigateMenu(ID_NAVIGATE_TITLEMENU); //will flush and set flag to false
-                            } else {
-                                seekedToDVDTitleWithoutFlush = true; //we came here in a way that caused it to flush, so no action needed. set the flag in case it auto seeks here again
-                            }
                         }
                         break;
                     case DVD_DOMAIN_Title:
@@ -9260,9 +9248,6 @@ void CMainFrame::OnNavigateMenu(UINT nID)
 
     if (GetMediaState() != State_Running) {
         SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-    }
-    if (AfxGetAppSettings().SelectedAudioRenderer() == AUDRNDT_INTERNAL) {
-        seekedToDVDTitleWithoutFlush = false;
     }
     m_pDVDC->ShowMenu((DVD_MENU_ID)(nID + 2), DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
 }
