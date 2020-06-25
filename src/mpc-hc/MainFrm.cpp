@@ -533,7 +533,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
     ON_WM_DRAWITEM()
     ON_WM_SETTINGCHANGE()
-    ON_WM_MOUSEHWHEEL()
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -731,6 +730,7 @@ CMainFrame::CMainFrame()
     , m_lCurrentChapter(0)
     , m_lChapterStartTime(0xFFFFFFFF)
     , m_eMediaLoadState(MLS::CLOSED)
+    , streampospoller_active(false)
     , m_fFullScreen(false)
     , m_fFirstFSAfterLaunchOnFS(false)
     , m_fStartInD3DFullscreen(false)
@@ -798,6 +798,7 @@ CMainFrame::CMainFrame()
     , abRepeatPositionA(0)
     , abRepeatPositionB(0)
     , mediaTypesErrorDlg(nullptr)
+    , m_iStreamPosPollerInterval(100)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -1835,10 +1836,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             delayingFullScreen = false;
             break;
         case TIMER_STREAMPOSPOLLER:
-            if (GetLoadState() == MLS::LOADED) {
-                CAutoLock cAutoLock(&m_csLoadStateLock);
-                if (GetLoadState() != MLS::LOADED) break;
-
+            ASSERT(streampospoller_active);
+            if (streampospoller_active && GetLoadState() == MLS::LOADED) {
                 REFERENCE_TIME rtNow = 0, rtDur = 0;
                 switch (GetPlaybackMode()) {
                     case PM_FILE:
@@ -1946,24 +1945,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 if (m_pCAP) {
                     if (g_bExternalSubtitleTime) {
                         m_pCAP->SetTime(rtNow);
+                        AdjustStreamPosPoller(true);
                     }
                     m_wndSubresyncBar.SetTime(rtNow);
                     m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                 }
-
-                // TODO: Update when Auto Upload is finalised
-                //const CAppSettings& s = AfxGetAppSettings();
-                //if (s.bAutoUploadSubtitles && (rtNow / rtDur == 90) && !m_pSubStreams.IsEmpty()
-                //        && s.fEnableSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
-                //    m_pSubtitlesProviders->Upload();
-                //}
             }
             break;
         case TIMER_STREAMPOSPOLLER2:
-            if (GetLoadState() == MLS::LOADED) {
-                CAutoLock cAutoLock(&m_csLoadStateLock);
-                if (GetLoadState() != MLS::LOADED) break;
-
+            ASSERT(streampospoller_active);
+            if (streampospoller_active && GetLoadState() == MLS::LOADED) {
                 switch (GetPlaybackMode()) {
                     case PM_FILE:
                     // no break
@@ -3626,6 +3617,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
 
     // we don't want to wait until timers initialize the seekbar and the time counter
+    streampospoller_active = true;
     OnTimer(TIMER_STREAMPOSPOLLER);
     OnTimer(TIMER_STREAMPOSPOLLER2);
 
@@ -6780,6 +6772,7 @@ void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 void CMainFrame::OnViewSubresync()
 {
     m_controls.ToggleControl(CMainFrameControls::Panel::SUBRESYNC);
+    AdjustStreamPosPoller(true);
 }
 
 void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
@@ -7965,9 +7958,31 @@ void CMainFrame::OnPlaySeekSet()
     }
 }
 
+void CMainFrame::AdjustStreamPosPoller(bool restart)
+{
+    if (streampospoller_active) {
+        int current_value = m_iStreamPosPollerInterval;
+
+        if (g_bExternalSubtitleTime || IsSubresyncBarVisible()) {
+            m_iStreamPosPollerInterval = 40;
+        } else {
+            m_iStreamPosPollerInterval = AfxGetAppSettings().nStreamPosPollerInterval;
+        }
+
+        if (restart && current_value != m_iStreamPosPollerInterval) {
+            if (KillTimer(TIMER_STREAMPOSPOLLER)) {
+                SetTimer(TIMER_STREAMPOSPOLLER, m_iStreamPosPollerInterval, nullptr);
+            }
+        }
+    }
+}
+
 void CMainFrame::SetTimersPlay()
 {
-    SetTimer(TIMER_STREAMPOSPOLLER, 40, nullptr);
+    streampospoller_active = true;
+    AdjustStreamPosPoller(false);
+
+    SetTimer(TIMER_STREAMPOSPOLLER, m_iStreamPosPollerInterval, nullptr);
     SetTimer(TIMER_STREAMPOSPOLLER2, 500, nullptr);
     SetTimer(TIMER_STATS, 1000, nullptr);
 }
@@ -7975,9 +7990,12 @@ void CMainFrame::SetTimersPlay()
 void CMainFrame::KillTimersStop()
 {
     KillTimer(TIMER_STREAMPOSPOLLER2);
-    KillTimer(TIMER_STREAMPOSPOLLER);
+    if (KillTimer(TIMER_STREAMPOSPOLLER)) {
+        ASSERT(streampospoller_active);
+    }
     KillTimer(TIMER_STATS);
     m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DVBINFO_UPDATE);
+    streampospoller_active = false;
 }
 
 void CMainFrame::OnPlaySeekKey(UINT nID)
@@ -14686,6 +14704,9 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
     if (!m_pCAP) {
         return false;
     }
+    if (GetLoadState() == MLS::CLOSING) {
+        return false;
+    }
 
     SubtitleInput* pSubInput = GetSubtitleInput(i, bIsOffset);
     bool success = false;
@@ -15037,7 +15058,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_wndStatusBar.SetStatusTimer(rtPos, stop, IsSubresyncBarVisible(), GetTimeFormat());
 
         if (bShowOSD) {
-            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetTimerOSD(), 1500);
+            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
         }
     }
 
@@ -16099,8 +16120,6 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
 // ==== Added by CASIMIR666
 void CMainFrame::SetLoadState(MLS eState)
 {
-    CAutoLock cAutoLock(&m_csLoadStateLock);
-
     m_eMediaLoadState = eState;
     SendAPICommand(CMD_STATE, L"%d", static_cast<int>(eState));
     if (eState == MLS::LOADED) {
@@ -18244,13 +18263,4 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
         }
         RecalcLayout();
     }
-}
-
-void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt) {
-    if (m_wndView) {
-        //HWHEEL is sent to active window, so we have to manually pass it to CMouseWnd to trap hotkeys
-        m_wndView.SendMessage(WM_MOUSEHWHEEL, MAKEWPARAM(nFlags, zDelta), MAKELPARAM(pt.x, pt.y));
-        return;
-    }
-    __super::OnMouseHWheel(nFlags, zDelta, pt);
 }

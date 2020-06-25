@@ -335,6 +335,8 @@ private:
     bool abRepeatPositionAEnabled, abRepeatPositionBEnabled;
     UINT m_nLastSkipDirection;
 
+    int m_iStreamPosPollerInterval;
+
     bool m_fCustomGraph;
     bool m_fRealMediaGraph, m_fShockwaveGraph, m_fQuicktimeGraph;
 
@@ -394,7 +396,7 @@ private:
     void SendNowPlayingToSkype();
 
     MLS m_eMediaLoadState;
-    CCritSec m_csLoadStateLock;
+    bool streampospoller_active;
 
     REFTIME GetAvgTimePerFrame() const;
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
@@ -1057,6 +1059,7 @@ public:
     bool        IsRealEngineCompatible(CString strFilename) const;
     void        SetTimersPlay();
     void        KillTimersStop();
+    void        AdjustStreamPosPoller(bool restart);
 
 
     // MPC API functions
@@ -1168,5 +1171,4 @@ private:
     CMPCThemeUtil* fileDialogHookHelper;
 public:
     afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
-    afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
 };

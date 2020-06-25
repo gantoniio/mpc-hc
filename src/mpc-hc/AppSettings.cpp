@@ -226,9 +226,10 @@ CAppSettings::CAppSettings()
     , iYDLVideoFormat(0)
     , bYDLAudioOnly(false)
     , sYDLCommandLine(_T(""))
-    , bSnapShotSubtitles(false)
+    , bSnapShotSubtitles(true)
     , bSnapShotKeepVideoExtension(true)
     , bEnableCrashReporter(true)
+    , nStreamPosPollerInterval(100)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -458,7 +459,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD },
     { ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE },
     { ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN },
-    { ID_FILE_RECYCLE,                      0, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE },
+    { ID_FILE_RECYCLE,              VK_DELETE, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE },
 
     { ID_FILE_SAVE_COPY,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_SAVE_COPY },
     { ID_FILE_SAVE_IMAGE,                 'I', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_SAVE_IMAGE },
@@ -1156,6 +1157,8 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, bEnableCrashReporter);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, nStreamPosPollerInterval);
+
     pApp->FlushProfile();
 }
 
@@ -1782,7 +1785,7 @@ void CAppSettings::LoadSettings()
     }
     strSnapshotPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, MyPictures);
     strSnapshotExt = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, _T(".jpg"));
-    bSnapShotSubtitles = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPSHOTSUBTITLES, FALSE);
+    bSnapShotSubtitles = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPSHOTSUBTITLES, TRUE);
     bSnapShotKeepVideoExtension = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPSHOTKEEPVIDEOEXTENSION, TRUE);
 
     iThumbRows = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, 4);
@@ -1945,6 +1948,8 @@ void CAppSettings::LoadSettings()
     sYDLCommandLine = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, _T(""));
 
     bEnableCrashReporter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, TRUE);
+
+    nStreamPosPollerInterval = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, 100);
 
     bInitialized = true;
 }
