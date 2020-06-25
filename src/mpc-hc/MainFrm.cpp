@@ -9249,6 +9249,7 @@ void CMainFrame::OnNavigateMenu(UINT nID)
     if (GetMediaState() != State_Running) {
         SendMessage(WM_COMMAND, ID_PLAY_PLAY);
     }
+
     m_pDVDC->ShowMenu((DVD_MENU_ID)(nID + 2), DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
 }
 
