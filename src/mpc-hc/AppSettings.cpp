@@ -77,7 +77,7 @@ CAppSettings::CAppSettings()
     , hAccel(nullptr)
     , fWinLirc(false)
     , fUIce(false)
-    , fGlobalMedia(true)
+    , fGlobalMedia(false)
     , nLogoId(-1)
     , fLogoExternal(false)
     , fEnableWebServer(false)
@@ -226,8 +226,10 @@ CAppSettings::CAppSettings()
     , iYDLVideoFormat(0)
     , bYDLAudioOnly(false)
     , sYDLCommandLine(_T(""))
-    , bSnapShotSubtitles(false)
+    , bSnapShotSubtitles(true)
     , bSnapShotKeepVideoExtension(true)
+    , bEnableCrashReporter(true)
+    , nStreamPosPollerInterval(100)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -457,7 +459,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD },
     { ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE },
     { ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN },
-    { ID_FILE_RECYCLE,                      0, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE },
+    { ID_FILE_RECYCLE,              VK_DELETE, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE },
 
     { ID_FILE_SAVE_COPY,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_SAVE_COPY },
     { ID_FILE_SAVE_IMAGE,                 'I', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_SAVE_IMAGE },
@@ -1153,6 +1155,10 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, sYDLCommandLine);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, bEnableCrashReporter);
+
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, nStreamPosPollerInterval);
+
     pApp->FlushProfile();
 }
 
@@ -1384,11 +1390,6 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
-#if USE_DRDUMP_CRASH_REPORTER
-    if (language && CrashReporter::IsEnabled()) {
-        CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(language).dllPath);
-    }
-#endif
 
     CreateCommands();
 
@@ -1784,7 +1785,7 @@ void CAppSettings::LoadSettings()
     }
     strSnapshotPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, MyPictures);
     strSnapshotExt = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, _T(".jpg"));
-    bSnapShotSubtitles = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPSHOTSUBTITLES, FALSE);
+    bSnapShotSubtitles = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPSHOTSUBTITLES, TRUE);
     bSnapShotKeepVideoExtension = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPSHOTKEEPVIDEOEXTENSION, TRUE);
 
     iThumbRows = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, 4);
@@ -1945,6 +1946,10 @@ void CAppSettings::LoadSettings()
     iYDLVideoFormat = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_VIDEO_FORMAT, 0);
     bYDLAudioOnly   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
     sYDLCommandLine = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, _T(""));
+
+    bEnableCrashReporter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, TRUE);
+
+    nStreamPosPollerInterval = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, 100);
 
     bInitialized = true;
 }
@@ -2147,10 +2152,13 @@ CString CAppSettings::ParseFileName(CString const& param)
 
     // Try to transform relative pathname into full pathname
     if (param.Find(_T(":")) < 0) {
-        fullPathName.ReleaseBuffer(GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr));
+        DWORD dwLen = GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr);
+        if (dwLen > 0 && dwLen < MAX_PATH) {
+            fullPathName.ReleaseBuffer(dwLen);
 
-        if (!fullPathName.IsEmpty() && PathUtils::Exists(fullPathName)) {
-            return fullPathName;
+            if (!fullPathName.IsEmpty() && PathUtils::Exists(fullPathName)) {
+                return fullPathName;
+            }
         }
     }
 

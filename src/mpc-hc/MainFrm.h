@@ -335,6 +335,8 @@ private:
     bool abRepeatPositionAEnabled, abRepeatPositionBEnabled;
     UINT m_nLastSkipDirection;
 
+    int m_iStreamPosPollerInterval;
+
     bool m_fCustomGraph;
     bool m_fRealMediaGraph, m_fShockwaveGraph, m_fQuicktimeGraph;
 
@@ -394,6 +396,7 @@ private:
     void SendNowPlayingToSkype();
 
     MLS m_eMediaLoadState;
+    bool streampospoller_active;
 
     REFTIME GetAvgTimePerFrame() const;
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
@@ -580,10 +583,10 @@ public:
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);
 	
 	std::list<ShaderC> m_ShaderCache;
-	ShaderC* GetShader(CString path);
+	ShaderC* GetShader(CString path, bool bD3D11);
 	bool SaveShaderFile(ShaderC* shader);
 	bool DeleteShaderFile(LPCWSTR label);
-	void TidyShaderCashe();
+	void TidyShaderCache();
 
     // capturing
     bool m_fCapturing;
@@ -1056,6 +1059,7 @@ public:
     bool        IsRealEngineCompatible(CString strFilename) const;
     void        SetTimersPlay();
     void        KillTimersStop();
+    void        AdjustStreamPosPoller(bool restart);
 
 
     // MPC API functions

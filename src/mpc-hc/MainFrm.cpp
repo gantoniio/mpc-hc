@@ -689,11 +689,6 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
-#if USE_DRDUMP_CRASH_REPORTER
-            if (CrashReporter::IsEnabled()) {
-                CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(s.language).dllPath);
-            }
-#endif
             break;
         case MpcEvent::STREAM_POS_UPDATE_REQUEST:
             OnTimer(TIMER_STREAMPOSPOLLER);
@@ -735,6 +730,7 @@ CMainFrame::CMainFrame()
     , m_lCurrentChapter(0)
     , m_lChapterStartTime(0xFFFFFFFF)
     , m_eMediaLoadState(MLS::CLOSED)
+    , streampospoller_active(false)
     , m_fFullScreen(false)
     , m_fFirstFSAfterLaunchOnFS(false)
     , m_fStartInD3DFullscreen(false)
@@ -802,6 +798,7 @@ CMainFrame::CMainFrame()
     , abRepeatPositionA(0)
     , abRepeatPositionB(0)
     , mediaTypesErrorDlg(nullptr)
+    , m_iStreamPosPollerInterval(100)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -1839,7 +1836,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             delayingFullScreen = false;
             break;
         case TIMER_STREAMPOSPOLLER:
-            if (GetLoadState() == MLS::LOADED) {
+            ASSERT(streampospoller_active);
+            if (streampospoller_active && GetLoadState() == MLS::LOADED) {
                 REFERENCE_TIME rtNow = 0, rtDur = 0;
                 switch (GetPlaybackMode()) {
                     case PM_FILE:
@@ -1951,17 +1949,14 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     m_wndSubresyncBar.SetTime(rtNow);
                     m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                 }
-
-                // TODO: Update when Auto Upload is finalised
-                //const CAppSettings& s = AfxGetAppSettings();
-                //if (s.bAutoUploadSubtitles && (rtNow / rtDur == 90) && !m_pSubStreams.IsEmpty()
-                //        && s.fEnableSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
-                //    m_pSubtitlesProviders->Upload();
-                //}
+                if (g_bExternalSubtitleTime && (m_iStreamPosPollerInterval > 40)) {
+                    AdjustStreamPosPoller(true);
+                }
             }
             break;
         case TIMER_STREAMPOSPOLLER2:
-            if (GetLoadState() == MLS::LOADED) {
+            ASSERT(streampospoller_active);
+            if (streampospoller_active && GetLoadState() == MLS::LOADED) {
                 switch (GetPlaybackMode()) {
                     case PM_FILE:
                     // no break
@@ -3624,6 +3619,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
 
     // we don't want to wait until timers initialize the seekbar and the time counter
+    streampospoller_active = true;
     OnTimer(TIMER_STREAMPOSPOLLER);
     OnTimer(TIMER_STREAMPOSPOLLER2);
 
@@ -3835,9 +3831,6 @@ void CMainFrame::OnStreamAudio(UINT nID)
     }
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-    if (!pSS) {
-        pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
-    }
 
     DWORD cStreams = 0;
     if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
@@ -3889,7 +3882,7 @@ void CMainFrame::OnStreamSubOnOff()
         return;
     }
 
-    if (!m_pSubStreams.IsEmpty()) {
+    if (m_pCAP && !m_pSubStreams.IsEmpty()) {
         ToggleSubtitleOnOff(true);
         SetFocus();
     } else if (GetPlaybackMode() == PM_DVD) {
@@ -6781,6 +6774,7 @@ void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 void CMainFrame::OnViewSubresync()
 {
     m_controls.ToggleControl(CMainFrameControls::Panel::SUBRESYNC);
+    AdjustStreamPosPoller(true);
 }
 
 void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
@@ -7283,29 +7277,54 @@ void CMainFrame::OnViewRotate(UINT nID)
     HRESULT hr = E_NOTIMPL;
 
     if (m_pCAP3) {
-        int rotation = m_pCAP3->GetRotation();
+        bool isFlip = m_AngleY == 180;
+        bool isMirror = m_AngleX == 180;
+
+        auto doRotate = [&](int degrees) {
+            int rotation = (360 - m_AngleZ) % 360;
+
+            rotation += degrees;
+            rotation %= 360;
+
+            ASSERT(rotation >= 0);
+
+            hr = m_pCAP3->SetRotation(isFlip ? (rotation + 180) % 360 : rotation);
+            if (!m_pMVRC) {
+                MoveVideoWindow(); // need for EVRcp and Sync renderer, also mpcvr
+            }
+            if (S_OK == hr) {
+                m_AngleZ = (360 - rotation) % 360;
+            }
+            return hr;
+        };
 
         switch (nID) {
+            case ID_PANSCAN_ROTATEXM:
+            {
+                isFlip = !isFlip;
+                m_pCAP3->SetFlip(isFlip != isMirror);
+                if (FAILED(doRotate(0))) isFlip = !isFlip;
+                break;
+            }
+            case ID_PANSCAN_ROTATEYM:
+            {
+                isMirror = !isMirror;
+                m_pCAP3->SetFlip(isFlip != isMirror);
+                if (FAILED(doRotate(0))) isMirror = !isMirror;
+                break;
+            }
             case ID_PANSCAN_ROTATEZP:
             case ID_PANSCAN_ROTATEZ270:
-                rotation += 270;
+                doRotate(270);
                 break;
             case ID_PANSCAN_ROTATEZM:
-                rotation += 90;
+                doRotate(90);
                 break;
             default:
                 return;
         }
-        rotation %= 360;
-        ASSERT(rotation >= 0);
-
-        hr = m_pCAP3->SetRotation(rotation);
-        if (!m_pMVRC) {
-            MoveVideoWindow(); // need for EVRcp and Sync renderer, also mpcvr
-        }
-        if (S_OK == hr) {
-            m_AngleZ = (360 - rotation) % 360;
-        }
+        m_AngleY = isFlip ? 180 : 0;
+        m_AngleX = isMirror ? 180 : 0;
     } else if (m_pCAP) {
         switch (nID) {
             case ID_PANSCAN_ROTATEXP:
@@ -7495,6 +7514,8 @@ void CMainFrame::OnPlayPlay()
         // If playback was previously stopped or ended, we need to reset the window size
         bool bVideoWndNeedReset = GetMediaState() == State_Stopped || m_fEndOfStream;
 
+        KillTimersStop();
+
         if (GetPlaybackMode() == PM_FILE) {
             if (m_fEndOfStream) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP);
@@ -7524,7 +7545,6 @@ void CMainFrame::OnPlayPlay()
 
         // Restart playback
         m_pMC->Run();
-        SetTimersPlay();
 
         if (m_fFrameSteppingActive) {
             m_pFS->CancelStep();
@@ -7536,6 +7556,8 @@ void CMainFrame::OnPlayPlay()
         m_nStepForwardCount = 0;
 
         SetAlwaysOnTop(s.iOnTop);
+
+        SetTimersPlay();
     }
 
     m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
@@ -7654,6 +7676,8 @@ void CMainFrame::OnPlayStop()
     m_bOpeningInAutochangedMonitorMode = false;
     m_bPausedForAutochangeMonitorMode = false;
 
+    KillTimersStop();
+
     m_wndSeekBar.SetPos(0);
     if (GetLoadState() == MLS::LOADED) {
         if (GetPlaybackMode() == PM_FILE) {
@@ -7711,7 +7735,6 @@ void CMainFrame::OnPlayStop()
     m_nLoops = 0;
 
     if (m_hWnd) {
-        KillTimersStop();
         MoveVideoWindow();
 
         if (GetLoadState() == MLS::LOADED) {
@@ -7937,9 +7960,29 @@ void CMainFrame::OnPlaySeekSet()
     }
 }
 
+void CMainFrame::AdjustStreamPosPoller(bool restart)
+{
+    if (streampospoller_active) {
+        int current_value = m_iStreamPosPollerInterval;
+
+        if (g_bExternalSubtitleTime || IsSubresyncBarVisible()) {
+            m_iStreamPosPollerInterval = 40;
+        } else {
+            m_iStreamPosPollerInterval = AfxGetAppSettings().nStreamPosPollerInterval;
+        }
+
+        if (restart && current_value != m_iStreamPosPollerInterval) {
+            SetTimer(TIMER_STREAMPOSPOLLER, m_iStreamPosPollerInterval, nullptr);
+        }
+    }
+}
+
 void CMainFrame::SetTimersPlay()
 {
-    SetTimer(TIMER_STREAMPOSPOLLER, 40, nullptr);
+    streampospoller_active = true;
+    AdjustStreamPosPoller(false);
+
+    SetTimer(TIMER_STREAMPOSPOLLER, m_iStreamPosPollerInterval, nullptr);
     SetTimer(TIMER_STREAMPOSPOLLER2, 500, nullptr);
     SetTimer(TIMER_STATS, 1000, nullptr);
 }
@@ -7947,9 +7990,12 @@ void CMainFrame::SetTimersPlay()
 void CMainFrame::KillTimersStop()
 {
     KillTimer(TIMER_STREAMPOSPOLLER2);
-    KillTimer(TIMER_STREAMPOSPOLLER);
+    if (KillTimer(TIMER_STREAMPOSPOLLER)) {
+        ASSERT(streampospoller_active);
+    }
     KillTimer(TIMER_STATS);
     m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DVBINFO_UPDATE);
+    streampospoller_active = false;
 }
 
 void CMainFrame::OnPlaySeekKey(UINT nID)
@@ -8375,9 +8421,6 @@ void CMainFrame::OnPlayAudio(UINT nID)
     int i = (int)nID - ID_AUDIO_SUBITEM_START;
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-    if (!pSS) {
-        pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
-    }
 
     DWORD cStreams = 0;
 
@@ -10963,12 +11006,22 @@ void CMainFrame::RepaintVideo()
     }
 }
 
-ShaderC* CMainFrame::GetShader(CString path)
+ShaderC* CMainFrame::GetShader(CString path, bool bD3D11)
 {
 	ShaderC* pShader = nullptr;
 
+    CString shadersDir = ShaderList::GetShadersDir();
+    CString shadersDir11 = ShaderList::GetShadersDir11();
+    CString tPath = path;
+    tPath.Replace(shadersDir, shadersDir11);
+
+    //if the shader exists in the Shaders11 folder, use that one
+    if (bD3D11 && ::PathFileExistsW(tPath)) {
+        path = tPath;
+    }
+
 	for (auto& shader : m_ShaderCache) {
-		if (shader.Match(path, false)) {
+		if (shader.Match(path, bD3D11)) {
 			pShader = &shader;
 			break;
 		}
@@ -10989,7 +11042,9 @@ ShaderC* CMainFrame::GetShader(CString path)
 					file.SeekToBegin();
 				}
 
-				if (shader.profile == L"ps_3_sw") {
+                if (bD3D11) {
+                    shader.profile = L"ps_4_0";
+                } else if (shader.profile == L"ps_3_sw") {
 					shader.profile = L"ps_3_0";
 				} else if (shader.profile != L"ps_2_0"
 						&& shader.profile != L"ps_2_a"
@@ -11071,7 +11126,7 @@ bool CMainFrame::DeleteShaderFile(LPCWSTR label)
 	return false;
 }
 
-void CMainFrame::TidyShaderCashe()
+void CMainFrame::TidyShaderCache()
 {
 	CString appsavepath;
 	if (!AfxGetMyApp()->GetAppSavePath(appsavepath)) {
@@ -11112,32 +11167,46 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
 
     if (m_pCAP3) { //interfaces for madVR and MPC-VR
         const int PShaderMode = m_pCAP3->GetPixelShaderMode();
-        if (PShaderMode != 9) {
+        if (PShaderMode != 9 && PShaderMode != 11) {
             return;
         }
 
+        CStringList processedShaders;
+        m_pCAP3->ClearPixelShaders(TARGET_FRAME);
+        m_pCAP3->ClearPixelShaders(TARGET_SCREEN);
         if (bSetPreResize) {
-            m_pCAP3->ClearPixelShaders(TARGET_FRAME);
+            int preTarget;
+            if (s.iDSVideoRendererType == VIDRNDT_DS_MPCVR) { //for now MPC-VR does not support pre-size shaders
+                preTarget = TARGET_SCREEN;
+            } else {
+                preTarget = TARGET_FRAME;
+            }
             for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
-                ShaderC* pShader = GetShader(shader.filePath);
+                ShaderC* pShader = GetShader(shader.filePath, PShaderMode == 11);
                 if (pShader) {
                     CStringW label = pShader->label;
+                    if (processedShaders.Find(label)) {
+                        continue;
+                    }
                     CStringA profile = pShader->profile;
                     CStringA srcdata = pShader->srcdata;
-                    if (FAILED(m_pCAP3->AddPixelShader(TARGET_FRAME, label, profile, srcdata))) {
+                    if (FAILED(m_pCAP3->AddPixelShader(preTarget, label, profile, srcdata))) {
                         preFailed=true;
-                        m_pCAP3->ClearPixelShaders(TARGET_FRAME);
+                        m_pCAP3->ClearPixelShaders(preTarget);
                         break;
                     }
+                    processedShaders.AddTail(label);
                 }
             }
         }
         if (bSetPostResize) {
-            m_pCAP3->ClearPixelShaders(TARGET_SCREEN);
             for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPostResize()) {
-                ShaderC* pShader = GetShader(shader.filePath);
+                ShaderC* pShader = GetShader(shader.filePath, PShaderMode == 11);
                 if (pShader) {
                     CStringW label = pShader->label;
+                    if (processedShaders.Find(label)) {
+                        continue;
+                    }
                     CStringA profile = pShader->profile;
                     CStringA srcdata = pShader->srcdata;
                     if (FAILED(m_pCAP3->AddPixelShader(TARGET_SCREEN, label, profile, srcdata))) {
@@ -11145,6 +11214,7 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
                         m_pCAP3->ClearPixelShaders(TARGET_SCREEN);
                         break;
                     }
+                    processedShaders.AddTail(label);
                 }
             }
         }
@@ -12437,9 +12507,7 @@ int CMainFrame::SetupAudioStreams()
 {
     bool bIsSplitter = false;
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-    if (!pSS) {
-        pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
-    }
+
     if (!pSS && m_pFSF) { // Try to find the main splitter
         pSS = m_pFSF;
         if (!pSS) { // If the source filter isn't a splitter
@@ -12972,13 +13040,11 @@ void CMainFrame::CloseMediaPrivate()
     }
     m_pCB.Release();
 
-    SetSubtitle(SubtitleInput(nullptr));
     {
         CAutoLock cAutoLock(&m_csSubLock);
         m_pSubStreams.RemoveAll();
+        m_ExternalSubstreams.clear();
     }
-    m_ExternalSubstreams.clear();
-
     m_pSubClock.Release();
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
@@ -13122,8 +13188,8 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
         if (pTun) {
             BOOLEAN bPresent;
             BOOLEAN bLocked;
-            LONG lDbStrength;
-            LONG lPercentQuality;
+            LONG lDbStrength = 0;
+            LONG lPercentQuality = 0;
             int nOffset = pTSD->Offset ? 3 : 1;
             LONG lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
             m_bStopTunerScan = false;
@@ -13496,9 +13562,6 @@ void CMainFrame::SetupAudioSubMenu()
     UINT id = ID_AUDIO_SUBITEM_START;
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-    if (!pSS) {
-        pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
-    }
 
     DWORD cStreams = 0;
 
@@ -14133,7 +14196,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
     CComQIPtr<IAMStreamSelect> pSS;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter)) {
             continue;
         }
 
@@ -14185,7 +14248,7 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
     CComQIPtr<IAMStreamSelect> pSS;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter)) {
             continue;
         }
 
@@ -14208,7 +14271,7 @@ void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
     CComQIPtr<IAMStreamSelect> pSS;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter)) {
             continue;
         }
 
@@ -14641,6 +14704,9 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
     if (!m_pCAP) {
         return false;
     }
+    if (GetLoadState() == MLS::CLOSING) {
+        return false;
+    }
 
     SubtitleInput* pSubInput = GetSubtitleInput(i, bIsOffset);
     bool success = false;
@@ -14839,7 +14905,7 @@ void CMainFrame::SetSubtitleTrackIdx(int index)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (GetLoadState() == MLS::LOADED) {
+    if (GetLoadState() == MLS::LOADED && m_pCAP) {
         // Check if we want to change the enable/disable state
         if (s.fEnableSubtitles != (index >= 0)) {
             ToggleSubtitleOnOff();
@@ -14855,9 +14921,6 @@ void CMainFrame::SetAudioTrackIdx(int index)
 {
     if (GetLoadState() == MLS::LOADED) {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-        if (!pSS) {
-            pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
-        }
 
         DWORD cStreams = 0;
         DWORD dwFlags = AMSTREAMSELECTENABLE_ENABLE;
@@ -14995,7 +15058,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_wndStatusBar.SetStatusTimer(rtPos, stop, IsSubresyncBarVisible(), GetTimeFormat());
 
         if (bShowOSD) {
-            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetTimerOSD(), 1500);
+            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
         }
     }
 
@@ -16677,9 +16740,6 @@ void CMainFrame::SendAudioTracksToApi()
 
     if (GetLoadState() == MLS::LOADED) {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-        if (!pSS) {
-            pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
-        }
 
         DWORD cStreams = 0;
         if (pSS && SUCCEEDED(pSS->Count(&cStreams))) {
@@ -16825,7 +16885,6 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 //      if (GetPlaybackMode() == PM_FILE)
 //      {
 //          CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
-//          if (!pSS) pSS = FindFilter(CLSID_MorganStreamSwitcher, m_pGB);
 //
 //          DWORD cStreams = 0;
 //          if (pSS && SUCCEEDED(pSS->Count(&cStreams)))

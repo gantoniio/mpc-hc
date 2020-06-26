@@ -162,6 +162,7 @@
 #define ID_PLAY_PLAY                    887
 #define ID_PLAY_PAUSE                   888
 #define ID_PLAY_PLAYPAUSE               889
+#define IDS_SHADERNOTES                 889
 #define ID_PLAY_STOP                    890
 #define ID_PLAY_FRAMESTEP               891
 #define ID_PLAY_FRAMESTEPCANCEL         892
@@ -1628,6 +1629,7 @@
 #define IDS_PPAGEADVANCED_FULLSCREEN_DELAY 57555
 #define IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES 57556
 #define IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION 57557
+#define IDS_PPAGEADVANCED_CRASHREPORTER 57558
 
 // Next default values for new objects
 // 

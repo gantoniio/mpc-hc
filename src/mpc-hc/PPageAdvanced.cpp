@@ -24,6 +24,8 @@
 #include "MainFrm.h"
 #include "EventDispatcher.h"
 #include <strsafe.h>
+#include "CrashReporter.h"
+#include "ExceptionHandler.h"
 
 CPPageAdvanced::CPPageAdvanced()
     : CMPCThemePPageBase(IDD, IDD)
@@ -144,6 +146,9 @@ void CPPageAdvanced::InitSettings()
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
+ #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+    addBoolItem(CRASHREPORTER, IDS_RS_ENABLE_CRASH_REPORTER, true, s.bEnableCrashReporter, StrRes(IDS_PPAGEADVANCED_CRASHREPORTER));
+#endif
     addBoolItem(LOGGING, IDS_RS_LOGGING, false, s.bEnableLogging, StrRes(IDS_PPAGEADVANCED_LOGGER));
     addIntItem(AUTO_DOWNLOAD_SCORE_MOVIES, IDS_RS_AUTODOWNLOADSCOREMOVIES, 0x16, s.nAutoDownloadScoreMovies,
                std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
@@ -166,6 +171,7 @@ void CPPageAdvanced::InitSettings()
     addIntItem(FULLSCREEN_DELAY, IDS_RS_FULLSCREEN_DELAY, MIN_FULLSCREEN_DELAY, s.iFullscreenDelay, std::make_pair(MIN_FULLSCREEN_DELAY, MAX_FULLSCREEN_DELAY), StrRes(IDS_PPAGEADVANCED_FULLSCREEN_DELAY));
     addBoolItem(SNAPSHOTSUBTITLES, IDS_RS_SNAPSHOTSUBTITLES, true, s.bSnapShotSubtitles, StrRes(IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES));
     addBoolItem(SNAPSHOTKEEPVIDEOEXTENSION, IDS_RS_SNAPSHOTKEEPVIDEOEXTENSION, true, s.bSnapShotKeepVideoExtension, StrRes(IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION));
+    addIntItem(STREAMPOSPOLLER_INTERVAL, IDS_RS_TIME_REFRESH_INTERVAL, 100, s.nStreamPosPollerInterval, std::make_pair(40, 500), _T("Refresh interval (in milliseconds) of time in status bar"));
 }
 
 BOOL CPPageAdvanced::OnApply()
@@ -184,9 +190,17 @@ BOOL CPPageAdvanced::OnApply()
     s.filePositions.SetMaxSize(s.iRecentFilesNumber);
     s.dvdPositions.SetMaxSize(s.iRecentFilesNumber);
 
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+    if (!s.bEnableCrashReporter && CrashReporter::IsEnabled()) {
+        CrashReporter::Disable();
+        MPCExceptionHandler::Enable();
+    }
+#endif
+
     // There is no main frame when the option dialog is displayed stand-alone
     if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+        pMainFrame->AdjustStreamPosPoller(true);
     }
 
     if (nOldDefaultToolbarSize != s.nDefaultToolbarSize) {

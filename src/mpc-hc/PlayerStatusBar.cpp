@@ -267,12 +267,6 @@ CString CPlayerStatusBar::PreparePathStatusMessage(CPath path)
     return path;
 }
 
-CString CPlayerStatusBar::GetTimerOSD() const
-{
-    return timerOSD;
-}
-
-
 CString CPlayerStatusBar::GetStatusTimer() const
 {
     CString strResult;
@@ -307,9 +301,9 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
             tcDur = RT2HMSF(rtDur);
             tcRt  = RT2HMSF(rtDur - rtNow);
         } else {
-            tcNow = RT2HMS_r(rtNow);
-            tcDur = RT2HMS_r(rtDur);
-            tcRt  = RT2HMS_r(rtDur - rtNow);
+            tcNow = RT2HMS(rtNow);
+            tcDur = RT2HMS(rtDur);
+            tcRt  = RT2HMS(rtDur - rtNow);
         }
 
         if (tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
@@ -337,23 +331,10 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
         rstr.Format(_T("%I64d"), rtDur - rtNow);
     }
 
-    CString percentComplete;
     if (!s.fRemainingTime) {
-        if ((rtDur <= 0) || (rtDur < rtNow)) {
-            str = posstr;
-        } else {
-            str = posstr + _T(" / ") + durstr;
-            percentComplete.Format(_T(" [%3.2f%%]"), 100.f * (float(rtNow) / float(rtDur)));
-            timerOSD = str + percentComplete;
-        }
+        str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
     } else {
-        if ((rtDur <= 0) || (rtDur < rtNow)) {
-            str = posstr;
-        } else {
-            str = _T("- ") + rstr + _T(" / ") + durstr;
-            percentComplete.Format(_T(" [%3.2f%%]"), 100.f * (float(rtDur - rtNow) / float(rtDur)));
-            timerOSD = str + percentComplete;
-        }
+        str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
     }
 
     SetStatusTimer(str);

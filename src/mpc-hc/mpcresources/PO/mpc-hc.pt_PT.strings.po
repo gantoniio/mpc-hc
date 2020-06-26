@@ -1667,6 +1667,7 @@ msgid "After Playback: Close"
 msgstr "Após reprodução: Fechar"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
+<<<<<<< HEAD
 msgid ""
 "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n"
 "\n"
@@ -1675,6 +1676,10 @@ msgstr ""
 "O MPC-HC encontrou um problema durante a inicialização. Com a sua ajuda, podemos talvez resolver o problema.\n"
 "\n"
 "Pretende reportá-lo?"
+=======
+msgid "MPC-HC encountered a problem during initialization."
+msgstr ""
+>>>>>>> upstream/develop
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid ""
@@ -1813,6 +1818,7 @@ msgid "Nearest keyframe"
 msgstr "Chave de frame mais próxima"
 
 msgctxt "IDS_HOOKS_FAILED"
+<<<<<<< HEAD
 msgid ""
 "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n"
 "\n"
@@ -1821,6 +1827,10 @@ msgstr ""
 "O MPC-HC encontrou um problema durante a inicialização. A reprodução de DVD pode não funcionar correctamente. Isto pode ser causado por alguma incompatibilidade com certas ferramentas de segurança.\n"
 "\n"
 "Pretende reportar este problema?"
+=======
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
+>>>>>>> upstream/develop
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -4590,6 +4600,21 @@ msgstr ""
 "Manter as ext. fich. vídeo como parte dos nomes de ficheiro de captura (ex: "
 "fich.mkv.png)"
 
+<<<<<<< HEAD
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
 msgstr "Incluir legendas"
+=======
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
+msgid "Render subtitles onto screenshots"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgstr ""
+
+msgctxt "IDS_SNAPSHOT_SUBTITLES"
+msgid "Include Subtitles"
+msgstr ""
+
+>>>>>>> upstream/develop

@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# ever_green, 2020
 # O SA, 2020
+# ever_green, 2020
 # 
 msgid ""
 msgstr ""
@@ -1613,14 +1613,8 @@ msgid "After Playback: Close"
 msgstr "再生終了後: 閉じる"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
-msgid ""
-"MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n"
-"\n"
-"Do you want to report it?"
-msgstr ""
-"MPC-HC の初期化中に問題が発生しました。あなたのご協力によって問題を解決できるかもしれません。\n"
-"\n"
-"問題を報告しますか？"
+msgid "MPC-HC encountered a problem during initialization."
+msgstr "MPC-HC の初期化中に問題が発生しました。"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid ""
@@ -1755,14 +1749,11 @@ msgid "Nearest keyframe"
 msgstr "最も近いキーフレーム"
 
 msgctxt "IDS_HOOKS_FAILED"
+<<<<<<< HEAD
 msgid ""
-"MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n"
-"\n"
-"Do you want to report this issue?"
+"MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
 msgstr ""
 "MPC-HC の初期化中に問題が発生しました。 DVD の再生が正しく機能しない可能性があります。これは特定のセキュリティ ツールとの互換性がないために発生することがあります。\n"
-"\n"
-"この問題を報告しますか？"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"

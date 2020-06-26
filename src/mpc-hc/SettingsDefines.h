@@ -87,6 +87,7 @@
 #define IDS_RS_SAVEIMAGE_CURRENTTIME        _T("SaveImageCurrentTime")
 #define IDS_RS_ALLOW_INACCURATE_FASTSEEK    _T("AllowInaccurateFastseek")
 #define IDS_RS_LOOP_FOLDER_NEXT_FILE        _T("LoopFolderOnPlayNextFile")
+#define IDS_RS_TIME_REFRESH_INTERVAL        _T("TimeRefreshInterval")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -342,3 +343,5 @@
 #define IDS_RS_YDL_VIDEO_FORMAT             _T("YDLVideoFormat")
 #define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")
 #define IDS_RS_YDL_COMMAND_LINE             _T("YDLCommandLine")
+
+#define IDS_RS_ENABLE_CRASH_REPORTER        _T("EnableCrashReporter")

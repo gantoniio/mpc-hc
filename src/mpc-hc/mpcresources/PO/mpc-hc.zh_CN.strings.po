@@ -1448,8 +1448,8 @@ msgid "After Playback: Close"
 msgstr "回放结束后: 关闭"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
-msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr "MPC-HC在初始化时遇到问题。 您或许可以帮我们解决这个问题。\n\n您想报告问题报告吗？"
+msgid "MPC-HC encountered a problem during initialization."
+msgstr ""
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
@@ -1576,8 +1576,8 @@ msgid "Nearest keyframe"
 msgstr "前后搜寻最近关键帧"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC 在初始化时遇到了一个问题。DVD 播放可能不正常。这可能是某些安全工具导致的不兼容。\n\n您要报告此问题吗？"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
+msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"

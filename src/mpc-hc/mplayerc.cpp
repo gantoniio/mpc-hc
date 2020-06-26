@@ -48,8 +48,6 @@
 #include "FGFilterLAV.h"
 #include "CMPCThemeMsgBox.h"
 
-#define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
-
 HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper/* = nullptr*/)
 {
     if (fn.IsEmpty()) {
@@ -650,8 +648,8 @@ CMPlayerCApp::~CMPlayerCApp()
 int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
                                UINT nIDPrompt)
 {
-    if (AfxGetAppSettings().bMPCThemeLoaded) {
-
+    const CAppSettings& s = AfxGetAppSettings();
+    if (&s && s.IsInitialized() && s.bMPCThemeLoaded) {
         CWnd* pParentWnd = CWnd::GetActiveWindow();
         if (pParentWnd == NULL) {
             pParentWnd = GetMainWnd()->GetLastActivePopup();
@@ -1466,6 +1464,22 @@ BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
     }
 }
 
+BOOL RegQueryBoolValue(HKEY hKeyRoot, LPCWSTR lpSubKey, LPCWSTR lpValuename, BOOL defaultvalue) {
+    BOOL result = defaultvalue;
+    HKEY hKeyOpen;
+    DWORD rv = RegOpenKeyEx(hKeyRoot, lpSubKey, 0, KEY_READ, &hKeyOpen);
+    if (rv == ERROR_SUCCESS) {
+        DWORD data;
+        DWORD dwBufferSize = sizeof(DWORD);
+        rv = RegQueryValueEx(hKeyOpen, lpValuename, NULL, NULL, reinterpret_cast<LPBYTE>(&data), &dwBufferSize);
+        if (rv == ERROR_SUCCESS) {
+            result = (data > 0);
+        }
+        RegCloseKey(hKeyOpen);
+    }
+    return result;
+}
+
 BOOL CMPlayerCApp::InitInstance()
 {
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
@@ -1473,9 +1487,13 @@ BOOL CMPlayerCApp::InitInstance()
 
     // At this point we have not hooked this function yet so we get the real result
     if (!IsDebuggerPresent()) {
-#if USE_DRDUMP_CRASH_REPORTER
-        CrashReporter::Enable();
-        if (!CrashReporter::IsEnabled()) {
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+        if (RegQueryBoolValue(HKEY_CURRENT_USER, _T("Software\\MPC-HC\\MPC-HC\\Settings"), _T("EnableCrashReporter"), true)) {
+            CrashReporter::Enable();
+            if (!CrashReporter::IsEnabled()) {
+                MPCExceptionHandler::Enable();
+            }
+        } else {
             MPCExceptionHandler::Enable();
         }
 #else
@@ -1513,9 +1531,7 @@ BOOL CMPlayerCApp::InitInstance()
     bHookingSuccessful &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
 
     if (!bHookingSuccessful) {
-        if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
-            ShellExecute(nullptr, _T("open"), HOOKS_BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
-        }
+        AfxMessageBox(IDS_HOOKS_FAILED);
     }
 
     // If those hooks fail it's annoying but try to run anyway without reporting any error in release mode
@@ -1781,6 +1797,13 @@ BOOL CMPlayerCApp::InitInstance()
     m_s->UpdateSettings(); // update settings
     m_s->LoadSettings(); // read settings
 
+    #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+    if (!m_s->bEnableCrashReporter && CrashReporter::IsEnabled()) {
+        CrashReporter::Disable();
+        MPCExceptionHandler::Enable();
+    }
+    #endif
+
     m_AudioRendererDisplayName_CL = _T("");
 
     if (!__super::InitInstance()) {
@@ -1792,10 +1815,8 @@ BOOL CMPlayerCApp::InitInstance()
 
     CMainFrame* pFrame = DEBUG_NEW CMainFrame;
     m_pMainWnd = pFrame;
-    if (!pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr, nullptr)) {
-        if (MessageBox(nullptr, ResStr(IDS_FRAME_INIT_FAILED), m_pszAppName, MB_ICONERROR | MB_YESNO) == IDYES) {
-            ShellExecute(nullptr, _T("open"), TRAC_URL, nullptr, nullptr, SW_SHOWDEFAULT);
-        }
+    if (!pFrame || !pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr, nullptr)) {
+        MessageBox(nullptr, ResStr(IDS_FRAME_INIT_FAILED), m_pszAppName, MB_ICONERROR | MB_OK);
         return FALSE;
     }
     pFrame->m_controls.LoadState();
