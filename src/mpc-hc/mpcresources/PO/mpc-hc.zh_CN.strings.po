@@ -1730,10 +1730,7 @@ msgid "Nearest keyframe"
 msgstr "前后搜寻最近关键帧"
 
 msgctxt "IDS_HOOKS_FAILED"
-msgid ""
-"MPC-HC encountered a problem during initialization. DVD playback may not "
-"work correctly. This problem might be caused by an incompatibility with "
-"certain security software."
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This problem might be caused by an incompatibility with certain security software."
 msgstr "MPC-HC 在初始化过程中遇到了一个问题。DVD 播放可能不会正常工作。导致这种问题的原因可能是与某些安全软件不兼容。"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
@@ -4426,10 +4423,7 @@ msgid "Loop back to first file in folder after playing the last file."
 msgstr "文件夹内最后一个文件播放完后自动播放第一个文件。"
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
-msgid ""
-"Requires Dark Theme. When enabled, the time seekbar and volume indicator "
-"don't show a dragger at current position, but instead are filled from left "
-"to right."
+msgid "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
 msgstr "该项需要黑暗主题。 当被启用时，时间进度条和音量指示器不会在当前位置显示拖动框，而是会被从左到右填充到当前位置。"
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
@@ -4445,8 +4439,7 @@ msgid "Render subtitles onto screenshots"
 msgstr "在截图上渲染字幕"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
-msgid ""
-"Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
+msgid "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
 msgstr "将视频的文件扩展名作为截图文件名的一部分。（例如，file.mkv.png）"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
