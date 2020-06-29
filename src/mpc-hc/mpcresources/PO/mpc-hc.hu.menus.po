@@ -53,7 +53,7 @@ msgstr "Legutóbbi &fájlok"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "&Bezárás"
+msgstr "Bezárás"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
@@ -750,4 +750,3 @@ msgstr "Támogatás"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Névjegy..."
-
