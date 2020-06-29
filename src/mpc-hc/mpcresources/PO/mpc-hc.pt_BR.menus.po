@@ -92,7 +92,7 @@ msgstr "Pr&opriedades"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr "Abrir &Localização do Arquivo"
+msgstr "Abrir &Local do Arquivo"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -508,7 +508,7 @@ msgstr "Girar direção &horária"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
-msgstr "Girar direção &anti-horária"
+msgstr "Girar direção a&nti-horária"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
@@ -588,7 +588,7 @@ msgstr "A-B (Marcar &A)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
 msgid "A-B (Mark &B)"
-msgstr "A-B Marcar &B)"
+msgstr "A-B (Marcar &B)"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -749,4 +749,3 @@ msgstr "Doar para o projeto"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "Sobre..."
-
