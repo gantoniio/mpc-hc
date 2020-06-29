@@ -748,3 +748,4 @@ msgstr "기부하기"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "MPC-HC 정보(&A)..."
+

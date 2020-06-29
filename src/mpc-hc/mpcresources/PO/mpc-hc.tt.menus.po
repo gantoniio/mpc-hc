@@ -748,3 +748,4 @@ msgstr "Иганә бирү"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Программа турында..."
+
