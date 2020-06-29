@@ -749,4 +749,3 @@ msgstr "Po&dporiť"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "O progr&ame..."
-
