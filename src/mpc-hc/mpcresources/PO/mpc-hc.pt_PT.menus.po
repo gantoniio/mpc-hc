@@ -235,11 +235,11 @@ msgstr "A&presentação"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Modo ecrã inteiro D3D"
+msgstr "Modo ecrã completo D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Suporte &GUI ecrã inteiro D3D"
+msgstr "Suporte &GUI ecrã completo D3D"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -748,4 +748,3 @@ msgstr "Fazer uma &doação"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Acerca..."
-
