@@ -1844,11 +1844,15 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     case PM_FILE:
                         g_bExternalSubtitleTime = false;
                         if (m_pMS) {
-                            m_pMS->GetCurrentPosition(&rtNow);
-                            m_pMS->GetDuration(&rtDur);
+                            try {
+                                m_pMS->GetCurrentPosition(&rtNow);
+                                m_pMS->GetDuration(&rtDur);
 
-                            if (abRepeatPositionBEnabled && rtNow >= abRepeatPositionB) {
-                                PerformABRepeat();
+                                if (abRepeatPositionBEnabled && rtNow >= abRepeatPositionB) {
+                                    PerformABRepeat();
+                                    return;
+                                }
+                            } catch(...) {
                                 return;
                             }
 
@@ -4040,7 +4044,7 @@ void CMainFrame::OnFileOpenQuick()
     CAtlArray<CString> mask;
     s.m_Formats.GetFilter(filter, mask);
 
-    DWORD dwFlags = OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_ENABLEINCLUDENOTIFY | OFN_NOCHANGEDIR;
+    DWORD dwFlags = OFN_EXPLORER | OFN_ENABLESIZING | OFN_ALLOWMULTISELECT | OFN_ENABLEINCLUDENOTIFY | OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
     if (!s.fKeepHistory) {
         dwFlags |= OFN_DONTADDTORECENT;
     }
