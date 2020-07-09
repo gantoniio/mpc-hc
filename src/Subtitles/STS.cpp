@@ -2869,13 +2869,15 @@ void CSimpleTextSubtitle::SetSubRenderSettings(SubRendererSettings settings) {
 }
 
 void CSimpleTextSubtitle::ResetASS() {
-    UnloadASS();
     if (subRendererSettings.renderUsingLibass) { 
         m_renderUsingLibass = true;
         if (!m_path.IsEmpty()) {
             LoadASSFile(m_subtitleType);
         }
     } else {
+        if (m_assloaded) {
+            UnloadASS();
+        }
         m_renderUsingLibass = false;
     }
 }
