@@ -157,5 +157,8 @@
     <ClInclude Include="OpenTypeLangTags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubRendererSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

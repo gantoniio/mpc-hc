@@ -14675,7 +14675,10 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
 
         if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
+            pRTS->SetDefaultStyle(s.subtitlesDefStyle);
 #if USE_LIBASS
+            SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
+            pRTS->SetSubRenderSettings(srs);
             pRTS->SetFilterGraph(m_pGB);
 #endif
             pSubStream = pRTS.Detach();
@@ -14789,7 +14792,10 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
                     style.relativeTo = s.subtitlesDefStyle.relativeTo;
                     pRTS->SetDefaultStyle(style);
                 }
-
+#if USE_LIBASS
+                SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
+                pRTS->SetSubRenderSettings(srs);
+#endif
                 if (m_pCAP) {
                     bool bKeepAspectRatio = s.fKeepAspectRatio;
                     CSize szAspectRatio = m_pCAP->GetVideoSize(true);

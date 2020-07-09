@@ -82,6 +82,7 @@
     <ClInclude Include="CompositionObject.h" />
     <ClInclude Include="DVBSub.h" />
     <ClInclude Include="SSASub.h" />
+    <ClInclude Include="SubRendererSettings.h" />
     <ClInclude Include="SubtitleHelpers.h" />
     <ClInclude Include="PGSSub.h" />
     <ClInclude Include="Rasterizer.h" />

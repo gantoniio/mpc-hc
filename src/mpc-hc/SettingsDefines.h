@@ -120,6 +120,7 @@
 #define IDS_RS_MENULANG                     _T("MenuLang")
 #define IDS_RS_AUDIOLANG                    _T("AudioLang")
 #define IDS_RS_SUBTITLESLANG                _T("SubtitlesLang")
+#define IDS_RS_RENDERSUBTITLESUSINGLIBASS   _T("RenderSubtitlesUsingLibass")
 #define IDS_RS_AUTOSPEAKERCONF              _T("AutoSpeakerConf")
 #define IDS_RS_CLOSEDCAPTIONS               _T("ClosedCaptions")
 
