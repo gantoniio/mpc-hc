@@ -2872,7 +2872,9 @@ void CSimpleTextSubtitle::ResetASS() {
     UnloadASS();
     if (subRendererSettings.renderUsingLibass) { 
         m_renderUsingLibass = true;
-        LoadASSFile(m_subtitleType);
+        if (!m_path.IsEmpty()) {
+            LoadASSFile(m_subtitleType);
+        }
     } else {
         m_renderUsingLibass = false;
     }
