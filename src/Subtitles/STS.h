@@ -68,7 +68,6 @@ public:
 
 #if USE_LIBASS
     // libass stuff
-    OpenTypeLang::HintStr openTypeLangHint = {0};
     DWORD      SrtResX = 1920;
     DWORD      SrtResY = 1080;
     bool       Kerning = false;

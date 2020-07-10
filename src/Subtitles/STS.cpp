@@ -2899,7 +2899,7 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     STSStyle defStyle;
     GetDefaultStyle(defStyle);
     if (subType == Subtitle::SRT) {
-        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), defStyle.charSet, defStyle));
+        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), defStyle.charSet, defStyle, subRendererSettings));
         if (m_dstScreenSize == CSize(0, 0)) {
             m_dstScreenSize = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }
@@ -2936,7 +2936,7 @@ bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size, Subtitle::SubType s
     if (subType == Subtitle::SRT) {
         std::stringstream srtData;
         srtData.write(data, size);
-        srt_read_data(m_ass.get(), m_track.get(), srtData, defStyle.charSet, defStyle);
+        srt_read_data(m_ass.get(), m_track.get(), srtData, defStyle.charSet, defStyle, subRendererSettings);
     } else { //subType == Subtitle::SSA/ASS
         ass_process_codec_private(m_track.get(), data, size);
     }
@@ -2997,7 +2997,7 @@ void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME
                 char outBuffer[1024];
                 STSStyle defStyle;
                 GetDefaultStyle(defStyle);
-                srt_header(outBuffer, defStyle);
+                srt_header(outBuffer, defStyle, subRendererSettings);
                 ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
                 m_assloaded = true;
             }

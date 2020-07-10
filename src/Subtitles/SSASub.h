@@ -2,6 +2,7 @@
 #include "ass/ass.h"
 #include <string>
 #include <streambuf>
+#include "SubRendererSettings.h"
 
 class STSStyle;
 
@@ -18,9 +19,9 @@ struct ASS_TrackDeleter {
 };
 
 std::string ConsumeAttribute(const char** ppsz_subtitle, std::string& attribute_value);
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style);
-ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style);
-void srt_header(char (&outBuffer)[1024], const STSStyle& style);
+ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings);
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings);
+void srt_header(char (&outBuffer)[1024], const STSStyle& style, const SubRendererSettings& subRendererSettings);
 void ConvertCPToUTF8(UINT CP, std::string& codepage_str);
 std::string GetTag(const char** line, bool b_closing);
 bool IsClosed(const char* psz_subtitle, const char* psz_tagname);

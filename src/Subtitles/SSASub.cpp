@@ -145,7 +145,7 @@ void ParseSrtLine(std::string& srtLine, const STSStyle& style) {
                     psz_subtitle++;
 
             } else if (!strncmp(psz_subtitle, "</", 2)) {
-                std::string tagname = GetTag(&psz_subtitle, true);
+                tagname = GetTag(&psz_subtitle, true);
                 if (!tagname.empty()) {
                     std::transform(tagname.begin(), tagname.end(), tagname.begin(), ::tolower);
                     if (tagname == "b") {
@@ -246,7 +246,7 @@ void ParseSrtLine(std::string& srtLine, const STSStyle& style) {
     srtLine.assign(subtitle_output);
 }
 
-void srt_header(char (&outBuffer)[1024], const STSStyle& style) {
+void srt_header(char (&outBuffer)[1024], const STSStyle& style, const SubRendererSettings& subRendererSettings) {
     double resx = style.SrtResX / 384.0;
     double resy = style.SrtResY / 288.0;
 
@@ -254,8 +254,8 @@ void srt_header(char (&outBuffer)[1024], const STSStyle& style) {
 
     // Generate a standard ass header
     CStringA langTagStr = "";
-    if (style.openTypeLangHint[0]) {
-        CStringA tagLang(style.openTypeLangHint);
+    if (subRendererSettings.openTypeLangHint[0]) {
+        CStringA tagLang(subRendererSettings.openTypeLangHint);
         tagLang.Replace(" ", "");
         langTagStr.Format("Language: %s\n", tagLang.GetBuffer());
     }
@@ -289,14 +289,14 @@ void srt_header(char (&outBuffer)[1024], const STSStyle& style) {
         (int)std::round(style.marginRect.right * resx), (int)std::round(style.marginRect.top * resy));
 }
 
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style) {
+ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings) {
     std::ifstream srtFile(fname, std::ios::in);
     ASS_Track* track = ass_new_track(library);
     track->name = _strdup(fname);
-    return srt_read_data(library, track, srtFile, codePage, style);
+    return srt_read_data(library, track, srtFile, codePage, style, subRendererSettings);
 }
 
-ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style) {
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings) {
     // Convert SRT to ASS
     std::string lineIn;
     std::string lineOut;
@@ -304,7 +304,7 @@ ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &s
     char outBuffer[1024];
     int start[4], end[4];
 
-    srt_header(outBuffer, style);
+    srt_header(outBuffer, style, subRendererSettings);
     ass_process_data(track, outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
 
     char BOM[4];
