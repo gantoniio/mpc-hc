@@ -14674,14 +14674,16 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
     if (!pSubStream) {
         CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
 
-        if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
-            pRTS->SetDefaultStyle(s.subtitlesDefStyle);
-#if USE_LIBASS
+        if (pRTS) {
             SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
             pRTS->SetSubRenderSettings(srs);
-            pRTS->SetFilterGraph(m_pGB);
+            pRTS->SetDefaultStyle(s.subtitlesDefStyle);
+            if (pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
+#if USE_LIBASS
+                pRTS->SetFilterGraph(m_pGB);
 #endif
-            pSubStream = pRTS.Detach();
+                pSubStream = pRTS.Detach();
+            }
         }
     }
 
@@ -14792,10 +14794,6 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
                     style.relativeTo = s.subtitlesDefStyle.relativeTo;
                     pRTS->SetDefaultStyle(style);
                 }
-#if USE_LIBASS
-                SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
-                pRTS->SetSubRenderSettings(srs);
-#endif
                 if (m_pCAP) {
                     bool bKeepAspectRatio = s.fKeepAspectRatio;
                     CSize szAspectRatio = m_pCAP->GetVideoSize(true);
@@ -18041,21 +18039,26 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
     SubtitlesData& data = *(SubtitlesData*)lParam;
 
     CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
-    if (pRTS && pRTS->Open(CString(data.pSubtitlesInfo->Provider()->Name().c_str()),
-                           (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET,
-                           UTF8To16(data.fileName.c_str()), Subtitle::HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),
-                           ISOLang::ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
-        m_wndSubtitlesDownloadDialog.DoDownloaded(*data.pSubtitlesInfo);
+    if (pRTS) {
+        SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
+        pRTS->SetSubRenderSettings(srs);
+        pRTS->SetDefaultStyle(AfxGetAppSettings().subtitlesDefStyle);
+        if (pRTS->Open(CString(data.pSubtitlesInfo->Provider()->Name().c_str()),
+            (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET,
+            UTF8To16(data.fileName.c_str()), Subtitle::HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),
+            ISOLang::ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
+            m_wndSubtitlesDownloadDialog.DoDownloaded(*data.pSubtitlesInfo);
 #if USE_LIBASS
-        pRTS->SetFilterGraph(m_pGB);
+            pRTS->SetFilterGraph(m_pGB);
 #endif
 
-        SubtitleInput subElement = pRTS.Detach();
-        m_pSubStreams.AddTail(subElement);
-        if (data.bActivate) {
-            SetSubtitle(subElement.pSubStream);
+            SubtitleInput subElement = pRTS.Detach();
+            m_pSubStreams.AddTail(subElement);
+            if (data.bActivate) {
+                SetSubtitle(subElement.pSubStream);
+            }
+            return TRUE;
         }
-        return TRUE;
     }
 
     return FALSE;
