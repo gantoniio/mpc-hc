@@ -54,6 +54,9 @@ CDirectVobSub::CDirectVobSub()
     m_SubtitleSpeedDiv = theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_SUBTITLESPEEDDIV), 1000);
     m_fMediaFPSEnabled = !!theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), FALSE);
     m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), 0));
+    bRenderSubtitlesUsingLibass = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), IDS_RS_RENDERSUBTITLESUSINGLIBASS, FALSE);
+    CT2A tmpLangHint(theApp.GetProfileString(ResStr(IDS_R_GENERAL), IDS_RS_OPENTYPELANGHINT, _T("")));
+    strOpenTypeLangHint = tmpLangHint;
 
     int gcd = GCD(m_SubtitleSpeedMul, m_SubtitleSpeedDiv);
     m_SubtitleSpeedNormalizedMul = m_SubtitleSpeedMul / gcd;
@@ -556,6 +559,8 @@ STDMETHODIMP CDirectVobSub::UpdateRegistry()
     theApp.WriteProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), m_fMediaFPSEnabled);
     theApp.WriteProfileBinary(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPS), (BYTE*)&m_MediaFPS, sizeof(m_MediaFPS));
     theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), m_ePARCompensationType);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), IDS_RS_RENDERSUBTITLESUSINGLIBASS, bRenderSubtitlesUsingLibass);
+    theApp.WriteProfileString(ResStr(IDS_R_GENERAL), IDS_RS_OPENTYPELANGHINT, CString(strOpenTypeLangHint));
 
     return S_OK;
 }
@@ -877,4 +882,14 @@ STDMETHODIMP CDirectVobSub::put_AllowDroppingSubpic(bool bAllowDroppingSubpic)
 STDMETHODIMP_(DWORD) CDirectVobSub::GetFilterVersion()
 {
     return 0x0234;
+}
+
+SubRendererSettings CDirectVobSub::GetSubRendererSettings() {
+    SubRendererSettings s;
+    s.renderUsingLibass = this->bRenderSubtitlesUsingLibass;
+    int otlLen = this->strOpenTypeLangHint.GetLength();
+    if (otlLen > 0) {
+        strncpy_s(s.openTypeLangHint, _countof(s.openTypeLangHint), this->strOpenTypeLangHint.GetBuffer(), std::min(OpenTypeLang::OTLangHintLen, otlLen + 1));
+    }
+    return s;
 }

@@ -22,6 +22,9 @@
 #pragma once
 
 #include "resource.h"
+#define IDS_RS_RENDERSUBTITLESUSINGLIBASS   _T("RenderSubtitlesUsingLibass")
+#define IDS_RS_OPENTYPELANGHINT             _T("OpenTypeLangHint")
+
 
 class CVSFilterApp : public CWinApp
 {

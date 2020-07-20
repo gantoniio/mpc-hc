@@ -77,6 +77,12 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
     theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), _T("Path1"), _T("c:\\subtitles"));
     theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), _T("Path2"), _T(".\\subtitles"));
 
+    //CDirectVobSub::UpdateRegistry() is not called.  write defaults here so they can be found in the registry
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), IDS_RS_RENDERSUBTITLESUSINGLIBASS, bRenderSubtitlesUsingLibass);
+    theApp.WriteProfileString(ResStr(IDS_R_GENERAL), IDS_RS_OPENTYPELANGHINT, CString(strOpenTypeLangHint));
+    CString style;
+    theApp.WriteProfileString(ResStr(IDS_R_TEXT), ResStr(IDS_RT_STYLE), style <<= m_defStyle);
+
     m_fLoading = true;
 
     m_hSystrayThread = 0;
@@ -1530,9 +1536,14 @@ bool CDirectVobSubFilter::Open()
 
         if (!pSubStream) {
             CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
-            if (pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET, _T(""), m_videoFileName) && pRTS->GetStreamCount() > 0) {
-                pSubStream = pRTS.Detach();
-                m_frd.files.AddTail(ret[i].fn + _T(".style"));
+            if (pRTS) {
+                SubRendererSettings srs = GetSubRendererSettings();
+                pRTS->SetSubRenderSettings(srs);
+                pRTS->SetDefaultStyle(m_defStyle);
+                if (pRTS->Open(ret[i].fn, DEFAULT_CHARSET, _T(""), m_videoFileName) && pRTS->GetStreamCount() > 0) {
+                    pSubStream = pRTS.Detach();
+                    m_frd.files.AddTail(ret[i].fn + _T(".style"));
+                }
             }
         }
 
