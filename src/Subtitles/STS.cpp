@@ -3101,7 +3101,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
         str += _T("<STYLE TYPE=\"text/css\">\n");
         str += _T("<!--\n");
         str += _T("P {margin-left: 16pt; margin-right: 16pt; margin-bottom: 16pt; margin-top: 16pt;\n");
-        str += _T("   text-align: center; font-size: 18pt; font-family: tahoma; font-weight: bold; color: #f0f0f0;}\n");
+        str += _T("   text-align: center; font-size: 18pt; font-family: calibri; font-weight: bold; color: #f0f0f0;}\n");
         str += _T(".UNKNOWNCC {Name:Unknown; lang:en-US; SAMIType:CC;}\n");
         str += _T("-->\n");
         str += _T("</STYLE>\n");
@@ -3335,7 +3335,7 @@ void STSStyle::SetDefault()
     alpha[2] = 0x00;
     alpha[3] = 0x80;
     charSet = DEFAULT_CHARSET;
-    fontName = _T("Tahoma");
+    fontName = _T("Calibri");
     fontSize = 18;
     fontScaleX = fontScaleY = 100;
     fontSpacing = 0;

@@ -62,7 +62,7 @@ CMyFont::CMyFont(const STSStyle& style)
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
     if (!CreateFontIndirect(&lf)) {
-        _tcscpy_s(lf.lfFaceName, _T("Tahoma"));
+        _tcscpy_s(lf.lfFaceName, _T("Calibri"));
         VERIFY(CreateFontIndirect(&lf));
     }
 

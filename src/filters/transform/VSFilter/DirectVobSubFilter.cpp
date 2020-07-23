@@ -77,12 +77,6 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
     theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), _T("Path1"), _T("c:\\subtitles"));
     theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), _T("Path2"), _T(".\\subtitles"));
 
-    //CDirectVobSub::UpdateRegistry() is not called.  write defaults here so they can be found in the registry
-    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), IDS_RS_RENDERSUBTITLESUSINGLIBASS, bRenderSubtitlesUsingLibass);
-    theApp.WriteProfileString(ResStr(IDS_R_GENERAL), IDS_RS_OPENTYPELANGHINT, CString(strOpenTypeLangHint));
-    CString style;
-    theApp.WriteProfileString(ResStr(IDS_R_TEXT), ResStr(IDS_RT_STYLE), style <<= m_defStyle);
-
     m_fLoading = true;
 
     m_hSystrayThread = 0;
