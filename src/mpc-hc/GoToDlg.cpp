@@ -60,6 +60,7 @@ void CGoToDlg::DoDataExchange(CDataExchange* pDX)
 BOOL CGoToDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
 
     bool showHours = (m_maxTime >= 3600 * 1000 * 10000i64);
 
