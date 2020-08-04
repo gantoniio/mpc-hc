@@ -341,8 +341,10 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         ParseMPCPlayList(fns.GetHead());
         return;
     } else if (ct == "audio/x-mpegurl") {
-        if (ParseM3UPlayList(fns.GetHead())) {
-            return; //we have handled this one. if parse fails it should fall through to AddItem below
+        if (ydl_src.IsEmpty()) {
+            if (ParseM3UPlayList(fns.GetHead())) {
+                return; //we have handled this one. if parse fails it should fall through to AddItem below
+            }
         }
     } else {
 #if INTERNAL_SOURCEFILTER_MPEG
@@ -953,19 +955,24 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
 
 bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
 {
-    // release the file handle by changing to the next item or stopping playback
     if (pos == m_pl.GetPos()) {
-        if (m_pl.GetCount() > 1) {
-            m_pMainFrame->OnNavigateSkipFile(ID_NAVIGATE_SKIPFORWARDFILE);
-        } else {
-            m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-        }
+        // release the file handle by changing to the next item or stopping playback
+        m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     }
 
     if (SUCCEEDED(FileDelete(m_pl.GetAt(pos).m_fns.GetHead(), m_pMainFrame->m_hWnd, recycle))) {
+        // Get position of next file
+        POSITION nextpos = pos;
+        m_pl.GetNext(nextpos);
+        // remove from playlist
         m_list.DeleteItem(FindItem(pos));
         m_pl.RemoveAt(pos);
         SavePlaylist();
+        // play next file
+        if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
+            m_pl.SetPos(nextpos);
+            m_pMainFrame->OpenCurPlaylistItem();
+        }
         return true;
     }
     return false;
@@ -1251,19 +1258,18 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
     int oldDC = pDC->SaveDC();
-    const CAppSettings& s = AfxGetAppSettings();
 
     COLORREF bgColor;
 
     if (itemSelected) {
-        if (s.bMPCThemeLoaded) {
+        if (AppIsThemeLoaded()) {
             bgColor = CMPCTheme::ContentSelectedColor;
         } else {
             bgColor = 0xf1dacc;
             FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
         }
     } else {
-        if (s.bMPCThemeLoaded) {
+        if (AppIsThemeLoaded()) {
             bgColor = CMPCTheme::ContentBGColor;
         } else {
             bgColor = GetSysColor(COLOR_WINDOW);
@@ -1276,7 +1282,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     CString bullet = _T("\x25CF ");
     CSize bulletWidth = pDC->GetTextExtent(bullet);
 
-    if (s.bMPCThemeLoaded) {
+    if (AppIsThemeLoaded()) {
         if (pli.m_fInvalid) {
             textcolor = CMPCTheme::ContentTextDisabledFGColorFade2;
         } else if (itemPlaying) {
@@ -1630,7 +1636,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bShufflePlaylistItems ? MF_CHECKED : MF_UNCHECKED), M_SHUFFLE, ResStr(IDS_PLAYLIST_SHUFFLE));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHidePlaylistFullScreen ? MF_CHECKED : MF_UNCHECKED), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));
-    if (s.bMPCThemeLoaded) {
+    if (AppIsThemeLoaded()) {
         m.fulfillThemeReqs();
     }
 
@@ -1654,7 +1660,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             SavePlaylist();
             break;
         case M_RECYCLE:
-            DeleteFileInPlaylist(pos);
+            DeleteFileInPlaylist(pos, true);
             break;
         case M_CLEAR:
             if (Empty()) {
@@ -1938,8 +1944,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 
 void CPlayerPlaylistBar::OnLvnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCThemeLoaded) {
+    if (AppIsThemeLoaded()) {
         HWND e_hwnd = (HWND)m_list.SendMessage(LVM_GETEDITCONTROL);
         if (::IsWindow(m_edit.m_hWnd)) {
             m_edit.UnsubclassWindow();
@@ -1957,8 +1962,7 @@ void CPlayerPlaylistBar::OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
         pli.m_label = pDispInfo->item.pszText;
         m_list.SetItemText(pDispInfo->item.iItem, 0, pDispInfo->item.pszText);
     }
-    const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCThemeLoaded) {
+    if (AppIsThemeLoaded()) {
         if (::IsWindow(m_edit.m_hWnd)) {
             m_edit.UnsubclassWindow();
         }

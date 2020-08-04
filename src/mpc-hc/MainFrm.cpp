@@ -1844,15 +1844,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     case PM_FILE:
                         g_bExternalSubtitleTime = false;
                         if (m_pMS) {
-                            try {
-                                m_pMS->GetCurrentPosition(&rtNow);
-                                m_pMS->GetDuration(&rtDur);
+                            m_pMS->GetCurrentPosition(&rtNow);
+                            m_pMS->GetDuration(&rtDur);
 
-                                if (abRepeatPositionBEnabled && rtNow >= abRepeatPositionB) {
-                                    PerformABRepeat();
-                                    return;
-                                }
-                            } catch(...) {
+                            if (abRepeatPositionBEnabled && rtNow >= abRepeatPositionB) {
+                                PerformABRepeat();
                                 return;
                             }
 
@@ -3270,6 +3266,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
     }
 
     if (fPnSPresets) {
+        bool usetheme = AppIsThemeLoaded();
         const CAppSettings& s = AfxGetAppSettings();
         INT_PTR i = 0, j = s.m_pnspresets.GetCount();
         for (; i < j; i++) {
@@ -3282,7 +3279,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         {
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START + i, ResStr(IDS_PANSCAN_EDIT)));
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND | MF_SEPARATOR));
-            if (s.bMPCThemeLoaded) {
+            if (usetheme) {
                 CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, (UINT)(ID_PANNSCAN_PRESETS_START + i), true);
                 UINT pos = CMPCThemeMenu::getPosFromID(pPopupMenu, ID_VIEW_RESET); //separator is inserted right before view_reset
                 CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, pos - 1);
@@ -4528,6 +4525,17 @@ DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyStat
     return DROPEFFECT_NONE;
 }
 
+BOOL IsSubtitleExtension(CString ext)
+{
+    return (ext == _T(".srt") || ext == _T(".ssa") || ext == _T(".ass") || ext == _T(".idx") || ext == _T(".sub") || ext == _T(".vtt") || ext == _T(".sup") || ext == _T(".smi") || ext == _T(".psb") || ext == _T(".usf") || ext == _T(".xss") || ext == _T(".rt")|| ext == _T(".txt"));
+}
+
+BOOL IsSubtitleFilename(CString filename)
+{
+    CString ext = CPath(filename).GetExtension().MakeLower();
+    return IsSubtitleExtension(ext);
+}
+
 void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
 {
     SetForegroundWindow();
@@ -4542,55 +4550,66 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
 
     PathUtils::ParseDirs(slFiles);
 
+    bool bAppend = !!(dropEffect & DROPEFFECT_APPEND);
+
+    // Check for subtitle files
     SubtitleInput subInputSelected;
-    if (GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP) {
-        POSITION pos = slFiles.GetHeadPosition();
-        while (pos) {
-            // Try to open all dropped files as subtitles. If one of the files
-            // cannot be loaded as subtitle, add all files to the playlist.
-            SubtitleInput subInput;
-            if (LoadSubtitle(slFiles.GetNext(pos), &subInput)) {
-                if (!subInputSelected.pSubStream) {
+    CString subfile;
+    BOOL onlysubs = true;
+    POSITION pos = slFiles.GetHeadPosition();
+    while (pos) {
+        SubtitleInput subInput;
+        subfile = slFiles.GetNext(pos);
+        if (IsSubtitleFilename(subfile)) {
+            // remove subtitle file from list
+            slFiles.RemoveHeadNoReturn();
+            // try to load it
+            if (!bAppend && m_pCAP && GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && LoadSubtitle(subfile, &subInput, False)) {
+                if (onlysubs && !subInputSelected.pSubStream) {
+                    // first one
                     subInputSelected = subInput;
+                    AfxGetAppSettings().fEnableSubtitles = true;
+                    SetSubtitle(subInputSelected);
+
+                    CPath fn(subfile);
+                    fn.StripPath();
+                    CString statusmsg(static_cast<LPCTSTR>(fn));
+                    SendStatusMessage(statusmsg + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
                 }
-            } else {
-                subInputSelected = SubtitleInput();
-                break;
             }
+        }
+        else {
+            onlysubs = false;
         }
     }
 
-    bool bAppend = !!(dropEffect & DROPEFFECT_APPEND);
-    // Use the first subtitle file that was just loaded
-    if (subInputSelected.pSubStream) {
-        AfxGetAppSettings().fEnableSubtitles = true;
-        SetSubtitle(subInputSelected);
+    if (onlysubs && subInputSelected.pSubStream) {
+        // subtitles have been loaded, we are done now
+        return;
+    }
 
-        CString filenames;
-        POSITION pos = slFiles.GetHeadPosition();
-        while (pos) {
-            CPath fn(slFiles.GetNext(pos));
-            fn.StripPath();
-            filenames.AppendFormat(pos ? _T("%s, ") : _T("%s"), static_cast<LPCTSTR>(fn));
-        }
-        SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
-    } else {
-        //load http url with youtube-dl, if available
-        if (CanSendToYoutubeDL(slFiles.GetHead())) {
-            if (ProcessYoutubeDLURL(slFiles.GetHead(), bAppend)) {
-                if (!bAppend) {
-                    OpenCurPlaylistItem();
-                }
-                return;
+    // list might be empty now if a subtitle file failed to load
+    if (slFiles.IsEmpty()) {
+        SendStatusMessage(_T("Failed to load subtitle file"), 3000);
+        return;
+    }
+
+    // load http url with youtube-dl, if available
+    if (CanSendToYoutubeDL(slFiles.GetHead())) {
+        if (ProcessYoutubeDLURL(slFiles.GetHead(), bAppend)) {
+            if (!bAppend) {
+                OpenCurPlaylistItem();
             }
+            return;
         }
+    }
 
-        if (bAppend) {
-            m_wndPlaylistBar.Append(slFiles, true);
-        } else {
-            m_wndPlaylistBar.Open(slFiles, true);
-            OpenCurPlaylistItem();
-        }
+    // add remaining items
+    if (bAppend) {
+        m_wndPlaylistBar.Append(slFiles, true);
+    } else {
+        m_wndPlaylistBar.Open(slFiles, true);
+        OpenCurPlaylistItem();
     }
 }
 
@@ -11334,11 +11353,11 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     if (auto pOpenFileData = dynamic_cast<OpenFileData*>(pOMD)) {
         engine_t engine = s.m_Formats.GetEngine(pOpenFileData->fns.GetHead());
 
+#ifndef _WIN64
         CStringA ct = GetContentType(pOpenFileData->fns.GetHead());
 
         if (ct == "application/x-shockwave-flash") {
             engine = ShockWave;
-#ifndef _WIN64
         } else if (ct == "audio/x-pn-realaudio"
                    || ct == "audio/x-pn-realaudio-plugin"
                    || ct == "audio/x-realaudio-secure"
@@ -11351,12 +11370,8 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         }
         else if (ct == "application/x-quicktimeplayer") {
             engine = QuickTime;
-#endif
-#if 0
-        } else if (ct == "video/x-ms-asf") {
-            // TODO: put something here to make the windows media source filter load later
-#endif
         }
+#endif
 
 #ifdef _WIN64
         // override unsupported frameworks
@@ -11472,9 +11487,9 @@ CWnd* CMainFrame::GetModalParent()
 }
 
 void CMainFrame::ShowMediaTypesDialog() {
+    CAutoLock lck(&lockModalDialog);
     CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
     if (pGBDE && pGBDE->GetCount()) {
-        CAutoLock lck(&lockModalDialog); //put a lock here in case this somehow gets called twice?
         mediaTypesErrorDlg = DEBUG_NEW CMediaTypesDlg(pGBDE, GetModalParent());
         mediaTypesErrorDlg->DoModal();
         delete mediaTypesErrorDlg;
@@ -13051,6 +13066,10 @@ void CMainFrame::CloseMediaPrivate()
         m_ExternalSubstreams.clear();
     }
     m_pSubClock.Release();
+
+    if (m_pVW && !m_pMVRS) {
+        m_pVW->put_Owner(NULL);
+    }
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
@@ -14661,19 +14680,17 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         videoName = m_wndPlaylistBar.GetCurFileName();
     }
 
-    if (!pSubStream) {
+    CString ext = CPath(fn).GetExtension().MakeLower();
+
+    if (!pSubStream && (ext == _T(".idx") || !bAutoLoad && ext == _T(".sub"))) {
         CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
-        CString ext = CPath(fn).GetExtension().MakeLower();
-        // To avoid loading the same subtitles file twice, we ignore .sub file when auto-loading
-        if ((ext == _T(".idx") || (!bAutoLoad && ext == _T(".sub")))
-                && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
+        if (pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
             pSubStream = pVSF.Detach();
         }
     }
 
     if (!pSubStream) {
         CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
-
         if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
             pSubStream = pRTS.Detach();
         }
@@ -15705,9 +15722,6 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     // close the current graph before opening new media
     if (GetLoadState() != MLS::CLOSED) {
-        if (mediaTypesErrorDlg) { // close pin connection error dialog
-            mediaTypesErrorDlg->SendMessage(WM_EXTERNALCLOSE, 0, 0);
-        }
         CloseMedia(true);
         ASSERT(GetLoadState() == MLS::CLOSED);
     }
@@ -15777,6 +15791,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     // don't set video renderer output rect until the window is repositioned
     m_bDelaySetOutputRect = true;
 
+#if 0
     // display corresponding media icon in status bar
     if (pFileData) {
         CString filename = m_wndPlaylistBar.GetCurFileName();
@@ -15788,6 +15803,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         // TODO: Create icons for pDeviceData
         m_wndStatusBar.SetMediaType(_T(".unknown"));
     }
+#endif
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
     if (bUseThread) {
@@ -15838,6 +15854,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
         // tell OpenMediaPrivate() that we want to abort
         m_fOpeningAborted = true;
+
+        // close pin connection error dialog
+        if (mediaTypesErrorDlg) {
+            mediaTypesErrorDlg->SendMessage(WM_EXTERNALCLOSE, 0, 0);
+            // wait till error dialog has been closed
+            CAutoLock lck(&lockModalDialog);
+        }
 
         // abort current graph task
         if (m_pGB) {

@@ -476,9 +476,12 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         WCHAR sep;
         int c = swscanf_s(str, L"%d%c%d%c%d%c%d",
             &hh, &sep, 1, &mm, &sep, 1, &ss, &sep, 1, &ms);
-        // Check if ms was present
         if (c == 5) {
-            ms = 0;
+            // Hours value is absent, shift read values
+            ms = ss;
+            ss = mm;
+            mm = hh;
+            hh = 0;
         }
         return (c == 5 || c == 7);
     };
@@ -1895,26 +1898,30 @@ static std::vector<int> PreferredOpenFuncts(CString fn) {
             if (OpenFuncts[i].open == OpenSubRipper) functs.push_back(i);
         } else if (fileExt == _T("srt")) {
             if (OpenFuncts[i].open == OpenSubRipper) functs.insert(functs.begin(), i);
-            if (OpenFuncts[i].open == OpenOldSubRipper) functs.push_back(i);
+            if (OpenFuncts[i].open == OpenOldSubRipper || OpenFuncts[i].open == OpenSubStationAlpha || OpenFuncts[i].open == OpenMicroDVD || OpenFuncts[i].open == OpenMPL2) functs.push_back(i);
         } else if (fileExt == _T("ssa") || fileExt == _T("ass")) {
             if (OpenFuncts[i].open == OpenSubStationAlpha) functs.insert(functs.begin(), i);
+            if (OpenFuncts[i].open == OpenSubRipper) functs.push_back(i);
         } else if (fileExt == _T("xss")) {
             if (OpenFuncts[i].open == OpenXombieSub) functs.insert(functs.begin(), i);
         } else if (fileExt == _T("sub")) {
             if (OpenFuncts[i].open == OpenSubViewer) functs.insert(functs.begin(), i);
-            if (OpenFuncts[i].open == OpenSubRipper) functs.push_back(i);
+            if (OpenFuncts[i].open == OpenSubRipper || OpenFuncts[i].open == OpenOldSubRipper || OpenFuncts[i].open == OpenMicroDVD || OpenFuncts[i].open == OpenMPL2) functs.push_back(i);
         } else if (fileExt == _T("txt")) {
             if (OpenFuncts[i].open == OpenMicroDVD) functs.insert(functs.begin(), i);
-            if (OpenFuncts[i].open == OpenSubRipper || OpenFuncts[i].open == OpenVPlayer || OpenFuncts[i].open == OpenMPL2) functs.push_back(i);
+            if (OpenFuncts[i].open == OpenSubRipper || OpenFuncts[i].open == OpenOldSubRipper || OpenFuncts[i].open == OpenVPlayer || OpenFuncts[i].open == OpenMPL2) functs.push_back(i);
         } else if (fileExt == _T("rt")) {
             if (OpenFuncts[i].open == OpenRealText) functs.insert(functs.begin(), i);
         } else if (fileExt == _T("smi")) {
             if (OpenFuncts[i].open == OpenSami) functs.insert(functs.begin(), i);
         } else if (fileExt == _T("usf")) {
             if (OpenFuncts[i].open == OpenUSF) functs.insert(functs.begin(), i);
+        } else if (fileExt == _T("style")) {
+            if (OpenFuncts[i].open == OpenSubStationAlpha) functs.push_back(i);
+        } else if (fileExt == _T("tmp")) { // used for embedded subs
+            if (OpenFuncts[i].open == OpenSubRipper || OpenFuncts[i].open == OpenSubStationAlpha) functs.push_back(i);
         } else {
-            if (OpenFuncts[i].open == OpenSubRipper) functs.insert(functs.begin(), i);
-            if (OpenFuncts[i].open == OpenOldSubRipper || OpenFuncts[i].open == OpenSubStationAlpha) functs.push_back(i);
+            functs.push_back(i);
         }
     }
     return functs;
@@ -2834,6 +2841,8 @@ bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
     bool fRet = Open(fn, CharSet, name);
 
     _tremove(fn);
+
+    m_path = _T("");
 
     return fRet;
 }
