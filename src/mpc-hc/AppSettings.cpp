@@ -468,7 +468,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_SUBTITLES_LOAD,             'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLES },
     { ID_FILE_SUBTITLES_SAVE,             'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLES },
     { ID_FILE_SUBTITLES_DOWNLOAD,         'D', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_DOWNLOAD },
-    { ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_UPLOAD },
+    { ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_SUBTITLES_UPLOAD },
     { ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE },
     { ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES },
     { ID_FILE_OPEN_LOCATION,           VK_F10, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,IDS_AG_OPEN_FILE_LOCATION },
@@ -588,10 +588,10 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_NAVIGATE_AUDIOMENU,                0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_66 },
     { ID_NAVIGATE_ANGLEMENU,                0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_67 },
     { ID_NAVIGATE_CHAPTERMENU,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_68 },
-    { ID_NAVIGATE_MENU_LEFT,          VK_LEFT, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_LEFT },
-    { ID_NAVIGATE_MENU_RIGHT,        VK_RIGHT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_70 },
-    { ID_NAVIGATE_MENU_UP,              VK_UP, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_UP },
-    { ID_NAVIGATE_MENU_DOWN,          VK_DOWN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_DOWN },
+    { ID_NAVIGATE_MENU_LEFT,          VK_LEFT, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,  IDS_AG_DVD_MENU_LEFT },
+    { ID_NAVIGATE_MENU_RIGHT,        VK_RIGHT, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,  IDS_MPLAYERC_70 },
+    { ID_NAVIGATE_MENU_UP,              VK_UP, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,  IDS_AG_DVD_MENU_UP },
+    { ID_NAVIGATE_MENU_DOWN,          VK_DOWN, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,  IDS_AG_DVD_MENU_DOWN },
     { ID_NAVIGATE_MENU_ACTIVATE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_73 },
     { ID_NAVIGATE_MENU_BACK,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_DVD_MENU_BACK },
     { ID_NAVIGATE_MENU_LEAVE,               0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_75 },
@@ -1699,40 +1699,6 @@ void CAppSettings::LoadSettings()
         if (n >= 2) {
             tmp.fVirt = (BYTE)fVirt;
         }
-
-        // If there is no distinct bindings for windowed and
-        // fullscreen modes we use the same for both.
-        // tMFS will be valid for n >= 6
-        BYTE tMFS = (n >= 8) ? tmp.mouseFS : tmp.mouse;
-
-        POSITION p = wmcmds.GetHeadPosition();
-        for (int j = 0; j < wmcmds.GetCount(); j++) {
-            wmcmd& wc = wmcmds.GetNext(p);
-            if (wc != tmp) {
-                //FNOINVERT is deprecated but present on at least some default key assignments. remove for comparison
-                BYTE wcv = wc.fVirt & ~(FNOINVERT); 
-                BYTE tv = tmp.fVirt & ~(FNOINVERT);
-
-                if (tmp.key != 0 && wc.key == tmp.key && wcv == tv) {
-                    wc.key = 0;
-                    wc.fVirt = 0;
-                }
-                if (n >= 6) {
-                    if (tmp.mouse != wmcmd::NONE && wc.mouse == tmp.mouse) {
-                        wc.mouse = wmcmd::NONE;
-                    }
-                    if (tMFS != wmcmd::NONE && wc.mouseFS == tMFS) {
-                        wc.mouseFS = wmcmd::NONE;
-                    }
-                    if (n >= 7) {
-                        if (tmp.appcmd != 0 && wc.appcmd == tmp.appcmd) {
-                            wc.appcmd = 0;
-                        }
-                    }
-                }
-            }
-        }
-
         if (POSITION pos = wmcmds.Find(tmp)) {
             wmcmd& wc = wmcmds.GetAt(pos);
             wc.cmd = tmp.cmd;
@@ -1740,11 +1706,13 @@ void CAppSettings::LoadSettings()
             wc.key = tmp.key;
             if (n >= 6) {
                 wc.mouse = tmp.mouse;
-                wc.mouseFS = tMFS;
             }
             if (n >= 7) {
                 wc.appcmd = tmp.appcmd;
             }
+            // If there is no distinct bindings for windowed and
+            // fullscreen modes we use the same for both.
+            wc.mouseFS = (n >= 8) ? tmp.mouseFS : wc.mouse;
             wc.rmcmd = tmp.rmcmd.Trim('\"');
             wc.rmrepcnt = tmp.rmrepcnt;
         }
