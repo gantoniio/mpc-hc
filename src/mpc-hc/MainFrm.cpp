@@ -3724,6 +3724,7 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     m_lastOMD.Attach((OpenMediaData*)lParam);
 
     bool bOpenNextInPlaylist = false;
+    bool bAfterPlaybackEvent = false;
 
     if (wParam == PM_FILE) {
         if (m_wndPlaylistBar.GetCount() == 1) {
@@ -3749,15 +3750,19 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
                 } else {
                     bOpenNextInPlaylist = m_wndPlaylistBar.SetNext();
                 }
-            } else if (m_wndPlaylistBar.GetCount() > 1) {
-                DoAfterPlaybackEvent();
+            } else {
+                bAfterPlaybackEvent = true;
             }
         }
     }
 
     CloseMedia(bOpenNextInPlaylist);
+
     if (bOpenNextInPlaylist) {
         OpenCurPlaylistItem();
+    }
+    else if (bAfterPlaybackEvent) {
+        DoAfterPlaybackEvent();
     }
 
     return 0;
@@ -13139,6 +13144,7 @@ void CMainFrame::CloseMediaPrivate()
 
     {
         CAutoLock cAutoLock(&m_csSubLock);
+        m_pCurrentSubInput = SubtitleInput(nullptr);
         m_pSubStreams.RemoveAll();
         m_ExternalSubstreams.clear();
     }
