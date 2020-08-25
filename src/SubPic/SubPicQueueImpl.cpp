@@ -194,13 +194,12 @@ STDMETHODIMP CSubPicQueue::SetFPS(double fps)
         return hr;
     }
 
-    if (m_settings.nAnimationRate == 100) { // Special case when rendering at full speed
-        // Ensure the subtitle will really be updated every frame by setting a really small duration
-        m_rtTimePerFrame = 1;
-        m_rtTimePerSubFrame = 1;
-    } else {
-        m_rtTimePerFrame = std::llround(10000000.0 / m_fps);
-        m_rtTimePerSubFrame = std::llround(10000000.0 / (m_fps * m_settings.nAnimationRate / 100.0));
+    m_rtTimePerFrame = std::llround(10000000.0 / m_fps);
+    m_rtTimePerSubFrame = std::llround(10000000.0 / (m_fps * m_settings.nAnimationRate / 100.0));
+
+    if (m_settings.nAnimationRate == 100) { // Special case when rendering at full speed: 1.01 magic number to make sure it fall
+        m_rtTimePerFrame = std::llround(m_rtTimePerFrame / 1.01);
+        m_rtTimePerSubFrame = std::llround(m_rtTimePerSubFrame / 1.01);
     }
 
     m_runQueueEvent.Set();
