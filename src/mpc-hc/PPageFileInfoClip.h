@@ -38,7 +38,7 @@ private:
     CMPCThemeEdit m_locationCtrl;
 
     CStatic m_icon;
-    CString m_fn, m_path;
+    CString m_fn, m_path, m_displayFn;
     CString m_clip;
     CString m_author;
     CString m_copyright;
