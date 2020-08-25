@@ -43,6 +43,7 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     , m_copyright(StrRes(IDS_AG_NONE))
     , m_rating(StrRes(IDS_AG_NONE))
     , m_location(StrRes(IDS_AG_NONE))
+    , m_displayLocation(StrRes(IDS_AG_NONE))
 {
     if (pFSF) {
         CComHeapPtr<OLECHAR> pFN;
@@ -110,7 +111,7 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT3, m_author);
     DDX_Text(pDX, IDC_EDIT2, m_copyright);
     DDX_Text(pDX, IDC_EDIT5, m_rating);
-    DDX_Text(pDX, IDC_EDIT6, m_location);
+    DDX_Text(pDX, IDC_EDIT6, m_displayLocation);
     DDX_Control(pDX, IDC_EDIT6, m_locationCtrl);
     DDX_Text(pDX, IDC_EDIT7, m_desc);
 }
@@ -159,8 +160,10 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 
     if (-1 != m_path.Find(_T("://"))) {
         m_displayFn = UrlDecodeWithUTF8(m_fn);
+        m_displayLocation = UrlDecodeWithUTF8(m_location);
     } else {
         m_displayFn = m_fn;
+        m_displayLocation = m_location;
     }
 
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);

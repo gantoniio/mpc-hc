@@ -43,7 +43,7 @@ private:
     CString m_author;
     CString m_copyright;
     CString m_rating;
-    CString m_location;
+    CString m_location, m_displayLocation;
     CString m_desc;
 
 public:
