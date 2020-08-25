@@ -20,6 +20,8 @@
 
 #include "stdafx.h"
 #include "PathUtils.h"
+#include <WinInet.h>
+#include <memory>
 
 namespace PathUtils
 {
@@ -139,7 +141,21 @@ namespace PathUtils
         p.Replace('\\', '/');
         p.TrimRight('/');
         p = p.Mid(p.ReverseFind('/') + 1);
-        return p.IsEmpty() ? CString(path) : p;
+        if (p.IsEmpty()) {
+            return CString(path);
+        } else {
+            DWORD bufSize = 1;
+            TCHAR t[1];
+            InternetCanonicalizeUrl(p, t, &bufSize, ICU_DECODE | ICU_NO_ENCODE);
+            if (bufSize > 0) {
+                std::shared_ptr<TCHAR[]> buffer(new TCHAR[bufSize]);
+                if (InternetCanonicalizeUrl(p, buffer.get(), &bufSize, ICU_DECODE | ICU_NO_ENCODE)) {
+                    CString urlDecoded(buffer.get());
+                    return urlDecoded;
+                }
+            }
+            return p;
+        }
     }
 
     bool IsInDir(LPCTSTR path, LPCTSTR dir)
