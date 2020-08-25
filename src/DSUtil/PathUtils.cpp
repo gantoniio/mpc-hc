@@ -20,8 +20,8 @@
 
 #include "stdafx.h"
 #include "PathUtils.h"
-#include <WinInet.h>
 #include <memory>
+#include "text.h"
 
 namespace PathUtils
 {
@@ -138,24 +138,16 @@ namespace PathUtils
     {
         // Replacement for CPath::StripPath which works fine also for URLs
         CString p = path;
+        bool isURL = (-1 != p.Find(_T("://")));
         p.Replace('\\', '/');
         p.TrimRight('/');
         p = p.Mid(p.ReverseFind('/') + 1);
         if (p.IsEmpty()) {
             return CString(path);
-        } else {
-            DWORD bufSize = 1;
-            TCHAR t[1];
-            InternetCanonicalizeUrl(p, t, &bufSize, ICU_DECODE | ICU_NO_ENCODE);
-            if (bufSize > 0) {
-                std::shared_ptr<TCHAR[]> buffer(new TCHAR[bufSize]);
-                if (InternetCanonicalizeUrl(p, buffer.get(), &bufSize, ICU_DECODE | ICU_NO_ENCODE)) {
-                    CString urlDecoded(buffer.get());
-                    return urlDecoded;
-                }
-            }
-            return p;
+        } else if (isURL) {
+            return UrlDecodeWithUTF8(p);
         }
+        return p;
     }
 
     bool IsInDir(LPCTSTR path, LPCTSTR dir)
