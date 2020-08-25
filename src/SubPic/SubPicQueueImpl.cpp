@@ -197,7 +197,7 @@ STDMETHODIMP CSubPicQueue::SetFPS(double fps)
     m_rtTimePerFrame = std::llround(10000000.0 / m_fps);
     m_rtTimePerSubFrame = std::llround(10000000.0 / (m_fps * m_settings.nAnimationRate / 100.0));
 
-    if (m_settings.nAnimationRate == 100) { // Special case when rendering at full speed: 1.01 magic number to make sure it fall
+    if (m_settings.nAnimationRate == 100) { // Special case when rendering at full speed: 1.01 magic number to make sure it doesn't fall on frame boundary
         m_rtTimePerFrame = std::llround(m_rtTimePerFrame / 1.01);
         m_rtTimePerSubFrame = std::llround(m_rtTimePerSubFrame / 1.01);
     }
