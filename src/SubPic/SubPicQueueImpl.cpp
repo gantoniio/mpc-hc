@@ -197,11 +197,6 @@ STDMETHODIMP CSubPicQueue::SetFPS(double fps)
     m_rtTimePerFrame = std::llround(10000000.0 / m_fps);
     m_rtTimePerSubFrame = std::llround(10000000.0 / (m_fps * m_settings.nAnimationRate / 100.0));
 
-    if (m_settings.nAnimationRate == 100) { // Special case when rendering at full speed: 1.01 magic number to make sure it doesn't fall on frame boundary
-        m_rtTimePerFrame = std::llround(m_rtTimePerFrame / 1.01);
-        m_rtTimePerSubFrame = std::llround(m_rtTimePerSubFrame / 1.01);
-    }
-
     m_runQueueEvent.Set();
 
     return S_OK;
@@ -556,7 +551,7 @@ DWORD CSubPicQueue::ThreadProc()
                 }
 
                 REFERENCE_TIME rtCurrent = std::max(rtStart, rtStartRendering);
-                if (rtCurrent > m_rtNow) {
+                    if (rtCurrent > m_rtNow && rtTimePerFrame <= rtStop - rtStart) {
                     // Round current time to the next estimated video frame timing
                     REFERENCE_TIME rtCurrentRounded = (rtCurrent / rtTimePerFrame) * rtTimePerFrame;
                     if (rtCurrentRounded < rtCurrent) {
