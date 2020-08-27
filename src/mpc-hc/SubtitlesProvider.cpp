@@ -193,6 +193,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
     std::string fnameLower = pFileInfo.fileName;
     std::transform(fnameLower.begin(), fnameLower.end(), fnameLower.begin(), [](unsigned char c) { return std::tolower(c); });
 
+    int validSubs = 0;
     for (int i = 0; i < nCount; ++i) {
         CheckAbortAndReturn();
         XmlRpcValue& data(result["data"][i]);
@@ -205,6 +206,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
                 continue;
             }
         }
+        validSubs++;
 
         SubtitlesInfo pSubtitlesInfo;
         pSubtitlesInfo.id = (const char*)data["IDSubtitleFile"];
@@ -234,7 +236,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
         pSubtitlesInfo.corrected = (int)data["SubBad"] ? -1 : 0;
         Set(pSubtitlesInfo);
     }
-    LOG(std::to_wstring(nCount).c_str());
+    LOG(std::to_wstring(validSubs).c_str());
     return SR_SUCCEEDED;
 }
 
