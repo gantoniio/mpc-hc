@@ -139,6 +139,7 @@ interface __declspec(uuid("2D0EBE73-BA82-4E90-859B-C7C48ED3650F"))
     STDMETHOD(ChapRemoveAt)(DWORD iIndex) PURE;
     STDMETHOD(ChapRemoveAll)() PURE;
     STDMETHOD_(long, ChapLookup)(REFERENCE_TIME* prt, BSTR* ppName) PURE;
+    STDMETHOD_(long, ChapLookupUnsorted)(REFERENCE_TIME* prt, BSTR* ppName) PURE;
     STDMETHOD(ChapSort)() PURE;
 };
 
@@ -179,6 +180,7 @@ public:
     STDMETHODIMP ChapRemoveAt(DWORD iIndex);
     STDMETHODIMP ChapRemoveAll();
     STDMETHODIMP_(long) ChapLookup(REFERENCE_TIME* prt, BSTR* ppName = nullptr);
+    STDMETHODIMP_(long) ChapLookupUnsorted(REFERENCE_TIME* prt, BSTR* ppName = nullptr);
     STDMETHODIMP ChapSort();
 };
 

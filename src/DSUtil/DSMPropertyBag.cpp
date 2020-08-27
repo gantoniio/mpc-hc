@@ -419,8 +419,7 @@ STDMETHODIMP IDSMChapterBagImpl::ChapRemoveAll()
     return S_OK;
 }
 
-STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* ppName)
-{
+STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* ppName) {
     CheckPointer(prt, -1);
 
     ChapSort();
@@ -433,6 +432,29 @@ STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* pp
         }
     }
     return (long)i;
+}
+
+STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookupUnsorted(REFERENCE_TIME* prt, BSTR* ppName) {
+    CheckPointer(prt, -1);
+
+    CAtlArray<CDSMChapter> mm;
+    mm.Copy(m_chapters);
+    std::sort(mm.GetData(), mm.GetData() + mm.GetCount());
+
+    size_t mmI = range_bsearch(mm, *prt);
+    if (mmI != MAXSIZE_T) {
+        size_t i;
+        for (i = 0; i < m_chapters.GetCount(); i++) {
+            if (m_chapters[i].rt == mm[mmI].rt && m_chapters[i].name.Compare(mm[mmI].name)==0) {
+                *prt = m_chapters[i].rt;
+                if (ppName) {
+                    *ppName = m_chapters[i].name.AllocSysString();
+                }
+                return i;
+            }
+        }
+    }
+    return (long)MAXSIZE_T;
 }
 
 STDMETHODIMP IDSMChapterBagImpl::ChapSort()

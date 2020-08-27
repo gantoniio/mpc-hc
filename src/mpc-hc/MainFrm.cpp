@@ -11851,7 +11851,7 @@ void CMainFrame::SetupChapters()
         EndEnumPins;
     }
 
-    m_pCB->ChapSort();
+    //m_pCB->ChapSort();
 
     UpdateSeekbarChapterBag();
 }
@@ -14128,7 +14128,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
 
         SetupChapters();
         REFERENCE_TIME rt = GetPos();
-        DWORD j = m_pCB->ChapLookup(&rt, nullptr);
+        DWORD j = m_pCB->ChapLookupUnsorted(&rt, nullptr);
 
         if (m_pCB->ChapGetCount() > 1) {
             menuStartRadioSection();
