@@ -18,6 +18,17 @@ If you are a programmer and want to help improve MPC-HC, then you can do so by s
 * Windows Vista, 7, 8, 8.1, 10
 * Both 32-bit and 64-bit systems are supported
 
+## Personalization
+
+* MPC-HC is highly custoimizable.
+* You can enable a dark mode under View -> Dark Theme (restart).
+* You can customize the buttons via a feature called toolbars, more info on it can be found ([here](https://www.midnightdust.eu/mpc-hc)).
+* You can enable advanced customization settings in View -> Options -> Advanced
+* Advanced personalization features include:
+  * UseLegacyToolbar - Use the old toolbar (Default: False)
+  * ModernSeekbar - Enable a more modern looking seekbar (Default: True)
+  * ModernSeekbarHeight - Customize the height of the modern seekbar (Default: 12)
+
 ## License
 
 MPC-HC's code is licensed under [GPL v3](/COPYING.txt).
