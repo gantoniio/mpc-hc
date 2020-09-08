@@ -14315,7 +14315,8 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
     CComQIPtr<IAMStreamSelect> pSS;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter)) {
+        CLSID filterid = GetCLSID(pBF);
+        if (filterid == __uuidof(CAudioSwitcherFilter) || filterid == CLSID_MPCBEAudioRenderer) {
             continue;
         }
 
@@ -15800,7 +15801,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     const auto& s = AfxGetAppSettings();
 
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
-    auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
+    //auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
     auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.m_p);
 
     // if the tuner graph is already loaded, we just change its channel
