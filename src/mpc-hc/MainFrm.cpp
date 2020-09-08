@@ -2643,6 +2643,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         hr = m_pME->FreeEventParams(evCode, evParam1, evParam2);
 
+        CComPtr<IDvdState> pStateData;
         switch (evCode) {
             case EC_COMPLETE:
                 GraphEventComplete();
@@ -2715,6 +2716,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         }
 
                         if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDiscID(nullptr, &llDVDGuid))) {
+                            m_fValidDVDOpen = true;
+
                             if (s.fShowDebugInfo) {
                                 m_OSD.DebugMessage(_T("DVD Title: %lu"), s.lDVDTitle);
                             }
@@ -2829,6 +2832,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         if (s.fShowDebugInfo) {
                             m_OSD.DebugMessage(_T("%s"), Domain.GetString());
                         }
+                        if (SUCCEEDED(m_pDVDI->GetState(&pStateData))) {
+                            m_pDVDC->SetState(pStateData, DVD_CMD_FLAG_Flush, nullptr);
+                        }
                         break;
                     case DVD_DOMAIN_Title:
                         Domain.Format(IDS_AG_TITLE, m_iDVDTitle);
@@ -2840,7 +2846,13 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                             if (dvdPosition) {
                                 dvdPosition->lTitle = m_iDVDTitle;
                             }
+
+                            if (!m_fValidDVDOpen) {
+                                m_fValidDVDOpen = true;
+                                m_pDVDC->ShowMenu(DVD_MENU_Title, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
+                            }
                         }
+
                         break;
                     case DVD_DOMAIN_Stop:
                         Domain.LoadString(IDS_AG_STOP);
@@ -12895,6 +12907,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
     ASSERT(GetLoadState() == MLS::LOADING);
     auto& s = AfxGetAppSettings();
+
+    m_fValidDVDOpen = false;
 
     OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD.m_p);
     OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(pOMD.m_p);

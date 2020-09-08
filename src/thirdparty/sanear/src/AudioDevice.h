@@ -31,7 +31,6 @@ namespace SaneAudioRenderer
         bool                  exclusive;
         bool                  bitstream;
         bool                  eventMode;
-        bool                  isDVD;
         bool                  realtime;
 
         bool                  ignoredSystemChannelMixer;
