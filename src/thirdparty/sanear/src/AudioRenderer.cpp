@@ -247,7 +247,7 @@ namespace SaneAudioRenderer
                 m_sampleCorrection.NewDeviceBuffer();
                 InitializeProcessors();
                 m_startClockOffset = m_sampleCorrection.GetLastFrameEnd();
-                if (m_isDVD) PushReslavingJitter();
+                if (!m_isDVD) PushReslavingJitter();
                 StartDevice();
             }
             else
