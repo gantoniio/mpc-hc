@@ -2700,6 +2700,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             break;
             case EC_DVD_DOMAIN_CHANGE: {
                 m_iDVDDomain = (DVD_DOMAIN)evParam1;
+
                 OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(m_lastOMD.m_p);
                 ASSERT(pDVDData);
 
@@ -2831,9 +2832,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         Domain = _T("Video Title Set Menu");
                         if (s.fShowDebugInfo) {
                             m_OSD.DebugMessage(_T("%s"), Domain.GetString());
-                        }
-                        if (SUCCEEDED(m_pDVDI->GetState(&pStateData))) {
-                            m_pDVDC->SetState(pStateData, DVD_CMD_FLAG_Flush, nullptr);
                         }
                         break;
                     case DVD_DOMAIN_Title:

@@ -60,6 +60,9 @@ namespace SaneAudioRenderer
         {
             clockTime = audioClockTime;
             m_counterOffset = audioClockTime - counterTime;
+            if (m_renderer->IsDVD() && m_counterOffset - oldCounterOffset < -OneMillisecond * 20.835) { //we went half a DVD frame backwards in time.  assume DVD still hack and reslave
+                UnslaveClockFromAudio();
+            }
         }
         else
         {
