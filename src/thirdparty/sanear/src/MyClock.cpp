@@ -24,9 +24,7 @@ namespace SaneAudioRenderer
     {
         CAutoLock lock(this);
 
-    #ifndef NDEBUG
         const int64_t oldCounterOffset = m_counterOffset;
-    #endif
 
         if (m_guidedReclockSlaving && !CanDoGuidedReclock())
             UnslaveClock();
@@ -60,7 +58,7 @@ namespace SaneAudioRenderer
         {
             clockTime = audioClockTime;
             m_counterOffset = audioClockTime - counterTime;
-            if (m_renderer->IsDVD() && m_counterOffset - oldCounterOffset < -OneMillisecond * 20.835) { //we went half a DVD frame backwards in time.  assume DVD still hack and reslave
+            if (m_renderer->IsDVD() && (m_counterOffset - oldCounterOffset < OneMillisecond * -20.835f)) { //we went half a DVD frame backwards in time.  assume DVD still hack and reslave
                 UnslaveClockFromAudio();
             }
         }
