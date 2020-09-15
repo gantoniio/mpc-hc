@@ -128,7 +128,6 @@ namespace SaneAudioRenderer
 
         // Push() returns 'false' in case of interruption.
         return m_renderer.Push(pSample, m_SampleProps, &m_bufferFilled) ? S_OK : S_FALSE;
-
     }
 
     STDMETHODIMP MyPin::EndOfStream()
