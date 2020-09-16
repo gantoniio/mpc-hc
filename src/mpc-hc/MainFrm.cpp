@@ -2643,6 +2643,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         hr = m_pME->FreeEventParams(evCode, evParam1, evParam2);
 
+        CComPtr<IDvdState> pStateData;
         switch (evCode) {
             case EC_COMPLETE:
                 GraphEventComplete();
@@ -2699,6 +2700,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             break;
             case EC_DVD_DOMAIN_CHANGE: {
                 m_iDVDDomain = (DVD_DOMAIN)evParam1;
+
                 OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(m_lastOMD.m_p);
                 ASSERT(pDVDData);
 
@@ -2715,6 +2717,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         }
 
                         if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDiscID(nullptr, &llDVDGuid))) {
+                            m_fValidDVDOpen = true;
+
                             if (s.fShowDebugInfo) {
                                 m_OSD.DebugMessage(_T("DVD Title: %lu"), s.lDVDTitle);
                             }
@@ -2840,7 +2844,13 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                             if (dvdPosition) {
                                 dvdPosition->lTitle = m_iDVDTitle;
                             }
+
+                            if (!m_fValidDVDOpen) {
+                                m_fValidDVDOpen = true;
+                                m_pDVDC->ShowMenu(DVD_MENU_Title, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
+                            }
                         }
+
                         break;
                     case DVD_DOMAIN_Stop:
                         Domain.LoadString(IDS_AG_STOP);
@@ -11851,8 +11861,6 @@ void CMainFrame::SetupChapters()
         EndEnumPins;
     }
 
-    m_pCB->ChapSort();
-
     UpdateSeekbarChapterBag();
 }
 
@@ -12897,6 +12905,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
     ASSERT(GetLoadState() == MLS::LOADING);
     auto& s = AfxGetAppSettings();
+
+    m_fValidDVDOpen = false;
 
     OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD.m_p);
     OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(pOMD.m_p);
@@ -14303,7 +14313,8 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
     CComQIPtr<IAMStreamSelect> pSS;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter)) {
+        CLSID filterid = GetCLSID(pBF);
+        if (filterid == __uuidof(CAudioSwitcherFilter) || filterid == CLSID_MPCBEAudioRenderer) {
             continue;
         }
 
@@ -14480,7 +14491,14 @@ void CMainFrame::SetupRecentFilesSubMenu()
         for (int i = 0; i < MRU.GetSize(); i++) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (!MRU[i].IsEmpty()) {
-                VERIFY(subMenu.AppendMenu(flags, id, MRU[i]));
+                CString p = MRU[i];
+                if (p.Find(_T("://")) > 0) {
+                    p = UrlDecodeWithUTF8(p);
+                }
+                if (p.GetLength() > 120) {
+                    p = p.Left(50) + _T(" *** ") + p.Right(65);
+                }
+                VERIFY(subMenu.AppendMenu(flags, id, p));
             }
             id++;
         }
@@ -15788,7 +15806,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     const auto& s = AfxGetAppSettings();
 
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
-    auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
+    //auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
     auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.m_p);
 
     // if the tuner graph is already loaded, we just change its channel
@@ -18230,6 +18248,7 @@ static const CString ydl_whitelist[] = {
 
 static const CString ydl_blacklist[] = {
     _T("googlevideo.com/videoplayback"), // already processed URL
+    _T("googlevideo.com/api/manifest"),
     _T("saunalahti.fi/")
 };
 

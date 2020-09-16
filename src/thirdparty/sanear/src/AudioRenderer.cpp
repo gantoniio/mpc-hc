@@ -44,8 +44,9 @@ namespace SaneAudioRenderer
         CAutoLock objectLock(this);
 
         m_graphClock = pClock;
+        m_isDVD = isDVD;
 
-        if ((m_graphClock && !IsEqualObject(m_graphClock, m_myClock.GetOwner())) || isDVD)
+        if (m_graphClock && !IsEqualObject(m_graphClock, m_myClock.GetOwner()))
         {
             if (!m_externalClock)
                 ClearDevice();
