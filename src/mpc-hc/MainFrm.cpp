@@ -10086,7 +10086,7 @@ void CMainFrame::SetDefaultFullscreenState()
         while (pos) {
             CString fpath = s.slFiles.GetNext(pos);
             CString ext = fpath.Mid(fpath.ReverseFind('.'));
-            if (!mf.FindExt(ext, true)) {
+            if (!mf.FindExt(ext, true) && mf.FindExt(ext)) {
                 foundVideoFiles = true;
             }
         }
