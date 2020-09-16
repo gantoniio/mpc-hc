@@ -10078,9 +10078,9 @@ void CMainFrame::SetDefaultFullscreenState()
 {
     CAppSettings& s = AfxGetAppSettings();
 
-    // Waffs : fullscreen command line
+    bool clGoFullscreen = !(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN);
     bool foundVideoFiles = false;
-    if (!s.slFiles.IsEmpty()) {
+    if (clGoFullscreen && !s.slFiles.IsEmpty()) {
         const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
         POSITION pos = s.slFiles.GetHeadPosition();
         while (pos) {
@@ -10092,7 +10092,7 @@ void CMainFrame::SetDefaultFullscreenState()
         }
     }
 
-    if (!(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN) && foundVideoFiles) {
+    if (clGoFullscreen && foundVideoFiles) {
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
         } else {
