@@ -18165,6 +18165,7 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
         SubtitleInput subElement = pRTS.Detach();
         m_pSubStreams.AddTail(subElement);
         if (data.bActivate) {
+            m_ExternalSubstreams.push_back(subElement.pSubStream);
             SetSubtitle(subElement.pSubStream);
         }
         return TRUE;
