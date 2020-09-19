@@ -165,7 +165,7 @@ void CPlayerStatusBar::Relayout()
 #endif
 
     if (CDC* pDC = m_time.GetDC()) {
-        CFont* pOld = pDC->SelectObject(m_time.GetFont());
+        CFont* pOld = pDC->SelectObject(&m_time.GetScaledFont());
         m_time.GetWindowText(str);
         r2 = r;
         r2.left = r2.right - pDC->GetTextExtent(str).cx;
