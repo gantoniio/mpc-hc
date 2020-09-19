@@ -43,10 +43,8 @@ void CStatusLabel::ScaleFont(CFont* f, const DpiHelper& dpiHelper)
 {
     m_font.DeleteObject();
     LOGFONT lf;
-    if (f && f->GetSafeHandle()) {
-        f->GetLogFont(&lf);
-    } else {
-        GetStatusFont(&lf);
+    if (!f || !f->GetSafeHandle() || !f->GetLogFont(&lf)) {
+        GetStatusFont(&lf); //fall back if we couldn't use passed font successfully
     }
 
     lf.lfHeight = dpiHelper.ScaleSystemToOverrideY(lf.lfHeight);
