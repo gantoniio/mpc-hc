@@ -13745,13 +13745,6 @@ void CMainFrame::SetupAudioSubMenu()
                 continue;
             }
 
-            CString str;
-            if (Language) {
-                GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
-            } else {
-                str.Format(IDS_AG_UNKNOWN, i + 1);
-            }
-
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (Language == DefLanguage) {
                 flags |= MF_DEFAULT;
@@ -13762,6 +13755,13 @@ void CMainFrame::SetupAudioSubMenu()
                     GetLocaleString(Language, LOCALE_SISO639LANGNAME2, currentAudioLang);
                     currentAudioLang.MakeUpper();
                 }
+            }
+
+            CString str;
+            if (Language) {
+                GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
+            } else {
+                str.Format(IDS_AG_UNKNOWN, i + 1);
             }
 
             DVD_AudioAttributes ATR;
