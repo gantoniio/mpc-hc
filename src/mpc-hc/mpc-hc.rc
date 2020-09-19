@@ -204,8 +204,8 @@ BEGIN
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-FONT 9, "Segoe UI", 400, 0, 0x1
+STYLE DS_SETFONT | WS_CHILD
+FONT 10, "Segoe UI", 400, 0, 0x0
 BEGIN
 END
 
@@ -216,8 +216,8 @@ BEGIN
 END
 
 IDD_PLAYERINFOBAR DIALOGEX 0, 0, 183, 12
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-FONT 9, "Segoe UI", 400, 0, 0x1
+STYLE DS_SETFONT | WS_CHILD
+FONT 10, "Segoe UI", 400, 0, 0x0
 BEGIN
 END
 
@@ -1224,6 +1224,14 @@ BEGIN
         VERTGUIDE, 130
     END
 
+    IDD_PLAYERSTATUSBAR, DIALOG
+    BEGIN
+    END
+
+    IDD_PLAYERINFOBAR, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGEPLAYER, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1692,21 +1700,21 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Playback Rate"
         BEGIN
-            MENUITEM "0.25 x"                   ID_PLAY_PLAYBACKRATE_025
-            MENUITEM "0.50 x"                   ID_PLAY_PLAYBACKRATE_050
-            MENUITEM "0.75 x"                   ID_PLAY_PLAYBACKRATE_075
-            MENUITEM "0.90 x"                   ID_PLAY_PLAYBACKRATE_090
-            MENUITEM "1.00 x"                   ID_PLAY_PLAYBACKRATE_100
-            MENUITEM "1.10 x"                   ID_PLAY_PLAYBACKRATE_110
-            MENUITEM "1.25 x"                   ID_PLAY_PLAYBACKRATE_125
-            MENUITEM "1.50 x"                   ID_PLAY_PLAYBACKRATE_150
-            MENUITEM "2.00 x"                   ID_PLAY_PLAYBACKRATE_200
-            MENUITEM "3.00 x"                   ID_PLAY_PLAYBACKRATE_300
-            MENUITEM "4.00 x"                   ID_PLAY_PLAYBACKRATE_400
-            MENUITEM "6.00 x"                   ID_PLAY_PLAYBACKRATE_600
-            MENUITEM "8.00 x"                   ID_PLAY_PLAYBACKRATE_800
-            MENUITEM "24 fps"                   ID_PLAY_PLAYBACKRATE_FPS24
-            MENUITEM "25 fps"                   ID_PLAY_PLAYBACKRATE_FPS25
+            MENUITEM "0.25 x",                      ID_PLAY_PLAYBACKRATE_025
+            MENUITEM "0.50 x",                      ID_PLAY_PLAYBACKRATE_050
+            MENUITEM "0.75 x",                      ID_PLAY_PLAYBACKRATE_075
+            MENUITEM "0.90 x",                      ID_PLAY_PLAYBACKRATE_090
+            MENUITEM "1.00 x",                      ID_PLAY_PLAYBACKRATE_100
+            MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
+            MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
+            MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+            MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
+            MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
+            MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
+            MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
+            MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+            MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
+            MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
         END
         MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
         MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -2221,21 +2229,21 @@ BEGIN
             MENUITEM SEPARATOR
             POPUP "&Playback Rate"
             BEGIN
-                MENUITEM "0.25 x"                   ID_PLAY_PLAYBACKRATE_025
-                MENUITEM "0.50 x"                   ID_PLAY_PLAYBACKRATE_050
-                MENUITEM "0.75 x"                   ID_PLAY_PLAYBACKRATE_075
-                MENUITEM "0.90 x"                   ID_PLAY_PLAYBACKRATE_090
-                MENUITEM "1.00 x"                   ID_PLAY_PLAYBACKRATE_100
-                MENUITEM "1.10 x"                   ID_PLAY_PLAYBACKRATE_110
-                MENUITEM "1.25 x"                   ID_PLAY_PLAYBACKRATE_125
-                MENUITEM "1.50 x"                   ID_PLAY_PLAYBACKRATE_150
-                MENUITEM "2.00 x"                   ID_PLAY_PLAYBACKRATE_200
-                MENUITEM "3.00 x"                   ID_PLAY_PLAYBACKRATE_300
-                MENUITEM "4.00 x"                   ID_PLAY_PLAYBACKRATE_400
-                MENUITEM "6.00 x"                   ID_PLAY_PLAYBACKRATE_600
-                MENUITEM "8.00 x"                   ID_PLAY_PLAYBACKRATE_800
-                MENUITEM "24 fps"                   ID_PLAY_PLAYBACKRATE_FPS24
-                MENUITEM "25 fps"                   ID_PLAY_PLAYBACKRATE_FPS25
+                MENUITEM "0.25 x",                      ID_PLAY_PLAYBACKRATE_025
+                MENUITEM "0.50 x",                      ID_PLAY_PLAYBACKRATE_050
+                MENUITEM "0.75 x",                      ID_PLAY_PLAYBACKRATE_075
+                MENUITEM "0.90 x",                      ID_PLAY_PLAYBACKRATE_090
+                MENUITEM "1.00 x",                      ID_PLAY_PLAYBACKRATE_100
+                MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
+                MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
+                MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+                MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
+                MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
+                MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
+                MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
+                MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+                MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
+                MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
             END
             MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
             MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -2460,6 +2468,16 @@ BEGIN
     0
 END
 
+IDD_PLAYERSTATUSBAR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PLAYERINFOBAR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2482,9 +2500,17 @@ BEGIN
     IDS_PLAY_LOOPMODE_FILE  "File"
     IDS_SUBTITLES_DEFAULT_STYLE "&Default Style"
     IDS_PLAY_LOOPMODE_PLAYLIST "Playlist"
-    IDS_PLAY_LOOPMODE_AB    "A-B"
     IDS_FAVFILES            "Files"
     IDS_FAVDVDS             "DVDs"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PLAYLOOPMODE_AB     "A-B Repeat: Reset Positions"
+    IDS_PLAY_LOOPMODE_AB    "A-B"
+    IDS_PLAYLOOPMODE_AB_MARK_A "A-B Repeat: Mark A Position"
+    IDS_PLAYLOOPMODE_AB_MARK_B "A-B Repeat: Mark B Position"
+    IDS_SNAPSHOT_SUBTITLES  "Include Subtitles"
 END
 
 STRINGTABLE
@@ -2503,9 +2529,6 @@ BEGIN
                             "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
     IDS_PLAYLOOPMODE_PLAYLIST "Repeat Mode: Playlist"
     IDS_PLAYLOOPMODE_FILE   "Repeat Mode: File"
-    IDS_PLAYLOOPMODE_AB     "A-B Repeat: Reset Positions"
-    IDS_PLAYLOOPMODE_AB_MARK_A "A-B Repeat: Mark A Position"
-    IDS_PLAYLOOPMODE_AB_MARK_B "A-B Repeat: Mark B Position"
     IDS_PLAYLOOP_FOREVER_ON "Repeat Forever: On"
     IDS_PLAYLOOP_FOREVER_OFF "Repeat Forever: Off"
     IDS_PLAYLOOP_FOREVER    "Repeat Forever"
@@ -2653,6 +2676,7 @@ BEGIN
                             "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
     IDS_PPAGE_OUTPUT_OLDRENDERER "Old Video Renderer"
     IDS_PPAGE_OUTPUT_OVERLAYMIXER "Overlay Mixer Renderer"
+    IDS_ZOOM_25             "25%"
     IDS_PPAGE_OUTPUT_VMR9WINDOWED "Video Mixing Renderer 9 (windowed)"
     IDS_PPAGE_OUTPUT_VMR9RENDERLESS "Video Mixing Renderer 9 (renderless)"
     IDS_PPAGE_OUTPUT_EVR    "Enhanced Video Renderer"
@@ -2786,6 +2810,7 @@ BEGIN
     IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
     IDS_INTERNAL_LAVF       "Uses LAV Filters"
     IDS_INTERNAL_LAVF_WMV   "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+    IDS_AG_OPEN_FILE_LOCATION "Open File Location"
 END
 
 STRINGTABLE
@@ -2808,7 +2833,6 @@ STRINGTABLE
 BEGIN
     ID_PLAY_PLAY            "Play\nPlay"
     ID_PLAY_PAUSE           "Pause\nPause"
-    IDS_AG_OPEN_FILE_LOCATION "Open File Location"
     ID_PLAY_STOP            "Stop\nStop"
     ID_PLAY_FRAMESTEP       "Step\nStep"
     ID_PLAY_DECRATE         "Decrease speed\nDecrease speed"
@@ -3158,7 +3182,6 @@ BEGIN
     IDS_SUBDL_DLG_SUBS_AVAIL "%d subtitle(s) available."
     IDS_UPDATE_CONFIG_AUTO_CHECK 
                             "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-    IDS_ZOOM_25             "25%"
     IDS_ZOOM_50             "50%"
     IDS_ZOOM_100            "100%"
     IDS_ZOOM_200            "200%"
@@ -3425,7 +3448,6 @@ BEGIN
     IDS_AG_TOGGLE_PLAYLIST  "Toggle Playlist Bar"
     IDS_AG_TOGGLE_CAPTURE   "Toggle Capture Bar"
     IDS_AG_TOGGLE_DEBUGSHADERS "Toggle Debug Shaders"
-    IDS_AG_ZOOM_25          "Zoom 25%"
     IDS_AG_ZOOM_50          "Zoom 50%"
     IDS_AG_ZOOM_100         "Zoom 100%"
     IDS_AG_ZOOM_200         "Zoom 200%"
@@ -3435,6 +3457,20 @@ BEGIN
     IDS_AG_VIDFRM_OUTSIDE   "VidFrm Outside"
     IDS_AG_PNS_RESET        "PnS Reset"
     IDS_AG_PNS_ROTATEX_P    "PnS Rotate X+"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_TIME_TOOLTIP_ABOVE  "Above seek bar"
+    IDS_TIME_TOOLTIP_BELOW  "Below seek bar"
+    IDS_VIDEO_STREAM        "Video: %s"
+    IDS_APPLY               "Apply"
+    IDS_CLEAR               "Clear"
+    IDS_CANCEL              "Cancel"
+    IDS_THUMB_THUMBNAILS    "Layout"
+    IDS_THUMB_PIXELS        "Pixels:"
+    IDS_TEXTFILE_ENC        "Encoding:"
+    IDS_AG_ZOOM_25          "Zoom 25%"
 END
 
 STRINGTABLE
@@ -3477,19 +3513,6 @@ BEGIN
     IDS_TOP_BACK_LEFT       "Top Back Left"
     IDS_TOP_BACK_CENTER     "Top Back Center"
     IDS_TOP_BACK_RIGHT      "Top Back Right"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_TIME_TOOLTIP_ABOVE  "Above seek bar"
-    IDS_TIME_TOOLTIP_BELOW  "Below seek bar"
-    IDS_VIDEO_STREAM        "Video: %s"
-    IDS_APPLY               "Apply"
-    IDS_CLEAR               "Clear"
-    IDS_CANCEL              "Cancel"
-    IDS_THUMB_THUMBNAILS    "Layout"
-    IDS_THUMB_PIXELS        "Pixels:"
-    IDS_TEXTFILE_ENC        "Encoding:"
 END
 
 STRINGTABLE
@@ -3959,12 +3982,9 @@ BEGIN
                             "Modern seekbar height (at 96dpi, otherwise scaled)"
     IDS_PPAGEADVANCED_FULLSCREEN_DELAY 
                             "Delay before showing fullscreen video, to prevent visual glitches."
-    IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES
-                            "Render subtitles onto screenshots"
+    IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES "Render subtitles onto screenshots"
     IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION 
                             "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
-    IDS_SNAPSHOT_SUBTITLES
-                            "Include Subtitles"
 END
 
 #endif    // English (United States) resources

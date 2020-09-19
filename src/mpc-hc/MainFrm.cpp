@@ -828,6 +828,7 @@ CMainFrame::CMainFrame()
     , abRepeatPositionB(0)
     , mediaTypesErrorDlg(nullptr)
     , m_iStreamPosPollerInterval(100)
+    , currentAudioLang(_T(""))
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -3537,6 +3538,21 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 
         if (m_bUsingDXVA && (msg == ResStr(IDS_CONTROLS_PAUSED) || msg == ResStr(IDS_CONTROLS_PLAYING))) {
             msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
+        }
+
+        if (!currentAudioLang.IsEmpty()) {
+            msg.AppendFormat(_T("\u2001\U0001F50A %s"), currentAudioLang.GetString()); //speaker with 3 sound waves for audio stream
+        }
+
+        if (nullptr != m_pCurrentSubInput.pSubStream) {
+            LCID lcid;
+            m_pCurrentSubInput.pSubStream->GetStreamInfo(0, nullptr, &lcid);
+            CString langStr;
+            GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, langStr);//iso 639-2
+            if (langStr.GetLength() > 1) {
+                langStr.MakeUpper();
+                msg.AppendFormat(_T("\u2001\U0001F5E8 %s"), langStr.GetString()); //speech bubble for subs
+            }
         }
 
         m_wndStatusBar.SetStatusMessage(msg);
@@ -13696,6 +13712,7 @@ void CMainFrame::SetupFiltersSubMenu()
 
 void CMainFrame::SetupAudioSubMenu()
 {
+    currentAudioLang = _T("");
     CMenu& subMenu = m_audiosMenu;
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
@@ -13728,19 +13745,23 @@ void CMainFrame::SetupAudioSubMenu()
                 continue;
             }
 
+            CString str;
+            if (Language) {
+                GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
+            } else {
+                str.Format(IDS_AG_UNKNOWN, i + 1);
+            }
+
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (Language == DefLanguage) {
                 flags |= MF_DEFAULT;
             }
             if (i == ulCurrentStream) {
                 flags |= MF_CHECKED;
-            }
-
-            CString str;
-            if (Language) {
-                GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
-            } else {
-                str.Format(IDS_AG_UNKNOWN, i + 1);
+                if (Language) {
+                    GetLocaleString(Language, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                    currentAudioLang.MakeUpper();
+                }
             }
 
             DVD_AudioAttributes ATR;
@@ -13792,11 +13813,14 @@ void CMainFrame::SetupAudioSubMenu()
         for (long i = 0; i < (long)cStreams; i++) {
             DWORD dwFlags;
             WCHAR* pName = nullptr;
-            if (FAILED(pSS->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
+            LCID lcid;
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, nullptr, &pName, nullptr, nullptr))) {
                 break;
             }
             if (dwFlags) {
                 iSel = i;
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                currentAudioLang.MakeUpper();
             }
 
             CString name(pName);
