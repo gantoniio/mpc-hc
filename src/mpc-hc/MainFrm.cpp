@@ -3540,21 +3540,23 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
         }
 
+        // get audio and subtitle languages
+        CString subLangStr;
+        if (nullptr != m_pCurrentSubInput.pSubStream) {
+            LCID lcid;
+            m_pCurrentSubInput.pSubStream->GetStreamInfo(0, nullptr, &lcid);
+            if (lcid) {
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, subLangStr); //iso 639-2
+            }
+        }
+
         if (!currentAudioLang.IsEmpty()) {
             msg.AppendFormat(_T("\u2001\U0001F50A %s"), currentAudioLang.GetString()); //speaker with 3 sound waves for audio stream
         }
 
-        if (nullptr != m_pCurrentSubInput.pSubStream) {
-            LCID lcid;
-            m_pCurrentSubInput.pSubStream->GetStreamInfo(0, nullptr, &lcid);
-            if (lcid != 0) {
-                CString langStr = _T("");
-                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, langStr);//iso 639-2
-                if (langStr.GetLength() > 1) {
-                    langStr.MakeUpper();
-                    msg.AppendFormat(_T("\u2001\U0001F5E8 %s"), langStr.GetString()); //speech bubble for subs
-                }
-            }
+        if (!subLangStr.IsEmpty()) {
+            subLangStr.MakeUpper();
+            msg.AppendFormat(_T("\u2001\U0001F5E8 %s"), subLangStr.GetString()); //speech bubble for subs
         }
 
         m_wndStatusBar.SetStatusMessage(msg);
@@ -13765,7 +13767,11 @@ void CMainFrame::SetupAudioSubMenu()
             }
             if (i == ulCurrentStream) {
                 flags |= MF_CHECKED;
+<<<<<<< HEAD
                 if (Language != 0) {
+=======
+                if (Language) {
+>>>>>>> upstream/develop
                     GetLocaleString(Language, LOCALE_SISO639LANGNAME2, currentAudioLang);
                     currentAudioLang.MakeUpper();
                 }
@@ -13833,7 +13839,11 @@ void CMainFrame::SetupAudioSubMenu()
             }
             if (dwFlags) {
                 iSel = i;
+<<<<<<< HEAD
                 if (lcid != 0) {
+=======
+                if (lcid) {
+>>>>>>> upstream/develop
                     GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
                     currentAudioLang.MakeUpper();
                 }
