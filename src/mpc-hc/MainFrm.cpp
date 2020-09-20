@@ -13767,11 +13767,7 @@ void CMainFrame::SetupAudioSubMenu()
             }
             if (i == ulCurrentStream) {
                 flags |= MF_CHECKED;
-<<<<<<< HEAD
-                if (Language != 0) {
-=======
                 if (Language) {
->>>>>>> upstream/develop
                     GetLocaleString(Language, LOCALE_SISO639LANGNAME2, currentAudioLang);
                     currentAudioLang.MakeUpper();
                 }
@@ -13839,11 +13835,7 @@ void CMainFrame::SetupAudioSubMenu()
             }
             if (dwFlags) {
                 iSel = i;
-<<<<<<< HEAD
-                if (lcid != 0) {
-=======
                 if (lcid) {
->>>>>>> upstream/develop
                     GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
                     currentAudioLang.MakeUpper();
                 }
