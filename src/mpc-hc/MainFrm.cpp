@@ -12637,7 +12637,6 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 }
                 if (!use_label) {
                     title = GetFileName();
-                    if (title.Find(_T("://")) != -1) title = UrlGetPathname(title);
 
                     if (s.fTitleBarTextTitle) {
                         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -17990,6 +17989,7 @@ CString CMainFrame::GetFileName()
                 path = pFN;
             }
         }
+        if (path.Find(_T("://")) != -1) path = UrlGetPathname(path);
         return pli->m_bYoutubeDL ? path : PathUtils::StripPathOrUrl(path);
     }
     return _T("");
