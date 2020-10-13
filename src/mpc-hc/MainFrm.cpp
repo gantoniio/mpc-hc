@@ -12637,6 +12637,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 }
                 if (!use_label) {
                     title = GetFileName();
+                    if (title.Find(_T("://")) != -1) title = UrlGetPathname(title);
 
                     if (s.fTitleBarTextTitle) {
                         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -14566,7 +14567,7 @@ void CMainFrame::SetupRecentFilesSubMenu()
             if (!MRU[i].IsEmpty()) {
                 CString p = MRU[i];
                 if (p.Find(_T("://")) > 0) {
-                    p = UrlDecodeWithUTF8(p);
+                    p = UrlDecodeWithUTF8(UrlGetPathname(p));
                 }
                 if (p.GetLength() > 120) {
                     p = p.Left(50) + _T(" *** ") + p.Right(65);

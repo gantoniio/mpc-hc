@@ -142,6 +142,18 @@ CStringW UrlDecodeWithUTF8(CString in) {
     return in;
 }
 
+CStringW UrlGetPathname(CStringW in) {
+    int position = in.Find('?');
+    if (position > 0) return in.Left(position);
+    else if (position = 0) return _T("");
+    else {
+        int position2 = in.Find('#');
+        if (position2 > 0) return in.Left(position2);
+        else if (position2 == 0) return _T("");
+        else return in;
+    }
+}
+
 CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
 {
     tag.Trim();
