@@ -4,7 +4,8 @@
 
 ### Visual Studio 2017/2019
 
-1. Install Visual Studio (any edition will work fine) with at minimum the following components:
+1. Execute the visual studio installer with english language -> example: "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" --locale "en-US"
+2. Install Visual Studio (any edition will work fine) with at minimum the following components:
     Workloads:
     Desktop Development with C++
     Individual Components:
@@ -13,7 +14,8 @@
     ATL
     Windows Universal CRT SDK
     Windows 8.1 SDK
-2. Install the DirectX SDK (June 2010) → <https://go.microsoft.com/fwlink/?LinkID=71193>
+3. Install the DirectX SDK (June 2010) → <https://go.microsoft.com/fwlink/?LinkID=71193>
+If you encounter issues when installing DirectX SDK try to uninstall your Microsoft Visual C++ 2010 Redistributables and try again.
 
 
 ## Part B: Install Python 2.7 (optional)
@@ -85,7 +87,7 @@ releases.
 
 You need Git for downloading the source code.
 
-Install **Git for Windows** from <https://git-for-windows.github.io/> or **Git Extensions** from <http://gitextensions.github.io/>.
+Install **Git for Windows** from <https://git-for-windows.github.io/> and additionally **Git Extensions** from <http://gitextensions.github.io/>.
 Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if you choose
 `Use Git from Git Bash only` make sure you set the `MPCHC_GIT` variable in `build.user.bat`.
 
