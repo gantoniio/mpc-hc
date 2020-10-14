@@ -635,10 +635,14 @@ int CMPCThemeUtil::getConstantByDPI(CWnd* window, const int* constants)
     return constants[index];
 }
 
-UINT CMPCThemeUtil::getResourceByDPI(CDC* pDC, const UINT* resources)
+UINT CMPCThemeUtil::getResourceByDPI(CWnd* window, CDC* pDC, const UINT* resources)
 {
     int index;
-    int dpi = pDC->GetDeviceCaps(LOGPIXELSX);
+    //int dpi = pDC->GetDeviceCaps(LOGPIXELSX);
+    DpiHelper dpiWindow;
+    dpiWindow.Override(window->GetSafeHwnd());
+    int dpi = dpiWindow.DPIX();
+
     if (dpi < 120) {
         index = 0;
     } else if (dpi < 144) {
@@ -714,7 +718,7 @@ const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThem
 }
 
 
-void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio)
+void CMPCThemeUtil::drawCheckBox(CWnd* window, UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio)
 {
     COLORREF borderClr, bgClr;
     COLORREF oldBkClr = pDC->GetBkColor(), oldTextClr = pDC->GetTextColor();
@@ -728,7 +732,7 @@ void CMPCThemeUtil::drawCheckBox(UINT checkState, bool isHover, bool useSystemSi
 
     if (useSystemSize) {
         CPngImage image;
-        image.Load(getResourceByDPI(pDC, isRadio ? CMPCTheme::ThemeRadios : CMPCTheme::ThemeCheckBoxes), AfxGetInstanceHandle());
+        image.Load(getResourceByDPI(window, pDC, isRadio ? CMPCTheme::ThemeRadios : CMPCTheme::ThemeCheckBoxes), AfxGetInstanceHandle());
         BITMAP bm;
         image.GetBitmap(&bm);
         int size = bm.bmHeight;

@@ -80,6 +80,9 @@ public:
 private:
     bool m_bLockPage;
     bool m_bLanguageChanged;
+    bool initialized;
+    bool changingDPI;
+    CFont dpiButtonFont, dpiTabFont;
 
     CPPagePlayer m_player;
     CPPageFormats m_formats;
@@ -113,13 +116,16 @@ private:
     virtual void SetTreeCtrlTheme(CTreeCtrl* ctrl);
 public:
     CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
+    CPPageSheet();
     virtual ~CPPageSheet();
     void fulfillThemeReqs();
+
 
     void LockPage() { m_bLockPage = true; };
 
 protected:
     DpiHelper m_dpi;
+    bool isDummySheet; //is a temporarily created sheet to calculate proper DPI scaling
 
     virtual BOOL OnInitDialog();
 
@@ -127,6 +133,7 @@ protected:
 
     afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
     afx_msg void OnApply();
+    LRESULT OnDpiChanged(WPARAM wParam, LPARAM lParam);
     virtual TreePropSheet::CPropPageFrame* CreatePageFrame();
 public:
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
