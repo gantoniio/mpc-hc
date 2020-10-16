@@ -547,29 +547,6 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
     return TToA(ct);
 }
 
-typedef std::map<int, int> MouseAccelMap;
-MouseAccelMap mouseAccelMap = {
-    {wmcmd::LDOWN, wmcmd::LDOWNVIRT},
-    {wmcmd::LUP, wmcmd::LUPVIRT},
-    {wmcmd::LDBLCLK, wmcmd::LDBLCLKVIRT},
-    {wmcmd::MDOWN, wmcmd::MDOWNVIRT},
-    {wmcmd::MUP, wmcmd::MUPVIRT},
-    {wmcmd::MDBLCLK, wmcmd::MDBLCLKVIRT},
-    {wmcmd::RDOWN, wmcmd::RDOWNVIRT},
-    {wmcmd::RUP, wmcmd::RUPVIRT},
-    {wmcmd::RDBLCLK, wmcmd::RDBLCLKVIRT},
-    {wmcmd::X1DOWN, wmcmd::X1DOWNVIRT},
-    {wmcmd::X1UP, wmcmd::X1UPVIRT},
-    {wmcmd::X1DBLCLK, wmcmd::X1DBLCLKVIRT},
-    {wmcmd::X2DOWN, wmcmd::X2DOWNVIRT},
-    {wmcmd::X2UP, wmcmd::X2UPVIRT},
-    {wmcmd::X2DBLCLK, wmcmd::X2DBLCLKVIRT},
-    {wmcmd::WUP, wmcmd::WUPVIRT},
-    {wmcmd::WDOWN, wmcmd::WDOWNVIRT},
-    {wmcmd::WRIGHT, wmcmd::WRIGHTVIRT},
-    {wmcmd::WLEFT, wmcmd::WLEFTVIRT},
-};
-
 WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
 {
     WORD assignTo = 0;
@@ -586,9 +563,6 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
         if (GetKeyState(VK_CONTROL) & 0x8000) {
             mouseVirt |= FCONTROL | FVIRTKEY;
         }
-        if (0 != mouseVirt && mouseAccelMap.contains(keyOrMouseValue)) {
-            keyOrMouseValue = mouseAccelMap[keyOrMouseValue];
-        }
     }
 
     POSITION pos = s.wmcmds.GetHeadPosition();
@@ -596,28 +570,12 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
         const wmcmd& wc = s.wmcmds.GetNext(pos);
 
         if (bCheckMouse) {
-            if (0 != mouseVirt) {
-                if (bIsFullScreen) {
-                    if (wc.mouseFS >= wmcmd::LDOWNVIRT) {
-                        if (wc.mouseFS == keyOrMouseValue && wc.fVirt == mouseVirt) {
-                            assignTo = wc.cmd;
-                        }
-                    }
-                } else {
-                    if (wc.mouse >= wmcmd::LDOWNVIRT) {
-                        if (wc.mouse == keyOrMouseValue && wc.fVirt == mouseVirt) {
-                            assignTo = wc.cmd;
-                        }
-                    }
-                }
-            } else {
-                if (bIsFullScreen) {
-                    if (wc.mouseFS == keyOrMouseValue) {
-                        assignTo = wc.cmd;
-                    }
-                } else if (wc.mouse == keyOrMouseValue) {
+            if (bIsFullScreen) {
+                if (wc.mouseFS == keyOrMouseValue && wc.mouseFSVirt == mouseVirt) {
                     assignTo = wc.cmd;
                 }
+            } else if (wc.mouse == keyOrMouseValue && wc.mouseVirt == mouseVirt) {
+                assignTo = wc.cmd;
             }
         } else if (wc.key == keyOrMouseValue) {
             assignTo = wc.cmd;

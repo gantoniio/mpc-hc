@@ -181,7 +181,7 @@ void CPPageAccelTbl::UpdateMouseDupFlags()
             for (; pos; m_wmcmds.GetNext(pos)) {
                 if (itemData->index == pos) { continue; }
 
-				if (wc.mouse == m_wmcmds.GetAt(pos).mouse) {
+				if (wc.mouse == m_wmcmds.GetAt(pos).mouse && wc.mouseVirt == m_wmcmds.GetAt(pos).mouseVirt) {
 					itemData->flag |= DUP_MOUSE;
 					break;
 				}
@@ -203,7 +203,7 @@ void CPPageAccelTbl::UpdateMouseFSDupFlags()
             for (; pos; m_wmcmds.GetNext(pos)) {
                 if (itemData->index == pos) { continue; }
 
-				if (wc.mouseFS == m_wmcmds.GetAt(pos).mouseFS) {
+				if (wc.mouseFS == m_wmcmds.GetAt(pos).mouseFS && wc.mouseFSVirt == m_wmcmds.GetAt(pos).mouseFSVirt) {
 					itemData->flag |= DUP_MOUSE_FS;
 					break;
 				}
@@ -278,7 +278,13 @@ void CPPageAccelTbl::SetupList(bool allowResize)
         id.Format(_T("%u"), wc.cmd);
         m_list.SetItemText(row, COL_ID, id);
 
+        HotkeyModToString(0, wc.mouseVirt, hotkey);
+        m_list.SetItemText(row, COL_MOUSE_MODIFIER, hotkey);
+
         m_list.SetItemText(row, COL_MOUSE, MakeMouseButtonLabel(wc.mouse));
+
+        HotkeyModToString(0, wc.mouseFSVirt, hotkey);
+        m_list.SetItemText(row, COL_MOUSE_FS_MODIFIER, hotkey);
 
         m_list.SetItemText(row, COL_MOUSE_FS, MakeMouseButtonLabel(wc.mouseFS));
 
@@ -982,63 +988,6 @@ CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
         case wmcmd::WRIGHT:
             ret = _T("Wheel Right");
             break;
-        case wmcmd::LDOWNVIRT:
-            ret = _T("Left Down + Modifier");
-            break;
-        case wmcmd::LUPVIRT:
-            ret = _T("Left Up + Modifier");
-            break;
-        case wmcmd::LDBLCLKVIRT:
-            ret = _T("Left DblClk + Modifier");
-            break;
-        case wmcmd::MDOWNVIRT:
-            ret = _T("Middle Down + Modifier");
-            break;
-        case wmcmd::MUPVIRT:
-            ret = _T("Middle Up + Modifier");
-            break;
-        case wmcmd::MDBLCLKVIRT:
-            ret = _T("Middle DblClk + Modifier");
-            break;
-        case wmcmd::RDOWNVIRT:
-            ret = _T("Right Down + Modifier");
-            break;
-        case wmcmd::RUPVIRT:
-            ret = _T("Right Up + Modifier");
-            break;
-        case wmcmd::RDBLCLKVIRT:
-            ret = _T("Right DblClk + Modifier");
-            break;
-        case wmcmd::X1DOWNVIRT:
-            ret = _T("X1 Down + Modifier");
-            break;
-        case wmcmd::X1UPVIRT:
-            ret = _T("X1 Up + Modifier");
-            break;
-        case wmcmd::X1DBLCLKVIRT:
-            ret = _T("X1 DblClk + Modifier");
-            break;
-        case wmcmd::X2DOWNVIRT:
-            ret = _T("X2 Down + Modifier");
-            break;
-        case wmcmd::X2UPVIRT:
-            ret = _T("X2 Up + Modifier");
-            break;
-        case wmcmd::X2DBLCLKVIRT:
-            ret = _T("X2 DblClk + Modifier");
-            break;
-        case wmcmd::WUPVIRT:
-            ret = _T("Wheel Up + Modifier");
-            break;
-        case wmcmd::WDOWNVIRT:
-            ret = _T("Wheel Down + Modifier");
-            break;
-        case wmcmd::WLEFTVIRT:
-            ret = _T("Wheel Left + Modifier");
-            break;
-        case wmcmd::WRIGHTVIRT:
-            ret = _T("Wheel Right + Modifier");
-            break;
     }
     return ret;
 }
@@ -1150,7 +1099,9 @@ BOOL CPPageAccelTbl::OnInitDialog()
     m_list.InsertColumn(COL_CMD, ResStr(IDS_AG_COMMAND), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_KEY, ResStr(IDS_AG_KEY), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_ID, _T("ID"), LVCFMT_LEFT, 40);
+    m_list.InsertColumn(COL_MOUSE_MODIFIER, ResStr(IDS_AG_MOUSE_MODIFIER), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_MOUSE, ResStr(IDS_AG_MOUSE), LVCFMT_LEFT, 80);
+    m_list.InsertColumn(COL_MOUSE_FS_MODIFIER, ResStr(IDS_AG_MOUSE_FS_MODIFIER), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_MOUSE_FS, ResStr(IDS_AG_MOUSE_FS), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_APPCMD, ResStr(IDS_AG_APP_COMMAND), LVCFMT_LEFT, 120);
     m_list.InsertColumn(COL_RMCMD, _T("RemoteCmd"), LVCFMT_LEFT, 80);
@@ -1168,6 +1119,9 @@ BOOL CPPageAccelTbl::OnInitDialog()
     SetupList();
 
     m_list.SetColumnWidth(COL_CMD, LVSCW_AUTOSIZE);
+    m_list.SetColumnWidth(COL_KEY, LVSCW_AUTOSIZE);
+    m_list.SetColumnWidth(COL_MOUSE_MODIFIER, LVSCW_AUTOSIZE_USEHEADER);
+    m_list.SetColumnWidth(COL_MOUSE_FS_MODIFIER, LVSCW_AUTOSIZE_USEHEADER);
     m_list.SetColumnWidth(COL_KEY, LVSCW_AUTOSIZE);
     m_list.SetColumnWidth(COL_ID, LVSCW_AUTOSIZE_USEHEADER);
 
@@ -1349,7 +1303,8 @@ void CPPageAccelTbl::OnBeginListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     if (pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_APPCMD
-            || pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_MOUSE_FS
+            || pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_MOUSE_MODIFIER
+            || pItem->iSubItem == COL_MOUSE_FS || pItem->iSubItem == COL_MOUSE_FS_MODIFIER
             || pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT) {
         *pResult = TRUE;
     }
@@ -1375,25 +1330,37 @@ void CPPageAccelTbl::OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
     CAtlList<CString> sl;
     int nSel = -1;
 
-    switch (pItem->iSubItem) {
-        case COL_KEY: {
-            m_list.ShowInPlaceWinHotkey(pItem->iItem, pItem->iSubItem);
-            CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
-            UINT cod = 0, mod = 0;
-
-            if (wc.fVirt & FALT) {
-                mod |= MOD_ALT;
-            }
-            if (wc.fVirt & FCONTROL) {
-                mod |= MOD_CONTROL;
-            }
-            if (wc.fVirt & FSHIFT) {
-                mod |= MOD_SHIFT;
-            }
-            cod = wc.key;
-            pWinHotkey->SetWinHotkey(cod, mod);
-            break;
+    auto createHotkey = [&](auto virt, auto key, bool mouse = false) {
+        m_list.ShowInPlaceWinHotkey(pItem->iItem, pItem->iSubItem);
+        CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
+        if (mouse) {
+            pWinHotkey->SetIsMouseModifier(true);
         }
+        UINT cod = 0, mod = 0;
+
+        if (virt & FALT) {
+            mod |= MOD_ALT;
+        }
+        if (virt & FCONTROL) {
+            mod |= MOD_CONTROL;
+        }
+        if (virt & FSHIFT) {
+            mod |= MOD_SHIFT;
+        }
+        cod = key;
+        pWinHotkey->SetWinHotkey(cod, mod);
+    };
+
+    switch (pItem->iSubItem) {
+        case COL_MOUSE_MODIFIER:
+            createHotkey(wc.mouseVirt, 0, true);
+            break;
+        case COL_MOUSE_FS_MODIFIER:
+            createHotkey(wc.mouseFSVirt, 0, true);
+            break;
+        case COL_KEY:
+            createHotkey(wc.fVirt, wc.key);
+            break;
         case COL_MOUSE:
             for (UINT i = 0; i < wmcmd::LAST; i++) {
                 sl.AddTail(MakeMouseButtonLabel(i));
@@ -1516,33 +1483,48 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
     }
     wmcmd& wc = m_wmcmds.GetAt(((ITEMDATA*)m_list.GetItemData(pItem->iItem))->index);
 
-    switch (pItem->iSubItem) {
-        case COL_KEY: {
-            UINT cod, mod;
-            CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
-            pWinHotkey->GetWinHotkey(&cod, &mod);
-            wc.fVirt = 0;
-            if (mod & MOD_ALT) {
-                wc.fVirt |= FALT;
-            }
-            if (mod & MOD_CONTROL) {
-                wc.fVirt |= FCONTROL;
-            }
-            if (mod & MOD_SHIFT) {
-                wc.fVirt |= FSHIFT;
-            }
-            wc.fVirt |= FVIRTKEY;
+    auto updateHotkey = [&](auto &virt, auto &key, bool mouse = false) {
+        UINT cod, mod;
+        CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
+        pWinHotkey->GetWinHotkey(&cod, &mod);
+        if (mouse) {
+            pWinHotkey->SetIsMouseModifier(true);
+            key = 0;
+        } else {
             ASSERT(cod < WORD_MAX);
-            wc.key = (WORD)cod;
-
-            CString str;
-            HotkeyToString(cod, mod, str);
-            m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
-
-            *pResult = TRUE;
-			UpdateKeyDupFlags();
+            key = (WORD)cod;
         }
-        break;
+        virt = 0;
+        if (mod & MOD_ALT) {
+            virt |= FALT;
+        }
+        if (mod & MOD_CONTROL) {
+            virt |= FCONTROL;
+        }
+        if (mod & MOD_SHIFT) {
+            virt |= FSHIFT;
+        }
+        virt |= FVIRTKEY;
+
+        CString str;
+        HotkeyToString(key, mod, str);
+        m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
+
+        *pResult = TRUE;
+        UpdateKeyDupFlags();
+    };
+
+    WORD discard;
+    switch (pItem->iSubItem) {
+        case COL_MOUSE_MODIFIER:
+            updateHotkey(wc.mouseVirt, discard, true);
+            break;
+        case COL_MOUSE_FS_MODIFIER:
+            updateHotkey(wc.mouseFSVirt, discard, true);
+            break;
+        case COL_KEY:
+            updateHotkey(wc.fVirt, wc.key);
+            break;
         case COL_APPCMD: {
             ptrdiff_t i = pItem->lParam;
             if (i >= 0 && i < _countof(g_CommandList)) {
