@@ -982,6 +982,63 @@ CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
         case wmcmd::WRIGHT:
             ret = _T("Wheel Right");
             break;
+        case wmcmd::LDOWNVIRT:
+            ret = _T("Left Down + Modifier");
+            break;
+        case wmcmd::LUPVIRT:
+            ret = _T("Left Up + Modifier");
+            break;
+        case wmcmd::LDBLCLKVIRT:
+            ret = _T("Left DblClk + Modifier");
+            break;
+        case wmcmd::MDOWNVIRT:
+            ret = _T("Middle Down + Modifier");
+            break;
+        case wmcmd::MUPVIRT:
+            ret = _T("Middle Up + Modifier");
+            break;
+        case wmcmd::MDBLCLKVIRT:
+            ret = _T("Middle DblClk + Modifier");
+            break;
+        case wmcmd::RDOWNVIRT:
+            ret = _T("Right Down + Modifier");
+            break;
+        case wmcmd::RUPVIRT:
+            ret = _T("Right Up + Modifier");
+            break;
+        case wmcmd::RDBLCLKVIRT:
+            ret = _T("Right DblClk + Modifier");
+            break;
+        case wmcmd::X1DOWNVIRT:
+            ret = _T("X1 Down + Modifier");
+            break;
+        case wmcmd::X1UPVIRT:
+            ret = _T("X1 Up + Modifier");
+            break;
+        case wmcmd::X1DBLCLKVIRT:
+            ret = _T("X1 DblClk + Modifier");
+            break;
+        case wmcmd::X2DOWNVIRT:
+            ret = _T("X2 Down + Modifier");
+            break;
+        case wmcmd::X2UPVIRT:
+            ret = _T("X2 Up + Modifier");
+            break;
+        case wmcmd::X2DBLCLKVIRT:
+            ret = _T("X2 DblClk + Modifier");
+            break;
+        case wmcmd::WUPVIRT:
+            ret = _T("Wheel Up + Modifier");
+            break;
+        case wmcmd::WDOWNVIRT:
+            ret = _T("Wheel Down + Modifier");
+            break;
+        case wmcmd::WLEFTVIRT:
+            ret = _T("Wheel Left + Modifier");
+            break;
+        case wmcmd::WRIGHTVIRT:
+            ret = _T("Wheel Right + Modifier");
+            break;
     }
     return ret;
 }
