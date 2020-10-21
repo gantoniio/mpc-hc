@@ -891,6 +891,7 @@ CMainFrame::CMainFrame()
     , m_dLastVideoScaleFactor(0)
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
+    , m_bHasBDMeta(false)
     , watchingFileDialog(false)
     , fileDialogHookHelper(nullptr)
     , delayingFullScreen(false)
@@ -13203,10 +13204,10 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         HRESULT rarHR = E_NOTIMPL;
 #if INTERNAL_SOURCEFILTER_RFS
         if (s.SrcFilters[SRC_RFS] && !PathUtils::IsURL(fn)) {
-            CString ext = CPath(fn).GetExtension().MakeLower();
-            if (ext == L".rar") {
-                rarHR = HandleMultipleEntryRar(fn);
-            }
+            tempath.Replace(fnn, _T(""));
+            tempath.Replace(_T("BDMV\\PLAYLIST\\"), _T(""));
+            CHdmvClipInfo clipinfo;
+            m_bHasBDMeta = clipinfo.ReadMeta(tempath, m_BDMeta);
         }
 #endif
         if (E_NOTIMPL == rarHR) {
@@ -14572,6 +14573,13 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 CStringW fn = GetFileName();
 
                 if (has_title && !IsNameSimilar(title, fn)) s.MRU.SetCurrentTitle(title);
+
+                CString ext = GetFileExt(fn);
+                if (ext == ".mpls" && m_bHasBDMeta) title = GetBDMVMeta().title;
+                else if (ext != ".mpls") {
+                    m_bHasBDMeta = false;
+                    m_BDMeta.RemoveAll();
+                }
 
                 if (!has_title) {
                     title = fn;
@@ -20862,6 +20870,8 @@ bool CMainFrame::OpenBD(CString Path)
         if (SUCCEEDED(ClipInfo.FindMainMovie(Path, strPlaylistFile, MainPlaylist, m_MPLSPlaylist))) {
             m_bIsBDPlay = true;
 
+            m_bHasBDMeta = ClipInfo.ReadMeta(Path, m_BDMeta);
+
             if (!InternalMpegSplitter && !ext.IsEmpty() && ext == _T(".bdmv")) {
                 return false;
             } else {
@@ -21619,6 +21629,11 @@ void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt) {
         return;
     }
     __super::OnMouseHWheel(nFlags, zDelta, pt);
+}
+
+CHdmvClipInfo::BDMVMeta CMainFrame::GetBDMVMeta()
+{
+    return m_BDMeta.GetHead();
 }
 
 BOOL CMainFrame::AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text)
