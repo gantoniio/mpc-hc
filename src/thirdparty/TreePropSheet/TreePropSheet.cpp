@@ -779,8 +779,8 @@ BOOL CTreePropSheet::OnInitDialog()
     dpiWindow.Override(GetParent()->GetSafeHwnd());
 
     // Lets make place for the tree ctrl
-    const int   nTreeWidth = dpiWindow.ScaleSystemToOverrideX(m_nPageTreeWidth);
-    const int   nTreeSpace = dpiWindow.ScaleSystemToOverrideX(5);
+    const int   nTreeWidth = dpiWindow.ScaleX(m_nPageTreeWidth);
+    const int   nTreeSpace = dpiWindow.ScaleX(5);
 
     CRect   rectSheet;
     GetWindowRect(rectSheet);
@@ -798,7 +798,7 @@ BOOL CTreePropSheet::OnInitDialog()
     //tabs do not scale sanely with dpi (96->font 11 height 21, 120-> font 12 height 21), so we will scale manually
     int frameCaptionHeight;
     if (DpiHelper::CanUsePerMonitorV2()) {
-        frameCaptionHeight = dpiWindow.ScaleSystemToOverrideY(21); //hard code 21 as the 96 dpi value and scale
+        frameCaptionHeight = dpiWindow.ScaleX(21); //hard code 21 as the 96 dpi value and scale
     } else {
         // calculate caption height
         CTabCtrl    wndTabCtrl;
