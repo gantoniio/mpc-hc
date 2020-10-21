@@ -13200,16 +13200,27 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             lastOpenFile = fn;
         }
 
-        HRESULT hr;
-        HRESULT rarHR = E_NOTIMPL;
-#if INTERNAL_SOURCEFILTER_RFS
-        if (s.SrcFilters[SRC_RFS] && !PathUtils::IsURL(fn)) {
+        CString ext = GetFileExt(fn);
+        if (ext == ".mpls") {
+            CString fnn = PathUtils::StripPathOrUrl(fn);
+            CString tempath(fn);
             tempath.Replace(fnn, _T(""));
             tempath.Replace(_T("BDMV\\PLAYLIST\\"), _T(""));
             CHdmvClipInfo clipinfo;
             m_bHasBDMeta = clipinfo.ReadMeta(tempath, m_BDMeta);
         }
+
+        HRESULT hr;
+        HRESULT rarHR = E_NOTIMPL;
+#if INTERNAL_SOURCEFILTER_RFS
+        if (s.SrcFilters[SRC_RFS] && !PathUtils::IsURL(fn)) {
+            CString ext = CPath(fn).GetExtension().MakeLower();
+            if (ext == L".rar") {
+                rarHR = HandleMultipleEntryRar(fn);
+            }
+        }
 #endif
+
         if (E_NOTIMPL == rarHR) {
             hr = m_pGB->RenderFile(fn, nullptr);
         } else {
@@ -14573,13 +14584,6 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 CStringW fn = GetFileName();
 
                 if (has_title && !IsNameSimilar(title, fn)) s.MRU.SetCurrentTitle(title);
-
-                CString ext = GetFileExt(fn);
-                if (ext == ".mpls" && m_bHasBDMeta) title = GetBDMVMeta().title;
-                else if (ext != ".mpls") {
-                    m_bHasBDMeta = false;
-                    m_BDMeta.RemoveAll();
-                }
 
                 if (!has_title) {
                     title = fn;
@@ -21670,6 +21674,16 @@ CString CMainFrame::getBestTitle(bool fTitleBarTextTitle) {
             return title;
         }
     }
+
+    CStringW ext = GetFileExt(GetFileName());
+    if (ext == ".mpls" && m_bHasBDMeta) {
+        title = GetBDMVMeta().title;
+        return title;
+    } else if (ext != ".mpls") {
+        m_bHasBDMeta = false;
+        m_BDMeta.RemoveAll();
+    }
+
     return L"";
 }
 
