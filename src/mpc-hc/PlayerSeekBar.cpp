@@ -690,7 +690,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         SetCapture();
         m_bDraggingThumb = true;
         MoveThumb(point);
-        SyncVideoToThumb();
+        CheckScrollDistance(point, 0); //treat this like the start of a scroll, which will update the hover position too, preventing double hscrolls
         invalidateThumb();
     } else {
         if (!m_pMainFrame->m_fFullScreen) {
