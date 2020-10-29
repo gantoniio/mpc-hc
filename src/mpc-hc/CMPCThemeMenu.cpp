@@ -122,12 +122,15 @@ BOOL CMPCThemeMenu::RemoveMenu(UINT nPosition, UINT nFlags)
 
 BOOL CMPCThemeMenu::SetThemedMenuItemInfo(UINT uItem, LPMENUITEMINFO lpMenuItemInfo, BOOL fByPos) {
     bool rebuildData = false;
+    bool isMenuBar = false;
     if (AppIsThemeLoaded()) {
         MENUITEMINFO mii = { sizeof(MENUITEMINFO) };
         mii.fMask = MIIM_DATA;
         CMenu::GetMenuItemInfo(uItem, &mii, fByPos);
-        rebuildData = (0 != (lpMenuItemInfo->fMask & (MIIM_FTYPE | MIIM_SUBMENU)));
+        rebuildData = (0 != (lpMenuItemInfo->fMask & (MIIM_FTYPE | MIIM_SUBMENU | MIIM_STRING)));
         if (mii.dwItemData && rebuildData) {
+            MenuObject* tm = (MenuObject*)mii.dwItemData;
+            isMenuBar = tm->isMenubar;
             lpMenuItemInfo->fMask |= MIIM_DATA;
             lpMenuItemInfo->dwItemData = 0;
             cleanupItem(uItem, fByPos ? MF_BYPOSITION : MF_BYCOMMAND);
@@ -137,7 +140,7 @@ BOOL CMPCThemeMenu::SetThemedMenuItemInfo(UINT uItem, LPMENUITEMINFO lpMenuItemI
     BOOL ret = CMenu::SetMenuItemInfo(uItem, lpMenuItemInfo, fByPos);
 
     if (rebuildData) {
-        fulfillThemeReqsItem((UINT)uItem, !fByPos);
+        fulfillThemeReqsItem((UINT)uItem, !fByPos, isMenuBar);
     }
     return ret;
 }
@@ -229,7 +232,7 @@ void CMPCThemeMenu::fulfillThemeReqs(bool isMenubar)
     }
 }
 
-void CMPCThemeMenu::fulfillThemeReqsItem(UINT i, bool byCommand)
+void CMPCThemeMenu::fulfillThemeReqsItem(UINT i, bool byCommand, bool isMenuBar)
 {
     if (AppIsThemeLoaded()) {
         MENUITEMINFO tInfo = { sizeof(MENUITEMINFO) };
@@ -240,6 +243,7 @@ void CMPCThemeMenu::fulfillThemeReqsItem(UINT i, bool byCommand)
             MenuObject* pObject = new MenuObject;
             allocatedItems.push_back(pObject);
             pObject->m_hIcon = NULL;
+            pObject->isMenubar = isMenuBar;
 
             UINT posOrCmd = byCommand ? MF_BYCOMMAND : MF_BYPOSITION;
 

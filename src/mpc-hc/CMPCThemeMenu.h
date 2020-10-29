@@ -20,7 +20,7 @@ public:
     virtual ~CMPCThemeMenu();
 
     void fulfillThemeReqs(bool menubar = false);
-    void fulfillThemeReqsItem(UINT i, bool byCommand = false);
+    void fulfillThemeReqsItem(UINT i, bool byCommand = false, bool isMenuBar = false);
     static void fulfillThemeReqsItem(CMenu* parent, UINT i, bool byCommand = false);
     static UINT getPosFromID(CMenu* parent, UINT nID);
     static CMPCThemeMenu* getParentMenu(UINT itemID);
