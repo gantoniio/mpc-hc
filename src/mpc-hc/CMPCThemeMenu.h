@@ -30,6 +30,8 @@ public:
     virtual BOOL AppendMenu(UINT nFlags, UINT_PTR nIDNewItem = 0, LPCTSTR lpszNewItem = NULL);
     virtual BOOL DeleteMenu(UINT nPosition, UINT nFlags);
     virtual BOOL RemoveMenu(UINT nPosition, UINT nFlags);
+    virtual BOOL SetThemedMenuItemInfo(UINT uItem, LPMENUITEMINFO lpMenuItemInfo, BOOL fByPos = FALSE);
+    static BOOL SetThemedMenuItemInfo(CMenu *menu, UINT uItem, LPMENUITEMINFO lpMenuItemInfo, BOOL fByPos = FALSE);
     CMPCThemeMenu* GetSubMenu(int nPos);
     static void updateItem(CCmdUI* pCmdUI);
     static void clearDimensions() { hasDimensions = false; };
