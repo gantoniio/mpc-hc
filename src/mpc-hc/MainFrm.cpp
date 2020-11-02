@@ -12039,6 +12039,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
 
     m_cue_Metadata = CueMetadata();
     CString title;
+    CString performer;
 
     while (f.ReadString(str)) {
         str.Trim();
@@ -12049,13 +12050,16 @@ void CMainFrame::SetupCueChapters(CString fn) {
             m_cue_Metadata.performer = str.Mid(11, str.GetLength() - 12);
         }
         else if (str.Left(4) == _T("FILE")) {
-            if (str.Right(4) == _T("WAVE")) { // We just support audio file.
+            if (str.Right(4) == _T("WAVE") || str.Right(4) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
                 cue_index++;
             }
         }
         else if (cue_index == pli->m_cue_index) {
             if (str.Left(5) == _T("TITLE")) {
                 title = str.Mid(7, str.GetLength() - 8);
+            }
+            if (str.Left(9) == _T("PERFORMER")) {
+                performer = str.Mid(11, str.GetLength() - 12);
             }
             if (str.Left(5) == _T("INDEX")) {
                 CT2CA tmp = str.Mid(6);
@@ -12064,8 +12068,11 @@ void CMainFrame::SetupCueChapters(CString fn) {
                 int m(0), s(0), ms(0);
                 sscanf_s(tmp2, "%d %d:%d:%d", &i1, &m, &s, &ms);
                 ms *= 10;
+                CString chapter(title);
+                if (!performer.IsEmpty()) chapter += (_T(" - ") + performer);
                 m_pCB->ChapAppend(10000i64 * ((m * 60 + s) * 1000 + ms), title);
                 title = _T("");
+                performer = _T("");
             }
         }
     }
