@@ -11995,7 +11995,79 @@ void CMainFrame::SetupChapters()
         EndEnumPins;
     }
 
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+    if (pli->m_cue) {
+        SetupCueChapters(pli->m_cue_filename);
+    }
+
     UpdateSeekbarChapterBag();
+}
+
+void CMainFrame::SetupCueChapters(CString fn) {
+    CString str;
+    int cue_index(-1);
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+
+    CWebTextFile f(CTextFile::UTF8);
+    if (!f.Open(fn) || !f.ReadString(str)) {
+        return;
+    }
+
+    f.Seek(0, CFile::SeekPosition::begin);
+    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
+        f.SetEncoding(CTextFile::ANSI);
+    }
+
+    CString base;
+    bool isurl = fn.Find(_T("://")) > 0;
+    if (isurl) {
+        int p = fn.Find(_T('?'));
+        if (p > 0) {
+            fn = fn.Left(p);
+        }
+        p = fn.ReverseFind(_T('/'));
+        if (p > 0) {
+            base = fn.Left(p + 1);
+        }
+    }
+    else {
+        CPath basefilepath(fn);
+        basefilepath.RemoveFileSpec();
+        basefilepath.AddBackslash();
+        base = basefilepath.m_strPath;
+    }
+
+    m_cue_Metadata = CueMetadata();
+    CString title;
+
+    while (f.ReadString(str)) {
+        str.Trim();
+        if (cue_index == -1 && str.Left(5) == _T("TITLE")) {
+            m_cue_Metadata.title = str.Mid(7, str.GetLength() - 8);
+        }
+        else if (cue_index == -1 &&  str.Left(9) == _T("PERFORMER")) {
+            m_cue_Metadata.performer = str.Mid(11, str.GetLength() - 12);
+        }
+        else if (str.Left(4) == _T("FILE")) {
+            if (str.Right(4) == _T("WAVE")) { // We just support audio file.
+                cue_index++;
+            }
+        }
+        else if (cue_index == pli->m_cue_index) {
+            if (str.Left(5) == _T("TITLE")) {
+                title = str.Mid(7, str.GetLength() - 8);
+            }
+            if (str.Left(5) == _T("INDEX")) {
+                CT2CA tmp = str.Mid(6);
+                const char* tmp2(tmp);
+                int i1(0);
+                int m(0), s(0), ms(0);
+                sscanf_s(tmp2, "%d %d:%d:%d", &i1, &m, &s, &ms);
+                ms *= 10;
+                m_pCB->ChapAppend(10000i64 * ((m * 60 + s) * 1000 + ms), title);
+            }
+        }
+    }
 }
 
 void CMainFrame::SetupDVDChapters()

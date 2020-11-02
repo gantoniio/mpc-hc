@@ -445,10 +445,10 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
 
     while(f.ReadString(str)) {
         str.Trim();
-        if (str.Left(5) == _T("TITLE")) {
+        if (cue_index == 0 && str.Left(5) == _T("TITLE")) {
             title = str.Mid(7, str.GetLength() - 8);
         }
-        else if (str.Left(9) == _T("PERFORMER")) {
+        else if (cue_index == 0 && str.Left(9) == _T("PERFORMER")) {
             performer = str.Mid(11, str.GetLength() - 12);
         }
         else if (str.Left(4) == _T("FILE")) {
