@@ -12065,6 +12065,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
                 sscanf_s(tmp2, "%d %d:%d:%d", &i1, &m, &s, &ms);
                 ms *= 10;
                 m_pCB->ChapAppend(10000i64 * ((m * 60 + s) * 1000 + ms), title);
+                title = _T("");
             }
         }
     }
@@ -12775,6 +12776,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 }
                 if (!use_label) {
                     title = GetFileName();
+                    bool hasName = false;
 
                     if (s.fTitleBarTextTitle) {
                         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -12782,11 +12784,22 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                                 CComBSTR bstr;
                                 if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
                                     title = CString(bstr.m_str);
+                                    hasName = true;
                                     break;
                                 }
                             }
                         }
                         EndEnumFilters;
+                    }
+
+                    if (!hasName && pli->m_cue) {
+                        if (!m_cue_Metadata.title.IsEmpty()) {
+                            if (!m_cue_Metadata.performer.IsEmpty()) {
+                                title = m_cue_Metadata.title + _T(" - ") + m_cue_Metadata.performer;
+                            }
+                            else title = m_cue_Metadata.title;
+                            hasName = true;
+                        }
                     }
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
