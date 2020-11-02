@@ -70,6 +70,7 @@ private:
     bool ParseMPCPlayList(CString fn);
     bool SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRemovePath);
     bool ParseM3UPlayList(CString fn);
+    bool ParseCUESheet(CString fn);
 
     void SetupList();
     void UpdateList();

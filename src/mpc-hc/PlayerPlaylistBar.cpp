@@ -340,6 +340,9 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     if (ct == "application/x-mpc-playlist") {
         ParseMPCPlayList(fns.GetHead());
         return;
+    } else if (ct == "application/x-cue-sheet") {
+        ParseCUESheet(fns.GetHead());
+        return;
     } else if (ct == "audio/x-mpegurl") {
         if (fns.GetHead().Find(_T("://")) == -1) { // prefer opening M3U URLs directly with LAV Splitter
             if (ParseM3UPlayList(fns.GetHead())) {
@@ -400,6 +403,85 @@ bool CPlayerPlaylistBar::ParseBDMVPlayList(CString fn)
     }
 
     return !m_pl.IsEmpty();
+}
+
+bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
+    CString str;
+    std::vector<int> idx;
+    int cue_index(0);
+
+    CWebTextFile f(CTextFile::UTF8);
+    if (!f.Open(fn) || !f.ReadString(str)) {
+        return false;
+    }
+
+    f.Seek(0, CFile::SeekPosition::begin);
+    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
+        f.SetEncoding(CTextFile::ANSI);
+    }
+
+    CString base;
+    bool isurl = fn.Find(_T("://")) > 0;
+    if (isurl) {
+        int p = fn.Find(_T('?'));
+        if (p > 0) {
+            fn = fn.Left(p);
+        }
+        p = fn.ReverseFind(_T('/'));
+        if (p > 0) {
+            base = fn.Left(p + 1);
+        }
+    }
+    else {
+        CPath basefilepath(fn);
+        basefilepath.RemoveFileSpec();
+        basefilepath.AddBackslash();
+        base = basefilepath.m_strPath;
+    }
+
+    bool success = false;
+    CString title(_T(""));
+    CString performer(_T(""));
+
+    while(f.ReadString(str)) {
+        str.Trim();
+        if (str.Left(5) == _T("TITLE")) {
+            title = str.Mid(7, str.GetLength() - 8);
+        }
+        else if (str.Left(9) == _T("PERFORMER")) {
+            performer = str.Mid(11, str.GetLength() - 12);
+        }
+        else if (str.Left(4) == _T("FILE")) {
+            if (str.Right(4) == _T("WAVE")) { // We just support audio file.
+                CPlaylistItem pli;
+                CString filen;
+                filen = str.Mid(6, str.GetLength() - 12);
+                filen = CombinePath(base, filen, isurl);
+                pli.m_cue = true;
+                pli.m_cue_index = cue_index;
+                CString label(_T(""));
+                if (!title.IsEmpty()) {
+                    label = title;
+                    if (!performer.IsEmpty()) {
+                        label += (_T(" - ") + performer);
+                    }
+                }
+                if (cue_index > 0) {
+                    str.Format(_T(" - File %d"), cue_index + 1);
+                    label += str;
+                }
+                if (!label.IsEmpty()) pli.m_label = label;
+                cue_index++;
+                pli.m_cue_filename = fn;
+                pli.m_fns.AddTail(filen);
+                m_pl.AddTail(pli);
+                success = true;
+                continue;
+            }
+        }
+    }
+
+    return success;
 }
 
 bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
@@ -553,6 +635,11 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
                 pli[i].m_ainput = _ttol(value);
             } else if (key == _T("country")) {
                 pli[i].m_country = _ttol(value);
+            } else if (key == _T("m_cue_filename")) {
+                pli[i].m_cue = true;
+                pli[i].m_cue_filename = value;
+            } else if (key == _T("m_cue_index")) {
+                pli[i].m_cue_index = _ttoi(value);
             }
         }
     }
@@ -613,6 +700,11 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
             }
             if (pli.m_bYoutubeDL && !pli.m_ydlSourceURL.IsEmpty()) {
                 f.WriteString(idx + _T(",ydlSourceURL,") + pli.m_ydlSourceURL + _T("\n"));
+            }
+            if (pli.m_cue) {
+                f.WriteString(idx + _T(",m_cue_filename,") + pli.m_cue_filename + _T("\n"));
+                str.Format(_T("%d,m_cue_index,%d"), i, pli.m_cue_index);
+                f.WriteString(str + _T("\n"));
             }
         } else if (pli.m_type == CPlaylistItem::device && pli.m_fns.GetCount() == 2) {
             f.WriteString(idx + _T(",video,") + pli.m_fns.GetHead() + _T("\n"));
