@@ -446,17 +446,17 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     while(f.ReadString(str)) {
         str.Trim();
         if (cue_index == 0 && str.Left(5) == _T("TITLE")) {
-            title = str.Mid(7, str.GetLength() - 8);
+            title = str.Mid(6).Trim(_T("\""));
         }
         else if (cue_index == 0 && str.Left(9) == _T("PERFORMER")) {
-            performer = str.Mid(11, str.GetLength() - 12);
+            performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
             if (str.Right(4) == _T("WAVE") || str.Right(4) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
                 CPlaylistItem pli;
                 CString filen;
-                if (str.Right(3) == _T("MP3")) filen = str.Mid(6, str.GetLength() - 11);
-                else filen = str.Mid(6, str.GetLength() - 12);
+                if (str.Right(3) == _T("MP3")) filen = str.Mid(5, str.GetLength() - 9).Trim(_T("\""));
+                else filen = str.Mid(5, str.GetLength() - 10).Trim(_T("\""));
                 filen = CombinePath(base, filen, isurl);
                 pli.m_cue = true;
                 pli.m_cue_index = cue_index;

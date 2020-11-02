@@ -12044,10 +12044,10 @@ void CMainFrame::SetupCueChapters(CString fn) {
     while (f.ReadString(str)) {
         str.Trim();
         if (cue_index == -1 && str.Left(5) == _T("TITLE")) {
-            m_cue_Metadata.title = str.Mid(7, str.GetLength() - 8);
+            m_cue_Metadata.title = str.Mid(6).Trim(_T("\""));
         }
         else if (cue_index == -1 &&  str.Left(9) == _T("PERFORMER")) {
-            m_cue_Metadata.performer = str.Mid(11, str.GetLength() - 12);
+            m_cue_Metadata.performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
             if (str.Right(4) == _T("WAVE") || str.Right(4) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
@@ -12056,10 +12056,10 @@ void CMainFrame::SetupCueChapters(CString fn) {
         }
         else if (cue_index == pli->m_cue_index) {
             if (str.Left(5) == _T("TITLE")) {
-                title = str.Mid(7, str.GetLength() - 8);
+                title = str.Mid(6).Trim(_T("\""));
             }
             if (str.Left(9) == _T("PERFORMER")) {
-                performer = str.Mid(11, str.GetLength() - 12);
+                performer = str.Mid(10).Trim(_T("\""));
             }
             if (str.Left(5) == _T("INDEX")) {
                 CT2CA tmp = str.Mid(6);
