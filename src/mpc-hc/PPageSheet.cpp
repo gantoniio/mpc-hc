@@ -108,7 +108,7 @@ CPPageSheet::CPPageSheet() : CTreePropSheet(_T("Dummy"), nullptr, 0)
 {
 
     SetTreeWidth(216);
-    AddPage(&m_formats); //formats is the magic page that makes sure it sizes properly on dpi screens...maybe due to images on the right?
+    AddPage(&m_dpiCalc);
 
     EnableStackedTabs(FALSE);
     SetTreeViewMode(TRUE, TRUE, FALSE);

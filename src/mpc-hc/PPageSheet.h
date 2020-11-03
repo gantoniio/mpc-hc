@@ -67,6 +67,11 @@ protected:
 
 // CPPageSheet
 
+class CPPageDPICalc : public CMPCThemePPageBase {
+public:
+    CPPageDPICalc() : CMPCThemePPageBase(IDD_PPAGEDPICALC, 0) {};
+};
+
 class CPPageSheet : public TreePropSheet::CTreePropSheet, public CMPCThemeUtil
 {
     DECLARE_DYNAMIC(CPPageSheet)
@@ -96,6 +101,7 @@ private:
     CPPageFullscreen m_fullscreen;
     CPPageSync m_sync;
     CPPageCapture m_tuner;
+    CPPageDPICalc m_dpiCalc;
 #ifndef MPCHC_LITE
     CPPageInternalFilters m_internalfilters;
 #endif
