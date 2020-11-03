@@ -365,6 +365,9 @@ static CString CombinePath(CString base, CString fn, bool isurl)
         if (fn.Find(_T("://")) >= 0) {
             return fn;
         }
+        if (fn.Left(1) == _T("/") || fn.Left(1) == _T("\\")) {
+            return PathUtils::GetHostNameWithProtocol(base) + fn;
+        }
         return base + fn;
     }
     else {

@@ -150,6 +150,21 @@ namespace PathUtils
         return p;
     }
 
+    CString GetHostNameWithProtocol(CString url) {
+        CString URL(url);
+        URL.Replace('\\', '/');
+        if (URL.Right(1) != _T("/")) URL += _T("/");
+        CString protocol;
+        if (URL.Find(_T("://")) > 0) {
+            protocol = URL.Mid(0, URL.Find(_T("://")) + 3);
+            URL = URL.Mid(URL.Find(_T("://")) + 3);
+        }
+        if (URL.Find(_T("/")) > 0) {
+            return protocol + URL.Mid(0, URL.Find(_T("/")));
+        }
+        else return protocol + URL;
+    }
+
     bool IsInDir(LPCTSTR path, LPCTSTR dir)
     {
         return !!CPath(path).IsPrefix(dir);
