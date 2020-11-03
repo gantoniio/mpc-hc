@@ -365,13 +365,13 @@ static CString CombinePath(CString base, CString fn, bool isurl)
         if (fn.Find(_T("://")) >= 0) {
             return fn;
         }
+        return base + fn;
     }
     else {
-        if (fn.Find(_T(":")) >= 0 || fn.Find(_T("\\")) >= 0) {
-            return fn;
-        }
+        CPath cp;
+        cp.Combine(base, fn);
+        return cp;
     }
-    return base + fn;
 }
 
 static CString CombinePath(CPath p, CString fn)
