@@ -456,7 +456,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
             performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
-            if (str.Right(4) == _T("WAVE") || str.Right(4) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
+            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
                 CPlaylistItem pli;
                 CString filen;
                 if (str.Right(3) == _T("MP3")) filen = str.Mid(5, str.GetLength() - 9).Trim(_T("\""));
