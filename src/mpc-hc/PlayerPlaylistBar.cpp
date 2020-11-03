@@ -541,6 +541,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
                 label += tmp;
             }
             if (!label.IsEmpty()) tpl.m_label = label;
+            tpl.m_cue = false; // avoid unnecessary parsing of cue again later
             m_pl.AddTail(tpl);
             success = true;
         } while (b);

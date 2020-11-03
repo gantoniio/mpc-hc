@@ -12086,7 +12086,9 @@ void CMainFrame::SetupCueChapters(CString fn) {
         trackl.AddTail(track);
     }
 
-    if (trackl.GetCount() > 1) {
+    if ((cue_index == 0 && trackl.GetCount() == 1) || cue_index > 1) pli->m_cue = false; // avoid unnecessary parsing of cue again later
+
+    if (trackl.GetCount() >= 1) {
         POSITION p = trackl.GetHeadPosition();
         bool b(true);
         do {
