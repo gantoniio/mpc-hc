@@ -11995,7 +11995,120 @@ void CMainFrame::SetupChapters()
         EndEnumPins;
     }
 
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+    if (pli->m_cue) {
+        SetupCueChapters(pli->m_cue_filename);
+    }
+
     UpdateSeekbarChapterBag();
+}
+
+void CMainFrame::SetupCueChapters(CString fn) {
+    CString str;
+    int cue_index(-1);
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+
+    CWebTextFile f(CTextFile::UTF8);
+    if (!f.Open(fn) || !f.ReadString(str)) {
+        return;
+    }
+
+    f.Seek(0, CFile::SeekPosition::begin);
+    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
+        f.SetEncoding(CTextFile::ANSI);
+    }
+
+    CString base;
+    bool isurl = fn.Find(_T("://")) > 0;
+    if (isurl) {
+        int p = fn.Find(_T('?'));
+        if (p > 0) {
+            fn = fn.Left(p);
+        }
+        p = fn.ReverseFind(_T('/'));
+        if (p > 0) {
+            base = fn.Left(p + 1);
+        }
+    }
+    else {
+        CPath basefilepath(fn);
+        basefilepath.RemoveFileSpec();
+        basefilepath.AddBackslash();
+        base = basefilepath.m_strPath;
+    }
+
+    m_cue_Metadata = CueMetadata();
+    CAtlList<CueTrackMeta> trackl;
+    CueTrackMeta track;
+    int trackID(0);
+
+    while (f.ReadString(str)) {
+        str.Trim();
+        if (cue_index == -1 && str.Left(5) == _T("TITLE")) {
+            m_cue_Metadata.title = str.Mid(6).Trim(_T("\""));
+        }
+        else if (cue_index == -1 &&  str.Left(9) == _T("PERFORMER")) {
+            m_cue_Metadata.performer = str.Mid(10).Trim(_T("\""));
+        }
+        else if (str.Left(4) == _T("FILE")) {
+            if (str.Right(4) == _T("WAVE") || str.Right(4) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
+                cue_index++;
+            }
+        }
+        else if (cue_index >= 0) {
+            if (str.Left(5) == _T("TRACK") && str.Right(5) == _T("AUDIO")) {
+                CT2CA tmp(str.Mid(6, str.GetLength() - 12));
+                const char* tmp2(tmp);
+                sscanf_s(tmp2, "%d", &trackID);
+                if (track.trackID != 0) {
+                    trackl.AddTail(track);
+                    track = CueTrackMeta();
+                }
+                track.trackID = trackID;
+            }
+            else if (str.Left(5) == _T("TITLE")) {
+                track.title = str.Mid(6).Trim(_T("\""));
+            }
+            else if (str.Left(9) == _T("PERFORMER")) {
+                track.performer = str.Mid(10).Trim(_T("\""));
+            }
+            else if (str.Left(5) == _T("INDEX")) {
+                CT2CA tmp(str.Mid(6));
+                const char* tmp2(tmp);
+                int i1(0), m(0), s(0), ms(0);
+                sscanf_s(tmp2, "%d %d:%d:%d", &i1, &m, &s, &ms);
+                if (i1 != 0) track.time = 10000i64 * ((m * 60 + s) * 1000 + ms);
+            }
+        }
+    }
+
+    if (track.trackID != 0) {
+        trackl.AddTail(track);
+    }
+
+    if (trackl.GetCount() > 1) {
+        POSITION p = trackl.GetHeadPosition();
+        bool b(true);
+        do {
+            if (p == trackl.GetTailPosition()) b = false;
+            CueTrackMeta c(trackl.GetNext(p));
+            if (cue_index == 0 || (cue_index > 0 && c.trackID == (pli->m_cue_index + 1))) {
+                CString label;
+                if (c.trackID != 0 && !c.title.IsEmpty()) {
+                    label = c.title;
+                    if (!c.performer.IsEmpty()) {
+                        label += (_T(" - ") + c.performer);
+                    }
+                    else if (!m_cue_Metadata.performer.IsEmpty()) {
+                        label += (_T(" - ") + m_cue_Metadata.performer);
+                    }
+                }
+                REFERENCE_TIME time(c.time);
+                if (cue_index > 0) time = 0; // We don't support gap.
+                m_pCB->ChapAppend(time, label);
+            }
+        } while (b);
+    }
 }
 
 void CMainFrame::SetupDVDChapters()
@@ -12703,6 +12816,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 }
                 if (!use_label) {
                     title = GetFileName();
+                    bool hasName = false;
 
                     if (s.fTitleBarTextTitle) {
                         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -12710,11 +12824,22 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                                 CComBSTR bstr;
                                 if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
                                     title = CString(bstr.m_str);
+                                    hasName = true;
                                     break;
                                 }
                             }
                         }
                         EndEnumFilters;
+                    }
+
+                    if (!hasName && pli->m_cue) {
+                        if (!m_cue_Metadata.title.IsEmpty()) {
+                            if (!m_cue_Metadata.performer.IsEmpty()) {
+                                title = m_cue_Metadata.title + _T(" - ") + m_cue_Metadata.performer;
+                            }
+                            else title = m_cue_Metadata.title;
+                            hasName = true;
+                        }
                     }
                 }
             } else if (GetPlaybackMode() == PM_DVD) {

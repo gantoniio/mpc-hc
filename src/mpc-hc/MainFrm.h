@@ -143,6 +143,11 @@ struct SubtitleInput {
         : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
 
+struct CueMetadata {
+    CString title;
+    CString performer;
+};
+
 class CMainFrame : public CFrameWnd, public CDropClient
 {
 public:
@@ -329,6 +334,7 @@ private:
     // chapters (file mode)
     CComPtr<IDSMChapterBag> m_pCB;
     void SetupChapters();
+    void SetupCueChapters(CString fn);
 
     // chapters (DVD mode)
     void SetupDVDChapters();
@@ -395,6 +401,8 @@ private:
     int m_iPlaybackMode;
     ULONG m_lCurrentChapter;
     ULONG m_lChapterStartTime;
+
+    CueMetadata m_cue_Metadata;
 
     CString m_currentCoverAuthor;
     CString m_currentCoverPath;
