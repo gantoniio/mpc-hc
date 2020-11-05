@@ -17935,11 +17935,14 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
                 m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_AUTHOR), author);
 
                 CComQIPtr<IFilterGraph> pFilterGraph = m_pGB;
+                CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
                 std::vector<BYTE> internalCover;
                 if (CoverArt::FindEmbedded(pFilterGraph, internalCover)) {
                     m_wndView.LoadImg(internalCover);
                     m_currentCoverPath = filename;
                     m_currentCoverAuthor = author;
+                } else if (!pli->m_cover.IsEmpty() && CPath(pli->m_cover).FileExists()) {
+                    m_wndView.LoadImg(pli->m_cover);
                 } else if (!filedir.IsEmpty() && (m_currentCoverPath != filedir || m_currentCoverAuthor != author || currentCoverIsFileArt)) {
                     m_wndView.LoadImg(CoverArt::FindExternal(filename_no_ext, filedir, author, currentCoverIsFileArt));
                     m_currentCoverPath = filedir;

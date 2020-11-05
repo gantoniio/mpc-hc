@@ -46,6 +46,7 @@ CPlaylistItem::CPlaylistItem()
     , m_cue(false)
     , m_cue_filename(_T(""))
     , m_cue_index(0)
+    , m_cover(_T(""))
 {
     m_id = m_globalid++;
 }
@@ -82,6 +83,7 @@ CPlaylistItem& CPlaylistItem::operator=(const CPlaylistItem& pli)
         m_cue = pli.m_cue;
         m_cue_filename = pli.m_cue_filename;
         m_cue_index = pli.m_cue_index;
+        m_cover = pli.m_cover;
     }
     return *this;
 }

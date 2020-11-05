@@ -47,6 +47,7 @@ public:
     bool m_cue;
     CString m_cue_filename;
     int m_cue_index;
+    CString m_cover;
 
     bool m_fInvalid;
 

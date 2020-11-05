@@ -32,6 +32,7 @@
 #include "PathUtils.h"
 #include "WinAPIUtils.h"
 #include "CMPCTheme.h"
+#include "CoverArt.h"
 #undef SubclassWindow
 
 
@@ -494,6 +495,18 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
         trackl.AddTail(track);
     }
 
+    CPath cp(fn);
+    CString fn_no_ext;
+    CString fdir;
+    if (cp.FileExists()) {
+        cp.RemoveExtension();
+        fn_no_ext = cp.m_strPath;
+        cp.RemoveFileSpec();
+        fdir = cp.m_strPath;
+    }
+    bool currentCoverIsFileArt(false);
+    CString cover(CoverArt::FindExternal(fn_no_ext, fdir, _T(""), currentCoverIsFileArt));
+
     if (pl.GetCount() == 1) {
         CPlaylistItem tpl = pl.GetHead();
         CString label;
@@ -504,6 +517,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
             }
         }
         if (!label.IsEmpty()) tpl.m_label = label;
+        if (!cover.IsEmpty()) tpl.m_cover = cover;
         m_pl.AddTail(tpl);
         success = true;
     }
@@ -542,6 +556,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
             }
             if (!label.IsEmpty()) tpl.m_label = label;
             tpl.m_cue = false; // avoid unnecessary parsing of cue again later
+            if (!cover.IsEmpty()) tpl.m_cover = cover;
             m_pl.AddTail(tpl);
             success = true;
         } while (b);
@@ -706,6 +721,8 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
                 pli[i].m_cue_filename = value;
             } else if (key == _T("m_cue_index")) {
                 pli[i].m_cue_index = _ttoi(value);
+            } else if (key == _T("cover")) {
+                pli[i].m_cover = value;
             }
         }
     }
@@ -769,8 +786,13 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
             }
             if (pli.m_cue) {
                 f.WriteString(idx + _T(",m_cue_filename,") + pli.m_cue_filename + _T("\n"));
-                str.Format(_T("%d,m_cue_index,%d"), i, pli.m_cue_index);
-                f.WriteString(str + _T("\n"));
+                if (pli.m_cue_index > 0) {
+                    str.Format(_T("%d,m_cue_index,%d"), i, pli.m_cue_index);
+                    f.WriteString(str + _T("\n"));
+                }
+            }
+            if (!pli.m_cover.IsEmpty()) {
+                f.WriteString(idx + _T(",cover,") + pli.m_cover + _T("\n"));
             }
         } else if (pli.m_type == CPlaylistItem::device && pli.m_fns.GetCount() == 2) {
             f.WriteString(idx + _T(",video,") + pli.m_fns.GetHead() + _T("\n"));
