@@ -552,16 +552,29 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
     WORD assignTo = 0;
     const CAppSettings& s = AfxGetAppSettings();
 
+    BYTE mouseVirt = 0;
+    if (bCheckMouse) {
+        if (GetKeyState(VK_SHIFT) & 0x8000) {
+            mouseVirt |= FSHIFT;
+        }
+        if (GetKeyState(VK_MENU) & 0x8000) {
+            mouseVirt |= FALT;
+        }
+        if (GetKeyState(VK_CONTROL) & 0x8000) {
+            mouseVirt |= FCONTROL;
+        }
+    }
+
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos && !assignTo) {
         const wmcmd& wc = s.wmcmds.GetNext(pos);
 
         if (bCheckMouse) {
             if (bIsFullScreen) {
-                if (wc.mouseFS == keyOrMouseValue) {
+                if (wc.mouseFS == keyOrMouseValue && (wc.mouseFSVirt & ~FVIRTKEY) == mouseVirt) {
                     assignTo = wc.cmd;
                 }
-            } else if (wc.mouse == keyOrMouseValue) {
+            } else if (wc.mouse == keyOrMouseValue && (wc.mouseFSVirt & ~FVIRTKEY) == mouseVirt) {
                 assignTo = wc.cmd;
             }
         } else if (wc.key == keyOrMouseValue) {
@@ -1876,6 +1889,8 @@ BOOL CMPlayerCApp::InitInstance()
     if (UpdateChecker::IsAutoUpdateEnabled()) {
         UpdateChecker::CheckForUpdate(true);
     }
+
+    if (!m_pMainWnd) return false;
 
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();

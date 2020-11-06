@@ -452,15 +452,37 @@ static CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 
 //
 
-static CStringW SubRipper2SSA(CStringW str, int CharSet)
+static CStringW SubRipper2SSA(CStringW str)
 {
-    str.Replace(L"<i>", L"{\\i1}");
-    str.Replace(L"</i>", L"{\\i}");
-    str.Replace(L"<b>", L"{\\b1}");
-    str.Replace(L"</b>", L"{\\b}");
-    str.Replace(L"<u>", L"{\\u1}");
-    str.Replace(L"</u>", L"{\\u}");
+    if (str.Find(L'<') >= 0) {
+        str.Replace(L"<i>", L"{\\i1}");
+        str.Replace(L"</i>", L"{\\i}");
+        str.Replace(L"<b>", L"{\\b1}");
+        str.Replace(L"</b>", L"{\\b}");
+        str.Replace(L"<u>", L"{\\u1}");
+        str.Replace(L"</u>", L"{\\u}");
+    }
+    return str;
+}
 
+static CStringW WebVTT2SSA(CStringW str)
+{
+    if (str.Find(L'<') >= 0) {
+        str.Replace(L"<i>", L"{\\i1}");
+        str.Replace(L"</i>", L"{\\i}");
+        str.Replace(L"<b>", L"{\\b1}");
+        str.Replace(L"</b>", L"{\\b}");
+        str.Replace(L"<u>", L"{\\u1}");
+        str.Replace(L"</u>", L"{\\u}");
+    }
+    if (str.Find(L'&') >= 0) {
+        str.Replace(L"&lt;", L"<");
+        str.Replace(L"&gt;", L">");
+        str.Replace(L"&nbsp;", L"\\h");
+        str.Replace(L"&lrm;", L"");
+        str.Replace(L"&rlm;", L"");
+        str.Replace(L"&amp;", L"&");
+    }
     return str;
 }
 
@@ -513,23 +535,24 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
                     break;
                 }
 
-                CT2CA pszConvertedAnsiString(tmp);
-                std::string stdTmp(pszConvertedAnsiString);
-                //remove tags we don't support
-                stdTmp = std::regex_replace(stdTmp, std::regex("<c[.\\w\\d]*>"), "");
-                stdTmp = std::regex_replace(stdTmp, std::regex("</c>"), "");
-                stdTmp = std::regex_replace(stdTmp, std::regex("<\\d\\d:\\d\\d:\\d\\d.\\d\\d\\d>"), "");
-                stdTmp = std::regex_replace(stdTmp, std::regex("<v[ .][^>]*>"), "");
-                stdTmp = std::regex_replace(stdTmp, std::regex("</v>"), "");
-                stdTmp = std::regex_replace(stdTmp, std::regex("<lang[^>]*>"), "");
-                stdTmp = std::regex_replace(stdTmp, std::regex("</lang>"), "");
+                if (tmp.Find(L'<') >= 0) {
+                    CW2CW pszConvertedAnsiString(tmp);
+                    std::wstring stdTmp(pszConvertedAnsiString);
+                    // remove tags we don't support
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"<c[.\\w\\d]*>"), L"");
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"</c[.\\w\\d]*>"), L"");
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"<\\d\\d:\\d\\d:\\d\\d.\\d\\d\\d>"), L"");
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"<v[ .][^>]*>"), L"");
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"</v>"), L"");
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"<lang[^>]*>"), L"");
+                    stdTmp = std::regex_replace(stdTmp, std::wregex(L"</lang>"), L"");
+                    tmp = stdTmp.c_str();
+                }
 
-                CString tmp2(stdTmp.c_str());
-                
-                str += tmp2 + '\n';
+                str += WebVTT2SSA(tmp) + '\n';
             }
 
-            ret.Add(SubRipper2SSA(str, CharSet),
+            ret.Add(str,
                 file->IsUnicode(),
                 MS2RT((((hh1 * 60i64 + mm1) * 60i64) + ss1) * 1000i64 + ms1),
                 MS2RT((((hh2 * 60i64 + mm2) * 60i64) + ss2) * 1000i64 + ms2));
@@ -597,7 +620,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                     str += tmp + '\n';
                 }
 
-                ret.Add(SubRipper2SSA(str, CharSet),
+                ret.Add(SubRipper2SSA(str),
                         file->IsUnicode(),
                         MS2RT((((hh1 * 60i64 + mm1) * 60i64) + ss1) * 1000i64 + ms1),
                         MS2RT((((hh2 * 60i64 + mm2) * 60i64) + ss2) * 1000i64 + ms2));
@@ -3296,7 +3319,7 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
     for (auto i = crRealText.m_mapLines.cbegin(); i != crRealText.m_mapLines.cend(); ++i) {
         ret.Add(
-            SubRipper2SSA(i->second.c_str(), CharSet),
+            SubRipper2SSA(i->second.c_str()),
             file->IsUnicode(),
             MS2RT(i->first.first),
             MS2RT(i->first.second));

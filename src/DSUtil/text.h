@@ -134,6 +134,7 @@ extern CStringA UrlEncode(const CStringA& strIn);
 extern CStringA EscapeJSONString(const CStringA& str);
 extern CStringA UrlDecode(const CStringA& strIn);
 extern CStringW UrlDecodeWithUTF8(const CStringW in);
+extern CStringW UrlGetPathname(const CStringW in);
 extern CStringA HtmlSpecialChars(CStringA str, bool bQuotes = false);
 extern CStringA HtmlSpecialCharsDecode(CStringA str);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
@@ -141,6 +142,7 @@ extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);
 
 CString FormatNumber(CString szNumber, bool bNoFractionalDigits = true);
+void GetLocaleString(LCID lcid, LCTYPE type, CString& output);
 
 template<class T>
 T& FastTrimRight(T& str)

@@ -5,7 +5,7 @@
 # MPC HC <adiposegithub@gmail.com>, 2020
 # accma2, 2020
 # Astro_Corp <astrocorporation16@gmail.com>, 2020
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"

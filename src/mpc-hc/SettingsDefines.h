@@ -88,6 +88,8 @@
 #define IDS_RS_ALLOW_INACCURATE_FASTSEEK    _T("AllowInaccurateFastseek")
 #define IDS_RS_LOOP_FOLDER_NEXT_FILE        _T("LoopFolderOnPlayNextFile")
 #define IDS_RS_TIME_REFRESH_INTERVAL        _T("TimeRefreshInterval")
+#define IDS_RS_SHOW_LANG_STATUSBAR          _T("ShowLangInStatusbar")
+#define IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES _T("AddLanguageCodeWhenSaveSubtitles")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -152,8 +154,6 @@
 #define IDS_RS_DEFAULTVIDEOFRAME            _T("DefaultVideoFrame")
 #define IDS_RS_REMEMBERWINDOWSIZE           _T("RememberWindowSize")
 #define IDS_RS_PANSCANZOOM                  _T("PanScanZoom")
-#define IDS_RS_REALMEDIARENDERLESS          _T("RealMediaRenderless")
-#define IDS_RS_QUICKTIMERENDERER            _T("QuickTimeRenderer")
 #define IDS_RS_REALMEDIAFPS                 _T("RealMediaFPS")
 #define IDS_RS_SUBDELAYINTERVAL             _T("SubDelayInterval")
 #define IDS_RS_LOGOFILE                     _T("LogoFile")
@@ -185,8 +185,6 @@
 #define IDS_RS_VMRTEXTURE                   _T("VMRTexture")
 #define IDS_RS_VMR3D                        _T("VMR3D")
 #define IDS_RS_DSVIDEORENDERERTYPE          _T("DSVidRen")
-#define IDS_RS_RMVIDEORENDERERTYPE          _T("RMVidRen")
-#define IDS_RS_QTVIDEORENDERERTYPE          _T("QTVidRen")
 #define IDS_RS_SHUFFLEPLAYLISTITEMS         _T("ShufflePlaylistItems")
 #define IDS_RS_REMEMBERPLAYLISTITEMS        _T("RememberPlaylistItems")
 #define IDS_RS_HIDEPLAYLISTFULLSCREEN       _T("HidePlaylistFullScreen")

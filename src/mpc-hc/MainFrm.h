@@ -270,6 +270,9 @@ private:
     POSITION m_posFirstExtSub;
     SubtitleInput m_pCurrentSubInput;
 
+    CString currentAudioLang;
+    CString currentSubLang;
+
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
 
     friend class CTextPassThruFilter;
@@ -365,7 +368,7 @@ private:
     bool delayingFullScreen;
 
     void SendStatusMessage(CString msg, int nTimeOut);
-    CString m_playingmsg, m_closingmsg;
+    CString m_tempstatus_msg, m_closingmsg;
 
     REFERENCE_TIME m_rtDurationOverride;
 
@@ -381,7 +384,7 @@ private:
     void SaveDIB(LPCTSTR fn, BYTE* pData, long size);
     CString MakeSnapshotFileName(BOOL thumbnails);
     BOOL IsRendererCompatibleWithSaveImage();
-    void SaveImage(LPCTSTR fn, bool displayed);
+    void SaveImage(LPCTSTR fn, bool displayed, bool includeSubtitles);
     void SaveThumbnails(LPCTSTR fn);
 
     //
@@ -567,7 +570,7 @@ public:
 
     bool LoadSubtitle(CString fn, SubtitleInput* pSubInput = nullptr, bool bAutoLoad = false);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false);
-    void SetSubtitle(const SubtitleInput& subInput);
+    void SetSubtitle(const SubtitleInput& subInput, bool skip_lcid = false);
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = DWORD_PTR_MAX, REFERENCE_TIME rtInvalidate = -1);
@@ -588,6 +591,8 @@ public:
     // shaders
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);
 	
+	bool m_bToggleShader;
+	bool m_bToggleShaderScreenSpace;
 	std::list<ShaderC> m_ShaderCache;
 	ShaderC* GetShader(CString path, bool bD3D11);
 	bool SaveShaderFile(ShaderC* shader);
@@ -940,6 +945,10 @@ public:
     afx_msg void OnViewEnableFrameTimeCorrection();
     afx_msg void OnViewVSyncOffsetIncrease();
     afx_msg void OnViewVSyncOffsetDecrease();
+	afx_msg void OnUpdateShaderToggle1(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateShaderToggle2(CCmdUI* pCmdUI);
+	afx_msg void OnShaderToggle1();
+	afx_msg void OnShaderToggle2();
     afx_msg void OnUpdateViewOSDDisplayTime(CCmdUI* pCmdUI);
     afx_msg void OnViewOSDDisplayTime();
     afx_msg void OnUpdateViewOSDShowFileName(CCmdUI* pCmdUI);

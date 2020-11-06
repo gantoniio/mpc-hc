@@ -1686,6 +1686,7 @@ void CRenderedTextSubtitle::Empty()
 void CRenderedTextSubtitle::OnChanged()
 {
     __super::OnChanged();
+    CAutoLock cAutoLock(&renderLock);
 
     POSITION pos = m_subtitleCache.GetStartPosition();
     while (pos) {
@@ -1714,6 +1715,7 @@ bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
 
 void CRenderedTextSubtitle::Deinit()
 {
+    CAutoLock cAutoLock(&renderLock);
     POSITION pos = m_subtitleCache.GetStartPosition();
     while (pos) {
         int i;
@@ -2661,6 +2663,7 @@ double CRenderedTextSubtitle::CalcAnimation(double dst, double src, bool fAnimat
 
 CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 {
+    CAutoLock cAutoLock(&renderLock);
     CSubtitle* sub;
     if (m_subtitleCache.Lookup(entry, sub)) {
         if (sub->m_fAnimated) {
@@ -2950,6 +2953,9 @@ struct LSub {
 
 STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
+    CAutoLock cAutoLock(&renderLock);
+    TRACE(_T("render sub start: %lld\n"), rt);
+
     CRect bbox2(0, 0, 0, 0);
 
     if (m_size != CSize(spd.w * 8, spd.h * 8) || m_vidrect != CRect(spd.vidrect.left * 8, spd.vidrect.top * 8, spd.vidrect.right * 8, spd.vidrect.bottom * 8)) {
@@ -2959,6 +2965,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     int segment;
     const STSSegment* stss = SearchSubs(rt, fps, &segment);
     if (!stss) {
+        TRACE(_T("render sub skipped: %lld\n"), rt);
         return S_FALSE;
     }
 
@@ -3231,6 +3238,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
     bbox = bbox2;
 
+    TRACE(_T("render sub done: %lld\n"), rt);
     return (subs.GetCount() && !bbox2.IsRectEmpty()) ? S_OK : S_FALSE;
 }
 

@@ -142,6 +142,16 @@ CStringW UrlDecodeWithUTF8(CString in) {
     return in;
 }
 
+CStringW UrlGetPathname(CStringW in) {
+    int position = in.Find('?');
+    if (position > 0) return in.Left(position);
+    else {
+        int position2 = in.Find('#');
+        if (position2 > 0) return in.Left(position2);
+        else return in;
+    }
+}
+
 CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
 {
     tag.Trim();
@@ -252,4 +262,9 @@ CString FormatNumber(CString szNumber, bool bNoFractionalDigits /*= true*/)
     }
 
     return ret;
+}
+
+void GetLocaleString(LCID lcid, LCTYPE type, CString& output) {
+    int len = GetLocaleInfo(lcid, type, output.GetBuffer(256), 256);
+    output.ReleaseBufferSetLength(std::max(len - 1, 0));
 }

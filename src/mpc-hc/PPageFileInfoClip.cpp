@@ -84,6 +84,8 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
             bstr.Empty();
             if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
                 m_desc = bstr.m_str;
+                m_desc.Replace(L"\r\n", L"\n"); //Relpace existing \r\n to \n
+                m_desc.Replace(L"\n", L"\r\n");
                 bFound = true;
             }
             bstr.Empty();
@@ -159,7 +161,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     }
 
     if (-1 != m_path.Find(_T("://"))) {
-        m_displayFn = UrlDecodeWithUTF8(m_fn);
+        m_displayFn = UrlDecodeWithUTF8(UrlGetPathname(m_fn));
         m_displayLocation = UrlDecodeWithUTF8(m_location);
     } else {
         m_displayFn = m_fn;

@@ -264,6 +264,8 @@ struct AutoChangeFullscreenMode {
 struct wmcmd_base : public ACCEL {
     BYTE mouse;
     BYTE mouseFS;
+    BYTE mouseVirt;
+    BYTE mouseFSVirt;
     DWORD dwname;
     UINT appcmd;
 
@@ -297,13 +299,17 @@ struct wmcmd_base : public ACCEL {
     })
     , mouse(NONE)
     , mouseFS(NONE)
+    , mouseVirt(0)
+    , mouseFSVirt(0)
     , dwname(0)
     , appcmd(0) {}
 
-    constexpr wmcmd_base(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE)
+    constexpr wmcmd_base(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE, BYTE _mouseVirt = 0, BYTE _mouseFSVirt = 0)
         : ACCEL{ _fVirt, _key, _cmd }
         , mouse(_mouse)
         , mouseFS(_mouseFS)
+        , mouseVirt(_mouseVirt)
+        , mouseFSVirt(_mouseFSVirt)
         , dwname(_dwname)
         , appcmd(_appcmd) {}
 
@@ -344,7 +350,9 @@ public:
         *static_cast<ACCEL*>(this) = *static_cast<const ACCEL*>(default_cmd);
         appcmd = default_cmd->appcmd;
         mouse = default_cmd->mouse;
+        mouseVirt = default_cmd->mouseVirt;
         mouseFS = default_cmd->mouseFS;
+        mouseFSVirt = default_cmd->mouseFSVirt;
         rmcmd.Empty();
         rmrepcnt = 5;
     }
@@ -354,7 +362,9 @@ public:
         return memcmp(static_cast<const ACCEL*>(this), static_cast<const ACCEL*>(default_cmd), sizeof(ACCEL)) ||
                appcmd != default_cmd->appcmd ||
                mouse != default_cmd->mouse ||
+               mouseVirt != default_cmd->mouseVirt ||
                mouseFS != default_cmd->mouseFS ||
+               mouseFSVirt != default_cmd->mouseFSVirt ||
                !rmcmd.IsEmpty() ||
                rmrepcnt != 5;
     }
@@ -559,8 +569,6 @@ public:
     // Output
     CRenderersSettings m_RenderersSettings;
     int             iDSVideoRendererType;
-    int             iRMVideoRendererType;
-    int             iQTVideoRendererType;
 
     CStringW        strAudioRendererDisplayName;
     bool            fD3DFullscreen;
@@ -793,6 +801,9 @@ public:
     bool bEnableCrashReporter;
 
     int nStreamPosPollerInterval;
+    bool bShowLangInStatusbar;
+
+    bool bAddLangCodeWhenSaveSubtitles;
 
 private:
     struct FilterKey {

@@ -110,8 +110,6 @@ CAppSettings::CAppSettings()
     , idSubtitlesLang(0)
     , fClosedCaptions(false)
     , iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
-    , iRMVideoRendererType(VIDRNDT_RM_DEFAULT)
-    , iQTVideoRendererType(VIDRNDT_QT_DEFAULT)
     , fD3DFullscreen(false)
     , fLaunchfullscreen(false)
     , bHideFullscreenControls(true)
@@ -229,6 +227,8 @@ CAppSettings::CAppSettings()
     , bSnapShotKeepVideoExtension(true)
     , bEnableCrashReporter(true)
     , nStreamPosPollerInterval(100)
+    , bShowLangInStatusbar(false)
+    , bAddLangCodeWhenSaveSubtitles(true)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -489,8 +489,8 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_PLAY_SEEKBACKWARDSMALL,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_24 },
     { ID_PLAY_SEEKFORWARDMED,        VK_RIGHT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_25 },
     { ID_PLAY_SEEKBACKWARDMED,        VK_LEFT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_26 },
-    { ID_PLAY_SEEKFORWARDLARGE,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_27 },
-    { ID_PLAY_SEEKBACKWARDLARGE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_28 },
+    { ID_PLAY_SEEKFORWARDLARGE,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_27, 0, wmcmd::WUP,   wmcmd::WUP,   FVIRTKEY | FCONTROL, FVIRTKEY | FCONTROL },
+    { ID_PLAY_SEEKBACKWARDLARGE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_28, 0, wmcmd::WDOWN, wmcmd::WDOWN, FVIRTKEY | FCONTROL, FVIRTKEY | FCONTROL },
     { ID_PLAY_SEEKKEYFORWARD,        VK_RIGHT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_29 },
     { ID_PLAY_SEEKKEYBACKWARD,        VK_LEFT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_30 },
     { ID_PLAY_SEEKSET,                VK_HOME, FVIRTKEY | FNOINVERT,                    IDS_AG_SEEKSET },
@@ -518,6 +518,8 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_VIEW_CAPTURE,                    '8', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTURE },
     { ID_VIEW_NAVIGATION,                 '9', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_NAVIGATION },
     { ID_VIEW_DEBUGSHADERS,                 0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEBUGSHADERS },
+    { ID_PRESIZE_SHADERS_TOGGLE,          'P', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_PRESIZE_SHADERS_TOGGLE },
+    { ID_POSTSIZE_SHADERS_TOGGLE,         'P', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_POSTSIZE_SHADERS_TOGGLE },
     { ID_VIEW_MPCTHEME,                     0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_MPCTHEME },
     { ID_SUBTITLES_DEFAULT_STYLE,           0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE },
     { ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL },
@@ -850,8 +852,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, fKeepHistory);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RECENT_FILES_NUMBER, iRecentFilesNumber);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, iDSVideoRendererType);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, iRMVideoRendererType);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, iQTVideoRendererType);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHUFFLEPLAYLISTITEMS, bShufflePlaylistItems);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERPLAYLISTITEMS, bRememberPlaylistItems);
@@ -1012,9 +1012,9 @@ void CAppSettings::SaveSettings()
             CString str;
             str.Format(_T("CommandMod%d"), i);
             CString str2;
-            str2.Format(_T("%hu %hx %hx \"%S\" %d %hhu %u %hhu"),
+            str2.Format(_T("%hu %hx %hx \"%S\" %d %hhu %u %hhu %hhu %hhu"),
                         wc.cmd, (WORD)wc.fVirt, wc.key, wc.rmcmd.GetString(),
-                        wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouseFS);
+                        wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouseFS, wc.mouseVirt, wc.mouseFSVirt);
             pApp->WriteProfileString(IDS_R_COMMANDS, str, str2);
             i++;
         }
@@ -1158,6 +1158,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, bEnableCrashReporter);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, nStreamPosPollerInterval);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_LANG_STATUSBAR, bShowLangInStatusbar);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, bAddLangCodeWhenSaveSubtitles);
 
     pApp->FlushProfile();
 }
@@ -1408,8 +1410,6 @@ void CAppSettings::LoadSettings()
     iZoomLevel = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, 1);
     iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE,
                                                IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS);
-    iRMVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT);
-    iQTVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT);
     nVolumeStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, 5);
     nSpeedStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEEDSTEP, 0);
 
@@ -1691,9 +1691,10 @@ void CAppSettings::LoadSettings()
         wmcmd tmp;
         int n;
         int fVirt = 0;
-        if (5 > (n = _stscanf_s(str2, _T("%hu %x %hx %S %d %hhu %u %hhu"),
+        if (5 > (n = _stscanf_s(str2, _T("%hu %x %hx %S %d %hhu %u %hhu %hhu %hhu"),
                                 &tmp.cmd, &fVirt, &tmp.key, tmp.rmcmd.GetBuffer(128), 128,
-                                &tmp.rmrepcnt, &tmp.mouse, &tmp.appcmd, &tmp.mouseFS))) {
+                                &tmp.rmrepcnt, &tmp.mouse, &tmp.appcmd, &tmp.mouseFS,
+                                &tmp.mouseVirt, &tmp.mouseFSVirt))) {
             break;
         }
         tmp.rmcmd.ReleaseBuffer();
@@ -1714,6 +1715,12 @@ void CAppSettings::LoadSettings()
             // If there is no distinct bindings for windowed and
             // fullscreen modes we use the same for both.
             wc.mouseFS = (n >= 8) ? tmp.mouseFS : wc.mouse;
+            if (n > 8) {
+                wc.mouseVirt = tmp.mouseVirt;
+            }
+            if (n > 9) {
+                wc.mouseFSVirt = tmp.mouseFSVirt;
+            }
             wc.rmcmd = tmp.rmcmd.Trim('\"');
             wc.rmrepcnt = tmp.rmrepcnt;
         }
@@ -1949,6 +1956,9 @@ void CAppSettings::LoadSettings()
     bEnableCrashReporter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLE_CRASH_REPORTER, TRUE);
 
     nStreamPosPollerInterval = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, 100);
+    bShowLangInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_LANG_STATUSBAR, FALSE);
+
+    bAddLangCodeWhenSaveSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, TRUE);
 
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;
@@ -2746,12 +2756,6 @@ void CAppSettings::UpdateSettings()
                 case 5: // VIDRNDT_DS_VMR7RENDERLESS
                     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9RENDERLESS));
                     break;
-            }
-            if (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT) == 1) { // VIDRNDT_RM_DX7
-                VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DX9));
-            }
-            if (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT) == 1) { // VIDRNDT_QT_DX7
-                VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DX9));
             }
         // no break
         default:

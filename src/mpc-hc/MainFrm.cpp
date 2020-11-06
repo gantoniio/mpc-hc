@@ -27,8 +27,10 @@
 #include "FGFilterLAV.h"
 #include "FGManager.h"
 #include "FGManagerBDA.h"
+#ifndef _WIN64
 #include "QuicktimeGraph.h"
 #include "RealMediaGraph.h"
+#endif
 #include "ShockwaveGraph.h"
 #include "TextPassThruFilter.h"
 #include "FakeFilterMapper2.h"
@@ -445,6 +447,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_INCREASE, OnViewVSyncOffsetIncrease)
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_DECREASE, OnViewVSyncOffsetDecrease)
+	ON_UPDATE_COMMAND_UI(ID_PRESIZE_SHADERS_TOGGLE, OnUpdateShaderToggle1)
+	ON_COMMAND(ID_PRESIZE_SHADERS_TOGGLE, OnShaderToggle1)
+	ON_UPDATE_COMMAND_UI(ID_POSTSIZE_SHADERS_TOGGLE, OnUpdateShaderToggle2)
+	ON_COMMAND(ID_POSTSIZE_SHADERS_TOGGLE, OnShaderToggle2)
     ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_DISPLAY_TIME, OnUpdateViewOSDDisplayTime)
     ON_COMMAND(ID_VIEW_OSD_DISPLAY_TIME, OnViewOSDDisplayTime)
     ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_SHOW_FILENAME, OnUpdateViewOSDShowFileName)
@@ -828,6 +834,8 @@ CMainFrame::CMainFrame()
     , abRepeatPositionB(0)
     , mediaTypesErrorDlg(nullptr)
     , m_iStreamPosPollerInterval(100)
+    , currentAudioLang(_T(""))
+    , currentSubLang(_T(""))
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -2175,8 +2183,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         && SUCCEEDED(m_pDVDI->GetAudioAttributes(ulCurrent, &AATR))) {
                     CString lang;
                     if (AATR.Language) {
-                        int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                        lang.ReleaseBufferSetLength(std::max(len - 1, 0));
+                        GetLocaleString(AATR.Language, LOCALE_SENGLANGUAGE, lang);
                     } else {
                         lang.Format(IDS_AG_UNKNOWN, ulCurrent + 1);
                     }
@@ -2227,8 +2234,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulAvailable, &ulCurrent, &bIsDisabled))
                         && SUCCEEDED(m_pDVDI->GetSubpictureAttributes(ulCurrent, &SATR))) {
                     CString lang;
-                    int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
+                    GetLocaleString(SATR.Language, LOCALE_SENGLANGUAGE, lang);
 
                     switch (SATR.LanguageExtension) {
                         case DVD_SP_EXT_NotSpecified:
@@ -3010,7 +3016,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         ResetDevice();
     }
 
-    if (fs == State_Running) {
+    if (fs == State_Running && m_pMC) {
         m_pMC->Run();
 
         // When restarting DVB capture, we need to set again the channel.
@@ -3096,19 +3102,16 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
         }*/
 
         if (pSubMenu) {
-            mii.fMask = MIIM_STATE | MIIM_SUBMENU | MIIM_ID;
-            mii.fType = MF_POPUP;
-            mii.wID = itemID; // save ID after set popup type
-            mii.fState = (pSubMenu->GetMenuItemCount()) > 0 ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
+            mii.fMask = MIIM_STATE | MIIM_SUBMENU;
+            mii.fState = (pSubMenu->GetMenuItemCount()) > 0 ? MFS_ENABLED : MFS_DISABLED;
             mii.hSubMenu = *pSubMenu;
-            VERIFY(pMenu->SetMenuItemInfo(i, &mii, TRUE));
+            VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pMenu, i, &mii, TRUE));
             pSubMenu->fulfillThemeReqs();
         }
     }
 }
 
-void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
-{
+void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu) {
     __super::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
     if (bSysMenu) {
@@ -3139,19 +3142,19 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
         if (firstSubItemID == ID_NAVIGATE_SKIPBACK) { // is "Navigate" submenu {
             UINT fState = (GetLoadState() == MLS::LOADED
-                           && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && !m_PlayList.IsEmpty())*/))
-                          ? MF_ENABLED
-                          : (MF_DISABLED | MF_GRAYED);
+                && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && !m_PlayList.IsEmpty())*/))
+                ? MF_ENABLED
+                : MF_GRAYED;
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
             continue;
         }
         if (firstSubItemID == ID_VIEW_VF_HALF               // is "Video Frame" submenu
-                || firstSubItemID == ID_VIEW_INCSIZE        // is "Pan&Scan" submenu
-                || firstSubItemID == ID_ASPECTRATIO_START   // is "Override Aspect Ratio" submenu
-                || firstSubItemID == ID_VIEW_ZOOM_25) {     // is "Zoom" submenu
+            || firstSubItemID == ID_VIEW_INCSIZE        // is "Pan&Scan" submenu
+            || firstSubItemID == ID_ASPECTRATIO_START   // is "Override Aspect Ratio" submenu
+            || firstSubItemID == ID_VIEW_ZOOM_25) {     // is "Zoom" submenu
             UINT fState = (GetLoadState() == MLS::LOADED && !m_fAudioOnly)
-                          ? MF_ENABLED
-                          : (MF_DISABLED | MF_GRAYED);
+                ? MF_ENABLED
+                : MF_GRAYED;
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
             continue;
         }
@@ -3160,14 +3163,14 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         if (firstSubItemID == ID_FILE_SUBTITLES_LOAD) {
             UINT fState = (GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP)
                 ? MF_ENABLED
-                : (MF_DISABLED | MF_GRAYED);
+                : MF_GRAYED;
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
             continue;
         }
 
         // renderer settings
         if (firstSubItemID == ID_VIEW_TEARING_TEST) {
-            UINT fState = (MF_DISABLED | MF_GRAYED);
+            UINT fState = MF_GRAYED;
             const CAppSettings& s = AfxGetAppSettings();
             if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) {
                 fState = MF_ENABLED;
@@ -3186,7 +3189,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
         // debug shaders
         if (itemID == ID_VIEW_DEBUGSHADERS) {
-            UINT fState = (MF_DISABLED | MF_GRAYED);
+            UINT fState = MF_GRAYED;
             if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP2) {
                 fState = MF_ENABLED;
             }
@@ -3212,7 +3215,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
             mii.fMask = MIIM_STRING;
             mii.dwTypeData = (LPTSTR)(LPCTSTR)menuStr;
-            VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
+            VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pPopupMenu, i, &mii, TRUE));
 
             SetupVideoStreamsSubMenu();
             pSubMenu = &m_videoStreamsMenu;
@@ -3232,12 +3235,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         }
 
         if (pSubMenu) {
-            mii.fMask = MIIM_STATE | MIIM_SUBMENU | MIIM_ID;
-            mii.fType = MF_POPUP;
-            mii.wID = itemID; // save ID after set popup type
-            mii.fState = (pSubMenu->GetMenuItemCount() > 0) ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
+            mii.fMask = MIIM_STATE | MIIM_SUBMENU;
+            mii.fState = (pSubMenu->GetMenuItemCount() > 0) ? MF_ENABLED : MF_GRAYED;
             mii.hSubMenu = *pSubMenu;
-            VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
+            VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pPopupMenu, i, &mii, TRUE));
             pSubMenu->fulfillThemeReqs();
         }
     }
@@ -3247,36 +3248,38 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         return;
     }
 
-    for (UINT i = 0; i < uiMenuCount; ++i) {
-        UINT nID = pPopupMenu->GetMenuItemID(i);
-        if (nID == ID_SEPARATOR || nID == -1
+    if (!AppIsThemeLoaded()) { //themed menus draw accelerators already, no need to append
+        for (UINT i = 0; i < uiMenuCount; ++i) {
+            UINT nID = pPopupMenu->GetMenuItemID(i);
+            if (nID == ID_SEPARATOR || nID == -1
                 || nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
                 || nID >= ID_RECENT_FILE_START && nID <= ID_RECENT_FILE_END
                 || nID >= ID_SUBTITLES_SUBITEM_START && nID <= ID_SUBTITLES_SUBITEM_END
                 || nID >= ID_NAVIGATE_JUMPTO_SUBITEM_START && nID <= ID_NAVIGATE_JUMPTO_SUBITEM_END) {
-            continue;
+                continue;
+            }
+
+            CString str;
+            pPopupMenu->GetMenuString(i, str, MF_BYPOSITION);
+            int k = str.Find('\t');
+            if (k > 0) {
+                str = str.Left(k);
+            }
+
+            CString key = CPPageAccelTbl::MakeAccelShortcutLabel(nID);
+            if (key.IsEmpty() && k < 0) {
+                continue;
+            }
+            str += _T("\t") + key;
+
+            // BUG(?): this disables menu item update ui calls for some reason...
+            //pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
+
+            // this works fine
+            mii.fMask = MIIM_STRING;
+            mii.dwTypeData = (LPTSTR)(LPCTSTR)str;
+            VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
         }
-
-        CString str;
-        pPopupMenu->GetMenuString(i, str, MF_BYPOSITION);
-        int k = str.Find('\t');
-        if (k > 0) {
-            str = str.Left(k);
-        }
-
-        CString key = CPPageAccelTbl::MakeAccelShortcutLabel(nID);
-        if (key.IsEmpty() && k < 0) {
-            continue;
-        }
-        str += _T("\t") + key;
-
-        // BUG(?): this disables menu item update ui calls for some reason...
-        //pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
-
-        // this works fine
-        mii.fMask = MIIM_STRING;
-        mii.dwTypeData = (LPTSTR)(LPCTSTR)str;
-        VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
     }
 
     uiMenuCount = pPopupMenu->GetMenuItemCount();
@@ -3420,11 +3423,12 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
     } else if (GetLoadState() == MLS::LOADED) {
+        if (!m_tempstatus_msg.IsEmpty()) {
+            m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
+            return;
+        }
         CString msg;
-
-        if (!m_playingmsg.IsEmpty()) {
-            msg = m_playingmsg;
-        } else if (m_fCapturing) {
+        if (m_fCapturing) {
             msg.LoadString(IDS_CONTROLS_CAPTURING);
 
             if (m_pAMDF) {
@@ -3540,6 +3544,23 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
         if (m_bUsingDXVA && (msg == ResStr(IDS_CONTROLS_PAUSED) || msg == ResStr(IDS_CONTROLS_PLAYING))) {
             msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
         }
+
+        if (AfxGetAppSettings().bShowLangInStatusbar) {
+            if (!currentAudioLang.IsEmpty() || !currentSubLang.IsEmpty()) {
+                msg.Append(_T("\u2001["));
+                if (!currentAudioLang.IsEmpty()) {
+                    msg.AppendFormat(_T("AUD: %s"), currentAudioLang.GetString());
+                }
+                if (!currentSubLang.IsEmpty()) {
+                    if (!currentAudioLang.IsEmpty()) {
+                        msg.Append(_T(", "));
+                    }
+                    msg.AppendFormat(_T("SUB: %s"), currentSubLang.GetString());
+                }
+                msg.Append(_T("]"));
+            }
+        }
+
         m_wndStatusBar.SetStatusMessage(msg);
     } else if (GetLoadState() == MLS::CLOSING) {
         m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_CLOSING));
@@ -3787,6 +3808,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
 
     m_nCurSubtitle = -1;
     m_lSubtitleShift = 0;
+    m_AngleX = m_AngleY = m_AngleZ = 0;
 
     if (m_closingmsg.IsEmpty()) {
         m_closingmsg.LoadString(IDS_CONTROLS_CLOSED);
@@ -3801,6 +3823,8 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_wndStatsBar.RemoveAllLines();
     m_wndStatusBar.Clear();
     m_wndStatusBar.ShowTimer(false);
+    currentAudioLang.Empty();
+    currentSubLang.Empty();
     m_OSD.SetRange(0, 0);
     m_OSD.SetPos(0);
     m_Lcd.SetMediaRange(0, 0);
@@ -3893,6 +3917,11 @@ void CMainFrame::OnStreamAudio(UINT nID)
                 pSS->Enable(stream_index, AMSTREAMSELECTENABLE_ENABLE);
                 if (SUCCEEDED(pSS->Info(stream_index, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
                     m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pszName), lcid, 1));
+                    if (lcid) {
+                        GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                    } else {
+                        currentAudioLang.Empty();
+                    }
                 }
                 break;
             }
@@ -3979,8 +4008,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
                 CString lang;
                 CString strMessage;
                 if (AATR.Language) {
-                    int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
+                    GetLocaleString(AATR.Language, LOCALE_SENGLANGUAGE, lang);
                 } else {
                     lang.Format(IDS_AG_UNKNOWN, nNextStream + 1);
                 }
@@ -4040,8 +4068,8 @@ void CMainFrame::OnDvdSub(UINT nID)
                 if (SUCCEEDED(m_pDVDI->GetSubpictureAttributes(nNextStream, &SATR))) {
                     CString lang;
                     CString strMessage;
-                    int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
+                    GetLocaleString(SATR.Language, LOCALE_SENGLANGUAGE, lang);
+
                     if (FAILED(hr)) {
                         lang += _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ");
                     }
@@ -5102,54 +5130,52 @@ HRESULT CMainFrame::GetOriginalFrame(std::vector<BYTE>& dib, CString& errmsg) {
 }
 
 HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
+    ASSERT(AfxGetAppSettings().bSnapShotSubtitles && !m_pMVRFG && AfxGetAppSettings().fEnableSubtitles && AfxGetAppSettings().IsISRAutoLoadEnabled());
     CheckPointer(pData, E_FAIL);
     HRESULT hr = S_FALSE;
 
-    const CAppSettings& s = AfxGetAppSettings();
-    if (s.fEnableSubtitles && s.bSnapShotSubtitles) {
-        if (CComQIPtr<ISubPicProvider> pSubPicProvider = m_pCurrentSubInput.pSubStream) {
-            const PBITMAPINFOHEADER bih = (PBITMAPINFOHEADER)pData;
-            const int width = bih->biWidth;
-            const int height = bih->biHeight;
+    if (CComQIPtr<ISubPicProvider> pSubPicProvider = m_pCurrentSubInput.pSubStream) {
+        const PBITMAPINFOHEADER bih = (PBITMAPINFOHEADER)pData;
+        const int width = bih->biWidth;
+        const int height = bih->biHeight;
 
-            SubPicDesc spdRender;
-			spdRender.type    = MSP_RGB32;
-            spdRender.w = width;
-            spdRender.h = abs(height);
-            spdRender.bpp = 32;
-            spdRender.pitch = width * 4;
-            spdRender.vidrect = { 0, 0, width, height };
-            spdRender.bits = DEBUG_NEW BYTE[spdRender.pitch * spdRender.h];
+        SubPicDesc spdRender;
+		spdRender.type    = MSP_RGB32;
+        spdRender.w = width;
+        spdRender.h = abs(height);
+        spdRender.bpp = 32;
+        spdRender.pitch = width * 4;
+        spdRender.vidrect = { 0, 0, width, height };
+        spdRender.bits = DEBUG_NEW BYTE[spdRender.pitch * spdRender.h];
 
-            REFERENCE_TIME rtNow = 0;
-            m_pMS->GetCurrentPosition(&rtNow);
+        REFERENCE_TIME rtNow = 0;
+        m_pMS->GetCurrentPosition(&rtNow);
 
-            CComPtr<CMemSubPicAllocator> pSubPicAllocator = DEBUG_NEW CMemSubPicAllocator(spdRender.type, CSize(spdRender.w, spdRender.h));
+        CComPtr<CMemSubPicAllocator> pSubPicAllocator = DEBUG_NEW CMemSubPicAllocator(spdRender.type, CSize(spdRender.w, spdRender.h));
 
-            CMemSubPic memSubPic(spdRender, pSubPicAllocator);
-            memSubPic.ClearDirtyRect(0xFF000000);
+        CMemSubPic memSubPic(spdRender, pSubPicAllocator);
+        memSubPic.ClearDirtyRect(0xFF000000);
 
-            RECT bbox = {};
-            hr = pSubPicProvider->Render(spdRender, rtNow, m_pCAP->GetFPS(), bbox);
-            if (S_OK == hr) {
-                SubPicDesc spdTarget;
-				spdTarget.type    = MSP_RGB32;
-                spdTarget.w = width;
-                spdTarget.h = height;
-                spdTarget.bpp = 32;
-                spdTarget.pitch = -width * 4;
-                spdTarget.vidrect = { 0, 0, width, height };
-                spdTarget.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
+        RECT bbox = {};
+        hr = pSubPicProvider->Render(spdRender, rtNow, m_pCAP->GetFPS(), bbox);
+        if (S_OK == hr) {
+            SubPicDesc spdTarget;
+			spdTarget.type    = MSP_RGB32;
+            spdTarget.w = width;
+            spdTarget.h = height;
+            spdTarget.bpp = 32;
+            spdTarget.pitch = -width * 4;
+            spdTarget.vidrect = { 0, 0, width, height };
+            spdTarget.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
 
-                hr = memSubPic.AlphaBlt(&spdRender.vidrect, &spdTarget.vidrect, &spdTarget);
-            }
+            hr = memSubPic.AlphaBlt(&spdRender.vidrect, &spdTarget.vidrect, &spdTarget);
         }
     }
 
     return hr;
 }
 
-void CMainFrame::SaveImage(LPCWSTR fn, bool displayed) {
+void CMainFrame::SaveImage(LPCWSTR fn, bool displayed, bool includeSubtitles) {
     std::vector<BYTE> dib;
     CString errmsg;
     HRESULT hr;
@@ -5157,7 +5183,7 @@ void CMainFrame::SaveImage(LPCWSTR fn, bool displayed) {
         hr = GetDisplayedImage(dib, errmsg);
     } else {
         hr = GetCurrentFrame(dib, errmsg);
-        if (hr == S_OK) {
+        if (includeSubtitles && hr == S_OK) {
             RenderCurrentSubtitles(dib.data());
         }
     }
@@ -5510,13 +5536,7 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
     BOOL result = TRUE;
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (m_fRealMediaGraph && (s.iRMVideoRendererType == VIDRNDT_RM_DEFAULT)) {
-        AfxMessageBox(IDS_SCREENSHOT_ERROR_REAL, MB_ICONEXCLAMATION | MB_OK, 0);
-        result = FALSE;
-    } else if (m_fQuicktimeGraph && (s.iQTVideoRendererType == VIDRNDT_QT_DEFAULT)) {
-        AfxMessageBox(IDS_SCREENSHOT_ERROR_QT, MB_ICONEXCLAMATION | MB_OK, 0);
-        result = FALSE;
-    } else if (m_fShockwaveGraph) {
+    if (m_fShockwaveGraph) {
         AfxMessageBox(IDS_SCREENSHOT_ERROR_SHOCKWAVE, MB_ICONEXCLAMATION | MB_OK, 0);
         result = FALSE;
     } else if (s.iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
@@ -5560,7 +5580,7 @@ void CMainFrame::OnFileSaveImage()
     CPath psrc(s.strSnapshotPath);
     psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
 
-    bool subtitleOptionSupported = !m_pMVRFG && s.IsISRAutoLoadEnabled();
+    bool subtitleOptionSupported = !m_pMVRFG && s.fEnableSubtitles && s.IsISRAutoLoadEnabled();
 
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), subtitleOptionSupported);
@@ -5601,7 +5621,9 @@ void CMainFrame::OnFileSaveImage()
     pdst.RemoveFileSpec();
     s.strSnapshotPath = (LPCTSTR)pdst;
 
-    SaveImage(path, false);
+    bool includeSubtitles = subtitleOptionSupported && s.bSnapShotSubtitles;
+
+    SaveImage(path, false, includeSubtitles);
 }
 
 void CMainFrame::OnFileSaveImageAuto()
@@ -5620,9 +5642,11 @@ void CMainFrame::OnFileSaveImageAuto()
         return;
     }
 
+    bool includeSubtitles = s.bSnapShotSubtitles && !m_pMVRFG && s.fEnableSubtitles && s.IsISRAutoLoadEnabled();
+
     CString fn;
     fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE).GetString());
-    SaveImage(fn.GetString(), false);
+    SaveImage(fn.GetString(), false, includeSubtitles);
 }
 
 void CMainFrame::OnUpdateFileSaveImage(CCmdUI* pCmdUI)
@@ -5802,10 +5826,9 @@ void CMainFrame::OnFileSubtitlesSave()
 
             CAppSettings& s = AfxGetAppSettings();
 
-            if (pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
+            if (s.bAddLangCodeWhenSaveSubtitles && pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
                 CString str;
-                int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
-                str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                GetLocaleString(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str);
                 suggestedFileName += _T('.') + str;
 
                 if (pRTS->m_eHearingImpaired == Subtitle::HI_YES) {
@@ -6707,6 +6730,72 @@ void CMainFrame::OnViewOSDShowFileName()
     if (!strOSD.IsEmpty()) {
         m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD);
     }
+}
+
+void CMainFrame::OnUpdateShaderToggle1(CCmdUI* pCmdUI)
+{
+	if (AfxGetAppSettings().m_Shaders.GetCurrentPreset().GetPreResize().empty()) {
+		pCmdUI->Enable(FALSE);
+		m_bToggleShader = false;
+		pCmdUI->SetCheck (0);
+	} else {
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetCheck (m_bToggleShader);
+	}
+}
+
+void CMainFrame::OnUpdateShaderToggle2(CCmdUI* pCmdUI)
+{
+	CAppSettings& s = AfxGetAppSettings();
+
+	if (s.m_Shaders.GetCurrentPreset().GetPostResize().empty()) {
+		pCmdUI->Enable(FALSE);
+		m_bToggleShaderScreenSpace = false;
+		pCmdUI->SetCheck(0);
+	} else {
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetCheck(m_bToggleShaderScreenSpace);
+	}
+}
+
+void CMainFrame::OnShaderToggle1()
+{
+	m_bToggleShader = !m_bToggleShader;
+	if (m_bToggleShader) {
+		SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace);
+		m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_PRESIZE_SHADERS_ENABLED));
+	} else {
+		if (m_pCAP3) {
+            SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace); //current implementation for m_pCAP3 clears all shaders first
+        } else if (m_pCAP2) {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
+        }
+		m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_PRESIZE_SHADERS_DISABLED));
+	}
+
+	if (m_pCAP) {
+		RepaintVideo();
+	}
+}
+
+void CMainFrame::OnShaderToggle2()
+{
+	m_bToggleShaderScreenSpace = !m_bToggleShaderScreenSpace;
+	if (m_bToggleShaderScreenSpace) {
+        SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace);
+        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_POSTSIZE_SHADERS_ENABLED));
+	} else {
+		if (m_pCAP3) {
+            SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace); //current implementation for m_pCAP3 clears all shaders first
+        } else if (m_pCAP2) {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
+        }
+        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_POSTSIZE_SHADERS_DISABLED));
+	}
+
+	if (m_pCAP) {
+		RepaintVideo();
+	}
 }
 
 void CMainFrame::OnD3DFullscreenToggle()
@@ -8170,7 +8259,7 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
                 SetPlayingRate(m_dSpeedRate / 2.0);
             }
         } else if (nID > ID_PLAY_PLAYBACKRATE_START && nID < ID_PLAY_PLAYBACKRATE_END) {
-            if (filePlaybackRates.contains(nID)) {
+            if (filePlaybackRates.count(nID) != 0) {
                 SetPlayingRate(filePlaybackRates[nID]);
             } else if (nID == ID_PLAY_PLAYBACKRATE_FPS24 || nID == ID_PLAY_PLAYBACKRATE_FPS25) {
                 if (m_pCAP) {
@@ -8197,7 +8286,7 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
                 SetPlayingRate(m_dSpeedRate / 2.0);
             }
         } else if (nID > ID_PLAY_PLAYBACKRATE_START && nID < ID_PLAY_PLAYBACKRATE_END) {
-            if (dvdPlaybackRates.contains(nID)) {
+            if (dvdPlaybackRates.count(nID) != 0) {
                 SetPlayingRate(dvdPlaybackRates[nID]);
             }
         }
@@ -8253,7 +8342,7 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
         if (pCmdUI->m_nID > ID_PLAY_PLAYBACKRATE_START && pCmdUI->m_nID < ID_PLAY_PLAYBACKRATE_END && pCmdUI->m_pMenu) {
             fEnable = false;
             if (GetPlaybackMode() == PM_FILE) {
-                if (filePlaybackRates.contains(pCmdUI->m_nID)) {
+                if (filePlaybackRates.count(pCmdUI->m_nID) != 0) {
                     fEnable = true;
                     if (filePlaybackRates[pCmdUI->m_nID] == m_dSpeedRate) {
                         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_PLAY_PLAYBACKRATE_START, ID_PLAY_PLAYBACKRATE_END, pCmdUI->m_nID, MF_BYCOMMAND);
@@ -8276,7 +8365,7 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
                     }
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
-                if (dvdPlaybackRates.contains(pCmdUI->m_nID)) {
+                if (dvdPlaybackRates.count(pCmdUI->m_nID) != 0) {
                     fEnable = true;
                     if (dvdPlaybackRates[pCmdUI->m_nID] == m_dSpeedRate) {
                         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_PLAY_PLAYBACKRATE_START, ID_PLAY_PLAYBACKRATE_END, pCmdUI->m_nID, MF_BYCOMMAND);
@@ -8539,14 +8628,26 @@ void CMainFrame::OnPlayAudio(UINT nID)
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
 
     DWORD cStreams = 0;
+    if (i != 0) {
+        currentAudioLang = _T("");
+    }
 
     if (GetPlaybackMode() == PM_DVD) {
         m_pDVDC->SelectAudioStream(i, DVD_CMD_FLAG_Block, nullptr);
+        LCID lcid = 0;
+        if (SUCCEEDED(m_pDVDI->GetAudioLanguage(i, &lcid)) && lcid != 0) {
+            GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+        }
+
     } else if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
         if (i == 0) {
             ShowOptions(CPPageAudioSwitcher::IDD);
         } else {
             pSS->Enable(i - 1, AMSTREAMSELECTENABLE_ENABLE);
+            LCID lcid = 0;
+            if (SUCCEEDED(pSS->Info(i - 1, nullptr, nullptr, &lcid, nullptr, nullptr, nullptr, nullptr)) && lcid != 0) {
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+            }
         }
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 1);
@@ -9006,7 +9107,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
         mii.fMask = MIIM_FTYPE | MIIM_STATE;
         mii.fType = (bRadio ? MFT_RADIOCHECK : 0) | (cii.fType & MFT_OWNERDRAW); //preserve owner draw flag
         mii.fState = (bRadio ? MFS_DISABLED : 0) | (bChecked || bRadio ? MFS_CHECKED : 0);
-        VERIFY(pCmdUI->m_pMenu->SetMenuItemInfo(pCmdUI->m_nID, &mii));
+        VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pCmdUI->m_pMenu, pCmdUI->m_nID, &mii));
     }
 }
 
@@ -9890,9 +9991,27 @@ void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
 
 void CMainFrame::OnRecentFile(UINT nID)
 {
-    nID -= ID_RECENT_FILE_START;
     CString fn;
-    m_recentFilesMenu.GetMenuString(nID + 2, fn, MF_BYPOSITION);
+    CRecentFileList& MRU = AfxGetAppSettings().MRU;
+    MRU.ReadList();
+
+    // find corresponding item in MRU list, we can't directly use string from menu because it may have been shortened
+    nID -= ID_RECENT_FILE_START;
+    for (int i = 0; i < MRU.GetSize(); i++) {
+        if (!MRU[i].IsEmpty()) {
+            if (nID > 0) {
+                nID--;
+            }
+            else {
+                fn = MRU[i];
+                break;
+            }
+        }
+    }
+    if (fn.IsEmpty()) {
+        ASSERT(false);
+        return;
+    }
 
     if (CanSendToYoutubeDL(fn)) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
@@ -10078,8 +10197,24 @@ void CMainFrame::SetDefaultFullscreenState()
 {
     CAppSettings& s = AfxGetAppSettings();
 
-    // Waffs : fullscreen command line
-    if (!(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN) && !s.slFiles.IsEmpty()) {
+    bool clGoFullscreen = !(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN);
+
+    if (clGoFullscreen && !s.slFiles.IsEmpty()) {
+        // ignore fullscreen if all files are audio
+        clGoFullscreen = false;
+        const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+        POSITION pos = s.slFiles.GetHeadPosition();
+        while (pos) {
+            CString fpath = s.slFiles.GetNext(pos);
+            CString ext = fpath.Mid(fpath.ReverseFind('.'));
+            if (!mf.FindExt(ext, true)) {
+                clGoFullscreen = true;
+                break;
+            }
+        }
+    }
+
+    if (clGoFullscreen) {
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
         } else {
@@ -12980,6 +13115,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pMVRI = m_pCAP;
         m_pMVRS = m_pCAP;
         m_pMVRSR = m_pCAP;
+        m_pMVRFG = m_pCAP;
         pMVTO = m_pCAP;
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
@@ -13166,6 +13302,7 @@ void CMainFrame::CloseMediaPrivate()
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
+    m_pMVRFG.Release();
     m_pMVRSR.Release();
     m_pMVRS.Release();
     m_pMVRC.Release();
@@ -13488,7 +13625,7 @@ void CMainFrame::SetupFiltersSubMenu()
     m_ssarray.RemoveAll();
 
     if (GetLoadState() == MLS::LOADED) {
-        UINT idf = 0;
+        UINT idf = 1; //used as an id, so make non-zero to start
         UINT ids = ID_FILTERS_SUBITEM_START;
         UINT idl = ID_FILTERSTREAMS_SUBITEM_START;
 
@@ -13579,7 +13716,7 @@ void CMainFrame::SetupFiltersSubMenu()
                 DWORD flags = DWORD_MAX;
                 DWORD group = DWORD_MAX;
                 DWORD prevgroup = DWORD_MAX;
-                LCID lcid;
+                LCID lcid = 0;
                 WCHAR* wname = nullptr;
                 UINT uMenuFlags;
 
@@ -13640,16 +13777,11 @@ void CMainFrame::SetupFiltersSubMenu()
             if (nPPages == 1 && !pSS) {
                 VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ids, filterName));
             } else {
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_DISABLED | MF_GRAYED, idf, filterName));
-
                 if (nPPages > 0 || pSS) {
-                    MENUITEMINFO mii;
-                    mii.cbSize = sizeof(mii);
-                    mii.fMask = MIIM_STATE | MIIM_SUBMENU;
-                    mii.fType = MF_POPUP;
-                    mii.hSubMenu = internalSubMenu.Detach();
-                    mii.fState = (pSPP || pSS) ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
-                    VERIFY(subMenu.SetMenuItemInfo(idf, &mii, FALSE));
+                    UINT nFlags = MF_STRING | MF_POPUP | ((pSPP || pSS) ? MF_ENABLED : MF_GRAYED);
+                    VERIFY(subMenu.AppendMenu(nFlags, (UINT_PTR)internalSubMenu.Detach(), filterName));
+                } else {
+                    VERIFY(subMenu.AppendMenu(MF_STRING | MF_GRAYED, idf, filterName));
                 }
             }
 
@@ -13668,6 +13800,7 @@ void CMainFrame::SetupFiltersSubMenu()
 
 void CMainFrame::SetupAudioSubMenu()
 {
+    currentAudioLang = _T("");
     CMenu& subMenu = m_audiosMenu;
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
@@ -13706,12 +13839,14 @@ void CMainFrame::SetupAudioSubMenu()
             }
             if (i == ulCurrentStream) {
                 flags |= MF_CHECKED;
+                if (Language) {
+                    GetLocaleString(Language, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                }
             }
 
             CString str;
             if (Language) {
-                int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
-                str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
             } else {
                 str.Format(IDS_AG_UNKNOWN, i + 1);
             }
@@ -13765,11 +13900,15 @@ void CMainFrame::SetupAudioSubMenu()
         for (long i = 0; i < (long)cStreams; i++) {
             DWORD dwFlags;
             WCHAR* pName = nullptr;
-            if (FAILED(pSS->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
+            LCID lcid = 0;
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, nullptr, &pName, nullptr, nullptr))) {
                 break;
             }
             if (dwFlags) {
                 iSel = i;
+                if (lcid) {
+                    GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                }
             }
 
             CString name(pName);
@@ -13830,8 +13969,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
                 CString str;
                 if (Language) {
-                    int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
-                    str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                    GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
                 } else {
                     str.Format(IDS_AG_UNKNOWN, i + 1);
                 }
@@ -13917,7 +14055,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
                 for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
                     DWORD dwFlags, dwGroup;
-                    LCID lcid;
+                    LCID lcid = 0;
                     WCHAR* pszName = nullptr;
 
                     if (FAILED(pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
@@ -13944,8 +14082,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                         str.LoadString(IDS_AG_DISABLED);
                     } else {
                         if (lcid != 0) {
-                            int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                            str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                            GetLocaleString(lcid, LOCALE_SENGLANGUAGE, str);
                         }
 
                         CString lcstr = CString(str).MakeLower();
@@ -14009,7 +14146,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         const CAppSettings& s = AfxGetAppSettings();
         // Style
         if (!bTextSubtitles) {
-            subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+            subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_GRAYED);
         }
         // Enabled
         if (s.fEnableSubtitles) {
@@ -14018,7 +14155,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         // Default style
         // TODO: foxX - default subtitles style toggle here; still wip
         if (!bTextSubtitles) {
-            subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+            subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_GRAYED);
         }
         if (s.fUseDefaultSubtitlesStyle) {
             subMenu.CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
@@ -14198,7 +14335,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                     idSelected = id;
                 }
                 if (ulUOPs & UOP_FLAG_Play_Title) {
-                    flags |= MF_DISABLED | MF_GRAYED;
+                    flags |= MF_GRAYED;
                 }
 
                 CString str;
@@ -14216,7 +14353,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                     idSelected = id;
                 }
                 if (ulUOPs & UOP_FLAG_Play_Chapter) {
-                    flags |= MF_DISABLED | MF_GRAYED;
+                    flags |= MF_GRAYED;
                 }
 
                 CString str;
@@ -14256,7 +14393,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
         bool bAdded = false;
         for (DWORD i = 0; i < cStreams; i++) {
             DWORD dwFlags, dwGroup;
-            LCID lcid;
+            LCID lcid = 0;
             CComHeapPtr<WCHAR> pszName;
 
             if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
@@ -14276,8 +14413,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
                 str.LoadString(IDS_AG_DISABLED);
             } else {
                 if (lcid && lcid != LCID(-1)) {
-                    int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                    str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                    GetLocaleString(lcid, LOCALE_SENGLANGUAGE, str);
                 }
 
                 CString lcstr(str);
@@ -14338,7 +14474,7 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
         if (SUCCEEDED(pSS->Count(&cStreams))) {
             for (int i = 0, j = cStreams; i < j; i++) {
                 DWORD dwFlags, dwGroup;
-                LCID lcid;
+                LCID lcid = 0;
                 CComHeapPtr<WCHAR> pszName;
 
                 if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
@@ -14406,7 +14542,7 @@ void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
         size_t currentSel = SIZE_MAX;
         for (DWORD i = 0; i < cStreams; i++) {
             DWORD dwFlags, dwGroup;
-            LCID lcid;
+            LCID lcid = 0;
             CComHeapPtr<WCHAR> pszName;
 
             if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
@@ -14428,11 +14564,18 @@ void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
         if (count && currentSel != SIZE_MAX) {
             size_t requested = (bForward ? currentSel + 1 : currentSel - 1) % count;
             DWORD id;
-            LCID lcid;
+            LCID lcid = 0;
             CString name;
             std::tie(id, lcid, name) = streams.at(requested);
             pSS->Enable(id, AMSTREAMSELECTENABLE_ENABLE);
             m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(name, lcid, dwSelGroup));
+            if (lcid && AfxGetAppSettings().fEnableSubtitles) {
+                if (dwSelGroup == 2) {
+                    GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
+                } else {
+                    GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                }
+            }
             break;
         }
     }
@@ -14444,8 +14587,7 @@ CString CMainFrame::GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup
     name.Replace(_T("\t"), _T(" - "));
     CString sLcid;
     if (lcid && lcid != LCID(-1)) {
-        int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, sLcid.GetBuffer(64), 64);
-        sLcid.ReleaseBufferSetLength(std::max(len - 1, 0));
+        GetLocaleString(lcid, LOCALE_SENGLANGUAGE, sLcid);
     }
     if (!sLcid.IsEmpty() && CString(name).MakeLower().Find(CString(sLcid).MakeLower()) < 0) {
         name += _T(" (") + sLcid + _T(")");
@@ -14493,7 +14635,7 @@ void CMainFrame::SetupRecentFilesSubMenu()
             if (!MRU[i].IsEmpty()) {
                 CString p = MRU[i];
                 if (p.Find(_T("://")) > 0) {
-                    p = UrlDecodeWithUTF8(p);
+                    p = UrlDecodeWithUTF8(UrlGetPathname(p));
                 }
                 if (p.GetLength() > 120) {
                     p = p.Left(50) + _T(" *** ") + p.Right(65);
@@ -14640,10 +14782,12 @@ void CMainFrame::SetupShadersSubMenu()
     if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_MADVR || s.iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
         subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_ENABLED);
     } else {
-        subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+        subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_GRAYED);
         return;
     }        
 
+    subMenu.AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_PRESIZE_SHADERS_TOGGLE, ResStr(IDS_PRESIZE_SHADERS_TOGGLE));
+    subMenu.AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_POSTSIZE_SHADERS_TOGGLE, ResStr(IDS_POSTSIZE_SHADERS_TOGGLE));
     VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT)));
     VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_DEBUGSHADERS, ResStr(IDS_SHADERS_DEBUG)));
 
@@ -14838,9 +14982,16 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
         CComHeapPtr<WCHAR> pName;
         if (CComQIPtr<IAMStreamSelect> pSSF = pSubInput->pSourceFilter) {
             DWORD dwFlags;
-            if (FAILED(pSSF->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
+            LCID lcid = 0;
+            if (FAILED(pSSF->Info(i, nullptr, &dwFlags, &lcid, nullptr, &pName, nullptr, nullptr))) {
                 dwFlags = 0;
             }
+            if (lcid && AfxGetAppSettings().fEnableSubtitles) {
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
+            } else {
+                currentSubLang.Empty();
+            }
+
             // Enable the track only if it isn't already the only selected track in the group
             if (!(dwFlags & AMSTREAMSELECTINFO_EXCLUSIVE)) {
                 pSSF->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
@@ -14852,12 +15003,20 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             CAutoLock cAutoLock(&m_csSubLock);
             pSubInput->pSubStream->SetStream(i);
         }
-        SetSubtitle(*pSubInput);
+        SetSubtitle(*pSubInput, true);
 
-        if (bDisplayMessage) {
-            if (pName || SUCCEEDED(pSubInput->pSubStream->GetStreamInfo(0, &pName, nullptr))) {
-                m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pName), LCID(-1), 2));
+        if (!pName) {
+            LCID lcid = 0;
+            pSubInput->pSubStream->GetStreamInfo(0, &pName, &lcid);
+            if (lcid && AfxGetAppSettings().fEnableSubtitles) {
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
+            } else {
+                currentSubLang.Empty();
             }
+        }
+
+        if (bDisplayMessage && pName) {
+            m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pName), LCID(-1), 2));
         }
         success = true;
     }
@@ -14865,7 +15024,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
     return success;
 }
 
-void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
+void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = false */)
 {
     CAppSettings& s = AfxGetAppSettings();
 
@@ -14960,6 +15119,19 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
 
         m_pCurrentSubInput = subInput;
 
+        if (!skip_lcid) {
+            LCID lcid = 0;
+            if (m_pCurrentSubInput.pSubStream && s.fEnableSubtitles) {
+                CComHeapPtr<WCHAR> pName;
+                m_pCurrentSubInput.pSubStream->GetStreamInfo(0, &pName, &lcid);
+            }
+            if (lcid) {
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
+            } else {
+                currentSubLang.Empty();
+            }
+        }
+
         if (m_pCAP) {
             g_bExternalSubtitle = (std::find(m_ExternalSubstreams.cbegin(), m_ExternalSubstreams.cend(), subInput.pSubStream) != m_ExternalSubstreams.cend());
             m_wndSubresyncBar.SetSubtitle(subInput.pSubStream, m_pCAP->GetFPS());
@@ -14980,6 +15152,7 @@ void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
         SetSubtitle(0, true, bDisplayMessage);
     } else {
         m_pCAP->SetSubPicProvider(nullptr);
+        currentSubLang.Empty();
 
         if (bDisplayMessage) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
@@ -14995,7 +15168,7 @@ void CMainFrame::ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pS
         if (pSubStreamOld == m_pSubStreams.GetNext(pos).pSubStream) {
             m_pSubStreams.GetAt(cur).pSubStream = pSubStreamNew;
             if (m_pCurrentSubInput.pSubStream == pSubStreamOld) {
-                SetSubtitle(m_pSubStreams.GetAt(cur));
+                SetSubtitle(m_pSubStreams.GetAt(cur), true);
             }
             break;
         }
@@ -15513,6 +15686,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             CComPtr<IMadVRTextOsd>       pMVTO;
 
             m_pMVRS.Release();
+            m_pMVRFG.Release();
             m_pMVRSR.Release();
 
             m_OSD.Stop();
@@ -15539,6 +15713,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             pMVTO = m_pCAP;
             m_pMVRSR = m_pCAP;
             m_pMVRS = m_pCAP;
+            m_pMVRFG = m_pCAP;
 
             const CAppSettings& s = AfxGetAppSettings();
             m_pVideoWnd = &m_wndView;
@@ -15750,13 +15925,13 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 
     m_timerOneTime.Unsubscribe(timerId);
 
-    m_playingmsg.Empty();
+    m_tempstatus_msg.Empty();
     if (nTimeOut <= 0) {
         return;
     }
 
-    m_playingmsg = msg;
-    m_timerOneTime.Subscribe(timerId, [this] { m_playingmsg.Empty(); }, nTimeOut);
+    m_tempstatus_msg = msg;
+    m_timerOneTime.Subscribe(timerId, [this] { m_tempstatus_msg.Empty(); }, nTimeOut);
 
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
@@ -16651,6 +16826,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_DECREASEVOLUME:
             m_wndToolBar.m_volctrl.DecreaseVolume();
             break;
+		case CMD_SHADER_TOGGLE :
+			OnShaderToggle1();
+			break;
         case CMD_CLOSEAPP:
             PostMessage(WM_CLOSE);
             break;
@@ -17914,6 +18092,7 @@ CString CMainFrame::GetFileName()
                 path = pFN;
             }
         }
+        if (path.Find(_T("://")) != -1) path = UrlGetPathname(path);
         return pli->m_bYoutubeDL ? path : PathUtils::StripPathOrUrl(path);
     }
     return _T("");
@@ -18165,6 +18344,7 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
         SubtitleInput subElement = pRTS.Detach();
         m_pSubStreams.AddTail(subElement);
         if (data.bActivate) {
+            m_ExternalSubstreams.push_back(subElement.pSubStream);
             SetSubtitle(subElement.pSubStream);
         }
         return TRUE;
@@ -18202,8 +18382,7 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 
     if (!pSubtitlesInfo->languageCode.length() && pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
         CString str;
-        int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
-        str.ReleaseBufferSetLength(std::max(len - 1, 0));
+        GetLocaleString(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str);
         pSubtitlesInfo->languageCode = UTF16To8(str);
     }
 

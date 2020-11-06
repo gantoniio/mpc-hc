@@ -34,6 +34,7 @@
 #define WEBSITE_URL  _T("https://github.com/clsid2/mpc-hc/releases")
 #define DOWNLOAD_URL _T("https://github.com/clsid2/mpc-hc/releases")
 #define UPDATE_URL   _T("https://github.com/clsid2/mpc-hc/raw/develop/version.txt")
+#define BACKUP_UPDATE_URL   _T("https://cdn.jsdelivr.net/gh/clsid2/mpc-hc@develop/version.txt")
 #define TRAC_URL     _T("https://github.com/clsid2/mpc-hc/issues")
 #define BUGS_URL     _T("https://github.com/clsid2/mpc-hc/issues")
 
@@ -44,6 +45,8 @@
 #define SHADERS_DIR _T("Shaders")
 #define SHADERS_DIR11 _T("Shaders11")
 #define SHADERS_EXT _T(".hlsl")
+
+#define USE_LAVFILTERS 1
 
 // If this is enabled, the registered LAV Filters can be loaded as internal filters
 #define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 1
