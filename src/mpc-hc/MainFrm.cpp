@@ -447,6 +447,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_INCREASE, OnViewVSyncOffsetIncrease)
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_DECREASE, OnViewVSyncOffsetDecrease)
+	ON_UPDATE_COMMAND_UI(ID_PRESIZE_SHADERS_TOGGLE, OnUpdateShaderToggle1)
+	ON_COMMAND(ID_PRESIZE_SHADERS_TOGGLE, OnShaderToggle1)
+	ON_UPDATE_COMMAND_UI(ID_POSTSIZE_SHADERS_TOGGLE, OnUpdateShaderToggle2)
+	ON_COMMAND(ID_POSTSIZE_SHADERS_TOGGLE, OnShaderToggle2)
     ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_DISPLAY_TIME, OnUpdateViewOSDDisplayTime)
     ON_COMMAND(ID_VIEW_OSD_DISPLAY_TIME, OnViewOSDDisplayTime)
     ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_SHOW_FILENAME, OnUpdateViewOSDShowFileName)
@@ -3012,7 +3016,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         ResetDevice();
     }
 
-    if (fs == State_Running) {
+    if (fs == State_Running && m_pMC) {
         m_pMC->Run();
 
         // When restarting DVB capture, we need to set again the channel.
@@ -3098,19 +3102,16 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
         }*/
 
         if (pSubMenu) {
-            mii.fMask = MIIM_STATE | MIIM_SUBMENU | MIIM_ID;
-            mii.fType = MF_POPUP;
-            mii.wID = itemID; // save ID after set popup type
-            mii.fState = (pSubMenu->GetMenuItemCount()) > 0 ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
+            mii.fMask = MIIM_STATE | MIIM_SUBMENU;
+            mii.fState = (pSubMenu->GetMenuItemCount()) > 0 ? MFS_ENABLED : MFS_DISABLED;
             mii.hSubMenu = *pSubMenu;
-            VERIFY(pMenu->SetMenuItemInfo(i, &mii, TRUE));
+            VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pMenu, i, &mii, TRUE));
             pSubMenu->fulfillThemeReqs();
         }
     }
 }
 
-void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
-{
+void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu) {
     __super::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
     if (bSysMenu) {
@@ -3141,19 +3142,19 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
         if (firstSubItemID == ID_NAVIGATE_SKIPBACK) { // is "Navigate" submenu {
             UINT fState = (GetLoadState() == MLS::LOADED
-                           && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && !m_PlayList.IsEmpty())*/))
-                          ? MF_ENABLED
-                          : (MF_DISABLED | MF_GRAYED);
+                && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && !m_PlayList.IsEmpty())*/))
+                ? MF_ENABLED
+                : MF_GRAYED;
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
             continue;
         }
         if (firstSubItemID == ID_VIEW_VF_HALF               // is "Video Frame" submenu
-                || firstSubItemID == ID_VIEW_INCSIZE        // is "Pan&Scan" submenu
-                || firstSubItemID == ID_ASPECTRATIO_START   // is "Override Aspect Ratio" submenu
-                || firstSubItemID == ID_VIEW_ZOOM_25) {     // is "Zoom" submenu
+            || firstSubItemID == ID_VIEW_INCSIZE        // is "Pan&Scan" submenu
+            || firstSubItemID == ID_ASPECTRATIO_START   // is "Override Aspect Ratio" submenu
+            || firstSubItemID == ID_VIEW_ZOOM_25) {     // is "Zoom" submenu
             UINT fState = (GetLoadState() == MLS::LOADED && !m_fAudioOnly)
-                          ? MF_ENABLED
-                          : (MF_DISABLED | MF_GRAYED);
+                ? MF_ENABLED
+                : MF_GRAYED;
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
             continue;
         }
@@ -3162,14 +3163,14 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         if (firstSubItemID == ID_FILE_SUBTITLES_LOAD) {
             UINT fState = (GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP)
                 ? MF_ENABLED
-                : (MF_DISABLED | MF_GRAYED);
+                : MF_GRAYED;
             pPopupMenu->EnableMenuItem(i, MF_BYPOSITION | fState);
             continue;
         }
 
         // renderer settings
         if (firstSubItemID == ID_VIEW_TEARING_TEST) {
-            UINT fState = (MF_DISABLED | MF_GRAYED);
+            UINT fState = MF_GRAYED;
             const CAppSettings& s = AfxGetAppSettings();
             if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) {
                 fState = MF_ENABLED;
@@ -3188,7 +3189,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
         // debug shaders
         if (itemID == ID_VIEW_DEBUGSHADERS) {
-            UINT fState = (MF_DISABLED | MF_GRAYED);
+            UINT fState = MF_GRAYED;
             if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP2) {
                 fState = MF_ENABLED;
             }
@@ -3214,7 +3215,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
             mii.fMask = MIIM_STRING;
             mii.dwTypeData = (LPTSTR)(LPCTSTR)menuStr;
-            VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
+            VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pPopupMenu, i, &mii, TRUE));
 
             SetupVideoStreamsSubMenu();
             pSubMenu = &m_videoStreamsMenu;
@@ -3234,12 +3235,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         }
 
         if (pSubMenu) {
-            mii.fMask = MIIM_STATE | MIIM_SUBMENU | MIIM_ID;
-            mii.fType = MF_POPUP;
-            mii.wID = itemID; // save ID after set popup type
-            mii.fState = (pSubMenu->GetMenuItemCount() > 0) ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
+            mii.fMask = MIIM_STATE | MIIM_SUBMENU;
+            mii.fState = (pSubMenu->GetMenuItemCount() > 0) ? MF_ENABLED : MF_GRAYED;
             mii.hSubMenu = *pSubMenu;
-            VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
+            VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pPopupMenu, i, &mii, TRUE));
             pSubMenu->fulfillThemeReqs();
         }
     }
@@ -3249,36 +3248,38 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         return;
     }
 
-    for (UINT i = 0; i < uiMenuCount; ++i) {
-        UINT nID = pPopupMenu->GetMenuItemID(i);
-        if (nID == ID_SEPARATOR || nID == -1
+    if (!AppIsThemeLoaded()) { //themed menus draw accelerators already, no need to append
+        for (UINT i = 0; i < uiMenuCount; ++i) {
+            UINT nID = pPopupMenu->GetMenuItemID(i);
+            if (nID == ID_SEPARATOR || nID == -1
                 || nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
                 || nID >= ID_RECENT_FILE_START && nID <= ID_RECENT_FILE_END
                 || nID >= ID_SUBTITLES_SUBITEM_START && nID <= ID_SUBTITLES_SUBITEM_END
                 || nID >= ID_NAVIGATE_JUMPTO_SUBITEM_START && nID <= ID_NAVIGATE_JUMPTO_SUBITEM_END) {
-            continue;
+                continue;
+            }
+
+            CString str;
+            pPopupMenu->GetMenuString(i, str, MF_BYPOSITION);
+            int k = str.Find('\t');
+            if (k > 0) {
+                str = str.Left(k);
+            }
+
+            CString key = CPPageAccelTbl::MakeAccelShortcutLabel(nID);
+            if (key.IsEmpty() && k < 0) {
+                continue;
+            }
+            str += _T("\t") + key;
+
+            // BUG(?): this disables menu item update ui calls for some reason...
+            //pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
+
+            // this works fine
+            mii.fMask = MIIM_STRING;
+            mii.dwTypeData = (LPTSTR)(LPCTSTR)str;
+            VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
         }
-
-        CString str;
-        pPopupMenu->GetMenuString(i, str, MF_BYPOSITION);
-        int k = str.Find('\t');
-        if (k > 0) {
-            str = str.Left(k);
-        }
-
-        CString key = CPPageAccelTbl::MakeAccelShortcutLabel(nID);
-        if (key.IsEmpty() && k < 0) {
-            continue;
-        }
-        str += _T("\t") + key;
-
-        // BUG(?): this disables menu item update ui calls for some reason...
-        //pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
-
-        // this works fine
-        mii.fMask = MIIM_STRING;
-        mii.dwTypeData = (LPTSTR)(LPCTSTR)str;
-        VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
     }
 
     uiMenuCount = pPopupMenu->GetMenuItemCount();
@@ -3807,6 +3808,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
 
     m_nCurSubtitle = -1;
     m_lSubtitleShift = 0;
+    m_AngleX = m_AngleY = m_AngleZ = 0;
 
     if (m_closingmsg.IsEmpty()) {
         m_closingmsg.LoadString(IDS_CONTROLS_CLOSED);
@@ -6730,6 +6732,72 @@ void CMainFrame::OnViewOSDShowFileName()
     }
 }
 
+void CMainFrame::OnUpdateShaderToggle1(CCmdUI* pCmdUI)
+{
+	if (AfxGetAppSettings().m_Shaders.GetCurrentPreset().GetPreResize().empty()) {
+		pCmdUI->Enable(FALSE);
+		m_bToggleShader = false;
+		pCmdUI->SetCheck (0);
+	} else {
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetCheck (m_bToggleShader);
+	}
+}
+
+void CMainFrame::OnUpdateShaderToggle2(CCmdUI* pCmdUI)
+{
+	CAppSettings& s = AfxGetAppSettings();
+
+	if (s.m_Shaders.GetCurrentPreset().GetPostResize().empty()) {
+		pCmdUI->Enable(FALSE);
+		m_bToggleShaderScreenSpace = false;
+		pCmdUI->SetCheck(0);
+	} else {
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetCheck(m_bToggleShaderScreenSpace);
+	}
+}
+
+void CMainFrame::OnShaderToggle1()
+{
+	m_bToggleShader = !m_bToggleShader;
+	if (m_bToggleShader) {
+		SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace);
+		m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_PRESIZE_SHADERS_ENABLED));
+	} else {
+		if (m_pCAP3) {
+            SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace); //current implementation for m_pCAP3 clears all shaders first
+        } else if (m_pCAP2) {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
+        }
+		m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_PRESIZE_SHADERS_DISABLED));
+	}
+
+	if (m_pCAP) {
+		RepaintVideo();
+	}
+}
+
+void CMainFrame::OnShaderToggle2()
+{
+	m_bToggleShaderScreenSpace = !m_bToggleShaderScreenSpace;
+	if (m_bToggleShaderScreenSpace) {
+        SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace);
+        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_POSTSIZE_SHADERS_ENABLED));
+	} else {
+		if (m_pCAP3) {
+            SetShaders(m_bToggleShader, m_bToggleShaderScreenSpace); //current implementation for m_pCAP3 clears all shaders first
+        } else if (m_pCAP2) {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
+        }
+        m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(IDS_POSTSIZE_SHADERS_DISABLED));
+	}
+
+	if (m_pCAP) {
+		RepaintVideo();
+	}
+}
+
 void CMainFrame::OnD3DFullscreenToggle()
 {
     CAppSettings& s = AfxGetAppSettings();
@@ -8191,7 +8259,7 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
                 SetPlayingRate(m_dSpeedRate / 2.0);
             }
         } else if (nID > ID_PLAY_PLAYBACKRATE_START && nID < ID_PLAY_PLAYBACKRATE_END) {
-            if (filePlaybackRates.contains(nID)) {
+            if (filePlaybackRates.count(nID) != 0) {
                 SetPlayingRate(filePlaybackRates[nID]);
             } else if (nID == ID_PLAY_PLAYBACKRATE_FPS24 || nID == ID_PLAY_PLAYBACKRATE_FPS25) {
                 if (m_pCAP) {
@@ -8218,7 +8286,7 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
                 SetPlayingRate(m_dSpeedRate / 2.0);
             }
         } else if (nID > ID_PLAY_PLAYBACKRATE_START && nID < ID_PLAY_PLAYBACKRATE_END) {
-            if (dvdPlaybackRates.contains(nID)) {
+            if (dvdPlaybackRates.count(nID) != 0) {
                 SetPlayingRate(dvdPlaybackRates[nID]);
             }
         }
@@ -8274,7 +8342,7 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
         if (pCmdUI->m_nID > ID_PLAY_PLAYBACKRATE_START && pCmdUI->m_nID < ID_PLAY_PLAYBACKRATE_END && pCmdUI->m_pMenu) {
             fEnable = false;
             if (GetPlaybackMode() == PM_FILE) {
-                if (filePlaybackRates.contains(pCmdUI->m_nID)) {
+                if (filePlaybackRates.count(pCmdUI->m_nID) != 0) {
                     fEnable = true;
                     if (filePlaybackRates[pCmdUI->m_nID] == m_dSpeedRate) {
                         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_PLAY_PLAYBACKRATE_START, ID_PLAY_PLAYBACKRATE_END, pCmdUI->m_nID, MF_BYCOMMAND);
@@ -8297,7 +8365,7 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
                     }
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
-                if (dvdPlaybackRates.contains(pCmdUI->m_nID)) {
+                if (dvdPlaybackRates.count(pCmdUI->m_nID) != 0) {
                     fEnable = true;
                     if (dvdPlaybackRates[pCmdUI->m_nID] == m_dSpeedRate) {
                         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_PLAY_PLAYBACKRATE_START, ID_PLAY_PLAYBACKRATE_END, pCmdUI->m_nID, MF_BYCOMMAND);
@@ -9039,7 +9107,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
         mii.fMask = MIIM_FTYPE | MIIM_STATE;
         mii.fType = (bRadio ? MFT_RADIOCHECK : 0) | (cii.fType & MFT_OWNERDRAW); //preserve owner draw flag
         mii.fState = (bRadio ? MFS_DISABLED : 0) | (bChecked || bRadio ? MFS_CHECKED : 0);
-        VERIFY(pCmdUI->m_pMenu->SetMenuItemInfo(pCmdUI->m_nID, &mii));
+        VERIFY(CMPCThemeMenu::SetThemedMenuItemInfo(pCmdUI->m_pMenu, pCmdUI->m_nID, &mii));
     }
 }
 
@@ -10130,20 +10198,23 @@ void CMainFrame::SetDefaultFullscreenState()
     CAppSettings& s = AfxGetAppSettings();
 
     bool clGoFullscreen = !(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN);
-    bool foundVideoFiles = false;
+
     if (clGoFullscreen && !s.slFiles.IsEmpty()) {
+        // ignore fullscreen if all files are audio
+        clGoFullscreen = false;
         const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
         POSITION pos = s.slFiles.GetHeadPosition();
         while (pos) {
             CString fpath = s.slFiles.GetNext(pos);
             CString ext = fpath.Mid(fpath.ReverseFind('.'));
-            if (!mf.FindExt(ext, true) && mf.FindExt(ext)) {
-                foundVideoFiles = true;
+            if (!mf.FindExt(ext, true)) {
+                clGoFullscreen = true;
+                break;
             }
         }
     }
 
-    if (clGoFullscreen && foundVideoFiles) {
+    if (clGoFullscreen) {
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
         } else {
@@ -13554,7 +13625,7 @@ void CMainFrame::SetupFiltersSubMenu()
     m_ssarray.RemoveAll();
 
     if (GetLoadState() == MLS::LOADED) {
-        UINT idf = 0;
+        UINT idf = 1; //used as an id, so make non-zero to start
         UINT ids = ID_FILTERS_SUBITEM_START;
         UINT idl = ID_FILTERSTREAMS_SUBITEM_START;
 
@@ -13706,16 +13777,11 @@ void CMainFrame::SetupFiltersSubMenu()
             if (nPPages == 1 && !pSS) {
                 VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ids, filterName));
             } else {
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_DISABLED | MF_GRAYED, idf, filterName));
-
                 if (nPPages > 0 || pSS) {
-                    MENUITEMINFO mii;
-                    mii.cbSize = sizeof(mii);
-                    mii.fMask = MIIM_STATE | MIIM_SUBMENU;
-                    mii.fType = MF_POPUP;
-                    mii.hSubMenu = internalSubMenu.Detach();
-                    mii.fState = (pSPP || pSS) ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
-                    VERIFY(subMenu.SetMenuItemInfo(idf, &mii, FALSE));
+                    UINT nFlags = MF_STRING | MF_POPUP | ((pSPP || pSS) ? MF_ENABLED : MF_GRAYED);
+                    VERIFY(subMenu.AppendMenu(nFlags, (UINT_PTR)internalSubMenu.Detach(), filterName));
+                } else {
+                    VERIFY(subMenu.AppendMenu(MF_STRING | MF_GRAYED, idf, filterName));
                 }
             }
 
@@ -14080,7 +14146,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         const CAppSettings& s = AfxGetAppSettings();
         // Style
         if (!bTextSubtitles) {
-            subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+            subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_GRAYED);
         }
         // Enabled
         if (s.fEnableSubtitles) {
@@ -14089,7 +14155,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         // Default style
         // TODO: foxX - default subtitles style toggle here; still wip
         if (!bTextSubtitles) {
-            subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+            subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_GRAYED);
         }
         if (s.fUseDefaultSubtitlesStyle) {
             subMenu.CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
@@ -14269,7 +14335,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                     idSelected = id;
                 }
                 if (ulUOPs & UOP_FLAG_Play_Title) {
-                    flags |= MF_DISABLED | MF_GRAYED;
+                    flags |= MF_GRAYED;
                 }
 
                 CString str;
@@ -14287,7 +14353,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                     idSelected = id;
                 }
                 if (ulUOPs & UOP_FLAG_Play_Chapter) {
-                    flags |= MF_DISABLED | MF_GRAYED;
+                    flags |= MF_GRAYED;
                 }
 
                 CString str;
@@ -14716,10 +14782,12 @@ void CMainFrame::SetupShadersSubMenu()
     if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_MADVR || s.iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
         subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_ENABLED);
     } else {
-        subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+        subMenu.EnableMenuItem(ID_SHADERS, MF_BYPOSITION | MF_GRAYED);
         return;
     }        
 
+    subMenu.AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_PRESIZE_SHADERS_TOGGLE, ResStr(IDS_PRESIZE_SHADERS_TOGGLE));
+    subMenu.AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_POSTSIZE_SHADERS_TOGGLE, ResStr(IDS_POSTSIZE_SHADERS_TOGGLE));
     VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT)));
     VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_VIEW_DEBUGSHADERS, ResStr(IDS_SHADERS_DEBUG)));
 
@@ -14920,6 +14988,8 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             }
             if (lcid && AfxGetAppSettings().fEnableSubtitles) {
                 GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
+            } else {
+                currentSubLang.Empty();
             }
 
             // Enable the track only if it isn't already the only selected track in the group
@@ -14937,10 +15007,11 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
 
         if (!pName) {
             LCID lcid = 0;
-            if (SUCCEEDED(pSubInput->pSubStream->GetStreamInfo(0, &pName, &lcid))) {
-                if (lcid && AfxGetAppSettings().fEnableSubtitles) {
-                    GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
-                }
+            pSubInput->pSubStream->GetStreamInfo(0, &pName, &lcid);
+            if (lcid && AfxGetAppSettings().fEnableSubtitles) {
+                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentSubLang);
+            } else {
+                currentSubLang.Empty();
             }
         }
 
@@ -16755,6 +16826,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_DECREASEVOLUME:
             m_wndToolBar.m_volctrl.DecreaseVolume();
             break;
+		case CMD_SHADER_TOGGLE :
+			OnShaderToggle1();
+			break;
         case CMD_CLOSEAPP:
             PostMessage(WM_CLOSE);
             break;
