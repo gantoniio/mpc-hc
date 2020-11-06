@@ -6,7 +6,7 @@
 # tobsen <github@tobsen.de>, 2020
 # Gaugg_Markus, 2020
 # Steve <secure@mail.az>, 2020
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
