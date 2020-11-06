@@ -716,10 +716,10 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
                 pli[i].m_ainput = _ttol(value);
             } else if (key == _T("country")) {
                 pli[i].m_country = _ttol(value);
-            } else if (key == _T("m_cue_filename")) {
+            } else if (key == _T("cue_filename")) {
                 pli[i].m_cue = true;
                 pli[i].m_cue_filename = value;
-            } else if (key == _T("m_cue_index")) {
+            } else if (key == _T("cue_index")) {
                 pli[i].m_cue_index = _ttoi(value);
             } else if (key == _T("cover")) {
                 pli[i].m_cover = value;
@@ -785,9 +785,9 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
                 f.WriteString(idx + _T(",ydlSourceURL,") + pli.m_ydlSourceURL + _T("\n"));
             }
             if (pli.m_cue) {
-                f.WriteString(idx + _T(",m_cue_filename,") + pli.m_cue_filename + _T("\n"));
+                f.WriteString(idx + _T(",cue_filename,") + pli.m_cue_filename + _T("\n"));
                 if (pli.m_cue_index > 0) {
-                    str.Format(_T("%d,m_cue_index,%d"), i, pli.m_cue_index);
+                    str.Format(_T("%d,cue_index,%d"), i, pli.m_cue_index);
                     f.WriteString(str + _T("\n"));
                 }
             }
