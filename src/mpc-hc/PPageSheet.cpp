@@ -251,8 +251,11 @@ LRESULT CPPageSheet::OnDpiChanged(WPARAM wParam, LPARAM lParam) {
         //2. Fonts are not updated for default buttons (OK,Apply,Cancel)
         //3. TreePropSheet custom class logic skipped on DPI change
         //4. Hidden tab control not adjusted properly for TreePropSheet
-        //Solution:
+        //Solution (1-4):
         //Create "dummy" versions of Options on target monitor and copy sizes and fonts where necessary
+        //5. Image assets scaled poorly and degrade when dragging back and forth
+        //Solution:
+        //Set the icon and bitmaps after size to the original asset.  instead of a resized asset, the asset is dynamically chosen at the best resolution
 
         changingDPI = true;
         SetRedraw(false);
@@ -301,7 +304,38 @@ LRESULT CPPageSheet::OnDpiChanged(WPARAM wParam, LPARAM lParam) {
             CopyWindowPosition(m_pFrame->GetWnd(), dummy.GetTabControl(), &dummy);
             m_pFrame->SetCaptionHeight(dummy.m_pFrame->GetCaptionHeight());
         }
-       
+
+        CWnd* pChild = GetWindow(GW_CHILD);
+        while (pChild) {
+            TCHAR windowClass[MAX_PATH];
+            ::GetClassName(pChild->GetSafeHwnd(), windowClass, _countof(windowClass));
+
+            if (0 == _tcsicmp(windowClass, _T("#32770"))) { //dialog class
+                CWnd* dlgChild = pChild->GetWindow(GW_CHILD);
+                while (dlgChild) {
+                    TCHAR childClass[MAX_PATH];
+                    DWORD style = dlgChild->GetStyle();
+                    DWORD staticStyle = (style & SS_TYPEMASK);
+                    ::GetClassName(dlgChild->GetSafeHwnd(), childClass, _countof(childClass));
+                    if (0 == _tcsicmp(childClass, WC_STATIC) && SS_BITMAP == staticStyle) {
+                        CStatic *sBMP = DYNAMIC_DOWNCAST(CStatic, dlgChild);
+                        if (sBMP) {
+                            sBMP->SetBitmap(sBMP->GetBitmap());
+                        }
+                    } else if (0 == _tcsicmp(childClass, WC_STATIC) && SS_ICON == staticStyle) {
+                        CStatic* sBMP = DYNAMIC_DOWNCAST(CStatic, dlgChild);
+                        if (sBMP) {
+                            sBMP->SetIcon(sBMP->GetIcon());
+                        }
+                    }
+
+                    dlgChild = dlgChild->GetNextWindow();
+                }
+            }
+            pChild = pChild->GetNextWindow();
+        }
+
+
         //destroy dummy window since we used ::Create
         dummy.DestroyWindow();
 

@@ -65,12 +65,12 @@ protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 };
 
-// CPPageSheet
-
 class CPPageDPICalc : public CMPCThemePPageBase {
 public:
     CPPageDPICalc() : CMPCThemePPageBase(IDD_PPAGEDPICALC, 0) {};
 };
+
+// CPPageSheet
 
 class CPPageSheet : public TreePropSheet::CTreePropSheet, public CMPCThemeUtil
 {
