@@ -12832,7 +12832,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                         }
                         EndEnumFilters;
                         if (!use_label && pli && !pli->m_fns.IsEmpty()) {
-                            if (pli->m_label && !pli->m_label.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
+                            if (pli->m_label && !pli->m_label.IsEmpty()) {
                                 title = pli->m_label;
                                 use_label = true;
                             }
