@@ -12809,10 +12809,10 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
         } else if (i == 1) { // Show filename or title
             if (GetPlaybackMode() == PM_FILE) {
                 bool use_label = false;
-                // always use playlist title first
+                // always use playlist title in case of URLs
                 CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
                 if (pli && !pli->m_fns.IsEmpty()) {
-                    if (pli->m_label && !pli->m_label.IsEmpty()) {
+                    if (pli->m_label && !pli->m_label.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
                         title = pli->m_label;
                         use_label = true;
                     }
@@ -12831,6 +12831,12 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                             }
                         }
                         EndEnumFilters;
+                        if (!use_label && pli && !pli->m_fns.IsEmpty()) {
+                            if (pli->m_label && !pli->m_label.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
+                                title = pli->m_label;
+                                use_label = true;
+                            }
+                        }
                     }
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
