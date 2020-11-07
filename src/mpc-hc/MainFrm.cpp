@@ -12811,8 +12811,8 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 bool use_label = false;
                 // always use playlist title in case of URLs
                 CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
-                if (pli && !pli->m_fns.IsEmpty()) {
-                    if (pli->m_label && !pli->m_label.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
+                if (pli && !pli->m_fns.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
+                    if (pli->m_label && !pli->m_label.IsEmpty()) {
                         title = pli->m_label;
                         use_label = true;
                     }
