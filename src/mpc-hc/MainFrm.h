@@ -402,8 +402,6 @@ private:
     ULONG m_lCurrentChapter;
     ULONG m_lChapterStartTime;
 
-    CueMetadata m_cue_Metadata;
-
     CString m_currentCoverAuthor;
     CString m_currentCoverPath;
     bool currentCoverIsFileArt = false;

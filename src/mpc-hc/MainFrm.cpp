@@ -12037,7 +12037,8 @@ void CMainFrame::SetupCueChapters(CString fn) {
         base = basefilepath.m_strPath;
     }
 
-    m_cue_Metadata = CueMetadata();
+    CString title;
+    CString performer;
     CAtlList<CueTrackMeta> trackl;
     CueTrackMeta track;
     int trackID(0);
@@ -12045,10 +12046,10 @@ void CMainFrame::SetupCueChapters(CString fn) {
     while (f.ReadString(str)) {
         str.Trim();
         if (cue_index == -1 && str.Left(5) == _T("TITLE")) {
-            m_cue_Metadata.title = str.Mid(6).Trim(_T("\""));
+            title = str.Mid(6).Trim(_T("\""));
         }
-        else if (cue_index == -1 &&  str.Left(9) == _T("PERFORMER")) {
-            m_cue_Metadata.performer = str.Mid(10).Trim(_T("\""));
+        else if (cue_index == -1 && str.Left(9) == _T("PERFORMER")) {
+            performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
             if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
@@ -12101,8 +12102,8 @@ void CMainFrame::SetupCueChapters(CString fn) {
                     if (!c.performer.IsEmpty()) {
                         label += (_T(" - ") + c.performer);
                     }
-                    else if (!m_cue_Metadata.performer.IsEmpty()) {
-                        label += (_T(" - ") + m_cue_Metadata.performer);
+                    else if (!performer.IsEmpty()) {
+                        label += (_T(" - ") + performer);
                     }
                 }
                 REFERENCE_TIME time(c.time);
@@ -12808,9 +12809,9 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
         } else if (i == 1) { // Show filename or title
             if (GetPlaybackMode() == PM_FILE) {
                 bool use_label = false;
-                // always use playlist title in case of URLs
+                // always use playlist title first
                 CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
-                if (pli && !pli->m_fns.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
+                if (pli && !pli->m_fns.IsEmpty()) {
                     if (pli->m_label && !pli->m_label.IsEmpty()) {
                         title = pli->m_label;
                         use_label = true;
@@ -12818,7 +12819,6 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 }
                 if (!use_label) {
                     title = GetFileName();
-                    bool hasName = false;
 
                     if (s.fTitleBarTextTitle) {
                         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -12826,22 +12826,11 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                                 CComBSTR bstr;
                                 if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
                                     title = CString(bstr.m_str);
-                                    hasName = true;
                                     break;
                                 }
                             }
                         }
                         EndEnumFilters;
-                    }
-
-                    if (!hasName && pli->m_cue) {
-                        if (!m_cue_Metadata.title.IsEmpty()) {
-                            if (!m_cue_Metadata.performer.IsEmpty()) {
-                                title = m_cue_Metadata.title + _T(" - ") + m_cue_Metadata.performer;
-                            }
-                            else title = m_cue_Metadata.title;
-                            hasName = true;
-                        }
                     }
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
