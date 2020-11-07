@@ -143,11 +143,6 @@ struct SubtitleInput {
         : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
 
-struct CueMetadata {
-    CString title;
-    CString performer;
-};
-
 class CMainFrame : public CFrameWnd, public CDropClient
 {
 public:
