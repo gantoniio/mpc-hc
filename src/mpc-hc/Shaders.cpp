@@ -138,7 +138,11 @@ ShaderList ShaderList::GetDefaultShaders()
                 if (finder.IsDirectory()) {
                     dirs.insert(PathUtils::CombinePaths(path, mask));
                 } else if (PathUtils::FileExt(path).CompareNoCase(SHADERS_EXT) == 0) {
-                    files.insert(path);
+                    CString prefix = path;
+                    prefix.Replace(SHADERS_EXT, _T(""));
+                    if (prefix.Find(_T("_pass")) == -1 || prefix.Right(6) == _T("_pass1")) {
+                        files.insert(path);
+                    }
                 }
             }
         }

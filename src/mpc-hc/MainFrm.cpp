@@ -11438,20 +11438,42 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
                 preTarget = TARGET_FRAME;
             }
             for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
-                ShaderC* pShader = GetShader(shader.filePath, PShaderMode == 11);
-                if (pShader) {
-                    CStringW label = pShader->label;
-                    if (processedShaders.Find(label)) {
-                        continue;
+                bool multiPass = false, morePasses = true;
+                int pass = 1;
+                CString prefix = shader.filePath;
+                prefix.Replace(SHADERS_EXT,_T(""));
+
+                if (prefix.Right(6) == _T("_pass1")) {
+                    prefix.Replace(_T("_pass1"), _T(""));
+                    multiPass = true;
+                }
+
+                while (morePasses) {
+                    ShaderC* pShader;
+                    if (multiPass) {
+                        CString fpath;
+                        fpath.Format(_T("%s_pass%d")SHADERS_EXT, prefix, pass++);
+                        pShader = GetShader(fpath, PShaderMode == 11);
+                    } else {
+                        pShader = GetShader(shader.filePath, PShaderMode == 11);
+                        morePasses = false;
                     }
-                    CStringA profile = pShader->profile;
-                    CStringA srcdata = pShader->srcdata;
-                    if (FAILED(m_pCAP3->AddPixelShader(preTarget, label, profile, srcdata))) {
-                        preFailed=true;
-                        m_pCAP3->ClearPixelShaders(preTarget);
-                        break;
+                    if (pShader) {
+                        CStringW label = pShader->label;
+                        if (processedShaders.Find(label)) {
+                            continue;
+                        }
+                        CStringA profile = pShader->profile;
+                        CStringA srcdata = pShader->srcdata;
+                        if (FAILED(m_pCAP3->AddPixelShader(preTarget, label, profile, srcdata))) {
+                            preFailed = true;
+                            m_pCAP3->ClearPixelShaders(preTarget);
+                            break;
+                        }
+                        processedShaders.AddTail(label);
+                    } else {
+                        morePasses = false;
                     }
-                    processedShaders.AddTail(label);
                 }
             }
         }
