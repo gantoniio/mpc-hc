@@ -44,6 +44,7 @@ public:
     ShaderList();
     ShaderList(const CString& src);
     CString ToString() const;
+    ShaderList ExpandMultiPassShaderList() const;
     static CString GetShadersDir();
     static CString GetShadersDir11();
     static ShaderList GetDefaultShaders();
