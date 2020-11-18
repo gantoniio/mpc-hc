@@ -122,6 +122,8 @@
 #define IDS_RS_MENULANG                     _T("MenuLang")
 #define IDS_RS_AUDIOLANG                    _T("AudioLang")
 #define IDS_RS_SUBTITLESLANG                _T("SubtitlesLang")
+#define IDS_RS_RENDERSUBTITLESUSINGLIBASS   _T("RenderSubtitlesUsingLibass")
+#define IDS_RS_OPENTYPELANGHINT             _T("OpenTypeLangHint")
 #define IDS_RS_AUTOSPEAKERCONF              _T("AutoSpeakerConf")
 #define IDS_RS_CLOSEDCAPTIONS               _T("ClosedCaptions")
 
@@ -278,6 +280,9 @@
 #define IDS_RS_SHOW_CHAPTERS                _T("ShowChapters")
 
 #define IDS_RS_LCD_SUPPORT                  _T("LcdSupport")
+
+#define IDS_RS_TOGGLESHADER                 _T("PreSizeShadersEnabled")
+#define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("PostSizeShadersEnabled")
 
 #define IDS_RS_REMAINING_TIME               _T("RemainingTime")
 #define IDS_RS_HIGH_PRECISION_TIMER         _T("HighPrecisionTimer")
