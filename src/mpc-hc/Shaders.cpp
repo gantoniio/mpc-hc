@@ -98,8 +98,8 @@ ShaderList ShaderList::ExpandMultiPassShaderList() const {
         CString prefix = shader.filePath;
         prefix.Replace(SHADERS_EXT, _T(""));
 
-        if (prefix.Right(6) == _T("_pass1")) {
-            prefix.Replace(_T("_pass1"), _T(""));
+        if (prefix.Right(6) == MULTIPASS_SUFFIX1) {
+            prefix.Replace(MULTIPASS_SUFFIX1, _T(""));
             multiPass = true;
         }
 
@@ -172,7 +172,7 @@ ShaderList ShaderList::GetDefaultShaders()
                 } else if (PathUtils::FileExt(path).CompareNoCase(SHADERS_EXT) == 0) {
                     CString prefix = path;
                     prefix.Replace(SHADERS_EXT, _T(""));
-                    if (prefix.Find(_T("_pass")) == -1 || prefix.Right(6) == _T("_pass1")) {
+                    if (prefix.Find(MULTIPASS_SUFFIX) == -1 || prefix.Right(6) == MULTIPASS_SUFFIX1) {
                         files.insert(path);
                     }
                 }
