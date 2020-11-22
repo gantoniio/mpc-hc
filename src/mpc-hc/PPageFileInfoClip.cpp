@@ -161,7 +161,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     }
 
     if (-1 != m_path.Find(_T("://"))) {
-        m_displayFn = UrlDecodeWithUTF8(UrlGetPathname(m_fn));
+        m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn));
         m_displayLocation = UrlDecodeWithUTF8(m_location);
     } else {
         m_displayFn = m_fn;

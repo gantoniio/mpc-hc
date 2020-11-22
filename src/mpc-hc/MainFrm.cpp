@@ -14789,8 +14789,9 @@ void CMainFrame::SetupRecentFilesSubMenu()
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (!MRU[i].fns[0].IsEmpty()) {
                 CString p = MRU[i].fns[0];
-                if (p.Find(_T("://")) > 0 || p.Find(_T(":\\")) > 0) {
-                    p = UrlDecodeWithUTF8(UrlGetPathname(p));
+                if (p.Find(_T("://")) > 0 || p.Find(_T(":\\\\")) > 0) {
+                    if (MRU[i].title.IsEmpty()) p = UrlDecodeWithUTF8(ShortenURL(p));
+                    else p = URLGetHostName(p);
                 }
                 if (!MRU[i].title.IsEmpty()) p.Format(_T("%s (%s)"), MRU[i].title, p);
                 if (p.GetLength() > 150) {
@@ -18259,7 +18260,7 @@ CString CMainFrame::GetFileName()
                 path = pFN;
             }
         }
-        if (path.Find(_T("://")) != -1) path = UrlGetPathname(path);
+        if (path.Find(_T("://")) != -1) path = ShortenURL(path);
         return pli->m_bYoutubeDL ? path : PathUtils::StripPathOrUrl(path);
     }
     return _T("");
@@ -18686,10 +18687,10 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
             filenames.AddTail(a_url);
         }
         if (replace) {
-            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
+            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + URLGetHostName(url) + ")", url);
             break;
         } else {
-            m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
+            m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + URLGetHostName(url) + ")", url);
         }
     }
 
