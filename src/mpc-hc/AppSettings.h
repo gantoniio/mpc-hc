@@ -467,16 +467,16 @@ class CAppSettings
     public:
         CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize) : m_section(lpszSection), m_maxSize(nSize){}
 
-        CAtlArray<RecentFileEntry> arries;
+        CAtlArray<RecentFileEntry> rfe_array;
         int m_maxSize;
         LPCTSTR m_section;
 
         int GetSize() {
-            return arries.GetCount();
+            return rfe_array.GetCount();
         }
 
         RecentFileEntry& operator[](int nIndex) {
-            if (nIndex >= 0 && nIndex < arries.GetCount()) return arries[nIndex];
+            if (nIndex >= 0 && nIndex < rfe_array.GetCount()) return rfe_array[nIndex];
         }
 
         void Remove(int nIndex);

@@ -2532,9 +2532,9 @@ void CAppSettings::CRecentFileAndURLList::SetSize(int nSize)
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::Remove(int nIndex) {
-    if (nIndex >= 0 && nIndex < arries.GetCount()) {
-        arries.RemoveAt(nIndex);
-        arries.FreeExtra();
+    if (nIndex >= 0 && nIndex < rfe_array.GetCount()) {
+        rfe_array.RemoveAt(nIndex);
+        rfe_array.FreeExtra();
     }
 }
 
@@ -2585,21 +2585,21 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
     if (r.fns.GetCount() < 1)return;
     r.fns.FreeExtra();
     int i = 0;
-    for (; i < arries.GetCount(); i++) {
-        if (r == arries[i]) {
+    for (; i < rfe_array.GetCount(); i++) {
+        if (r == rfe_array[i]) {
             Remove(i);
             break;
         }
     }
-    arries.InsertAt(0, r);
-    if (arries.GetCount() > m_maxSize) {
-        arries.SetCount(m_maxSize);
+    rfe_array.InsertAt(0, r);
+    if (rfe_array.GetCount() > m_maxSize) {
+        rfe_array.SetCount(m_maxSize);
     }
-    arries.FreeExtra();
+    rfe_array.FreeExtra();
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
-    arries.RemoveAll();
+    rfe_array.RemoveAll();
     auto pApp = AfxGetMyApp();
     int i = 1;
     for (; i <= m_maxSize; i++) {
@@ -2629,18 +2629,18 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
             if (st.IsEmpty()) break;
             r.subs.Add(st);
         }
-        arries.Add(r);
+        rfe_array.Add(r);
     }
-    arries.FreeExtra();
+    rfe_array.FreeExtra();
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
     auto pApp = AfxGetMyApp();
     pApp->WriteProfileString(m_section, nullptr, nullptr);
     int i = 1;
-    int m = arries.GetCount() > m_maxSize ? m_maxSize : arries.GetCount();
+    int m = rfe_array.GetCount() > m_maxSize ? m_maxSize : rfe_array.GetCount();
     for (; i <= m; i++) {
-        auto& r = arries[i - 1];
+        auto& r = rfe_array[i - 1];
         CString t;
         t.Format(_T("File%d"), i);
         pApp->WriteProfileString(m_section, t, r.fns[0]);
@@ -2671,10 +2671,10 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
 
 void CAppSettings::CRecentFileListWithMoreInfo::SetSize(int nSize) {
     m_maxSize = nSize;
-    if (arries.GetCount() > m_maxSize) {
-        arries.SetCount(m_maxSize);
+    if (rfe_array.GetCount() > m_maxSize) {
+        rfe_array.SetCount(m_maxSize);
     }
-    arries.FreeExtra();
+    rfe_array.FreeExtra();
 }
 
 bool CAppSettings::IsVSFilterInstalled()
