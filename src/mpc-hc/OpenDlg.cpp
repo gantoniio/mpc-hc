@@ -76,12 +76,12 @@ BOOL COpenDlg::OnInitDialog()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    CRecentFileList& MRU = s.MRU;
+    auto& MRU = s.MRU;
     MRU.ReadList();
     m_cbMRU.ResetContent();
     for (int i = 0; i < MRU.GetSize(); i++) {
-        if (!MRU[i].IsEmpty()) {
-            m_cbMRU.AddString(MRU[i]);
+        if (!MRU[i].fns[0].IsEmpty()) {
+            m_cbMRU.AddString(MRU[i].fns[0]);
         }
     }
     CorrectComboListWidth(m_cbMRU);

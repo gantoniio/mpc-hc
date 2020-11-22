@@ -420,6 +420,32 @@ public:
 
 #define APPSETTINGS_VERSION 8
 
+class RecentFileEntry {
+public:
+    RecentFileEntry() {}
+    RecentFileEntry(const RecentFileEntry &r) {
+        cue = r.cue;
+        title = r.title;
+        fns.Copy(r.fns);
+        subs.Copy(r.subs);
+    }
+
+    CString title;
+    CAtlArray<CString> fns;
+    CString cue;
+    CAtlArray<CString> subs;
+
+    BOOL operator==(RecentFileEntry c) {
+        return this->fns[0] == c.fns[0] && cue == c.cue;
+    }
+    void operator=(const RecentFileEntry &r) {
+        cue = r.cue;
+        title = r.title;
+        fns.Copy(r.fns);
+        subs.Copy(r.subs);
+    }
+};
+
 class CAppSettings
 {
     bool bInitialized = false;
@@ -433,6 +459,31 @@ class CAppSettings
 
         virtual void Add(LPCTSTR lpszPathName); // we have to override CRecentFileList::Add because the original version can't handle URLs
 
+        void SetSize(int nSize);
+    };
+
+    class CRecentFileListWithMoreInfo
+    {
+    public:
+        CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize) : m_section(lpszSection), m_maxSize(nSize){}
+
+        CAtlArray<RecentFileEntry> arries;
+        int m_maxSize;
+        LPCTSTR m_section;
+
+        int GetSize() {
+            return arries.GetCount();
+        }
+
+        RecentFileEntry& operator[](int nIndex) {
+            if (nIndex >= 0 && nIndex < arries.GetCount()) return arries[nIndex];
+        }
+
+        void Remove(int nIndex);
+        void Add(LPCTSTR fn);
+        void Add(RecentFileEntry r);
+        void ReadList();
+        void WriteList();
         void SetSize(int nSize);
     };
 
@@ -475,7 +526,7 @@ public:
     bool            fTitleBarTextTitle;
     bool            fKeepHistory;
     int             iRecentFilesNumber;
-    CRecentFileAndURLList MRU;
+    CRecentFileListWithMoreInfo MRU;
     CRecentFileAndURLList MRUDub;
     CFilePositionList filePositions;
     CDVDPositionList  dvdPositions;

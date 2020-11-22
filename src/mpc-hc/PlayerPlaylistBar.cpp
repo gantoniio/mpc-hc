@@ -161,7 +161,7 @@ void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
     AddItem(sl, subs);
 }
 
-void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src)
+void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     CPlaylistItem pli;
 
@@ -188,10 +188,15 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     }
 
     pli.AutoLoadFiles();
+    pli.m_label = label;
     if (!ydl_src.IsEmpty()) {
-        pli.m_label = label;
         pli.m_ydlSourceURL = ydl_src;
         pli.m_bYoutubeDL = true;
+    }
+
+    if (!cue.IsEmpty()) {
+        pli.m_cue = true;
+        pli.m_cue_filename = cue;
     }
 
     m_pl.AddTail(pli);
@@ -304,7 +309,7 @@ void CPlayerPlaylistBar::ResolveLinkFiles(CAtlList<CString>& fns)
     }
 }
 
-void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src)
+void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString cue)
 {
     if (fns.IsEmpty()) {
         return;
@@ -360,7 +365,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 #endif
     }
 
-    AddItem(fns, subs, label, ydl_src);
+    AddItem(fns, subs, label, ydl_src, cue);
 }
 
 bool inline IsURL(CString& fn)
@@ -839,14 +844,14 @@ bool CPlayerPlaylistBar::Empty()
     return bWasPlaying;
 }
 
-void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs)
+void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     ResolveLinkFiles(fns);
     Empty();
-    Append(fns, fMulti, subs);
+    Append(fns, fMulti, subs, label, ydl_src, cue);
 }
 
-void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src)
+void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     POSITION posFirstAdded = m_pl.GetTailPosition();
     int iFirstAdded = (int)m_pl.GetCount();
@@ -858,7 +863,7 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
             ParsePlayList(fns.GetNext(pos), nullptr);
         }
     } else {
-        ParsePlayList(fns, subs, 0, label, ydl_src);
+        ParsePlayList(fns, subs, 0, label, ydl_src, cue);
     }
 
     Refresh();

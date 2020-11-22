@@ -1115,11 +1115,11 @@ void CMainFrame::OnClose()
 
 LPCTSTR CMainFrame::GetRecentFile() const
 {
-    CRecentFileList& MRU = AfxGetAppSettings().MRU;
+    auto& MRU = AfxGetAppSettings().MRU;
     MRU.ReadList();
     for (int i = 0; i < MRU.GetSize(); i++) {
-        if (!MRU[i].IsEmpty()) {
-            return MRU[i].GetString();
+        if (!MRU[i].fns[0].IsEmpty()) {
+            return MRU[i].fns[0].GetString();
         }
     }
     return nullptr;
@@ -9980,40 +9980,50 @@ void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
 
 void CMainFrame::OnRecentFile(UINT nID)
 {
-    CString fn;
-    CRecentFileList& MRU = AfxGetAppSettings().MRU;
+    CAtlArray<CString> fns;
+    auto& MRU = AfxGetAppSettings().MRU;
     MRU.ReadList();
+    RecentFileEntry r;
 
     // find corresponding item in MRU list, we can't directly use string from menu because it may have been shortened
     nID -= ID_RECENT_FILE_START;
     for (int i = 0; i < MRU.GetSize(); i++) {
-        if (!MRU[i].IsEmpty()) {
+        if (!MRU[i].fns[0].IsEmpty()) {
             if (nID > 0) {
                 nID--;
             }
             else {
-                fn = MRU[i];
+                r = MRU[i];
+                fns.Copy(r.fns);
                 break;
             }
         }
     }
-    if (fn.IsEmpty()) {
+    if (fns[0].IsEmpty()) {
         ASSERT(false);
         return;
     }
 
-    if (CanSendToYoutubeDL(fn)) {
+    if (fns.GetCount() == 1 && CanSendToYoutubeDL(fns[0])) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-        if (ProcessYoutubeDLURL(fn, false)) {
+        if (ProcessYoutubeDLURL(fns[0], false)) {
             OpenCurPlaylistItem();
             return;
         }
     }
 
-    if (!m_wndPlaylistBar.SelectFileInPlaylist(fn)) {
-        CAtlList<CString> fns;
-        fns.AddTail(fn);
-        m_wndPlaylistBar.Open(fns, false);
+    if (!m_wndPlaylistBar.SelectFileInPlaylist(fns[0])) {
+        CAtlList<CString> fnsl;
+        int i = 0;
+        for (; i < fns.GetCount(); i++) {
+            fnsl.AddTail(fns[i]);
+        }
+        CAtlList<CString> subs;
+        i = 0;
+        for (; i < r.subs.GetCount(); i++) {
+            subs.AddTail(r.subs[i]);
+        }
+        m_wndPlaylistBar.Open(fnsl, false, &subs, r.title, _T(""), r.cue);
     }
     OpenCurPlaylistItem();
 }
@@ -11801,11 +11811,46 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         // We don't keep track of piped inputs since that hardly makes any sense
         if (s.fKeepHistory && fn.Find(_T("pipe:")) != 0 && pOFD->bAddToRecent) {
-            CRecentFileList* pMRU = bMainFile ? &s.MRU : &s.MRUDub;
-            pMRU->ReadList();
-            pMRU->Add(fn);
-            pMRU->WriteList();
-            SHAddToRecentDocs(SHARD_PATH, fn);
+            if (bMainFile) {
+                auto* pMRU = &s.MRU;
+                pMRU->ReadList();
+                RecentFileEntry r;
+                r.fns.Add(fn);
+                CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
+                if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
+                if (!m_pli->m_bYoutubeDL && m_pli->m_fns.GetCount() > 1) {
+                    r.fns.RemoveAll();
+                    POSITION p = m_pli->m_fns.GetHeadPosition();
+                    bool b(true);
+                    do {
+                        if (p == m_pli->m_fns.GetTailPosition()) b = false;
+                        CString t(m_pli->m_fns.GetNext(p));
+                        r.fns.Add(t);
+                    } while (b);
+                    r.fns.FreeExtra();
+                }
+                if (m_pli->m_cue) r.cue = m_pli->m_cue_filename;
+                if (m_pli->m_subs.GetCount() > 0) {
+                    POSITION p = m_pli->m_subs.GetHeadPosition();
+                    bool b(true);
+                    do {
+                        if (p == m_pli->m_subs.GetTailPosition()) b = false;
+                        CString t(m_pli->m_subs.GetNext(p));
+                        r.subs.Add(t);
+                    } while (b);
+                    r.subs.FreeExtra();
+                }
+                pMRU->Add(r);
+                pMRU->WriteList();
+                SHAddToRecentDocs(SHARD_PATH, fn);
+            }
+            else {
+                CRecentFileList* pMRU = &s.MRUDub;
+                pMRU->ReadList();
+                pMRU->Add(fn);
+                pMRU->WriteList();
+                SHAddToRecentDocs(SHARD_PATH, fn);
+            }
         }
 
         if (bMainFile) {
@@ -12191,7 +12236,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     }
 
     if (s.fKeepHistory) {
-        CRecentFileList* pMRU = &s.MRU;
+        auto* pMRU = &s.MRU;
         pMRU->ReadList();
         pMRU->Add(pODD->title);
         pMRU->WriteList();
@@ -14726,12 +14771,12 @@ void CMainFrame::SetupRecentFilesSubMenu()
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
 
     UINT id = ID_RECENT_FILE_START;
-    CRecentFileList& MRU = AfxGetAppSettings().MRU;
+    auto& MRU = AfxGetAppSettings().MRU;
     MRU.ReadList();
 
     bool bNoEmptyMRU = false;
     for (int i = 0; i < MRU.GetSize(); i++) {
-        if (!MRU[i].IsEmpty()) {
+        if (!MRU[i].fns[0].IsEmpty()) {
             bNoEmptyMRU = true;
             break;
         }
@@ -14742,11 +14787,12 @@ void CMainFrame::SetupRecentFilesSubMenu()
 
         for (int i = 0; i < MRU.GetSize(); i++) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-            if (!MRU[i].IsEmpty()) {
-                CString p = MRU[i];
-                if (p.Find(_T("://")) > 0) {
+            if (!MRU[i].fns[0].IsEmpty()) {
+                CString p = MRU[i].fns[0];
+                if (p.Find(_T("://")) > 0 || p.Find(_T(":\\")) > 0) {
                     p = UrlDecodeWithUTF8(UrlGetPathname(p));
                 }
+                if (!MRU[i].title.IsEmpty()) p.Format(_T("%s (%s)"), MRU[i].title, p);
                 if (p.GetLength() > 150) {
                     p = p.Left(60) + _T("~~~") + p.Right(87);
                 }
@@ -18648,9 +18694,14 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
     }
 
     if (s.fKeepHistory) {
-        CRecentFileList* mru = &s.MRU;
+        auto* mru = &s.MRU;
         mru->ReadList();
-        mru->Add(url);
+        RecentFileEntry r;
+        r.fns.Add(url);
+        if (streams.GetCount() > 0) {
+            r.title = streams.GetHead().title;
+        }
+        mru->Add(r);
         mru->WriteList();
     }
 
