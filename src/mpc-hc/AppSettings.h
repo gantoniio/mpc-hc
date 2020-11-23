@@ -859,6 +859,7 @@ public:
     bool bShowLangInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
+    bool bUseTitleInRecentFileList;
 
 private:
     struct FilterKey {

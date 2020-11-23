@@ -14771,7 +14771,8 @@ void CMainFrame::SetupRecentFilesSubMenu()
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
 
     UINT id = ID_RECENT_FILE_START;
-    auto& MRU = AfxGetAppSettings().MRU;
+    auto& s = AfxGetAppSettings();
+    auto& MRU = s.MRU;
     MRU.ReadList();
 
     bool bNoEmptyMRU = false;
@@ -14789,13 +14790,30 @@ void CMainFrame::SetupRecentFilesSubMenu()
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (!MRU[i].fns[0].IsEmpty()) {
                 CString p = MRU[i].fns[0];
-                if (p.Find(_T("://")) > 0 || p.Find(_T(":\\\\")) > 0) {
-                    if (MRU[i].title.IsEmpty()) p = UrlDecodeWithUTF8(ShortenURL(p));
-                    else p = URLGetHostName(p);
+                if (s.bUseTitleInRecentFileList && !MRU[i].title.IsEmpty()) {
+                    CString title(MRU[i].title);
+                    if (title.GetLength() > 100) {
+                        title = title.Left(40) + _T("~~~") + title.Right(57);
+                    }
+                    int targetlen = 150 - title.GetLength();
+                    if (p.Find(_T("://")) > 0 || p.Find(_T(":\\\\")) > 0)
+                        p.Format(_T("%s (%s)"), title, ShortenURL(p, targetlen, true));
+                    else {
+                        CString fn = PathUtils::StripPathOrUrl(p);
+                        if (fn.GetLength() > targetlen) { // If file name is too long, cut middle part.
+                            int l = fn.GetLength();
+                            fn.Format(_T("%s~~~%s"), fn.Left(l / 2 - 2 + (l % 2)), fn.Right(l / 2 - 1));
+                        }
+                        p.Format(_T("%s (%s)"), title, fn);
+                    }
                 }
-                if (!MRU[i].title.IsEmpty()) p.Format(_T("%s (%s)"), MRU[i].title, p);
-                if (p.GetLength() > 150) {
-                    p = p.Left(60) + _T("~~~") + p.Right(87);
+                else {
+                    if (p.Find(_T("://")) > 0 || p.Find(_T(":\\\\")) > 0) {
+                        p = ShortenURL(p, 150);
+                    }
+                    if (p.GetLength() > 150) {
+                        p.Format(_T("%s~~~%s"), p.Left(60), p.Right(87));
+                    }
                 }
                 VERIFY(subMenu.AppendMenu(flags, id, p));
             }
@@ -18686,11 +18704,13 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         if (!a_url.IsEmpty()) {
             filenames.AddTail(a_url);
         }
+        CString title = streams.GetAt(streams.FindIndex(i)).title;
+        int targetlen = title.GetLength() > 100 ? 50 : 150 - title.GetLength();
         if (replace) {
-            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + URLGetHostName(url) + ")", url);
+            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, title + " (" + ShortenURL(url, targetlen, true) + ")", url);
             break;
         } else {
-            m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + URLGetHostName(url) + ")", url);
+            m_wndPlaylistBar.Append(filenames, false, nullptr, title + " (" + ShortenURL(url, targetlen, true) + ")", url);
         }
     }
 

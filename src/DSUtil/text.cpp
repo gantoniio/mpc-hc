@@ -145,10 +145,13 @@ CStringW UrlDecodeWithUTF8(CString in) {
 CStringW URLGetHostName(const CStringW in) {
     CStringW t(in);
     if (t.Find(_T("://")) > 0) {
-        t = t.Right(t.GetLength() - t.Find(_T("://")) - 3);
+        t = t.Mid(t.Find(_T("://")) + 3);
     }
     else if (t.Find(_T(":\\\\")) > 0) {
-        t = t.Right(t.GetLength() - t.Find(_T(":\\\\")) - 3);
+        t = t.Mid(t.Find(_T(":\\\\")) + 3);
+    }
+    if (t.Left(4) == _T("www.")) {
+        t = t.Mid(4);
     }
     if (t.Find(_T("/")) > 0) {
         t = t.Left(t.Find(_T("/")));
@@ -159,8 +162,17 @@ CStringW URLGetHostName(const CStringW in) {
     return t;
 }
 
-CStringW ShortenURL(const CStringW url, int targetLength) {
+CStringW ShortenURL(const CStringW url, int targetLength, bool returnHostnameIfTooLong) {
     CStringW t(url);
+    if (t.Find(_T("://")) > 0) {
+        t = t.Mid(t.Find(_T("://")) + 3);
+    }
+    else if (t.Find(_T(":\\\\")) > 0) {
+        t = t.Mid(t.Find(_T(":\\\\")) + 3);
+    }
+    if (t.Left(4) == _T("www.")) {
+        t = t.Mid(4);
+    }
     while (t.GetLength() > targetLength) {
         int position = t.ReverseFind('#');
         if (position > 0) {
@@ -179,6 +191,7 @@ CStringW ShortenURL(const CStringW url, int targetLength) {
         }
         break;
     }
+    if (t.GetLength() > targetLength && returnHostnameIfTooLong) return URLGetHostName(url);
     return t;
 }
 
