@@ -15078,8 +15078,6 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
 {
     CAppSettings& s = AfxGetAppSettings();
     CComQIPtr<ISubStream> pSubStream; 
-    auto& MRU = s.MRU;
-    auto* m_pli = m_wndPlaylistBar.GetCur();
 
     if (!s.IsISRAutoLoadEnabled() && (FindFilter(CLSID_VSFilter, m_pGB) || FindFilter(CLSID_XySubFilter, m_pGB))) {
         // Prevent ISR from loading if VSFilter is already in graph.
@@ -15147,37 +15145,7 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
             *pSubInput = subInput;
         }
 
-        MRU.ReadList();
-        RecentFileEntry r;
-        if (m_pli->m_bYoutubeDL && !m_pli->m_ydlSourceURL.IsEmpty()) {
-            r.fns.Add(m_pli->m_ydlSourceURL);
-        }
-        else {
-            POSITION p = m_pli->m_fns.GetHeadPosition();
-            bool b(true);
-            do {
-                if (p == m_pli->m_fns.GetTailPosition()) b = false;
-                CString t(m_pli->m_fns.GetNext(p));
-                r.fns.Add(t);
-            } while (b);
-            r.fns.FreeExtra();
-        }
-        if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
-        bool found = false;
-        if (m_pli->m_subs.GetCount() > 0) {
-            POSITION p = m_pli->m_subs.GetHeadPosition();
-            bool b(true);
-            do {
-                if (p == m_pli->m_subs.GetTailPosition()) b = false;
-                CString t(m_pli->m_subs.GetNext(p));
-                if (t == fn) found = true;
-                r.subs.Add(t);
-            } while (b);
-            r.subs.FreeExtra();
-        }
-        if (!found) r.subs.Add(fn);
-        MRU.Add(r);
-        MRU.WriteList();
+        updateRecentFileListSub(fn);
     }
 
     return !!pSubStream;
@@ -15195,8 +15163,6 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
 
     SubtitleInput* pSubInput = GetSubtitleInput(i, bIsOffset);
     bool success = false;
-    auto& MRU = AfxGetAppSettings().MRU;
-    auto* m_pli = m_wndPlaylistBar.GetCur();
 
     if (pSubInput) {
         CComHeapPtr<WCHAR> pName;
@@ -15237,37 +15203,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             path = pSubInput->pSubStream->GetPath();
         }
 
-        MRU.ReadList();
-        RecentFileEntry r;
-        if (m_pli->m_bYoutubeDL && !m_pli->m_ydlSourceURL.IsEmpty()) {
-            r.fns.Add(m_pli->m_ydlSourceURL);
-        }
-        else {
-            POSITION p = m_pli->m_fns.GetHeadPosition();
-            bool b(true);
-            do {
-                if (p == m_pli->m_fns.GetTailPosition()) b = false;
-                CString t(m_pli->m_fns.GetNext(p));
-                r.fns.Add(t);
-            } while (b);
-            r.fns.FreeExtra();
-        }
-        if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
-        bool found = false;
-        if (m_pli->m_subs.GetCount() > 0) {
-            POSITION p = m_pli->m_subs.GetHeadPosition();
-            bool b(true);
-            do {
-                if (p == m_pli->m_subs.GetTailPosition()) b = false;
-                CString t(m_pli->m_subs.GetNext(p));
-                if (t == path) found = true;
-                r.subs.Add(t);
-            } while (b);
-            r.subs.FreeExtra();
-        }
-        if (!found && !path.IsEmpty()) r.subs.Add(path);
-        MRU.Add(r);
-        MRU.WriteList();
+        updateRecentFileListSub(path);
 
         if (bDisplayMessage && pName) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pName), LCID(-1), 2));
@@ -18853,4 +18789,40 @@ void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt) {
         return;
     }
     __super::OnMouseHWheel(nFlags, zDelta, pt);
+}
+
+void CMainFrame::updateRecentFileListSub(CString fn) {
+    auto& MRU = AfxGetAppSettings().MRU;
+    auto* m_pli = m_wndPlaylistBar.GetCur();
+    MRU.ReadList();
+    RecentFileEntry r;
+    if (m_pli->m_bYoutubeDL && !m_pli->m_ydlSourceURL.IsEmpty()) {
+        r.fns.Add(m_pli->m_ydlSourceURL);
+    }
+    else {
+        POSITION p = m_pli->m_fns.GetHeadPosition();
+        bool b(true);
+        do {
+            if (p == m_pli->m_fns.GetTailPosition()) b = false;
+            CString t(m_pli->m_fns.GetNext(p));
+            r.fns.Add(t);
+        } while (b);
+        r.fns.FreeExtra();
+    }
+    if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
+    bool found = false;
+    if (m_pli->m_subs.GetCount() > 0) {
+        POSITION p = m_pli->m_subs.GetHeadPosition();
+        bool b(true);
+        do {
+            if (p == m_pli->m_subs.GetTailPosition()) b = false;
+            CString t(m_pli->m_subs.GetNext(p));
+            if (t == fn) found = true;
+            r.subs.Add(t);
+        } while (b);
+        r.subs.FreeExtra();
+    }
+    if (!found && !fn.IsEmpty()) r.subs.Add(fn);
+    MRU.Add(r);
+    MRU.WriteList();
 }
