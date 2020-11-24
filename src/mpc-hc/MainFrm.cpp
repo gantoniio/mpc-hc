@@ -15096,38 +15096,6 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         AddTextPassThruFilter();
     }
 
-    MRU.ReadList();
-    RecentFileEntry r;
-    if (m_pli->m_bYoutubeDL && !m_pli->m_ydlSourceURL.IsEmpty()) {
-        r.fns.Add(m_pli->m_ydlSourceURL);
-    }
-    else {
-        POSITION p = m_pli->m_fns.GetHeadPosition();
-        bool b(true);
-        do {
-            if (p == m_pli->m_fns.GetTailPosition()) b = false;
-            CString t(m_pli->m_fns.GetNext(p));
-            r.fns.Add(t);
-        } while (b);
-        r.fns.FreeExtra();
-    }
-    if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
-    bool found = false;
-    if (m_pli->m_subs.GetCount() > 0) {
-        POSITION p = m_pli->m_subs.GetHeadPosition();
-        bool b(true);
-        do {
-            if (p == m_pli->m_subs.GetTailPosition()) b = false;
-            CString t(m_pli->m_subs.GetNext(p));
-            if (t == fn) found = true;
-            r.subs.Add(t);
-        } while (b);
-        r.subs.FreeExtra();
-    }
-    if (!found) r.subs.Add(fn);
-    MRU.Add(r);
-    MRU.WriteList();
-
     CString videoName;
     if (GetPlaybackMode() == PM_FILE) {
         videoName = m_wndPlaylistBar.GetCurFileName();
@@ -15178,6 +15146,38 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         if (pSubInput) {
             *pSubInput = subInput;
         }
+
+        MRU.ReadList();
+        RecentFileEntry r;
+        if (m_pli->m_bYoutubeDL && !m_pli->m_ydlSourceURL.IsEmpty()) {
+            r.fns.Add(m_pli->m_ydlSourceURL);
+        }
+        else {
+            POSITION p = m_pli->m_fns.GetHeadPosition();
+            bool b(true);
+            do {
+                if (p == m_pli->m_fns.GetTailPosition()) b = false;
+                CString t(m_pli->m_fns.GetNext(p));
+                r.fns.Add(t);
+            } while (b);
+            r.fns.FreeExtra();
+        }
+        if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
+        bool found = false;
+        if (m_pli->m_subs.GetCount() > 0) {
+            POSITION p = m_pli->m_subs.GetHeadPosition();
+            bool b(true);
+            do {
+                if (p == m_pli->m_subs.GetTailPosition()) b = false;
+                CString t(m_pli->m_subs.GetNext(p));
+                if (t == fn) found = true;
+                r.subs.Add(t);
+            } while (b);
+            r.subs.FreeExtra();
+        }
+        if (!found) r.subs.Add(fn);
+        MRU.Add(r);
+        MRU.WriteList();
     }
 
     return !!pSubStream;
