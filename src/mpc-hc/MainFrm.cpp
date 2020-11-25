@@ -11818,6 +11818,20 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 r.fns.Add(fn);
                 CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
                 if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
+                else {
+                    CString title;
+                    BeginEnumFilters(m_pGB, pEF, pBF) {
+                        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
+                            CComBSTR bstr;
+                            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                                title = CString(bstr.m_str);
+                                break;
+                            }
+                        }
+                    }
+                    EndEnumFilters;
+                    if (!title.IsEmpty()) r.title = title;
+                }
                 if (!m_pli->m_bYoutubeDL && m_pli->m_fns.GetCount() > 1) {
                     r.fns.RemoveAll();
                     POSITION p = m_pli->m_fns.GetHeadPosition();
@@ -18813,6 +18827,20 @@ void CMainFrame::updateRecentFileListSub(CString fn) {
         r.fns.FreeExtra();
     }
     if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
+    else {
+        CString title;
+        BeginEnumFilters(m_pGB, pEF, pBF) {
+            if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
+                CComBSTR bstr;
+                if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                    title = CString(bstr.m_str);
+                    break;
+                }
+            }
+        }
+        EndEnumFilters;
+        if (!title.IsEmpty()) r.title = title;
+    }
     bool found = false;
     if (m_pli->m_subs.GetCount() > 0) {
         POSITION p = m_pli->m_subs.GetHeadPosition();
