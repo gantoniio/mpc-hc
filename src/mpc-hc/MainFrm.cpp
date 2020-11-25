@@ -10012,19 +10012,24 @@ void CMainFrame::OnRecentFile(UINT nID)
         }
     }
 
+    CAtlList<CString> fnsl;
+    int i = 0;
+    for (; i < fns.GetCount(); i++) {
+        fnsl.AddTail(fns[i]);
+    }
+    CAtlList<CString> subs;
+    i = 0;
+    for (; i < r.subs.GetCount(); i++) {
+        subs.AddTail(r.subs[i]);
+    }
+
     if (!m_wndPlaylistBar.SelectFileInPlaylist(fns[0])) {
-        CAtlList<CString> fnsl;
-        int i = 0;
-        for (; i < fns.GetCount(); i++) {
-            fnsl.AddTail(fns[i]);
-        }
-        CAtlList<CString> subs;
-        i = 0;
-        for (; i < r.subs.GetCount(); i++) {
-            subs.AddTail(r.subs[i]);
-        }
         m_wndPlaylistBar.Open(fnsl, false, &subs, r.title, _T(""), r.cue);
     }
+    else {
+        m_wndPlaylistBar.ReplaceCurrentItem(fnsl, &subs, r.title, _T(""), r.cue);
+    }
+
     OpenCurPlaylistItem();
 }
 
@@ -15092,7 +15097,7 @@ HRESULT CMainFrame::InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin*
 bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/, bool bAutoLoad /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
-    CComQIPtr<ISubStream> pSubStream; 
+    CComQIPtr<ISubStream> pSubStream;
 
     if (!s.IsISRAutoLoadEnabled() && (FindFilter(CLSID_VSFilter, m_pGB) || FindFilter(CLSID_XySubFilter, m_pGB))) {
         // Prevent ISR from loading if VSFilter is already in graph.

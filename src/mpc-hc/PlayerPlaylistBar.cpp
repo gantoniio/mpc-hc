@@ -202,11 +202,11 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     m_pl.AddTail(pli);
 }
 
-void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src)
+void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     CPlaylistItem* pli = GetCur();
     if (pli == nullptr) {
-        AddItem(fns, subs, label, ydl_src);
+        AddItem(fns, subs, label, ydl_src, cue);
     } else {
         pli->m_fns.RemoveAll();
         pli->m_fns.AddTailList(&fns);
@@ -217,6 +217,8 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
         pli->m_label = label;
         pli->m_ydlSourceURL = ydl_src;
         pli->m_bYoutubeDL = !ydl_src.IsEmpty();
+        pli->m_cue = !cue.IsEmpty();
+        pli->m_cue_filename = cue;
 
         Refresh();
         SavePlaylist();
