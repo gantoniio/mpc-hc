@@ -14809,7 +14809,7 @@ void CMainFrame::SetupRecentFilesSubMenu()
         for (int i = 0; i < MRU.GetSize(); i++) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (!MRU[i].fns[0].IsEmpty()) {
-                CString p = MRU[i].fns[0];
+                CString p = MRU[i].cue.IsEmpty() ? MRU[i].fns[0] : MRU[i].cue;
                 if (s.bUseTitleInRecentFileList && !MRU[i].title.IsEmpty()) {
                     CString title(MRU[i].title);
                     if (title.GetLength() > 100) {
