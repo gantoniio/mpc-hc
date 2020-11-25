@@ -15144,8 +15144,6 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         if (pSubInput) {
             *pSubInput = subInput;
         }
-
-        updateRecentFileListSub(fn);
     }
 
     return !!pSubStream;
@@ -15191,7 +15189,6 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
         }
         SetSubtitle(*pSubInput, true);
 
-        CString path;
         if (!pName) {
             LCID lcid = 0;
             pSubInput->pSubStream->GetStreamInfo(0, &pName, &lcid);
@@ -15200,10 +15197,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             } else {
                 currentSubLang.Empty();
             }
-            path = pSubInput->pSubStream->GetPath();
         }
-
-        updateRecentFileListSub(path);
 
         if (bDisplayMessage && pName) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pName), LCID(-1), 2));
@@ -16356,6 +16350,12 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
         // abort finished, unset the flag
         m_fOpeningAborted = false;
+    }
+
+    CString path(m_pCurrentSubInput.pSubStream.p->GetPath());
+    auto& s = AfxGetAppSettings();
+    if (s.fKeepHistory) {
+        updateRecentFileListSub(path);
     }
 
     // we are on the way
