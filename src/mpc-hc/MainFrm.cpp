@@ -11854,6 +11854,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                     } while (b);
                     r.subs.FreeExtra();
                 }
+                m_current_rfe = r;
                 pMRU->Add(r);
                 pMRU->WriteList();
                 SHAddToRecentDocs(SHARD_PATH, fn);
@@ -18745,6 +18746,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         if (streams.GetCount() > 0) {
             r.title = streams.GetHead().title;
         }
+        m_current_rfe = r;
         mru->Add(r);
         mru->WriteList();
     }
@@ -18812,48 +18814,17 @@ void CMainFrame::updateRecentFileListSub(CString fn) {
     auto& MRU = AfxGetAppSettings().MRU;
     auto* m_pli = m_wndPlaylistBar.GetCur();
     MRU.ReadList();
-    RecentFileEntry r;
-    if (m_pli->m_bYoutubeDL && !m_pli->m_ydlSourceURL.IsEmpty()) {
-        r.fns.Add(m_pli->m_ydlSourceURL);
-    }
-    else {
-        POSITION p = m_pli->m_fns.GetHeadPosition();
-        bool b(true);
-        do {
-            if (p == m_pli->m_fns.GetTailPosition()) b = false;
-            CString t(m_pli->m_fns.GetNext(p));
-            r.fns.Add(t);
-        } while (b);
-        r.fns.FreeExtra();
-    }
-    if (!m_pli->m_label.IsEmpty()) r.title = m_pli->m_label;
-    else {
-        CString title;
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-                CComBSTR bstr;
-                if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                    title = CString(bstr.m_str);
-                    break;
-                }
-            }
+    RecentFileEntry r = m_current_rfe;
+    int i(0);
+    bool found(false);
+    for (; i < r.subs.GetCount(); i++) {
+        if (r.subs[i] == fn) {
+            found = true;
+            break;
         }
-        EndEnumFilters;
-        if (!title.IsEmpty()) r.title = title;
-    }
-    bool found = false;
-    if (m_pli->m_subs.GetCount() > 0) {
-        POSITION p = m_pli->m_subs.GetHeadPosition();
-        bool b(true);
-        do {
-            if (p == m_pli->m_subs.GetTailPosition()) b = false;
-            CString t(m_pli->m_subs.GetNext(p));
-            if (t == fn) found = true;
-            r.subs.Add(t);
-        } while (b);
-        r.subs.FreeExtra();
     }
     if (!found && !fn.IsEmpty()) r.subs.Add(fn);
     MRU.Add(r);
     MRU.WriteList();
+    m_current_rfe = RecentFileEntry(); // Clear
 }
