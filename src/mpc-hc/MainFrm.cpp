@@ -16352,7 +16352,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         m_fOpeningAborted = false;
     }
 
-    CString path(m_pCurrentSubInput.pSubStream.p->GetPath());
+    CString path;
+    if (m_pCurrentSubInput.pSubStream.p != nullptr) {
+        path = m_pCurrentSubInput.pSubStream.p->GetPath();
+    }
     auto& s = AfxGetAppSettings();
     if (s.fKeepHistory) {
         updateRecentFileListSub(path);
