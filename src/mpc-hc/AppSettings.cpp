@@ -2543,7 +2543,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Remove(int nIndex) {
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
     RecentFileEntry r;
-    r.fns[0] = fn;
+    r.fns.Add(fn);
     Add(r);
 }
 
