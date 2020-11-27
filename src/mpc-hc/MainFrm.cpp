@@ -18722,9 +18722,12 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         m_wndPlaylistBar.Empty();
     }
 
+    CString f_title;
+
     for (unsigned int i = 0; i < streams.GetCount(); i++) {
-        CString v_url = streams.GetAt(streams.FindIndex(i)).video_url;
-        CString a_url = streams.GetAt(streams.FindIndex(i)).audio_url;
+        auto stream = streams.GetAt(streams.FindIndex(i));
+        CString v_url = stream.video_url;
+        CString a_url = stream.audio_url;
         filenames.RemoveAll();
         if (!v_url.IsEmpty() && (!s.bYDLAudioOnly || a_url.IsEmpty())) {
             filenames.AddTail(v_url);
@@ -18733,13 +18736,36 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         if (!a_url.IsEmpty()) {
             filenames.AddTail(a_url);
         }
-        CString title = streams.GetAt(streams.FindIndex(i)).title;
+        CString title = stream.title;
+        CString seasonid;
+        if (stream.season_number != -1) {
+            seasonid.Format(_T("S%02d"), stream.season_number);
+        }
+        CString episodeid;
+        if (stream.episode_number != -1) {
+            episodeid.Format(_T("E%2d"), stream.season_number);
+        }
+        CString epiid;
+        if (!seasonid.IsEmpty() || !episodeid.IsEmpty()) {
+            epiid.Format(_T("%s%s. "), seasonid, episodeid);
+        }
+        CString season;
+        if (!stream.season.IsEmpty()) {
+            season = stream.season + _T(" - ");
+        }
+        else if (!stream.series.IsEmpty()) {
+            season = stream.series + _T(" - ");
+        }
+        title.Format(_T("%s%s%s"), epiid, season, title);
+        if (i == 0) f_title = title;
         int targetlen = title.GetLength() > 100 ? 50 : 150 - title.GetLength();
+        CString url2(url);
+        if (!stream.webpage_url.IsEmpty()) url2 = stream.webpage_url;
         if (replace) {
-            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, title + " (" + ShortenURL(url, targetlen, true) + ")", url);
+            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, title + " (" + ShortenURL(url2, targetlen, true) + ")", url2);
             break;
         } else {
-            m_wndPlaylistBar.Append(filenames, false, nullptr, title + " (" + ShortenURL(url, targetlen, true) + ")", url);
+            m_wndPlaylistBar.Append(filenames, false, nullptr, title + " (" + ShortenURL(url2, targetlen, true) + ")", url2);
         }
     }
 
@@ -18749,7 +18775,14 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         RecentFileEntry r;
         r.fns.Add(url);
         if (streams.GetCount() > 0) {
-            r.title = streams.GetHead().title;
+            auto h = streams.GetHead();
+            if (!h.season.IsEmpty()) {
+                r.title = h.season;
+            }
+            else if (!h.series.IsEmpty()) {
+                r.title = h.series;
+            }
+            else r.title = f_title;
         }
         m_current_rfe = r;
         mru->Add(r);
