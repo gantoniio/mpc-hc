@@ -240,7 +240,7 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
             details.has_video = (details.width > 0) || (details.height > 0);
             details.has_audio = true;
         }
-        details.fps = details.has_video && format.HasMember(_T("fps")) && !format[_T("fps")].IsNull() ? format[_T("fps")].GetInt() : 0;
+        details.fps = details.has_video && format.HasMember(_T("fps")) && !format[_T("fps")].IsNull() ? format[_T("fps")].GetDouble() : 0;
 
         if (require_video && !details.has_video || require_audio_only && (!details.has_audio || details.has_video)) return false;
 
