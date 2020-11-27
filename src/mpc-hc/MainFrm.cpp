@@ -18743,7 +18743,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         }
         CString episodeid;
         if (stream.episode_number != -1) {
-            episodeid.Format(_T("E%2d"), stream.season_number);
+            episodeid.Format(_T("E%2d"), stream.episode_number);
         }
         CString epiid;
         if (!seasonid.IsEmpty() || !episodeid.IsEmpty()) {
