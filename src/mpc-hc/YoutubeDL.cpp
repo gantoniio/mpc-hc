@@ -473,20 +473,20 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
             return false;
         }
 
-        if (pJSON->d.HasMember(_T("title"))) {
+        if (pJSON->d.HasMember(_T("title")) && !pJSON->d[_T("title")].IsNull()) {
             stream.title = pJSON->d[_T("title")].GetString();
         } else {
             stream.title = _T("");
         }
 
-        if (pJSON->d.HasMember(_T("series"))) stream.series = pJSON->d[_T("series")].GetString();
-        if (pJSON->d.HasMember(_T("season"))) stream.season = pJSON->d[_T("season")].GetString();
-        if (pJSON->d.HasMember(_T("season_number"))) stream.season_number = pJSON->d[_T("season_number")].GetInt();
-        if (pJSON->d.HasMember(_T("season_id"))) stream.season_id = pJSON->d[_T("season_id")].GetString();
-        if (pJSON->d.HasMember(_T("episode"))) stream.episode = pJSON->d[_T("episode")].GetString();
-        if (pJSON->d.HasMember(_T("episode_number"))) stream.episode_number = pJSON->d[_T("episode_number")].GetInt();
-        if (pJSON->d.HasMember(_T("episode_id"))) stream.episode_id = pJSON->d[_T("episode_id")].GetString();
-        if (pJSON->d.HasMember(_T("webpage_url"))) stream.webpage_url = pJSON->d[_T("webpage_url")].GetString();
+        if (pJSON->d.HasMember(_T("series")) && !pJSON->d[_T("series")].IsNull()) stream.series = pJSON->d[_T("series")].GetString();
+        if (pJSON->d.HasMember(_T("season")) && !pJSON->d[_T("season")].IsNull()) stream.season = pJSON->d[_T("season")].GetString();
+        if (pJSON->d.HasMember(_T("season_number")) && !pJSON->d[_T("season_number")].IsNull()) stream.season_number = pJSON->d[_T("season_number")].GetInt();
+        if (pJSON->d.HasMember(_T("season_id")) && !pJSON->d[_T("season_id")].IsNull()) stream.season_id = pJSON->d[_T("season_id")].GetString();
+        if (pJSON->d.HasMember(_T("episode")) && !pJSON->d[_T("episode")].IsNull()) stream.episode = pJSON->d[_T("episode")].GetString();
+        if (pJSON->d.HasMember(_T("episode_number")) && !pJSON->d[_T("episode_number")].IsNull()) stream.episode_number = pJSON->d[_T("episode_number")].GetInt();
+        if (pJSON->d.HasMember(_T("episode_id")) && !pJSON->d[_T("episode_id")].IsNull()) stream.episode_id = pJSON->d[_T("episode_id")].GetString();
+        if (pJSON->d.HasMember(_T("webpage_url")) && !pJSON->d[_T("webpage_url")].IsNull()) stream.webpage_url = pJSON->d[_T("webpage_url")].GetString();
 
         // detect generic http link
         if (extractor == _T("generic")) {
@@ -524,15 +524,15 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
                 if (filterVideo(entry[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly, s.iYDLVideoFormat)) {
                     stream.video_url = ydl_sd.url;
                     stream.audio_url = _T("");
-                    if (entry.HasMember(_T("title"))) stream.title = entry[_T("title")].GetString();
-                    if (entry.HasMember(_T("series"))) stream.series = entry[_T("series")].GetString();
-                    if (entry.HasMember(_T("season"))) stream.season = entry[_T("season")].GetString();
-                    if (entry.HasMember(_T("season_number"))) stream.season_number = entry[_T("season_number")].GetInt();
-                    if (entry.HasMember(_T("season_id"))) stream.season_id = entry[_T("season_id")].GetString();
-                    if (entry.HasMember(_T("episode"))) stream.episode = entry[_T("episode")].GetString();
-                    if (entry.HasMember(_T("episode_number"))) stream.episode_number = entry[_T("episode_number")].GetInt();
-                    if (entry.HasMember(_T("episode_id"))) stream.episode_id = entry[_T("episode_id")].GetString();
-                    if (entry.HasMember(_T("webpage_url"))) stream.webpage_url = entry[_T("webpage_url")].GetString();
+                    if (entry.HasMember(_T("title")) && !entry[_T("title")].IsNull()) stream.title = entry[_T("title")].GetString();
+                    if (entry.HasMember(_T("series")) && !entry[_T("series")].IsNull()) stream.series = entry[_T("series")].GetString();
+                    if (entry.HasMember(_T("season")) && !entry[_T("season")].IsNull()) stream.season = entry[_T("season")].GetString();
+                    if (entry.HasMember(_T("season_number")) && !entry[_T("season_number")].IsNull()) stream.season_number = entry[_T("season_number")].GetInt();
+                    if (entry.HasMember(_T("season_id")) && !entry[_T("season_id")].IsNull()) stream.season_id = entry[_T("season_id")].GetString();
+                    if (entry.HasMember(_T("episode")) && !entry[_T("episode")].IsNull()) stream.episode = entry[_T("episode")].GetString();
+                    if (entry.HasMember(_T("episode_number")) && !entry[_T("episode_number")].IsNull()) stream.episode_number = entry[_T("episode_number")].GetInt();
+                    if (entry.HasMember(_T("episode_id")) && !entry[_T("episode_id")].IsNull()) stream.episode_id = entry[_T("episode_id")].GetString();
+                    if (entry.HasMember(_T("webpage_url")) && !entry[_T("webpage_url")].IsNull()) stream.webpage_url = entry[_T("webpage_url")].GetString();
                     if (ydl_sd.has_video && !ydl_sd.has_audio) {
                         if (filterAudio(entry[_T("formats")], ydl_sd)) {
                             stream.audio_url = ydl_sd.url;
