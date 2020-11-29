@@ -833,6 +833,7 @@ CMainFrame::CMainFrame()
     , currentAudioLang(_T(""))
     , currentSubLang(_T(""))
     , m_bToggleShader(false)
+    , m_current_rfe()
     , m_bToggleShaderScreenSpace(false)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
