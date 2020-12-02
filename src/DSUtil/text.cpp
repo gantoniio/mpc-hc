@@ -191,8 +191,9 @@ CStringW ShortenURL(const CStringW url, int targetLength, bool returnHostnameIfT
         }
         break;
     }
+    t = UrlDecodeWithUTF8(t);
     if (t.GetLength() > targetLength && returnHostnameIfTooLong) return URLGetHostName(url);
-    return UrlDecodeWithUTF8(t);
+    return t;
 }
 
 CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
