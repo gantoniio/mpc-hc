@@ -159,7 +159,7 @@ CStringW URLGetHostName(const CStringW in) {
     else if (t.Find(_T("\\")) > 0) {
         t = t.Left(t.Find(_T("\\")));
     }
-    return t;
+    return UrlDecodeWithUTF8(t);
 }
 
 CStringW ShortenURL(const CStringW url, int targetLength, bool returnHostnameIfTooLong) {
@@ -192,7 +192,7 @@ CStringW ShortenURL(const CStringW url, int targetLength, bool returnHostnameIfT
         break;
     }
     if (t.GetLength() > targetLength && returnHostnameIfTooLong) return URLGetHostName(url);
-    return t;
+    return UrlDecodeWithUTF8(t);
 }
 
 CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
