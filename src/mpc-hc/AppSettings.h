@@ -426,23 +426,27 @@ public:
     RecentFileEntry(const RecentFileEntry &r) {
         cue = r.cue;
         title = r.title;
-        fns.Copy(r.fns);
-        subs.Copy(r.subs);
+        fns.RemoveAll();
+        subs.RemoveAll();
+        fns.AddHeadList(&r.fns);
+        subs.AddHeadList(&r.subs);
     }
 
     CString title;
-    CAtlArray<CString> fns;
+    CAtlList<CString> fns;
     CString cue;
-    CAtlArray<CString> subs;
+    CAtlList<CString> subs;
 
     BOOL operator==(RecentFileEntry c) {
-        return this->fns[0] == c.fns[0] && cue == c.cue;
+        return this->fns.GetHead() == c.fns.GetHead() && cue == c.cue;
     }
     void operator=(const RecentFileEntry &r) {
         cue = r.cue;
         title = r.title;
-        fns.Copy(r.fns);
-        subs.Copy(r.subs);
+        fns.RemoveAll();
+        subs.RemoveAll();
+        fns.AddHeadList(&r.fns);
+        subs.AddHeadList(&r.subs);
     }
 };
 

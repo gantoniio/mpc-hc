@@ -2543,25 +2543,30 @@ void CAppSettings::CRecentFileListWithMoreInfo::Remove(int nIndex) {
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
     RecentFileEntry r;
-    r.fns.Add(fn);
+    r.fns.AddHead(fn);
     Add(r);
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
     if (m_maxSize <= 0) return;
-    int k = 0;
-    for (; k < r.fns.GetCount(); k++) {
-        CString t(r.fns[k]);
+    if (r.fns.GetCount() < 1) return;
+    bool b(true);
+    POSITION p(r.fns.GetHeadPosition());
+    do {
+        if (p == r.fns.GetTailPosition()) b = false;
+        POSITION p2(p);
+        CString fn = r.fns.GetNext(p);
+        CString t(fn);
         if (t.MakeLower().Find(_T("@device:")) >= 0) {
-            r.fns.RemoveAt(k);
-            k--;
+            r.fns.RemoveAt(p2);
             continue;
         }
-        bool fURL = (r.fns[k].Find(_T("://")) >= 0);
+        bool fURL = (fn.Find(_T("://")) >= 0);
         if (!fURL) {
-            r.fns[k] = MakeFullPath(r.fns[k]);
+            fn = MakeFullPath(fn);
+            r.fns.SetAt(p2, fn);
         }
-    }
+    } while (b);
     if (!r.cue.IsEmpty()) {
         CString t(r.cue);
         if (t.MakeLower().Find(_T("@device:")) >= 0) {
@@ -2572,21 +2577,26 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
             r.cue = MakeFullPath(r.cue);
         }
     }
-    k = 0;
-    for (; k < r.subs.GetCount(); k++) {
-        CString t(r.subs[k]);
-        if (t.MakeLower().Find(_T("@device:")) >= 0) {
-            r.subs.RemoveAt(k);
-            k--;
-            continue;
-        }
-        bool fURL = (r.subs[k].Find(_T("://")) >= 0);
-        if (!fURL) {
-            r.subs[k] = MakeFullPath(r.subs[k]);
-        }
+    if (r.subs.GetCount() > 0) {
+        b = true;
+        p = r.subs.GetHeadPosition();
+        do {
+            if (p == r.subs.GetTailPosition()) b = false;
+            POSITION p2(p);
+            CString fn = r.subs.GetNext(p);
+            CString t(fn);
+            if (t.MakeLower().Find(_T("@device:")) >= 0) {
+                r.subs.RemoveAt(p2);
+                continue;
+            }
+            bool fURL = (fn.Find(_T("://")) >= 0);
+            if (!fURL) {
+                fn = MakeFullPath(fn);
+                r.subs.SetAt(p2, fn);
+            }
+        } while (b);
     }
     if (r.fns.GetCount() < 1)return;
-    r.fns.FreeExtra();
     int i = 0;
     for (; i < rfe_array.GetCount(); i++) {
         if (r == rfe_array[i]) {
@@ -2615,7 +2625,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
         t.Format(_T("Cue%d"), i);
         CString cue = pApp->GetProfileString(m_section, t);
         RecentFileEntry r;
-        r.fns.Add(fn);
+        r.fns.AddTail(fn);
         r.title = title;
         r.cue = cue;
         int k = 2;
@@ -2623,14 +2633,14 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
             t.Format(_T("File%d,%d"), i, k);
             CString ft = pApp->GetProfileString(m_section, t);
             if (ft.IsEmpty()) break;
-            r.fns.Add(ft);
+            r.fns.AddTail(ft);
         }
         k = 1;
         for (;; k++) {
             t.Format(_T("Sub%d,%d"), i, k);
             CString st = pApp->GetProfileString(m_section, t);
             if (st.IsEmpty()) break;
-            r.subs.Add(st);
+            r.subs.AddTail(st);
         }
         rfe_array.Add(r);
     }
@@ -2646,13 +2656,19 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
         auto& r = rfe_array[i - 1];
         CString t;
         t.Format(_T("File%d"), i);
-        pApp->WriteProfileString(m_section, t, r.fns[0]);
+        pApp->WriteProfileString(m_section, t, r.fns.GetHead());
         if (r.fns.GetCount() > 1) {
             int k = 2;
-            for (; k <= r.fns.GetCount(); k++) {
+            POSITION p(r.fns.GetHeadPosition());
+            r.fns.GetNext(p);
+            bool b(true);
+            do {
+                if (p == r.fns.GetTailPosition()) b = false;
+                CString fn = r.fns.GetNext(p);
                 t.Format(_T("File%d,%d"), i, k);
-                pApp->WriteProfileString(m_section, t, r.fns[k - 1]);
-            }
+                pApp->WriteProfileString(m_section, t, fn);
+                k++;
+            } while (b);
         }
         if (!r.title.IsEmpty()) {
             t.Format(_T("Title%d"), i);
@@ -2664,10 +2680,15 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
         }
         if (r.subs.GetCount() > 0) {
             int k = 1;
-            for (; k <= r.subs.GetCount(); k++) {
+            POSITION p(r.subs.GetHeadPosition());
+            bool b(true);
+            do {
+                if (p == r.subs.GetTailPosition()) b = false;
+                CString fn = r.subs.GetNext(p);
                 t.Format(_T("Sub%d,%d"), i, k);
-                pApp->WriteProfileString(m_section, t, r.subs[k - 1]);
-            }
+                pApp->WriteProfileString(m_section, t, fn);
+                k++;
+            } while (b);
         }
     }
 }

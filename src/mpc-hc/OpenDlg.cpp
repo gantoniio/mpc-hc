@@ -80,8 +80,8 @@ BOOL COpenDlg::OnInitDialog()
     MRU.ReadList();
     m_cbMRU.ResetContent();
     for (int i = 0; i < MRU.GetSize(); i++) {
-        if (!MRU[i].fns[0].IsEmpty()) {
-            m_cbMRU.AddString(MRU[i].fns[0]);
+        if (MRU[i].fns.GetCount() >0 && !MRU[i].fns.GetHead().IsEmpty()) {
+            m_cbMRU.AddString(MRU[i].fns.GetHead());
         }
     }
     CorrectComboListWidth(m_cbMRU);
