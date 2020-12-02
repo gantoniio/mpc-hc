@@ -227,7 +227,7 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
 
 static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 {
-    if (mask.Find(_T("://")) > 1 || mask.Find(_T(":\\\\")) > 1) {
+    if (mask.Find(_T("://")) > 1) {
         return false;
     }
 
@@ -352,7 +352,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         ParseCUESheet(fns.GetHead());
         return;
     } else if (ct == "audio/x-mpegurl") {
-        if (fns.GetHead().Find(_T("://")) == -1 && fns.GetHead().Find(_T(":\\\\")) == -1) { // prefer opening M3U URLs directly with LAV Splitter
+        if (fns.GetHead().Find(_T("://")) == -1) { // prefer opening M3U URLs directly with LAV Splitter
             if (ParseM3UPlayList(fns.GetHead())) {
                 return; //we have handled this one. if parse fails it should fall through to AddItem below
             }
@@ -372,7 +372,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 
 bool inline IsURL(CString& fn)
 {
-    return fn.Find(_T("://")) > 1 || fn.Find(_T(":\\\\")) > 1;
+    return fn.Find(_T("://")) > 1;
 }
 
 bool inline IsFullFilePath(CString& fn)
@@ -439,7 +439,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     }
 
     CString base;
-    bool isurl = fn.Find(_T("://")) > 1 || fn.Find(_T(":\\\\")) > 1;
+    bool isurl = fn.Find(_T("://")) > 1;
     if (isurl) {
         int p = fn.Find(_T('?'));
         if (p > 0) {

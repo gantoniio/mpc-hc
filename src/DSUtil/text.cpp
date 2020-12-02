@@ -147,17 +147,11 @@ CStringW URLGetHostName(const CStringW in) {
     if (t.Find(_T("://")) > 1) {
         t = t.Mid(t.Find(_T("://")) + 3);
     }
-    else if (t.Find(_T(":\\\\")) > 1) {
-        t = t.Mid(t.Find(_T(":\\\\")) + 3);
-    }
     if (t.Left(4) == _T("www.")) {
         t = t.Mid(4);
     }
     if (t.Find(_T("/")) > 0) {
         t = t.Left(t.Find(_T("/")));
-    }
-    else if (t.Find(_T("\\")) > 0) {
-        t = t.Left(t.Find(_T("\\")));
     }
     return UrlDecodeWithUTF8(t);
 }
@@ -166,9 +160,6 @@ CStringW ShortenURL(const CStringW url, int targetLength, bool returnHostnameIfT
     CStringW t(url);
     if (t.Find(_T("://")) > 1) {
         t = t.Mid(t.Find(_T("://")) + 3);
-    }
-    else if (t.Find(_T(":\\\\")) > 1) {
-        t = t.Mid(t.Find(_T(":\\\\")) + 3);
     }
     if (t.Left(4) == _T("www.")) {
         t = t.Mid(4);

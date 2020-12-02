@@ -342,7 +342,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
         m_icon.SetIcon(m_hIcon);
     }
 
-    if (m_path.Find(_T("://")) > 1 || m_path.Find(_T(":\\\\")) > 1) {
+    if (m_path.Find(_T("://")) > 1) {
         m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn));
     } else {
         m_displayFn = m_fn;

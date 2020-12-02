@@ -46,7 +46,7 @@ CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourc
         m_fn = m_fn.Mid(i + 1);
     }
 
-    if (path.Find(_T("://")) > 1 || path.Find(_T(":\\\\")) > 1) {
+    if (path.Find(_T("://")) > 1) {
         m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn));
     } else {
         m_displayFn = m_fn;

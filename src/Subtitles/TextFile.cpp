@@ -722,7 +722,7 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 {
     CString fn(lpszFileName);
 
-    if (fn.Find(_T("://")) == -1 && fn.Find(_T(":\\\\")) == -1) {
+    if (fn.Find(_T("://")) == -1) {
         return __super::Open(lpszFileName);
     }
 

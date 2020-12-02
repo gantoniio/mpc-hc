@@ -2493,7 +2493,7 @@ void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
 
     CString pathName = lpszPathName;
 
-    bool fURL = (pathName.Find(_T("://")) > 1 || pathName.Find(_T(":\\\\")) > 1);
+    bool fURL = pathName.Find(_T("://")) > 1;
 
     // fully qualify the path name
     if (!fURL) {
@@ -2558,7 +2558,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
             r.fns.RemoveAt(p2);
             continue;
         }
-        bool fURL = (fn.Find(_T("://")) > 1 || fn.Find(_T(":\\\\")) > 1);
+        bool fURL = fn.Find(_T("://")) > 1;
         if (!fURL) {
             fn = MakeFullPath(fn);
             r.fns.SetAt(p2, fn);
@@ -2569,7 +2569,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
         if (t.MakeLower().Find(_T("@device:")) >= 0) {
             r.cue = _T("");
         }
-        bool fURL = (r.cue.Find(_T("://")) > 1 || r.cue.Find(_T(":\\\\")) > 1);
+        bool fURL = r.cue.Find(_T("://")) > 1;
         if (!fURL) {
             r.cue = MakeFullPath(r.cue);
         }
@@ -2584,7 +2584,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
                 r.subs.RemoveAt(p2);
                 continue;
             }
-            bool fURL = (fn.Find(_T("://")) > 1 || fn.Find(_T(":\\\\")) > 1);
+            bool fURL = fn.Find(_T("://")) > 1;
             if (!fURL) {
                 fn = MakeFullPath(fn);
                 r.subs.SetAt(p2, fn);
