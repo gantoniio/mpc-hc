@@ -1153,7 +1153,6 @@ protected:
 
     bool m_bExtOnTop; // 'true' if the "on top" flag was set by an external tool
 
-    bool m_bydlReprocess;
     CString m_sydlLastProcessURL;
 
 public:
