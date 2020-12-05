@@ -1153,6 +1153,9 @@ protected:
 
     bool m_bExtOnTop; // 'true' if the "on top" flag was set by an external tool
 
+    bool m_bydlReprocess;
+    CString m_sydlLastProcessURL;
+
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
     afx_msg void OnSessionChange(UINT nSessionState, UINT nId);

@@ -836,6 +836,8 @@ CMainFrame::CMainFrame()
     , m_current_rfe()
     , m_bToggleShaderScreenSpace(false)
     , m_MPLSPlaylist()
+    , m_sydlLastProcessURL()
+    , m_bydlReprocess(true)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -3771,6 +3773,12 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     bool bAfterPlaybackEvent = false;
 
     if (wParam == PM_FILE) {
+        auto* pli = m_wndPlaylistBar.GetCur();
+        if (pli != nullptr && pli->m_bYoutubeDL && (m_sydlLastProcessURL != pli->m_ydlSourceURL || m_bydlReprocess)) {
+            m_bydlReprocess = false;
+            OpenCurPlaylistItem(0, true);  // Try to reprocess if failed first time.
+            return 0;
+        }
         if (m_wndPlaylistBar.GetCount() == 1) {
             if (m_nLastSkipDirection == ID_NAVIGATE_SKIPBACK) {
                 if (!(bOpenNextInPlaylist = SearchInDir(false, s.bLoopFolderOnPlayNextFile))) {
@@ -13446,6 +13454,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         return std::make_pair(wp, lp);
     };
     if (err.IsEmpty()) {
+        m_bydlReprocess = true;
         auto args = getMessageArgs();
         if (!m_bOpenedThroughThread) {
             ASSERT(GetCurrentThreadId() == AfxGetApp()->m_nThreadID);
@@ -18748,6 +18757,9 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
     if (!ydl.GetHttpStreams(streams, listinfo)) {
         return false;
     }
+
+    m_sydlLastProcessURL = url;
+    m_bydlReprocess = false;
 
     if (!append && !replace) {
         m_wndPlaylistBar.Empty();
