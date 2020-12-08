@@ -409,12 +409,12 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
         }
 
         // Audio format
-        if (first.vcodec.Left(4) == _T("opus")) {
-            if (second.vcodec.Left(4) != _T("opus")) {
+        if (first.acodec.Left(4) == _T("opus")) {
+            if (second.acodec.Left(4) != _T("opus")) {
                 return false;
             }
         } else {
-            if (second.vcodec.Left(4) == _T("opus")) {
+            if (second.acodec.Left(4) == _T("opus")) {
                 return true;
             }
         }
