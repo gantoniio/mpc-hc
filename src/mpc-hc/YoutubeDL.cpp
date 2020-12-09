@@ -421,6 +421,12 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
     } else {
         if (second.has_video || second.has_audio) {
             return true;
+        } else {
+            if (first.format != _T("none")) {
+                return false;
+            } else {
+                if (second.format != _T("none")) return true;
+            }
         }
     }
 
