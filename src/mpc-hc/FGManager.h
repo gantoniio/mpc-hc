@@ -114,8 +114,11 @@ protected:
     STDMETHODIMP_(size_t) GetCount();
     STDMETHODIMP GetDeadEnd(int iIndex, CAtlList<CStringW>& path, CAtlList<CMediaType>& mts);
 
+	//
+	HWND m_hWnd;
+	bool m_bIsPreview;
 public:
-    CFGManager(LPCTSTR pName, LPUNKNOWN pUnk);
+	CFGManager(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd = 0, bool IsPreview = false);
     virtual ~CFGManager();
 
     DECLARE_IUNKNOWN;
@@ -130,7 +133,7 @@ public:
     STDMETHODIMP AddFilter(IBaseFilter* pFilter, LPCWSTR pName);
 
 public:
-    CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk);
+	CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd = 0, bool IsPreview = false);
 };
 
 class CFGManagerPlayer : public CFGManagerCustom
@@ -143,7 +146,7 @@ protected:
     STDMETHODIMP ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_MEDIA_TYPE* pmt);
 
 public:
-    CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd);
+	CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview = false);
 };
 
 class CFGManagerDVD : public CFGManagerPlayer
@@ -155,7 +158,7 @@ protected:
     STDMETHODIMP AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter);
 
 public:
-    CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd);
+	CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview = false);
 };
 
 class CFGManagerCapture : public CFGManagerPlayer
