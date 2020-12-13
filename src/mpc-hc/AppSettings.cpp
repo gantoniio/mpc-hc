@@ -175,7 +175,6 @@ CAppSettings::CAppSettings()
     , fLCDSupport(false)
     , fSmartSeek(false)
     , iSmartSeekSize(15)
-    , fFastSeek(false)
     , fUseSearchInFolder(false)
     , fUseTimeTooltip(true)
     , nTimeTooltipPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
@@ -962,7 +961,6 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK, fSmartSeek);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK_SIZE, iSmartSeekSize);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_KEYFRAME, fFastSeek);
 
 
     // Save analog capture settings
@@ -1871,7 +1869,6 @@ void CAppSettings::LoadSettings()
     fSmartSeek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK, FALSE);
     iSmartSeekSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK_SIZE, 15);
     if (iSmartSeekSize < 10 || iSmartSeekSize > 30) iSmartSeekSize = 15;
-    fFastSeek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_KEYFRAME, FALSE);
 
 
     // Save analog capture settings

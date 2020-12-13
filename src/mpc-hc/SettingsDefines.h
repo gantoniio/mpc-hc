@@ -284,7 +284,6 @@
 
 #define IDS_RS_SMARTSEEK                    _T("UseSmartSeek")
 #define IDS_RS_SMARTSEEK_SIZE               _T("SmartSeekSize")
-#define IDS_RS_FASTSEEK_KEYFRAME            _T("FastSeek")
 
 #define IDS_RS_TOGGLESHADER                 _T("PreSizeShadersEnabled")
 #define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("PostSizeShadersEnabled")
