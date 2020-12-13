@@ -23,14 +23,6 @@
 #include "PlayerPreView.h"
 #include "CMPCTheme.h"
 
-static COLORREF RGBFill(int r1, int g1, int b1, int r2, int g2, int b2, int i, int k) {
-    const int r = r1 + MulDiv(i, r2 - r1, k);
-    const int g = g1 + MulDiv(i, g2 - g1, k);
-    const int b = b1 + MulDiv(i, b2 - b1, k);
-
-    return RGB(r, g, b);
-}
-
 // CPrevView
 
 CPreView::CPreView(CMainFrame* pMainFrame)
@@ -223,5 +215,10 @@ void CPreView::SetColor() {
 
 
 BOOL CPreView::OnEraseBkgnd(CDC* pDC) {
+    CRect r;
+    GetClientRect(r);
+    //preview window does not redraw properly on first redisplay
+    //not clear why this is needed but it solves the issue
+    pDC->FillSolidRect(0, 0, r.Width(), r.Height(), 0); 
     return TRUE;
 }
