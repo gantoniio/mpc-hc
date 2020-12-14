@@ -58,7 +58,6 @@ BEGIN_MESSAGE_MAP(CPreView, CWnd)
     ON_WM_CREATE()
     ON_WM_PAINT()
     ON_WM_SHOWWINDOW()
-    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CPreView message handlers
@@ -211,14 +210,4 @@ void CPreView::ScaleFont() {
 
 void CPreView::SetColor() {
     const auto bUseDarkTheme = AfxGetAppSettings().bMPCTheme;
-}
-
-
-BOOL CPreView::OnEraseBkgnd(CDC* pDC) {
-    CRect r;
-    GetClientRect(r);
-    //preview window does not redraw properly on first redisplay
-    //not clear why this is needed but it solves the issue
-    pDC->FillSolidRect(0, 0, r.Width(), r.Height(), 0); 
-    return TRUE;
 }

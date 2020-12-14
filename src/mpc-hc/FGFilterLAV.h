@@ -39,6 +39,7 @@ class CFGFilterLAV : public CFGFilterFile
 protected:
     static CList<const IBaseFilter*> s_instances;
     static QWORD lav_version;
+    bool isPreview;
 
     CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 
@@ -56,6 +57,7 @@ public:
     static CString GetVersion(LAVFILTER_TYPE filterType = INVALID);
 
     static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    static CFGFilterLAV* CreateFilterPreview(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
     static bool IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilterType = nullptr);
     static void ResetInternalInstances() {
@@ -88,6 +90,7 @@ public:
     }
 
     static HRESULT PropertyPageCallback(IBaseFilter* pFilter);
+    void setIsPreview(bool _isPreview) { isPreview = _isPreview; };
 };
 
 class CFGFilterLAVSplitterBase : public CFGFilterLAV

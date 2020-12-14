@@ -735,7 +735,6 @@ public:
     bool            bUseEnhancedTaskBar;
     bool            fLCDSupport;
     bool            fSmartSeek;
-    bool            fFastSeek;
     int             iSmartSeekSize;
     bool            fUseSearchInFolder;
     bool            fUseTimeTooltip;

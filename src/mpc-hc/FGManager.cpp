@@ -1401,9 +1401,20 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
     CFGFilterLAV::ResetInternalInstances();
 
     // Prepare LAVFilters wrappers
-    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterSource(static_cast<CFGFilterLAVSplitterBase*>(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER_SOURCE)));
-    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitter(static_cast<CFGFilterLAVSplitterBase*>(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW)));
-    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterLM(static_cast<CFGFilterLAVSplitterBase*>(CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true)));
+    CFGFilterLAV* filterSS, * filterHM, * filterLM;
+    if (IsPreview) {
+        filterSS = CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::SPLITTER_SOURCE);
+        filterHM = CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW);
+        filterLM = CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
+    } else {
+        filterSS = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER_SOURCE);
+        filterHM = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW);
+        filterLM = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
+    }
+
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterSource(static_cast<CFGFilterLAVSplitterBase*>(filterSS));
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitter(static_cast<CFGFilterLAVSplitterBase*>(filterHM));
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterLM(static_cast<CFGFilterLAVSplitterBase*>(filterLM));
     CAutoPtr<CFGFilterLAV> pFGLAVVideo(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_ABOVE_DSHOW));
     CAutoPtr<CFGFilterLAV> pFGLAVVideoLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_DO_USE, true));
     CAutoPtr<CFGFilterLAV> pFGLAVAudio(CFGFilterLAV::CreateFilter(CFGFilterLAV::AUDIO_DECODER, MERIT64_ABOVE_DSHOW));
@@ -2519,6 +2530,10 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
             pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
             m_transform.AddTail(pFGF);
         }
+    } else {
+        pFGF = DEBUG_NEW CFGFilterInternal<CNullAudioRenderer>(AUDRNDT_NULL_COMP, MERIT64_ABOVE_DSHOW + 2);
+        pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+        m_transform.AddTail(pFGF);
     }
 }
 

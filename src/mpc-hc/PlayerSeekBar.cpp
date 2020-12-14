@@ -869,9 +869,12 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
         case TIMER_SHOWHIDE_TOOLTIP:
             if (m_tooltipState == TOOLTIP_TRIGGERED && m_bHasDuration) {
                 m_tooltipPoint = point;
-                UpdateToolTipText();
                 if (!m_pMainFrame->CanPreviewUse()) {
+                    UpdateToolTipText();
                     m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
+                } else {
+                    PreviewWindowShow();
+                    UpdateToolTipText();
                 }
                 UpdateToolTipPosition();
                 m_tooltipState = TOOLTIP_VISIBLE;
@@ -880,7 +883,6 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
                 HideToolTip();
                 ASSERT(!m_bIgnoreLastTooltipPoint);
                 KillTimer(TIMER_SHOWHIDE_TOOLTIP);
-                PreviewWindowShow();
             } else {
                 KillTimer(TIMER_SHOWHIDE_TOOLTIP);
             }
