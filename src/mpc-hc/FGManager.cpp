@@ -1402,6 +1402,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 
     // Prepare LAVFilters wrappers
     CFGFilterLAV* filterSS, * filterHM, * filterLM;
+    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterLM;
     if (IsPreview) {
         filterSS = CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::SPLITTER_SOURCE);
         filterHM = CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW);
@@ -1410,11 +1411,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         filterSS = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER_SOURCE);
         filterHM = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_ABOVE_DSHOW);
         filterLM = CFGFilterLAV::CreateFilter(CFGFilterLAV::SPLITTER, MERIT64_DO_USE, true);
+        pFGLAVSplitterLM.Attach(static_cast<CFGFilterLAVSplitterBase*>(filterLM));
     }
 
     CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterSource(static_cast<CFGFilterLAVSplitterBase*>(filterSS));
     CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitter(static_cast<CFGFilterLAVSplitterBase*>(filterHM));
-    CAutoPtr<CFGFilterLAVSplitterBase> pFGLAVSplitterLM(static_cast<CFGFilterLAVSplitterBase*>(filterLM));
     CAutoPtr<CFGFilterLAV> pFGLAVVideo(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_ABOVE_DSHOW));
     CAutoPtr<CFGFilterLAV> pFGLAVVideoLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_DO_USE, true));
     CAutoPtr<CFGFilterLAV> pFGLAVAudio(CFGFilterLAV::CreateFilter(CFGFilterLAV::AUDIO_DECODER, MERIT64_ABOVE_DSHOW));
@@ -1797,20 +1798,22 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         m_transform.AddTail(pFGLAVSplitter.Detach());
     }
 
-    // Add low merit LAV Splitter
-    pFGLAVSplitterLM->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
-    pFGLAVSplitterLM->AddEnabledFormat("*");
-    // Explicitly disable all common subtitles format
-    pFGLAVSplitterLM->AddDisabledFormat("ass");
-    pFGLAVSplitterLM->AddDisabledFormat("microdvd");
-    pFGLAVSplitterLM->AddDisabledFormat("mpl2");
-    pFGLAVSplitterLM->AddDisabledFormat("realtext");
-    pFGLAVSplitterLM->AddDisabledFormat("sami");
-    pFGLAVSplitterLM->AddDisabledFormat("srt");
-    pFGLAVSplitterLM->AddDisabledFormat("subviewer");
-    pFGLAVSplitterLM->AddDisabledFormat("subviewer1");
-    pFGLAVSplitterLM->AddDisabledFormat("vobsub");
-    m_transform.AddTail(pFGLAVSplitterLM.Detach());
+    if (!IsPreview && pFGLAVSplitterLM) {
+        // Add low merit LAV Splitter
+        pFGLAVSplitterLM->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
+        pFGLAVSplitterLM->AddEnabledFormat("*");
+        // Explicitly disable all common subtitles format
+        pFGLAVSplitterLM->AddDisabledFormat("ass");
+        pFGLAVSplitterLM->AddDisabledFormat("microdvd");
+        pFGLAVSplitterLM->AddDisabledFormat("mpl2");
+        pFGLAVSplitterLM->AddDisabledFormat("realtext");
+        pFGLAVSplitterLM->AddDisabledFormat("sami");
+        pFGLAVSplitterLM->AddDisabledFormat("srt");
+        pFGLAVSplitterLM->AddDisabledFormat("subviewer");
+        pFGLAVSplitterLM->AddDisabledFormat("subviewer1");
+        pFGLAVSplitterLM->AddDisabledFormat("vobsub");
+        m_transform.AddTail(pFGLAVSplitterLM.Detach());
+    }
 
     // Transform filters
     if (!IsPreview) {
@@ -2399,6 +2402,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
         m_transform.AddHead(pFGF);
+    }
+
+    if (m_bIsPreview) {
+        m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_RDPDShowRedirectionFilter, MERIT64_DO_NOT_USE));
     }
 }
 
