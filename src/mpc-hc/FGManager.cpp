@@ -2223,51 +2223,8 @@ void CFGManagerCustom::InsertLAVAudio()
     m_transform.AddTail(pFGLAVAudioLM.Detach());
 }
 
-//
-//  CFGManagerCustom
-//
-
-CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview)
-    : CFGManager(pName, pUnk, hWnd, IsPreview)
+void CFGManagerCustom::InsertBlockedFilters()
 {
-    const CAppSettings& s = AfxGetAppSettings();
-
-    bool bOverrideBroadcom = false;
-    CFGFilter* pFGF;
-    m_source;
-
-    const bool* src = s.SrcFilters;
-    const bool* tra = s.TraFilters;
-
-    // Reset LAVFilters internal instances
-    CFGFilterLAV::ResetInternalInstances();
-
-    // Add internal filters
-    InsertLAVSplitterSource(IsPreview);
-    InsertLAVSplitter(IsPreview);
-    InsertOtherInternalSourcefilters(IsPreview);
-#if HAS_VIDEO_DECODERS
-    InsertLAVVideo(IsPreview);
-#endif
-#if HAS_AUDIO_DECODERS
-    if (!IsPreview) {
-        InsertLAVAudio();
-    }
-#endif
-
-    // Null text renderer
-    pFGF = DEBUG_NEW CFGFilterInternal<CNullTextRenderer>(L"NullTextRenderer", MERIT64_DO_USE);
-    pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
-    pFGF->AddType(MEDIATYPE_ScriptCommand, MEDIASUBTYPE_NULL);
-    pFGF->AddType(MEDIATYPE_Subtitle, MEDIASUBTYPE_NULL);
-    pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
-    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_DVD_SUBPICTURE);
-    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_CVD_SUBPICTURE);
-    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_SVCD_SUBPICTURE);
-    m_transform.AddTail(pFGF);
-
-    // Blocked filters
-
     // "Subtitle Mixer" makes an access violation around the
     // 11-12th media type when enumerating them on its output.
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{00A95963-3BE5-48C0-AD9F-3356D67EA09D}")), MERIT64_DO_NOT_USE));
@@ -2312,11 +2269,89 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         CString clsid = _T("{B38C58A0-1809-11D6-A458-EDAE78F1DF12}");
 
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\") + clsid + _T("\\InprocServer32"), KEY_READ)
-                && ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)
-                && FileVersionInfo::GetFileVersionNum(buff) < 0x0001000000030000ui64) {
+            && ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)
+            && FileVersionInfo::GetFileVersionNum(buff) < 0x0001000000030000ui64) {
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(clsid), MERIT64_DO_NOT_USE));
         }
     }
+}
+
+void CFGManagerCustom::InsertBroadcomDecoder()
+{
+    CFGFilter* pFGF = DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{2DE1D17E-46B1-42A8-9AEC-E20E80D9B1A9}")), MERIT64_ABOVE_DSHOW);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_x264);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VSSH);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vssh);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DAVC);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_davc);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_PAVC);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_pavc);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264_bis);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
+
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
+
+    pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
+    pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
+    pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
+    m_transform.AddHead(pFGF);
+}
+
+//
+//  CFGManagerCustom
+//
+
+CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview)
+    : CFGManager(pName, pUnk, hWnd, IsPreview)
+{
+    const CAppSettings& s = AfxGetAppSettings();
+
+    bool bOverrideBroadcom = false;
+    CFGFilter* pFGF;
+    m_source;
+
+    const bool* src = s.SrcFilters;
+    const bool* tra = s.TraFilters;
+
+    // Reset LAVFilters internal instances
+    CFGFilterLAV::ResetInternalInstances();
+
+    // Add internal filters
+    InsertLAVSplitterSource(IsPreview);
+    InsertLAVSplitter(IsPreview);
+    InsertOtherInternalSourcefilters(IsPreview);
+#if HAS_VIDEO_DECODERS
+    InsertLAVVideo(IsPreview);
+#endif
+#if HAS_AUDIO_DECODERS
+    if (!IsPreview) {
+        InsertLAVAudio();
+    }
+#endif
+
+    // Blocked filters
+    InsertBlockedFilters();
+    if (m_bIsPreview) {
+        m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_RDPDShowRedirectionFilter, MERIT64_DO_NOT_USE));
+    }
+
+    // Null text renderer
+    pFGF = DEBUG_NEW CFGFilterInternal<CNullTextRenderer>(L"NullTextRenderer", MERIT64_DO_USE);
+    pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
+    pFGF->AddType(MEDIATYPE_ScriptCommand, MEDIASUBTYPE_NULL);
+    pFGF->AddType(MEDIATYPE_Subtitle, MEDIASUBTYPE_NULL);
+    pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
+    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_DVD_SUBPICTURE);
+    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_CVD_SUBPICTURE);
+    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_SVCD_SUBPICTURE);
+    m_transform.AddTail(pFGF);
 
     // Block unwanted subtitle filters
     if (s.fBlockVSFilter) {
@@ -2385,9 +2420,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
     }
 
     // Overrides
-
     WORD merit_low = 1;
-
     POSITION pos = s.m_filters.GetTailPosition();
     while (pos) {
         FilterOverride* fo = s.m_filters.GetPrev(pos);
@@ -2424,34 +2457,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 
     /* Use Broadcom decoder (if installed) for VC-1, H.264 and MPEG-2 */
     if (!bOverrideBroadcom) {
-        pFGF = DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{2DE1D17E-46B1-42A8-9AEC-E20E80D9B1A9}")), MERIT64_ABOVE_DSHOW);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_x264);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VSSH);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vssh);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DAVC);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_davc);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_PAVC);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_pavc);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264_bis);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
-
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
-
-        pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
-        pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
-        m_transform.AddHead(pFGF);
-    }
-
-    if (m_bIsPreview) {
-        m_transform.AddHead(DEBUG_NEW CFGFilterRegistry(CLSID_RDPDShowRedirectionFilter, MERIT64_DO_NOT_USE));
+        // ToDo: maybe remove support for this old filter?
+        InsertBroadcomDecoder();
     }
 }
 

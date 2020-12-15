@@ -137,6 +137,8 @@ public:
     void InsertLAVVideo(bool IsPreview = false);
     void InsertLAVAudio();
     void InsertOtherInternalSourcefilters(bool IsPreview = false);
+    void InsertBlockedFilters();
+    void InsertBroadcomDecoder();
 
 public:
 	CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd = 0, bool IsPreview = false);
