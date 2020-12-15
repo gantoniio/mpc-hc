@@ -2428,27 +2428,23 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         if (!fo->fDisabled && fo->name == _T("Broadcom Video Decoder")) {
             bOverrideBroadcom = true;
         }
-
         if (fo->fDisabled || fo->type == FilterOverride::EXTERNAL && !PathUtils::Exists(MakeFullPath(fo->path))) {
             continue;
         }
 
         ULONGLONG merit =
-            IsPreview ? MERIT64_DO_USE :
-            fo->iLoadType == FilterOverride::PREFERRED ? MERIT64_ABOVE_DSHOW :
-            fo->iLoadType == FilterOverride::MERIT ? MERIT64(fo->dwMerit) :
-            MERIT64_DO_NOT_USE; // fo->iLoadType == FilterOverride::BLOCKED
+            fo->iLoadType == FilterOverride::BLOCK ? MERIT64_DO_NOT_USE :
+            fo->iLoadType == FilterOverride::PREFERRED ? (IsPreview ? MERIT64_DO_USE : MERIT64_ABOVE_DSHOW) :
+            MERIT64(fo->dwMerit);
 
         merit += merit_low++;
 
         pFGF = nullptr;
-
         if (fo->type == FilterOverride::REGISTERED) {
             pFGF = DEBUG_NEW CFGFilterRegistry(fo->dispname, merit);
         } else if (fo->type == FilterOverride::EXTERNAL) {
             pFGF = DEBUG_NEW CFGFilterFile(fo->clsid, fo->path, CStringW(fo->name), merit);
         }
-
         if (pFGF) {
             pFGF->SetTypes(fo->guids);
             m_override.AddTail(pFGF);
@@ -2456,7 +2452,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
     }
 
     /* Use Broadcom decoder (if installed) for VC-1, H.264 and MPEG-2 */
-    if (!bOverrideBroadcom) {
+    if (!IsPreview && !bOverrideBroadcom) {
         // ToDo: maybe remove support for this old filter?
         InsertBroadcomDecoder();
     }
