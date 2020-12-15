@@ -1822,9 +1822,9 @@ void CFGManagerCustom::InsertLAVVideo(bool IsPreview)
     const bool* tra = s.TraFilters;
     CFGFilter* pFGF;
 
-    CAutoPtr<CFGFilterLAV> pFGLAVVideo(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_ABOVE_DSHOW));
-    CAutoPtr<CFGFilterLAV> pFGLAVVideoLM(CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_DO_USE, true));
-
+    CAutoPtr<CFGFilterLAV> pFGLAVVideo  (IsPreview ? CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::VIDEO_DECODER, MERIT64_ABOVE_DSHOW)  : CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_ABOVE_DSHOW));
+    CAutoPtr<CFGFilterLAV> pFGLAVVideoLM(IsPreview ? CFGFilterLAV::CreateFilterPreview(CFGFilterLAV::VIDEO_DECODER, MERIT64_DO_USE, true) : CFGFilterLAV::CreateFilter(CFGFilterLAV::VIDEO_DECODER, MERIT64_DO_USE, true));
+    
 #if INTERNAL_DECODER_MPEG1
     pFGF = IsPreview || tra[TRA_MPEG1] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG1Packet);
