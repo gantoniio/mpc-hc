@@ -137,6 +137,7 @@ public:
     void InsertLAVVideo(bool IsPreview = false);
     void InsertLAVAudio();
     void InsertOtherInternalSourcefilters(bool IsPreview = false);
+    void InsertSubtitleFilters(bool IsPreview = false);
     void InsertBlockedFilters();
     void InsertBroadcomDecoder();
 
