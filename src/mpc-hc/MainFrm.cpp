@@ -10979,7 +10979,7 @@ void CMainFrame::SetPreviewVideoPosition() {
         CPoint point;
         GetCursorPos(&point);
         m_wndSeekBar.ScreenToClient(&point);
-        m_wndSeekBar.UpdateToolTipPosition();
+        m_wndSeekBar.UpdateToolTipPosition(point);
 
         CRect wr;
         m_wndPreView.GetVideoRect(&wr);

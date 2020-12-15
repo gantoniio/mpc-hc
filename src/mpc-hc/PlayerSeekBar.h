@@ -94,7 +94,7 @@ private:
 public:
     void Enable(bool bEnable);
     void HideToolTip();
-    void UpdateToolTipPosition();
+    void UpdateToolTipPosition(CPoint point);
 
     void GetRange(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) const;
     void SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
