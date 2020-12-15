@@ -132,6 +132,12 @@ public:
 
     STDMETHODIMP AddFilter(IBaseFilter* pFilter, LPCWSTR pName);
 
+    void InsertLAVSplitterSource(bool IsPreview = false);
+    void InsertLAVSplitter(bool IsPreview = false);
+    void InsertLAVVideo(bool IsPreview = false);
+    void InsertLAVAudio();
+    void InsertOtherInternalSourcefilters(bool IsPreview = false);
+
 public:
 	CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd = 0, bool IsPreview = false);
 };
