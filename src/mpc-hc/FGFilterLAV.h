@@ -41,7 +41,7 @@ protected:
     static QWORD lav_version;
     bool isPreview;
 
-    CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
+    CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit, bool bIsPreview);
 
 public:
     enum LAVFILTER_TYPE {
@@ -56,7 +56,7 @@ public:
     static bool CheckVersion(CString filtersPath);
     static CString GetVersion(LAVFILTER_TYPE filterType = INVALID);
 
-    static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    static CFGFilterLAV* CreateFilter(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false, bool bIsPreview = false);
     static CFGFilterLAV* CreateFilterPreview(LAVFILTER_TYPE filterType, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
 
     static bool IsInternalInstance(IBaseFilter* pBF, LAVFILTER_TYPE* pLAVFilterType = nullptr);
@@ -90,7 +90,6 @@ public:
     }
 
     static HRESULT PropertyPageCallback(IBaseFilter* pFilter);
-    void setIsPreview(bool _isPreview) { isPreview = _isPreview; };
 };
 
 class CFGFilterLAVSplitterBase : public CFGFilterLAV
@@ -98,7 +97,7 @@ class CFGFilterLAVSplitterBase : public CFGFilterLAV
 protected:
     CAtlList<CStringA> m_enabledFormats, m_disabledFormats;
 
-    CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
+    CFGFilterLAVSplitterBase(CString path, const CLSID& clsid, CStringW name, bool bAddLowMeritSuffix, UINT64 merit, bool bIsPreview);
 
     void SetEnabledDisabledFormats(CComQIPtr<ILAVFSettings> pLAVFSettings);
 
@@ -148,13 +147,13 @@ public:
 class CFGFilterLAVSplitter : public CFGFilterLAVSplitterBase
 {
 public:
-    CFGFilterLAVSplitter(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    CFGFilterLAVSplitter(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false, bool bIsPreview = false);
 };
 
 class CFGFilterLAVSplitterSource : public CFGFilterLAVSplitterBase
 {
 public:
-    CFGFilterLAVSplitterSource(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    CFGFilterLAVSplitterSource(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false, bool bIsPreview = false);
 };
 
 class CFGFilterLAVVideo : public CFGFilterLAV
@@ -191,7 +190,7 @@ public:
 
     static const CString filename;
 
-    CFGFilterLAVVideo(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    CFGFilterLAVVideo(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false, bool bIsPreview = false);
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 
@@ -238,7 +237,7 @@ public:
 
     static const CString filename;
 
-    CFGFilterLAVAudio(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false);
+    CFGFilterLAVAudio(CString path, UINT64 merit = MERIT64_DO_USE, bool bAddLowMeritSuffix = false, bool bIsPreview = false);
 
     virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 
