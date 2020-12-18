@@ -855,9 +855,9 @@ bool IsDriveVirtual(CString drive)
     RegCloseKey(hkey);
     CString sig(data);
     sig.MakeUpper();
-    return (sig.Find(_T("VEN_MSFT&PROD_VIRTUAL_DVD-ROM")) >= 0)
-        || sig.Find(_T("VEN_ELBY&PROD_CLONEDRIVE") >= 0)
-        || sig.Find(_T("VEN_DISCSOFT&") >= 0);
+    return sig.Find(_T("VEN_MSFT&PROD_VIRTUAL_DVD-ROM")) >= 0
+        || sig.Find(_T("VEN_DISCSOFT&")) >= 0
+        || sig.Find(_T("VEN_ELBY&PROD_CLONEDRIVE")) >= 0;
 }
 
 bool GetKeyFrames(CString fn, CUIntArray& kfs)

@@ -11769,9 +11769,9 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         m_pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), nullptr, m_pVideoWnd->m_hWnd);
 
         if (m_bUseSmartSeek) {
-            CString drive = pOpenDVDData->title.Left(2);
+            CString drive = pOpenDVDData->path.Left(2);
             UINT type = GetDriveType(drive);
-            if (type != DRIVE_CDROM || !IsDriveVirtual(drive)) { //no preview seeking for spinning disks
+            if (type != DRIVE_CDROM || IsDriveVirtual(drive)) { //no preview seeking for spinning disks
                 m_pGB_preview = DEBUG_NEW CFGManagerDVD(L"CFGManagerDVD", nullptr, m_wndPreView.GetVideoHWND(), true);
             }
         }
