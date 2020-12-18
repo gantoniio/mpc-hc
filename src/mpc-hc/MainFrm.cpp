@@ -11769,7 +11769,11 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         m_pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), nullptr, m_pVideoWnd->m_hWnd);
 
         if (m_bUseSmartSeek) {
-            m_pGB_preview = DEBUG_NEW CFGManagerDVD(L"CFGManagerDVD", nullptr, m_wndPreView.GetVideoHWND(), true);
+            CString drive = pOpenDVDData->title.Left(2);
+            UINT type = GetDriveType(drive);
+            if (type != DRIVE_CDROM || !IsDriveVirtual(drive)) { //no preview seeking for spinning disks
+                m_pGB_preview = DEBUG_NEW CFGManagerDVD(L"CFGManagerDVD", nullptr, m_wndPreView.GetVideoHWND(), true);
+            }
         }
     } else if (auto pOpenDeviceData = dynamic_cast<OpenDeviceData*>(pOMD)) {
         if (s.iDefaultCaptureDevice == 1) {
@@ -11889,12 +11893,6 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
     rtCur2 = GetClosestKeyFrame(rtCur2);
 
     if (GetPlaybackMode() == PM_DVD && m_pDVDC_preview) {
-        CString drive = m_lastOMD.m_p->title.Left(2);
-        UINT type = GetDriveType(drive);
-        if (type == DRIVE_CDROM && !IsDriveVirtual(drive)) { //no preview seeking for spinning disks
-            return E_FAIL;
-        }
-
         DVD_PLAYBACK_LOCATION2 Loc, Loc2;
         double fps = 0;
 
