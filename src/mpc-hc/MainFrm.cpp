@@ -11936,8 +11936,9 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
 
         m_pDVDI_preview->GetCurrentLocation(&Loc2);
 
-        m_pDVDC_preview->Pause(FALSE);
         m_pMC_preview->Run();
+        Sleep(10);
+        m_pMC_preview->Pause();
     } else if (GetPlaybackMode() == PM_FILE && m_pMS_preview) {
         hr = m_pMS_preview->SetPositions(&rtCur2, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
     }
