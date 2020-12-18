@@ -11889,6 +11889,12 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
     rtCur2 = GetClosestKeyFrame(rtCur2);
 
     if (GetPlaybackMode() == PM_DVD && m_pDVDC_preview) {
+        CString drive = m_lastOMD.m_p->title.Left(2);
+        UINT type = GetDriveType(drive);
+        if (type == DRIVE_CDROM) { //no preview seeking for spinning disks
+            return E_FAIL;
+        }
+
         DVD_PLAYBACK_LOCATION2 Loc, Loc2;
         double fps = 0;
 
@@ -11941,6 +11947,8 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
         m_pMC_preview->Pause();
     } else if (GetPlaybackMode() == PM_FILE && m_pMS_preview) {
         hr = m_pMS_preview->SetPositions(&rtCur2, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+    } else {
+        return E_FAIL;
     }
 
     if (FAILED(hr)) {
