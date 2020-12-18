@@ -11889,7 +11889,7 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
     rtCur2 = GetClosestKeyFrame(rtCur2);
 
     if (GetPlaybackMode() == PM_DVD && m_pDVDC_preview) {
-        CString drive = m_lastOMD.m_p->title.Left(3);
+        CString drive = m_lastOMD.m_p->title.Left(2);
         UINT type = GetDriveType(drive);
         if (type == DRIVE_CDROM && !IsDriveVirtual(drive)) { //no preview seeking for spinning disks
             return E_FAIL;
