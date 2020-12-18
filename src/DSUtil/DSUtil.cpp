@@ -838,6 +838,26 @@ CString GetDriveLabel(CPath path)
     return label;
 }
 
+bool IsDriveVirtual(CString drive)
+{
+    HKEY hkey;
+    DWORD type = REG_BINARY;
+    TCHAR data[1024] = { 0 };
+    DWORD size = sizeof(data) - 2;
+
+    drive=(drive+_T(":")).Left(2);
+    CString subkey = _T("\\DosDevices\\") + drive;
+
+    RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SYSTEM\\MountedDevices"), 0, KEY_READ, &hkey);
+    if (hkey == INVALID_HANDLE_VALUE) return -1;
+    RegQueryValueEx(hkey, subkey, 0, &type, (BYTE*)data, &size);
+
+    RegCloseKey(hkey);
+    CString sig(data);
+    sig.MakeLower();
+    return sig.Find(_T("virtual")) >= 0;
+}
+
 bool GetKeyFrames(CString fn, CUIntArray& kfs)
 {
     kfs.RemoveAll();
