@@ -940,7 +940,7 @@ void CPlayerSeekBar::MoveThumbPreview(const CPoint point) {
     REFERENCE_TIME pos = CalculatePosition(point);
 
     if (pos >= 0) {
-        if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+        if (GetKeyState(VK_SHIFT) >= 0) {
             REFERENCE_TIME rtMaxDiff = AfxGetAppSettings().bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, m_rtStop / 30);
             pos = m_pMainFrame->GetClosestKeyFrame(pos, rtMaxDiff, rtMaxDiff);
         }
