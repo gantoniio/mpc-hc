@@ -1,14 +1,15 @@
 /*
- * (C) 2012-2020 see Authors.txt
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2020 see Authors.txt
  *
- * This file is part of MPC-BE.
+ * This file is part of MPC-HC.
  *
- * MPC-BE is free software; you can redistribute it and/or modify
+ * MPC-HC is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * MPC-BE is distributed in the hope that it will be useful,
+ * MPC-HC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
