@@ -173,8 +173,8 @@ CAppSettings::CAppSettings()
     , fPreventMinimize(false)
     , bUseEnhancedTaskBar(true)
     , fLCDSupport(false)
-    , fSmartSeek(false)
-    , iSmartSeekSize(15)
+    , fSeekPreview(false)
+    , iSeekPreviewSize(15)
     , fUseSearchInFolder(false)
     , fUseTimeTooltip(true)
     , nTimeTooltipPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
@@ -959,8 +959,8 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, fLCDSupport);
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK, fSmartSeek);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK_SIZE, iSmartSeekSize);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKPREVIEW, fSeekPreview);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKPREVIEW_SIZE, iSeekPreviewSize);
 
 
     // Save analog capture settings
@@ -1866,9 +1866,9 @@ void CAppSettings::LoadSettings()
 
     fLCDSupport = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, FALSE);
 
-    fSmartSeek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK, FALSE);
-    iSmartSeekSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SMARTSEEK_SIZE, 15);
-    if (iSmartSeekSize < 10 || iSmartSeekSize > 30) iSmartSeekSize = 15;
+    fSeekPreview = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKPREVIEW, FALSE);
+    iSeekPreviewSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SEEKPREVIEW_SIZE, 15);
+    if (iSeekPreviewSize < 10 || iSeekPreviewSize > 30) iSeekPreviewSize = 15;
 
 
     // Save analog capture settings

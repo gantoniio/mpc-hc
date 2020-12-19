@@ -470,7 +470,7 @@ public:
     CControlBar* m_pLastBar;
 
 protected:
-    bool m_bUseSmartSeek;
+    bool m_bUseSeekPreview;
     bool m_bFirstPlay;
     bool m_bOpeningInAutochangedMonitorMode;
     bool m_bPausedForAutochangeMonitorMode;
@@ -1068,8 +1068,8 @@ public:
     CMPC_Lcd m_Lcd;
 
     // ==== Added by CASIMIR666
-    CWnd*           m_pVideoWnd;            // Current Video (main display screen or 2nd)
-    CPreView			m_wndPreView; // SmartSeek
+    CWnd*       m_pVideoWnd;            // Current Video (main display screen or 2nd)
+    CPreView    m_wndPreView;           // SeekPreview
     HRESULT PreviewWindowHide();
     HRESULT PreviewWindowShow(REFERENCE_TIME rtCur2);
     bool CanPreviewUse();

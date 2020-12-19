@@ -696,9 +696,11 @@
 #define IDC_PPAGECAPTURE_ST12           22080
 #define IDC_FASTSEEK_CHECK              22081
 #define IDC_ASSOCIATE_ALL_FORMATS       22082
+#define IDC_SEEK_PREVIEW                22082
 #define IDC_ASSOCIATE_VIDEO_FORMATS     22083
 #define IDC_ASSOCIATE_AUDIO_FORMATS     22084
 #define IDC_CLEAR_ALL_ASSOCIATIONS      22085
+#define IDC_E                           22087
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1649,14 +1651,13 @@
 #define IDS_POSTSIZE_SHADERS_TOGGLE     57565
 #define IDS_AG_POSTSIZE_SHADERS_TOGGLE  57566
 
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20067
 #define _APS_NEXT_COMMAND_VALUE         33456
-#define _APS_NEXT_CONTROL_VALUE         22087
+#define _APS_NEXT_CONTROL_VALUE         22088
 #define _APS_NEXT_SYMED_VALUE           24052
 #endif
 #endif

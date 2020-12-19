@@ -838,7 +838,7 @@ CMainFrame::CMainFrame()
     , m_bToggleShaderScreenSpace(false)
     , m_MPLSPlaylist()
     , m_sydlLastProcessURL()
-    , m_bUseSmartSeek(false)
+    , m_bUseSeekPreview(false)
 
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
@@ -938,7 +938,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     } else {
         m_wndPreView.ShowWindow(SW_HIDE);
-        m_wndPreView.SetRelativeSize(AfxGetAppSettings().iSmartSeekSize);
+        m_wndPreView.SetRelativeSize(AfxGetAppSettings().iSeekPreviewSize);
     }
 
     // static bars
@@ -7895,7 +7895,7 @@ void CMainFrame::OnPlayStop()
             m_pMC->Stop();
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
 
-            if (m_bUseSmartSeek && m_pDVDC_preview) {
+            if (m_bUseSeekPreview && m_pDVDC_preview) {
                 m_pDVDC_preview->SetOption(DVD_ResetOnStop, TRUE);
                 m_pMC_preview->Stop();
                 m_pDVDC_preview->SetOption(DVD_ResetOnStop, FALSE);
@@ -10975,7 +10975,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
 }
 
 void CMainFrame::SetPreviewVideoPosition() {
-    if (m_bUseSmartSeek) {
+    if (m_bUseSeekPreview) {
         CPoint point;
         GetCursorPos(&point);
         m_wndSeekBar.ScreenToClient(&point);
@@ -11669,11 +11669,11 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     const CAppSettings& s = AfxGetAppSettings();
 
     m_pGB_preview = nullptr;
-    m_bUseSmartSeek = s.fSmartSeek;
+    m_bUseSeekPreview = s.fSeekPreview;
     if (OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD)) {
         CString fn = pFileData->fns.GetHead();
-        if (!fn.IsEmpty() && (fn.Find(L"://") >= 0)) { // disable SmartSeek for streaming data.
-            m_bUseSmartSeek = false;
+        if (!fn.IsEmpty() && (fn.Find(L"://") >= 0)) { // disable seek preview for streaming data.
+            m_bUseSeekPreview = false;
         }
     }
 
@@ -11760,7 +11760,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         if (!m_fCustomGraph) {
             m_pGB = DEBUG_NEW CFGManagerPlayer(_T("CFGManagerPlayer"), nullptr, m_pVideoWnd->m_hWnd);
 
-            if (m_pGB && m_bUseSmartSeek) {
+            if (m_pGB && m_bUseSeekPreview) {
                 // build graph for preview
                 m_pGB_preview = DEBUG_NEW CFGManagerPlayer(L"CFGManagerPlayer", nullptr, m_wndPreView.GetVideoHWND(), true);
             }
@@ -11768,7 +11768,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     } else if (auto pOpenDVDData = dynamic_cast<OpenDVDData*>(pOMD)) {
         m_pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), nullptr, m_pVideoWnd->m_hWnd);
 
-        if (m_bUseSmartSeek) {
+        if (m_bUseSeekPreview) {
             CString drive = pOpenDVDData->path.Left(2);
             UINT type = GetDriveType(drive);
             if (type != DRIVE_CDROM || IsDriveVirtual(drive)) { //no preview seeking for spinning disks
@@ -11788,7 +11788,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     }
 
     if (!m_pGB_preview) {
-        m_bUseSmartSeek = false;
+        m_bUseSeekPreview = false;
     }
 
     m_pGB->AddToROT();
@@ -11801,7 +11801,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     m_pBA = m_pGB; // audio
     m_pFS = m_pGB;
 
-    if (m_bUseSmartSeek) {
+    if (m_bUseSeekPreview) {
         m_pGB_preview->AddToROT();
 
         m_pMC_preview = m_pGB_preview;
@@ -11857,7 +11857,7 @@ void CMainFrame::ShowMediaTypesDialog() {
 HRESULT CMainFrame::PreviewWindowHide() {
     HRESULT hr = S_OK;
 
-    if (!m_bUseSmartSeek) {
+    if (!m_bUseSeekPreview) {
         return E_FAIL;
     }
 
@@ -12056,7 +12056,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             }
         }
 
-        if (m_bUseSmartSeek && bMainFile) {
+        if (m_bUseSeekPreview && bMainFile) {
             bool bIsVideo = false;
             BeginEnumFilters(m_pGB, pEF, pBF) {
                 // Checks if any Video Renderer is in the graph
@@ -12088,7 +12088,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                     m_pGB_preview.Release();
                     m_pGB_preview = nullptr;
                 }
-                m_bUseSmartSeek = false;
+                m_bUseSeekPreview = false;
             }
         }
 
@@ -12504,9 +12504,9 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
         ShowMediaTypesDialog();
     }
 
-    if (SUCCEEDED(hr) && m_bUseSmartSeek) {
+    if (SUCCEEDED(hr) && m_bUseSeekPreview) {
         if (FAILED(hr = m_pGB_preview->RenderFile(pODD->path, nullptr))) {
-            m_bUseSmartSeek = false;
+            m_bUseSeekPreview = false;
         }
     }
 
@@ -12517,7 +12517,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     }
     EndEnumFilters;
 
-    if (m_bUseSmartSeek) {
+    if (m_bUseSeekPreview) {
         BeginEnumFilters(m_pGB_preview, pEF, pBF) {
             if ((m_pDVDC_preview = pBF) && (m_pDVDI_preview = pBF)) {
                 break;
@@ -12558,7 +12558,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
     m_pDVDC->SetOption(DVD_HMSF_TimeCodeEvents, TRUE);
 
-    if (m_bUseSmartSeek && m_pDVDC_preview) {
+    if (m_bUseSeekPreview && m_pDVDC_preview) {
         m_pDVDC_preview->SetOption(DVD_ResetOnStop, FALSE);
         m_pDVDC_preview->SetOption(DVD_HMSF_TimeCodeEvents, TRUE);
     }
@@ -12906,7 +12906,7 @@ void CMainFrame::OpenSetupVideo()
         pWnd->EnableWindow(FALSE);
     }
 
-    if (m_bUseSmartSeek) {
+    if (m_bUseSeekPreview) {
         m_pVW_preview->put_Owner((OAHWND)m_wndPreView.GetVideoHWND());
         m_pVW_preview->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
     }
@@ -13636,7 +13636,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         // COMMENTED OUT: does not work at this location, need to choose the correct mode (IMFVideoProcessor::SetVideoProcessorMode)
         //SetupEVRColorControl();
 
-        if (m_bUseSmartSeek) {
+        if (m_bUseSeekPreview) {
             m_pGB_preview->FindInterface(IID_PPV_ARGS(&m_pMFVDC_preview), TRUE);
             m_pGB_preview->FindInterface(IID_PPV_ARGS(&m_pMFVP_preview), TRUE);
 
@@ -13747,7 +13747,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         err.LoadString(msg);
     }
 
-    if (m_bUseSmartSeek && m_pMC_preview) {
+    if (m_bUseSeekPreview && m_pMC_preview) {
         m_pMC_preview->Pause();
     }
 
@@ -16543,11 +16543,11 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 }
 
 bool CMainFrame::CanPreviewUse() {
-    return (m_bUseSmartSeek
+    return (m_bUseSeekPreview
         && m_eMediaLoadState == MLS::LOADED
         && (GetPlaybackMode() == PM_DVD || GetPlaybackMode() == PM_FILE)
         && !m_fAudioOnly
-        && AfxGetAppSettings().fSmartSeek);
+        && AfxGetAppSettings().fSeekPreview);
 }
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen)

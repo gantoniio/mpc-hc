@@ -965,13 +965,13 @@ void CPlayerSeekBar::PreviewWindowShow() {
 }
 
 //adipose: code came from mpc-be; seems to be a hidden way to
-//disable smartseek permanently by middle clicking on the seekbar
+//disable seek preview permanently by middle clicking on the seekbar
 //cannot be used to re-enable it, so perhaps a safety option if
 //preview is misbehaving? leave in for now
 void CPlayerSeekBar::OnMButtonDown(UINT nFlags, CPoint point) {
     if (m_pMainFrame->m_wndPreView.IsWindowVisible()) {
         m_pMainFrame->PreviewWindowHide();
-        AfxGetAppSettings().fSmartSeek = !AfxGetAppSettings().fSmartSeek;
+        AfxGetAppSettings().fSeekPreview = !AfxGetAppSettings().fSeekPreview;
         OnMouseMove(nFlags, point);
     }
 }
