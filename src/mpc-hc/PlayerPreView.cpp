@@ -204,9 +204,7 @@ void CPreView::SetWindowSize() {
 
 void CPreView::ScaleFont() {
     m_font.DeleteObject();
-    m_font.CreateFontW(m_pMainFrame->m_dpi.ScaleY(16), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
-        OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
-        L"Segoe UI");
+    CMPCThemeUtil::getFontByType(m_font, nullptr, nullptr, CMPCThemeUtil::MessageFont);
 }
 
 void CPreView::SetColor() {
