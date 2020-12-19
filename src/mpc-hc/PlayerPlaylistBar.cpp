@@ -2151,7 +2151,9 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 
             if (idx == 2) {
                 f.WriteString(_T("[playlist]\n"));
-            } else if (idx == 4) {
+            } else if (idx == 3) {
+                f.WriteString(_T("#EXTM3U\n"));
+            else if (idx == 4) {
                 f.WriteString(_T("<ASX version = \"3.0\">\n"));
             }
 
