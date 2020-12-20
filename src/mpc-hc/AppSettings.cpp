@@ -1143,7 +1143,7 @@ void CAppSettings::SaveSettings()
         CComHeapPtr<WCHAR> pDeviceId;
         BOOL bExclusive;
         UINT32 uBufferDuration;
-        if (SUCCEEDED(sanear->GetOuputDevice(&pDeviceId, &bExclusive, &uBufferDuration))) {
+        if (SUCCEEDED(sanear->GetOutputDevice(&pDeviceId, &bExclusive, &uBufferDuration))) {
             pApp->WriteProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID, pDeviceId);
             pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, bExclusive);
             pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER, uBufferDuration);
@@ -1960,7 +1960,7 @@ void CAppSettings::LoadSettings()
         nCLSwitches |= CLSW_FULLSCREEN;
     }
 
-    sanear->SetOuputDevice(pApp->GetProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID),
+    sanear->SetOutputDevice(pApp->GetProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID),
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, FALSE),
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER,
                                                SaneAudioRenderer::ISettings::OUTPUT_DEVICE_BUFFER_DEFAULT_MS));
