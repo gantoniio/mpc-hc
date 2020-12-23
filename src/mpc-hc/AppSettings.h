@@ -105,19 +105,19 @@ enum MpcCaptionState {
 }; // flags for Caption & Menu Mode
 
 enum {
-    VIDRNDT_DS_DEFAULT,
-    VIDRNDT_DS_OLDRENDERER,
-    VIDRNDT_DS_OVERLAYMIXER,
-    VIDRNDT_DS_VMR9WINDOWED = 4,
+    VIDRNDT_DS_DEFAULT        = 0,
+    VIDRNDT_DS_OLDRENDERER    = 1,
+    VIDRNDT_DS_OVERLAYMIXER   = 2,
+    VIDRNDT_DS_VMR9WINDOWED   = 4,
     VIDRNDT_DS_VMR9RENDERLESS = 6,
-    VIDRNDT_DS_DXR,
-    VIDRNDT_DS_NULL_COMP,
-    VIDRNDT_DS_NULL_UNCOMP,
-    VIDRNDT_DS_EVR,
-    VIDRNDT_DS_EVR_CUSTOM,
-    VIDRNDT_DS_MADVR,
-    VIDRNDT_DS_SYNC,
-    VIDRNDT_DS_MPCVR,
+    VIDRNDT_DS_DXR            = 7,
+    VIDRNDT_DS_NULL_COMP      = 8,
+    VIDRNDT_DS_NULL_UNCOMP    = 9,
+    VIDRNDT_DS_EVR            = 10,
+    VIDRNDT_DS_EVR_CUSTOM     = 11,
+    VIDRNDT_DS_MADVR          = 12,
+    VIDRNDT_DS_SYNC           = 13,
+    VIDRNDT_DS_MPCVR          = 14,
 };
 
 // Enumeration for MCE remote control (careful : add 0x010000 for all keys!)
@@ -420,6 +420,36 @@ public:
 
 #define APPSETTINGS_VERSION 8
 
+class RecentFileEntry {
+public:
+    RecentFileEntry() {}
+    RecentFileEntry(const RecentFileEntry &r) {
+        cue = r.cue;
+        title = r.title;
+        fns.RemoveAll();
+        subs.RemoveAll();
+        fns.AddHeadList(&r.fns);
+        subs.AddHeadList(&r.subs);
+    }
+
+    CString title;
+    CAtlList<CString> fns;
+    CString cue;
+    CAtlList<CString> subs;
+
+    BOOL operator==(RecentFileEntry c) {
+        return this->fns.GetHead() == c.fns.GetHead() && cue == c.cue;
+    }
+    void operator=(const RecentFileEntry &r) {
+        cue = r.cue;
+        title = r.title;
+        fns.RemoveAll();
+        subs.RemoveAll();
+        fns.AddHeadList(&r.fns);
+        subs.AddHeadList(&r.subs);
+    }
+};
+
 class CAppSettings
 {
     bool bInitialized = false;
@@ -433,6 +463,32 @@ class CAppSettings
 
         virtual void Add(LPCTSTR lpszPathName); // we have to override CRecentFileList::Add because the original version can't handle URLs
 
+        void SetSize(int nSize);
+    };
+
+    class CRecentFileListWithMoreInfo
+    {
+    public:
+        CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize) : m_section(lpszSection), m_maxSize(nSize){}
+
+        CAtlArray<RecentFileEntry> rfe_array;
+        int m_maxSize;
+        LPCTSTR m_section;
+
+        int GetSize() {
+            return (int)rfe_array.GetCount();
+        }
+
+        RecentFileEntry& operator[](int nIndex) {
+            ASSERT(nIndex >= 0 && nIndex < rfe_array.GetCount());
+            return rfe_array[nIndex];
+        }
+
+        void Remove(int nIndex);
+        void Add(LPCTSTR fn);
+        void Add(RecentFileEntry r);
+        void ReadList();
+        void WriteList();
         void SetSize(int nSize);
     };
 
@@ -475,7 +531,7 @@ public:
     bool            fTitleBarTextTitle;
     bool            fKeepHistory;
     int             iRecentFilesNumber;
-    CRecentFileAndURLList MRU;
+    CRecentFileListWithMoreInfo MRU;
     CRecentFileAndURLList MRUDub;
     CFilePositionList filePositions;
     CDVDPositionList  dvdPositions;
@@ -649,6 +705,8 @@ public:
     CString         strAutoDownloadSubtitlesExclude;
     bool            bAutoUploadSubtitles;
     bool            bPreferHearingImpairedSubtitles;
+    bool            bRenderSubtitlesUsingLibass;
+    CStringA        strOpenTypeLangHint;
     bool            bMPCTheme;
     bool            bWindows10DarkThemeActive;
     bool            bWindows10AccentColorsEnabled;
@@ -677,6 +735,8 @@ public:
     bool            fPreventMinimize;
     bool            bUseEnhancedTaskBar;
     bool            fLCDSupport;
+    bool            fSeekPreview;
+    int             iSeekPreviewSize;
     bool            fUseSearchInFolder;
     bool            fUseTimeTooltip;
     int             nTimeTooltipPosition;
@@ -725,6 +785,8 @@ public:
     // Save Subtitle
     bool            bSubSaveExternalStyleFile;
     // Shaders
+    bool            bToggleShader;
+    bool            bToggleShaderScreenSpace;
     ShaderList      m_ShadersExtraList;
     ShaderSelection m_Shaders;
     // Playlist (contex menu)
@@ -804,6 +866,7 @@ public:
     bool bShowLangInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
+    bool bUseTitleInRecentFileList;
 
 private:
     struct FilterKey {
@@ -870,4 +933,7 @@ public:
     bool            GetAllowMultiInst() const;
 
     static bool     IsVSFilterInstalled();
+#if USE_LIBASS
+    SubRendererSettings	GetSubRendererSettings();
+#endif
 };

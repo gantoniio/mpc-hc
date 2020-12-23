@@ -161,7 +161,7 @@ void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
     AddItem(sl, subs);
 }
 
-void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src)
+void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     CPlaylistItem pli;
 
@@ -188,20 +188,25 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     }
 
     pli.AutoLoadFiles();
+    pli.m_label = label;
     if (!ydl_src.IsEmpty()) {
-        pli.m_label = label;
         pli.m_ydlSourceURL = ydl_src;
         pli.m_bYoutubeDL = true;
+    }
+
+    if (!cue.IsEmpty()) {
+        pli.m_cue = true;
+        pli.m_cue_filename = cue;
     }
 
     m_pl.AddTail(pli);
 }
 
-void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src)
+void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     CPlaylistItem* pli = GetCur();
     if (pli == nullptr) {
-        AddItem(fns, subs, label, ydl_src);
+        AddItem(fns, subs, label, ydl_src, cue);
     } else {
         pli->m_fns.RemoveAll();
         pli->m_fns.AddTailList(&fns);
@@ -212,6 +217,8 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
         pli->m_label = label;
         pli->m_ydlSourceURL = ydl_src;
         pli->m_bYoutubeDL = !ydl_src.IsEmpty();
+        pli->m_cue = !cue.IsEmpty();
+        pli->m_cue_filename = cue;
 
         Refresh();
         SavePlaylist();
@@ -220,7 +227,7 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
 
 static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 {
-    if (mask.Find(_T("://")) >= 0) {
+    if (PathUtils::IsURL(mask)) {
         return false;
     }
 
@@ -304,7 +311,7 @@ void CPlayerPlaylistBar::ResolveLinkFiles(CAtlList<CString>& fns)
     }
 }
 
-void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src)
+void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString cue)
 {
     if (fns.IsEmpty()) {
         return;
@@ -345,7 +352,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         ParseCUESheet(fns.GetHead());
         return;
     } else if (ct == "audio/x-mpegurl") {
-        if (fns.GetHead().Find(_T("://")) == -1) { // prefer opening M3U URLs directly with LAV Splitter
+        if (!PathUtils::IsURL(fns.GetHead())) { // prefer opening M3U URLs directly with LAV Splitter
             if (ParseM3UPlayList(fns.GetHead())) {
                 return; //we have handled this one. if parse fails it should fall through to AddItem below
             }
@@ -360,29 +367,20 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 #endif
     }
 
-    AddItem(fns, subs, label, ydl_src);
-}
-
-bool inline IsURL(CString& fn)
-{
-    int p = fn.Find(_T("://"));
-    return (p > 0 && p < 10);
-}
-
-bool inline IsFullFilePath(CString& fn)
-{
-    return (fn.Find(_T(":")) > 0 || fn.Find(_T("\\\\")) == 0);
+    AddItem(fns, subs, label, ydl_src, cue);
 }
 
 static CString CombinePath(CString base, CString fn, bool base_is_url)
 {
     if (base_is_url) {
-        if (IsURL(fn)) {
+        if (PathUtils::IsURL(fn)) {
             return fn;
         }
     }
     else {
-        if (IsFullFilePath(fn)) {
+        if (PathUtils::IsFullFilePath(fn)) {
+            return fn;
+        } else if (PathUtils::IsURL(fn)) {
             return fn;
         }
     }
@@ -391,7 +389,7 @@ static CString CombinePath(CString base, CString fn, bool base_is_url)
 
 static CString CombinePath(CPath p, CString fn)
 {
-    if (IsFullFilePath(fn)) {
+    if (PathUtils::IsFullFilePath(fn)) {
         return fn;
     }
     p.Append(CPath(fn));
@@ -433,7 +431,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     }
 
     CString base;
-    bool isurl = fn.Find(_T("://")) > 0;
+    bool isurl = PathUtils::IsURL(fn);
     if (isurl) {
         int p = fn.Find(_T('?'));
         if (p > 0) {
@@ -598,7 +596,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
     }
 
     CString base;
-    bool isurl = IsURL(fn);
+    bool isurl = PathUtils::IsURL(fn);
     if (isurl) {
         int p = fn.Find(_T('?'));
         if (p > 0) {
@@ -638,7 +636,12 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
                             pli.m_fns.RemoveAll();
                             str = CombinePath(base, str, isurl);
                             pli.m_fns.AddTail(str);
+                            if (PathUtils::IsURL(str) && CMainFrame::IsOnYDLWhitelist(str)) {
+                                pli.m_ydlSourceURL = str;
+                                pli.m_bYoutubeDL = true;
+                            }
                             m_pl.AddTail(pli);
+                            pli = CPlaylistItem();
                             success = true;
                             continue;
                         }
@@ -661,7 +664,12 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
         pli.m_fns.RemoveAll();
         str = CombinePath(base, str, isurl);
         pli.m_fns.AddTail(str);
+        if (PathUtils::IsURL(str) && CMainFrame::IsOnYDLWhitelist(str)) {
+            pli.m_ydlSourceURL = str;
+            pli.m_bYoutubeDL = true;
+        }
         m_pl.AddTail(pli);
+        pli = CPlaylistItem();
         success = true;
     }
 
@@ -703,10 +711,10 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
             } else if (key == _T("label")) {
                 pli[i].m_label = value;
             } else if (key == _T("filename")) {
-                value = CombinePath(base, value);
+                if (!PathUtils::IsURL(value)) value = CombinePath(base, value);
                 pli[i].m_fns.AddTail(value);
             } else if (key == _T("subtitle")) {
-                value = CombinePath(base, value);
+                if (!PathUtils::IsURL(value)) value = CombinePath(base, value);
                 pli[i].m_subs.AddTail(value);
             } else if (key == _T("ydlSourceURL")) {
                 pli[i].m_ydlSourceURL = value;
@@ -742,7 +750,7 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
 
     std::sort(idx.begin(), idx.end());
     for (int i : idx) {
-        m_pl.AddTail(pli[i]);
+        if (pli[i].m_fns.GetCount() > 0) m_pl.AddTail(pli[i]);
     }
 
     return !pli.IsEmpty();
@@ -839,14 +847,14 @@ bool CPlayerPlaylistBar::Empty()
     return bWasPlaying;
 }
 
-void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs)
+void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     ResolveLinkFiles(fns);
     Empty();
-    Append(fns, fMulti, subs);
+    Append(fns, fMulti, subs, label, ydl_src, cue);
 }
 
-void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src)
+void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
     POSITION posFirstAdded = m_pl.GetTailPosition();
     int iFirstAdded = (int)m_pl.GetCount();
@@ -858,7 +866,7 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
             ParsePlayList(fns.GetNext(pos), nullptr);
         }
     } else {
-        ParsePlayList(fns, subs, 0, label, ydl_src);
+        ParsePlayList(fns, subs, 0, label, ydl_src, cue);
     }
 
     Refresh();
@@ -1135,6 +1143,16 @@ void CPlayerPlaylistBar::Randomize()
     SavePlaylist();
 }
 
+void CPlayerPlaylistBar::UpdateLabel(CString in) {
+    if (!m_pl.GetPos()) {
+        return;
+    }
+    CPlaylistItem& m = m_pl.GetAt(m_pl.GetPos());
+    m.m_label = in;
+    m_pl.SetAt(m_pl.GetPos(), m);
+    Refresh();
+}
+
 OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 {
     CPlaylistItem* pli = GetCur();
@@ -1170,7 +1188,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
             p->fns.AddTailList(&pli->m_fns);
             p->subs.AddTailList(&pli->m_subs);
             p->rtStart = rtStart;
-            p->bAddToRecent = !pli->m_bYoutubeDL;
+            p->bAddToRecent = true;
             return p;
         }
     }
@@ -1504,6 +1522,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
     POSITION pos = FindPos(nItem);
+    if (pos == NULL) return;
     bool itemPlaying = pos == m_pl.GetPos();
     bool itemSelected = !!m_list.GetItemState(nItem, LVIS_SELECTED);
     CPlaylistItem& pli = m_pl.GetAt(pos);

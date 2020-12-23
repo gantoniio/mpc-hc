@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageFileInfoRes.h"
+#include "PathUtils.h"
 
 
 // CPPageFileInfoRes dialog
@@ -46,8 +47,8 @@ CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourc
         m_fn = m_fn.Mid(i + 1);
     }
 
-    if (-1 != path.Find(_T("://"))) {
-        m_displayFn = UrlDecodeWithUTF8(UrlGetPathname(m_fn));
+    if (PathUtils::IsURL(path)) {
+        m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn));
     } else {
         m_displayFn = m_fn;
     }

@@ -147,7 +147,11 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     m_fn.TrimRight('/');
     int i = std::max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
     if (i >= 0 && i < m_fn.GetLength() - 1) {
-        m_location = m_fn.Left(i);
+        if (PathUtils::IsURL(m_fn)) {
+            m_location = m_fn;
+        } else {
+            m_location = m_fn.Left(i);
+        }
         m_fn = m_fn.Mid(i + 1);
 
         if (m_location.GetLength() == 2 && m_location[1] == ':') {
@@ -160,9 +164,9 @@ BOOL CPPageFileInfoClip::OnInitDialog()
         m_icon.SetIcon(m_hIcon);
     }
 
-    if (-1 != m_path.Find(_T("://"))) {
-        m_displayFn = UrlDecodeWithUTF8(UrlGetPathname(m_fn));
-        m_displayLocation = UrlDecodeWithUTF8(m_location);
+    if (PathUtils::IsURL(m_path)) {
+        m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn));
+        m_displayLocation = UrlDecodeWithUTF8(m_location, true);
     } else {
         m_displayFn = m_fn;
         m_displayLocation = m_location;

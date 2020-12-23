@@ -138,7 +138,7 @@ namespace PathUtils
     {
         // Replacement for CPath::StripPath which works fine also for URLs
         CString p = path;
-        bool isURL = (-1 != p.Find(_T("://")));
+        bool isURL = p.Find(_T("://")) > 1;
         p.Replace('\\', '/');
         p.TrimRight('/');
         p = p.Mid(p.ReverseFind('/') + 1);
@@ -255,5 +255,15 @@ namespace PathUtils
                 }
             }
         }
+    }
+
+    bool IsURL(CString& fn)
+    {
+        return fn.Find(_T("://")) > 1;
+    }
+
+    bool IsFullFilePath(CString& fn)
+    {
+        return (fn.Find(_T(":")) > 0) && !IsURL(fn) || (fn.Find(_T("\\\\")) == 0);
     }
 }

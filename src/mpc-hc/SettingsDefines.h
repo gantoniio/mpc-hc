@@ -90,6 +90,7 @@
 #define IDS_RS_TIME_REFRESH_INTERVAL        _T("TimeRefreshInterval")
 #define IDS_RS_SHOW_LANG_STATUSBAR          _T("ShowLangInStatusbar")
 #define IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES _T("AddLanguageCodeWhenSaveSubtitles")
+#define IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST    _T("UseTitleInRecentFileList")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -122,6 +123,8 @@
 #define IDS_RS_MENULANG                     _T("MenuLang")
 #define IDS_RS_AUDIOLANG                    _T("AudioLang")
 #define IDS_RS_SUBTITLESLANG                _T("SubtitlesLang")
+#define IDS_RS_RENDERSUBTITLESUSINGLIBASS   _T("RenderSubtitlesUsingLibass")
+#define IDS_RS_OPENTYPELANGHINT             _T("OpenTypeLangHint")
 #define IDS_RS_AUTOSPEAKERCONF              _T("AutoSpeakerConf")
 #define IDS_RS_CLOSEDCAPTIONS               _T("ClosedCaptions")
 
@@ -278,6 +281,12 @@
 #define IDS_RS_SHOW_CHAPTERS                _T("ShowChapters")
 
 #define IDS_RS_LCD_SUPPORT                  _T("LcdSupport")
+
+#define IDS_RS_SEEKPREVIEW                    _T("UseSeekPreview")
+#define IDS_RS_SEEKPREVIEW_SIZE               _T("SeekPreviewSize")
+
+#define IDS_RS_TOGGLESHADER                 _T("PreSizeShadersEnabled")
+#define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("PostSizeShadersEnabled")
 
 #define IDS_RS_REMAINING_TIME               _T("RemainingTime")
 #define IDS_RS_HIGH_PRECISION_TIMER         _T("HighPrecisionTimer")
