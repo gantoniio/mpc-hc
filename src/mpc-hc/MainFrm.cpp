@@ -12104,13 +12104,14 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 r.fns.AddTail(fn);
                 CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
                 if (!m_pli->m_label.IsEmpty()) {
-                    if (!m_pli->m_bYoutubeDL && PathUtils::StripPathOrUrl(fn) == m_pli->m_label);
-                    else if (!m_pli->m_bYoutubeDL || fn == m_pli->m_ydlSourceURL) r.title = m_pli->m_label;
-                    else {
-                        CString videoName(m_pli->m_label);
-                        int m = m_pli->m_label.ReverseFind(*_T(" ("));
-                        if (m > 0) videoName = m_pli->m_label.Left(m);
-                        r.title = videoName;
+                    if (m_pli->m_bYoutubeDL || PathUtils::StripPathOrUrl(fn) != m_pli->m_label) {
+                        if (!m_pli->m_bYoutubeDL || fn == m_pli->m_ydlSourceURL) r.title = m_pli->m_label;
+                        else {
+                            CString videoName(m_pli->m_label);
+                            int m = LastIndexOfCString(videoName, _T(" ("));
+                            if (m > 0) videoName = m_pli->m_label.Left(m);
+                            r.title = videoName;
+                        }
                     }
                 }
                 else {
@@ -13196,10 +13197,12 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                     }
                 }
 
-                if (has_title & title != GetFileName()) m_current_rfe.title = title;
+                CString fn = GetFileName();
+
+                if (has_title & title != fn) m_current_rfe.title = title;
 
                 if (!has_title) {
-                    title = GetFileName();
+                    title = fn;
                     has_title = true;
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
