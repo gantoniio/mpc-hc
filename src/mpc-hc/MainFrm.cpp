@@ -12104,7 +12104,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 r.fns.AddTail(fn);
                 CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
                 if (!m_pli->m_label.IsEmpty()) {
-                    if (!m_pli->m_bYoutubeDL || fn == m_pli->m_ydlSourceURL) r.title = m_pli->m_label;
+                    if (!PathUtils::IsURL(fn) && !m_pli->m_bYoutubeDL && PathUtils::StripPathOrUrl(fn) == m_pli->m_label);
+                    else if (!m_pli->m_bYoutubeDL || fn == m_pli->m_ydlSourceURL) r.title = m_pli->m_label;
                     else {
                         CString videoName(m_pli->m_label);
                         int m = m_pli->m_label.ReverseFind(*_T(" ("));
