@@ -229,7 +229,7 @@ std::string SubtitlesProvidersUtils::StringFormat(_In_z_ _Printf_format_string_ 
 #if _HAS_CXX17
         auto data = str.data();
 #else
-        auto data = static_cast<char*>(&str[0]);
+        auto data = str._MyPtr();
 #endif
         VERIFY(len == vsnprintf_s(data, len + 1, len, fmt, args));
     }

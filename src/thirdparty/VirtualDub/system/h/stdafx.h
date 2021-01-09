@@ -28,9 +28,6 @@ typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/atomic.h>
 #include <vd2/system/thread.h>
-#include <vd2/system/error.h>
-#include <vd2/system/filesys.h> // MPC-HC patch
-#include <vd2/system/vdstl.h>
 #include <windows.h>
 #include <vd2/system/file.h>
 #include <process.h>

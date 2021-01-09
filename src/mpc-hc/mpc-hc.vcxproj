@@ -123,6 +123,10 @@
     <ClCompile>
       <PreprocessorDefinitions>MPCHC_LITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">false</ShowIncludes>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">stdcpp17</LanguageStandard>
     </ClCompile>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -136,6 +140,10 @@
       <DisableSpecificWarnings>26812</DisableSpecificWarnings>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/Zc:strictStrings-</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/Zc:strictStrings-</AdditionalOptions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
