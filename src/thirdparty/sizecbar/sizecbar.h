@@ -26,6 +26,7 @@
 #if !defined(__SIZECBAR_H__)
 #define __SIZECBAR_H__
 
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 #include <afxpriv.h>    // for CDockContext
 #include <afxtempl.h>   // for CTypedPtrArray
 

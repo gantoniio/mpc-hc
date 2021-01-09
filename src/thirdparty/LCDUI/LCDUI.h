@@ -27,11 +27,13 @@
 // all windows header files
 //************************************************************************
 
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 #include <windows.h>
 #include <tchar.h>
 #include <vector>
 #include <queue>
 #include <Vfw.h>
+#pragma warning(disable:4596) //avoid errors in gdpiplusheaders.h (Metafile::)
 #include <GdiPlus.h>
 
 

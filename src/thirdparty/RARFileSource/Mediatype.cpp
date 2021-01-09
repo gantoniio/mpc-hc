@@ -19,7 +19,7 @@
    most of the information used in this file comes from
    http://msdn.microsoft.com/en-us/library/ms787558(VS.85).aspx
  */
-
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 #include <string.h>
 #include <objbase.h>
 #include <stdio.h>

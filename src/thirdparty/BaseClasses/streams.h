@@ -43,7 +43,7 @@
 #endif
 #endif
 
-
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 #include <windows.h>
 #include <windowsx.h>
 #include <olectl.h>

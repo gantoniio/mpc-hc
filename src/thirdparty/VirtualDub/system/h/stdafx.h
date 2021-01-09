@@ -22,6 +22,7 @@
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #endif
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 // End patch MPC-HC
 
 #include <vd2/system/vdtypes.h>
@@ -29,7 +30,9 @@
 #include <vd2/system/thread.h>
 #include <vd2/system/error.h>
 #include <vd2/system/filesys.h> // MPC-HC patch
+#include <vd2/system/vdstl.h>
 #include <windows.h>
+#include <vd2/system/file.h>
 #include <process.h>
 #include <vd2/system/win32/intrin.h>
 #include <string.h>

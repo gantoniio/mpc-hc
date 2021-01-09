@@ -4,6 +4,7 @@
 #   define NOMINMAX
 #endif
 
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 #include <windows.h>
 #include <atlbase.h>
 

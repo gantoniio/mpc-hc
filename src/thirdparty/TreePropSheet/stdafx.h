@@ -30,5 +30,6 @@
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 #endif
 
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 #include <afx.h>
 #include <afxwin.h>         // MFC core and standard components

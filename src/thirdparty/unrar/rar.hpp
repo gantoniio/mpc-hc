@@ -1,5 +1,6 @@
 #ifndef _RAR_RARCOMMON_
 #define _RAR_RARCOMMON_
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected
 
 #include "raros.hpp"
 #include "rartypes.hpp"

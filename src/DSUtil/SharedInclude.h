@@ -35,3 +35,5 @@
 #define _CRTDBG_MAP_ALLOC   // include Microsoft memory leak detection procedures
 #include <crtdbg.h>
 #endif
+
+typedef struct IUnknown IUnknown; // Workaround for "combaseapi.h(229): error C2187: syntax error: 'identifier' was unexpected

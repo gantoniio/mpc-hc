@@ -24,6 +24,7 @@
 #define GDIPVER 0x0110
 
 #include <SharedInclude.h>
+#pragma warning(disable:4596) //avoid errors in gdpiplusheaders.h (Metafile::)
 #include <afxwin.h>                         // MFC core and standard components
 #include <afxext.h>                         // MFC extensions
 #include <afxdisp.h>                        // MFC Automation classes
