@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(CPreView, CWnd)
     ON_WM_CREATE()
     ON_WM_PAINT()
     ON_WM_SHOWWINDOW()
+    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CPreView message handlers
@@ -209,4 +210,9 @@ void CPreView::ScaleFont() {
 
 void CPreView::SetColor() {
     const auto bUseDarkTheme = AfxGetAppSettings().bMPCTheme;
+}
+
+
+BOOL CPreView::OnEraseBkgnd(CDC* pDC) {
+    return TRUE;
 }
