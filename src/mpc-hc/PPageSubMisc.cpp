@@ -260,8 +260,8 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 CString szPass(UTF8To16(provider.Password().c_str()));
                 CString szDomain(provider.Name().c_str());
                 if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
-                                                          ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) + CString(provider.Url().c_str()),
-                                                          szDomain, szUser, szPass, /*&bSave*/nullptr)) {
+                                                          ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) +
+                                                          CString(provider.Url().c_str()), szDomain, szUser, szPass, /*&bSave*/nullptr)) {
                     provider.LogOut();
                     provider.UserName(static_cast<const char*>(UTF16To8(szUser)));
                     provider.Password(static_cast<const char*>(UTF16To8(szPass)));
@@ -317,6 +317,29 @@ void CPPageSubMisc::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = (LPNMLISTVIEW)pNMHDR;
 
     if (pNMLV->uOldState + pNMLV->uNewState == 0x3000) {
+        // Show a dialog asking for the user's login info if
+        // OpenSubtitles provider is to be enabled/disabled
+        if (pNMLV->iItem == 0 && ListView_GetCheckState(pNMHDR->hwndFrom, 0)) {
+            auto openSubProvider = m_pSubtitlesProviders->Providers()[0];
+
+            CString szUser(UTF8To16(openSubProvider->UserName().c_str()));
+            CString szPass(UTF8To16(openSubProvider->Password().c_str()));
+            CString szDomain(UTF8To16(openSubProvider->Name().c_str()));
+
+            if (ERROR_SUCCESS != PromptForCredentials(GetSafeHwnd(), ResStr(
+                                                          IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) +
+                                                      CString(openSubProvider->Url().c_str()), szDomain, szUser,
+                                                      szPass, nullptr)) {
+                ListView_SetCheckState(pNMHDR->hwndFrom, 0, FALSE);
+                return;
+            } else {
+                openSubProvider->LogOut();
+                openSubProvider->UserName(static_cast<const char*>(UTF16To8(szUser)));
+                openSubProvider->Password(static_cast<const char*>(UTF16To8(szPass)));
+                m_list.SetItemText(pNMLV->iItem, 1, szUser);
+            }
+        }
+
         SetModified();
     }
 }
