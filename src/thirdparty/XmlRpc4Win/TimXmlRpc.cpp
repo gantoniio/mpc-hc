@@ -647,7 +647,7 @@ static char* xmlDecode(const char* s, const char* end)
 
 
 // Replace raw text with xml-encoded entities.
-
+// mpc-hc, removed html entity encoding of non-ascii (utf-8 support)
 static std::string xmlEncode(const char* s)
 {
 	std::ostringstream ostr;
@@ -1173,7 +1173,7 @@ bool XmlRpcValue::parseMethodResponse(const char* s)
 
 void XmlRpcValue::buildCall(const char* method, std::ostringstream &ostr) const
 {
-	ostr << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+	ostr << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"; //mpc-hc, added UTF-8 support
 	ostr << "<methodCall><methodName>" << method << "</methodName>\r\n<params>";
 	if (getType() == XmlRpcValue::TypeArray)	{
 		for (int i=0; i < size(); ++i) {
