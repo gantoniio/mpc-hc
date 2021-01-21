@@ -59,7 +59,6 @@ BEGIN_MESSAGE_MAP(CPreView, CWnd)
     ON_WM_CREATE()
     ON_WM_PAINT()
     ON_WM_SHOWWINDOW()
-    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CPreView message handlers
