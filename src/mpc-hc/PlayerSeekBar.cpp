@@ -950,16 +950,19 @@ void CPlayerSeekBar::MoveThumbPreview(const CPoint point) {
 
 void CPlayerSeekBar::PreviewWindowShow() {
     if (m_pMainFrame->CanPreviewUse()) {
+        bool firstShow = false;
         if (!m_pMainFrame->m_wndPreView.IsWindowVisible()) {
             CPoint point;
             GetCursorPos(&point);
             ScreenToClient(&point);
             MoveThumbPreview(point);
+        } 
+        m_pMainFrame->PreviewWindowShow(m_pos_preview);
+        if (firstShow) {
             CRect r;
             m_pMainFrame->m_wndPreView.GetClientRect(r);
             m_pMainFrame->m_wndPreView.InvalidateRect(r);
         }
-        m_pMainFrame->PreviewWindowShow(m_pos_preview);
     }
 }
 

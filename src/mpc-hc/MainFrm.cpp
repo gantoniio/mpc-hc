@@ -12205,6 +12205,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     }
 
     SetupChapters();
+    LoadKeyFrames();
 
     SetPlaybackMode(PM_FILE);
 }

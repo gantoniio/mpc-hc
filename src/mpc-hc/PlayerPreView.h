@@ -69,7 +69,6 @@ protected:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnPaint();
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 
     DECLARE_MESSAGE_MAP()
 };

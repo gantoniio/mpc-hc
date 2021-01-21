@@ -211,8 +211,3 @@ void CPreView::ScaleFont() {
 void CPreView::SetColor() {
     const auto bUseDarkTheme = AfxGetAppSettings().bMPCTheme;
 }
-
-
-BOOL CPreView::OnEraseBkgnd(CDC* pDC) {
-    return TRUE;
-}
