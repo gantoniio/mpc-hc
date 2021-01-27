@@ -487,9 +487,6 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
                         pMFVDC->SetRenderingPrefs(MFVideoRenderPrefs_DoNotRepaintOnStop);
                     }
                 }
-                if (m_bIsPreview) {
-                    pMFVDC->SetRenderingPrefs(MFVideoRenderPrefs_DoNotRepaintOnStop);
-                }
             }
         } else if (m_clsid == CLSID_VideoMixingRenderer9) {
             if (m_bIsPreview) {
