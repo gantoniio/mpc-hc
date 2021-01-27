@@ -11029,7 +11029,6 @@ void CMainFrame::SetPreviewVideoPosition() {
         if (m_pVMR9C_preview) {
             m_pVMR9C_preview->SetVideoPosition(nullptr, wr);
             m_pVMR9C_preview->SetAspectRatioMode(VMR9ARMode_LetterBox);
-
         }
 
         m_pBV_preview->SetDefaultSourcePosition();
