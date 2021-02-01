@@ -56,7 +56,7 @@ void CMPCThemeGroupBox::OnPaint()
             dc.SetTextColor(oldClr);
             dc.SetBkColor(oldBkClr);
         }
-
+        ::ReleaseDC(NULL, hDC);
     } else {
         __super::OnPaint();
     }

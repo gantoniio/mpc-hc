@@ -486,7 +486,8 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
     initDimensions();
 
-    HDC hDC = ::GetDC(AfxGetMainWnd()->GetSafeHwnd());
+    HWND mainWnd = AfxGetMainWnd()->GetSafeHwnd();
+    HDC hDC = ::GetDC(mainWnd);
     MenuObject* mo = (MenuObject*)lpMeasureItemStruct->itemData;
 
     if (mo->isSeparator) {
@@ -510,6 +511,7 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
             }
         }
     }
+    ::ReleaseDC(mainWnd, hDC);
 }
 
 CMPCThemeMenu* CMPCThemeMenu::GetSubMenu(int nPos)

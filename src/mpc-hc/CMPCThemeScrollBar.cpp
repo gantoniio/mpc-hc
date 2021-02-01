@@ -214,6 +214,7 @@ void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC)
     pDC->BitBlt(0, 0, rcC.Width(), rcC.Height(), &dcMem, 0, 0, SRCCOPY);
 
     dcMem.SelectObject(pOldBm);
+    bmMem.DeleteObject();
 }
 
 void CMPCThemeScrollBar::SendScrollMsg(WORD wSBcode, WORD wHiWPARAM /*= 0*/)
