@@ -329,7 +329,7 @@ void drawButtonBG(NMCUSTOMDRAW nmcd, COLORREF c)
     CBrush fb;
     fb.CreateSolidBrush(CMPCTheme::PlayerButtonBorderColor);
     dc.FrameRect(br, &fb);
-
+    fb.DeleteObject();
     dc.Detach();
 }
 

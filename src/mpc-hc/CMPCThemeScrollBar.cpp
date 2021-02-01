@@ -165,8 +165,8 @@ void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC)
                     ASSERT(FALSE);  // Unknown state!
             }
             brushButton.CreateSolidBrush(buttonClr);
-
             dcMem.FillRect(butRect, &brushButton);
+            brushButton.DeleteObject();
 
             if (m_bHorizontal) {
                 if (nElem == eTLbutton) { //top or left
@@ -208,6 +208,7 @@ void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC)
                     ASSERT(FALSE);  // Unknown state!
             }
             dcMem.FillRect(butRect, &brushThumb);
+            brushThumb.DeleteObject();
         }
     }
 

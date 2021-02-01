@@ -601,6 +601,7 @@ void CPlayerSeekBar::OnPaint()
             CBrush fb;
             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
             dc.FrameRect(r, &fb);
+            fb.DeleteObject();
 
             CRgn rg;
             VERIFY(rg.CreateRectRgnIndirect(&r));
@@ -660,6 +661,7 @@ void CPlayerSeekBar::OnPaint()
             CBrush fb;
             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
             dc.FrameRect(&r, &fb);
+            fb.DeleteObject();
             dc.ExcludeClipRect(&r);
         }
 
