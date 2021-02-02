@@ -128,8 +128,7 @@ BOOL CMPCThemeMenu::RemoveMenu(UINT nPosition, UINT nFlags)
             }
         }
     }
-    BOOL ret = CMenu::RemoveMenu(nPosition, nFlags);
-    return ret;
+    return CMenu::RemoveMenu(nPosition, nFlags);
 }
 
 BOOL CMPCThemeMenu::SetThemedMenuItemInfo(UINT uItem, LPMENUITEMINFO lpMenuItemInfo, BOOL fByPos) {
