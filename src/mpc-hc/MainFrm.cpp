@@ -840,7 +840,7 @@ CMainFrame::CMainFrame()
     , m_MPLSPlaylist()
     , m_sydlLastProcessURL()
     , m_bUseSeekPreview(false)
-
+    , lastSeek({ 0,0,0,0 })
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -2359,6 +2359,10 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
         break;
         case TIMER_32HZ:
             m_timer32Hz.NotifySubscribers();
+            break;
+        case TIMER_DELAYEDSEEK:
+            KillTimer(TIMER_DELAYEDSEEK);
+            DoSeekTo(lastSeek.rtPos, lastSeek.bShowOSD);
             break;
         default:
             if (nIDEvent >= TIMER_ONETIME_START && nIDEvent <= TIMER_ONETIME_END) {
@@ -15949,8 +15953,21 @@ REFERENCE_TIME CMainFrame::GetClosestKeyFramePreview(REFERENCE_TIME rtTarget) co
     }
     return rtTarget;
 }
-
+int tss = 0;
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
+{
+    ULONGLONG curTime = GetTickCount64(), lastSeekTime = lastSeek.seekTime;
+    lastSeek = { rtPos, bShowOSD, curTime, lastSeek.count };
+    if ( curTime < lastSeekTime + 250 && lastSeek.count++ < 10) { //seeking too frequently, so we will defer this in case more seeks come in that supercede it
+        SetTimer(TIMER_DELAYEDSEEK, 10, nullptr);
+    } else {
+        lastSeek.count = 0;
+        tss++;
+        DoSeekTo(rtPos, bShowOSD);
+    }
+}
+
+void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
 {
     ASSERT(m_pMS != nullptr);
     if (m_pMS == nullptr) {

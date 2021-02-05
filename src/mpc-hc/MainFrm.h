@@ -134,6 +134,13 @@ public:
     HWND  Hwnd;
 };
 
+struct SeekToCommand {
+    REFERENCE_TIME rtPos;
+    bool bShowOSD;
+    ULONGLONG seekTime;
+    int count;
+};
+
 struct SubtitleInput {
     CComQIPtr<ISubStream> pSubStream;
     CComPtr<IBaseFilter> pSourceFilter;
@@ -183,6 +190,7 @@ private:
         TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS,
         TIMER_32HZ,
         TIMER_WINDOW_FULLSCREEN,
+        TIMER_DELAYEDSEEK,
         TIMER_ONETIME_START,
         TIMER_ONETIME_END = TIMER_ONETIME_START + 127,
     };
@@ -584,6 +592,8 @@ public:
     REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const;
     REFERENCE_TIME GetClosestKeyFramePreview(REFERENCE_TIME rtTarget) const;
     void SeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
+    void DoSeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
+    SeekToCommand lastSeek;
     void SetPlayingRate(double rate);
 
     int SetupAudioStreams();
