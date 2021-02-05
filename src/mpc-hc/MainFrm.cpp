@@ -15953,7 +15953,6 @@ REFERENCE_TIME CMainFrame::GetClosestKeyFramePreview(REFERENCE_TIME rtTarget) co
     }
     return rtTarget;
 }
-int tss = 0;
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
 {
     ULONGLONG curTime = GetTickCount64(), lastSeekTime = lastSeek.seekTime;
@@ -15961,8 +15960,8 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     if ( curTime < lastSeekTime + 250 && lastSeek.count++ < 3) { //seeking too frequently, so we will defer this in case more seeks come in that supercede it
         SetTimer(TIMER_DELAYEDSEEK, 250, nullptr);
     } else {
+        KillTimer(TIMER_DELAYEDSEEK);
         lastSeek.count = 0;
-        tss++;
         DoSeekTo(rtPos, bShowOSD);
     }
 }
