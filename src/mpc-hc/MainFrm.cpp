@@ -15958,8 +15958,8 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
 {
     ULONGLONG curTime = GetTickCount64(), lastSeekTime = lastSeek.seekTime;
     lastSeek = { rtPos, bShowOSD, curTime, lastSeek.count };
-    if ( curTime < lastSeekTime + 250 && lastSeek.count++ < 10) { //seeking too frequently, so we will defer this in case more seeks come in that supercede it
-        SetTimer(TIMER_DELAYEDSEEK, 10, nullptr);
+    if ( curTime < lastSeekTime + 250 && lastSeek.count++ < 3) { //seeking too frequently, so we will defer this in case more seeks come in that supercede it
+        SetTimer(TIMER_DELAYEDSEEK, 250, nullptr);
     } else {
         lastSeek.count = 0;
         tss++;
