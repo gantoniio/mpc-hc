@@ -18,13 +18,13 @@
     When choosing which features to install you only need to select "Windows Software Development Kit".
 
 
-## Part B: Install Python 2.7 (optional)
+## Part B: Install Python 3 (optional)
 
 This is required for building the translation DLL files.
 
-1. Install Python version 2.7.18 from <https://www.python.org/downloads/release/python-2718/>
+1. Install Python version 3.7.9 from <https://www.python.org/downloads/release/python-379/> (You can use Python 3.6 or later version)
 2. Run this command to install a required library:
-    c:\Python2.7\Scripts\pip install polib
+    C:\Program Files\Python37\Scripts\pip install --upgrade polib
 
 
 ## Part C: Preparing the MSYS and GCC environment (optional)
