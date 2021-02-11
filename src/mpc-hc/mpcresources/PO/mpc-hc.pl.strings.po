@@ -2316,19 +2316,19 @@ msgstr "DVD: Poprzednia kamera"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr "Następna ścieżka dźwiękowa (DVD)"
+msgstr "DVD: Następna ścieżka dźwiękowa"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr "Poprzednia ścieżka dźwiękowa (DVD)"
+msgstr "DVD: Poprzednia ścieżka dźwiękowa"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr "Następna ścieżka napisów (DVD)"
+msgstr "DVD: Następna ścieżka napisów"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr "Poprzednia ścieżka napisów (DVD)"
+msgstr "DVD: Poprzednia ścieżka napisów"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -4220,7 +4220,7 @@ msgstr "/d3dfs\t\tUruchamia odtwarzanie pełnoekranowe w D3D"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr "/sub „plik”\t\tWczytuje dodatkowe napisy"
+msgstr "/sub „plik”\tWczytuje dodatkowe napisy"
 
 msgctxt "IDS_CMD_FILTER"
 msgid ""
@@ -4275,17 +4275,15 @@ msgstr "/shutdown\tZamyka system operacyjny po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
-"/standby\t\tWprowadza system w stan wstrzymania po zakończeniu odtwarzania"
+msgstr "/standby\t\tWprowadza system w stan wstrzymania po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
-"/hibernate\tWprowadza system w stan hibernacji po zakończeniu odtwarzania"
+msgstr "/hibernate\tWprowadza system w stan hibernacji po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr "/logoff\t\tWyglogowuje użytownika po zakończeniu odtwarzania"
+msgstr "/logoff\t\tWylogowuje użytkownika po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
@@ -4478,7 +4476,7 @@ msgstr "/fixedsize x,y\tUstawia rozmiar okna programu"
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
 msgstr ""
-"/monitor N\tUruchamia na N-tym ekranie, gdzie numer  pierwszego ekranu to 1"
+"/monitor N\tUruchamia na N-tym ekranie, gdzie numer pierwszego ekranu to 1"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid ""
@@ -4514,7 +4512,7 @@ msgstr "OK"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
-msgstr "&Kontyntynuj"
+msgstr "&Kontynuuj"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
