@@ -78,7 +78,7 @@ Create a file named **build.user.bat** in the source code folder of MPC-HC (see 
     REM [Optional] Specify GIT location if it is not already set in %PATH%
     SET "MPCHC_GIT=C:\Program Files\Git"
     REM [Optional] If you plan to modify the translations, install Python 2.7 and set the variable to its path
-    SET "MPCHC_PYTHON=C:\Python27"
+    SET "MPCHC_PYTHON=C:\Program Files\Python37"
     REM [Optional] If you want to customize the Windows SDK version used, set this variable
     SET "MPCHC_WINSDK_VER=8.1"
     ```
