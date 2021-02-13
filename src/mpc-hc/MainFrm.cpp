@@ -5529,19 +5529,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rtDur);
 
         CString title;
-        bool has_title = false;
 
         CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
         if (pli && pli->m_bYoutubeDL && !pli->m_fns.IsEmpty() && pli->m_label && !pli->m_label.IsEmpty()) {
             title = pli->m_label;
-            has_title = true;
-        }
-
-        CString fnt = GetFileName();
-
-        if (!has_title) {
-            title = fnt;
-            has_title = true;
+        } else {
+            title = GetFileName();
         }
 
         CStringW fs;
