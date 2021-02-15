@@ -1015,8 +1015,8 @@ msgid "Spacing"
 msgstr "Prokládání:"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
-msgstr "Sklon (z,°):"
+msgid "Angle (z,Â°)"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"

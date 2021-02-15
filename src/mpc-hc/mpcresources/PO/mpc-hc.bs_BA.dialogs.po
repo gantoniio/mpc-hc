@@ -1012,8 +1012,8 @@ msgid "Spacing"
 msgstr "Razmak"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
-msgstr "Ugao (z,°)"
+msgid "Angle (z,Â°)"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"

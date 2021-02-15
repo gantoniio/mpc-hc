@@ -1020,8 +1020,8 @@ msgid "Spacing"
 msgstr "Διαστήματα"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
-msgstr "Γωνία (z,°)"
+msgid "Angle (z,Â°)"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"

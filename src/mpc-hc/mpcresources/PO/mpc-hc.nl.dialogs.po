@@ -1015,8 +1015,8 @@ msgid "Spacing"
 msgstr "Ruimte"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
-msgstr "Hoek (z,°)"
+msgid "Angle (z,Â°)"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"

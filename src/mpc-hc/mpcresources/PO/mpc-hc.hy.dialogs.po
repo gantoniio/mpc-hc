@@ -1009,8 +1009,8 @@ msgid "Spacing"
 msgstr "Բացատ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
-msgstr "Անկյուն (z,°)"
+msgid "Angle (z,Â°)"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"

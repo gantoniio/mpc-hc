@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-01-01 17:21:26+0000\n"
+"POT-Creation-Date: 2021-02-15 20:34:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -993,7 +993,7 @@ msgid "Spacing"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
+msgid "Angle (z,Â°)"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"

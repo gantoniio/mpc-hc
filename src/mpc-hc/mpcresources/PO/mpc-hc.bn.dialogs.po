@@ -1015,8 +1015,8 @@ msgid "Spacing"
 msgstr "বর্ণমধ্যবর্তী ফাঁক"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
-msgid "Angle (z,°)"
-msgstr "কৌণিকচ্যুতি (z,°)"
+msgid "Angle (z,Â°)"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
