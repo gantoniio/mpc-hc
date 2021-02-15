@@ -195,8 +195,8 @@ msgid "About"
 msgstr "ਇਸ ਬਾਰੇ"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2020 see Authors.txt"
-msgstr "Copyright © 2002-2020 Authors.txt ਦੇਖੋ"
+msgid "Copyright 2002-2021 clsid2 and others"
+msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -1120,6 +1120,10 @@ msgstr "ਬਾਹਰੀ:"
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
 msgstr "...ਝਲਕ"
+
+msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
+msgid "Apply Monitor Color Profile"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"

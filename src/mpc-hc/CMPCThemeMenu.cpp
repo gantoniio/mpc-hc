@@ -8,7 +8,7 @@
 #include "mplayerc.h"
 
 std::map<UINT, CMPCThemeMenu*> CMPCThemeMenu::subMenuIDs;
-
+HBRUSH CMPCThemeMenu::bgBrush = 0;
 
 IMPLEMENT_DYNAMIC(CMPCThemeMenu, CMenu);
 
@@ -42,6 +42,7 @@ CMPCThemeMenu::~CMPCThemeMenu()
         delete allocatedItems[i];
     }
     for (u_int i = 0; i < allocatedMenus.size(); i++) {
+        allocatedMenus[i]->Detach();
         delete allocatedMenus[i];
     }
 }
@@ -117,6 +118,16 @@ BOOL CMPCThemeMenu::DeleteMenu(UINT nPosition, UINT nFlags)
 BOOL CMPCThemeMenu::RemoveMenu(UINT nPosition, UINT nFlags)
 {
     cleanupItem(nPosition, nFlags);
+    if (nFlags & MF_BYPOSITION) {
+        CMenu *t  = GetSubMenu(nPosition);
+        if (t) {
+            t->Detach();
+            if (std::find(allocatedMenus.begin(), allocatedMenus.end(), t) != allocatedMenus.end()) {
+                allocatedMenus.erase(std::remove(allocatedMenus.begin(), allocatedMenus.end(), t), allocatedMenus.end());
+                delete t;
+            }
+        }
+    }
     return CMenu::RemoveMenu(nPosition, nFlags);
 }
 
@@ -181,7 +192,10 @@ void CMPCThemeMenu::fulfillThemeReqs(bool isMenubar)
         MenuInfo.cbSize = sizeof(MENUINFO);
         MenuInfo.fMask = MIM_BACKGROUND | MIM_STYLE | MIM_APPLYTOSUBMENUS;
         MenuInfo.dwStyle = oldInfo.dwStyle;
-        MenuInfo.hbrBack = ::CreateSolidBrush(CMPCTheme::MenuBGColor);
+        if (!bgBrush) {
+            bgBrush = ::CreateSolidBrush(CMPCTheme::MenuBGColor);
+        }
+        MenuInfo.hbrBack = bgBrush;
         SetMenuInfo(&MenuInfo);
 
         int iMaxItems = GetMenuItemCount();
@@ -223,9 +237,13 @@ void CMPCThemeMenu::fulfillThemeReqs(bool isMenubar)
 
             CMenu* t = GetSubMenu(i);
             if (nullptr != t) {
-                CMPCThemeMenu* pSubMenu = new CMPCThemeMenu;
-                allocatedMenus.push_back(pSubMenu);
-                pSubMenu->Attach(t->GetSafeHmenu());
+                CMPCThemeMenu* pSubMenu;
+                pSubMenu = DYNAMIC_DOWNCAST(CMPCThemeMenu, t);
+                if (!pSubMenu) {
+                    pSubMenu = new CMPCThemeMenu;
+                    allocatedMenus.push_back(pSubMenu);
+                    pSubMenu->Attach(t->Detach());
+                }
                 pSubMenu->fulfillThemeReqs();
             }
         }
@@ -274,9 +292,13 @@ void CMPCThemeMenu::fulfillThemeReqsItem(UINT i, bool byCommand, bool isMenuBar)
 
             CMenu* t = GetSubMenu(nPos);
             if (nullptr != t) {
-                CMPCThemeMenu* pSubMenu = new CMPCThemeMenu;
-                allocatedMenus.push_back(pSubMenu);
-                pSubMenu->Attach(t->GetSafeHmenu());
+                CMPCThemeMenu* pSubMenu;
+                pSubMenu = DYNAMIC_DOWNCAST(CMPCThemeMenu, t);
+                if (!pSubMenu) {
+                    pSubMenu = new CMPCThemeMenu;
+                    allocatedMenus.push_back(pSubMenu);
+                    pSubMenu->Attach(t->Detach());
+                }
                 pSubMenu->fulfillThemeReqs();
             }
         }
@@ -486,7 +508,8 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
     initDimensions();
 
-    HDC hDC = ::GetDC(AfxGetMainWnd()->GetSafeHwnd());
+    HWND mainWnd = AfxGetMainWnd()->GetSafeHwnd();
+    HDC hDC = ::GetDC(mainWnd);
     MenuObject* mo = (MenuObject*)lpMeasureItemStruct->itemData;
 
     if (mo->isSeparator) {
@@ -510,6 +533,7 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
             }
         }
     }
+    ::ReleaseDC(mainWnd, hDC);
 }
 
 CMPCThemeMenu* CMPCThemeMenu::GetSubMenu(int nPos)

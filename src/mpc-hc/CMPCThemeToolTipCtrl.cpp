@@ -79,6 +79,7 @@ void CMPCThemeToolTipCtrl::paintTT(CDC& dc, CMPCThemeToolTipCtrl* tt)
     CBrush fb;
     fb.CreateSolidBrush(CMPCTheme::TooltipBorderColor);
     dc.FrameRect(r, &fb);
+    fb.DeleteObject();
     COLORREF oldClr = dc.SetTextColor(CMPCTheme::TextFGColor);
     drawText(dc, tt, r, false);
     dc.SetTextColor(oldClr);
@@ -225,5 +226,23 @@ void CMPCThemeToolTipCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos)
             lpwndpos->cx = cr.Width();
             lpwndpos->cy = cr.Height();
         }
+    }
+}
+
+//tooltip rules for how to hover on parent window
+//by default tooltipctrl will simply hover at the mouse position,
+//unlike the tooltips created with EnableTooltips which center below the window
+//(in all cases tested-slider, combobox, edit)
+void CMPCThemeToolTipCtrl::SetHoverPosition(CWnd* parent) {
+    if (IsWindow(parent->GetSafeHwnd())) {
+        CRect parentRect, ttRect;
+        parent->GetWindowRect(parentRect);
+        GetWindowRect(ttRect);
+        int centerOffset = (parentRect.left + parentRect.right - ttRect.left - ttRect.right) / 2;
+        ttRect.right += centerOffset;
+        ttRect.left += centerOffset;
+        ttRect.bottom += (parentRect.bottom - ttRect.top);
+        ttRect.top = parentRect.bottom;
+        MoveWindow(ttRect);
     }
 }

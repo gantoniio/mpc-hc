@@ -427,10 +427,11 @@ HRESULT CFGFilterFile::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_
 // CFGFilterVideoRenderer
 //
 
-CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name, UINT64 merit)
+CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name, UINT64 merit, bool preview)
     : CFGFilter(clsid, name, merit)
     , m_hWnd(hWnd)
     , m_bHas10BitWorkAround(false)
+    , m_bIsPreview(preview)
 {
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
 }
@@ -476,12 +477,27 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 
         if (m_clsid == CLSID_EnhancedVideoRenderer) {
             CComQIPtr<IEVRFilterConfig> pConfig = pBF;
-            pConfig->SetNumberOfStreams(3);
+            pConfig->SetNumberOfStreams(m_bIsPreview ? 1 : 3);
 
             if (CComQIPtr<IMFGetService> pMFGS = pBF) {
                 CComPtr<IMFVideoDisplayControl> pMFVDC;
                 if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVDC)))) {
                     pMFVDC->SetVideoWindow(m_hWnd);
+                    if (m_bIsPreview) {
+                        pMFVDC->SetRenderingPrefs(MFVideoRenderPrefs_DoNotRepaintOnStop);
+                    }
+                }
+            }
+        } else if (m_clsid == CLSID_VideoMixingRenderer9) {
+            if (m_bIsPreview) {
+                CComQIPtr<IVMRFilterConfig9> pConfig = pBF;
+
+                if (pConfig) {
+                    pConfig->SetRenderingMode(VMR9Mode_Windowless);
+                    CComQIPtr<IVMRWindowlessControl9> pControl = pBF;
+                    if (pControl) {
+                        pControl->SetVideoClippingWindow(m_hWnd);
+                    }
                 }
             }
         }
@@ -521,7 +537,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 
     CheckPointer(*ppBF, E_FAIL);
 
-    if (m_clsid != CLSID_madVRAllocatorPresenter && m_clsid != CLSID_MPCVRAllocatorPresenter) {
+    if (!m_bIsPreview && (m_clsid == CLSID_EnhancedVideoRenderer || m_clsid == CLSID_EVRAllocatorPresenter || m_clsid == CLSID_SyncAllocatorPresenter || m_clsid == CLSID_VMR9AllocatorPresenter)) {
         HookWorkAround10BitBug(*ppBF);
         m_bHas10BitWorkAround = true;
     }

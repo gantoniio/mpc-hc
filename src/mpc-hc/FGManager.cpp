@@ -412,6 +412,12 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
         return E_NOINTERFACE;
     }
 
+    if (pFGF->GetCLSID() == __uuidof(CRARFileSource) && m_bIsPreview && m_entryRFS.GetLength() > 0) {
+        CComPtr<CRARFileSource> rfs = static_cast<CRARFileSource*>(pBF.p);
+        std::wstring previewFileEntry(m_entryRFS.GetBuffer());
+        rfs->SetPreviewFile(previewFileEntry);
+    }
+
     if (FAILED(hr = AddFilter(pBF, lpcwstrFilterName))) {
         return hr;
     }
@@ -922,6 +928,13 @@ STDMETHODIMP CFGManager::Render(IPin* pPinOut)
     return RenderEx(pPinOut, 0, nullptr);
 }
 
+HRESULT CFGManager::RenderRFSFileEntry(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList, CStringW entryRFS){
+    if (m_bIsPreview) {
+        this->m_entryRFS = entryRFS;
+    }
+    return RenderFile(lpcwstrFileName, lpcwstrPlayList);
+}
+
 STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList)
 {
     TRACE(_T("--> CFGManager::RenderFile on thread: %lu\n"), GetCurrentThreadId());
@@ -1423,6 +1436,7 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,12,ffffffff00000000ffffffff,77696465027fe3706d646174")); // wide ? mdat
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("3,3,,000001")); // raw mpeg4 video
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".mov"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".mp4"));
         pFGLAVSplitterSource->AddEnabledFormat("mp4");
     }
 #endif
@@ -1460,6 +1474,7 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
 #if INTERNAL_SOURCEFILTER_MATROSKA
     if (src[SRC_MATROSKA] || IsPreview) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,1A45DFA3"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".mkv"));
         pFGLAVSplitterSource->AddEnabledFormat("matroska");
     }
 #endif
@@ -2566,9 +2581,9 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         }
     } else {
         if (CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR)) {
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"EVR - Preview Window", MERIT64_ABOVE_DSHOW + 2));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"EVR - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));
         } else {
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, L"VMR9 - Preview Window", MERIT64_ABOVE_DSHOW + 2));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, L"VMR9 - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));
         }
     }
 

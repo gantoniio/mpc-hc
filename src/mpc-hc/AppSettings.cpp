@@ -81,6 +81,7 @@ CAppSettings::CAppSettings()
     , fGlobalMedia(false)
     , nLogoId(-1)
     , fLogoExternal(false)
+    , fLogoColorProfileEnabled(false)
     , fEnableWebServer(false)
     , nWebServerPort(13579)
     , nCmdlnWebServerPort(-1)
@@ -231,6 +232,7 @@ CAppSettings::CAppSettings()
     , bEnableCrashReporter(true)
     , nStreamPosPollerInterval(100)
     , bShowLangInStatusbar(false)
+    , bShowFPSInStatusbar(false)
     , bRenderSubtitlesUsingLibass(false)
     , bAddLangCodeWhenSaveSubtitles(true)
     , bUseTitleInRecentFileList(true)
@@ -1059,6 +1061,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, strLogoFileName);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, nLogoId);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOEXT, fLogoExternal);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOCOLORPROFILE, fLogoColorProfileEnabled);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECDROMSSUBMENU, fHideCDROMsSubMenu);
 
@@ -1174,6 +1177,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, nStreamPosPollerInterval);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_LANG_STATUSBAR, bShowLangInStatusbar);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, bShowFPSInStatusbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, bAddLangCodeWhenSaveSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, bUseTitleInRecentFileList);
 
@@ -1779,6 +1783,7 @@ void CAppSettings::LoadSettings()
     strLogoFileName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE);
     nLogoId = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, -1);
     fLogoExternal = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOEXT, FALSE);
+    fLogoColorProfileEnabled = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOCOLORPROFILE, FALSE);
 
     fHideCDROMsSubMenu = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECDROMSSUBMENU, FALSE);
 
@@ -1986,6 +1991,7 @@ void CAppSettings::LoadSettings()
 
     nStreamPosPollerInterval = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_REFRESH_INTERVAL, 100);
     bShowLangInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_LANG_STATUSBAR, FALSE);
+    bShowFPSInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, FALSE);
 
     bAddLangCodeWhenSaveSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, TRUE);
     bUseTitleInRecentFileList = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, TRUE);
@@ -2362,9 +2368,11 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 fShowDebugInfo = true;
             } else if (sw == _T("nocrashreporter")) {
 #if USE_DRDUMP_CRASH_REPORTER
-                CrashReporter::Disable();
+                if (CrashReporter::IsEnabled()) {
+                    CrashReporter::Disable();
+                    MPCExceptionHandler::Enable();
+                }
 #endif
-                MPCExceptionHandler::Enable();
             } else if (sw == _T("audiorenderer") && pos) {
                 SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
             } else if (sw == _T("shaderpreset") && pos) {

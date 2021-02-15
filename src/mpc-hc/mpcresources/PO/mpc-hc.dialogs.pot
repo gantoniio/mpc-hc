@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-12-21 18:32:11+0000\n"
+"POT-Creation-Date: 2021-01-01 17:21:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgid "About"
 msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2020 see Authors.txt"
+msgid "Copyright 2002-2021 clsid2 and others"
 msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
@@ -1116,6 +1116,10 @@ msgstr ""
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
+msgid "Apply Monitor Color Profile"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"

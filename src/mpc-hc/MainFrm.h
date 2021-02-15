@@ -134,6 +134,12 @@ public:
     HWND  Hwnd;
 };
 
+struct SeekToCommand {
+    REFERENCE_TIME rtPos;
+    ULONGLONG seekTime;
+    bool bShowOSD;
+};
+
 struct SubtitleInput {
     CComQIPtr<ISubStream> pSubStream;
     CComPtr<IBaseFilter> pSourceFilter;
@@ -183,6 +189,7 @@ private:
         TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS,
         TIMER_32HZ,
         TIMER_WINDOW_FULLSCREEN,
+        TIMER_DELAYEDSEEK,
         TIMER_ONETIME_START,
         TIMER_ONETIME_END = TIMER_ONETIME_START + 127,
     };
@@ -235,6 +242,7 @@ private:
     CComQIPtr<IDvdControl2>         m_pDVDC_preview;
     CComQIPtr<IDvdInfo2>            m_pDVDI_preview; // VtX: usually not necessary but may sometimes be necessary.
     CComPtr<IMFVideoDisplayControl> m_pMFVDC_preview;
+    CComPtr<IVMRWindowlessControl9> m_pVMR9C_preview;
     CComPtr<IMFVideoProcessor>      m_pMFVP_preview;
     //
     CComPtr<IVMRMixerControl9> m_pVMRMC;
@@ -486,6 +494,7 @@ protected:
     double m_dSpeedRate;
     double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
     int m_AngleX, m_AngleY, m_AngleZ;
+    int m_iDefRotation;
 
     // Operations
     bool OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD);
@@ -580,9 +589,12 @@ public:
     REFERENCE_TIME GetDur() const;
     bool GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFERENCE_TIME rtMax, bool nearest, REFERENCE_TIME& keyframetime) const;
     REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const;
-    bool GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const;
-    REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget);
+    REFERENCE_TIME GetClosestKeyFramePreview(REFERENCE_TIME rtTarget) const;
     void SeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
+    void DoSeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
+    SeekToCommand queuedSeek;
+    ULONGLONG lastSeekStart;
+    ULONGLONG lastSeekFinish;
     void SetPlayingRate(double rate);
 
     int SetupAudioStreams();
@@ -1099,6 +1111,7 @@ public:
     //void      AutoSelectTracks();
     bool        IsRealEngineCompatible(CString strFilename) const;
     void        SetTimersPlay();
+    void        KillTimerDelayedSeek();
     void        KillTimersStop();
     void        AdjustStreamPosPoller(bool restart);
 

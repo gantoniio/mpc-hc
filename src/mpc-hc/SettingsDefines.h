@@ -89,6 +89,7 @@
 #define IDS_RS_LOOP_FOLDER_NEXT_FILE        _T("LoopFolderOnPlayNextFile")
 #define IDS_RS_TIME_REFRESH_INTERVAL        _T("TimeRefreshInterval")
 #define IDS_RS_SHOW_LANG_STATUSBAR          _T("ShowLangInStatusbar")
+#define IDS_RS_SHOW_FPS_STATUSBAR           _T("ShowFPSInStatusbar")
 #define IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES _T("AddLanguageCodeWhenSaveSubtitles")
 #define IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST    _T("UseTitleInRecentFileList")
 
@@ -182,6 +183,7 @@
 #define IDS_RS_RECENT_FILES_NUMBER          _T("RecentFilesNumber")
 #define IDS_RS_LOGOID                       _T("LogoID2")
 #define IDS_RS_LOGOEXT                      _T("LogoExt")
+#define IDS_RS_LOGOCOLORPROFILE             _T("LogoColorProfile")
 #define IDS_RS_TRAFILTERS                   _T("TraFilters")
 #define IDS_RS_COMPMONDESKARDIFF            _T("CompMonDeskARDiff")
 #define IDS_RS_HIDECDROMSSUBMENU            _T("HideCDROMsSubMenu")

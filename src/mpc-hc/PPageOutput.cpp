@@ -100,7 +100,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_AUDRND_COMBO);
 
-    const CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
 
     m_iDSVideoRendererType  = s.iDSVideoRendererType;
@@ -203,6 +203,10 @@ BOOL CPPageOutput::OnInitDialog()
     if (s.strAudioRendererDisplayName == AUDRNDT_INTERNAL && m_iAudioRendererType == 0) {
         m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
     }
+    // check if renderer wasn't in the list of available ones
+    if (m_iAudioRendererType == 0 && !s.strAudioRendererDisplayName.IsEmpty()) {
+        s.strAudioRendererDisplayName = _T("");
+    }
 
     CorrectComboListWidth(m_iAudioRendererTypeCtrl);
     m_iAudioRendererTypeCtrl.SetRedraw(TRUE);
@@ -254,7 +258,7 @@ BOOL CPPageOutput::OnInitDialog()
 
         switch (nID) {
             case VIDRNDT_DS_DEFAULT:
-                resName = IDS_PPAGE_OUTPUT_SYS_DEF;
+                resName = IDS_PPAGE_OUTPUT_VMR7;
                 break;
             case VIDRNDT_DS_OLDRENDERER:
                 resName = IDS_PPAGE_OUTPUT_OLDRENDERER;
@@ -309,17 +313,17 @@ BOOL CPPageOutput::OnInitDialog()
 
     CComboBox& m_iDSVRTC = m_iDSVideoRendererTypeCtrl;
     m_iDSVRTC.SetRedraw(FALSE); // Do not draw the control while we are filling it with items
-    addRenderer(VIDRNDT_DS_DEFAULT);
-    addRenderer(VIDRNDT_DS_EVR);
+    addRenderer(VIDRNDT_DS_MPCVR);
+    addRenderer(VIDRNDT_DS_MADVR);
     addRenderer(VIDRNDT_DS_EVR_CUSTOM);
+    addRenderer(VIDRNDT_DS_EVR);
     addRenderer(VIDRNDT_DS_SYNC);
     addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
     addRenderer(VIDRNDT_DS_VMR9WINDOWED);
-    addRenderer(VIDRNDT_DS_MADVR);
-    addRenderer(VIDRNDT_DS_MPCVR);
+    addRenderer(VIDRNDT_DS_DEFAULT);
     addRenderer(VIDRNDT_DS_DXR);
-    addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_OVERLAYMIXER);
+    addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_NULL_COMP);
     addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 

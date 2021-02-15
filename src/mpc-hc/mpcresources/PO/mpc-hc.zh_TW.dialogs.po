@@ -197,8 +197,8 @@ msgid "About"
 msgstr "關於"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2020 see Authors.txt"
-msgstr "Copyright © 2002-2020 請見 Authors.txt 檔案"
+msgid "Copyright 2002-2021 clsid2 and others"
+msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -1122,6 +1122,10 @@ msgstr "外部:"
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
 msgstr "瀏覽..."
+
+msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
+msgid "Apply Monitor Color Profile"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
