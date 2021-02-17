@@ -22,9 +22,9 @@
 
 This is required for building the translation DLL files.
 
-1. Install Python version 3.7.9 from <https://www.python.org/downloads/release/python-379/> (You can use Python 3.6 or later version)
+1. Install Python version 3.8.7 from <https://www.python.org/downloads/release/python-387/> (You can use Python 3.6 or later version)
 2. Run this command to install a required library:
-    C:\Program Files\Python37\Scripts\pip install --upgrade polib
+    C:\Program Files\Python38\Scripts\pip install --upgrade polib
 
 
 ## Part C: Preparing the MSYS and GCC environment (optional)
@@ -78,7 +78,7 @@ Create a file named **build.user.bat** in the source code folder of MPC-HC (see 
     REM [Optional] Specify GIT location if it is not already set in %PATH%
     SET "MPCHC_GIT=C:\Program Files\Git"
     REM [Optional] If you plan to modify the translations, install Python 3.7 and set the variable to its path
-    SET "MPCHC_PYTHON=C:\Program Files\Python37"
+    SET "MPCHC_PYTHON=C:\Program Files\Python38"
     REM [Optional] If you want to customize the Windows SDK version used, set this variable
     SET "MPCHC_WINSDK_VER=8.1"
     ```
