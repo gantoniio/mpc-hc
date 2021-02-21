@@ -81,6 +81,8 @@ void CPPageAudioRenderer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK2, m_bAllowBitstreaming);
     DDX_Check(pDX, IDC_CHECK3, m_bCrossfeedEnabled);
     DDX_Check(pDX, IDC_CHECK4, m_bIgnoreSystemChannelMixer);
+    DDX_Check(pDX, IDC_CHECK5, m_bIsEnabled);
+    
     DDX_Control(pDX, IDC_COMBO1, m_combo1);
     DDX_Control(pDX, IDC_SLIDER1, m_slider1);
     DDX_Control(pDX, IDC_SLIDER2, m_slider2);
@@ -159,6 +161,7 @@ BOOL CPPageAudioRenderer::OnInitDialog()
     m_slider1.SetPos(crossfeedCuttoffFrequency);
     m_slider2.SetPos(crossfeedLevel);
 
+    m_bIsEnabled = (s.SelectedAudioRenderer() == AUDRNDT_INTERNAL);
     UpdateData(FALSE);
 
     return TRUE;
@@ -186,6 +189,7 @@ BOOL CPPageAudioRenderer::OnApply()
     s.sanear->SetCrossfeedSettings(m_slider1.GetPos(), m_slider2.GetPos());
     s.sanear->SetCrossfeedEnabled(m_bCrossfeedEnabled);
     s.sanear->SetIgnoreSystemChannelMixer(m_bIgnoreSystemChannelMixer);
+    m_bIsEnabled = (s.SelectedAudioRenderer() == AUDRNDT_INTERNAL);
 
     return __super::OnApply();
 }

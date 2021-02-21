@@ -58,6 +58,7 @@ protected:
     BOOL m_bAllowBitstreaming;
     BOOL m_bCrossfeedEnabled;
     BOOL m_bIgnoreSystemChannelMixer;
+    BOOL m_bIsEnabled;
 
     CMPCThemeComboBox m_combo1;
     CMPCThemeSliderCtrl m_slider1;
