@@ -94,6 +94,7 @@ void CPlayerToolBar::LoadToolbarImage()
 {
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+    dpiScaling = round(dpiScaling * 8) / 8.0f;
     float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0f;
 
     CImage image, themedImage, origImage;
