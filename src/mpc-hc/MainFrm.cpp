@@ -5380,7 +5380,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         REFERENCE_TIME rt = rtDur * i / (pics + 1);
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rt);
 
-        SeekTo(rt);
+        DoSeekTo(rt, false);
         UpdateWindow();
 
         m_nVolumeBeforeFrameStepping = m_wndToolBar.Volume;
@@ -5563,7 +5563,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     if (bWasStopped) {
         OnPlayStop();
     } else {
-        SeekTo(rtPos);
+        DoSeekTo(rtPos, false);
     }
 
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
@@ -9278,7 +9278,7 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
         REFERENCE_TIME rtStart, rtStop;
         m_wndSeekBar.GetRange(rtStart, rtStop);
         if (iChapter >= 0 && DWORD(iChapter) < nChapters && SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name)) && rt < rtStop) {
-            SeekTo(rt, false);
+            DoSeekTo(rt, false);
             SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
             ret = true;
 
@@ -9528,7 +9528,7 @@ void CMainFrame::OnNavigateGoto()
         return;
     }
 
-    SeekTo(dlg.m_time);
+    DoSeekTo(dlg.m_time);
 }
 
 void CMainFrame::OnUpdateNavigateGoto(CCmdUI* pCmdUI)
@@ -10398,13 +10398,12 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
 
 CSize CMainFrame::GetVideoSize() const
 {
-    const CAppSettings& s = AfxGetAppSettings();
-
     CSize ret;
     if (GetLoadState() != MLS::LOADED || m_fAudioOnly) {
         return ret;
     }
 
+    const CAppSettings& s = AfxGetAppSettings();
     CSize videoSize, preferedAR;
 
     if (m_pCAP) {
@@ -10412,7 +10411,7 @@ CSize CMainFrame::GetVideoSize() const
         preferedAR = m_pCAP->GetVideoSize(s.fKeepAspectRatio);
     } else if (m_pMFVDC) {
         m_pMFVDC->GetNativeVideoSize(&videoSize, &preferedAR);   // TODO : check AR !!
-    } else {
+    } else if (m_pBV) {
         m_pBV->GetVideoSize(&videoSize.cx, &videoSize.cy);
 
         long arx = 0, ary = 0;
@@ -15931,10 +15930,10 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
                     const auto& s = AfxGetAppSettings();
                     if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
                         // use closest keyframe
-                        REFERENCE_TIME tmp_time = *(--foundkeyframe);
-                        if ((rtMin <= tmp_time)) {
-                            if ((rtMax - keyframetime) > (keyframetime - tmp_time)) {
-                                keyframetime = tmp_time;
+                        REFERENCE_TIME prev_keyframetime = *(--foundkeyframe);
+                        if ((prev_keyframetime >= rtMin)) {
+                            if ((keyframetime - rtTarget) > (rtTarget - prev_keyframetime)) {
+                                keyframetime = prev_keyframetime;
                             }
                         }
                     }
@@ -15950,9 +15949,13 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
 
 REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const
 {
+    if (rtTarget < 0LL) return 0LL;
+    REFERENCE_TIME duration = GetDur();
+    if (rtTarget > duration) rtTarget = duration;
+
     REFERENCE_TIME rtKeyframe;
     REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxBackwardDiff, 0LL);
-    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxForwardDiff, GetDur());
+    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxForwardDiff, duration);
 
     if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
         return rtKeyframe;
