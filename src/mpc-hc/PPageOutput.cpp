@@ -636,7 +636,7 @@ void CPPageOutput::OnDSRendererChange()
 void CPPageOutput::OnAudioRendererChange() {
     UpdateData();
     CPPageAudioRenderer* pAR = static_cast<CPPageAudioRenderer*>(FindSiblingPage(RUNTIME_CLASS(CPPageAudioRenderer)));
-    if (pAR) { //output page visible, so we have to update the dropdown
+    if (pAR) { //audio renderer page visible, so we have to update the checkbox
         pAR->SetEnabled(m_AudioRendererDisplayNames[m_iAudioRendererType] == AUDRNDT_INTERNAL);
     }
     SetModified();
