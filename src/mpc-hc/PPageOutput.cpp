@@ -63,9 +63,6 @@ void CPPageOutput::UpdateAudioRenderer(CString audioRendererStr)
         if (m_AudioRendererDisplayNames[i] == audioRendererStr) {
             if (i != m_iAudioRendererType) {
                 m_iAudioRendererType = i;
-                UpdateData(FALSE);
-                m_iAudioRendererTypeCtrl.Invalidate();
-                m_iAudioRendererTypeCtrl.UpdateWindow();
             }
             break;
         }
