@@ -16615,7 +16615,8 @@ bool CMainFrame::CanPreviewUse() {
         && m_eMediaLoadState == MLS::LOADED
         && (GetPlaybackMode() == PM_DVD || GetPlaybackMode() == PM_FILE)
         && !m_fAudioOnly
-        && AfxGetAppSettings().fSeekPreview);
+        && AfxGetAppSettings().fSeekPreview
+        && !AfxGetAppSettings().iOnTop);
 }
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen)
