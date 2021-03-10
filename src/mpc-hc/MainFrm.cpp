@@ -11917,6 +11917,9 @@ HRESULT CMainFrame::PreviewWindowHide() {
 
         m_wndPreView.ShowWindow(SW_HIDE);
         m_wndPreView.SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        if (AfxGetAppSettings().iOnTop) {
+            SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
 
         // Enable animation
         AnimationInfo.iMinAnimate = WindowAnimationType;
@@ -16615,8 +16618,7 @@ bool CMainFrame::CanPreviewUse() {
         && m_eMediaLoadState == MLS::LOADED
         && (GetPlaybackMode() == PM_DVD || GetPlaybackMode() == PM_FILE)
         && !m_fAudioOnly
-        && AfxGetAppSettings().fSeekPreview
-        && !AfxGetAppSettings().iOnTop);
+        && AfxGetAppSettings().fSeekPreview);
 }
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen)
