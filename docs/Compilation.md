@@ -2,7 +2,7 @@
 
 ## Part A: Preparing the Visual Studio environment
 
-### Visual Studio 2017/2019
+### Visual Studio 2019 (or 2017)
 
 1. Install Visual Studio (any edition will work fine). Select at minimum the following components:
     C++ core features
@@ -13,18 +13,18 @@
     C++ ATL
     C++ MFC
     Windows 10 SDK (10.0.17763.0 or any other version)
-2. Install the DirectX SDK (June 2010) → <https://go.microsoft.com/fwlink/?LinkID=71193>
-3. Install the Windows 8.1 SDK → <https://go.microsoft.com/fwlink/p/?LinkId=323507>
+2. Install the Windows 8.1 SDK → <https://go.microsoft.com/fwlink/p/?LinkId=323507>
     When choosing which features to install you only need to select "Windows Software Development Kit".
+    Alternatively you can use Windows 10 SDK, but then resulting binaries will require at least Windows 7 SP1, so you lose compatibility with Vista and 7 RTM.
 
 
-## Part B: Install Python 2.7 (optional)
+## Part B: Install Python 3 (optional)
 
 This is required for building the translation DLL files.
 
-1. Install Python version 2.7.18 from <https://www.python.org/downloads/release/python-2718/>
+1. Install Python version 3.8.7 from <https://www.python.org/downloads/release/python-387/> (You can use Python 3.6 or later version)
 2. Run this command to install a required library:
-    c:\Python2.7\Scripts\pip install polib
+    C:\Program Files\Python38\Scripts\pip install --upgrade polib
 
 
 ## Part C: Preparing the MSYS and GCC environment (optional)
@@ -49,16 +49,16 @@ releases.
    pacman -Syu
    ```
    When you are asked to restart MSYS, say yes. Start MSYS again and repeat the above command. Once everything is updated, you can close MSYS.
-6. Download the latest mingw-w64-gcc package from <http://files.1f0.de/mingw/> and extract it to folder **`C:\MSYS64\mingw64`**
+6. Download the latest mingw-w64-gcc package from <http://files.1f0.de/mingw/> and extract it to folder **`C:\MSYS64\mingw64`** (overwriting any existing files).
 7. It is recommended to add **`C:\MSYS64\mingw64\bin`** and **`C:\MSYS64\usr\bin`** to the %PATH% environment variable.
-   Windows Control Panel > System > Advanced System Settings > Environment variables
    This allows you to run GCC and all other MSYS tools from the Windows command line.
+   Windows Control Panel > System > Advanced System Settings > Environment variables
    On Windows 10 you can access the legacy control panel by clicking on the Windows Start menu and typing `control.exe`
 
 
 ## Part D: Yasm
 
-Download YASM and save it as **yasm.exe** in **`C:\MSYS64\usr\bin`** (if using MSYS) or somewhere else in %PATH% (for example **`C:\Windows`**):
+Download YASM and save it as **yasm.exe** in a folder that is included in %PATH%. For example **`C:\Windows`** or **`C:\MSYS64\usr\bin`** (see part C).
    * For 64-bit Windows: <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe> (Recommended)
    * For 32-bit Windows: <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win32.exe>
 
@@ -77,8 +77,8 @@ Create a file named **build.user.bat** in the source code folder of MPC-HC (see 
     SET "MSYS2_PATH_TYPE=inherit"
     REM [Optional] Specify GIT location if it is not already set in %PATH%
     SET "MPCHC_GIT=C:\Program Files\Git"
-    REM [Optional] If you plan to modify the translations, install Python 2.7 and set the variable to its path
-    SET "MPCHC_PYTHON=C:\Python27"
+    REM [Optional] If you plan to modify the translations, install Python 3.8 and set the variable to its path
+    SET "MPCHC_PYTHON=C:\Program Files\Python38"
     REM [Optional] If you want to customize the Windows SDK version used, set this variable
     SET "MPCHC_WINSDK_VER=8.1"
     ```

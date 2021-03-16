@@ -371,7 +371,7 @@ void  CSubtitleInputPin::DecodeSamples()
         }
 
         if (rtInvalidate >= 0) {
-            TRACE(_T("NewSegment: InvalidateSubtitle(%I64d, ...)\n"), rtInvalidate);
+            TRACE(_T("NewSegment: InvalidateSubtitle %.3f\n"), double(rtInvalidate) / 10000000.0);
             // IMPORTANT: m_pSubLock must not be locked when calling this
             InvalidateSubtitle(rtInvalidate, m_pSubStream);
         }
@@ -477,20 +477,20 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 int fields = m_mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
 
                 CAtlList<CStringW> sl;
-                Explode(str, sl, ',', fields);
+                ExplodeNoTrim(str, sl, ',', fields);
                 if (sl.GetCount() == (size_t)fields) {
                     stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.style = sl.RemoveHead();
-                    stse.actor = sl.RemoveHead();
+                    stse.style = sl.RemoveHead(); // no trim, its value is a lookup key
+                    stse.actor = sl.RemoveHead().Trim();
                     stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
                     if (fields == 10) {
                         stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
                     }
-                    stse.effect = sl.RemoveHead();
-                    stse.str = sl.RemoveHead();
+                    stse.effect = sl.RemoveHead().Trim();
+                    stse.str = sl.RemoveHead().Trim();
                 }
 
                 if (!stse.str.IsEmpty()) {

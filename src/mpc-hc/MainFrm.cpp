@@ -842,7 +842,9 @@ CMainFrame::CMainFrame()
     , m_MPLSPlaylist()
     , m_sydlLastProcessURL()
     , m_bUseSeekPreview(false)
-
+    , queuedSeek({0,0,false})
+    , lastSeekStart(0)
+    , lastSeekFinish(0)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -2362,6 +2364,10 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
         case TIMER_32HZ:
             m_timer32Hz.NotifySubscribers();
             break;
+        case TIMER_DELAYEDSEEK:
+            KillTimer(TIMER_DELAYEDSEEK);
+            SeekTo(queuedSeek.rtPos, queuedSeek.bShowOSD);
+            break;
         default:
             if (nIDEvent >= TIMER_ONETIME_START && nIDEvent <= TIMER_ONETIME_END) {
                 m_timerOneTime.NotifySubscribers(nIDEvent);
@@ -2619,12 +2625,6 @@ void CMainFrame::GraphEventComplete()
         ++m_nLoops;
         bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
-
-    // TODO: Update when Auto Upload is finalised
-    //if (!m_pSubStreams.IsEmpty() && s.fEnableSubtitles && s.bAutoUploadSubtitles
-    //        && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
-    //    m_pSubtitlesProviders->Upload();
-    //}
 
     if (abRepeatPositionAEnabled || abRepeatPositionBEnabled) {
         PerformABRepeat();
@@ -3474,7 +3474,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             }
 
             CComPtr<IPin> pPin;
-            if (SUCCEEDED(m_pCGB->FindPin(m_wndCaptureBar.m_capdlg.m_pDst, PINDIR_INPUT, nullptr, nullptr, FALSE, 0, &pPin))) {
+            if (m_pCGB && SUCCEEDED(m_pCGB->FindPin(m_wndCaptureBar.m_capdlg.m_pDst, PINDIR_INPUT, nullptr, nullptr, FALSE, 0, &pPin))) {
                 LONGLONG size = 0;
                 if (CComQIPtr<IStream> pStream = pPin) {
                     pStream->Commit(STGC_DEFAULT);
@@ -3786,7 +3786,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         CRect rect;
         m_wndSeekBar.GetWindowRect(&rect);
         if (rect.PtInRect(point)) {
-            m_wndSeekBar.PreviewWindowShow();
+            m_wndSeekBar.PreviewWindowShow(point);
         }
     }
 
@@ -4817,7 +4817,7 @@ void CMainFrame::OnFileSaveAs()
     CSaveDlg dlg(in, p);
     dlg.DoModal();
 
-    if (fs == State_Running) {
+    if (m_pMC && fs == State_Running) {
         m_pMC->Run();
     }
 }
@@ -5382,7 +5382,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         REFERENCE_TIME rt = rtDur * i / (pics + 1);
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rt);
 
-        SeekTo(rt);
+        DoSeekTo(rt, false);
         UpdateWindow();
 
         m_nVolumeBeforeFrameStepping = m_wndToolBar.Volume;
@@ -5506,6 +5506,14 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         rts.CreateDefaultStyle(0);
         rts.m_dstScreenSize.SetSize(width, height);
         STSStyle* style = DEBUG_NEW STSStyle();
+        // Use System UI font.
+        CFont tempFont;
+        CMPCThemeUtil::getFontByType(tempFont, nullptr, nullptr, CMPCThemeUtil::MessageFont);
+        LOGFONT lf;
+        if (tempFont.GetLogFont(&lf)) {
+            CString fontName(lf.lfFaceName);
+            style->fontName = fontName;
+        }
         style->marginRect.SetRect(margin * 2, margin * 2, margin * 2, height - infoheight - margin);
         rts.AddStyle(_T("thumbs"), style);
 
@@ -5516,9 +5524,14 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rtDur);
 
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.StripPath();
-        CStringW fnp = (LPCTSTR)path;
+        CString title;
+
+        CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+        if (pli && pli->m_bYoutubeDL && !pli->m_fns.IsEmpty() && pli->m_label && !pli->m_label.IsEmpty()) {
+            title = pli->m_label;
+        } else {
+            title = GetFileName();
+        }
 
         CStringW fs;
         WIN32_FIND_DATA wfd;
@@ -5541,7 +5554,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         }
 
         str.Format(IDS_THUMBNAILS_INFO_HEADER,
-                   fnp.GetString(), fs.GetString(), szVideo.cx, szVideo.cy, ar.GetString(), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+                   title.GetString(), fs.GetString(), szVideo.cx, szVideo.cy, ar.GetString(), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, 0, 1, _T("thumbs"));
 
         rts.Render(spd, 0, 25, bbox);
@@ -5552,7 +5565,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     if (bWasStopped) {
         OnPlayStop();
     } else {
-        SeekTo(rtPos);
+        DoSeekTo(rtPos, false);
     }
 
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
@@ -8021,6 +8034,8 @@ void CMainFrame::OnPlayFramestep(UINT nID)
         return;
     }
 
+    KillTimerDelayedSeek();
+
     m_OSD.EnableShowMessage(false);
     if (m_fQuicktimeGraph) {
         if (GetMediaState() != State_Paused) {
@@ -8087,7 +8102,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
         }
 
         rtCurPos += (nID == ID_PLAY_FRAMESTEP) ? rtAvgTimePerFrame : -rtAvgTimePerFrame;
-        SeekTo(rtCurPos);
+        DoSeekTo(rtCurPos, false);
     }
     m_OSD.EnableShowMessage();
 }
@@ -8198,8 +8213,17 @@ void CMainFrame::SetTimersPlay()
     SetTimer(TIMER_STATS, 1000, nullptr);
 }
 
+void CMainFrame::KillTimerDelayedSeek()
+{
+    if (queuedSeek.seekTime > 0) {
+        KillTimer(TIMER_DELAYEDSEEK);
+        queuedSeek = { 0, 0, false };
+    }
+}
+
 void CMainFrame::KillTimersStop()
 {
+    KillTimerDelayedSeek();
     KillTimer(TIMER_STREAMPOSPOLLER2);
     if (KillTimer(TIMER_STREAMPOSPOLLER)) {
         ASSERT(streampospoller_active);
@@ -9256,7 +9280,7 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
         REFERENCE_TIME rtStart, rtStop;
         m_wndSeekBar.GetRange(rtStart, rtStop);
         if (iChapter >= 0 && DWORD(iChapter) < nChapters && SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name)) && rt < rtStop) {
-            SeekTo(rt, false);
+            DoSeekTo(rt, false);
             SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
             ret = true;
 
@@ -9506,7 +9530,7 @@ void CMainFrame::OnNavigateGoto()
         return;
     }
 
-    SeekTo(dlg.m_time);
+    DoSeekTo(dlg.m_time);
 }
 
 void CMainFrame::OnUpdateNavigateGoto(CCmdUI* pCmdUI)
@@ -10376,13 +10400,12 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
 
 CSize CMainFrame::GetVideoSize() const
 {
-    const CAppSettings& s = AfxGetAppSettings();
-
     CSize ret;
     if (GetLoadState() != MLS::LOADED || m_fAudioOnly) {
         return ret;
     }
 
+    const CAppSettings& s = AfxGetAppSettings();
     CSize videoSize, preferedAR;
 
     if (m_pCAP) {
@@ -10390,7 +10413,7 @@ CSize CMainFrame::GetVideoSize() const
         preferedAR = m_pCAP->GetVideoSize(s.fKeepAspectRatio);
     } else if (m_pMFVDC) {
         m_pMFVDC->GetNativeVideoSize(&videoSize, &preferedAR);   // TODO : check AR !!
-    } else {
+    } else if (m_pBV) {
         m_pBV->GetVideoSize(&videoSize.cx, &videoSize.cy);
 
         long arx = 0, ary = 0;
@@ -11896,6 +11919,9 @@ HRESULT CMainFrame::PreviewWindowHide() {
 
         m_wndPreView.ShowWindow(SW_HIDE);
         m_wndPreView.SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        if (AfxGetAppSettings().iOnTop) {
+            SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
 
         // Enable animation
         AnimationInfo.iMinAnimate = WindowAnimationType;
@@ -11915,8 +11941,6 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
     }
 
     HRESULT hr = S_OK;
-    rtCur2 = GetClosestKeyFramePreview(rtCur2);
-
     if (GetPlaybackMode() == PM_DVD && m_pDVDC_preview) {
         DVD_PLAYBACK_LOCATION2 Loc, Loc2;
         double fps = 0;
@@ -12405,14 +12429,11 @@ void CMainFrame::SetupCueChapters(CString fn) {
     CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
 
     CWebTextFile f(CTextFile::UTF8);
+    f.SetFallbackEncoding(CTextFile::ANSI);
     if (!f.Open(fn) || !f.ReadString(str)) {
         return;
     }
-
     f.Seek(0, CFile::SeekPosition::begin);
-    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
-        f.SetEncoding(CTextFile::ANSI);
-    }
 
     CString base;
     bool isurl = PathUtils::IsURL(fn);
@@ -15927,6 +15948,9 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
             }
         } else {
             keyframetime = *foundkeyframe;
+            if (keyframetime == rtTarget) {
+                return true;
+            }
             if (keyframetime > rtMax) {
                 // use preceding keyframe
                 keyframetime = *(--foundkeyframe);
@@ -15939,10 +15963,10 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
                     const auto& s = AfxGetAppSettings();
                     if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
                         // use closest keyframe
-                        REFERENCE_TIME tmp_time = *(--foundkeyframe);
-                        if ((rtMin <= tmp_time)) {
-                            if ((rtMax - keyframetime) > (keyframetime - tmp_time)) {
-                                keyframetime = tmp_time;
+                        REFERENCE_TIME prev_keyframetime = *(--foundkeyframe);
+                        if ((prev_keyframetime >= rtMin)) {
+                            if ((keyframetime - rtTarget) > (rtTarget - prev_keyframetime)) {
+                                keyframetime = prev_keyframetime;
                             }
                         }
                     }
@@ -15958,9 +15982,13 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
 
 REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const
 {
+    if (rtTarget < 0LL) return 0LL;
+    REFERENCE_TIME duration = GetDur();
+    if (rtTarget > duration) rtTarget = duration;
+
     REFERENCE_TIME rtKeyframe;
     REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxBackwardDiff, 0LL);
-    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxForwardDiff, GetDur());
+    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxForwardDiff, duration);
 
     if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
         return rtKeyframe;
@@ -15970,18 +15998,36 @@ REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE
 
 REFERENCE_TIME CMainFrame::GetClosestKeyFramePreview(REFERENCE_TIME rtTarget) const
 {
-    REFERENCE_TIME rtKeyframe = 0;
-    REFERENCE_TIME rtMin = std::max(rtTarget - 200000000LL, 0LL);
-    REFERENCE_TIME rtMax = std::min(rtTarget + 200000000LL, GetDur());
-
-    if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
-        return rtKeyframe;
-    }
-    return rtTarget;
+    return GetClosestKeyFrame(rtTarget, 200000000LL, 200000000LL);
 }
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
 {
+    if (m_pMS == nullptr) {
+        return;
+    }
+    ASSERT(lastSeekFinish >= lastSeekStart); // ToDo: remove lastSeekStart variable if no regressions show up
+    ULONGLONG curTime = GetTickCount64();
+    ULONGLONG ticksSinceLastSeek = curTime - lastSeekFinish;
+    ULONGLONG mindelay = (lastSeekFinish - lastSeekStart) > 40ULL ? 100ULL : 40ULL;
+    //ASSERT(rtPos != queuedSeek.rtPos || queuedSeek.seekTime == 0 || (curTime < queuedSeek.seekTime + 500ULL));
+
+    if (ticksSinceLastSeek < mindelay) {
+        //TRACE(_T("Delay seek: %lu %lu\n"), rtPos, ticksSinceLastSeek);
+        queuedSeek = { rtPos, curTime, bShowOSD };
+        SetTimer(TIMER_DELAYEDSEEK, (UINT) (mindelay * 1.25 - ticksSinceLastSeek), nullptr);
+    } else {
+        KillTimerDelayedSeek();
+        lastSeekStart = curTime;
+        DoSeekTo(rtPos, bShowOSD);
+        lastSeekFinish = GetTickCount64();
+    }
+}
+
+void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
+{
+    //TRACE(_T("DoSeekTo: %lu\n"), rtPos);
+
     ASSERT(m_pMS != nullptr);
     if (m_pMS == nullptr) {
         return;
@@ -16023,6 +16069,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
+        //SleepEx(5000, False); // artificial slow seek for testing purposes
         m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
         UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
@@ -18269,6 +18316,11 @@ void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper)
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (!m_hWnd) {
+        ASSERT(false);
+        return 0;
+    }
+
     if ((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam))) {
         int const wmId = LOWORD(wParam);
         switch (wmId) {
@@ -19302,7 +19354,7 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
     STARTUPINFO startup_info;
     const auto& s = AfxGetAppSettings();
 
-    CString args = _T("youtube-dl \"") + url + _T("\"");
+    CString args = _T("youtube-dl --console-title \"") + url + _T("\"");
     if (!s.sYDLCommandLine.IsEmpty()) {
         args.Append(_T(" "));
         args.Append(s.sYDLCommandLine);
@@ -19320,6 +19372,7 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
 
     if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, false, 0,
                        NULL, NULL, &startup_info, &proc_info)) {
+        AfxMessageBox(_T("An error occurred while attempting to run youtube-dl"), MB_ICONERROR, 0);
         return false;
     }
 

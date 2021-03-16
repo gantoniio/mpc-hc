@@ -421,14 +421,11 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     int cue_index(0);
 
     CWebTextFile f(CTextFile::UTF8);
+    f.SetFallbackEncoding(CTextFile::ANSI);
     if (!f.Open(fn) || !f.ReadString(str)) {
         return false;
     }
-
     f.Seek(0, CFile::SeekPosition::begin);
-    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
-        f.SetEncoding(CTextFile::ANSI);
-    }
 
     CString base;
     bool isurl = PathUtils::IsURL(fn);
@@ -580,6 +577,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
     std::vector<int> idx;
 
     CWebTextFile f(CTextFile::UTF8);
+    f.SetFallbackEncoding(CTextFile::ANSI);
     if (!f.Open(fn) || !f.ReadString(str)) {
         return false;
     }
@@ -589,10 +587,6 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
         isExt = true;
     } else {
         f.Seek(0, CFile::SeekPosition::begin);
-    }
-
-    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
-        f.SetEncoding(CTextFile::ANSI);
     }
 
     CString base;
@@ -683,12 +677,9 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
     std::vector<int> idx;
 
     CWebTextFile f(CTextFile::UTF8);
+    f.SetFallbackEncoding(CTextFile::ANSI);
     if (!f.Open(fn) || !f.ReadString(str) || str != _T("MPCPLAYLIST")) {
         return false;
-    }
-
-    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
-        f.SetEncoding(CTextFile::ANSI);
     }
 
     CPath base(fn);
@@ -1231,7 +1222,9 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
             m_pl.GetNext(nextpos);
         }
         // remove selected from playlist
-        m_list.DeleteItem(FindItem(pos));
+        int listPos = FindItem(pos);
+        m_list.DeleteItem(listPos);
+        m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
         m_pl.RemoveAt(pos);
         SavePlaylist();
         if (isplaying) {

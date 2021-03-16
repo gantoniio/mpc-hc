@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Marián Hikaník <podnety@mojepreklady.net>, 2020
+# Marián Hikaník <podnety@mojepreklady.net>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-12-21 18:32:11+0000\n"
+"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2020\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2021\n"
 "Language-Team: Slovak (https://www.transifex.com/mpchc/teams/106126/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,14 +142,6 @@ msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
 msgstr "Na&vigácia"
 
-msgctxt "ID_VIEW_DEBUGSHADERS"
-msgid "&Debug Shaders"
-msgstr "La&denie shaderov"
-
-msgctxt "ID_VIEW_MPCTHEME"
-msgid "Dark Theme (restart)"
-msgstr "Tmavá téma (reštart)"
-
 msgctxt "POPUP"
 msgid "&Presets..."
 msgstr "&Predvoľby..."
@@ -165,6 +157,10 @@ msgstr "&Kompaktné"
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
 msgstr "&Normálne"
+
+msgctxt "ID_VIEW_MPCTHEME"
+msgid "Dark Theme (restart)"
+msgstr "Tmavá téma (reštart)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -780,7 +776,7 @@ msgstr "Menu &uhlov videa"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Menu &sekcií"
+msgstr "Menu sek&cií"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"

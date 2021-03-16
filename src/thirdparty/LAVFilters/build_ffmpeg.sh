@@ -58,7 +58,7 @@ clean() {
   cd ${FFMPEG_BUILD_PATH}
   echo Cleaning...
   if [ -f ffbuild/config.mak ]; then
-    make distclean > /dev/null 2>&1
+    rm -r ${FFMPEG_BUILD_PATH}
   fi
   cd ${BASEDIR}
 }
@@ -79,8 +79,10 @@ configure() {
     --disable-bsfs                  \
     --enable-bsf=extract_extradata,vp9_superframe_split \
     --disable-cuda                  \
+    --disable-cuda-llvm             \
     --disable-cuvid                 \
     --disable-nvenc                 \
+    --disable-mediafoundation       \
     --enable-avresample             \
     --enable-avisynth               \
     --disable-avdevice              \
@@ -102,6 +104,7 @@ configure() {
     --disable-debug                 \
     --disable-schannel              \
     --enable-gnutls                 \
+    --enable-libxml2                \
     --enable-gmp"
   fi
   
