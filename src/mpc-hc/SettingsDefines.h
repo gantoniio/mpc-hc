@@ -333,6 +333,8 @@
 #define IDS_RS_COVER_ART_SIZE_LIMIT         _T("CoverArtSizeLimit")
 #define IDS_RS_LOGGING                      _T("EnableLogging")
 #define IDS_RS_USE_LEGACY_TOOLBAR           _T("UseLegacyToolbar")
+#define IDS_RS_TOOLBAR_LAYOUT               _T("ToolbarLayout")
+
 
 #define IDS_RS_SUBTITLE_RENDERER            _T("SubtitleRenderer")
 

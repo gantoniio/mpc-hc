@@ -23,6 +23,7 @@
 
 #include "VolumeCtrl.h"
 #include "CMPCThemeToolTipCtrl.h"
+#include "MPCToolbarLayout.h"
 
 #include <atlimage.h>
 
@@ -46,16 +47,19 @@ private:
     int m_nButtonHeight;
     std::unique_ptr<CImageList> m_pButtonsImages;
     std::unique_ptr<CImageList> m_pDisabledButtonsImages;
+
     int m_volumeMinSizeInc;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
-
+    std::map<int, int> idToLegacyButtonIndex; //holds a map of cmdids -> button index into toolbar.svg
+    int volumeButtonIndex, dummyButtonIndex, flexibleSpaceIndex;
+    bool useFlexibleSpace;
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
-    bool LoadExternalToolBar(CImage& image, bool useColor);
+    bool LoadExternalToolBar(CImage& image, bool useColor, bool dynamicIcons = false);
 
     int GetVolume() const;
     int GetMinWidth() const;

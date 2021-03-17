@@ -31,6 +31,7 @@
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "SettingsDefines.h"
 #include "Shaders.h"
+#include "MPCToolbarLayout.h"
 
 #include <afxadv.h>
 #include <afxsock.h>
@@ -262,6 +263,7 @@ struct AutoChangeFullscreenMode {
 };
 
 struct wmcmd_base : public ACCEL {
+    const char* cmdidStr;
     BYTE mouse;
     BYTE mouseFS;
     BYTE mouseVirt;
@@ -294,9 +296,8 @@ struct wmcmd_base : public ACCEL {
     };
 
     wmcmd_base()
-        : ACCEL( {
-        0, 0, 0
-    })
+    : cmdidStr("")
+    , ACCEL{ 0, 0, 0 }
     , mouse(NONE)
     , mouseFS(NONE)
     , mouseVirt(0)
@@ -304,8 +305,9 @@ struct wmcmd_base : public ACCEL {
     , dwname(0)
     , appcmd(0) {}
 
-    constexpr wmcmd_base(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE, BYTE _mouseVirt = 0, BYTE _mouseFSVirt = 0)
-        : ACCEL{ _fVirt, _key, _cmd }
+    constexpr wmcmd_base(const char *_cmdidStr, WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE, BYTE _mouseVirt = 0, BYTE _mouseFSVirt = 0)
+        : cmdidStr(_cmdidStr)
+        , ACCEL{ _fVirt, _key, _cmd }
         , mouse(_mouse)
         , mouseFS(_mouseFS)
         , mouseVirt(_mouseVirt)
@@ -496,6 +498,8 @@ public:
     // cmdline params
     UINT64 nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
+    static std::map<CStringA, DWORD> CommandStrToID;
+    static std::map<DWORD, const wmcmd_base*> CommandIDToWMCMD;
 
     // Initial position (used by command line flags)
     REFERENCE_TIME      rtShift;
@@ -816,6 +820,7 @@ public:
 
     bool            bEnableLogging;
     bool            bUseLegacyToolbar;
+    MPCToolbarLayout toolBarLayout;
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;

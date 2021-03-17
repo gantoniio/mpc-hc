@@ -608,6 +608,9 @@
     <ClCompile Include="PlayerPreView.cpp">
       <Filter>Toolbars</Filter>
     </ClCompile>
+    <ClCompile Include="MPCToolbarLayout.cpp">
+      <Filter>Toolbars</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1147,6 +1150,9 @@
       <Filter>MPCTheme</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPreView.h">
+      <Filter>Toolbars</Filter>
+    </ClInclude>
+    <ClInclude Include="MPCToolbarLayout.h">
       <Filter>Toolbars</Filter>
     </ClInclude>
   </ItemGroup>
