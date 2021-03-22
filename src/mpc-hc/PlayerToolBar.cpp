@@ -48,14 +48,12 @@ static std::map<int,int> supportedButtons = {
 };
 
 static UINT styles[] = {
-    TBBS_CHECKGROUP,
-    TBBS_CHECKGROUP,
-    TBBS_CHECKGROUP,
+    TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
+    TBBS_SEPARATOR,
+    TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
+    TBBS_SEPARATOR,
     TBBS_BUTTON,
-    TBBS_BUTTON,
-    TBBS_BUTTON,
-    TBBS_BUTTON,
-    TBBS_BUTTON,
+    TBBS_SEPARATOR,
     TBBS_SEPARATOR,
     TBBS_CHECKBOX,
 };
@@ -205,13 +203,13 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     flexibleSpaceIndex = -1;
     useFlexibleSpace = false; //can be enabled with right conditions: ID_DUMMYSEPARATOR placed directly before ID_VOLUME_MUTE
 
-    auto addButton = [&](int cmdid, int index) {
+    auto addButton = [&](int cmdid, int svgIndex) {
         TBBUTTON button = { 0 };
-        button.iBitmap = index;
+        button.iBitmap = svgIndex;
         button.idCommand = cmdid;
         button.iString = -1;
         tb.AddButtons(1, &button);
-        SetButtonStyle(tb.GetButtonCount() - 1, styles[index] | TBBS_DISABLED);
+        SetButtonStyle(tb.GetButtonCount() - 1, styles[svgIndex] | TBBS_DISABLED);
         if (cmdid == ID_VOLUME_MUTE) {
             volumeButtonIndex = tb.GetButtonCount() - 1;
             if (dummyButtonIndex == volumeButtonIndex -1) {
@@ -233,11 +231,11 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
     for (std::vector<int>::size_type i = 0; i < s.toolBarLayout.buttons.size(); ++i) {
         int cmdid = s.toolBarLayout.buttons[i];
-        if (supportedButtons.count(cmdid)) {
-            int svgIndex = supportedButtons[cmdid];
-            if (cmdid == ID_BUTTONSEP) {
-                addSeparator();
-            } else if (!useFlexibleSpace) {
+        if (cmdid == ID_BUTTONSEP) {
+            addSeparator();
+        } else if (!useFlexibleSpace) {
+            if (supportedButtons.count(cmdid)) {
+                int svgIndex = supportedButtons[cmdid];
                 addButton(cmdid, svgIndex);
             }
         }
