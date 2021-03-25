@@ -34,6 +34,7 @@
 #include  <comutil.h>
 #include <regex>
 #include "SSASub.h"
+#include "../mpc-hc/RegexUtil.h"
 
 struct htmlcolor {
     LPCTSTR name;
@@ -208,6 +209,10 @@ static CStringW SSAColorTag(CStringW arg, CStringW ctag = L"c") {
     return CStringW(L"{\\" + ctag + L"&H") + tmp + L"&}";
 }
 
+static std::wstring SSAColorTagCS(std::wstring arg, CStringW ctag = L"c") {
+    CStringW _arg(arg.c_str());
+    return SSAColorTag(_arg, ctag);
+}
 
 //
 
@@ -502,8 +507,29 @@ static void WebVTTCueStrip(CStringW& str)
     }
 }
 
-static void WebVTT2SSA(CStringW& str, CStringW& cueTags)
+using WebVTTcolorData = struct { std::wstring color; std::wstring bg; };
+using WebVTTcolorMap = std::map<std::wstring, WebVTTcolorData>;
+
+static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
 {
+    for (auto const& [tag, colorData] : clrMap) {
+        std::wregex cmregex(L"<(" + tag + L")>");
+        std::wsmatch match;
+        std::wstring stdTmp(str);
+
+        if (std::regex_search(stdTmp, match, cmregex)) {
+            std::wstring tags = L"";
+            if (colorData.color != L"") {
+                tags += SSAColorTagCS(colorData.color);
+            }
+            if (colorData.bg != L"") {
+                tags += SSAColorTagCS(colorData.bg, L"3c");
+            }
+            stdTmp = regex_replace(stdTmp, cmregex, L"<$1>" + tags);
+            str = stdTmp.c_str();
+        }
+    }
+
     if (str.Find(L'<') >= 0) {
         str.Replace(L"<i>", L"{\\i1}");
         str.Replace(L"</i>", L"{\\i}");
@@ -513,8 +539,7 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags)
         str.Replace(L"</u>", L"{\\u}");
     }
     if (str.Find(L'<') >= 0) {
-        CW2CW pszConvertedAnsiString(str);
-        std::wstring stdTmp(pszConvertedAnsiString);
+        std::wstring stdTmp(str);
         std::wregex clrrgx(LR"(<c\.([a-z]*)\.bg_([a-z]*)>([^<]*)</c[\.\w\d]*>)");
         std::wregex clrrgx2(LR"(<c\.([a-z]*)>([^<]*)</c[\.\w\d]*>)");
         std::wsmatch match;
@@ -553,8 +578,7 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags)
     }
 
     if (!cueTags.IsEmpty()) {
-        CW2CW pszConvertedAnsiString(cueTags);
-        std::wstring stdTmp(pszConvertedAnsiString);
+        std::wstring stdTmp(cueTags);
         std::wregex alignRegex(L"align:(start|left|center|middle|end|right)");
         std::wsmatch match;
 
@@ -572,7 +596,8 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags)
 
 static void WebVTT2SSA(CStringW& str) {
     CStringW discard;
-    WebVTT2SSA(str, discard);
+    WebVTTcolorMap discardMap;
+    WebVTT2SSA(str, discard, discardMap);
 }
 
 static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
@@ -597,13 +622,79 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         return (c == 5 || c == 7);
     };
 
+    WebVTTcolorMap cueColors;
+
+    auto parseStyle = [&file,&cueColors](CStringW& buff) {
+        CStringW styleStr = L"";
+        while (file->ReadString(buff)) {
+            if (buff.Find(L"-->") != -1) { //not allowed in style block, so we drop out to cue parsing below
+                FastTrimRight(buff);
+                break;
+            }
+            if (buff.IsEmpty()) { //empty line not allowed in style block, drop out
+                break;
+            }
+            styleStr += L" "+buff;
+        }
+
+        int startComment = styleStr.Find(L"/*");
+        while (startComment != -1) { //remove comments
+            int endComment = styleStr.Find(L"*/", startComment + 2);
+            if (endComment == -1) {
+                endComment = styleStr.GetLength()-1;
+            }
+            styleStr.Delete(startComment, endComment - startComment + 1);
+            startComment = styleStr.Find(L"/*");
+        }
+
+        if (!styleStr.IsEmpty()) {
+            auto parseColor = [](std::wstring styles, std::wstring attr = L"color") {
+                //we only support color styles for now
+                std::wregex clrPat(attr + LR"(\s*:\s*([a-z]*)\s*;)");
+                std::wregex rgbPat(attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
+                std::wsmatch match;
+                std::wstring clrStr = L"";
+                if (std::regex_search(styles, match, clrPat)) {
+                    clrStr = match[1];
+                } else if (std::regex_search(styles, match, rgbPat)) {
+                    int r = stoi(match[1]) & 0xff;
+                    int g = stoi(match[2]) & 0xff;
+                    int b = stoi(match[3]) & 0xff;
+                    DWORD clr = (r << 16) + (g << 8) + b;
+                    std::wstringstream hexClr;
+                    hexClr << std::hex << clr;
+                    clrStr = hexClr.str();
+                }
+                return clrStr;
+            };
+
+            RegexUtil::wregexResults results;
+            std::wregex cuePattern(LR"(::cue\(([^)]+)\)\s*\{([^}]*)\})");
+            RegexUtil::wstringMatch(cuePattern, (const wchar_t*)styleStr, results);
+            for (const auto& iter : results) {
+                std::wstring clr, bgClr;
+                clr=parseColor(iter[1]);
+                bgClr=parseColor(iter[1], L"background");
+                if (clr != L"" || bgClr != L"") {
+                    cueColors[iter[0]] = WebVTTcolorData({ clr, bgClr });
+                }
+            }
+        }
+    };
 
     CStringW lastStr, lastBuff;
+    bool foundFirstCue = false;
     while (file->ReadString(buff)) {
         FastTrimRight(buff);
+        if (!foundFirstCue && !buff.IsEmpty()) { //STYLE blocks cannot show up after cues begin
+            if (buff == L"STYLE" || buff==L"Style:" /*have seen webvtt with incorrect format using 'Style:' instead of 'STYLE'*/ ) {
+                parseStyle(buff); //note that buff will contain next line when done, so we can still use it below
+            }
+        }
         if (buff.IsEmpty()) {
             continue;
         }
+
         int len = buff.GetLength();
         cueTags = L"";
         int c = swscanf_s(buff, L"%s --> %s %[^\n]s", start.GetBuffer(len), len, end.GetBuffer(len), len, cueTags.GetBuffer(len), len);
@@ -613,10 +704,10 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
 
         int hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2;
 
-        //very lazy: if we found a cue we will process it.  everything else gets skipped for now
         if ((c == 2 || c == 3) //either start/end or start/end/cuetags
             && readTimeCode(start, hh1, mm1, ss1, ms1)
             && readTimeCode(end, hh2, mm2, ss2, ms2)) {
+            foundFirstCue = true;
 
             CStringW str, tmp;
 
@@ -625,7 +716,7 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
                 if (tmp.IsEmpty()) {
                     break;
                 }
-                WebVTT2SSA(tmp, cueTags);
+                WebVTT2SSA(tmp, cueTags, cueColors);
                 str += tmp + '\n';
             }
 
