@@ -650,7 +650,7 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         if (!styleStr.IsEmpty()) {
             auto parseColor = [](std::wstring styles, std::wstring attr = L"color") {
                 //we only support color styles for now
-                std::wregex clrPat(attr + LR"(\s*:\s*([a-z]*)\s*;)");
+                std::wregex clrPat(attr + LR"(\s*:\s*([a-z0]*)\s*;)"); //e.g., 0xffffff or white
                 std::wregex rgbPat(attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
                 std::wsmatch match;
                 std::wstring clrStr = L"";
