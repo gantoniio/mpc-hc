@@ -404,9 +404,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         }
         catch (CInternetException* pEx)
         {
-            pEx->Delete();
+            pEx->Delete(); // DO NOTHING : Compromise....If we are faced with a playlist and only one URL fail, everything fails...
         }
-
 
         if (versionFile) {
             //DWORD	dwStatus;
@@ -415,16 +414,11 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             //versionFile->QueryInfoStatusCode(dwStatus);                   // Status Number - eg 200, 404
             //versionFile->QueryInfo(HTTP_QUERY_STATUS_TEXT, strStatus);	// Status String - eg OK, Not Found
             //versionFile->QueryInfo(HTTP_QUERY_RAW_HEADERS, strContentType); // Check also HTTP_QUERY_RAW_HEADERS_CRLF
+            //DWORD dw = 8192;  // Arbitrary 8192 char length for Url (should handle most cases)
+            //CString urlredirect; // Retrieve the new Url in case we encountered an HTTP redirection (HTTP 302 code)
+            //versionFile->QueryOption(INTERNET_OPTION_URL, urlredirect.GetBuffer(8192), &dw);
+
             versionFile->QueryInfo(HTTP_QUERY_CONTENT_TYPE, content);	// Content-Type - eg text/html
-
-            // Retrieve the new Url in case we encountered an HTTP redirection (HTTP 302 code)
-            // Arbitrary 8192 char length for Url (should handle most cases)
-            DWORD dw = 8192;
-            versionFile->QueryOption(INTERNET_OPTION_URL, urlredirect.GetBuffer(8192), &dw);
-            if (0 != fn.CompareNoCase(urlredirect)) {
-                redirected = true;
-            }
-
 
             // Partial download of response body to further identify content types
             UINT br = 0;
@@ -555,11 +549,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             FindRedir(fn, content, *redir, res);
         }
     }
-    if (redirected) {
-        if (0 == redir->GetCount()) {
-            redir->AddTail(urlredirect);
-        }
-    }
+
     return TToA(content);
 }
 
