@@ -322,15 +322,17 @@ static bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, con
     return !fns.IsEmpty();
 }
 
+
 CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 {
     CUrl url;
-    CString ct, body;
+    CString content, body, urlredirect;
     BOOL ishttp = false;
     BOOL parsefile = false;
+    BOOL redirected = false;
 
     fn.Trim();
-
+    // Get content type based on the URI scheme
     BOOL isurl = PathUtils::IsURL(fn);
     if (isurl) {
         url.CrackUrl(fn);
@@ -347,191 +349,199 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             ishttp = true;
         }
 
-        if (!ishttp && _tcsicmp(url.GetSchemeName(), _T("https")) != 0) {
+        if (_tcsicmp(url.GetSchemeName(), _T("https")) == 0) {
+            ishttp = true;
+        }
+
+        if (!ishttp) {
             return "";
         }
     }
-
+    // Get content type by getting the header response from server
     if (ishttp) {
-        DWORD ProxyEnable = 0;
-        CString ProxyServer;
-        DWORD ProxyPort = 0;
-        ULONG len = 256 + 1;
-        CRegKey key;
+        CInternetSession internet;
 
-        if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"), KEY_READ)
-                && ERROR_SUCCESS == key.QueryDWORDValue(_T("ProxyEnable"), ProxyEnable) && ProxyEnable
-                && ERROR_SUCCESS == key.QueryStringValue(_T("ProxyServer"), ProxyServer.GetBufferSetLength(256), &len)) {
-            ProxyServer.ReleaseBufferSetLength(len);
+#pragma warning(push)
+#pragma warning(disable: 4996)
+        OSVERSIONINFOEX osVersion = { sizeof(OSVERSIONINFOEX) };
+        GetVersionEx(reinterpret_cast<LPOSVERSIONINFO>(&osVersion));
+#pragma warning(pop)
+        CString osVersionStr;
+        osVersionStr.Format(_T("Windows %1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
 
-            CAtlList<CString> sl;
-            ProxyServer = Explode(ProxyServer, sl, ';');
-            if (sl.GetCount() > 1) {
-                POSITION pos = sl.GetHeadPosition();
-                while (pos) {
-                    CAtlList<CString> sl2;
-                    if (!Explode(sl.GetNext(pos), sl2, '=', 2).CompareNoCase(_T("http"))
-                            && sl2.GetCount() == 2) {
-                        ProxyServer = sl2.GetTail();
-                        break;
-                    }
-                }
-            }
-
-            ProxyServer = Explode(ProxyServer, sl, ':');
-            if (sl.GetCount() > 1) {
-                ProxyPort = _tcstol(sl.GetTail(), nullptr, 10);
-            }
+#if !defined(_WIN64)
+        // 32-bit programs run on both 32-bit and 64-bit Windows
+        // so must sniff
+        BOOL f64 = FALSE;
+        if (IsWow64Process(GetCurrentProcess(), &f64) && f64)
+#endif
+        {
+            osVersionStr += _T(" x64");
         }
 
-        CSocket s;
-        s.Create();
-        if (s.Connect(
-                    ProxyEnable ? ProxyServer.GetString() : url.GetHostName(),
-                    ProxyEnable ? ProxyPort : url.GetPortNumber())) {
-            CStringA host = url.GetHostName();
-            CStringA path = url.GetUrlPath();
-            path += url.GetExtraInfo();
+        CString headersFmt = _T("User-Agent: MPC-HC");
+        if (VersionInfo::Is64Bit()) {
+            headersFmt += _T(" (64-bit)");
+        }
+#ifdef MPCHC_LITE
+        headersFmt += _T(" Lite");
+#endif
+        headersFmt += _T(" (%s)/");
+        headersFmt += VersionInfo::GetFullVersionString();
+        headersFmt += _T("\r\n");
 
-            if (ProxyEnable) {
-                path = "http://" + host + path;
+        CString headers;
+        headers.Format(headersFmt, osVersionStr.GetString());
+
+        CHttpFile* versionFile = NULL;
+        try {
+
+            versionFile = (CHttpFile*)internet.OpenURL(fn,
+                1,
+                INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
+                headers,
+                DWORD(-1));
+        }
+        catch (CInternetException* pEx)
+        {
+            pEx->Delete();
+        }
+
+
+        if (versionFile) {
+            //DWORD	dwStatus;
+            //CString	strStatus;
+            //CString	strContentType;
+            //versionFile->QueryInfoStatusCode(dwStatus);                   // Status Number - eg 200, 404
+            //versionFile->QueryInfo(HTTP_QUERY_STATUS_TEXT, strStatus);	// Status String - eg OK, Not Found
+            //versionFile->QueryInfo(HTTP_QUERY_RAW_HEADERS, strContentType); // Check also HTTP_QUERY_RAW_HEADERS_CRLF
+            versionFile->QueryInfo(HTTP_QUERY_CONTENT_TYPE, content);	// Content-Type - eg text/html
+
+            // Retrieve the new Url in case we encountered an HTTP redirection (HTTP 302 code)
+            // Arbitrary 8192 char length for Url (should handle most cases)
+            DWORD dw = 8192;
+            versionFile->QueryOption(INTERNET_OPTION_URL, urlredirect.GetBuffer(8192), &dw);
+            if (0 != fn.CompareNoCase(urlredirect)) {
+                redirected = true;
             }
 
-            CStringA hdr;
-            hdr.Format(
-                "GET %s HTTP/1.0\r\n"
-                "User-Agent: MPC-HC\r\n"
-                "Host: %s\r\n"
-                "Accept: */*\r\n"
-                "\r\n", path.GetString(), host.GetString());
 
-            // MessageBox(nullptr, CString(hdr), _T("Sending..."), MB_OK);
-
-            if (s.Send((LPCSTR)hdr, hdr.GetLength()) < hdr.GetLength()) {
-                return "";
-            }
-
-            hdr.Empty();
-            for (;;) {
-                CStringA str;
-                str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
-                if (str.IsEmpty()) {
-                    break;
-                }
-                hdr += str;
-                int hdrend = hdr.Find("\r\n\r\n");
-                if (hdrend >= 0) {
-                    body = hdr.Mid(hdrend + 4);
-                    hdr = hdr.Left(hdrend);
-                    break;
-                }
-            }
-
-            // MessageBox(nullptr, CString(hdr), _T("Received..."), MB_OK);
-
-            CAtlList<CStringA> sl;
-            Explode(hdr, sl, '\n');
-            POSITION pos = sl.GetHeadPosition();
-            while (pos) {
-                CStringA& hdrline = sl.GetNext(pos);
-                CAtlList<CStringA> sl2;
-                Explode(hdrline, sl2, ':', 2);
-                CStringA field = sl2.RemoveHead().MakeLower();
-                if (field == "location" && !sl2.IsEmpty()) {
-                    return GetContentType(CString(sl2.GetHead()), redir);
-                }
-                if (field == "content-type" && !sl2.IsEmpty()) {
-                    ct = sl2.GetHead();
-                    int iEndContentType = ct.Find(_T(';'));
-                    if (iEndContentType > 0) {
-                        ct.Truncate(iEndContentType);
-                    }
-                }
-            }
-
+            // Partial download of response body to further identify content types
+            UINT br = 0;
+            char buffer[513] = "";
             while (body.GetLength() < 256) {
-                CStringA str;
-                str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
-                if (str.IsEmpty()) {
+                br = versionFile->Read(buffer, 256);
+                if (br == 0) {
                     break;
                 }
-                body += str;
+                buffer[br] = '\0';
+                body += buffer;
             }
 
-            if (ct.IsEmpty() && body.GetLength() >= 8) {
+            if (content.IsEmpty() && body.GetLength() >= 8) {
                 CStringA str = TToA(body);
+                CStringA cnt;
+                BOOL exit = false;
                 if (!strncmp((LPCSTR)str, ".ra", 3)) {
-                    return "audio/x-pn-realaudio";
+                    cnt = "audio/x-pn-realaudio";
+                    exit = true;
                 }
                 if (!strncmp((LPCSTR)str, ".RMF", 4)) {
-                    return "audio/x-pn-realaudio";
+                    cnt = "audio/x-pn-realaudio";
+                    exit = true;
                 }
                 if (*(DWORD*)(LPCSTR)str == 0x75b22630) {
-                    return "video/x-ms-wmv";
+                    cnt = "video/x-ms-wmv";
+                    exit = true;
+                }
+                if (exit) {
+                    if (redirected) {
+                        if (0 == redir->GetCount()) {
+                            redir->AddTail(urlredirect);
+                        }
+                    }
+                    return cnt;
                 }
             }
 
-            if (redir && ( ct == _T("audio/x-scpls") || ct == _T("audio/scpls")
-                        || ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")
-                        || ct == _T("video/x-ms-asf") || ct == _T("text/plain"))) {
+            // Resume partial download of response body in cases it's a playlist
+            buffer[0] = '\0';
+            if (redir && (content == _T("audio/x-scpls") || content == _T("audio/scpls")
+                || content == _T("audio/x-mpegurl") || content == _T("audio/mpegurl")
+                || content == _T("video/x-ms-asf") || content == _T("text/plain")
+                || content == _T("application/octet-stream") || content == _T("application/pls+xml"))) {
                 while (body.GetLength() < 64 * 1024) { // should be enough for a playlist...
-                    CStringA str;
-                    str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
-                    if (str.IsEmpty()) {
+                    br = versionFile->Read(buffer, 256);
+                    if (br == 0) {
                         break;
                     }
-                    body += str;
+                    buffer[br] = '\0';
+                    body += buffer;
                 }
             }
+
+            versionFile->Close(); // Close() isn't called by the destructor
+            delete versionFile;
         }
     }
 
-    // Try to guess from the extension if we don't have much info yet
-    if (!fn.IsEmpty() && (ct.IsEmpty() || ct == _T("text/plain"))) {
+    // If content type is empty, plain text or octet-stream (weird server!) GUESS by extension if it exists.....
+    if (!fn.IsEmpty() && (content.IsEmpty() || content == _T("text/plain") || content == _T("application/octet-stream"))) {
         CPath p(fn);
         CString ext = p.GetExtension().MakeLower();
         if (ext == _T(".mpcpl")) {
-            ct = _T("application/x-mpc-playlist");
-        }  else if (ext == _T(".cue")) {
-            ct = _T("application/x-cue-sheet");
-        } else if (ext == _T(".pls")) {
-            ct = _T("audio/x-scpls");
+            content = _T("application/x-mpc-playlist");
+        }
+        else if (ext == _T(".cue")) {
+            content = _T("application/x-cue-sheet");
+        }
+        else if (ext == _T(".pls")) {
+            content = _T("audio/x-scpls");
             parsefile = true;
-        } else if (ext == _T(".m3u") || ext == _T(".m3u8")) {
-            ct = _T("audio/x-mpegurl");
-        } else if (ext == _T(".bdmv")) {
-            ct = _T("application/x-bdmv-playlist");
-        } else if (ext == _T(".asx")) {
-            ct = _T("video/x-ms-asf");
+        }
+        else if (ext == _T(".m3u") || ext == _T(".m3u8")) {
+            content = _T("audio/x-mpegurl");
+        }
+        else if (ext == _T(".bdmv")) {
+            content = _T("application/x-bdmv-playlist");
+        }
+        else if (ext == _T(".asx")) {
+            content = _T("video/x-ms-asf");
             parsefile = true;
-        } else if (ext == _T(".swf")) {
-            ct = _T("application/x-shockwave-flash");
-        } else if (ext == _T(".qtl")) {
-            ct = _T("application/x-quicktimeplayer");
+        }
+        else if (ext == _T(".swf")) {
+            content = _T("application/x-shockwave-flash");
+        }
+        else if (ext == _T(".qtl")) {
+            content = _T("application/x-quicktimeplayer");
             parsefile = true;
-        } else if (ext == _T(".ram")) {
-            ct = _T("audio/x-pn-realaudio");
+        }
+        else if (ext == _T(".ram")) {
+            content = _T("audio/x-pn-realaudio");
             parsefile = true;
         }
     }
 
-    if (redir && !ct.IsEmpty() && (isurl && !body.IsEmpty() || !isurl && parsefile) ) {
+    if (redir && !content.IsEmpty() && (isurl && !body.IsEmpty() || !isurl && parsefile)) {
         std::vector<std::wregex> res;
         const std::wregex::flag_type reFlags = std::wregex::icase | std::wregex::optimize;
 
-        if (ct == _T("video/x-ms-asf")) {
+        if (content == _T("video/x-ms-asf")) {
             // ...://..."/>
             res.emplace_back(_T("[a-zA-Z]+://[^\n\">]*"), reFlags);
             // Ref#n= ...://...\n
             res.emplace_back(_T("Ref\\d+\\s*=\\s*[\"]*([a-zA-Z]+://[^\n\"]+)"), reFlags);
-        } else if (ct == _T("audio/x-scpls") || ct == _T("audio/scpls")) {
+        }
+        else if (content == _T("audio/x-scpls") || content == _T("audio/scpls") || content == _T("application/pls+xml")) {
             // File1=...\n
             res.emplace_back(_T("file\\d+\\s*=\\s*[\"]*([^\n\"]+)"), reFlags);
-        } else if (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")) {
+        }
+        else if (content == _T("audio/x-mpegurl") || content == _T("audio/mpegurl")) {
             // #comment
             // ...
             res.emplace_back(_T("[^#][^\n]+"), reFlags);
-        } else if (ct == _T("audio/x-pn-realaudio")) {
+        }
+        else if (content == _T("audio/x-pn-realaudio")) {
             // rtsp://...
             res.emplace_back(_T("rtsp://[^\n]+"), reFlags);
             // http://...
@@ -539,14 +549,21 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         }
 
         if (isurl) {
-            FindRedir(url, ct, body, *redir, res);
-        } else {
-            FindRedir(fn, ct, *redir, res);
+            FindRedir(url, content, body, *redir, res);
+        }
+        else {
+            FindRedir(fn, content, *redir, res);
         }
     }
-
-    return TToA(ct);
+    if (redirected) {
+        if (0 == redir->GetCount()) {
+            redir->AddTail(urlredirect);
+        }
+    }
+    return TToA(content);
 }
+
+
 
 WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
 {
