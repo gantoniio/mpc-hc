@@ -360,43 +360,11 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
     // Get content type by getting the header response from server
     if (ishttp) {
         CInternetSession internet;
-
-#pragma warning(push)
-#pragma warning(disable: 4996)
-        OSVERSIONINFOEX osVersion = { sizeof(OSVERSIONINFOEX) };
-        GetVersionEx(reinterpret_cast<LPOSVERSIONINFO>(&osVersion));
-#pragma warning(pop)
-        CString osVersionStr;
-        osVersionStr.Format(_T("Windows %1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
-
-#if !defined(_WIN64)
-        // 32-bit programs run on both 32-bit and 64-bit Windows
-        // so must sniff
-        BOOL f64 = FALSE;
-        if (IsWow64Process(GetCurrentProcess(), &f64) && f64)
-#endif
-        {
-            osVersionStr += _T(" x64");
-        }
-
-        CString headersFmt = _T("User-Agent: MPC-HC");
-        if (VersionInfo::Is64Bit()) {
-            headersFmt += _T(" (64-bit)");
-        }
-#ifdef MPCHC_LITE
-        headersFmt += _T(" Lite");
-#endif
-        headersFmt += _T(" (%s)/");
-        headersFmt += VersionInfo::GetFullVersionString();
-        headersFmt += _T("\r\n");
-
-        CString headers;
-        headers.Format(headersFmt, osVersionStr.GetString());
-
-        CHttpFile* versionFile = NULL;
+        internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 10000);
+        CString headers = _T("User-Agent: MPC-HC");
+        CHttpFile* httpFile = NULL;
         try {
-
-            versionFile = (CHttpFile*)internet.OpenURL(fn,
+            httpFile = (CHttpFile*)internet.OpenURL(fn,
                 1,
                 INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
                 headers,
@@ -404,10 +372,11 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         }
         catch (CInternetException* pEx)
         {
-            pEx->Delete(); // DO NOTHING : Compromise....If we are faced with a playlist and only one URL fail, everything fails...
+            pEx->Delete(); // DO NOTHING : Compromise...If we are faced with a playlist and only one URL fails, everything fails...
+            return "";
         }
 
-        if (versionFile) {
+        if (httpFile) {
             //DWORD	dwStatus;
             //CString	strStatus;
             //CString	strContentType;
@@ -418,13 +387,13 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
             //CString urlredirect; // Retrieve the new Url in case we encountered an HTTP redirection (HTTP 302 code)
             //versionFile->QueryOption(INTERNET_OPTION_URL, urlredirect.GetBuffer(8192), &dw);
 
-            versionFile->QueryInfo(HTTP_QUERY_CONTENT_TYPE, content);	// Content-Type - eg text/html
+            httpFile->QueryInfo(HTTP_QUERY_CONTENT_TYPE, content);	// Content-Type - eg text/html
 
             // Partial download of response body to further identify content types
             UINT br = 0;
             char buffer[513] = "";
             while (body.GetLength() < 256) {
-                br = versionFile->Read(buffer, 256);
+                br = httpFile->Read(buffer, 256);
                 if (br == 0) {
                     break;
                 }
@@ -440,14 +409,15 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                     cnt = "audio/x-pn-realaudio";
                     exit = true;
                 }
-                if (!strncmp((LPCSTR)str, ".RMF", 4)) {
+                else if (!strncmp((LPCSTR)str, ".RMF", 4)) {
                     cnt = "audio/x-pn-realaudio";
                     exit = true;
                 }
-                if (*(DWORD*)(LPCSTR)str == 0x75b22630) {
+                else if (*(DWORD*)(LPCSTR)str == 0x75b22630) {
                     cnt = "video/x-ms-wmv";
                     exit = true;
                 }
+
                 if (exit) {
                     if (redirected) {
                         if (0 == redir->GetCount()) {
@@ -465,7 +435,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 || content == _T("video/x-ms-asf") || content == _T("text/plain")
                 || content == _T("application/octet-stream") || content == _T("application/pls+xml"))) {
                 while (body.GetLength() < 64 * 1024) { // should be enough for a playlist...
-                    br = versionFile->Read(buffer, 256);
+                    br = httpFile->Read(buffer, 256);
                     if (br == 0) {
                         break;
                     }
@@ -474,8 +444,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 }
             }
 
-            versionFile->Close(); // Close() isn't called by the destructor
-            delete versionFile;
+            httpFile->Close(); // Close() isn't called by the destructor
+            delete httpFile;
         }
     }
 
