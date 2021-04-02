@@ -325,6 +325,7 @@ static bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, con
 
 CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 {
+    BOOL url_fail = false;
     CUrl url;
     CString content, body, urlredirect;
     BOOL ishttp = false;
@@ -354,13 +355,14 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         }
 
         if (!ishttp) {
+            url_fail = true; // Unsupported URI scheme
             return "";
         }
     }
     // Get content type by getting the header response from server
     if (ishttp) {
         CInternetSession internet;
-        internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 10000);
+        internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
         CString headers = _T("User-Agent: MPC-HC");
         CHttpFile* httpFile = NULL;
         try {
@@ -373,19 +375,43 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         catch (CInternetException* pEx)
         {
             pEx->Delete(); // DO NOTHING : Compromise...If we are faced with a playlist and only one URL fails, everything fails...
+            url_fail = true; // Timeout has most likely occured, server unreachable
             return "";
         }
 
         if (httpFile) {
-            //DWORD	dwStatus;
-            //CString	strStatus;
             //CString	strContentType;
-            //versionFile->QueryInfoStatusCode(dwStatus);                   // Status Number - eg 200, 404
-            //versionFile->QueryInfo(HTTP_QUERY_STATUS_TEXT, strStatus);	// Status String - eg OK, Not Found
-            //versionFile->QueryInfo(HTTP_QUERY_RAW_HEADERS, strContentType); // Check also HTTP_QUERY_RAW_HEADERS_CRLF
+            //httpFile->QueryInfo(HTTP_QUERY_RAW_HEADERS, strContentType); // Check also HTTP_QUERY_RAW_HEADERS_CRLF
             //DWORD dw = 8192;  // Arbitrary 8192 char length for Url (should handle most cases)
             //CString urlredirect; // Retrieve the new Url in case we encountered an HTTP redirection (HTTP 302 code)
-            //versionFile->QueryOption(INTERNET_OPTION_URL, urlredirect.GetBuffer(8192), &dw);
+            //httpFile->QueryOption(INTERNET_OPTION_URL, urlredirect.GetBuffer(8192), &dw);
+            DWORD	dwStatus;
+            httpFile->QueryInfoStatusCode(dwStatus);
+            switch (dwStatus) {
+                case HTTP_STATUS_OK:                  // 200  request completed
+                case HTTP_STATUS_CREATED:             // 201  object created, reason = new URI
+                case HTTP_STATUS_ACCEPTED:            // 202  async completion (TBS)
+                case HTTP_STATUS_PARTIAL:             // 203  partial completion
+                case HTTP_STATUS_NO_CONTENT:          // 204  no info to return
+                case HTTP_STATUS_RESET_CONTENT:       // 205  request completed, but clear form
+                case HTTP_STATUS_PARTIAL_CONTENT:     // 206  partial GET furfilled
+                case HTTP_STATUS_AMBIGUOUS:           // 300  server couldn't decide what to return
+                case HTTP_STATUS_MOVED:               // 301  object permanently moved
+                case HTTP_STATUS_REDIRECT:            // 302  object temporarily moved
+                case HTTP_STATUS_REDIRECT_METHOD:     // 303  redirection w/ new access method
+                case HTTP_STATUS_NOT_MODIFIED:        // 304  if-modified-since was not modified
+                case HTTP_STATUS_USE_PROXY:           // 305  redirection to proxy, location header specifies proxy to use
+                case HTTP_STATUS_REDIRECT_KEEP_VERB:  // 307  HTTP/1.1: keep same verb
+                case HTTP_STATUS_PERMANENT_REDIRECT:  // 308  Object permanently moved keep verb
+                    break;
+                default:
+                    //CString	strStatus;
+                    //httpFile->QueryInfo(HTTP_QUERY_STATUS_TEXT, strStatus);	// Status String - eg OK, Not Found
+                    url_fail = true;
+                    httpFile->Close(); // Close() isn't called by the destructor
+                    delete httpFile;
+                    return "";
+            }
 
             httpFile->QueryInfo(HTTP_QUERY_CONTENT_TYPE, content);	// Content-Type - eg text/html
 
@@ -424,6 +450,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                             redir->AddTail(urlredirect);
                         }
                     }
+                    httpFile->Close(); // Close() isn't called by the destructor
+                    delete httpFile;
                     return cnt;
                 }
             }
