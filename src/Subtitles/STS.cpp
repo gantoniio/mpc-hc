@@ -600,26 +600,6 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
         tagPos = str.Find(L"<",endTag);
     }
 
-    /*
-    for (auto const& [tag, colorData] : clrMap) {
-        std::wregex cmregex(L"<(" + tag + L")>");
-        std::wsmatch match;
-        std::wstring stdTmp(str);
-
-        if (std::regex_search(stdTmp, match, cmregex)) {
-            std::wstring tags = L"";
-            if (colorData.color != L"") {
-                tags += SSAColorTagCS(colorData.color);
-            }
-            if (colorData.bg != L"") {
-                tags += SSAColorTagCS(colorData.bg, L"3c");
-            }
-            stdTmp = regex_replace(stdTmp, cmregex, L"<$1>" + tags);
-            str = stdTmp.c_str();
-        }
-    }
-    */
-
     if (str.Find(L'<') >= 0) {
         str.Replace(L"<i>", L"{\\i1}");
         str.Replace(L"</i>", L"{\\i}");
@@ -630,23 +610,6 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
     }
     if (str.Find(L'<') >= 0) {
         std::wstring stdTmp(str);
-        std::wregex clrrgx(LR"(<c\.([a-z]*)\.bg_([a-z]*)>([^<]*)</c[\.\w\d]*>)");
-        std::wregex clrrgx2(LR"(<c\.([a-z]*)>([^<]*)</c[\.\w\d]*>)");
-        std::wsmatch match;
-
-        if (std::regex_search(stdTmp, match, clrrgx)) {
-            std::wstring clr = match[1];
-            std::wstring bgclr = match[2];
-            std::wstring text = match[3];
-            CStringW ssaClrTag = SSAColorTag(clr.c_str());
-            CStringW ssaBGClrTag = SSAColorTag(bgclr.c_str(), L"3c");
-            stdTmp = ssaClrTag + ssaBGClrTag + text.c_str();
-        } else if (std::regex_search(stdTmp, match, clrrgx2)) {
-            std::wstring clr = match[1];
-            std::wstring text = match[2];
-            CStringW ssaClrTag = SSAColorTag(clr.c_str());
-            stdTmp = ssaClrTag + text.c_str();
-        }
 
         // remove tags we don't support
         stdTmp = std::regex_replace(stdTmp, std::wregex(L"<c[.\\w\\d]*>"), L"");
