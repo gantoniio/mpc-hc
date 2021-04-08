@@ -1425,8 +1425,6 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
                     break;
                 }
                 if (arg.Find(L"color=") == 0) {
-                    DWORD color;
-
                     arg = arg.Mid(6);   // delete "color="
                     if (arg.IsEmpty()) {
                         continue;
@@ -1972,6 +1970,14 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
             try {
                 ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
             } catch (...) {}
+        } else if (entry == L"format") {
+            // ToDo: Parse this line and use it to correctly parse following style and dialogue lines
+            // Currently the contents of the format lines are assumed to have a standard string value based on script version.
+            if (version < 5 && CString(pszBuff).Find(_T("Layer,") >= 0)) {
+                version = 5;
+            }
+        } else {
+            TRACE(_T("Ignoring unknown SSA entry: %s\n"), entry);
         }
     }
 
@@ -2429,7 +2435,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, REFERENCE_TIME start,
     sub.end = end;
     sub.readorder = readorder < 0 ? (int)GetCount() : readorder;
 
-    int n = __super::GetCount();
+    int n = (int)__super::GetCount();
 
     // Entries with a null duration don't belong to any segments since
     // they are not to be rendered. We choose not to skip them completely
@@ -2552,7 +2558,7 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
 {
     CAtlMap<CString, STSStyle*, CStringElementTraits<CString>> unknown;
-    bool fReport = true;
+    bool fReport = false; // skip unknown style warnings
 
     for (size_t i = 0; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
