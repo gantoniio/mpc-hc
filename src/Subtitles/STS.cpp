@@ -512,6 +512,95 @@ using WebVTTcolorMap = std::map<std::wstring, WebVTTcolorData>;
 
 static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
 {
+
+    std::vector<WebVTTcolorData> styleStack;
+    auto applyStyle = [&styleStack, &str](std::wstring clr, std::wstring bg, size_t endTag, bool restoring=false) {
+        std::wstring tags = L"";
+        if (clr != L"") {
+            tags += SSAColorTagCS(clr);
+        }
+        if (bg != L"") {
+            tags += SSAColorTagCS(bg, L"3c");
+        }
+        if (tags.length() > 0) {
+            if (!restoring) {
+                styleStack.push_back({ clr,bg });
+            }
+            if (-1 == endTag) {
+                str = tags.c_str() + str;
+            } else {
+                str = str.Left(endTag + 1) + tags.c_str() + str.Mid(endTag + 1);
+            }
+        }
+        return tags;
+    };
+
+    std::wstring clr = L"", bg = L"";
+    if (clrMap.count(L"::cue")) { //default cue style
+        WebVTTcolorData colorData = clrMap[L"::cue"];
+        clr = colorData.color;
+        bg = colorData.bg;
+        applyStyle(clr, bg, -1);
+    }
+
+    size_t tagPos = str.Find(L"<");
+    while (tagPos != std::wstring::npos) {
+        size_t endTag = str.Find(L">", tagPos);
+        if (endTag == std::wstring::npos) break;
+        size_t dotPos = str.Find(L".", tagPos);
+        CStringW inner = str.Mid(tagPos + 1, endTag - tagPos - 1);
+        if (inner.Find(L"/") == 0) { //close tag
+            tagPos = str.Find(L"<", endTag);
+            styleStack.pop_back();
+            if (styleStack.size() > 0) {
+                auto restoreStyle = styleStack[styleStack.size() - 1];
+                clr = restoreStyle.color;
+                bg = restoreStyle.bg;
+                applyStyle(clr, bg, endTag, true);
+            } else { //reset default style
+                str = str.Left(endTag + 1) + L"{\\r}" + str.Mid(endTag + 1);
+                clr = L"";
+                bg = L"";
+            }
+            continue;
+        }
+
+        if (dotPos == std::wstring::npos) {//it's a simple tag, so we can apply a single style to it, if it exists
+            if (clrMap.count(inner.GetString())) {
+                WebVTTcolorData colorData = clrMap[inner.GetString()];
+                clr = colorData.color;
+                bg = colorData.bg;
+            }
+        } else { //could find multiple classes 
+            RegexUtil::wregexResults results;
+            std::wregex clsPattern(LR"((\.?[^\.]+))");
+            RegexUtil::wstringMatch(clsPattern, (const wchar_t*)inner, results);
+            if (results.size() > 1) {
+                std::wstring type = results[0][0];
+
+                for (auto iter = results.begin()+1; iter != results.end(); ++iter) { //loop through all classes--whichever is last gets precedence
+                    std::wstring cls = (*iter)[0];
+                    WebVTTcolorData colorData;
+                    if (clrMap.count(type + cls)) {
+                        colorData = clrMap[type + cls];
+                    } else if (clrMap.count(cls)) {
+                        colorData = clrMap[cls];
+                    }
+                    if (colorData.color != L"") {
+                        clr = colorData.color;
+                    }
+                    if (colorData.bg != L"") {
+                        bg = colorData.bg;
+                    }
+                }
+            }
+        }
+
+        applyStyle(clr, bg, endTag);
+        tagPos = str.Find(L"<",endTag);
+    }
+
+    /*
     for (auto const& [tag, colorData] : clrMap) {
         std::wregex cmregex(L"<(" + tag + L")>");
         std::wsmatch match;
@@ -529,6 +618,7 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
             str = stdTmp.c_str();
         }
     }
+    */
 
     if (str.Find(L'<') >= 0) {
         str.Replace(L"<i>", L"{\\i1}");
@@ -622,7 +712,25 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         return (c == 5 || c == 7);
     };
 
-    WebVTTcolorMap cueColors;
+    //default cue color classes: https://w3c.github.io/webvtt/#default-text-color
+    WebVTTcolorMap cueColors = {
+        {L".white", WebVTTcolorData({L"ffffff", L""})},
+        {L".lime", WebVTTcolorData({L"00ff00", L""})},
+        {L".cyan", WebVTTcolorData({L"00ffff", L""})},
+        {L".red", WebVTTcolorData({L"ff0000", L""})},
+        {L".yellow", WebVTTcolorData({L"ffff00", L""})},
+        {L".magenta", WebVTTcolorData({L"ff00ff", L""})},
+        {L".blue", WebVTTcolorData({L"0000ff", L""})},
+        {L".black", WebVTTcolorData({L"000000", L""})},
+        {L".bg_white", WebVTTcolorData({L"", L"ffffff"})},
+        {L".bg_lime", WebVTTcolorData({L"", L"00ff00"})},
+        {L".bg_cyan", WebVTTcolorData({L"", L"00ffff"})},
+        {L".bg_red", WebVTTcolorData({L"", L"ff0000"})},
+        {L".bg_yellow", WebVTTcolorData({L"", L"ffff00"})},
+        {L".bg_magenta", WebVTTcolorData({L"", L"ff00ff"})},
+        {L".bg_blue", WebVTTcolorData({L"", L"0000ff"})},
+        {L".bg_black", WebVTTcolorData({L"", L"000000"})},
+    };
 
     auto parseStyle = [&file,&cueColors](CStringW& buff) {
         CStringW styleStr = L"";
@@ -669,6 +777,18 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
             };
 
             RegexUtil::wregexResults results;
+            std::wregex cueDefPattern(LR"(::cue\s*\{([^}]*)\})"); //default cue style
+            RegexUtil::wstringMatch(cueDefPattern, (const wchar_t*)styleStr, results);
+            if (results.size() > 0) {
+                auto iter = results[results.size() - 1];
+                std::wstring clr, bgClr;
+                clr = parseColor(iter[0]);
+                bgClr = parseColor(iter[0], L"background");
+                if (clr != L"" || bgClr != L"") {
+                    cueColors[L"::cue"] = WebVTTcolorData({ clr, bgClr });
+                }
+            }
+
             std::wregex cuePattern(LR"(::cue\(([^)]+)\)\s*\{([^}]*)\})");
             RegexUtil::wstringMatch(cuePattern, (const wchar_t*)styleStr, results);
             for (const auto& iter : results) {

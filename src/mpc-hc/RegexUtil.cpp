@@ -13,9 +13,9 @@ size_t RegexUtil::stringMatch(const std::regex& pattern, const std::string& text
     std::smatch match_pieces;
     while (std::regex_search(data, match_pieces, pattern)) {
         regexResult result;
-        for (const auto& match : match_pieces) {
-            if (match != *match_pieces.begin()) {
-                result.push_back(match.str());
+        for (auto match = match_pieces.begin(); match != match_pieces.end(); ++match) {
+            if (match != match_pieces.begin()) {
+                result.push_back((*match).str());
             }
         }
         results.push_back(result);
@@ -54,9 +54,9 @@ size_t RegexUtil::wstringMatch(const std::wregex& pattern, const std::wstring& t
     std::wsmatch match_pieces;
     while (std::regex_search(data, match_pieces, pattern)) {
         wregexResult result;
-        for (const auto& match : match_pieces) {
-            if (match != *match_pieces.begin()) {
-                result.push_back(match.str());
+        for (auto match = match_pieces.begin(); match != match_pieces.end(); ++match) {
+            if (match != match_pieces.begin()) {
+                result.push_back((*match).str());
             }
         }
         results.push_back(result);
