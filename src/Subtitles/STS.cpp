@@ -507,7 +507,7 @@ static void WebVTTCueStrip(CStringW& str)
     }
 }
 
-using WebVTTcolorData = struct _WebVTTcolorData  { std::wstring color; std::wstring bg; bool styleChange = false; };
+using WebVTTcolorData = struct _WebVTTcolorData { std::wstring color; std::wstring bg; };
 using WebVTTcolorMap = std::map<std::wstring, WebVTTcolorData>;
 
 static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
@@ -527,18 +527,14 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
             tags += SSAColorTagCS(bg, L"3c");
         }
         if (tags.length() > 0) {
-            if (!restoring) {
-                styleStack.push_back({ clr,bg,true });
-            }
             if (-1 == endTag) {
                 str = tags.c_str() + str;
-            } else {
-                if (str.Mid(endTag + 1,1) != "<") { //if we are about to open or close a tag, don't set the style yet, as it may change before formattable text arrives
-                    str = str.Left(endTag + 1) + tags.c_str() + str.Mid(endTag + 1);
-                }
+            } else if (str.Mid(endTag + 1,1) != "<") { //if we are about to open or close a tag, don't set the style yet, as it may change before formattable text arrives
+                str = str.Left(endTag + 1) + tags.c_str() + str.Mid(endTag + 1);
             }
-        } else if (!restoring) {
-            styleStack.push_back({ clr, bg, false }); //push current colors for restoring only
+        }
+        if (!restoring) {
+            styleStack.push_back({ clr, bg }); //push current colors for restoring
         }
     };
 
