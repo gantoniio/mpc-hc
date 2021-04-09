@@ -211,7 +211,7 @@ static CStringW SSAColorTag(CStringW arg, CStringW ctag = L"c") {
 
 static std::wstring SSAColorTagCS(std::wstring arg, CStringW ctag = L"c") {
     CStringW _arg(arg.c_str());
-    return SSAColorTag(_arg, ctag);
+    return SSAColorTag(_arg, ctag).GetString();
 }
 
 //
@@ -507,14 +507,14 @@ static void WebVTTCueStrip(CStringW& str)
     }
 }
 
-using WebVTTcolorData = struct { std::wstring color; std::wstring bg; bool styleChange = false; };
+using WebVTTcolorData = struct _WebVTTcolorData  { std::wstring color; std::wstring bg; bool styleChange = false; };
 using WebVTTcolorMap = std::map<std::wstring, WebVTTcolorData>;
 
 static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
 {
 
     std::vector<WebVTTcolorData> styleStack;
-    auto applyStyle = [&styleStack, &str](std::wstring clr, std::wstring bg, size_t endTag, bool restoring=false) {
+    auto applyStyle = [&styleStack, &str](std::wstring clr, std::wstring bg, int endTag, bool restoring=false) {
         std::wstring tags = L"";
         WebVTTcolorData previous;
         if (styleStack.size() > 0 && !restoring) {
@@ -550,12 +550,11 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
         applyStyle(clr, bg, -1);
     }
 
-    size_t tagPos = str.Find(L"<");
-    bool styledTag = false;
+    int tagPos = str.Find(L"<");
     while (tagPos != std::wstring::npos) {
-        size_t endTag = str.Find(L">", tagPos);
+        int endTag = str.Find(L">", tagPos);
         if (endTag == std::wstring::npos) break;
-        size_t dotPos = str.Find(L".", tagPos);
+        int dotPos = str.Find(L".", tagPos);
         CStringW inner = str.Mid(tagPos + 1, endTag - tagPos - 1);
         if (inner.Find(L"/") == 0) { //close tag
             tagPos = str.Find(L"<", endTag);
@@ -1946,7 +1945,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else if (entry == L"format") {
             // ToDo: Parse this line and use it to correctly parse following style and dialogue lines
             // Currently the contents of the format lines are assumed to have a standard string value based on script version.
-            if (version < 5 && CString(pszBuff).Find(_T("Layer,") >= 0)) {
+            if (version < 5 && CString(pszBuff).Find(_T("Layer,")) >= 0) {
                 version = 5;
             }
         } else {
