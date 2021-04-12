@@ -567,7 +567,9 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
                 bg = restoreStyle.bg;
                 applyStyle(clr, bg, endTag, true);
             } else { //reset default style
-                str = str.Left(endTag + 1) + L"{\\r}" + str.Mid(endTag + 1);
+                if (endTag + 1 != str.GetLength()) {
+                    str = str.Left(endTag + 1) + L"{\\r}" + str.Mid(endTag + 1);
+                }
                 clr = L"";
                 bg = L"";
             }
