@@ -752,6 +752,7 @@ CMainFrame::CMainFrame()
     , m_rtStepForwardStart(0)
     , m_nVolumeBeforeFrameStepping(0)
     , m_fEndOfStream(false)
+    , m_dwLastPause(0)
     , m_bRememberFilePos(false)
     , m_dwLastRun(0)
     , m_bBuffering(false)
@@ -2028,7 +2029,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     case PM_FILE:
                     // no break
                     case PM_DVD:
-                        if (m_bOSDDisplayTime) {
+                        if (m_bOSDDisplayTime && m_OSD.GetShowMessage()) {
                             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
                         }
                         break;
@@ -2040,7 +2041,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             REFERENCE_TIME rtNow = REFERENCE_TIME(tNow - NowNext.startTime) * 10000000;
                             REFERENCE_TIME rtDur = REFERENCE_TIME(NowNext.duration) * 10000000;
                             m_wndStatusBar.SetStatusTimer(rtNow, rtDur, false, TIME_FORMAT_MEDIA_TIME);
-                            if (m_bOSDDisplayTime) {
+                            if (m_bOSDDisplayTime && m_OSD.GetShowMessage()) {
                                 m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
                             }
                         } else {
@@ -3040,6 +3041,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 
     if (fs == State_Running && m_pMC) {
         m_pMC->Run();
+        m_dwLastPause = 0;
 
         // When restarting DVB capture, we need to set again the channel.
         if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
@@ -7739,6 +7741,12 @@ void CMainFrame::OnPlayPlay()
         if (GetPlaybackMode() == PM_FILE) {
             if (m_fEndOfStream) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP);
+            } else {
+                // after long pause (10min) or hibernation, perform a seek to current position first, to prevent potential hang on some systems (due to gpu driver issues?)
+                if (m_dwLastPause && m_wndSeekBar.HasDuration() && (GetTickCount64() - m_dwLastPause >= 10*60*1000)) {
+                    streampospoller_active = true;
+                    DoSeekTo(m_wndSeekBar.GetPos(), False);
+                }
             }
             m_pMS->SetRate(m_dSpeedRate);
         } else if (GetPlaybackMode() == PM_DVD) {
@@ -7776,6 +7784,7 @@ void CMainFrame::OnPlayPlay()
         }
 
         // Restart playback
+        m_dwLastPause = 0;
         m_pMC->Run();
 
         if (m_fFrameSteppingActive) {
@@ -7799,37 +7808,39 @@ void CMainFrame::OnPlayPlay()
 
     SetupEVRColorControl(); // can be configured when streaming begins
 
-    CString strOSD;
-    CString strPlay(StrRes(ID_PLAY_PLAY));
-    int i = strPlay.Find(_T("\n"));
-    if (i > 0) {
-        strPlay.Delete(i, strPlay.GetLength() - i);
-    }
-
-    if (m_bFirstPlay) {
-        m_bFirstPlay = false;
-
-        if (GetPlaybackMode() == PM_FILE) {
-            if (!m_LastOpenBDPath.IsEmpty()) {
-                strOSD.LoadString(IDS_PLAY_BD);
-            } else {
-                strOSD = GetFileName();
-                if (!strOSD.IsEmpty() && !m_wndPlaylistBar.GetCur()->m_bYoutubeDL) {
-                    strOSD.TrimRight('/');
-                    strOSD.Replace('\\', '/');
-                    strOSD = strOSD.Mid(strOSD.ReverseFind('/') + 1);
-                }
-            }
-        } else if (GetPlaybackMode() == PM_DVD) {
-            strOSD.LoadString(IDS_PLAY_DVD);
+    if (m_OSD.GetShowMessage()) {
+        CString strOSD;
+        CString strPlay(StrRes(ID_PLAY_PLAY));
+        int i = strPlay.Find(_T("\n"));
+        if (i > 0) {
+            strPlay.Delete(i, strPlay.GetLength() - i);
         }
-    }
 
-    if (strOSD.IsEmpty()) {
-        strOSD = strPlay;
-    }
-    if (GetPlaybackMode() != PM_DIGITAL_CAPTURE) {
-        m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+        if (m_bFirstPlay) {
+            m_bFirstPlay = false;
+
+            if (GetPlaybackMode() == PM_FILE) {
+                if (!m_LastOpenBDPath.IsEmpty()) {
+                    strOSD.LoadString(IDS_PLAY_BD);
+                } else {
+                    strOSD = GetFileName();
+                    if (!strOSD.IsEmpty() && !m_wndPlaylistBar.GetCur()->m_bYoutubeDL) {
+                        strOSD.TrimRight('/');
+                        strOSD.Replace('\\', '/');
+                        strOSD = strOSD.Mid(strOSD.ReverseFind('/') + 1);
+                    }
+                }
+            } else if (GetPlaybackMode() == PM_DVD) {
+                strOSD.LoadString(IDS_PLAY_DVD);
+            }
+        }
+
+        if (strOSD.IsEmpty()) {
+            strOSD = strPlay;
+        }
+        if (GetPlaybackMode() != PM_DIGITAL_CAPTURE) {
+            m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+        }
     }
 }
 
@@ -7848,6 +7859,7 @@ void CMainFrame::OnPlayPauseI()
                 || GetPlaybackMode() == PM_DVD
                 || GetPlaybackMode() == PM_ANALOG_CAPTURE) {
             m_pMC->Pause();
+            m_dwLastPause = GetTickCount64();
         } else {
             ASSERT(FALSE);
         }
@@ -16828,6 +16840,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 {
     TRACE(_T("CMainFrame::CloseMedia\n"));
 
+    m_dwLastPause = 0;
+
     if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
         // double close, should be prevented
         ASSERT(FALSE);
@@ -16918,11 +16932,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     // Ensure the dynamically added menu items are cleared and all references
     // on objects belonging to the DirectShow graph they might hold are freed.
     // Note that we need to be in closing state already when doing that
-    SetupFiltersSubMenu();
-    SetupAudioSubMenu();
-    SetupSubtitlesSubMenu();
-    SetupVideoStreamsSubMenu();
-    SetupJumpToSubMenus();
+    if (m_hWnd) {
+        SetupFiltersSubMenu();
+        SetupAudioSubMenu();
+        SetupSubtitlesSubMenu();
+        SetupVideoStreamsSubMenu();
+        SetupJumpToSubMenus();
+    }
 
     m_bSettingUpMenus = false;
 
@@ -18426,21 +18442,22 @@ bool CMainFrame::IsAeroSnapped()
 UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData)
 {
     static BOOL bWasPausedBeforeSuspention;
-    OAFilterState mediaState;
 
     switch (nPowerEvent) {
         case PBT_APMSUSPEND:            // System is suspending operation.
             TRACE(_T("OnPowerBroadcast - suspending\n"));   // For user tracking
             bWasPausedBeforeSuspention = FALSE;             // Reset value
-            mediaState = GetMediaState();
 
-            if (mediaState == State_Running) {
+            if (GetMediaState() == State_Running) {
                 bWasPausedBeforeSuspention = TRUE;
                 SendMessage(WM_COMMAND, ID_PLAY_PAUSE);     // Pause
             }
             break;
-        case PBT_APMRESUMEAUTOMATIC:    // Operation is resuming automatically from a low-power state. This message is sent every time the system resumes.
+        case PBT_APMRESUMESUSPEND:     // System is resuming operation
             TRACE(_T("OnPowerBroadcast - resuming\n"));     // For user tracking
+
+            // force seek to current position when resuming playback to re-initialize the video decoder
+            m_dwLastPause = 1;
 
             // Resume if we paused before suspension.
             if (bWasPausedBeforeSuspention) {

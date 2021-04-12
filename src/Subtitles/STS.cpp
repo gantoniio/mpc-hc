@@ -507,7 +507,7 @@ static void WebVTTCueStrip(CStringW& str)
     }
 }
 
-using WebVTTcolorData = struct _WebVTTcolorData { std::wstring color; std::wstring bg; };
+using WebVTTcolorData = struct _WebVTTcolorData { std::wstring color; std::wstring bg; bool applied = false; };
 using WebVTTcolorMap = std::map<std::wstring, WebVTTcolorData>;
 
 static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
@@ -517,8 +517,12 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
     auto applyStyle = [&styleStack, &str](std::wstring clr, std::wstring bg, int endTag, bool restoring=false) {
         std::wstring tags = L"";
         WebVTTcolorData previous;
+        bool applied = false;
         if (styleStack.size() > 0 && !restoring) {
-            previous = styleStack.back();
+            auto tmp = styleStack.back();
+            if (tmp.applied) {
+                previous = tmp;
+            }
         }
         if (clr != L"" && clr != previous.color) {
             tags += SSAColorTagCS(clr);
@@ -529,12 +533,14 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
         if (tags.length() > 0) {
             if (-1 == endTag) {
                 str = tags.c_str() + str;
+                applied = true;
             } else if (str.Mid(endTag + 1,1) != "<") { //if we are about to open or close a tag, don't set the style yet, as it may change before formattable text arrives
                 str = str.Left(endTag + 1) + tags.c_str() + str.Mid(endTag + 1);
+                applied = true;
             }
         }
         if (!restoring) {
-            styleStack.push_back({ clr, bg }); //push current colors for restoring
+            styleStack.push_back({ clr, bg, applied }); //push current colors for restoring
         }
     };
 
@@ -550,10 +556,8 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
     while (tagPos != std::wstring::npos) {
         int endTag = str.Find(L">", tagPos);
         if (endTag == std::wstring::npos) break;
-        int dotPos = str.Find(L".", tagPos);
         CStringW inner = str.Mid(tagPos + 1, endTag - tagPos - 1);
         if (inner.Find(L"/") == 0) { //close tag
-            tagPos = str.Find(L"<", endTag);
             if (styleStack.size()>0) {//should always be true, unless poorly matched close tags in source
                 styleStack.pop_back();
             }
@@ -567,9 +571,11 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
                 clr = L"";
                 bg = L"";
             }
+            tagPos = str.Find(L"<", endTag);
             continue;
         }
 
+        int dotPos = inner.Find(L".");
         if (dotPos == std::wstring::npos) {//it's a simple tag, so we can apply a single style to it, if it exists
             if (clrMap.count(inner.GetString())) {
                 WebVTTcolorData colorData = clrMap[inner.GetString()];
@@ -613,6 +619,7 @@ static void WebVTT2SSA(CStringW& str, CStringW& cueTags, WebVTTcolorMap clrMap)
         str.Replace(L"<u>", L"{\\u1}");
         str.Replace(L"</u>", L"{\\u}");
     }
+
     if (str.Find(L'<') >= 0) {
         std::wstring stdTmp(str);
 
@@ -726,7 +733,7 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         if (!styleStr.IsEmpty()) {
             auto parseColor = [](std::wstring styles, std::wstring attr = L"color") {
                 //we only support color styles for now
-                std::wregex clrPat(attr + LR"(\s*:\s*([a-z0]*)\s*;)"); //e.g., 0xffffff or white
+                std::wregex clrPat(attr + LR"(\s*:\s*#?([a-zA-Z0-9]*)\s*;)"); //e.g., 0xffffff or white
                 std::wregex rgbPat(attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
                 std::wsmatch match;
                 std::wstring clrStr = L"";
