@@ -369,7 +369,6 @@ HBRUSH CMPCThemeUtil::getCtlColorFileDialog(HDC hDC, UINT nCtlColor)
         ::SetTextColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedTextColor);
         ::SetBkColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedBGColor);
         return W10DarkThemeFileDialogInjectedBGBrush;
-
     } else {
         return NULL;
     }
