@@ -1754,7 +1754,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
                 void operator()() const {
                     CMainFrame* pMainFrame = AfxGetMainFrame();
                     const CAppSettings& s = AfxGetAppSettings();
-                    if (!pMainFrame || !pMainFrame->m_fFullScreen || s.iOnTop || pMainFrame->m_bExtOnTop) {
+                    if (!pMainFrame || !pMainFrame->m_fFullScreen || pMainFrame->WindowExpectedOnTop() || pMainFrame->m_bExtOnTop) {
                         return;
                     }
                     // place our window under the new active window
@@ -11947,7 +11947,7 @@ HRESULT CMainFrame::PreviewWindowHide() {
 
         m_wndPreView.ShowWindow(SW_HIDE);
         m_wndPreView.SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-        if (AfxGetAppSettings().iOnTop) {
+        if (WindowExpectedOnTop()) {
             SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
 
@@ -15502,6 +15502,12 @@ void CMainFrame::SetAlwaysOnTop(int iOnTop)
     }
 
     s.iOnTop = iOnTop;
+}
+
+bool CMainFrame::WindowExpectedOnTop() {
+    return (AfxGetAppSettings().iOnTop == 1 ||
+        (AfxGetAppSettings().iOnTop == 2 && GetMediaState() == State_Running) ||
+        (AfxGetAppSettings().iOnTop == 3 && GetMediaState() == State_Running && !m_fAudioOnly));
 }
 
 void CMainFrame::AddTextPassThruFilter()
