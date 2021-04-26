@@ -1753,7 +1753,6 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
             struct {
                 void operator()() const {
                     CMainFrame* pMainFrame = AfxGetMainFrame();
-                    const CAppSettings& s = AfxGetAppSettings();
                     if (!pMainFrame || !pMainFrame->m_fFullScreen || pMainFrame->WindowExpectedOnTop() || pMainFrame->m_bExtOnTop) {
                         return;
                     }
