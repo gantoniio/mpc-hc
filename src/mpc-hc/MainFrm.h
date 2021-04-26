@@ -379,6 +379,7 @@ private:
     int m_nVolumeBeforeFrameStepping;
 
     bool m_fEndOfStream;
+    ULONGLONG m_dwLastPause;
 
     bool m_bRememberFilePos;
 
@@ -427,6 +428,8 @@ private:
     void SendNowPlayingToSkype();
 
     MLS m_eMediaLoadState;
+    bool m_bSettingUpMenus;
+    bool m_bOpenMediaActive;
     bool streampospoller_active;
 
     REFTIME GetAvgTimePerFrame() const;
