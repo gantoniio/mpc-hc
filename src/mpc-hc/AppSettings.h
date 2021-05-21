@@ -20,6 +20,7 @@
  */
 
 #pragma once
+#include "mpc-hc_config.h"
 #include "../Subtitles/STS.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "../thirdparty/sanear/src/Interfaces.h"
@@ -563,7 +564,7 @@ public:
     bool            fGlobalMedia;
 
     // Logo
-    UINT            nLogoId;
+    int             nLogoId;
     bool            fLogoExternal;
     BOOL            fLogoColorProfileEnabled;
     CString         strLogoFileName;
@@ -802,7 +803,6 @@ public:
     bool            bHighPrecisionTimer;
     bool            fLastFullScreen;
 
-    bool            fIntRealMedia;
     bool            fEnableEDLEditor;
 
     HWND            hMasterWnd;
@@ -869,6 +869,9 @@ public:
 
     bool bAddLangCodeWhenSaveSubtitles;
     bool bUseTitleInRecentFileList;
+    bool bUseSubsFromYDL;
+    CString sYDLSubsPreference;
+    bool bUseAutomaticCaptions;
 
 private:
     struct FilterKey {

@@ -210,7 +210,6 @@ CAppSettings::CAppSettings()
     , fRemainingTime(false)
     , bHighPrecisionTimer(false)
     , fLastFullScreen(false)
-    , fIntRealMedia(false)
     , fEnableEDLEditor(false)
     , hMasterWnd(nullptr)
     , bHideWindowedControls(false)
@@ -234,8 +233,10 @@ CAppSettings::CAppSettings()
     , bShowLangInStatusbar(false)
     , bShowFPSInStatusbar(false)
     , bRenderSubtitlesUsingLibass(false)
-    , bAddLangCodeWhenSaveSubtitles(true)
+    , bAddLangCodeWhenSaveSubtitles(false)
     , bUseTitleInRecentFileList(true)
+    , sYDLSubsPreference()
+    , bUseAutomaticCaptions(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -743,6 +744,7 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
                 case VIDRNDT_DS_EVR_CUSTOM:
                 case VIDRNDT_DS_SYNC:
                 case VIDRNDT_DS_MADVR:
+                case VIDRNDT_DS_MPCVR:
                     return true;
             }
             break;
@@ -1010,8 +1012,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, fLastFullScreen);
     // CASIMIR666 : end of new settings
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, fIntRealMedia);
-
     pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, nullptr, nullptr);
     for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
         CString str;
@@ -1180,6 +1180,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, bShowFPSInStatusbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, bAddLangCodeWhenSaveSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, bUseTitleInRecentFileList);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_SUBS_PREFERENCE, sYDLSubsPreference);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_AUTOMATIC_CAPTIONS, bUseAutomaticCaptions);
 
     pApp->FlushProfile();
 }
@@ -1627,7 +1629,7 @@ void CAppSettings::LoadSettings()
     }
     iVerticalAlignVideo = static_cast<verticalAlignVideoType>(tVertAlign);
 
-    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|><|podnapisi|||1|0|><|SubDB|||1|0|><|Napisy24|||0|0|>"));
+    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||0|1|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
     fUseDefaultSubtitlesStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
@@ -1676,7 +1678,6 @@ void CAppSettings::LoadSettings()
     // External filters
     LoadExternalFilters(m_filters);
 
-    fIntRealMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, FALSE);
     m_pnspresets.RemoveAll();
 
     for (int i = 0; i < (ID_PANNSCAN_PRESETS_END - ID_PANNSCAN_PRESETS_START); i++) {
@@ -1961,7 +1962,7 @@ void CAppSettings::LoadSettings()
     bAllowInaccurateFastseek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, TRUE);
     bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, FALSE);
 
-    if (fLaunchfullscreen) {
+    if (fLaunchfullscreen && slFiles.GetCount() > 0) {
         nCLSwitches |= CLSW_FULLSCREEN;
     }
 
@@ -1993,8 +1994,10 @@ void CAppSettings::LoadSettings()
     bShowLangInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_LANG_STATUSBAR, FALSE);
     bShowFPSInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, FALSE);
 
-    bAddLangCodeWhenSaveSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, TRUE);
+    bAddLangCodeWhenSaveSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, FALSE);
     bUseTitleInRecentFileList = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, TRUE);
+    sYDLSubsPreference = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_SUBS_PREFERENCE, _T(""));
+    bUseAutomaticCaptions = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_AUTOMATIC_CAPTIONS, FALSE);
 
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;
@@ -2041,6 +2044,8 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUAfterPresent"), ars.bVMRFlushGPUAfterPresent);
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUWait"), ars.bVMRFlushGPUWait);
 
+        pApp->WriteProfileInt(IDS_R_SETTINGS, _T("DesktopSizeBackBuffer"), ars.bDesktopSizeBackBuffer);
+
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SynchronizeClock"), ars.bSynchronizeVideo);
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SynchronizeDisplay"), ars.bSynchronizeDisplay);
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SynchronizeNearest"), ars.bSynchronizeNearest);
@@ -2056,7 +2061,8 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), r.fResetDevice);
 
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, r.subPicQueueSettings.nSize);
-        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, r.subPicQueueSettings.nMaxRes);
+        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRESX, r.subPicQueueSettings.nMaxResX);
+        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRESY, r.subPicQueueSettings.nMaxResY);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, r.subPicQueueSettings.bDisableSubtitleAnimation);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RENDER_AT_WHEN_ANIM_DISABLED, r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_ANIMATION_RATE, r.subPicQueueSettings.nAnimationRate);
@@ -2094,6 +2100,8 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         ars.bVMRFlushGPUAfterPresent = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUAfterPresent"), DefaultSettings.bVMRFlushGPUAfterPresent);
         ars.bVMRFlushGPUWait = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUWait"), DefaultSettings.bVMRFlushGPUWait);
 
+        ars.bDesktopSizeBackBuffer = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("DesktopSizeBackBuffer"), DefaultSettings.bDesktopSizeBackBuffer);
+
         ars.bSynchronizeVideo = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SynchronizeClock"), DefaultSettings.bSynchronizeVideo);
         ars.bSynchronizeDisplay = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SynchronizeDisplay"), DefaultSettings.bSynchronizeDisplay);
         ars.bSynchronizeNearest = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SynchronizeNearest"), DefaultSettings.bSynchronizeNearest);
@@ -2124,7 +2132,12 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         r.fResetDevice = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), FALSE);
 
         r.subPicQueueSettings.nSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, 0);
-        r.subPicQueueSettings.nMaxRes = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, 0);
+        r.subPicQueueSettings.nMaxResX = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRESX, 2560);
+        r.subPicQueueSettings.nMaxResY = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRESY, 1440);
+        if (r.subPicQueueSettings.nMaxResX < 600 || r.subPicQueueSettings.nMaxResY < 480) {
+            r.subPicQueueSettings.nMaxResX = 2560;
+            r.subPicQueueSettings.nMaxResY = 1440;
+        }
         r.subPicQueueSettings.bDisableSubtitleAnimation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, FALSE);
         r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RENDER_AT_WHEN_ANIM_DISABLED, 50);
         r.subPicQueueSettings.nAnimationRate = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_ANIMATION_RATE, 100);
@@ -2567,49 +2580,14 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
-    if (m_maxSize <= 0) return;
-    POSITION p(r.fns.GetHeadPosition());
-    while (p != nullptr) {
-        POSITION p2(p);
-        CString fn = r.fns.GetNext(p);
-        CString t(fn);
-        if (t.MakeLower().Find(_T("@device:")) >= 0) {
-            r.fns.RemoveAt(p2);
-            continue;
-        }
-        if (!PathUtils::IsURL(fn)) {
-            fn = MakeFullPath(fn);
-            r.fns.SetAt(p2, fn);
-        }
+    if (m_maxSize <= 0 || r.fns.GetCount() < 1) {
+        return;
     }
-    if (!r.cue.IsEmpty()) {
-        CString t(r.cue);
-        if (t.MakeLower().Find(_T("@device:")) >= 0) {
-            r.cue = _T("");
-        }
-        if (!PathUtils::IsURL(r.cue)) {
-            r.cue = MakeFullPath(r.cue);
-        }
+    if (CString(r.fns.GetHead()).MakeLower().Find(_T("@device:")) >= 0) {
+        return;
     }
-    if (r.subs.GetCount() > 0) {
-        p = r.subs.GetHeadPosition();
-        while (p != nullptr) {
-            POSITION p2(p);
-            CString fn = r.subs.GetNext(p);
-            CString t(fn);
-            if (t.MakeLower().Find(_T("@device:")) >= 0) {
-                r.subs.RemoveAt(p2);
-                continue;
-            }
-            if (!PathUtils::IsURL(fn)) {
-                fn = MakeFullPath(fn);
-                r.subs.SetAt(p2, fn);
-            }
-        }
-    }
-    if (r.fns.GetCount() < 1)return;
-    int i = 0;
-    for (; i < rfe_array.GetCount(); i++) {
+
+    for (int i = 0; i < rfe_array.GetCount(); i++) {
         if (r == rfe_array[i]) {
             Remove(i);
             break;
@@ -2625,8 +2603,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
 void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
     rfe_array.RemoveAll();
     auto pApp = AfxGetMyApp();
-    int i = 1;
-    for (; i <= m_maxSize; i++) {
+    for (int i = 1; i <= m_maxSize; i++) {
         CString t;
         t.Format(_T("File%d"), i);
         CString fn = pApp->GetProfileString(m_section, t);
@@ -2661,12 +2638,10 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
 void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
     auto pApp = AfxGetMyApp();
     pApp->WriteProfileString(m_section, nullptr, nullptr);
-    int i = 1;
-    int m = rfe_array.GetCount() > m_maxSize ? m_maxSize : (int)rfe_array.GetCount();
-    for (; i <= m; i++) {
-        auto& r = rfe_array[i - 1];
+    for (size_t i = 1; i <= rfe_array.GetCount() && i <= m_maxSize; i++) {
+        auto& r = rfe_array.GetAt(i - 1);
         CString t;
-        t.Format(_T("File%d"), i);
+        t.Format(_T("File%zu"), i);
         pApp->WriteProfileString(m_section, t, r.fns.GetHead());
         if (r.fns.GetCount() > 1) {
             int k = 2;
@@ -2674,17 +2649,17 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
             r.fns.GetNext(p);
             while (p != nullptr) {
                 CString fn = r.fns.GetNext(p);
-                t.Format(_T("File%d,%d"), i, k);
+                t.Format(_T("File%zu,%d"), i, k);
                 pApp->WriteProfileString(m_section, t, fn);
                 k++;
             }
         }
         if (!r.title.IsEmpty()) {
-            t.Format(_T("Title%d"), i);
+            t.Format(_T("Title%zu"), i);
             pApp->WriteProfileString(m_section, t, r.title);
         }
         if (!r.cue.IsEmpty()) {
-            t.Format(_T("Cue%d"), i);
+            t.Format(_T("Cue%zu"), i);
             pApp->WriteProfileString(m_section, t, r.cue);
         }
         if (r.subs.GetCount() > 0) {
@@ -2692,7 +2667,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
             POSITION p(r.subs.GetHeadPosition());
             while (p != nullptr) {
                 CString fn = r.subs.GetNext(p);
-                t.Format(_T("Sub%d,%d"), i, k);
+                t.Format(_T("Sub%zu,%d"), i, k);
                 pApp->WriteProfileString(m_section, t, fn);
                 k++;
             }

@@ -651,12 +651,7 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
         pHttpFile->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
     } catch (CInternetException* ie) {
         HRESULT hr = HRESULT_FROM_WIN32(ie->m_dwError);
-        TCHAR szErr[1024];
-        szErr[0] = '\0';
-        if (!ie->GetErrorMessage(szErr, 1024)) {
-            wcscpy_s(szErr, L"Some crazy unknown error");
-        }
-        TRACE("File transfer failed!! - %s", szErr);
+        TRACE("File transfer failed - %lx - %s\n", hr, url.c_str());
         ie->Delete();
         return hr;
     }
@@ -822,13 +817,13 @@ UINT64 SubtitlesProvidersUtils::GenerateOSHash(SubtitlesInfo& pFileInfo)
             for (int i = 0; i < PROBE_SIZE / sizeof(UINT64); ++i) {
                 fileHash += buffer[i];
             }
-        } else { return errval; }
+        } else { std::free(buffer); return errval; }
         position = std::max(0ui64, pFileInfo.fileSize - PROBE_SIZE);
         if (SUCCEEDED(pFileInfo.pAsyncReader->SyncRead(position, PROBE_SIZE, (BYTE*)buffer))) {
             for (int i = 0; i < PROBE_SIZE / sizeof(UINT64); ++i) {
                 fileHash += buffer[i];
             }
-        } else { return errval; }
+        } else { std::free(buffer); return errval; }
     } else {
         CFile file;
         CFileException fileException;
@@ -838,14 +833,15 @@ UINT64 SubtitlesProvidersUtils::GenerateOSHash(SubtitlesInfo& pFileInfo)
                 for (int i = 0; i < PROBE_SIZE / sizeof(UINT64); ++i) {
                     fileHash += buffer[i];
                 }
-            } else { return errval; }
+            } else { std::free(buffer); return errval; }
             file.Seek(std::max(0ui64, pFileInfo.fileSize - PROBE_SIZE), CFile::begin);
             if (file.Read(buffer, PROBE_SIZE)) {
                 for (int i = 0; i < PROBE_SIZE / sizeof(UINT64); ++i) {
                     fileHash += buffer[i];
                 }
-            } else { return errval; }
+            } else { std::free(buffer); return errval; }
         }
     }
+    std::free(buffer);
     return fileHash;
 }

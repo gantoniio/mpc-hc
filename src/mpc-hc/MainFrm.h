@@ -315,6 +315,7 @@ private:
     double GetZoomAutoFitScale(bool bLargerOnly = false);
 
     void SetAlwaysOnTop(int iOnTop);
+    bool WindowExpectedOnTop();
 
     // dynamic menus
 
@@ -369,7 +370,7 @@ private:
     int m_iStreamPosPollerInterval;
 
     bool m_fCustomGraph;
-    bool m_fRealMediaGraph, m_fShockwaveGraph, m_fQuicktimeGraph;
+    bool m_fShockwaveGraph;
 
     CComPtr<ISubClock> m_pSubClock;
 
@@ -379,6 +380,7 @@ private:
     int m_nVolumeBeforeFrameStepping;
 
     bool m_fEndOfStream;
+    ULONGLONG m_dwLastPause;
 
     bool m_bRememberFilePos;
 
@@ -427,6 +429,8 @@ private:
     void SendNowPlayingToSkype();
 
     MLS m_eMediaLoadState;
+    bool m_bSettingUpMenus;
+    bool m_bOpenMediaActive;
     bool streampospoller_active;
 
     REFTIME GetAvgTimePerFrame() const;
@@ -601,6 +605,7 @@ public:
     int SetupSubtitleStreams();
 
     bool LoadSubtitle(CString fn, SubtitleInput* pSubInput = nullptr, bool bAutoLoad = false);
+    bool LoadSubtitle(CYoutubeDLInstance::YDLSubInfo& sub);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false);
     void SetSubtitle(const SubtitleInput& subInput, bool skip_lcid = false);
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
@@ -1221,7 +1226,7 @@ public:
     CHdmvClipInfo::BDMVMeta GetBDMVMeta();
 
     bool GetDecoderType(CString& type) const;
-    void updateRecentFileListSub(CString fn);
+    void updateRecentFileListSub();
 
     RecentFileEntry m_current_rfe;
     static bool IsOnYDLWhitelist(const CString url);

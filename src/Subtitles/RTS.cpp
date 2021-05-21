@@ -1704,12 +1704,20 @@ void CRenderedTextSubtitle::OnChanged()
 
 bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
 {
-    Deinit();
+    if (!vidrect.Width()) {
+        return false;
+    }
 
-    m_size = CSize(size.cx * 8, size.cy * 8);
-    m_vidrect = CRect(vidrect.left * 8, vidrect.top * 8, vidrect.right * 8, vidrect.bottom * 8);
-
-    m_sla.Empty();
+    CAutoLock cAutoLock(&renderLock);
+    CRect newVidRect = CRect(vidrect.left * 8, vidrect.top * 8, vidrect.right * 8, vidrect.bottom * 8);
+    CSize newSize = CSize(size.cx * 8, size.cy * 8);
+    if (m_size != newSize || m_vidrect != newVidRect) {
+        TRACE(_T("Change RTS sizes: %dx%d | %dx%d\n"), size.cx, size.cy, vidrect.Width(), vidrect.Height());
+        Deinit();
+        m_size = newSize;
+        m_vidrect = newVidRect;
+        m_sla.Empty();
+    }
 
     return true;
 }
@@ -1861,8 +1869,10 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
 bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& str)
 {
     if (m_renderingCaches.SSATagsCache.Lookup(str, tagsList)) {
+        //TRACE(_T("ParseSSATag (cached): %s\n"), str.GetString());
         return true;
     }
+    //TRACE(_T("ParseSSATag: %s\n"), str.GetString());
 
     int nTags = 0, nUnrecognizedTags = 0;
     tagsList.reset(DEBUG_NEW CAtlList<SSATag>());
@@ -2298,6 +2308,12 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                 style.fontName = (!tag.params.IsEmpty() && !tag.params[0].IsEmpty() && tag.params[0] != L"0")
                                  ? CString(tag.params[0]).Trim()
                                  : org.fontName;
+                if (style.fontName == _T("splatter")) {
+                    /* workaround for slow rendering with this font
+                       slowness occurs in Windows GDI CloseFigure() function
+                    */
+                    style.fontName = _T("Arial");
+                }
                 break;
             case SSA_frx:
                 style.fontAngleX = !tag.paramsReal.IsEmpty()
@@ -2576,7 +2592,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
         str = str.Mid(i + 1);
     }
 
-    if (tag == L"text") {
+    if (tag == L"text" || tag == L"span") {
         ;
     } else if (tag == L"b" || tag == L"strong") {
         style.fontWeight = !fClosing ? FW_BOLD : org.fontWeight;
@@ -2743,8 +2759,8 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     sub->m_wrapStyle = m_defaultWrapStyle;
     sub->m_fAnimated = false;
     sub->m_relativeTo = stss.relativeTo;
-    sub->m_scalex = m_dstScreenSize.cx > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
-    sub->m_scaley = m_dstScreenSize.cy > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
+    sub->m_scalex = m_dstScreenSize.cx > 0 && m_vidrect.Width()  > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Width()  : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
+    sub->m_scaley = m_dstScreenSize.cy > 0 && m_vidrect.Height() > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
 
     const STSEntry& stse = GetAt(entry);
     CRect marginRect = stse.marginRect;
@@ -3010,6 +3026,11 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     CAutoLock cAutoLock(&renderLock);
     //TRACE(_T("render sub start: %lld\n"), rt);
 
+    if (!spd.vidrect.right) {
+        // video size is not known yet
+        return S_FALSE;
+    }
+
 #if USE_LIBASS
     if (m_assloaded) {
         if (spd.bpp != 32) {
@@ -3040,11 +3061,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     }
 #endif
 
-    CRect bbox2(0, 0, 0, 0);
-
-    if (m_size != CSize(spd.w * 8, spd.h * 8) || m_vidrect != CRect(spd.vidrect.left * 8, spd.vidrect.top * 8, spd.vidrect.right * 8, spd.vidrect.bottom * 8)) {
-        Init(CSize(spd.w, spd.h), spd.vidrect);
-    }
+    Init(CSize(spd.w, spd.h), spd.vidrect);
 
     int segment;
     const STSSegment* stss = SearchSubs(rt, fps, &segment);
@@ -3052,6 +3069,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         //TRACE(_T("render sub skipped: %lld\n"), rt);
         return S_FALSE;
     }
+
+    CRect bbox2(0, 0, 0, 0);
 
     // clear any cached subs that is behind current time
     {
