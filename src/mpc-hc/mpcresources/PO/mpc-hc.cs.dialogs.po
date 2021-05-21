@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Random Vandal <zettaboy@gmail.com>, 2020
-# Jindřich T, 2020
+# Jindřich T, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-09-30 15:29:35+0000\n"
+"POT-Creation-Date: 2021-02-23 16:03:02+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Jindřich T, 2020\n"
+"Last-Translator: Jindřich T, 2021\n"
 "Language-Team: Czech (https://www.transifex.com/mpchc/teams/106126/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,7 +205,7 @@ msgstr "O programu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2021 clsid2 and others"
-msgstr ""
+msgstr "Copyright 2002-2021 clsid2 a ostatní"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -421,6 +421,22 @@ msgid "R"
 msgstr "Pravá"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr "Ovládání"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume step:"
+msgstr "Krok hlasitosti:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Speed step:"
+msgstr "Krok rychlosti:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
 msgstr "Přehrávání"
 
@@ -460,6 +476,10 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
 msgstr "%"
 
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
+msgid "Vertical Alignment:"
+msgstr "Svislé zarovnání"
+
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
 msgstr "Preferované výchozí stopy"
@@ -492,29 +512,9 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Automaticky načíst zvukové stopy"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Control"
-msgstr "Ovládání"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Volume step:"
-msgstr "Krok hlasitosti:"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "%"
-msgstr "%"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Speed step:"
-msgstr "Krok rychlosti:"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
-msgid "Vertical Alignment:"
-msgstr "Svislé zarovnání"
-
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "Změnit polohu"
+msgstr "Změnit umístění titulků"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
@@ -666,18 +666,38 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "Výchozí"
 
+msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
+msgid "Show preview on seek bar"
+msgstr "Ukázat náhled v panelu hledání"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Preview width (% of screen width)"
+msgstr "Šířka náhledu (v % šířky obrazovky)"
+
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "Rychlé procházení (po klíčových snímcích)"
+msgstr "Rychlé hledání (po klíčových snímcích)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
 msgstr "V panelu hledání zobrazit značky kapitol"
 
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr "Při přehrávání v okně automaticky skrýt kurzor"
+
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr ""
 "Zobrazit informace o přehrávaných souborech jako zprávu o náladě ve Skype"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Použít pokročilé funkce pro panel úloh"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Enable Logitech LCD support (experimental)"
+msgstr "Povolit podporu pro Logitech LCD (experimentální)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
@@ -685,10 +705,6 @@ msgid ""
 msgstr ""
 "Zabránit minimalizaci z celoobrazovkového režimu při běhu na nevýchozím "
 "monitoru"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
-msgid "Use enhanced taskbar features"
-msgstr "Použít pokročilé funkce pro panel úloh"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
@@ -705,22 +721,6 @@ msgstr "Zobrazit v popisku čas:"
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
 msgstr "Písmo pro OSD:"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
-msgid "Enable Logitech LCD support (experimental)"
-msgstr "Povolit podporu pro Logitech LCD (experimentální)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
-msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Při přehrávání v okně automaticky skrýt kurzor"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
-msgid "Show preview on seek bar"
-msgstr ""
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "Preview width (% of screen width)"
-msgstr ""
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1144,7 +1144,7 @@ msgstr "Procházet..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr ""
+msgstr "Nastavit barevný profil monitoru"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1730,7 +1730,8 @@ msgstr "PS 3.0"
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
 msgstr ""
-"Pokročilá nastavení, neměňte pokud si nejste jistí, že víte co děláte."
+"Pokročilá nastavení - neměňte, pokud si opravdu nejste jistí, že víte, co "
+"děláte."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1744,7 +1745,7 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Výchozí"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
 msgstr "Zařízení"
 
@@ -1756,9 +1757,9 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
 msgstr "Povolit bitstreaming"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC6"
 msgid "Options"
-msgstr "Možnosti"
+msgstr "Nastavení"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -1786,17 +1787,21 @@ msgstr ""
 "Ignorovat systémový směšovač hlasitosti (vždy ignorován v exkluzivním WASAPI"
 " módu)"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
 msgstr "Poznámka"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
-"Pro minimalizování zkreslení zvuku je doporučeno při přehrávání hlasitého "
-"ztrátově kódovaného obsahu nastavit hlasitost nižší než 85%."
+"Ke zmírnění zkreslení audia je při přehrávání hlasitého, ztrátově "
+"komprimovaného obsahu, doporučeno nepřekračovat 85% hlasitost."
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
+msgid "Internal Audio Renderer Enabled"
+msgstr "Internal Audio Renderer povolen"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1854,8 +1859,8 @@ msgstr "Ukončit MPC-HC"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
-msgstr ""
+msgstr "Skupinové pole"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
-msgstr ""
+msgstr "Automatické přehrávání"

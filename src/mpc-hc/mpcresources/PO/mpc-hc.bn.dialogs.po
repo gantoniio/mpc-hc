@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-09-30 15:29:35+0000\n"
+"POT-Creation-Date: 2021-02-23 16:03:02+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
 "Language-Team: Bengali (https://www.transifex.com/mpchc/teams/106126/bn/)\n"
@@ -421,6 +421,22 @@ msgid "R"
 msgstr "ডান"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr "কন্ট্রোল"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume step:"
+msgstr "ভলিউম পরিবর্তনে পদক্ষেপ:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Speed step:"
+msgstr "গতি পরিবর্তনে পদক্ষেপ:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
 msgstr "প্লেব্যাক"
 
@@ -460,6 +476,10 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
 msgstr "%"
 
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
+msgid "Vertical Alignment:"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
 msgstr "ডিফল্ট ট্র্যাক নির্ধারণে অগ্রাধিকার"
@@ -491,26 +511,6 @@ msgstr "রেনডার করতে ব্যর্থ পিনসমূহ
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "স্বয়ংক্রিয়ভাবে অডিও ফাইল লোড"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Control"
-msgstr "কন্ট্রোল"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Volume step:"
-msgstr "ভলিউম পরিবর্তনে পদক্ষেপ:"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "%"
-msgstr "%"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Speed step:"
-msgstr "গতি পরিবর্তনে পদক্ষেপ:"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
-msgid "Vertical Alignment:"
-msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -666,6 +666,14 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "ডিফল্ট"
 
+msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
+msgid "Show preview on seek bar"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Preview width (% of screen width)"
+msgstr ""
+
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
 msgstr "দ্রুত সীক করণ (কীফ্রেমে)"
@@ -674,9 +682,22 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
 msgstr "সীক বারে পরিচ্ছেদ নির্দেশক প্রদর্শন"
 
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr ""
+"উইন্ডো'ড মোডে প্লেব্যাকের সময় স্বয়ংক্রিয়ভাবে মাউস পয়েন্টার লুকিয়ে যাওয়া"
+
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "\"এখন প্লে হচ্ছে\" সম্পর্কে তথ্যাদি স্কাইপের মোড ম্যাসেজে প্রদর্শন"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "টাস্কবারের বিভিন্ন বৈশিষ্ট্যসমূহ বিস্তৃতভাবে প্রয়োগ"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Enable Logitech LCD support (experimental)"
+msgstr "Logitech LCD সমর্থন সক্রিয়করণ (পরীক্ষামূলক)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
@@ -684,10 +705,6 @@ msgid ""
 msgstr ""
 "ডিফল্ট নয় এমন মনিটরে ফুলস্ক্রীন জুড়ে অবস্থানকালে প্লেয়ারের মিনিমাইজ করণ "
 "প্রতিরোধ "
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
-msgid "Use enhanced taskbar features"
-msgstr "টাস্কবারের বিভিন্ন বৈশিষ্ট্যসমূহ বিস্তৃতভাবে প্রয়োগ"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
@@ -704,23 +721,6 @@ msgstr "সময় প্রদর্শনে টুলটিপ ব্যবহ
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
 msgstr "OSD ফন্ট:"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
-msgid "Enable Logitech LCD support (experimental)"
-msgstr "Logitech LCD সমর্থন সক্রিয়করণ (পরীক্ষামূলক)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
-msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr ""
-"উইন্ডো'ড মোডে প্লেব্যাকের সময় স্বয়ংক্রিয়ভাবে মাউস পয়েন্টার লুকিয়ে যাওয়া"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
-msgid "Show preview on seek bar"
-msgstr ""
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "Preview width (% of screen width)"
-msgstr ""
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1744,9 +1744,9 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "ডিফল্ট"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
-msgstr "ডিভাইস"
+msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
@@ -1756,9 +1756,9 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
 msgstr "বিটস্ট্রিমিং অনুমোদন করি"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC6"
 msgid "Options"
-msgstr "অপশনসমূহ"
+msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -1784,17 +1784,19 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
-msgstr "দ্রষ্টব্য"
+msgstr ""
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
-"অডিও বিকৃতি রোধ করার জন্য, লসি-এনকোডেড অডিও জোরে প্লে করার সময় প্লেয়ারের "
-"ভলিউম ৮৫% এর আশে-পাশে রাখার জন্য পরামর্শ দেওয়া যাচ্ছে।"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
+msgid "Internal Audio Renderer Enabled"
+msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

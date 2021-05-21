@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-09-30 15:29:35+0000\n"
+"POT-Creation-Date: 2021-02-23 16:03:02+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
 "Language-Team: Thai (Thailand) (https://www.transifex.com/mpchc/teams/106126/th_TH/)\n"
@@ -419,6 +419,22 @@ msgid "R"
 msgstr "ข"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr "การควบคุม"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume step:"
+msgstr "ช่วงการปรับความดัง:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Speed step:"
+msgstr "ช่วงการปรับความเร็ว:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
 msgstr "การเล่น"
 
@@ -458,6 +474,10 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
 msgstr "%"
 
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
+msgid "Vertical Alignment:"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
 msgstr "ค่าตั้งต้นความชอบแทร็ค"
@@ -489,26 +509,6 @@ msgstr "รายงานพินที่ล้มเหลวในการ
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "โหลดไฟล์เสียงอัตโนมัติ"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Control"
-msgstr "การควบคุม"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Volume step:"
-msgstr "ช่วงการปรับความดัง:"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "%"
-msgstr "%"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Speed step:"
-msgstr "ช่วงการปรับความเร็ว:"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
-msgid "Vertical Alignment:"
-msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -663,6 +663,14 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "ค่าตั้งต้น"
 
+msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
+msgid "Show preview on seek bar"
+msgstr ""
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Preview width (% of screen width)"
+msgstr ""
+
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
 msgstr "หาอย่างเร็ว (ตามเฟรมสำคัญ)"
@@ -671,19 +679,27 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
 msgstr "แสดงเครื่องหมายของตอน ที่แถบเลื่อนหา"
 
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr "ซ่อนเครื่องหมายของเม้าส์อัตโนมัติ ระหว่างเล่นในโหมดหน้าต่าง"
+
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "แสดงข้อมูล \"กำลังเล่นตอนนี้\" ในข้อความแสดงอารมณ์ของ Skype"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "ใช้คุณลักษณะ taskbar ที่ดียิ่งขึ้น"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Enable Logitech LCD support (experimental)"
+msgstr "ใช้งานการรองรับ Logitech LCD (ระยะทดลอง)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
 "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr ""
 "ป้องกันไม่ให้เครื่องเล่นย่อลง เมื่ออยู่ในแบบเต็มจอบนจอภาพที่ไม่ใช่จอตั้งต้น"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
-msgid "Use enhanced taskbar features"
-msgstr "ใช้คุณลักษณะ taskbar ที่ดียิ่งขึ้น"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
@@ -700,22 +716,6 @@ msgstr "ใช้ตัวบอกเวลา:"
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
 msgstr "แบบอักษร OSD:"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
-msgid "Enable Logitech LCD support (experimental)"
-msgstr "ใช้งานการรองรับ Logitech LCD (ระยะทดลอง)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
-msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "ซ่อนเครื่องหมายของเม้าส์อัตโนมัติ ระหว่างเล่นในโหมดหน้าต่าง"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
-msgid "Show preview on seek bar"
-msgstr ""
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "Preview width (% of screen width)"
-msgstr ""
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1733,9 +1733,9 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "ค่าตั้งต้น"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
-msgstr "อุปกรณ์"
+msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
@@ -1745,9 +1745,9 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
 msgstr "อนุญาตบิตสตรีม"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC6"
 msgid "Options"
-msgstr "ตัวเลือก"
+msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -1773,18 +1773,19 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
-msgstr "หมายเหตุ"
+msgstr ""
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
-"เพื่อลดเสียงผิดเพี้ยนให้น้อยที่สุด "
-"ขอแนะนำให้คงความดังเครื่องเล่นไว้ที่ประมาณ 85% "
-"เมื่อเล่นเนื้อหาที่เข้ารหัสแบบเลาด์ลอสซี่"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
+msgid "Internal Audio Renderer Enabled"
+msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

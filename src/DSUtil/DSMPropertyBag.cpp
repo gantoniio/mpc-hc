@@ -434,7 +434,7 @@ STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* pp
     else {
         // assume first entry is best, find better match
         for (size_t i = 1; i < m_chapters.GetCount(); ++i) {
-            if (*prt >= m_chapters[i].rt && m_chapters[i].rt > m_chapters[result].rt) {
+            if (*prt >= m_chapters[i].rt && m_chapters[i].rt >= m_chapters[result].rt) {
                 result = i;
             }
         }
@@ -442,6 +442,69 @@ STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* pp
         if (result == 0 && *prt < m_chapters[result].rt) {
             return -1;
         }
+    }
+
+    if (result != MAXSIZE_T) {
+        *prt = m_chapters[result].rt;
+        if (ppName) {
+            *ppName = m_chapters[result].name.AllocSysString();
+        }
+    }
+
+    return (long)result;
+}
+
+STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookupPrevious(REFERENCE_TIME* prt, BSTR* ppName)
+{
+    CheckPointer(prt, -1);
+    if (m_chapters.GetCount() < 2) {
+        return -1;
+    }
+
+    size_t result = 0;
+
+    // assume first entry is best, find better match
+    for (size_t i = 1; i < m_chapters.GetCount(); ++i) {
+        if (*prt > m_chapters[i].rt) {
+            result = i;
+        } else {
+            break;
+        }
+    }
+    // validate first if it was best
+    if (result == 0 && *prt < m_chapters[result].rt) {
+        return -1;
+    }
+
+    if (result != MAXSIZE_T) {
+        *prt = m_chapters[result].rt;
+        if (ppName) {
+            *ppName = m_chapters[result].name.AllocSysString();
+        }
+    }
+
+    return (long)result;
+}
+
+STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookupNext(REFERENCE_TIME* prt, BSTR* ppName)
+{
+    CheckPointer(prt, -1);
+    if (m_chapters.GetCount() < 2) {
+        return -1;
+    }
+
+    size_t result = 0;
+
+    // assume first entry is best, find better match
+    for (size_t i = 1; i < m_chapters.GetCount(); ++i) {
+        if (*prt < m_chapters[i].rt) {
+            result = i;
+            break;
+        }
+    }
+    // validate first if it was best
+    if (result == 0 && *prt >= m_chapters[result].rt) {
+        return -1;
     }
 
     if (result != MAXSIZE_T) {

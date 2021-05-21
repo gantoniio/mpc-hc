@@ -65,3 +65,21 @@ HBRUSH CMPCThemePPageBase::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         return __super::OnCtlColor(pDC, pWnd, nCtlColor);
     }
 }
+
+BOOL CMPCThemePPageBase::PreTranslateMessage(MSG* pMsg) {
+    RelayThemedDialogTooltip(pMsg);
+    return __super::PreTranslateMessage(pMsg);
+}
+
+CPPageBase* CMPCThemePPageBase::FindSiblingPage(CRuntimeClass* pClass) {
+    CPropertySheet* parent = (CPropertySheet*)GetParent();
+    int count = parent->GetPageCount();
+    for (int i = 0; i < count; i++) {
+        CPropertyPage* page = parent->GetPage(i);
+        CPPageBase *pb = (CPPageBase*)AfxDynamicDownCast(pClass, page);
+        if (::IsWindow(pb->GetSafeHwnd())) {
+            return pb;
+        }
+    }
+    return nullptr;
+}

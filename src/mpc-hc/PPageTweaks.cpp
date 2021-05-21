@@ -119,7 +119,7 @@ BOOL CPPageTweaks::OnInitDialog()
 
     m_fSeekPreview = s.fSeekPreview;
     m_iSeekPreviewSize = s.iSeekPreviewSize;
-    m_SeekPreviewSizeCtrl.SetRange32(10, 30);
+    m_SeekPreviewSizeCtrl.SetRange32(10, 40);
 
     m_fFastSeek = s.bFastSeek;
     m_FastSeekMethod.AddString(ResStr(IDS_FASTSEEK_LATEST));
@@ -165,7 +165,7 @@ BOOL CPPageTweaks::OnInitDialog()
     m_FontSize.SetCurSel(iSel - 10);
 
     CreateToolTip();
-    EnableToolTips(TRUE);
+    EnableThemedDialogTooltips(this);
 
     UpdateData(FALSE);
 
@@ -205,6 +205,8 @@ BOOL CPPageTweaks::OnApply()
     pFrame->UpdateThumbarButton();
 
     s.fSeekPreview = !!m_fSeekPreview;
+    if (m_iSeekPreviewSize < 10) m_iSeekPreviewSize = 10;
+    if (m_iSeekPreviewSize > 40) m_iSeekPreviewSize = 40;
     if (s.iSeekPreviewSize != m_iSeekPreviewSize) {
         s.iSeekPreviewSize = m_iSeekPreviewSize;
         pFrame->m_wndPreView.SetRelativeSize(m_iSeekPreviewSize);
@@ -287,6 +289,10 @@ BOOL CPPageTweaks::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
         case IDC_COMBO4:
             bRet = FillComboToolTip(m_FastSeekMethod, pTTT);
             break;
+    }
+
+    if (bRet) {
+        PlaceThemedDialogTooltip(nID);
     }
 
     return bRet;

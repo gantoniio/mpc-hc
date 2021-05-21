@@ -167,9 +167,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         (FARPROC&)m_pD3DXCreateFont             = GetProcAddress(hDll, "D3DXCreateFontW");
         (FARPROC&)m_pD3DXCreateSprite           = GetProcAddress(hDll, "D3DXCreateSprite");
     } else {
-        _Error += _T("The installed DirectX End-User Runtime is outdated. Please download and install the ");
-        _Error += MPC_DX_SDK_MONTH _T(" ") MAKE_STR(MPC_DX_SDK_YEAR);
-        _Error += _T(" release or newer in order for MPC-HC to function properly.\n");
+        _Error += _T("Your system is missing the file d3dx9_43.dll\n\nTo acquire this file you must install \"DirectX End-User Runtime\" or update your MPC-HC installation.");
     }
 
     m_hDWMAPI = LoadLibrary(L"dwmapi.dll");
@@ -760,8 +758,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_refreshRate = DisplayMode.RefreshRate;
-            pp.BackBufferWidth = szDesktopSize.cx;
-            pp.BackBufferHeight = szDesktopSize.cy;
+            pp.BackBufferWidth  = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cx : m_ScreenSize.cx;
+            pp.BackBufferHeight = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cy : m_ScreenSize.cy;
 
             bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
 
@@ -789,8 +787,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             m_refreshRate = d3ddm.RefreshRate;
-            pp.BackBufferWidth = szDesktopSize.cx;
-            pp.BackBufferHeight = szDesktopSize.cy;
+            pp.BackBufferWidth  = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cx : m_ScreenSize.cx;
+            pp.BackBufferHeight = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cy : m_ScreenSize.cy;
 
             hr = m_pD3D->CreateDevice(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
@@ -846,7 +844,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, m_bIsFullscreen ? m_ScreenSize : szDesktopSize);
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);

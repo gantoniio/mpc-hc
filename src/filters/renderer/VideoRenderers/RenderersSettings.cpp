@@ -26,7 +26,7 @@
 #include "../../../mpc-hc/mplayerc.h"
 #include <mpc-hc_config.h>
 #include <d3d9.h>
-#include <d3dx9.h>
+#include "d3dx9/d3dx9.h"
 
 void CRenderersSettings::UpdateData(bool fSave)
 {
@@ -63,6 +63,7 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
     fTargetSyncOffset                 = 12.0;
     fControlLimit                     = 2.0;
     bCacheShaders                     = false;
+    bDesktopSizeBackBuffer            = false;
 }
 
 void CRenderersSettings::CAdvRendererSettings::SetOptimal()

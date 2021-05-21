@@ -18,9 +18,10 @@ BEGIN_MESSAGE_MAP(CMPCThemeComboBox, CComboBox)
 END_MESSAGE_MAP()
 
 CMPCThemeComboBox::CMPCThemeComboBox()
+    :CComboBox(),
+    isHover(false),
+    isThemedDropDown(false)
 {
-    isHover = false;
-    isThemedDropDown = false;
 }
 
 void CMPCThemeComboBox::doDraw(CDC& dc, CString strText, CRect rText, COLORREF bkColor, COLORREF fgColor, bool drawDotted)

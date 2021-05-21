@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Hugo Simões <hugo.simoes.1984@gmail.com>, 2020
+# Hugo Simões <hugo.simoes.1984@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-11-01 23:45:42+0000\n"
+"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hugo Simões <hugo.simoes.1984@gmail.com>, 2020\n"
+"Last-Translator: Hugo Simões <hugo.simoes.1984@gmail.com>, 2021\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/mpchc/teams/106126/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -446,6 +446,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "&Copiar para a Área de Transferência"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr ""
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "Guardar como..."
@@ -662,6 +666,10 @@ msgstr "&Canais"
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr "Renderizador de vídeo MPC"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7"
+msgid "Video Mixing Renderer 7"
+msgstr "Video Mixing Renderer 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -2662,13 +2670,8 @@ msgid "Out of memory"
 msgstr "Fora da memória"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Erro: Adobe Flash Player para Internet Explorer é necessário"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
 msgstr ""
-"O QuickTime ainda não suportado em x64 (biblioteca da Apple não disponível)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3191,9 +3194,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr ""
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -4546,11 +4549,11 @@ msgstr ""
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
-msgstr "Pixel shaders pré-redim.: Ativado"
+msgstr "Pré-redim. pixel shader: ativado"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "Pixel shader pré-redim: desativado"
+msgstr "Pré-redim. pixel shader: desativado"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
@@ -4567,3 +4570,28 @@ msgstr "Pós-redim. pixel shader: desativado"
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
 msgstr "Ativar pós-redimensionamento de pixel shader"
+
+msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
+msgid "Refresh interval (in milliseconds) of time in status bar"
+msgstr ""
+"Intervalo de atualização (em milisegundos) do tempo na barra de estado"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
+msgid "Display current audio and subtitle language in status bar"
+msgstr "Mostrar o idioma atual do áudio e da legenda na barra de estado"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
+msgid "Display current fps and rate in status bar"
+msgstr "Mostrar os fps e os rácios atuais na barra de estado"
+
+msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
+msgid ""
+"When save the subtitles file, the language code (if available) text will be "
+"added to suggested file name by default."
+msgstr ""
+"Quando guardar o ficheiro de legendas, o texto do código do idioma (se "
+"disponível) irá ser adicionado como nome de ficheiro sugerido por defeito."
+
+msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
+msgid "Use title in recent file list."
+msgstr "Usar o título na lista de ficheiros recentes."

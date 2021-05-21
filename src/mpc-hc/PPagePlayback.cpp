@@ -67,7 +67,6 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Slider(pDX, IDC_SLIDER1, m_nVolume);
     DDX_Slider(pDX, IDC_SLIDER2, m_nBalance);
     DDX_Radio(pDX, IDC_RADIO1, m_iLoopForever);
-    DDX_Control(pDX, IDC_EDIT1, m_loopnumctrl);
     DDX_Text(pDX, IDC_EDIT1, m_nLoops);
     DDX_CBIndex(pDX, IDC_COMBO2, m_iAfterPlayback);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
@@ -168,18 +167,7 @@ BOOL CPPagePlayback::OnInitDialog()
     UDACCEL accel = { 0, 10 };
     m_SpeedStepCtrl.SetAccel(1, &accel);
 
-    if (AppIsThemeLoaded()) {
-        themedToolTip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
-        themedToolTip.Activate(TRUE);
-        themedToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);
-        //must add manually the ones we support.
-        themedToolTip.AddTool(GetDlgItem(IDC_COMBO1), LPSTR_TEXTCALLBACK);
-        themedToolTip.AddTool(GetDlgItem(IDC_COMBO2), LPSTR_TEXTCALLBACK);
-        themedToolTip.AddTool(GetDlgItem(IDC_SLIDER1), LPSTR_TEXTCALLBACK);
-        themedToolTip.AddTool(GetDlgItem(IDC_SLIDER2), LPSTR_TEXTCALLBACK);
-    } else {
-        EnableToolTips(TRUE);
-    }
+    EnableThemedDialogTooltips(this);
     CreateToolTip();
 
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_LANG_PREF_EXAMPLE));
@@ -318,6 +306,10 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         bRet = FillComboToolTip(verticalAlignVideoCombo, pTTT);
     }
 
+    if (bRet) {
+        PlaceThemedDialogTooltip(nID);
+    }
+
     return bRet;
 }
 
@@ -333,15 +325,4 @@ void CPPagePlayback::OnCancel()
     }
 
     __super::OnCancel();
-}
-
-
-BOOL CPPagePlayback::PreTranslateMessage(MSG* pMsg)
-{
-    if (AppIsThemeLoaded()) {
-        if (IsWindow(themedToolTip)) {
-            themedToolTip.RelayEvent(pMsg);
-        }
-    }
-    return __super::PreTranslateMessage(pMsg);
 }

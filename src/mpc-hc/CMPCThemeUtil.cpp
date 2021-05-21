@@ -18,7 +18,8 @@ CBrush CMPCThemeUtil::windowBrush;
 CBrush CMPCThemeUtil::controlAreaBrush;
 CBrush CMPCThemeUtil::W10DarkThemeFileDialogInjectedBGBrush;
 
-CMPCThemeUtil::CMPCThemeUtil()
+CMPCThemeUtil::CMPCThemeUtil():
+    themedDialogToolTipParent(nullptr)
 {
 }
 
@@ -34,7 +35,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd)
 {
     if (AppIsThemeLoaded()) {
 
-        initHelperObjects(wnd);
+        initHelperObjects();
 
         CWnd* pChild = wnd->GetWindow(GW_CHILD);
         while (pChild) {
@@ -130,7 +131,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd)
     }
 }
 
-void CMPCThemeUtil::initHelperObjects(CWnd* wnd)
+void CMPCThemeUtil::initHelperObjects()
 {
     if (contentBrush.m_hObject == nullptr) {
         contentBrush.CreateSolidBrush(CMPCTheme::ContentBGColor);
@@ -152,6 +153,45 @@ void CMPCThemeUtil::makeThemed(CWnd* pObject, CWnd* tChild)
     pObject->SubclassWindow(tChild->GetSafeHwnd());
 }
 
+void CMPCThemeUtil::EnableThemedDialogTooltips(CDialog* wnd)
+{
+    if (AppIsThemeLoaded()) {
+        if (themedDialogToolTip.m_hWnd) {
+            themedDialogToolTip.DestroyWindow();
+        }
+        themedDialogToolTipParent = wnd;
+        themedDialogToolTip.Create(wnd, TTS_NOPREFIX | TTS_ALWAYSTIP);
+        themedDialogToolTip.Activate(TRUE);
+        themedDialogToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);
+        //enable tooltips for all child windows
+        CWnd* pChild = wnd->GetWindow(GW_CHILD);
+        while (pChild) {
+            themedDialogToolTip.AddTool(pChild, LPSTR_TEXTCALLBACK);
+            pChild = pChild->GetNextWindow();
+        }
+    } else {
+        wnd->EnableToolTips(TRUE);
+    }
+
+}
+
+void CMPCThemeUtil::PlaceThemedDialogTooltip(UINT_PTR nID)
+{
+    if (AppIsThemeLoaded() && IsWindow(themedDialogToolTip)) {
+        if (::IsWindow(themedDialogToolTipParent->GetSafeHwnd())) {
+            CWnd* controlWnd = themedDialogToolTipParent->GetDlgItem(nID);
+            themedDialogToolTip.SetHoverPosition(controlWnd);
+        }
+    }
+}
+
+void CMPCThemeUtil::RelayThemedDialogTooltip(MSG* pMsg)
+{
+    if (AppIsThemeLoaded() && IsWindow(themedDialogToolTip)) {
+        themedDialogToolTip.RelayEvent(pMsg);
+    }
+}
+
 LRESULT CALLBACK wndProcFileDialog(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     WNDPROC wndProcSink = NULL;
@@ -169,7 +209,7 @@ LRESULT CALLBACK wndProcFileDialog(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 void CMPCThemeUtil::subClassFileDialog(CWnd* wnd, HWND hWnd, bool findSink)
 {
     if (AfxGetAppSettings().bWindows10DarkThemeActive) {
-        initHelperObjects(wnd);
+        initHelperObjects();
         HWND pChild = ::GetWindow(hWnd, GW_CHILD);
 
         while (pChild) {
@@ -314,6 +354,7 @@ void CMPCThemeUtil::enableFileDialogHook()
 
 HBRUSH CMPCThemeUtil::getCtlColorFileDialog(HDC hDC, UINT nCtlColor)
 {
+    initHelperObjects();
     if (CTLCOLOR_EDIT == nCtlColor) {
         ::SetTextColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedTextColor);
         ::SetBkColor(hDC, CMPCTheme::W10DarkThemeFileDialogInjectedBGColor);
@@ -334,6 +375,7 @@ HBRUSH CMPCThemeUtil::getCtlColorFileDialog(HDC hDC, UINT nCtlColor)
 HBRUSH CMPCThemeUtil::getCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     if (AppIsThemeLoaded()) {
+        initHelperObjects();
         LRESULT lResult;
         if (pWnd->SendChildNotifyLastMsg(&lResult)) {
             return (HBRUSH)lResult;

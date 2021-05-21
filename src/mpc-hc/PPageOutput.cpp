@@ -26,6 +26,7 @@
 #include "Monitors.h"
 #include "MPCPngImage.h"
 #include <WinapiFunc.h>
+#include "PPageAudioRenderer.h"
 
 // CPPageOutput dialog
 
@@ -54,6 +55,18 @@ CPPageOutput::~CPPageOutput()
 {
     DestroyIcon(m_tick);
     DestroyIcon(m_cross);
+}
+
+void CPPageOutput::UpdateAudioRenderer(CString audioRendererStr)
+{
+    for (int i = 0; i < m_AudioRendererDisplayNames.GetCount(); i++) {
+        if (m_AudioRendererDisplayNames[i] == audioRendererStr) {
+            if (i != m_iAudioRendererType) {
+                m_iAudioRendererType = i;
+            }
+            break;
+        }
+    }
 }
 
 void CPPageOutput::DoDataExchange(CDataExchange* pDX)
@@ -86,6 +99,7 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageOutput, CMPCThemePPageBase)
     ON_CBN_SELCHANGE(IDC_VIDRND_COMBO, &CPPageOutput::OnDSRendererChange)
+    ON_CBN_SELCHANGE(IDC_AUDRND_COMBO, &CPPageOutput::OnAudioRendererChange)
     ON_CBN_SELCHANGE(IDC_COMBO1, &CPPageOutput::OnSubtitleRendererChange)
     ON_CBN_SELCHANGE(IDC_DX_SURFACE, &CPPageOutput::OnSurfaceChange)
     ON_BN_CLICKED(IDC_D3D9DEVICE, OnD3D9DeviceCheck)
@@ -258,7 +272,7 @@ BOOL CPPageOutput::OnInitDialog()
 
         switch (nID) {
             case VIDRNDT_DS_DEFAULT:
-                resName = IDS_PPAGE_OUTPUT_SYS_DEF;
+                resName = IDS_PPAGE_OUTPUT_VMR7;
                 break;
             case VIDRNDT_DS_OLDRENDERER:
                 resName = IDS_PPAGE_OUTPUT_OLDRENDERER;
@@ -313,17 +327,17 @@ BOOL CPPageOutput::OnInitDialog()
 
     CComboBox& m_iDSVRTC = m_iDSVideoRendererTypeCtrl;
     m_iDSVRTC.SetRedraw(FALSE); // Do not draw the control while we are filling it with items
-    addRenderer(VIDRNDT_DS_DEFAULT);
-    addRenderer(VIDRNDT_DS_EVR);
+    addRenderer(VIDRNDT_DS_MPCVR);
+    addRenderer(VIDRNDT_DS_MADVR);
     addRenderer(VIDRNDT_DS_EVR_CUSTOM);
+    addRenderer(VIDRNDT_DS_EVR);
     addRenderer(VIDRNDT_DS_SYNC);
     addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
     addRenderer(VIDRNDT_DS_VMR9WINDOWED);
-    addRenderer(VIDRNDT_DS_MADVR);
-    addRenderer(VIDRNDT_DS_MPCVR);
+    addRenderer(VIDRNDT_DS_DEFAULT);
     addRenderer(VIDRNDT_DS_DXR);
-    addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_OVERLAYMIXER);
+    addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_NULL_COMP);
     addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 
@@ -613,6 +627,15 @@ void CPPageOutput::OnDSRendererChange()
 
     UpdateSubtitleRendererList();
     UpdateSubtitleSupport();
+    SetModified();
+}
+
+void CPPageOutput::OnAudioRendererChange() {
+    UpdateData();
+    CPPageAudioRenderer* pAR = static_cast<CPPageAudioRenderer*>(FindSiblingPage(RUNTIME_CLASS(CPPageAudioRenderer)));
+    if (pAR) { //audio renderer page visible, so we have to update the checkbox
+        pAR->SetEnabled(m_AudioRendererDisplayNames[m_iAudioRendererType] == AUDRNDT_INTERNAL);
+    }
     SetModified();
 }
 

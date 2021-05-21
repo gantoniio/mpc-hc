@@ -62,11 +62,7 @@ protected:
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
-    enum SubtitleTextureLimit {
-        STATIC, VIDEO, DESKTOP
-    };
-    SubtitleTextureLimit m_SubtitleTextureLimit;
-    void InitMaxSubtitleTextureSize(int maxSize, CSize desktopSize);
+    void InitMaxSubtitleTextureSize(int maxSizeX, int maxSizeY);
 
     HRESULT AlphaBltSubPic(const CRect& windowRect,
                            const CRect& videoRect,
@@ -108,6 +104,7 @@ public:
     STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) { return E_NOTIMPL; }
     STDMETHODIMP_(bool) ResetDevice() { return false; }
     STDMETHODIMP_(bool) DisplayChange() { return false; }
+    STDMETHODIMP_(void) GetPosition(RECT* windowRect, RECT* videoRect) { *windowRect = m_windowRect; *videoRect = m_videoRect; }
 
     // ISubPicAllocatorPresenter2
 

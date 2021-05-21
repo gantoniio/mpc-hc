@@ -96,6 +96,8 @@ extern HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void
 extern HRESULT LoadExternalFilter(LPCTSTR path, REFCLSID clsid, IBaseFilter** ppBF);
 extern HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** ppPP);
 extern bool UnloadUnusedExternalObjects();
+extern void ExtendMaxPathLengthIfNeeded(CString& path, int max_length = MAX_PATH);
+extern void ShortenLongPath(CString& path);
 extern CString MakeFullPath(LPCTSTR path);
 extern CString GetMediaTypeName(const GUID& guid);
 extern GUID GUIDFromCString(CString str);
@@ -198,13 +200,13 @@ public:
 #define BeginEnumSysDev(clsid, pMoniker)                                                                            \
 {                                                                                                                   \
     CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                                                      \
-    pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                                     \
-    CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                      \
-    if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                         \
-        && pClassEnum4$##clsid) {                                                                                   \
-        for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = nullptr) {
+    if (SUCCEEDED(pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum))) {                                    \
+        CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                  \
+        if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                     \
+            && pClassEnum4$##clsid) {                                                                               \
+            for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = nullptr) {
 
-#define EndEnumSysDev }}}
+#define EndEnumSysDev }}}}
 
 #define PauseGraph                                                                                              \
     CComQIPtr<IMediaControl> _pMC(m_pGraph);                                                                    \

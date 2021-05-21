@@ -515,25 +515,26 @@
 #define IDS_PLAYLIST_REMOVE             14116
 #define IDS_PLAYLIST_CLEAR              14117
 #define IDS_PLAYLIST_COPYTOCLIPBOARD    14118
-#define IDS_PLAYLIST_SAVEAS             14119
-#define IDS_PLAYLIST_SORTBYLABEL        14120
-#define IDS_PLAYLIST_SORTBYPATH         14121
-#define IDS_PLAYLIST_RANDOMIZE          14122
-#define IDS_PLAYLIST_RESTORE            14123
-#define IDS_SUBRESYNC_SEPARATOR         14124
-#define IDS_SUBRESYNC_DELETE            14125
-#define IDS_SUBRESYNC_DUPLICATE         14126
-#define IDS_SUBRESYNC_RESET             14127
-#define IDS_SUBRESYNC_ORIGINAL          14128
-#define IDS_SUBRESYNC_CURRENT           14129
-#define IDS_SUBRESYNC_EDIT              14130
-#define IDS_SUBRESYNC_YES               14131
-#define IDS_SUBRESYNC_NO                14132
-#define IDS_SUBRESYNC_DECREASE          14133
-#define IDS_SUBRESYNC_INCREASE          14134
-#define IDS_OPTIONS_CAPTION             14135
-#define IDS_SHADERS_SELECT              14136
-#define IDS_SHADERS_DEBUG               14137
+#define IDS_PLAYLIST_SAVE               14119
+#define IDS_PLAYLIST_SAVEAS             14120
+#define IDS_PLAYLIST_SORTBYLABEL        14121
+#define IDS_PLAYLIST_SORTBYPATH         14122
+#define IDS_PLAYLIST_RANDOMIZE          14123
+#define IDS_PLAYLIST_RESTORE            14124
+#define IDS_SUBRESYNC_SEPARATOR         14125
+#define IDS_SUBRESYNC_DELETE            14126
+#define IDS_SUBRESYNC_DUPLICATE         14127
+#define IDS_SUBRESYNC_RESET             14128
+#define IDS_SUBRESYNC_ORIGINAL          14129
+#define IDS_SUBRESYNC_CURRENT           14130
+#define IDS_SUBRESYNC_EDIT              14131
+#define IDS_SUBRESYNC_YES               14132
+#define IDS_SUBRESYNC_NO                14133
+#define IDS_SUBRESYNC_DECREASE          14134
+#define IDS_SUBRESYNC_INCREASE          14135
+#define IDS_OPTIONS_CAPTION             14136
+#define IDS_SHADERS_SELECT              14137
+#define IDS_SHADERS_DEBUG               14138
 #define IDS_FAVORITES_ADD               14153
 #define IDS_FAVORITES_ORGANIZE          14154
 #define IDS_PLAYLIST_SHUFFLE            14155
@@ -904,7 +905,6 @@
 #define IDS_AG_CHAPTER                  33078
 #define IDS_AG_OUT_OF_MEMORY            33081
 #define IDS_MAINFRM_77                  33082
-#define IDS_MAINFRM_78                  33083
 #define IDS_MAINFRM_80                  33084
 #define IDS_MAINFRM_81                  33085
 #define IDS_MAINFRM_82                  33086
@@ -1084,7 +1084,7 @@
 #define IDS_MFMT_MP4                    39007
 #define IDS_MFMT_MOV                    39008
 #define IDS_MFMT_3GP                    39009
-#define IDS_MFMT_3G2                    39010
+#define IDS_MFMT_3GA                    39010
 #define IDS_MFMT_FLV                    39011
 #define IDS_MFMT_OGM                    39012
 #define IDS_MFMT_RM                     39013
@@ -1427,6 +1427,7 @@
 #define IDS_NAVIGATE_TITLES             41464
 #define IDS_NAVIGATE_CHANNELS           41465
 #define IDS_PPAGE_OUTPUT_MPCVR          41466
+#define IDS_PPAGE_OUTPUT_VMR7           41467
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347
@@ -1649,6 +1650,12 @@
 #define IDS_POSTSIZE_SHADERS_DISABLED   57564
 #define IDS_POSTSIZE_SHADERS_TOGGLE     57565
 #define IDS_AG_POSTSIZE_SHADERS_TOGGLE  57566
+#define IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL 57567
+#define IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR 57568
+#define IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR 57569
+#define IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES 57570
+#define IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST 57571
+
 
 // Next default values for new objects
 // 

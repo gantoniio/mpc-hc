@@ -28,6 +28,7 @@
 #include <Mmdeviceapi.h>
 #include <sanear/src/Settings.h>
 #include "AppSettings.h"
+#include "PPageOutput.h"
 
 namespace
 {
@@ -65,12 +66,14 @@ namespace
     }
 }
 
+IMPLEMENT_DYNAMIC(CPPageAudioRenderer, CMPCThemePPageBase)
 CPPageAudioRenderer::CPPageAudioRenderer()
     : CMPCThemePPageBase(IDD, IDD_PPAGEAUDIORENDERER)
     , m_bExclusiveMode(FALSE)
     , m_bAllowBitstreaming(TRUE)
     , m_bCrossfeedEnabled(FALSE)
     , m_bIgnoreSystemChannelMixer(TRUE)
+    , curAudioRenderer()
 {
 }
 
@@ -81,6 +84,8 @@ void CPPageAudioRenderer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK2, m_bAllowBitstreaming);
     DDX_Check(pDX, IDC_CHECK3, m_bCrossfeedEnabled);
     DDX_Check(pDX, IDC_CHECK4, m_bIgnoreSystemChannelMixer);
+    DDX_Check(pDX, IDC_CHECK5, m_bIsEnabled);
+    
     DDX_Control(pDX, IDC_COMBO1, m_combo1);
     DDX_Control(pDX, IDC_SLIDER1, m_slider1);
     DDX_Control(pDX, IDC_SLIDER2, m_slider2);
@@ -99,6 +104,17 @@ BEGIN_MESSAGE_MAP(CPPageAudioRenderer, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateCrossfeedGroup)
     ON_UPDATE_COMMAND_UI(IDC_SLIDER2, OnUpdateCrossfeedGroup)
     ON_UPDATE_COMMAND_UI(IDC_STATIC4, OnUpdateCrossfeedLevelLabel)
+
+    ON_BN_CLICKED(IDC_CHECK5, OnClickInternalAudioRenderer)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK1, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_CHECK4, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC5, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC7, OnUpdateInternalAudioEnabled)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC8, OnUpdateInternalAudioEnabled)
+
 END_MESSAGE_MAP()
 
 BOOL CPPageAudioRenderer::OnInitDialog()
@@ -159,6 +175,9 @@ BOOL CPPageAudioRenderer::OnInitDialog()
     m_slider1.SetPos(crossfeedCuttoffFrequency);
     m_slider2.SetPos(crossfeedLevel);
 
+    curAudioRenderer = s.SelectedAudioRenderer();
+    m_bIsEnabled = (curAudioRenderer == AUDRNDT_INTERNAL);
+
     UpdateData(FALSE);
 
     return TRUE;
@@ -186,6 +205,7 @@ BOOL CPPageAudioRenderer::OnApply()
     s.sanear->SetCrossfeedSettings(m_slider1.GetPos(), m_slider2.GetPos());
     s.sanear->SetCrossfeedEnabled(m_bCrossfeedEnabled);
     s.sanear->SetIgnoreSystemChannelMixer(m_bIgnoreSystemChannelMixer);
+    AfxGetAppSettings().strAudioRendererDisplayName = curAudioRenderer;
 
     return __super::OnApply();
 }
@@ -200,6 +220,28 @@ void CPPageAudioRenderer::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
     if (pScrollBar && (*pScrollBar == m_slider1 || *pScrollBar == m_slider2)) {
         SetModified(TRUE);
     }
+}
+
+void CPPageAudioRenderer::OnClickInternalAudioRenderer()
+{
+    auto& s = AfxGetAppSettings();
+    UpdateData(TRUE);
+    if (m_bIsEnabled) { //we just enabled it, force to internal
+        curAudioRenderer = AUDRNDT_INTERNAL;
+    } else { //we just disabled it, force to last used
+        if (s.SelectedAudioRenderer() != AUDRNDT_INTERNAL) {
+            curAudioRenderer = s.SelectedAudioRenderer();
+        } else { //unless it was already set to internal before, now unchecking it means "use default"
+            curAudioRenderer = _T("");
+        }
+    }
+
+    CPPageOutput* po = static_cast<CPPageOutput*>(FindSiblingPage(RUNTIME_CLASS(CPPageOutput)));
+    if (po) { //output page visible, so we have to update the dropdown
+        po->UpdateAudioRenderer(curAudioRenderer);
+    }
+
+    SetModified(TRUE);
 }
 
 void CPPageAudioRenderer::OnCMoyButton()
@@ -218,12 +260,20 @@ void CPPageAudioRenderer::OnJMeierButton()
 
 void CPPageAudioRenderer::OnUpdateAllowBitstreamingCheckbox(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK1));
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK1) && m_bIsEnabled);
 }
 
 void CPPageAudioRenderer::OnUpdateCrossfeedGroup(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK3));
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK3) && m_bIsEnabled);
+}
+
+void CPPageAudioRenderer::OnUpdateInternalAudioEnabled(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(m_bIsEnabled);
+}
+
+void CPPageAudioRenderer::SetEnabled(bool enabled) {
+    m_bIsEnabled = enabled;
 }
 
 void CPPageAudioRenderer::OnUpdateCrossfeedCutoffLabel(CCmdUI* pCmdUI)

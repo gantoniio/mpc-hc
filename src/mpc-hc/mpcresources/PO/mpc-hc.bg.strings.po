@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Симеон Цветков <sicvetkov@uni-sofia.bg>, 2020
-# astankov84 <astankov84@gmail.com>, 2020
+# Андрей Станков <astankov84@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-11-01 23:45:42+0000\n"
+"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: astankov84 <astankov84@gmail.com>, 2020\n"
+"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2021\n"
 "Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -448,6 +448,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "&Копирай в клипборда"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr ""
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "&Запиши като..."
@@ -663,6 +667,10 @@ msgstr "&Канали"
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr "MPC Video Renderer"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7"
+msgid "Video Mixing Renderer 7"
+msgstr "Video Mixing Renderer 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -939,7 +947,7 @@ msgstr "Забавяне (мсек)"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr "Автоматично"
+msgstr "Автом."
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
@@ -2664,13 +2672,8 @@ msgid "Out of memory"
 msgstr "Недостатъчна памет"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Грешка: Изисква се Adobe Flash Player за Internet Explorer"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
 msgstr ""
-"QuickTime не се поддържа все още за X64 (няма налична библиотека от Apple)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3192,9 +3195,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr ""
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -4558,3 +4561,27 @@ msgstr "Шейдъри след оразмеряване: Изкл."
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
 msgstr "Разреши шейдъри след оразмеряване"
+
+msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
+msgid "Refresh interval (in milliseconds) of time in status bar"
+msgstr "Интервал на обновяване на статус лентата (в милисекунди)"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
+msgid "Display current audio and subtitle language in status bar"
+msgstr "Покажи текущия език на субтитрите и аудиото в статус лентата"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
+msgid "Display current fps and rate in status bar"
+msgstr "Покажи кадрите в сек. и скоростта на възпр. в статус лентата"
+
+msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
+msgid ""
+"When save the subtitles file, the language code (if available) text will be "
+"added to suggested file name by default."
+msgstr ""
+"Когато се запазва файл със субтитри езиковия код (ако е наличен) ще бъде "
+"добавен към предложеното име на файла по подразбиране."
+
+msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
+msgid "Use title in recent file list."
+msgstr "Ползвай заглавието в списъка със скорошни файлове."

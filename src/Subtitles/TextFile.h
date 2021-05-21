@@ -36,7 +36,7 @@ public:
     };
 
 private:
-    enc m_encoding, m_defaultencoding;
+    enc m_encoding, m_defaultencoding, m_fallbackencoding;
     int m_offset;
     ULONGLONG m_posInFile;
     CAutoVectorPtr<char> m_buffer;
@@ -46,6 +46,8 @@ private:
     bool bUseChardetlib;
 
 public:
+    using CFile::Flush;
+    using CFile::Close;
     CTextFile(enc e = DEFAULT_ENCODING, bool use_chardetlib = true);
     ~CTextFile();
 
@@ -53,6 +55,7 @@ public:
     virtual bool Save(LPCTSTR lpszFileName, enc e /*= DEFAULT_ENCODING*/);
 
     void SetEncoding(enc e);
+    void SetFallbackEncoding(enc e);
     enc GetEncoding();
     bool IsUnicode();
 

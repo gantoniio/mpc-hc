@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-11-01 23:45:42+0000\n"
+"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
 "Language-Team: Lithuanian (https://www.transifex.com/mpchc/teams/106126/lt/)\n"
@@ -446,6 +446,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "K&opijuoti į iškarpinę"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr ""
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "Išsa&ugoti kaip..."
@@ -660,6 +664,10 @@ msgstr "&Kanalai"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
+msgstr ""
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7"
+msgid "Video Mixing Renderer 7"
 msgstr ""
 
 msgctxt "IDD_PPAGEACCELTBL"
@@ -2632,12 +2640,8 @@ msgid "Out of memory"
 msgstr "Nepakanka atminties"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Klaida: Internet Explorer reikalingas Adobe Flash Player"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime dar nepalaikomas X64 (nėra apple bibliotekos)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
+msgstr ""
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3159,9 +3163,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr ""
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -4460,4 +4464,26 @@ msgstr ""
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
+msgid "Refresh interval (in milliseconds) of time in status bar"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
+msgid "Display current audio and subtitle language in status bar"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
+msgid "Display current fps and rate in status bar"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
+msgid ""
+"When save the subtitles file, the language code (if available) text will be "
+"added to suggested file name by default."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
+msgid "Use title in recent file list."
 msgstr ""

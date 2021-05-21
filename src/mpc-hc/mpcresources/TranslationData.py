@@ -19,8 +19,7 @@ import os
 import codecs
 import re
 from collections import OrderedDict
-import itertools
-import ConfigParser
+import configparser as ConfigParser
 from datetime import datetime
 import polib
 
@@ -29,7 +28,7 @@ def xstr(s):
 
 
 def detectEncoding(filename):
-    encoding = 'cp1252'
+    encoding = 'utf_16_le'
 
     with codecs.open(filename, 'rb') as f:
         bytes = min(32, os.path.getsize(filename))
@@ -67,7 +66,7 @@ msgstr ""
 
 
 class TranslationData:
-    poLine = re.compile(ur'^\s*(?:(msgctxt|msgid|msgstr)\s+)?"((?:[^"]|\\")*)"\r?\n', re.UNICODE)
+    poLine = re.compile(r'^\s*(?:(msgctxt|msgid|msgstr)\s+)?"((?:[^"]|\\")*)"\r?\n', re.UNICODE)
     potHeader = potHeader.replace('\n', '\r\n')
 
     def __init__(self):
@@ -215,7 +214,7 @@ class TranslationData:
     # but we need it to migrate from our old system.
     def translateFromTemplate(self, translationData):
         for dataPair in ((self.dialogs, translationData.dialogs), (self.menus, translationData.menus), (self.strings, translationData.strings)):
-            for (dataID, dataIDTranslated) in itertools.izip(*dataPair):
+            for (dataID, dataIDTranslated) in zip(*dataPair):
                 if dataID[1] != dataIDTranslated[1]:
                     dataPair[0][dataID] = dataIDTranslated[1]
 
