@@ -19558,21 +19558,3 @@ void CMainFrame::updateRecentFileListSub(CString fn) {
     MRU.WriteList();
     m_current_rfe = RecentFileEntry(); // Clear
 }
-
-void CMainFrame::updateRecentFileListSub() {
-    if (m_pCurrentSubInput.pSubStream) {
-        CString subpath = m_pCurrentSubInput.pSubStream->GetPath();
-        if (!subpath.IsEmpty()) {
-            bool found = m_current_rfe.subs.Find(subpath);
-            if (!found) {
-                RecentFileEntry r = m_current_rfe;
-                r.subs.AddTail(subpath);
-                auto& MRU = AfxGetAppSettings().MRU;
-                MRU.ReadList();
-
-                MRU.Add(r);
-                MRU.WriteList();
-            }            
-        }
-    }
-}
