@@ -35,6 +35,8 @@
 #include <regex>
 #include "SSASub.h"
 #include "../mpc-hc/RegexUtil.h"
+#include "../mpc-hc/SubtitlesProvidersUtils.h"
+#include "../DSUtil/ISOLang.h"
 
 struct htmlcolor {
     LPCTSTR name;
@@ -1923,13 +1925,17 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                 version = sver = 6;
             }
         } else if (entry == L"collisions") {
-            buff = GetStrW(pszBuff, nBuffLength);
-            buff.MakeLower();
-            ret.m_collisions = buff.Find(L"reverse") >= 0 ? 1 : 0;
+            if (nBuffLength) {
+                buff = GetStrW(pszBuff, nBuffLength);
+                buff.MakeLower();
+                ret.m_collisions = buff.Find(L"reverse") >= 0 ? 1 : 0;
+            }
         } else if (entry == L"scaledborderandshadow") {
-            buff = GetStrW(pszBuff, nBuffLength);
-            buff.MakeLower();
-            ret.m_fScaledBAS = buff.Find(L"yes") >= 0;
+            if (nBuffLength) {
+                buff = GetStrW(pszBuff, nBuffLength);
+                buff.MakeLower();
+                ret.m_fScaledBAS = buff.Find(L"yes") >= 0;
+            }
         } else if (entry == L"[v4 styles]") {
             fRet = true;
             sver = 4;
@@ -1944,9 +1950,9 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else if (entry == L"fontname") {
             LoadUUEFont(file);
         } else if (entry == L"ycbcr matrix") {
-            try {
+            if (nBuffLength) {
                 ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
-            } catch (...) {}
+            }
         } else if (entry == L"format") {
             // ToDo: Parse this line and use it to correctly parse following style and dialogue lines
             // Currently the contents of the format lines are assumed to have a standard string value based on script version.
@@ -3069,6 +3075,53 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString vi
     }
 
     return Open(&f, CharSet, name);
+}
+
+bool CSimpleTextSubtitle::Open(BYTE* data, int length, int CharSet, CString provider, CString lang, CString ext) {
+    Empty();
+
+    m_provider = provider;
+    CString name;
+    name.Format(_T("%s.%s"), lang, ext);
+    CW2A temp(lang);
+    m_lcid = ISOLang::ISO6391ToLcid(temp);
+    return Open(data, length, CharSet, name);
+}
+
+bool CSimpleTextSubtitle::Open(CString data, CTextFile::enc SaveCharSet, int ReadCharSet, CString provider, CString lang, CString ext) {
+    Empty();
+
+    m_provider = provider;
+    CString name;
+    name.Format(_T("%s.%s"), lang, ext);
+    CW2A temp(lang);
+    m_lcid = ISOLang::ISO6391ToLcid(temp);
+    TCHAR path[MAX_PATH];
+    if (!GetTempPath(MAX_PATH, path)) {
+        return false;
+    }
+
+    TCHAR fn[MAX_PATH];
+    if (!GetTempFileName(path, _T("vs"), 0, fn)) {
+        return false;
+    }
+
+    CTextFile f;
+    if (!f.Save(fn, SaveCharSet)) {
+        return false;
+    }
+
+    f.WriteString(data);
+    f.Flush();
+    f.Close();
+
+    bool fRet = Open(fn, ReadCharSet, name);
+
+    _tremove(fn);
+
+    m_path = _T("");
+
+    return fRet;
 }
 
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {

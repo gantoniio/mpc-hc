@@ -97,14 +97,14 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         m_border = 5;
     }
 
-    m_videorect.left = (m_border + 1);
-    m_videorect.right = rc.right - (m_border + 1);
+    m_videorect.left = m_border;
+    m_videorect.right = rc.right - m_border;
     if (PREVIEW_TOOLTIP_BOTTOM) { //bottom tooltip
-        m_videorect.top = (m_border + 1);
-        m_videorect.bottom = rc.bottom - (m_caption + 1);
+        m_videorect.top = m_border;
+        m_videorect.bottom = rc.bottom - m_caption;
     } else {
-        m_videorect.top = (m_caption + 1);
-        m_videorect.bottom = rc.bottom - (m_border + 1);
+        m_videorect.top = m_caption;
+        m_videorect.bottom = rc.bottom - m_border;
     }
 
     if (!m_view.Create(nullptr, nullptr, WS_CHILD | WS_VISIBLE, m_videorect, this, 0)) {
@@ -152,35 +152,11 @@ void CPreView::OnPaint() {
 
     CRect rtime(rcBar);
     if (PREVIEW_TOOLTIP_BOTTOM) {
-        rtime.top = rcBar.Height() - m_caption - 1;
-        rtime.bottom = rcBar.Height() - 2;
+        rtime.top = rcBar.Height() - m_caption;
+        rtime.bottom = rcBar.Height();
     } else {
         rtime.top = 0;
         rtime.bottom = m_caption;
-    }
-
-    if (AfxGetAppSettings().bMPCTheme) {
-        mdc.FillSolidRect(1, 1, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor);
-        mdc.FillSolidRect(1, rcBar.Height() - 2, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor);
-        mdc.FillSolidRect(1, 1, 1, rcBar.Height() - 2, CMPCTheme::TooltipBorderColor);
-        mdc.FillSolidRect(rcBar.right - 2, 1, 1, rcBar.Height() - 2, CMPCTheme::TooltipBorderColor);
-        if (PREVIEW_TOOLTIP_BOTTOM) {
-            mdc.FillSolidRect(1, rtime.top, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor); //caption top border
-        } else {
-            mdc.FillSolidRect(1, rtime.bottom, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor); //caption bottom border
-        }
-    } else {
-        if (PREVIEW_TOOLTIP_BOTTOM) {
-            mdc.FillSolidRect(m_border, m_border, rcBar.Width() - 2 * m_border, 1, frameShadow); //video top border
-            mdc.FillSolidRect(m_border, rcBar.Height() - m_caption - 1, rcBar.Width() - 2 * m_border, 1, frameLight); //video bottom border
-            mdc.FillSolidRect(m_border, m_border, 1, rcBar.Height() - m_border - m_caption, frameShadow); //video left border
-            mdc.FillSolidRect(rcBar.right - m_border - 1, m_border + 1, 1, rcBar.Height() - m_border - m_caption - 1, frameLight); //video right border
-        } else {
-            mdc.FillSolidRect(m_border, m_caption, rcBar.Width() - 2 * m_border, 1, frameShadow); //video top border
-            mdc.FillSolidRect(m_border, rcBar.Height() - m_border - 1, rcBar.Width() - 2 * m_border, 1, frameLight); //video bottom border
-            mdc.FillSolidRect(m_border, m_caption, 1, rcBar.Height() - m_border - m_caption, frameShadow); //video left border
-            mdc.FillSolidRect(rcBar.right - m_border - 1, m_caption + 1, 1, rcBar.Height() - m_border - m_caption, frameLight); //video right border
-        }
     }
 
     // text
@@ -216,10 +192,14 @@ void CPreView::SetWindowSize() {
     w = std::max(160, std::min(w, wr.Width() / 2));
 
     CSize vs = m_pMainFrame->GetVideoSize();
+    if (vs.cx == 0) {
+        vs.cx = 160;
+        vs.cy = 90;
+    }
 
-    int h = (w - ((m_border + 1) * 2)) * vs.cy / vs.cx;
-    h += (m_caption + 1);
-    h += (m_border + 1);
+    int h = w * vs.cy / vs.cx;
+    w += m_border * 2;
+    h += m_caption + m_border;
 
     CRect rc;
     GetClientRect(&rc);
@@ -227,11 +207,11 @@ void CPreView::SetWindowSize() {
         SetWindowPos(nullptr, 0, 0, w, h, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 
         GetClientRect(&rc);
-        m_videorect.right = rc.right - (m_border + 1);
+        m_videorect.right = rc.right - m_border;
         if (PREVIEW_TOOLTIP_BOTTOM) { //bottom tooltip
-            m_videorect.bottom = rc.bottom - (m_caption + 1);
+            m_videorect.bottom = rc.bottom - m_caption;
         } else {
-            m_videorect.bottom = rc.bottom - (m_border + 1);
+            m_videorect.bottom = rc.bottom - m_border;
         }
 
         m_view.SetWindowPos(nullptr, 0, 0, m_videorect.Width(), m_videorect.Height(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);

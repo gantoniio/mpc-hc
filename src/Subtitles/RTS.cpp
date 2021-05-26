@@ -1704,6 +1704,10 @@ void CRenderedTextSubtitle::OnChanged()
 
 bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
 {
+    if (!vidrect.Width()) {
+        return false;
+    }
+
     CAutoLock cAutoLock(&renderLock);
     CRect newVidRect = CRect(vidrect.left * 8, vidrect.top * 8, vidrect.right * 8, vidrect.bottom * 8);
     CSize newSize = CSize(size.cx * 8, size.cy * 8);
@@ -2304,6 +2308,12 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                 style.fontName = (!tag.params.IsEmpty() && !tag.params[0].IsEmpty() && tag.params[0] != L"0")
                                  ? CString(tag.params[0]).Trim()
                                  : org.fontName;
+                if (style.fontName == _T("splatter")) {
+                    /* workaround for slow rendering with this font
+                       slowness occurs in Windows GDI CloseFigure() function
+                    */
+                    style.fontName = _T("Arial");
+                }
                 break;
             case SSA_frx:
                 style.fontAngleX = !tag.paramsReal.IsEmpty()
@@ -2582,7 +2592,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
         str = str.Mid(i + 1);
     }
 
-    if (tag == L"text") {
+    if (tag == L"text" || tag == L"span") {
         ;
     } else if (tag == L"b" || tag == L"strong") {
         style.fontWeight = !fClosing ? FW_BOLD : org.fontWeight;
@@ -3016,6 +3026,11 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     CAutoLock cAutoLock(&renderLock);
     //TRACE(_T("render sub start: %lld\n"), rt);
 
+    if (!spd.vidrect.right) {
+        // video size is not known yet
+        return S_FALSE;
+    }
+
 #if USE_LIBASS
     if (m_assloaded) {
         if (spd.bpp != 32) {
@@ -3046,8 +3061,6 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     }
 #endif
 
-    CRect bbox2(0, 0, 0, 0);
-
     Init(CSize(spd.w, spd.h), spd.vidrect);
 
     int segment;
@@ -3056,6 +3069,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         //TRACE(_T("render sub skipped: %lld\n"), rt);
         return S_FALSE;
     }
+
+    CRect bbox2(0, 0, 0, 0);
 
     // clear any cached subs that is behind current time
     {
