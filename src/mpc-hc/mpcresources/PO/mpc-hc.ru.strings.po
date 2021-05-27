@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# CoolCmd, 2021
 # Alexandr Stankovich <sanekst00@yandex.ru>, 2021
+# CoolCmd, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2021-05-04 16:20:41+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Alexandr Stankovich <sanekst00@yandex.ru>, 2021\n"
+"Last-Translator: CoolCmd, 2021\n"
 "Language-Team: Russian (https://www.transifex.com/mpchc/teams/106126/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -450,7 +450,7 @@ msgstr "Копировать в буфер"
 
 msgctxt "IDS_PLAYLIST_SAVE"
 msgid "Sa&ve"
-msgstr ""
+msgstr "Сохранить"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -2659,7 +2659,7 @@ msgstr "Не хватает памяти"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
-msgstr ""
+msgstr "Ошибка: Нужен Adobe Flash Player для IE с патчем killswitch"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3183,7 +3183,7 @@ msgstr "3GP"
 
 msgctxt "IDS_MFMT_3GA"
 msgid "3GA"
-msgstr ""
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
