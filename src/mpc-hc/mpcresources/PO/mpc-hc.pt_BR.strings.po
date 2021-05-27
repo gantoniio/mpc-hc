@@ -451,7 +451,7 @@ msgstr "&Copiar pra área de transferência"
 
 msgctxt "IDS_PLAYLIST_SAVE"
 msgid "Sa&ve"
-msgstr ""
+msgstr "Sa&lvar"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -2676,7 +2676,7 @@ msgstr "Sem memória!!!"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
-msgstr ""
+msgstr "Erro: Requer o Adobe Flash Player pro IE com o patch do killswitch"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3200,7 +3200,7 @@ msgstr "3GP"
 
 msgctxt "IDS_MFMT_3GA"
 msgid "3GA"
-msgstr ""
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
