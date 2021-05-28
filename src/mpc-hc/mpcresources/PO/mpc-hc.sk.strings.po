@@ -449,7 +449,7 @@ msgstr "&Kopírovať do schránky"
 
 msgctxt "IDS_PLAYLIST_SAVE"
 msgid "Sa&ve"
-msgstr ""
+msgstr "Ul&ožiť"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -2670,7 +2670,7 @@ msgstr "Nedostatok pamäte"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
-msgstr ""
+msgstr "Chyba: vyžaduje sa Adobe Flash Player pre IE so záplatou killswitch"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3194,7 +3194,7 @@ msgstr "3GP"
 
 msgctxt "IDS_MFMT_3GA"
 msgid "3GA"
-msgstr ""
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
