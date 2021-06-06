@@ -9285,11 +9285,18 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
         if (bRelative) {
             if (SUCCEEDED(m_pMS->GetCurrentPosition(&rt))) {
                 if (iChapter < 0) {
-                    // Go the previous chapter only if more than PREV_CHAP_THRESHOLD seconds
-                    // have passed since the beginning of the current chapter else restart it
+                    // Add a small threshold to jump back at least that amount of time
+                    // This is needed when rt is near start of current chapter
                     rt -= PREV_CHAP_THRESHOLD * 10000000;
                     iChapter = 0;
                     iChapter = m_pCB->ChapLookupPrevious(&rt, nullptr);
+                    // seek to start if there is no previous chapter
+                    if (iChapter == -1 && rt >= 0) {
+                        REFERENCE_TIME rtStart, rtStop;
+                        m_wndSeekBar.GetRange(rtStart, rtStop);
+                        DoSeekTo(rtStart, false);
+                        return true;
+                    }
                 } else {
                     iChapter = m_pCB->ChapLookupNext(&rt, nullptr);
                 }
@@ -12073,63 +12080,78 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             }
         }
 
-        if (m_bUseSeekPreview && bMainFile) {
-            bool bIsVideo = false, isRFS = false;
+        if (bMainFile) {
+            bool bIsVideo = false;
+            bool isRFS = false;
             CStringW entryRFS;
-            BeginEnumFilters(m_pGB, pEF, pBF) {
-                // Checks if any Video Renderer is in the graph
-                if (IsVideoRenderer(pBF)) {
-                    bIsVideo = true;
-                    if (isRFS) break;
-                }
-                CLSID clsid2;
-                if (S_OK == pBF->GetClassID(&clsid2) && clsid2 == __uuidof(CRARFileSource)) {
-                    CComQIPtr<IFileSourceFilter> pFSF = pBF;
-                    if (pFSF) {
+
+            // Check for supported interfaces
+            BeginEnumFilters(m_pGB, pEF, pBF);
+            if (!m_pFSF) {
+                m_pFSF = pBF;
+                if (m_pFSF && m_bUseSeekPreview) {
+                    CLSID clsid2;
+                    if (S_OK == pBF->GetClassID(&clsid2) && clsid2 == __uuidof(CRARFileSource)) {
                         WCHAR* pFN = nullptr;
                         AM_MEDIA_TYPE mt;
-                        if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+                        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
                             isRFS = true;
                             entryRFS = pFN;
                             CoTaskMemFree(pFN);
                         }
                     }
                 }
-                if (isRFS && bIsVideo) break;
+            }
+            if (!m_pKFI) {
+                m_pKFI = pBF;
+            }
+            if (!m_pAMOP) {
+                m_pAMOP = pBF;
+            }
+            if (!m_pAMMC) {
+                m_pAMMC = pBF;
+            }
+            if (m_bUseSeekPreview && !bIsVideo && IsVideoRenderer(pBF)) {
+                bIsVideo = true;
             }
             EndEnumFilters;
-
-            HRESULT previewHR;
-            if (isRFS) {
-                CComPtr<CFGManager> fgm = static_cast<CFGManager*>(m_pGB_preview.p);
-                previewHR = fgm->RenderRFSFileEntry(fn, nullptr, entryRFS);
-            } else {
-                previewHR = m_pGB_preview->RenderFile(fn, nullptr);
+            if (!m_pFSF) {
+                m_pFSF = m_pGB;
             }
 
-            if (!bIsVideo || FAILED(previewHR)) {
-                if (m_pGB_preview) {
-                    m_pMFVP_preview = nullptr;
-                    m_pMFVDC_preview = nullptr;
-                    m_pVMR9C_preview = nullptr;
-
-                    m_pMC_preview.Release();
-                    m_pME_preview.Release();
-                    m_pMS_preview.Release();
-                    m_pVW_preview.Release();
-                    m_pBV_preview.Release();
-                    m_pFS_preview.Release();
-
-                    if (m_pDVDC_preview) {
-                        m_pDVDC_preview.Release();
-                        m_pDVDI_preview.Release();
-                    }
-
-                    m_pGB_preview->RemoveFromROT();
-                    m_pGB_preview.Release();
-                    m_pGB_preview = nullptr;
+            if (m_bUseSeekPreview && bIsVideo) {
+                HRESULT previewHR;
+                if (isRFS) {
+                    CComPtr<CFGManager> fgm = static_cast<CFGManager*>(m_pGB_preview.p);
+                    previewHR = fgm->RenderRFSFileEntry(fn, nullptr, entryRFS);
+                } else {
+                    previewHR = m_pGB_preview->RenderFile(fn, nullptr);
                 }
-                m_bUseSeekPreview = false;
+
+                if (FAILED(previewHR)) {
+                    if (m_pGB_preview) {
+                        m_pMFVP_preview = nullptr;
+                        m_pMFVDC_preview = nullptr;
+                        m_pVMR9C_preview = nullptr;
+
+                        m_pMC_preview.Release();
+                        m_pME_preview.Release();
+                        m_pMS_preview.Release();
+                        m_pVW_preview.Release();
+                        m_pBV_preview.Release();
+                        m_pFS_preview.Release();
+
+                        if (m_pDVDC_preview) {
+                            m_pDVDC_preview.Release();
+                            m_pDVDI_preview.Release();
+                        }
+
+                        m_pGB_preview->RemoveFromROT();
+                        m_pGB_preview.Release();
+                        m_pGB_preview = nullptr;
+                    }
+                    m_bUseSeekPreview = false;
+                }
             }
         }
 
@@ -12154,17 +12176,14 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 }
                 else {
                     CString title;
-                    BeginEnumFilters(m_pGB, pEF, pBF) {
-                        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-                            CComBSTR bstr;
-                            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                                title = bstr.m_str;
-                                title.Trim();
-                                break;
-                            }
+                    if (m_pAMMC) {
+                        CComBSTR bstr;
+                        if (SUCCEEDED(m_pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                            title = bstr.m_str;
+                            title.Trim();
+                            break;
                         }
                     }
-                    EndEnumFilters;
                     if (!title.IsEmpty() && !IsNameSimilar(title, PathUtils::StripPathOrUrl(fn))) r.title = title;
                 }
                 if (m_pli) {
@@ -12198,19 +12217,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         if (bMainFile) {
             pOFD->title = fn;
-
-            m_pFSF = m_pGB;
-            BeginEnumFilters(m_pGB, pEF, pBF);
-            if (!m_pFSF) {
-                m_pFSF = pBF;
-            }
-            if (!m_pKFI) {
-                m_pKFI = pBF;
-            }
-            if (!m_pAMOP) {
-                m_pAMOP = pBF;
-            }
-            EndEnumFilters;
         }
 
         bMainFile = false;
@@ -13018,32 +13024,29 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
     if (GetPlaybackMode() == PM_FILE) {
         CComBSTR bstr;
         CString title, author, copyright, rating, description;
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-                if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                    title = bstr.m_str;
-                    title.Trim();
-                }
-                bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
-                    author = bstr.m_str;
-                }
-                bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
-                    copyright = bstr.m_str;
-                }
-                bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
-                    rating = bstr.m_str;
-                }
-                bstr.Empty();
-                if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
-                    description = bstr.m_str;
-                }
-                bstr.Empty();
+        if (m_pAMMC) {
+            if (SUCCEEDED(m_pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                title = bstr.m_str;
+                title.Trim();
             }
+            bstr.Empty();
+            if (SUCCEEDED(m_pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
+                author = bstr.m_str;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(m_pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
+                copyright = bstr.m_str;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(m_pAMMC->get_Rating(&bstr)) && bstr.Length()) {
+                rating = bstr.m_str;
+            }
+            bstr.Empty();
+            if (SUCCEEDED(m_pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                description = bstr.m_str;
+            }
+            bstr.Empty();
         }
-        EndEnumFilters;
 
         bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_TITLE), title);
         UpdateChapterInInfoBar();
@@ -13206,18 +13209,14 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 bool has_title = false;
 
                 if (s.fTitleBarTextTitle) {
-                    BeginEnumFilters(m_pGB, pEF, pBF) {
-                        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-                            CComBSTR bstr;
-                            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                                title = bstr.m_str;
-                                title.Trim();
-                                has_title = !title.IsEmpty();
-                                break;
-                            }
+                    if (m_pAMMC) {
+                        CComBSTR bstr;
+                        if (SUCCEEDED(m_pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                            title = bstr.m_str;
+                            title.Trim();
+                            has_title = !title.IsEmpty();
                         }
                     }
-                    EndEnumFilters;
                 }
 
                 if (!has_title) {
@@ -13908,6 +13907,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pMC.Release();
     m_pFSF.Release();
     m_pKFI.Release();
+    m_pAMMC.Release();
 
     if (m_pGB) {
         m_pGB->RemoveFromROT();
@@ -15764,6 +15764,8 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
 
 void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = false */)
 {
+    TRACE(_T("CMainFrame::SetSubtitle\n"));
+
     CAppSettings& s = AfxGetAppSettings();
 
     {
