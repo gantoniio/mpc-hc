@@ -7542,6 +7542,10 @@ void CMainFrame::OnUpdateViewPanNScanPresets(CCmdUI* pCmdUI)
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly && nID >= 0 && nID <= s.m_pnspresets.GetCount() && s.iDSVideoRendererType != VIDRNDT_DS_EVR);
 }
 
+int nearest90(int angle) {
+    return int(float(angle) / 90 + 0.5) * 90;
+}
+
 bool CMainFrame::PerformFlipRotate()
 {
     HRESULT hr = E_NOTIMPL;
@@ -7576,7 +7580,8 @@ bool CMainFrame::PerformFlipRotate()
         SetPreviewVideoPosition();
         //adipose: using defaultvideoangle instead of videoangle, as some oddity with AR shows up when using normal rotate with EVRCP.
         //Since we only need to support 4 angles, this will work, but it *should* work with SetVideoAngle...
-        hr = m_pCAP2_preview->SetDefaultVideoAngle(Vector(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(defaultVideoAngle + m_AngleZ)));
+
+        hr = m_pCAP2_preview->SetDefaultVideoAngle(Vector(Vector::DegToRad(nearest90(m_AngleX)), Vector::DegToRad(nearest90(m_AngleY)), Vector::DegToRad(defaultVideoAngle + nearest90(m_AngleZ))));
     }
 
     return true;
@@ -10457,7 +10462,8 @@ CSize CMainFrame::GetVideoSizeWithRotation() const
     const CAppSettings& s = AfxGetAppSettings();
     CSize ret = GetVideoSize();
     if (m_pCAP && !m_pCAP3) { //videosize does not consider manual rotation
-        int rotation = ((360 - m_AngleZ) % 360) / 90; //do not add in m_iDefRotation
+
+        int rotation = ((360 - nearest90(m_AngleZ)) % 360) / 90; //do not add in m_iDefRotation
         if (rotation == 1 || rotation == 3) { //90 degrees
             std::swap(ret.cx, ret.cy);
         }
