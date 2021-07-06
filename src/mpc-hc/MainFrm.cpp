@@ -840,7 +840,7 @@ CMainFrame::CMainFrame()
     , queuedSeek({0,0,false})
     , lastSeekStart(0)
     , lastSeekFinish(0)
-    , defaultVideoAngle(0)
+    , defaultVideoAngle(360)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
