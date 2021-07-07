@@ -2611,7 +2611,9 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                 break;
         }
     } else {
-        if (CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) {
+        bool preview_evrcp = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || (s.iDSVideoRendererType == VIDRNDT_DS_SYNC) || (s.iDSVideoRendererType == VIDRNDT_DS_MADVR) || (s.iDSVideoRendererType == VIDRNDT_DS_MPCVR);
+        preview_evrcp = false; // disable for now, causes subtitle issue
+        if (preview_evrcp && CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) {
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, L"EVRCP - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));
         } else if (CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR)) {
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"EVR - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));

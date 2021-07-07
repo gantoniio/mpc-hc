@@ -14929,7 +14929,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
         }
 
         SetupChapters();
-        if (m_pCB->ChapGetCount() > 1) {
+        if (m_pCB && m_pCB->ChapGetCount() > 1) {
             REFERENCE_TIME rt = GetPos();
             DWORD j = m_pCB->ChapLookup(&rt, nullptr);
             menuStartRadioSection();
@@ -16119,12 +16119,11 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
 REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const
 {
     if (rtTarget < 0LL) return 0LL;
-    REFERENCE_TIME duration = GetDur();
-    if (rtTarget > duration) rtTarget = duration;
+    if (rtTarget > GetDur()) return rtTarget;
 
     REFERENCE_TIME rtKeyframe;
     REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxBackwardDiff, 0LL);
-    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxForwardDiff, duration);
+    REFERENCE_TIME rtMax = rtTarget + rtMaxForwardDiff;
 
     if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
         return rtKeyframe;
