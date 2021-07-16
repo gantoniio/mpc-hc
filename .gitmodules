@@ -49,3 +49,6 @@
 [submodule "src/thirdparty/libiconv/libiconv-for-Windows"]
 	path = src/thirdparty/libiconv/libiconv-for-Windows
 	url = https://github.com/pffang/libiconv-for-Windows.git
+[submodule "src/thirdparty/mpcvr"]
+	path = src/thirdparty/mpcvr
+	url = https://github.com/Aleksoid1978/VideoRenderer.git
