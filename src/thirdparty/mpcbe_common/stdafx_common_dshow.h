@@ -22,4 +22,6 @@
 #include <dshow.h>
 #include <BaseClasses/streams.h>
 #include <dvdmedia.h>
-#include <initguid.h>
+//adipose - removed due to link errors.  ffmpeg also has initguid.h
+// add define to MpcAudioRenderer.h
+//#include <initguid.h>

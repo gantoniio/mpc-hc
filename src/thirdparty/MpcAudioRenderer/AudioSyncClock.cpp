@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 #include "AudioSyncClock.h"
-#include "../../../DSUtil/DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 CAudioSyncClock::CAudioSyncClock(LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseReferenceClock(L"MPC Audio Sync Clock", pUnk, phr)
@@ -46,7 +46,7 @@ REFERENCE_TIME CAudioSyncClock::GetPrivateTime()
 #ifdef DEBUG
 	const REFERENCE_TIME counterOffsetDiff = m_counterOffset - oldCounterOffset;
 	if (std::abs(counterOffsetDiff) >= OneMillisecond * 5) {
-		DLog(L"CAudioSyncClock::GetPrivateTime() : jitter %.2f ms", counterOffsetDiff / 10000.0f);
+		TRACE(L"CAudioSyncClock::GetPrivateTime() : jitter %.2f ms", counterOffsetDiff / 10000.0f);
 	}
 #endif
 
@@ -55,7 +55,7 @@ REFERENCE_TIME CAudioSyncClock::GetPrivateTime()
 
 void CAudioSyncClock::Slave(IAudioClock* pAudioClock, const REFERENCE_TIME audioStart)
 {
-	DLog(L"CAudioSyncClock::Slave()");
+	TRACE(L"CAudioSyncClock::Slave()");
 
 	ASSERT(pAudioClock);
 
@@ -70,7 +70,7 @@ void CAudioSyncClock::Slave(IAudioClock* pAudioClock, const REFERENCE_TIME audio
 
 void CAudioSyncClock::UnSlave()
 {
-	DLog(L"CAudioSyncClock::UnSlave()");
+	TRACE(L"CAudioSyncClock::UnSlave()");
 
 	CAutoLock lock(this);
 

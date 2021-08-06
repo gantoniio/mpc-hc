@@ -21,6 +21,7 @@
 #pragma once
 
 #include <BaseClasses/streams.h>
+#define INITGUID //adipose - added to avoid 'unresolved external symbol PKEY_AudioEngine_DeviceFormat'. do not use initguid.h or we will get duplicates in link step
 #include <mmdeviceapi.h>
 #include <audioclient.h>
 #include <FunctionDiscoveryKeys_devpkey.h>
@@ -28,8 +29,8 @@
 #include "Mixer.h"
 #include "Filter.h"
 #include "AudioSyncClock.h"
-#include "../../../DSUtil/Packet.h"
-#include <libbs2b/bs2bclass.h>
+#include "../../DSUtil/Packet.h"
+#include <bs2b/libbs2b/src/bs2bclass.h>
 
 #define MpcAudioRendererName L"MPC Audio Renderer"
 
@@ -55,7 +56,7 @@ class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
 
 	CMixer            m_Resampler;
 
-	CPacketQueue      m_WasapiQueue;
+	CPacketQueue2     m_WasapiQueue;
 	CAutoPtr<CPacket> m_CurrentPacket;
 	UINT32            m_nSampleOffset;
 

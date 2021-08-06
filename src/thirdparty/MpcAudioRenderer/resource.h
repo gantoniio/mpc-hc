@@ -3,27 +3,27 @@
 // Used by MpcAudioRenderer.rc
 //
 #define IDS_FILTER_SETTINGS_CAPTION     7000
-#define IDS_ARS_WASAPI_MODE             7600
-#define IDS_ARS_EXCLUSIVE               7601
-#define IDS_ARS_SHARED                  7602
-#define IDS_ARS_BITEXACT_OUTPUT         7603
-#define IDS_ARS_SYSTEM_LAYOUT_CHANNELS  7604
-#define IDS_ARS_SOUND_DEVICE            7605
-#define IDS_ARS_RELEASE_DEVICE_IDLE     7606
-#define IDS_ARS_CROSSFEED               7607
-#define IDS_ARS_DEVICE_PERIOD           7608
-#define IDS_ARS_CHECK_FORMAT            7609
-#define IDS_ARS_STATUS                  7610
-#define IDS_ARS_DEVICE                  7611
-#define IDS_ARS_MODE                    7612
-#define IDS_ARS_INPUT                   7613
-#define IDS_ARS_OUTPUT                  7614
-#define IDS_ARS_FORMAT                  7615
-#define IDS_ARS_SAMPLERATE              7616
-#define IDS_ARS_CHANNELS                7617
-#define IDS_ARS_WASAPI_METHOD           7618
-#define IDS_ARS_DUMMY_CHANNELS          7619
-#define IDS_AG_DEFAULT                  33000
+#define IDS_ARS_WASAPI_MODE             57600
+#define IDS_ARS_EXCLUSIVE               57601
+#define IDS_ARS_SHARED                  57602
+#define IDS_ARS_BITEXACT_OUTPUT         57603
+#define IDS_ARS_SYSTEM_LAYOUT_CHANNELS  57604
+#define IDS_ARS_SOUND_DEVICE            57605
+#define IDS_ARS_RELEASE_DEVICE_IDLE     57606
+#define IDS_ARS_CROSSFEED               57607
+#define IDS_ARS_DEVICE_PERIOD           57608
+#define IDS_ARS_CHECK_FORMAT            57609
+#define IDS_ARS_STATUS                  57610
+#define IDS_ARS_DEVICE                  57611
+#define IDS_ARS_MODE                    57612
+#define IDS_ARS_INPUT                   57613
+#define IDS_ARS_OUTPUT                  57614
+#define IDS_ARS_FORMAT                  57615
+#define IDS_ARS_SAMPLERATE              57616
+#define IDS_ARS_CHANNELS                57617
+#define IDS_ARS_WASAPI_METHOD           57618
+#define IDS_ARS_DUMMY_CHANNELS          57619
+#define IDS_AG_DEFAULT                  57572
 
 // Next default values for new objects
 //

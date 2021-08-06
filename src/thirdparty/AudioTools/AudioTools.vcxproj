@@ -41,8 +41,18 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)include;..\ExtLib;..\ExtLib\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)include;$(SolutionDir)src\thirdparty\LAVFilters\src;$(SolutionDir)src\thirdparty\LAVFilters\src\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\LAVFilters\src\bin_$(PlatformName)d\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\LAVFilters\src\bin_$(PlatformName)\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -62,8 +72,8 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExtLib\soxr\soxr.vcxproj">
-      <Project>{88240767-4b7a-49e9-9e83-2f9e283d4f26}</Project>
+    <ProjectReference Include="..\soxr\soxr.vcxproj">
+      <Project>{7cbde5a1-9cbb-4139-93f5-09d8dba4427f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

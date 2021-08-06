@@ -23,7 +23,19 @@
 #include "stdafx_common_cfg.h"
 #include "stdafx_common.h"
 #include <afxwin.h>                         // MFC core and standard components
+
+ // Workaround compilation errors when including GDI+ with NOMINMAX defined
+#include <algorithm>
+namespace Gdiplus {
+    using std::min;
+    using std::max;
+};
+
+#include <afxbutton.h>
+
 #include "stdafx_common_dshow.h"
+#include <afxdlgs.h>
+
 
 #include <algorithm>
 #include <vector>

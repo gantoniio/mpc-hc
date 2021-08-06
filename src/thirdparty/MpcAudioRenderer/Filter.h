@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SampleFormat.h"
-#include "../../../DSUtil/Packet.h"
+#include "../../DSUtil/Packet.h"
 
 struct AVFilterGraph;
 struct AVFilterContext;

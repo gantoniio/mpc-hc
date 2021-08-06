@@ -95,7 +95,7 @@ configure() {
     --enable-avisynth               \
     --disable-avdevice              \
     --disable-postproc              \
-    --disable-swresample            \
+    --enable-swresample             \
     --disable-encoders              \
     --disable-devices               \
     --disable-programs              \

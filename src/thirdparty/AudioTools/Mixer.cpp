@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 #include "AudioHelper.h"
-#include "../DSUtil/Utils.h"
+#include "../../DSUtil/Utils.h"
 #include "Mixer.h"
 
 #pragma warning(push)

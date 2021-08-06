@@ -20,36 +20,45 @@
 
 #pragma once
 
-#include "../../filters/InternalPropertyPage.h"
+#include "../mpc-hc/CMPCThemeInternalPropertyPageWnd.h"
 #include "AudioDevice.h"
 #include "IMpcAudioRenderer.h"
 #include "resource.h"
+#include "../mpc-hc/DpiHelper.h"
+#include "../mpc-hc/CMPCThemeButton.h"
+#include "../mpc-hc/CMPCThemeRadioOrCheck.h"
+#include "../mpc-hc/CMPCThemeStatic.h"
+#include "../mpc-hc/CMPCThemeComboBox.h"
+#include "../mpc-hc/CMPCThemeGroupBox.h"
+#include "../mpc-hc/CMPCThemeEdit.h"
 
 class __declspec(uuid("1E53BA32-3BCC-4dff-9342-34E46BE3F5A5"))
-	CMpcAudioRendererSettingsWnd : public CInternalPropertyPageWnd
+	CMpcAudioRendererSettingsWnd : public CMPCThemeInternalPropertyPageWnd
 {
 private :
 	CComQIPtr<IMpcAudioRendererFilter> m_pMAR;
 
+    DpiHelper m_dpi;
+
 	AudioDevices::deviceList_t m_deviceList;
 
-	CButton		m_output_group;
-	CStatic		m_txtWasapiMode;
-	CComboBox	m_cbWasapiMode;
-	CStatic		m_txtWasapiMethod;
-	CComboBox	m_cbWasapiMethod;
-	CStatic		m_txtDevicePeriod;
-	CComboBox	m_cbDevicePeriod;
+	CMPCThemeGroupBox	m_output_group;
+	CMPCThemeStatic		m_txtWasapiMode;
+	CMPCThemeComboBox	m_cbWasapiMode;
+	CMPCThemeStatic		m_txtWasapiMethod;
+	CMPCThemeComboBox	m_cbWasapiMethod;
+	CMPCThemeStatic		m_txtDevicePeriod;
+	CMPCThemeComboBox	m_cbDevicePeriod;
 
-	CButton		m_cbUseBitExactOutput;
-	CButton		m_cbUseSystemLayoutChannels;
-	CButton		m_cbCheckFormat;
-	CButton		m_cbReleaseDeviceIdle;
-	CButton		m_cbUseCrossFeed;
-	CButton		m_cbDummyChannels;
+	CMPCThemeRadioOrCheck		m_cbUseBitExactOutput;
+    CMPCThemeRadioOrCheck		m_cbUseSystemLayoutChannels;
+	CMPCThemeRadioOrCheck       m_cbCheckFormat;
+    CMPCThemeRadioOrCheck		m_cbReleaseDeviceIdle;
+    CMPCThemeRadioOrCheck		m_cbUseCrossFeed;
+	CMPCThemeRadioOrCheck		m_cbDummyChannels;
 
-	CStatic		m_txtSoundDevice;
-	CComboBox	m_cbSoundDevice;
+	CMPCThemeStatic		m_txtSoundDevice;
+	CMPCThemeComboBox	m_cbSoundDevice;
 
 	enum {
 		IDC_PP_SOUND_DEVICE = 10000,
@@ -84,31 +93,31 @@ public:
 
 
 class __declspec(uuid("E3D0704B-1579-4E9E-8674-2674CB90D07A"))
-	CMpcAudioRendererStatusWnd : public CInternalPropertyPageWnd
+	CMpcAudioRendererStatusWnd : public CMPCThemeInternalPropertyPageWnd
 {
 private :
 	CComQIPtr<IMpcAudioRendererFilter> m_pMAR;
 
-	CStatic		m_txtDevice;
-	CEdit		m_edtDevice;
-	CStatic		m_txtMode;
-	CEdit		m_edtMode;
+	CMPCThemeStatic		m_txtDevice;
+	CMPCThemeEdit		m_edtDevice;
+	CMPCThemeStatic		m_txtMode;
+	CMPCThemeEdit		m_edtMode;
 
-	CButton		m_grpInput;
-	CStatic		m_InputFormatLabel;
-	CStatic		m_InputFormatText;
-	CStatic		m_InputChannelLabel;
-	CStatic		m_InputChannelText;
-	CStatic		m_InputRateLabel;
-	CStatic		m_InputRateText;
+    CMPCThemeGroupBox	m_grpInput;
+	CMPCThemeStatic		m_InputFormatLabel;
+	CMPCThemeStatic		m_InputFormatText;
+	CMPCThemeStatic		m_InputChannelLabel;
+	CMPCThemeStatic		m_InputChannelText;
+	CMPCThemeStatic		m_InputRateLabel;
+	CMPCThemeStatic		m_InputRateText;
 
-	CButton		m_grpOutput;
-	CStatic		m_OutputFormatLabel;
-	CStatic		m_OutputFormatText;
-	CStatic		m_OutputChannelLabel;
-	CStatic		m_OutputChannelText;
-	CStatic		m_OutputRateLabel;
-	CStatic		m_OutputRateText;
+    CMPCThemeGroupBox	m_grpOutput;
+	CMPCThemeStatic		m_OutputFormatLabel;
+	CMPCThemeStatic		m_OutputFormatText;
+	CMPCThemeStatic		m_OutputChannelLabel;
+	CMPCThemeStatic		m_OutputChannelText;
+	CMPCThemeStatic		m_OutputRateLabel;
+	CMPCThemeStatic		m_OutputRateText;
 
 	void UpdateStatus();
 

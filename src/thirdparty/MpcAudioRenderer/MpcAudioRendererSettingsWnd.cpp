@@ -23,9 +23,9 @@
 #include <FunctionDiscoveryKeys_devpkey.h>
 #include <ks.h>
 #include <ksmedia.h>
+#include "../../DSUtil/DSUtil.h"
 #include "MpcAudioRendererSettingsWnd.h"
-#include "../../../DSUtil/DSUtil.h"
-#include "../../../DSUtil/AudioParser.h"
+#include "../../DSUtil/AudioParser.h"
 
 //
 // CMpcAudioRendererSettingsWnd
@@ -60,43 +60,44 @@ void CMpcAudioRendererSettingsWnd::OnDisconnect()
 
 bool CMpcAudioRendererSettingsWnd::OnActivate()
 {
-	const int h20 = ScaleY(20);
-	const int h25 = ScaleY(25);
-	const int h35 = ScaleY(35);
+    m_dpi.Override(GetSafeHwnd());
+	const int h20 = m_dpi.ScaleY(20);
+	const int h25 = m_dpi.ScaleY(25);
+	const int h35 = m_dpi.ScaleY(35);
 	CPoint p(10, 10);
 
-	m_txtSoundDevice.Create(ResStr(IDS_ARS_SOUND_DEVICE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(ScaleX(320), m_fontheight)), this, (UINT)IDC_STATIC);
+	m_txtSoundDevice.Create(ResStr(IDS_ARS_SOUND_DEVICE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, (UINT)IDC_STATIC);
 	p.y += h20;
-	m_cbSoundDevice.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(ScaleX(320), 200)), this, IDC_PP_SOUND_DEVICE);
+	m_cbSoundDevice.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(m_dpi.ScaleX(320), 200)), this, IDC_PP_SOUND_DEVICE);
 	p.y += h35;
 
-	m_txtWasapiMode.Create(ResStr(IDS_ARS_WASAPI_MODE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
-	m_cbWasapiMode.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(ScaleX(200), -4), CSize(ScaleX(120), 200)), this, IDC_PP_WASAPI_MODE);
+	m_txtWasapiMode.Create(ResStr(IDS_ARS_WASAPI_MODE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
+	m_cbWasapiMode.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_MODE);
 	m_cbWasapiMode.AddString(ResStr(IDS_ARS_SHARED));
 	m_cbWasapiMode.AddString(ResStr(IDS_ARS_EXCLUSIVE));
 	p.y += h25;
-	m_txtWasapiMethod.Create(ResStr(IDS_ARS_WASAPI_METHOD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
-	m_cbWasapiMethod.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(ScaleX(200), -4), CSize(ScaleX(120), 200)), this, IDC_PP_WASAPI_METHOD);
+	m_txtWasapiMethod.Create(ResStr(IDS_ARS_WASAPI_METHOD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
+	m_cbWasapiMethod.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_METHOD);
 	m_cbWasapiMethod.AddString(L"Event");
 	m_cbWasapiMethod.AddString(L"Push");
 	p.y += h25;
-	m_txtDevicePeriod.Create(ResStr(IDS_ARS_DEVICE_PERIOD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
-	m_cbDevicePeriod.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(ScaleX(200), -4), CSize(ScaleX(120), 200)), this, IDC_PP_WASAPI_DEVICE_PERIOD);
+	m_txtDevicePeriod.Create(ResStr(IDS_ARS_DEVICE_PERIOD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
+	m_cbDevicePeriod.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_DEVICE_PERIOD);
 	AddStringData(m_cbDevicePeriod, ResStr(IDS_AG_DEFAULT), 0);
 	AddStringData(m_cbDevicePeriod, L"50 ms", 50);
 	AddStringData(m_cbDevicePeriod, L"100 ms", 100);
 	p.y += h25;
-	m_cbUseBitExactOutput.Create(ResStr(IDS_ARS_BITEXACT_OUTPUT), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(ScaleX(320), m_fontheight)), this, IDC_PP_USE_BITEXACT_OUTPUT);
+	m_cbUseBitExactOutput.Create(ResStr(IDS_ARS_BITEXACT_OUTPUT), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_BITEXACT_OUTPUT);
 	p.y += h20;
-	m_cbUseSystemLayoutChannels.Create(ResStr(IDS_ARS_SYSTEM_LAYOUT_CHANNELS), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(ScaleX(320), m_fontheight)), this, IDC_PP_USE_SYSTEM_LAYOUT_CHANNELS);
+	m_cbUseSystemLayoutChannels.Create(ResStr(IDS_ARS_SYSTEM_LAYOUT_CHANNELS), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_SYSTEM_LAYOUT_CHANNELS);
 	p.y += h20;
-	m_cbCheckFormat.Create(ResStr(IDS_ARS_CHECK_FORMAT), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(ScaleX(320), m_fontheight)), this, IDC_PP_CHECK_FORMAT);
+	m_cbCheckFormat.Create(ResStr(IDS_ARS_CHECK_FORMAT), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_CHECK_FORMAT);
 	p.y += h20;
-	m_cbReleaseDeviceIdle.Create(ResStr(IDS_ARS_RELEASE_DEVICE_IDLE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(ScaleX(320), m_fontheight)), this, IDC_PP_FREE_DEVICE_INACTIVE);
+	m_cbReleaseDeviceIdle.Create(ResStr(IDS_ARS_RELEASE_DEVICE_IDLE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_FREE_DEVICE_INACTIVE);
 	p.y += h20;
-	m_cbUseCrossFeed.Create(ResStr(IDS_ARS_CROSSFEED), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(ScaleX(320), m_fontheight)), this, IDC_PP_USE_CROSSFEED);
+	m_cbUseCrossFeed.Create(ResStr(IDS_ARS_CROSSFEED), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_CROSSFEED);
 	p.y += h20;
-	m_cbDummyChannels.Create(ResStr(IDS_ARS_DUMMY_CHANNELS), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(ScaleX(320), m_fontheight)), this, IDC_PP_DUMMY_CHANNELS);
+	m_cbDummyChannels.Create(ResStr(IDS_ARS_DUMMY_CHANNELS), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_DUMMY_CHANNELS);
 
 	AudioDevices::GetActiveAudioDevices(nullptr, &m_deviceList, nullptr, TRUE);
 	for (const auto& device : m_deviceList) {
@@ -181,7 +182,7 @@ bool CMpcAudioRendererSettingsWnd::OnApply()
 	return true;
 }
 
-BEGIN_MESSAGE_MAP(CMpcAudioRendererSettingsWnd, CInternalPropertyPageWnd)
+BEGIN_MESSAGE_MAP(CMpcAudioRendererSettingsWnd, CMPCThemeInternalPropertyPageWnd)
 	ON_CBN_SELCHANGE(IDC_PP_WASAPI_MODE, OnClickedWasapiMode)
 	ON_BN_CLICKED(IDC_PP_USE_BITEXACT_OUTPUT, OnClickedBitExact)
 END_MESSAGE_MAP()
@@ -208,7 +209,7 @@ void CMpcAudioRendererSettingsWnd::OnClickedBitExact()
 
 void CMpcAudioRendererStatusWnd::UpdateStatus()
 {
-	DLog(L"CMpcAudioRendererStatusWnd: UpdateStatus");
+	TRACE(L"CMpcAudioRendererStatusWnd: UpdateStatus");
 
 	if (m_pMAR) {
 		m_edtDevice.SetWindowTextW(m_pMAR->GetCurrentDeviceName());
@@ -416,7 +417,7 @@ bool CMpcAudioRendererStatusWnd::OnActivate()
 
 	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
-	}
+    }
 
 	UpdateStatus();
 
@@ -431,5 +432,5 @@ void CMpcAudioRendererStatusWnd::OnDeactivate()
 	m_edtMode.SetSel(-1);
 }
 
-BEGIN_MESSAGE_MAP(CMpcAudioRendererStatusWnd, CInternalPropertyPageWnd)
+BEGIN_MESSAGE_MAP(CMpcAudioRendererStatusWnd, CMPCThemeInternalPropertyPageWnd)
 END_MESSAGE_MAP()

@@ -21,9 +21,9 @@
 #include "stdafx.h"
 #include <MMReg.h>
 #include "Filter.h"
-#include "../../../DSUtil/DSUtil.h"
-#include "../../../DSUtil/AudioParser.h"
-#include "../../../DSUtil/ffmpeg_log.h"
+#include "../../DSUtil/DSUtil.h"
+#include "../../DSUtil/AudioParser.h"
+#include "../../DSUtil/ffmpeg_log.h"
 #include "AudioHelper.h"
 
 extern "C"
