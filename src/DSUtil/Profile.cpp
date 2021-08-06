@@ -1,14 +1,14 @@
 /*
  * (C) 2018-2021 see Authors.txt
  *
- * This file is part of MPC-BE.
+ * This file is part of MPC-HC.
  *
- * MPC-BE is free software; you can redistribute it and/or modify
+ * MPC-HC is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * MPC-BE is distributed in the hope that it will be useful,
+ * MPC-HC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -45,7 +45,7 @@ LONG CProfile::OpenRegistryKey()
 
 	if (!m_hAppRegKey) {
 		DWORD dwDisposition = 0;
-		lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-BE", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
+		lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-HC", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
 		DLogIf(lResult != ERROR_SUCCESS, L"OpenRegistryKey(): ERROR! The opening of the registry key failed.");
 	}
 
@@ -60,7 +60,7 @@ void CProfile::InitIni()
 		return;
 	}
 
-	// Don't reread mpc-be.ini if the cache needs to be flushed or it was accessed recently
+	// Don't reread mpc-hc.ini if the cache needs to be flushed or it was accessed recently
 	const DWORD tick = GetTickCount();
 	if (m_bIniFirstInit && (m_bIniNeedFlush || tick - m_dwIniLastAccessTick < 100)) {
 		m_dwIniLastAccessTick = tick;
@@ -76,7 +76,7 @@ void CProfile::InitIni()
 
 	FILE* fp;
 	int fpStatus;
-	do { // Open mpc-be.ini in UNICODE mode, retry if it is already being used by another process
+	do { // Open mpc-hc.ini in UNICODE mode, retry if it is already being used by another process
 		fp = _wfsopen(m_IniPath, L"r, ccs=UNICODE", _SH_SECURE);
 		if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
 			break;
@@ -88,10 +88,10 @@ void CProfile::InitIni()
 		return;
 	}
 	if (_ftell_nolock(fp) == 0L) {
-		// No BOM was consumed, assume mpc-be.ini is ANSI encoded
+		// No BOM was consumed, assume mpc-hc.ini is ANSI encoded
 		fpStatus = fclose(fp);
 		ASSERT(fpStatus == 0);
-		do { // Reopen mpc-be.ini in ANSI mode, retry if it is already being used by another process
+		do { // Reopen mpc-hc.ini in ANSI mode, retry if it is already being used by another process
 			fp = _wfsopen(m_IniPath, L"r", _SH_SECURE);
 			if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
 				break;
@@ -111,7 +111,7 @@ void CProfile::InitIni()
 
 	CStringW line, section, var, val;
 	while (file.ReadString(line)) {
-		// Parse mpc-be.ini file, this parser:
+		// Parse mpc-hc.ini file, this parser:
 		//  - doesn't trim whitespaces
 		//  - doesn't remove quotation marks
 		//  - omits keys with empty names
@@ -161,7 +161,7 @@ bool CProfile::StoreSettingsToRegistry()
 		InitIni();
 		if (_wremove(m_IniPath) == 0) {
 			DWORD dwDisposition = 0;
-			LONG lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-BE_TEST", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
+			LONG lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-HC_TEST", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
 			if (lResult == ERROR_SUCCESS) {
 				return true;
 			}
@@ -938,7 +938,7 @@ void CProfile::Flush(bool bForce)
 
 	FILE* fp;
 	int fpStatus;
-	do { // Open mpc-be.ini, retry if it is already being used by another process
+	do { // Open mpc-hc.ini, retry if it is already being used by another process
 		fp = _wfsopen(m_IniPath, L"w, ccs=UTF-8", _SH_SECURE);
 		if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
 			break;
@@ -952,7 +952,7 @@ void CProfile::Flush(bool bForce)
 	CStdioFile file(fp);
 	CStringW line;
 	try {
-		file.WriteString(L"; MPC-BE\n");
+		file.WriteString(L"; MPC-HC\n");
 		for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
 			line.Format(L"[%s]\n", it1->first);
 			file.WriteString(line);

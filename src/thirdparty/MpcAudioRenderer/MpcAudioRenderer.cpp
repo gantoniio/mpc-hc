@@ -1,14 +1,14 @@
 /*
  * (C) 2009-2021 see Authors.txt
  *
- * This file is part of MPC-BE.
+ * This file is part of MPC-HC.
  *
- * MPC-BE is free software; you can redistribute it and/or modify
+ * MPC-HC is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * MPC-BE is distributed in the hope that it will be useful,
+ * MPC-HC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -33,7 +33,7 @@
 #include <mmdeviceapi.h>
 
 // option names
-#define OPT_REGKEY_AudRend          L"Software\\MPC-BE Filters\\MPC Audio Renderer"
+#define OPT_REGKEY_AudRend          L"Software\\MPC-HC Filters\\MPC Audio Renderer"
 #define OPT_SECTION_AudRend         L"Filters\\MPC Audio Renderer"
 #define OPT_DeviceMode              L"DeviceMode"
 #define OPT_WasapiMethod            L"WasapiMethod"
