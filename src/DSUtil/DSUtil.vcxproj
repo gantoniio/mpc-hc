@@ -58,12 +58,15 @@
     <ClCompile Include="ISOLang.cpp" />
     <ClCompile Include="MediaTypeEx.cpp" />
     <ClCompile Include="MediaTypes.cpp" />
+    <ClCompile Include="MFCHelper.cpp" />
     <ClCompile Include="NullRenderers.cpp" />
     <ClCompile Include="PathUtils.cpp" />
+    <ClCompile Include="Profile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="text.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="vd.cpp" />
     <ClCompile Include="vd_asm.cpp">
       <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
@@ -83,10 +86,12 @@
     <ClInclude Include="ISOLang.h" />
     <ClInclude Include="MediaTypeEx.h" />
     <ClInclude Include="MediaTypes.h" />
+    <ClInclude Include="MFCHelper.h" />
     <ClInclude Include="MhookHelper.h" />
     <ClInclude Include="Mpeg2Def.h" />
     <ClInclude Include="NullRenderers.h" />
     <ClInclude Include="PathUtils.h" />
+    <ClInclude Include="Profile.h" />
     <ClInclude Include="SharedInclude.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="text.h" />
