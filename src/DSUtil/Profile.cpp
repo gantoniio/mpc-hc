@@ -161,7 +161,7 @@ bool CProfile::StoreSettingsToRegistry()
 		InitIni();
 		if (_wremove(m_IniPath) == 0) {
 			DWORD dwDisposition = 0;
-			LONG lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-HC_TEST", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
+			LONG lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-HC", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
 			if (lResult == ERROR_SUCCESS) {
 				return true;
 			}
