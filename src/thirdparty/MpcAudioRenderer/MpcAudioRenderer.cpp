@@ -266,18 +266,19 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 		}
 	}
 #else
-	CProfile& profile = AfxGetProfile();
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_DeviceMode, *(int*)&m_DeviceMode);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_WasapiMethod, *(int*)&m_WasapiMethod);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_BufferDuration, m_BufferDuration);
-	profile.ReadString(OPT_SECTION_AudRend, OPT_AudioDeviceId, m_DeviceId);
-	profile.ReadString(OPT_SECTION_AudRend, OPT_AudioDeviceName, m_DeviceName);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_UseBitExactOutput, m_bUseBitExactOutput);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_UseSystemLayoutChannels, m_bUseSystemLayoutChannels);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_CheckFormat, m_bCheckFormat);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_ReleaseDeviceIdle, m_bReleaseDeviceIdle);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_UseCrossFeed, m_bUseCrossFeed);
-	profile.ReadInt(OPT_SECTION_AudRend, OPT_DummyChannels, m_bDummyChannels);
+    CWinApp* pApp = AfxGetApp();
+    m_DeviceMode = (DEVICE_MODE)pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_DeviceMode, (int)m_DeviceMode);
+    m_WasapiMethod = (WASAPI_METHOD)pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_WasapiMethod, (int)m_WasapiMethod);
+    m_BufferDuration = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_BufferDuration, m_BufferDuration);
+    m_DeviceId = pApp->GetProfileString(OPT_SECTION_AudRend, OPT_AudioDeviceId, m_DeviceId);
+    m_DeviceName = pApp->GetProfileString(OPT_SECTION_AudRend, OPT_AudioDeviceName, m_DeviceName);
+    m_bUseBitExactOutput = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_UseBitExactOutput, m_bUseBitExactOutput);
+    m_bUseSystemLayoutChannels = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_UseSystemLayoutChannels, m_bUseSystemLayoutChannels);
+    m_bCheckFormat = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_CheckFormat, m_bCheckFormat);
+    m_bReleaseDeviceIdle = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_ReleaseDeviceIdle, m_bReleaseDeviceIdle);
+    m_bUseCrossFeed = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_UseCrossFeed, m_bUseCrossFeed);
+    m_bDummyChannels = pApp->GetProfileInt(OPT_SECTION_AudRend, OPT_DummyChannels, m_bDummyChannels);
+
 #endif
 
 	if (m_DeviceMode != MODE_WASAPI_EXCLUSIVE) {
@@ -1113,18 +1114,19 @@ STDMETHODIMP CMpcAudioRenderer::Apply()
 		key.SetDWORDValue(OPT_DummyChannels, m_bDummyChannels);
 	}
 #else
-	CProfile& profile = AfxGetProfile();
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_DeviceMode, (int)m_DeviceMode);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_WasapiMethod, (int)m_WasapiMethod);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_BufferDuration, m_BufferDuration);
-	profile.WriteString(OPT_SECTION_AudRend, OPT_AudioDeviceId, m_DeviceId);
-	profile.WriteString(OPT_SECTION_AudRend, OPT_AudioDeviceName, m_DeviceName);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_UseBitExactOutput, m_bUseBitExactOutput);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_UseSystemLayoutChannels, m_bUseSystemLayoutChannels);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_CheckFormat, m_bCheckFormat);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_ReleaseDeviceIdle, m_bReleaseDeviceIdle);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_UseCrossFeed, m_bUseCrossFeed);
-	profile.WriteInt(OPT_SECTION_AudRend, OPT_DummyChannels, m_bDummyChannels);
+    CWinApp* pApp = AfxGetApp();
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_DeviceMode, (int)m_DeviceMode);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_WasapiMethod, (int)m_WasapiMethod);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_BufferDuration, m_BufferDuration);
+    pApp->WriteProfileString(OPT_SECTION_AudRend, OPT_AudioDeviceId, m_DeviceId);
+    pApp->WriteProfileString(OPT_SECTION_AudRend, OPT_AudioDeviceName, m_DeviceName);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_UseBitExactOutput, m_bUseBitExactOutput);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_UseSystemLayoutChannels, m_bUseSystemLayoutChannels);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_CheckFormat, m_bCheckFormat);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_ReleaseDeviceIdle, m_bReleaseDeviceIdle);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_UseCrossFeed, m_bUseCrossFeed);
+    pApp->WriteProfileInt(OPT_SECTION_AudRend, OPT_DummyChannels, m_bDummyChannels);
+
 #endif
 
 	return S_OK;

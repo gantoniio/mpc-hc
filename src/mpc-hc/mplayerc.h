@@ -39,7 +39,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
-#include "../DSUtil/Profile.h"
+#include <afxwinappex.h>
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
@@ -108,7 +108,7 @@ struct COLORPROPERTY_RANGE {
 
 class CAppSettings;
 
-class CMPlayerCApp : public CModApp
+class CMPlayerCApp : public CWinAppEx
 {
     HMODULE m_hNTDLL;
 
