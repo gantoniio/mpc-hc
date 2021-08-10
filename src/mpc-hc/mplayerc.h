@@ -32,6 +32,7 @@
 #include "resource.h"
 
 #include <atlsync.h>
+#include <afxwinappex.h>
 #include <d3d9.h>
 #include <dxva2api.h>
 #include <vmr9.h>
@@ -39,7 +40,6 @@
 #include <map>
 #include <memory>
 #include <mutex>
-#include <afxwinappex.h>
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
