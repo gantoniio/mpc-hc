@@ -42,7 +42,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\filters\renderer\VideoRenderers;$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)include;$(SolutionDir)src\thirdparty\AudioTools;$(SolutionDir)src\thirdparty\LAVFilters\src\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\filters\renderer\VideoRenderers;$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)src\thirdparty\ffmpeg;$(SolutionDir)include;$(SolutionDir)src\thirdparty\AudioTools;$(SolutionDir)src\thirdparty\LAVFilters\src\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalOptions>/ignore:4049 /ignore:4217 %(AdditionalOptions)</AdditionalOptions>
@@ -57,13 +57,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\LAVFilters\src\bin_$(PlatformName)d\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\LAVFilters\src\bin_$(PlatformName)\thirdparty\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -107,8 +107,8 @@
     <ProjectReference Include="..\BaseClasses\BaseClasses.vcxproj">
       <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\LAVFilters\LAVFilters.vcxproj">
-      <Project>{ed257874-e12e-4143-af0a-0676da3bb18c}</Project>
+    <ProjectReference Include="..\ffmpeg\ffmpeg.vcxproj">
+      <Project>{438286b7-a9f4-411d-bcc5-948c40e37d8f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

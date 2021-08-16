@@ -25,3 +25,4 @@
 
 #pragma comment(lib, "libspeex.a")
 #pragma comment(lib, "libdav1d.a")
+#pragma comment(lib, "windowscodecs.lib")

@@ -21,7 +21,7 @@
 #pragma once
 
 #include <BaseClasses/streams.h>
-#define INITGUID //adipose - added to avoid 'unresolved external symbol PKEY_AudioEngine_DeviceFormat'. do not use initguid.h or we will get duplicates in link step
+#include <initguid.h>
 #include <mmdeviceapi.h>
 #include <audioclient.h>
 #include <FunctionDiscoveryKeys_devpkey.h>

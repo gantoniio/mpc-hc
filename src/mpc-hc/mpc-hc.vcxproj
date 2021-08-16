@@ -66,22 +66,12 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin\mpc-hc_x64 Lite\</OutDir>
     <TargetName Condition="'$(Platform)'=='x64'">$(ProjectName)64</TargetName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)bin15\mpc-hc_x86_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">$(SolutionDir)bin15\mpc-hc_x86_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)bin15\mpc-hc_x64_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">$(SolutionDir)bin15\mpc-hc_x64_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin15\mpc-hc_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">$(SolutionDir)bin15\mpc-hc_x86 Lite\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin15\mpc-hc_x64\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin15\mpc-hc_x64 Lite\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;strmiids.lib;Uuid.Lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\DSUtil;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\AudioTools;..\thirdparty\MediaInfo\library\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -93,34 +83,28 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>avcodec-lav.lib;avresample-lav.lib;avutil-lav.lib;avfilter-lav.lib;swresample-lav.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex-stripped.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)src\thirdparty\LAVFilters\src\thirdparty\64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>strmiids.lib;Uuid.Lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)src\thirdparty\LAVFilters\src\thirdparty\64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)src\thirdparty\LAVFilters\src\thirdparty\32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QTMLClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Release'))">
     <Link>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'!='140'">$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='140'">$(SolutionDir)bin15\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)src\thirdparty\LAVFilters\src\bin_$(PlatformName)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;vcruntime.lib;ucrt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Debug'))">
     <Link>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'!='140'">$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='140'">$(SolutionDir)bin15\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)src\thirdparty\LAVFilters\src\bin_$(PlatformName)d\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Lite'))">
@@ -703,8 +687,8 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\LAVFilters\LAVFilters.vcxproj">
-      <Project>{ed257874-e12e-4143-af0a-0676da3bb18c}</Project>
+    <ProjectReference Include="..\thirdparty\ffmpeg\ffmpeg.vcxproj">
+      <Project>{438286b7-a9f4-411d-bcc5-948c40e37d8f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\lcms2\lcms2.vcxproj">
       <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>

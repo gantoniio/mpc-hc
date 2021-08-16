@@ -88,10 +88,6 @@ STDAPI DllUnregisterServer()
 
 CFilterApp theApp;
 
-#else
-
-#include "../../DSUtil/Profile.h"
-
 #endif
 
 struct channel_layout_t {

@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)include;$(SolutionDir)src\thirdparty\LAVFilters\src;$(SolutionDir)src\thirdparty\LAVFilters\src\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)include;$(SolutionDir)src\thirdparty\LAVFilters\src;$(SolutionDir)src\thirdparty;$(SolutionDir)src\thirdparty\ffmpeg;$(SolutionDir)src\thirdparty\LAVFilters\src\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
