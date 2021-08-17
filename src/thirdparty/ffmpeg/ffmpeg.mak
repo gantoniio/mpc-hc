@@ -87,526 +87,60 @@ SRCS_CF = $(MAK_DIR)config.c
 
 SRCS_LC = \
 	\
-	libavcodec/8bps.c \
-	libavcodec/aac_ac3_parser.c \
-	libavcodec/aac_adtstoasc_bsf.c \
-	libavcodec/aac_parser.c \
-	libavcodec/aacdec.c \
-	libavcodec/aacps.c \
-	libavcodec/aacps_common.c \
-	libavcodec/aacps_float.c \
-	libavcodec/aacpsdsp_float.c \
-	libavcodec/aacsbr.c \
-	libavcodec/aactab.c \
-	libavcodec/aasc.c \
-	libavcodec/ac3.c \
 	libavcodec/ac3_parser.c \
-	libavcodec/ac3dec.c \
-	libavcodec/ac3dec_data.c \
-	libavcodec/ac3dec_float.c \
-	libavcodec/ac3dsp.c \
-	libavcodec/ac3enc.c \
-	libavcodec/ac3enc_float.c \
-	libavcodec/ac3tab.c \
-	libavcodec/acelp_filters.c \
-	libavcodec/acelp_pitch_delay.c \
-	libavcodec/acelp_vectors.c \
-	libavcodec/adpcm.c \
-	libavcodec/aic.c \
-	libavcodec/adpcm_data.c \
-	libavcodec/adts_header.c \
 	libavcodec/adts_parser.c \
-	libavcodec/adx.c \
-	libavcodec/adx_parser.c \
-	libavcodec/adxdec.c \
-	libavcodec/agm.c \
-	libavcodec/alac.c \
-	libavcodec/alac_data.c \
-	libavcodec/alacdsp.c \
-	libavcodec/aliaspixdec.c \
 	libavcodec/allcodecs.c \
-	libavcodec/alsdec.c \
-	libavcodec/amrnbdec.c \
-	libavcodec/amrwbdec.c \
-	libavcodec/anm.c \
-	libavcodec/ansi.c \
-	libavcodec/apedec.c \
-	libavcodec/atrac.c \
-	libavcodec/atrac3.c \
-	libavcodec/atrac3plus.c \
-	libavcodec/atrac3plusdec.c \
-	libavcodec/atrac3plusdsp.c \
-	libavcodec/atsc_a53.c \
-	libavcodec/audiodsp.c \
-	libavcodec/av1_parse.c \
-	libavcodec/av1_parser.c \
-	libavcodec/av1dec.c \
 	libavcodec/avcodec.c \
 	libavcodec/avdct.c \
 	libavcodec/avfft.c \
 	libavcodec/avpacket.c \
 	libavcodec/avpicture.c \
-	libavcodec/bgmc.c \
-	libavcodec/bink.c \
-	libavcodec/binkaudio.c \
-	libavcodec/binkdsp.c \
 	libavcodec/bitstream.c \
+	libavcodec/bitstream_filter.c \
 	libavcodec/bitstream_filters.c \
-	libavcodec/blockdsp.c \
 	libavcodec/bsf.c \
-	libavcodec/bswapdsp.c \
-	libavcodec/cabac.c \
-	libavcodec/canopus.c \
-	libavcodec/cbrt_data.c \
-	libavcodec/cbs.c \
-	libavcodec/cbs_av1.c \
-	libavcodec/celp_filters.c \
-	libavcodec/celp_math.c \
-	libavcodec/cfhd.c \
-	libavcodec/cfhddata.c \
-	libavcodec/cfhddsp.c \
-	libavcodec/chomp_bsf.c \
-	libavcodec/cinepak.c \
-	libavcodec/cllc.c \
 	libavcodec/codec_desc.c \
 	libavcodec/codec_par.c \
-	libavcodec/cook.c \
-	libavcodec/cscd.c \
 	libavcodec/d3d11va.c \
-	libavcodec/dca.c \
-	libavcodec/dca_core.c \
-	libavcodec/dca_core_bsf.c \
-	libavcodec/dca_exss.c \
-	libavcodec/dca_lbr.c \
-	libavcodec/dca_parser.c \
-	libavcodec/dca_xll.c \
-	libavcodec/dcaadpcm.c \
-	libavcodec/dcadata.c \
-	libavcodec/dcadct.c \
-	libavcodec/dcadec.c \
-	libavcodec/dcadsp.c \
-	libavcodec/dcahuff.c \
-	libavcodec/dct.c \
-	libavcodec/dct32_fixed.c \
-	libavcodec/dct32_float.c \
 	libavcodec/decode.c \
 	libavcodec/dirac.c \
-	libavcodec/dirac_arith.c \
-	libavcodec/dirac_dwt.c \
-	libavcodec/dirac_vlc.c \
-	libavcodec/diracdec.c \
-	libavcodec/diracdsp.c \
-	libavcodec/diractab.c \
-	libavcodec/dnxhd_parser.c \
-	libavcodec/dnxhddata.c \
-	libavcodec/dnxhddec.c \
-	libavcodec/dsd.c \
-	libavcodec/dsddec.c \
-	libavcodec/dstdec.c \
-	libavcodec/dump_extradata_bsf.c \
-	libavcodec/dv.c \
 	libavcodec/dv_profile.c \
-	libavcodec/dvdata.c \
-	libavcodec/dvdec.c \
-	libavcodec/dxva2.c \
-	libavcodec/dxva2_av1.c \
-	libavcodec/dxva2_h264.c \
-	libavcodec/dxva2_hevc.c \
-	libavcodec/dxva2_mpeg2.c \
-	libavcodec/dxva2_vc1.c \
-	libavcodec/dxva2_vp9.c \
-	libavcodec/dynamic_hdr10_plus.c \
-	libavcodec/eac3_data.c \
-	libavcodec/eac3dec.c \
-	libavcodec/elsdec.c \
 	libavcodec/encode.c \
-	libavcodec/error_resilience.c \
-	libavcodec/exif.c \
-	libavcodec/extract_extradata_bsf.c \
 	libavcodec/faandct.c \
 	libavcodec/faanidct.c \
 	libavcodec/fdctdsp.c \
 	libavcodec/fft_fixed_32.c \
 	libavcodec/fft_float.c \
 	libavcodec/fft_init_table.c \
-	libavcodec/ffv1.c \
-	libavcodec/ffv1dec.c \
-	libavcodec/fic.c \
-	libavcodec/flac.c \
-	libavcodec/flacdata.c \
-	libavcodec/flacdec.c \
-	libavcodec/flacdsp.c \
-	libavcodec/flashsv.c \
-	libavcodec/flvdec.c \
-	libavcodec/fmtconvert.c \
-	libavcodec/frame_thread_encoder.c \
-	libavcodec/fraps.c \
-	libavcodec/g2meet.c \
-	libavcodec/golomb.c \
-	libavcodec/h263.c \
-	libavcodec/h263_parser.c \
-	libavcodec/h263data.c \
-	libavcodec/h263dec.c \
-	libavcodec/h263dsp.c \
-	libavcodec/h264_cabac.c \
-	libavcodec/h264_cavlc.c \
-	libavcodec/h264_direct.c \
-	libavcodec/h264_loopfilter.c \
-	libavcodec/h264_mb.c \
-	libavcodec/h264_mp4toannexb_bsf.c \
-	libavcodec/h264_parse.c \
-	libavcodec/h264_parser.c \
-	libavcodec/h264_picture.c \
-	libavcodec/h264_ps.c \
-	libavcodec/h264_refs.c \
-	libavcodec/h264_sei.c \
-	libavcodec/h264_slice.c \
-	libavcodec/h264dec.c \
-	libavcodec/h264chroma.c \
-	libavcodec/h264data.c \
-	libavcodec/h264dsp.c \
-	libavcodec/h264idct.c \
-	libavcodec/h264pred.c \
-	libavcodec/h264qpel.c \
-	libavcodec/h2645_parse.c \
-	libavcodec/hap.c \
-	libavcodec/hapdec.c \
-	libavcodec/hevc_cabac.c \
-	libavcodec/hevc_data.c \
-	libavcodec/hevc_filter.c \
-	libavcodec/hevc_mp4toannexb_bsf.c \
-	libavcodec/hevc_mvs.c \
-	libavcodec/hevc_parse.c \
-	libavcodec/hevc_parser.c \
-	libavcodec/hevc_ps.c \
-	libavcodec/hevc_refs.c \
-	libavcodec/hevc_sei.c \
-	libavcodec/hevcdec.c \
-	libavcodec/hevcdsp.c \
-	libavcodec/hevcpred.c \
-	libavcodec/hpeldsp.c \
-	libavcodec/hq_hqa.c \
-	libavcodec/hq_hqadata.c \
-	libavcodec/hq_hqadsp.c \
-	libavcodec/hqx.c \
-	libavcodec/hqxdsp.c \
-	libavcodec/hqxvlc.c \
-	libavcodec/huffman.c \
-	libavcodec/huffyuv.c \
-	libavcodec/huffyuvdec.c \
-	libavcodec/huffyuvdsp.c \
+	libavcodec/file_open.c \
 	libavcodec/idctdsp.c \
-	libavcodec/imc.c \
 	libavcodec/imgconvert.c \
-	libavcodec/imx_dump_header_bsf.c \
-	libavcodec/indeo3.c \
-	libavcodec/indeo4.c \
-	libavcodec/indeo5.c \
-	libavcodec/intelh263dec.c \
-	libavcodec/intrax8.c \
-	libavcodec/intrax8dsp.c \
-	libavcodec/ituh263dec.c \
-	libavcodec/ivi.c \
-	libavcodec/ivi_dsp.c \
-	libavcodec/jpegls.c \
-	libavcodec/jpeglsdec.c \
-	libavcodec/jpegtables.c \
+	libavcodec/jfdctfst.c \
+	libavcodec/jfdctint.c \
+	libavcodec/jni.c \
 	libavcodec/jrevdct.c \
-	libavcodec/kbdwin.c \
-	libavcodec/lagarith.c \
-	libavcodec/lagarithrac.c \
-	libavcodec/latm_parser.c \
-	libavcodec/libdav1d.c \
-	libavcodec/libspeexdec.c \
-	libavcodec/lossless_audiodsp.c \
-	libavcodec/lossless_videodsp.c \
-	libavcodec/lsp.c \
-	libavcodec/magicyuv.c \
 	libavcodec/mathtables.c \
-	libavcodec/me_cmp.c \
-	libavcodec/mdct_fixed_32.c \
-	libavcodec/mdct_float.c \
-	libavcodec/mdct15.c \
-	libavcodec/metasound.c \
-	libavcodec/metasound_data.c \
-	libavcodec/mjpegdec.c \
-	libavcodec/mjpegdec_common.c \
-	libavcodec/mjpeg_parser.c \
-	libavcodec/mlp.c \
-	libavcodec/mlp_parse.c \
-	libavcodec/mlp_parser.c \
-	libavcodec/mlpdec.c \
-	libavcodec/mlpdsp.c \
-	libavcodec/mlz.c \
-	libavcodec/motion_est.c \
-	libavcodec/movsub_bsf.c \
-	libavcodec/mp3_header_decompress_bsf.c \
-	libavcodec/mpc.c \
-	libavcodec/mpc7.c \
-	libavcodec/mpc8.c \
-	libavcodec/mpeg_er.c \
-	libavcodec/mpeg12.c \
-	libavcodec/mpeg12data.c \
-	libavcodec/mpeg12dec.c \
+	libavcodec/mediacodec.c \
 	libavcodec/mpeg12framerate.c \
-	libavcodec/mpeg4_unpack_bframes_bsf.c \
-	libavcodec/mpeg4audio.c \
-	libavcodec/mpeg4video.c \
-	libavcodec/mpeg4video_parser.c \
-	libavcodec/mpeg4videodec.c \
-	libavcodec/mpegaudio.c \
-	libavcodec/mpegaudio_parser.c \
-	libavcodec/mpegaudiodata.c \
-	libavcodec/mpegaudiodec_common.c \
-	libavcodec/mpegaudiodec_common_tablegen.c \
-	libavcodec/mpegaudiodec_fixed.c \
-	libavcodec/mpegaudiodec_float.c \
-	libavcodec/mpegaudiodecheader.c \
-	libavcodec/mpegaudiodsp.c \
-	libavcodec/mpegaudiodsp_data.c \
-	libavcodec/mpegaudiodsp_fixed.c \
-	libavcodec/mpegaudiodsp_float.c \
-	libavcodec/mpegpicture.c \
-	libavcodec/mpegutils.c \
-	libavcodec/mpegvideo.c \
-	libavcodec/mpegvideo_motion.c \
-	libavcodec/mpegvideo_parser.c \
-	libavcodec/mpegvideodata.c \
-	libavcodec/mpegvideodsp.c \
-	libavcodec/mpegvideoencdsp.c \
-	libavcodec/msmpeg4.c \
-	libavcodec/msmpeg4data.c \
-	libavcodec/msmpeg4dec.c \
-	libavcodec/msrle.c \
-	libavcodec/msrledec.c \
-	libavcodec/mss1.c \
-	libavcodec/mss12.c \
-	libavcodec/mss2.c \
-	libavcodec/mss2dsp.c \
-	libavcodec/mss3.c \
-	libavcodec/mss34dsp.c \
-	libavcodec/mss4.c \
-	libavcodec/msvideo1.c \
-	libavcodec/nellymoser.c \
-	libavcodec/nellymoserdec.c
-
-SRCS_LC_B = \
-	libavcodec/noise_bsf.c \
 	libavcodec/null_bsf.c \
 	libavcodec/options.c \
-	libavcodec/opus.c \
-	libavcodec/opus_celt.c \
-	libavcodec/opus_parser.c \
-	libavcodec/opus_pvq.c \
-	libavcodec/opus_rc.c \
-	libavcodec/opus_silk.c \
-	libavcodec/opusdec.c \
-	libavcodec/opusdsp.c \
-	libavcodec/opustab.c \
 	libavcodec/parser.c \
 	libavcodec/parsers.c \
-	libavcodec/pcm.c \
-	libavcodec/pixblockdsp.c \
-	libavcodec/png.c \
-	libavcodec/pngdec.c \
-	libavcodec/pngdsp.c \
 	libavcodec/profiles.c \
 	libavcodec/pthread.c \
 	libavcodec/pthread_frame.c \
 	libavcodec/pthread_slice.c \
-	libavcodec/qdm2.c \
-	libavcodec/qdmc.c \
-	libavcodec/qpeldsp.c \
-	libavcodec/qtrle.c \
-	libavcodec/proresdata.c \
-	libavcodec/proresdec2.c \
-	libavcodec/proresdsp.c \
-	libavcodec/r210dec.c \
-	libavcodec/ra144.c \
-	libavcodec/ra144dec.c \
-	libavcodec/ra288.c \
-	libavcodec/ralf.c \
-	libavcodec/rangecoder.c \
+	libavcodec/qsv_api.c \
 	libavcodec/raw.c \
-	libavcodec/rawdec.c \
 	libavcodec/rdft.c \
-	libavcodec/remove_extradata_bsf.c \
-	libavcodec/rl.c \
-	libavcodec/rpza.c \
-	libavcodec/rv10.c \
-	libavcodec/rv30.c \
-	libavcodec/rv30dsp.c \
-	libavcodec/rv34.c \
-	libavcodec/rv34dsp.c \
-	libavcodec/rv40.c \
-	libavcodec/rv40dsp.c \
-	libavcodec/s302m.c \
-	libavcodec/sbrdsp.c \
-	libavcodec/shorten.c \
 	libavcodec/simple_idct.c \
-	libavcodec/sinewin.c \
-	libavcodec/sipr.c \
-	libavcodec/sipr16k.c \
-	libavcodec/snappy.c \
-	libavcodec/snow_dwt.c \
-	libavcodec/snow.c \
-	libavcodec/sp5xdec.c \
-	libavcodec/speedhq.c \
-	libavcodec/startcode.c \
-	libavcodec/svq1.c \
-	libavcodec/svq1dec.c \
-	libavcodec/svq3.c \
-	libavcodec/synth_filter.c \
-	libavcodec/tak.c \
-	libavcodec/tak_parser.c \
-	libavcodec/takdec.c \
-	libavcodec/takdsp.c \
-	libavcodec/texturedsp.c \
-	libavcodec/tiff.c \
-	libavcodec/tiff_common.c \
-	libavcodec/tpeldsp.c \
-	libavcodec/truespeech.c \
-	libavcodec/tscc.c \
-	libavcodec/tscc2.c \
-	libavcodec/tta.c \
-	libavcodec/ttadata.c \
-	libavcodec/ttadsp.c \
-	libavcodec/twinvq.c \
-	libavcodec/utvideodec.c \
-	libavcodec/utvideodsp.c \
 	libavcodec/utils.c \
-	libavcodec/v210dec.c \
-	libavcodec/v410dec.c \
-	libavcodec/vc1.c \
-	libavcodec/vc1_block.c \
-	libavcodec/vc1_loopfilter.c \
-	libavcodec/vc1_mc.c \
-	libavcodec/vc1_parser.c \
-	libavcodec/vc1_pred.c \
-	libavcodec/vc1data.c \
-	libavcodec/vc1dec.c \
-	libavcodec/vc1dsp.c \
-	libavcodec/videodsp.c \
-	libavcodec/vmnc.c \
-	libavcodec/vorbis.c \
-	libavcodec/vorbis_data.c \
 	libavcodec/vorbis_parser.c \
-	libavcodec/vorbisdec.c \
-	libavcodec/vorbisdsp.c \
-	libavcodec/vp3.c \
-	libavcodec/vp3_parser.c \
-	libavcodec/vp3dsp.c \
-	libavcodec/vp5.c \
-	libavcodec/vp56.c \
-	libavcodec/vp56data.c \
-	libavcodec/vp56dsp.c \
-	libavcodec/vp56rac.c \
-	libavcodec/vp6.c \
-	libavcodec/vp6dsp.c \
-	libavcodec/vp8.c \
-	libavcodec/vp8_parser.c \
-	libavcodec/vp8dsp.c \
-	libavcodec/vp9.c \
-	libavcodec/vp9_parser.c \
-	libavcodec/vp9_raw_reorder_bsf.c \
-	libavcodec/vp9_superframe_bsf.c \
-	libavcodec/vp9_superframe_split_bsf.c \
-	libavcodec/vp9block.c \
-	libavcodec/vp9data.c \
-	libavcodec/vp9dsp.c \
-	libavcodec/vp9dsp_8bpp.c \
-	libavcodec/vp9dsp_10bpp.c \
-	libavcodec/vp9dsp_12bpp.c \
-	libavcodec/vp9lpf.c \
-	libavcodec/vp9mvs.c \
-	libavcodec/vp9prob.c \
-	libavcodec/vp9recon.c \
-	libavcodec/wavpack.c \
-	libavcodec/wavpackdata.c \
-	libavcodec/wma.c \
-	libavcodec/wma_common.c \
-	libavcodec/wma_freqs.c \
-	libavcodec/wmadec.c \
-	libavcodec/wmalosslessdec.c \
-	libavcodec/wmaprodec.c \
-	libavcodec/wmavoice.c \
-	libavcodec/wmv2.c \
-	libavcodec/wmv2data.c \
-	libavcodec/wmv2dec.c \
-	libavcodec/wmv2dsp.c \
 	libavcodec/xiph.c \
-	libavcodec/xvididct.c \
-	\
-	libavcodec/x86/aacpsdsp_init.c \
-	libavcodec/x86/ac3dsp_init.c \
-	libavcodec/x86/alacdsp_init.c \
-	libavcodec/x86/audiodsp_init.c \
-	libavcodec/x86/blockdsp_init.c \
-	libavcodec/x86/bswapdsp_init.c \
-	libavcodec/x86/cfhddsp_init.c \
 	libavcodec/x86/constants.c \
-	libavcodec/x86/dcadsp_init.c \
-	libavcodec/x86/dct_init.c \
-	libavcodec/x86/dirac_dwt_init.c \
-	libavcodec/x86/diracdsp_init.c \
-	libavcodec/x86/fdct.c \
 	libavcodec/x86/fdctdsp_init.c \
 	libavcodec/x86/fft_init.c \
-	libavcodec/x86/flacdsp_init.c \
-	libavcodec/x86/fmtconvert_init.c \
-	libavcodec/x86/h263dsp_init.c \
-	libavcodec/x86/h264_cabac.c \
-	libavcodec/x86/h264_intrapred_init.c \
-	libavcodec/x86/h264chroma_init.c \
-	libavcodec/x86/h264dsp_init.c \
-	libavcodec/x86/hevc_idct_intrinsic.c \
-	libavcodec/x86/hevc_intra_intrinsic.c \
-	libavcodec/x86/hevcdsp_init.c \
-	libavcodec/x86/h264_qpel.c \
-	libavcodec/x86/hpeldsp_init.c \
-	libavcodec/x86/hpeldsp_vp3_init.c \
-	libavcodec/x86/huffyuvdsp_init.c \
 	libavcodec/x86/idctdsp_init.c \
-	libavcodec/x86/lossless_audiodsp_init.c \
-	libavcodec/x86/lossless_videodsp_init.c \
-	libavcodec/x86/mdct15_init.c \
-	libavcodec/x86/me_cmp_init.c \
-	libavcodec/x86/mlpdsp_init.c \
-	libavcodec/x86/mpegaudiodsp.c \
-	libavcodec/x86/mpegvideo.c \
-	libavcodec/x86/mpegvideodsp.c \
-	libavcodec/x86/mpegvideoencdsp_init.c \
-	libavcodec/x86/opusdsp_init.c \
-	libavcodec/x86/pixblockdsp_init.c \
-	libavcodec/x86/pngdsp_init.c \
-	libavcodec/x86/proresdsp_init.c \
-	libavcodec/x86/qpeldsp_init.c \
-	libavcodec/x86/rv34dsp_init.c \
-	libavcodec/x86/rv40dsp_init.c \
-	libavcodec/x86/sbrdsp_init.c \
-	libavcodec/x86/snowdsp.c \
-	libavcodec/x86/synth_filter_init.c \
-	libavcodec/x86/takdsp_init.c \
-	libavcodec/x86/ttadsp_init.c \
-	libavcodec/x86/utvideodsp_init.c \
-	libavcodec/x86/v210-init.c \
-	libavcodec/x86/vc1dsp_init.c \
-	libavcodec/x86/vc1dsp_mmx.c \
-	libavcodec/x86/videodsp_init.c \
-	libavcodec/x86/vorbisdsp_init.c \
-	libavcodec/x86/vp3dsp_init.c \
-	libavcodec/x86/vp6dsp_init.c \
-	libavcodec/x86/vp8dsp_init.c \
-	libavcodec/x86/vp9dsp_init.c \
-	libavcodec/x86/vp9dsp_init_10bpp.c \
-	libavcodec/x86/vp9dsp_init_12bpp.c \
-	libavcodec/x86/vp9dsp_init_16bpp.c \
-	libavcodec/x86/xvididct_init.c
-
-#sources not in mpc-be build but required by latest ffmpeg
-SRCS_LC_C = \
-	libavcodec/h261.c \
-	libavcodec/av1_frame_merge_bsf.c
 
 SRCS_LF = \
 	libavfilter/af_aresample.c \
@@ -626,28 +160,41 @@ SRCS_LF = \
 	libavfilter/video.c
 
 SRCS_LU = \
+	libavutil/adler32.c \
+	libavutil/aes.c \
+	libavutil/aes_ctr.c \
 	libavutil/audio_fifo.c \
+	libavutil/avsscanf.c \
 	libavutil/avstring.c \
+	libavutil/base64.c \
+	libavutil/blowfish.c \
 	libavutil/bprint.c \
 	libavutil/buffer.c \
+	libavutil/camellia.c \
+	libavutil/cast5.c \
 	libavutil/channel_layout.c \
+	libavutil/color_utils.c \
 	libavutil/cpu.c \
 	libavutil/crc.c \
+	libavutil/des.c \
 	libavutil/dict.c \
 	libavutil/display.c \
+	libavutil/dovi_meta.c \
 	libavutil/downmix_info.c \
+	libavutil/encryption_info.c \
 	libavutil/error.c \
 	libavutil/eval.c \
 	libavutil/fifo.c \
+	libavutil/file.c \
 	libavutil/file_open.c \
 	libavutil/film_grain_params.c \
 	libavutil/fixed_dsp.c \
 	libavutil/float_dsp.c \
 	libavutil/frame.c \
+	libavutil/hash.c \
 	libavutil/hdr_dynamic_metadata.c \
+	libavutil/hmac.c \
 	libavutil/hwcontext.c \
-	libavutil/hwcontext_d3d11va.c \
-	libavutil/hwcontext_dxva2.c \
 	libavutil/imgutils.c \
 	libavutil/integer.c \
 	libavutil/intmath.c \
@@ -655,27 +202,40 @@ SRCS_LU = \
 	libavutil/lls.c \
 	libavutil/log.c \
 	libavutil/log2_tab.c \
-	libavutil/lzo.c \
 	libavutil/mastering_display_metadata.c \
 	libavutil/mathematics.c \
 	libavutil/md5.c \
 	libavutil/mem.c \
+	libavutil/murmur3.c \
 	libavutil/opt.c \
 	libavutil/parseutils.c \
 	libavutil/pixdesc.c \
+	libavutil/pixelutils.c \
 	libavutil/random_seed.c \
 	libavutil/rational.c \
+	libavutil/rc4.c \
 	libavutil/reverse.c \
+	libavutil/ripemd.c \
 	libavutil/samplefmt.c \
 	libavutil/sha.c \
+	libavutil/sha512.c \
 	libavutil/slicethread.c \
+	libavutil/spherical.c \
 	libavutil/stereo3d.c \
+	libavutil/tea.c \
 	libavutil/threadmessage.c \
 	libavutil/time.c \
 	libavutil/timecode.c \
+	libavutil/tree.c \
+	libavutil/twofish.c \
+	libavutil/tx.c \
+	libavutil/tx_double.c \
+	libavutil/tx_float.c \
+	libavutil/tx_int32.c \
 	libavutil/utils.c \
 	libavutil/video_enc_params.c \
-	\
+	libavutil/xga_font_data.c \
+	libavutil/xtea.c \
 	libavutil/x86/cpu.c \
 	libavutil/x86/fixed_dsp_init.c \
 	libavutil/x86/float_dsp_init.c \
@@ -684,121 +244,25 @@ SRCS_LU = \
 
 SRCS_LR = \
 	libswresample/audioconvert.c \
-	libswresample/dither.c\
+	libswresample/dither.c \
 	libswresample/options.c \
 	libswresample/rematrix.c \
 	libswresample/resample.c \
 	libswresample/resample_dsp.c \
-	libswresample/soxr_resample.c \
 	libswresample/swresample.c \
 	libswresample/swresample_frame.c \
-	\
 	libswresample/x86/audio_convert_init.c \
 	libswresample/x86/rematrix_init.c \
 	libswresample/x86/resample_init.c
 
-SRCS_LS = \
-	libswscale/alphablend.c \
-	libswscale/gamma.c \
-	libswscale/hscale.c \
-	libswscale/hscale_fast_bilinear.c \
-	libswscale/input.c \
-	libswscale/options.c \
-	libswscale/output.c \
-	libswscale/rgb2rgb.c \
-	libswscale/slice.c \
-	libswscale/swscale.c \
-	libswscale/swscale_unscaled.c \
-	libswscale/utils.c \
-	libswscale/vscale.c \
-	libswscale/yuv2rgb.c \
-	\
-	libswscale/x86/hscale_fast_bilinear_simd.c \
-	libswscale/x86/rgb2rgb.c \
-	libswscale/x86/swscale.c \
-	libswscale/x86/yuv2rgb.c
-
 # Yasm objects
 SRCS_YASM_LC = \
-	libavcodec/x86/aacpsdsp.asm \
-	libavcodec/x86/ac3dsp.asm \
-	libavcodec/x86/ac3dsp_downmix.asm \
-	libavcodec/x86/alacdsp.asm \
-	libavcodec/x86/audiodsp.asm \
-	libavcodec/x86/blockdsp.asm \
-	libavcodec/x86/bswapdsp.asm \
-	libavcodec/x86/cfhddsp.asm \
-	libavcodec/x86/dcadsp.asm \
-	libavcodec/x86/dct32.asm \
-	libavcodec/x86/dirac_dwt.asm \
-	libavcodec/x86/diracdsp.asm \
-	libavcodec/x86/fft.asm \
-	libavcodec/x86/flacdsp.asm \
-	libavcodec/x86/fmtconvert.asm \
-	libavcodec/x86/fpel.asm \
-	libavcodec/x86/h263_loopfilter.asm \
-	libavcodec/x86/h264_chromamc.asm \
-	libavcodec/x86/h264_chromamc_10bit.asm \
-	libavcodec/x86/h264_deblock.asm \
-	libavcodec/x86/h264_deblock_10bit.asm \
-	libavcodec/x86/h264_idct.asm \
-	libavcodec/x86/h264_idct_10bit.asm \
-	libavcodec/x86/h264_intrapred.asm \
-	libavcodec/x86/h264_intrapred_10bit.asm \
-	libavcodec/x86/h264_qpel_10bit.asm \
-	libavcodec/x86/h264_qpel_8bit.asm \
-	libavcodec/x86/h264_weight.asm \
-	libavcodec/x86/h264_weight_10bit.asm \
-	libavcodec/x86/hevc_add_res.asm \
-	libavcodec/x86/hevc_deblock.asm \
-	libavcodec/x86/hevc_idct.asm \
-	libavcodec/x86/hevc_mc.asm \
-	libavcodec/x86/hevc_sao.asm \
-	libavcodec/x86/hevc_sao_10bit.asm \
-	libavcodec/x86/hpeldsp.asm \
-	libavcodec/x86/hpeldsp_vp3.asm \
-	libavcodec/x86/huffyuvdsp.asm \
 	libavcodec/x86/idctdsp.asm \
-	libavcodec/x86/imdct36.asm \
-	libavcodec/x86/lossless_audiodsp.asm \
-	libavcodec/x86/lossless_videodsp.asm \
-	libavcodec/x86/mdct15.asm \
-	libavcodec/x86/me_cmp.asm \
-	libavcodec/x86/mlpdsp.asm \
-	libavcodec/x86/mpegvideoencdsp.asm \
-	libavcodec/x86/opusdsp.asm \
-	libavcodec/x86/pixblockdsp.asm \
-	libavcodec/x86/pngdsp.asm \
-	libavcodec/x86/proresdsp.asm \
-	libavcodec/x86/qpel.asm \
-	libavcodec/x86/qpeldsp.asm \
-	libavcodec/x86/rv34dsp.asm \
-	libavcodec/x86/rv40dsp.asm \
-	libavcodec/x86/sbrdsp.asm \
+	libavcodec/x86/fdct.asm \
+	libavcodec/x86/fft.asm \
 	libavcodec/x86/simple_idct.asm \
-	libavcodec/x86/simple_idct10.asm \
-	libavcodec/x86/synth_filter.asm \
-	libavcodec/x86/takdsp.asm \
-	libavcodec/x86/ttadsp.asm \
-	libavcodec/x86/utvideodsp.asm \
-	libavcodec/x86/v210.asm \
-	libavcodec/x86/vc1dsp_loopfilter.asm \
-	libavcodec/x86/vc1dsp_mc.asm \
-	libavcodec/x86/videodsp.asm \
-	libavcodec/x86/vorbisdsp.asm \
-	libavcodec/x86/vp3dsp.asm \
-	libavcodec/x86/vp6dsp.asm \
-	libavcodec/x86/vp8dsp.asm \
-	libavcodec/x86/vp8dsp_loopfilter.asm \
-	libavcodec/x86/vp9intrapred.asm \
-	libavcodec/x86/vp9intrapred_16bpp.asm \
-	libavcodec/x86/vp9itxfm.asm \
-	libavcodec/x86/vp9itxfm_16bpp.asm \
-	libavcodec/x86/vp9lpf.asm \
-	libavcodec/x86/vp9lpf_16bpp.asm \
-	libavcodec/x86/vp9mc.asm \
-	libavcodec/x86/vp9mc_16bpp.asm \
-	libavcodec/x86/xvididct.asm
+	libavcodec/x86/simple_idct10.asm
+
 
 SRCS_YASM_LF = 
 
@@ -814,14 +278,6 @@ SRCS_YASM_LR = \
 	libswresample/x86/audio_convert.asm \
 	libswresample/x86/rematrix.asm \
 	libswresample/x86/resample.asm
-
-SRCS_YASM_LS = \
-	libswscale/x86/input.asm \
-	libswscale/x86/output.asm \
-	libswscale/x86/rgb_2_rgb.asm \
-	libswscale/x86/scale.asm \
-	libswscale/x86/yuv_2_rgb.asm \
-	libswscale/x86/yuv2yuvX.asm
 
 OBJS_LC = \
 	$(SRCS_LC:%.c=$(OBJ_DIR)%.o) \
@@ -864,18 +320,6 @@ $(OBJ_DIR)config.o: $(MAK_DIR)config.c
 	@echo $<
 	$(COMPILE)
 
-$(OBJ_DIR)libavcodec/dxva2.o: $(MAK_DIR)libavcodec/dxva2.c
-	@echo $<
-	$(COMPILE) -I libavcodec
-
-$(OBJ_DIR)libavutil/hwcontext_d3d11va.o: $(MAK_DIR)libavutil/hwcontext_d3d11va.c
-	@echo $<
-	$(COMPILE) -I libavutil
-
-$(OBJ_DIR)libavutil/hwcontext_dxva2.o: $(MAK_DIR)libavutil/hwcontext_dxva2.c
-	@echo $<
-	$(COMPILE) -I libavutil
-
 $(OBJ_DIR)libavcodec/%.o: libavcodec/%.c
 	@echo $<
 	$(COMPILE) $(AVCODECFLAGS)
@@ -916,14 +360,13 @@ $(LIB_LIBSWRESAMPLE): $(OBJS_LR)
 	@echo $@
 	$(LIBAR)$(OBJS_LR)
 
-$(TARGET_LIB): $(LIB_LIBAVCODEC) $(LIB_LIBAVCODEC_B) $(LIB_LIBAVCODEC_C) $(LIB_LIBAVFILTER) $(LIB_LIBAVUTIL) $(LIB_LIBSWRESAMPLE) $(LIB_LIBSWSCALE)
+$(TARGET_LIB): $(LIB_LIBAVCODEC) $(LIB_LIBAVCODEC_B) $(LIB_LIBAVCODEC_C) $(LIB_LIBAVFILTER) $(LIB_LIBAVUTIL) $(LIB_LIBSWRESAMPLE)
 	@rm -f $(ARSCRIPT)
 	@echo "CREATE $@"                   >> $(ARSCRIPT)
 	@echo "ADDLIB $(LIB_LIBAVCODEC)"    >> $(ARSCRIPT)
 	@echo "ADDLIB $(LIB_LIBAVCODEC_B)"  >> $(ARSCRIPT)
 	@echo "ADDLIB $(LIB_LIBAVCODEC_C)"  >> $(ARSCRIPT)
 	@echo "ADDLIB $(LIB_LIBAVFILTER)"   >> $(ARSCRIPT)
-	@echo "ADDLIB $(LIB_LIBSWSCALE)"    >> $(ARSCRIPT)
 	@echo "ADDLIB $(LIB_LIBAVUTIL)"     >> $(ARSCRIPT)
 	@echo "ADDLIB $(LIB_LIBSWRESAMPLE)" >> $(ARSCRIPT)
 	@echo "SAVE"                        >> $(ARSCRIPT)
