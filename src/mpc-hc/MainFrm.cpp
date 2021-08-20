@@ -283,8 +283,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_LOAD, OnUpdateFileSubtitlesLoad)
     ON_COMMAND(ID_FILE_SUBTITLES_SAVE, OnFileSubtitlesSave)
     ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_SAVE, OnUpdateFileSubtitlesSave)
-    ON_COMMAND(ID_FILE_SUBTITLES_UPLOAD, OnFileSubtitlesUpload)
-    ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_UPLOAD, OnUpdateFileSubtitlesUpload)
+    //ON_COMMAND(ID_FILE_SUBTITLES_UPLOAD, OnFileSubtitlesUpload)
+    //ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_UPLOAD, OnUpdateFileSubtitlesUpload)
     ON_COMMAND(ID_FILE_SUBTITLES_DOWNLOAD, OnFileSubtitlesDownload)
     ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_DOWNLOAD, OnUpdateFileSubtitlesDownload)
     ON_COMMAND(ID_FILE_PROPERTIES, OnFileProperties)
@@ -785,7 +785,7 @@ CMainFrame::CMainFrame()
     , m_fOpeningAborted(false)
     , m_bWasSnapped(false)
     , m_wndSubtitlesDownloadDialog(this)
-    , m_wndSubtitlesUploadDialog(this)
+    //, m_wndSubtitlesUploadDialog(this)
     , m_bTrayIcon(false)
     , m_fCapturing(false)
     , m_controls(this)
@@ -1040,7 +1040,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_pSubtitlesProviders = std::make_unique<SubtitlesProviders>(this);
     m_wndSubtitlesDownloadDialog.Create(m_wndSubtitlesDownloadDialog.IDD, this);
-    m_wndSubtitlesUploadDialog.Create(m_wndSubtitlesUploadDialog.IDD, this);
+    m_wndSubtitlesDownloadDialog.ShowWindow(FALSE);
+    //m_wndSubtitlesUploadDialog.Create(m_wndSubtitlesUploadDialog.IDD, this);
 
     if (s.nCmdlnWebServerPort != 0) {
         if (s.nCmdlnWebServerPort > 0) {
@@ -6022,6 +6023,7 @@ void CMainFrame::OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI)
     pCmdUI->Enable(bEnable);
 }
 
+#if 0
 void CMainFrame::OnFileSubtitlesUpload()
 {
     m_wndSubtitlesUploadDialog.ShowWindow(SW_SHOW);
@@ -6032,6 +6034,7 @@ void CMainFrame::OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI)
     const CAppSettings& s = AfxGetAppSettings();
     pCmdUI->Enable(!m_pSubStreams.IsEmpty() && s.fEnableSubtitles);
 }
+#endif
 
 void CMainFrame::OnFileSubtitlesDownload()
 {
@@ -15810,7 +15813,7 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         }
     }
 
-    if (!pSubStream) {
+    if (!pSubStream && ext != _T(".idx") && ext != _T(".sup")) {
         CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
         if (pRTS) {
 #if USE_LIBASS
@@ -19629,6 +19632,8 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
     CYoutubeDLInstance ydl;
     CYoutubeDLInstance::YDLPlaylistInfo listinfo;
 
+    m_sydlLastProcessURL = url;
+
     m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_YOUTUBEDL));
 
     if (!ydl.Run(url)) {
@@ -19638,7 +19643,12 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         return false;
     }
 
-    m_sydlLastProcessURL = url;
+    if (streams.GetCount() > 0) {
+        if (streams.GetHead().video_url != url && streams.GetHead().audio_url != url) {
+            m_sydlLastProcessURL.Empty();
+        }
+    }
+
 
     if (!append && !replace) {
         m_wndPlaylistBar.Empty();
