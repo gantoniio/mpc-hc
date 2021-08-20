@@ -12384,87 +12384,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
     SetPlaybackMode(PM_FILE);
 }
-void CMainFrame::SetupExternalChapters()
-{
-    // .XCHP (eXternal CHaPters) file format:
-    // - Preferably, a UTF-8 multiline text file
-    // - Each line will have the chapter definition (Reference Time and, optionally, Name)
-    // - It'll override any internal (embedded in the video) chapter definition 
-    // - It should have the same file stem of the video but with the .xchp extension instead
-    // - It should be in the same directory as the corresponding video file
-    // - Each line should start with 12 characters for the Reference Time
-    // - Only format allowed for Reference Time: hh:mm:ss.ddd
-    // - Any other start of line will mean the line will be ignored
-    // - Everything after the 12th character of the line will be the Name
-    // - The Name can be omitted (ie, it can be empty)
-    // - Any whitespaces at the start and end of the Name will be ignored (trimmed)
-    // - It won't be applicable for internet based files (URLs)
-
-    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
-
-    if (!pli) {
-        return;
-    }
-
-    CString fn = m_wndPlaylistBar.GetCurFileName(true);
-
-    if (!pli->m_bYoutubeDL && m_pFSF) {
-        CComHeapPtr<OLECHAR> pFN;
-        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
-            fn = pFN;
-        }
-    }
-
-    if (PathUtils::IsURL(fn)) {
-        return;
-    }
-
-    CPath cp(fn);
-
-    cp.RenameExtension(_T(".xchp"));
-
-    if (!cp.FileExists()) {
-        return;
-    }
-
-    fn = cp.m_strPath;
-
-    CWebTextFile f(CTextFile::UTF8);
-    f.SetFallbackEncoding(CTextFile::ANSI);
-
-    CString str;
-
-    if (!f.Open(fn) || !f.ReadString(str)) {
-        return;
-    }
-
-    f.Seek(0, CFile::SeekPosition::begin);
-
-    while (f.ReadString(str)) {
-        REFERENCE_TIME rt = 0;
-        CString name = "";
-
-        if (str.GetLength() > 11) {
-            int lHour = 0;
-            int lMinute = 0;
-            int lSecond = 0;
-            int lMillisec = 0;
-
-            if (_stscanf_s(str.Left(12), _T("%02d:%02d:%02d.%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
-                rt = ((((lHour * 60) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
-
-                if (str.GetLength() > 12) {
-                    name = str.Mid(12);
-                    name.Trim();
-                }
-
-                m_pCB->ChapAppend(rt, name);
-            }
-        }
-    }
-
-    m_pCB->ChapSort();
-}
 
 void CMainFrame::SetupChapters()
 {
@@ -12473,8 +12392,6 @@ void CMainFrame::SetupChapters()
     // be deleted until all classes release it.
     m_pCB.Release();
     m_pCB = DEBUG_NEW CDSMChapterBag(nullptr, nullptr);
-
-    SetupExternalChapters(); // Any external chapters (.xchpt file) will override any internally defined chapters
 
     CInterfaceList<IBaseFilter> pBFs;
     BeginEnumFilters(m_pGB, pEF, pBF);
