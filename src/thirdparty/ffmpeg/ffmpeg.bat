@@ -75,7 +75,7 @@ IF "%BUILDTYPE%" == "clean" (
 
 rem SET JOBS=1
 
-set MAK="%~dp0\ffmpeg.mak"
+set MAK="%~dp0\ffmpeg-msvc.mak"
 pushd ..\LAVFilters\src\ffmpeg\
 make.exe -f %MAK% %BUILDTYPE% -j%JOBS% %BIT% %DEBUG%
 popd

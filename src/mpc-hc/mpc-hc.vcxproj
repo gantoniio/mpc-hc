@@ -81,11 +81,6 @@
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <Link>
-      <AdditionalDependencies>libgcc.a;libmingwex-stripped.a;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)src\thirdparty\LAVFilters\src\thirdparty\64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
