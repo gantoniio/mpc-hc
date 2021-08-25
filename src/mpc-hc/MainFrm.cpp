@@ -3606,7 +3606,26 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                 msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
             }
 
-            if (AfxGetAppSettings().bShowABMarksInStatusbar) {
+            auto& s = AfxGetAppSettings();
+            if (s.bShowLangInStatusbar) {
+                if (!currentAudioLang.IsEmpty() || !currentSubLang.IsEmpty()) {
+                    msg.Append(_T("\u2001["));
+                    if (!currentAudioLang.IsEmpty()) {
+                        msg.AppendFormat(_T("AUD: %s"), currentAudioLang.GetString());
+                    }
+                    if (!currentSubLang.IsEmpty()) {
+                        if (!currentAudioLang.IsEmpty()) {
+                            msg.Append(_T(", "));
+                        }
+                        msg.AppendFormat(_T("SUB: %s"), currentSubLang.GetString());
+                    }
+                    msg.Append(_T("]"));
+                }
+            }
+            if (s.bShowFPSInStatusbar && m_pCAP) {
+                msg.AppendFormat(_T("\u2001[%.2lf fps (%.2lfx)]"), m_pCAP->GetFPS(), m_dSpeedRate);
+            }
+            if (s.bShowABMarksInStatusbar) {
                 if (abRepeatPositionAEnabled || abRepeatPositionBEnabled) {
                     msg.Append(_T("\u2001[A-B "));
                     if(abRepeatPositionAEnabled) {
@@ -3622,24 +3641,6 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                     }
                     msg.Append(_T("]"));
                 }
-            }
-            if (AfxGetAppSettings().bShowLangInStatusbar) {
-                if (!currentAudioLang.IsEmpty() || !currentSubLang.IsEmpty()) {
-                    msg.Append(_T("\u2001["));
-                    if (!currentAudioLang.IsEmpty()) {
-                        msg.AppendFormat(_T("AUD: %s"), currentAudioLang.GetString());
-                    }
-                    if (!currentSubLang.IsEmpty()) {
-                        if (!currentAudioLang.IsEmpty()) {
-                            msg.Append(_T(", "));
-                        }
-                        msg.AppendFormat(_T("SUB: %s"), currentSubLang.GetString());
-                    }
-                    msg.Append(_T("]"));
-                }
-            }
-            if (AfxGetAppSettings().bShowFPSInStatusbar && m_pCAP) {
-                msg.AppendFormat(_T("\u2001%.2lf fps (%.2lfx)"), m_pCAP->GetFPS(), m_dSpeedRate);
             }
         }
 

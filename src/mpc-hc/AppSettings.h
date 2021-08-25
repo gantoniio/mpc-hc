@@ -864,9 +864,9 @@ public:
     bool bEnableCrashReporter;
 
     int nStreamPosPollerInterval;
-    bool bShowABMarksInStatusbar;
     bool bShowLangInStatusbar;
     bool bShowFPSInStatusbar;
+    bool bShowABMarksInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
     bool bUseTitleInRecentFileList;
