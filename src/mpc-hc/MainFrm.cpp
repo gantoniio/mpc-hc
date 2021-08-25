@@ -3605,6 +3605,24 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             if (m_bUsingDXVA && (msg == ResStr(IDS_CONTROLS_PAUSED) || msg == ResStr(IDS_CONTROLS_PLAYING))) {
                 msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
             }
+
+            if (AfxGetAppSettings().bShowABMarksInStatusbar) {
+                if (abRepeatPositionAEnabled || abRepeatPositionBEnabled) {
+                    msg.Append(_T("\u2001[A-B "));
+                    if(abRepeatPositionAEnabled) {
+                        CString timeMarkA = ReftimeToString2(abRepeatPositionA);
+                        msg.Append(timeMarkA.GetString());
+                    }
+                    if(abRepeatPositionBEnabled) {
+                        if(abRepeatPositionAEnabled) {
+                            msg.AppendChar(_T(' '));
+                        }
+                        CString timeMarkB = ReftimeToString2(abRepeatPositionB);
+                        msg.AppendFormat(_T("> %s"), timeMarkB.GetString());
+                    }
+                    msg.Append(_T("]"));
+                }
+            }
             if (AfxGetAppSettings().bShowLangInStatusbar) {
                 if (!currentAudioLang.IsEmpty() || !currentSubLang.IsEmpty()) {
                     msg.Append(_T("\u2001["));
