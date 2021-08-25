@@ -16,6 +16,8 @@ REM
 REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+setlocal enabledelayedexpansion
+
 IF /I "%~1"=="help"   GOTO SHOWHELP
 IF /I "%~1"=="/help"  GOTO SHOWHELP
 IF /I "%~1"=="-help"  GOTO SHOWHELP
@@ -55,13 +57,14 @@ IF /I "%BUILDTYPE%" == "rebuild" (
   CALL :SubMake clean
   SET "BUILDTYPE=build"
   CALL :SubMake
-  EXIT /B
+  EXIT /B !MAKE_RETURN!
 ) ELSE (
   CALL :SubMake
-  EXIT /B
+  EXIT /B !MAKE_RETURN!
 )
 
 :SubMake
+SETLOCAL
 IF "%BUILDTYPE%" == "clean" (
   SET JOBS=1
 ) ELSE (
@@ -77,10 +80,12 @@ rem SET JOBS=1
 
 set MAK="%~dp0\ffmpeg-msvc.mak"
 pushd ..\LAVFilters\src\ffmpeg\
-make.exe -f %MAK% %BUILDTYPE% -j%JOBS% %BIT% %DEBUG%
-popd
-
+call make.exe -f %MAK% %BUILDTYPE% -j%JOBS% %BIT% %DEBUG%
 ENDLOCAL
+IF %ERRORLEVEL% NEQ 0 (
+  SET MAKE_RETURN=%ERRORLEVEL%
+)
+popd
 EXIT /B
 
 :SHOWHELP
