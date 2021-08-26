@@ -861,6 +861,7 @@ public:
     int iYDLMaxHeight;
     int iYDLVideoFormat;
     bool bYDLAudioOnly;
+    CString sYDLExePath;
     CString sYDLCommandLine;
 
     bool bEnableCrashReporter;
@@ -868,6 +869,7 @@ public:
     int nStreamPosPollerInterval;
     bool bShowLangInStatusbar;
     bool bShowFPSInStatusbar;
+    bool bShowABMarksInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
     bool bUseTitleInRecentFileList;

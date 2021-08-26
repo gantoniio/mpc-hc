@@ -88,6 +88,7 @@
 #define IDS_RS_ALLOW_INACCURATE_FASTSEEK    _T("AllowInaccurateFastseek")
 #define IDS_RS_LOOP_FOLDER_NEXT_FILE        _T("LoopFolderOnPlayNextFile")
 #define IDS_RS_TIME_REFRESH_INTERVAL        _T("TimeRefreshInterval")
+#define IDS_RS_SHOW_ABMARKS_STATUSBAR       _T("ShowABMarksInStatusbar")
 #define IDS_RS_SHOW_LANG_STATUSBAR          _T("ShowLangInStatusbar")
 #define IDS_RS_SHOW_FPS_STATUSBAR           _T("ShowFPSInStatusbar")
 #define IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES _T("AddLanguageCodeWhenSaveSubtitles")
@@ -352,6 +353,7 @@
 #define IDS_RS_YDL_MAX_HEIGHT               _T("YDLMaxHeight")
 #define IDS_RS_YDL_VIDEO_FORMAT             _T("YDLVideoFormat")
 #define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")
+#define IDS_RS_YDL_EXEPATH                  _T("YDLExePath")
 #define IDS_RS_YDL_COMMAND_LINE             _T("YDLCommandLine")
 
 #define IDS_RS_ENABLE_CRASH_REPORTER        _T("EnableCrashReporter")

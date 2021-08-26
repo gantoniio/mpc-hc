@@ -439,6 +439,8 @@ private:
     void SendNowPlayingToSkype();
 
     MLS m_eMediaLoadState;
+    OAFilterState m_CachedFilterState;
+
     bool m_bSettingUpMenus;
     bool m_bOpenMediaActive;
 
@@ -560,8 +562,8 @@ protected:
 protected:
     friend class CSubtitleDlDlg;
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
-    friend class CSubtitleUpDlg;
-    CSubtitleUpDlg m_wndSubtitlesUploadDialog;
+    //friend class CSubtitleUpDlg;
+    //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
     friend class CPPageSubMisc;
 
     friend class SubtitlesProviders;
@@ -586,7 +588,7 @@ public:
 
     bool m_bTrayIcon;
     void ShowTrayIcon(bool bShow);
-    void SetTrayTip(CString str);
+    void SetTrayTip(const CString& str);
 
     CSize GetVideoSize() const;
     CSize GetVideoSizeWithRotation() const;
@@ -598,7 +600,12 @@ public:
     void RepaintVideo();
     void HideVideoWindow(bool fHide);
 
-    OAFilterState GetMediaState() const;
+    OAFilterState GetMediaStateDirect();
+    OAFilterState GetMediaState();
+    bool MediaControlRun(bool waitforcompletion = false);
+    bool MediaControlPause(bool waitforcompletion = false);
+    bool MediaControlStop(bool waitforcompletion = false);
+
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;
     bool GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFERENCE_TIME rtMax, bool nearest, REFERENCE_TIME& keyframetime) const;
@@ -851,8 +858,8 @@ public:
     afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesSave();
     afx_msg void OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI);
-    afx_msg void OnFileSubtitlesUpload();
-    afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
+    //afx_msg void OnFileSubtitlesUpload();
+    //afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesDownload();
     afx_msg void OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI);
     afx_msg void OnFileProperties();
@@ -1242,11 +1249,11 @@ public:
     RecentFileEntry m_current_rfe;
     static bool IsOnYDLWhitelist(const CString url);
 
-private:
     bool CanSendToYoutubeDL(const CString url);
     bool ProcessYoutubeDLURL(CString url, bool append, bool replace = false);
     bool DownloadWithYoutubeDL(CString url, CString filename);
 
+private:
     bool watchingFileDialog;
     HWND fileDialogHandle;
     CMPCThemeUtil* fileDialogHookHelper;

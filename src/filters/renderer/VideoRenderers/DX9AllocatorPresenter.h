@@ -80,7 +80,7 @@ namespace DSObjects
 
                 if (!IsBadReadPtr(pCritSec, sizeof(*pCritSec)) && !IsBadWritePtr(pCritSec, sizeof(*pCritSec))
                         && !IsBadReadPtr(pCritSec->DebugInfo, sizeof(*(pCritSec->DebugInfo))) && !IsBadWritePtr(pCritSec->DebugInfo, sizeof(*(pCritSec->DebugInfo)))) {
-                    if (pCritSec->DebugInfo->CriticalSection == pCritSec) {
+                    if (pCritSec->DebugInfo->CriticalSection == pCritSec && pCritSec->OwningThread) {
                         LeaveCriticalSection(pCritSec);
                     }
                 }
@@ -94,7 +94,7 @@ namespace DSObjects
         CComPtr<ID3DXFont>              m_pFont;
         CComPtr<ID3DXSprite>            m_pSprite;
 
-        bool SettingsNeedResetDevice();
+        bool SettingsNeedResetDevice(CRenderersSettings& r);
 
         virtual HRESULT CreateDevice(CString& _Error);
         virtual HRESULT AllocSurfaces();

@@ -1656,7 +1656,7 @@
 #define IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR 57569
 #define IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES 57570
 #define IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST 57571
-#define IDS_AG_DEFAULT                  57572
+#define IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR 57572
 #define IDS_ARS_WASAPI_MODE             57600
 #define IDS_ARS_EXCLUSIVE               57601
 #define IDS_ARS_SHARED                  57602
@@ -1677,8 +1677,7 @@
 #define IDS_ARS_CHANNELS                57617
 #define IDS_ARS_WASAPI_METHOD           57618
 #define IDS_ARS_DUMMY_CHANNELS          57619
-
-
+#define IDS_AG_DEFAULT                  57620
 
 // Next default values for new objects
 // 
