@@ -226,6 +226,7 @@
 #define HAVE_SYS_VIDEOIO_H 0
 #define HAVE_TERMIOS_H 0
 #define HAVE_UDPLITE_H 0
+#define HAVE_UNISTD_H 0
 #define HAVE_VALGRIND_VALGRIND_H 0
 #define HAVE_WINDOWS_H 1
 #define HAVE_WINSOCK2_H 1
@@ -2704,24 +2705,22 @@
 	#define EXTERN_ASM
 	#define HAVE_ALIGNED_STACK 1
 	#define HAVE_FAST_64BIT 1
-    #define BROKEN_RELOCATIONS 1
-    #define ARCH_X86_32 0
-    #define ARCH_X86_64 1
-    #define HAVE_FAST_64BIT 1
-    #define HAVE_FAST_CMOV 1
+	#define BROKEN_RELOCATIONS 1
+	#define ARCH_X86_32 0
+	#define ARCH_X86_64 1
+	#define HAVE_FAST_64BIT 1
+	#define HAVE_FAST_CMOV 1
 	#define HAVE_MM_EMPTY 0
-	#define HAVE_UNISTD_H 1
 #else
 	#define EXTERN_PREFIX "_"
 	#define EXTERN_ASM _
 	#define HAVE_ALIGNED_STACK 0
 	#define HAVE_FAST_64BIT 0
-    #define ARCH_X86_32 1
-    #define ARCH_X86_64 0
-    #define HAVE_FAST_64BIT 0
-    #define HAVE_FAST_CMOV 0
+	#define ARCH_X86_32 1
+	#define ARCH_X86_64 0
+	#define HAVE_FAST_64BIT 0
+	#define HAVE_FAST_CMOV 0
 	#define HAVE_MM_EMPTY 1
-	#define HAVE_UNISTD_H 0
 #endif
 
 #endif /* FFMPEG_CONFIG_H */

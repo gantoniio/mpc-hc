@@ -212,6 +212,7 @@
 %define HAVE_SYS_VIDEOIO_H 0
 %define HAVE_TERMIOS_H 0
 %define HAVE_UDPLITE_H 0
+%define HAVE_UNISTD_H 0
 %define HAVE_VALGRIND_VALGRIND_H 0
 %define HAVE_WINDOWS_H 1
 %define HAVE_WINSOCK2_H 1
@@ -2697,7 +2698,6 @@
 	%define HAVE_FAST_64BIT 1
 	%define HAVE_FAST_CMOV 1
 	%define HAVE_MM_EMPTY 0
-	%define HAVE_UNISTD_H 1
 %else
 	%define EXTERN_PREFIX "_"
 	%define EXTERN_ASM _
@@ -2708,5 +2708,4 @@
 	%define HAVE_FAST_64BIT 0
 	%define HAVE_FAST_CMOV 0
 	%define HAVE_MM_EMPTY 1
-	%define HAVE_UNISTD_H 0
 %endif
