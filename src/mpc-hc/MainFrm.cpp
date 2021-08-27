@@ -3609,6 +3609,10 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             }
 
             auto& s = AfxGetAppSettings();
+
+            if (s.bShowVideoInfoInStatusbar) {
+              AppendStatusBarText2(msg, m_statusbarVideoFourCC, m_statusbarVideoSize, _T(" "));
+            }
             if (s.bShowLangInStatusbar) {
                 if (!currentAudioLang.IsEmpty() || !currentSubLang.IsEmpty()) {
                     msg.Append(_T("\u2001["));
@@ -3959,6 +3963,8 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_OSD.SetPos(0);
     m_Lcd.SetMediaRange(0, 0);
     m_Lcd.SetMediaPos(0);
+    m_statusbarVideoFourCC.Empty();
+    m_statusbarVideoSize.Empty();
 
     if (!bNextIsQueued) {
         UpdateControlState(CMainFrame::UPDATE_LOGO);
@@ -12979,27 +12985,27 @@ void CMainFrame::OpenSetupVideo()
 {
     m_fAudioOnly = true;
 
+    CSize vs;
+
     if (m_pMFVDC) { // EVR
         m_fAudioOnly = false;
+        m_pMFVDC->GetNativeVideoSize(&vs, nullptr);
     } else if (m_pCAP) {
-        CSize vs = m_pCAP->GetVideoSize(false);
+        vs = m_pCAP->GetVideoSize(false);
         m_fAudioOnly = (vs.cx <= 0 || vs.cy <= 0);
     } else {
         {
-            long w = 0, h = 0;
-
             if (CComQIPtr<IBasicVideo> pBV = m_pGB) {
-                pBV->GetVideoSize(&w, &h);
+                pBV->GetVideoSize(&vs.cx, &vs.cy);
             }
 
-            if (w > 0 && h > 0) {
+            if (vs.cx > 0 && vs.cy > 0) {
                 m_fAudioOnly = false;
             }
         }
 
         if (m_fAudioOnly) {
             BeginEnumFilters(m_pGB, pEF, pBF) {
-                long w = 0, h = 0;
 
                 if (CComQIPtr<IVideoWindow> pVW = pBF) {
                     long lVisible;
@@ -13007,11 +13013,11 @@ void CMainFrame::OpenSetupVideo()
                         continue;
                     }
 
-                    pVW->get_Width(&w);
-                    pVW->get_Height(&h);
+                    pVW->get_Width(&vs.cx);
+                    pVW->get_Height(&vs.cy);
                 }
 
-                if (w > 0 && h > 0) {
+                if (vs.cx > 0 && vs.cy > 0) {
                     m_fAudioOnly = false;
                     break;
                 }
@@ -13040,6 +13046,7 @@ void CMainFrame::OpenSetupVideo()
     }
 
     if (!m_fAudioOnly) {
+        m_statusbarVideoSize.Format(_T("%dx%d"), vs.cx, vs.cy);
         UpdateDXVAStatus();
     } else if (IsD3DFullScreenMode()) {
         m_pFullscreenWnd->DestroyWindow();
@@ -13229,6 +13236,26 @@ void CMainFrame::OpenSetupStatusBar()
     m_wndStatusBar.ShowTimer(true);
 
     if (!m_fCustomGraph) {
+
+        CComQIPtr<IBaseFilter> pFBF = m_pFSF;
+        ASSERT(pFBF);
+
+        BeginEnumPins(pFBF, pEP, pPin) {
+            CMediaTypeEx mt;
+            PIN_DIRECTION dir;
+            if (SUCCEEDED(pPin->QueryDirection(&dir)) && (dir == PINDIR_OUTPUT) &&
+                SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                if (mt.majortype == MEDIATYPE_Video) {
+                    GetMediaTypeFourCC(mt.subtype, m_statusbarVideoFourCC);
+                    if (!m_statusbarVideoFourCC.IsEmpty()) {
+                        break;
+                    }
+                }
+            }
+        }
+        EndEnumPins;
+
+
         UINT id = IDB_AUDIOTYPE_NOAUDIO;
 
         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -19693,5 +19720,25 @@ void CMainFrame::updateRecentFileListSub() {
                 MRU.WriteList();
             }            
         }
+    }
+}
+
+
+void CMainFrame::AppendStatusBarText2(CString& msg, const CString& text1, const CString& text2, const CString& separator)
+{
+    auto text1isEmpty = text1.IsEmpty();
+    auto text2isEmpty = text2.IsEmpty();
+    if (!text1isEmpty || text2isEmpty) {
+        msg.Append(_T("\u2001["));
+        if (!text1isEmpty) {
+           msg.Append(text1);
+        }
+        if(!text2isEmpty) {
+            if(!text1isEmpty) {
+                msg.Append(separator);
+            }
+            msg.Append(text2);
+        }
+        msg.Append(_T("]"));
     }
 }

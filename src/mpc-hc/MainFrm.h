@@ -303,8 +303,11 @@ private:
     POSITION m_posFirstExtSub;
     SubtitleInput m_pCurrentSubInput;
 
+    // StatusBar message text parts
     CString currentAudioLang;
     CString currentSubLang;
+    CString m_statusbarVideoFourCC;
+    CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
 
@@ -1218,6 +1221,8 @@ protected:
     CString m_sydlLastProcessURL;
 
     bool IsImageFile(CString fn);
+
+    void AppendStatusBarText2(CString& msg, const CString& text1, const CString& text2, const CString& separator);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
