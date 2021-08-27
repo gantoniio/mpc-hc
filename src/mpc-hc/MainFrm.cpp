@@ -10591,9 +10591,21 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
     m_iPlaybackMode = iNewStatus;
 }
 
-CSize CMainFrame::GetVideoSizeWithRotation() const
+CSize CMainFrame::GetVideoSizeWithRotation(bool forPreview) const
 {
     CSize ret = GetVideoSize();
+    if (forPreview && m_pGB_preview) {
+        CFGManagerPlayer* fgmPreview = static_cast<CFGManagerPlayer*>(m_pGB_preview.p);
+        if (fgmPreview && !fgmPreview->PreviewSupportsRotation()) {
+            //preview cannot rotate, so we need to reverse any default rotation that swapped x/y
+            int rotation = ((360 - m_iDefRotation) % 360) / 90;
+            if (rotation == 1 || rotation == 3) {
+                std::swap(ret.cx, ret.cy);
+            }
+            return ret;
+        }
+    }
+
     if (m_pCAP && !m_pCAP3) { //videosize does not consider manual rotation
         int rotation = ((360 - nearest90(m_AngleZ)) % 360) / 90; //do not add in m_iDefRotation
         if (rotation == 1 || rotation == 3) { //90 degrees
@@ -19723,9 +19735,17 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
         ydlpath = _T("youtube-dl.exe");
     } else {
         ydlpath = s.sYDLExePath;
+        // expand environment variables
+        if (ydlpath.Find(_T('%')) >= 0) {
+            wchar_t expanded_buf[MAX_PATH] = { 0 };
+            DWORD req = ExpandEnvironmentStrings(ydlpath, expanded_buf, MAX_PATH);
+            if (req > 0 && req < MAX_PATH) {
+                ydlpath = CString(expanded_buf);
+            }
+        }
     }
 
-    CString args = ydlpath + _T(" --console-title \"") + url + _T("\"");
+    CString args = _T("\"") + ydlpath + _T("\" --console-title \"") + url + _T("\"");
     if (!s.sYDLCommandLine.IsEmpty()) {
         args.Append(_T(" "));
         args.Append(s.sYDLCommandLine);
