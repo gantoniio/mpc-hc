@@ -3611,7 +3611,19 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             auto& s = AfxGetAppSettings();
 
             if (s.bShowVideoInfoInStatusbar) {
-              AppendStatusBarText2(msg, m_statusbarVideoFourCC, m_statusbarVideoSize, _T(" "));
+                if (!m_statusbarVideoFourCC.IsEmpty() || !m_statusbarVideoSize.IsEmpty()) {
+                    msg.Append(_T("\u2001["));
+                    if(!m_statusbarVideoFourCC.IsEmpty()) {
+                        msg.Append(m_statusbarVideoFourCC);
+                    }
+                    if(!m_statusbarVideoSize.IsEmpty()) {
+                        if(!m_statusbarVideoFourCC.IsEmpty()) {
+                            msg.AppendChar(_T(' '));
+                        }
+                        msg.Append(m_statusbarVideoSize);
+                    }
+                    msg.Append(_T("]"));
+                }
             }
             if (s.bShowLangInStatusbar) {
                 if (!currentAudioLang.IsEmpty() || !currentSubLang.IsEmpty()) {
@@ -19720,25 +19732,5 @@ void CMainFrame::updateRecentFileListSub() {
                 MRU.WriteList();
             }            
         }
-    }
-}
-
-
-void CMainFrame::AppendStatusBarText2(CString& msg, const CString& text1, const CString& text2, const CString& separator)
-{
-    auto text1isEmpty = text1.IsEmpty();
-    auto text2isEmpty = text2.IsEmpty();
-    if (!text1isEmpty || text2isEmpty) {
-        msg.Append(_T("\u2001["));
-        if (!text1isEmpty) {
-           msg.Append(text1);
-        }
-        if(!text2isEmpty) {
-            if(!text1isEmpty) {
-                msg.Append(separator);
-            }
-            msg.Append(text2);
-        }
-        msg.Append(_T("]"));
     }
 }
