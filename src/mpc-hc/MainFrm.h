@@ -236,6 +236,7 @@ private:
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;
     CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> m_pAMMC;
+    CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> m_pAMNS;
     // SmarkSeek
     CComPtr<IGraphBuilder2>         m_pGB_preview;
     CComQIPtr<IMediaControl>        m_pMC_preview;
@@ -302,8 +303,11 @@ private:
     POSITION m_posFirstExtSub;
     SubtitleInput m_pCurrentSubInput;
 
+    // StatusBar message text parts
     CString currentAudioLang;
     CString currentSubLang;
+    CString m_statusbarVideoFourCC;
+    CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
 
@@ -1015,7 +1019,6 @@ public:
 
     afx_msg void OnPlayPlay();
     afx_msg void OnPlayPause();
-    afx_msg void OnPlayPauseI();
     afx_msg void OnPlayPlaypause();
     afx_msg void OnApiPlay();
     afx_msg void OnApiPause();
@@ -1218,6 +1221,9 @@ protected:
     CString m_sydlLastProcessURL;
 
     bool IsImageFile(CString fn);
+
+    // Handles MF_DEFAULT and escapes '&'
+    static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT_PTR nIDNewItem, CString& text);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);

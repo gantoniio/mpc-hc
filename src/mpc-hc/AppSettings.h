@@ -620,7 +620,7 @@ public:
         EXIT
     } eAfterPlayback;
 
-    // DVD/OGM
+    // DVD
     bool            fUseDVDPath;
     CString         strDVDPath;
     LCID            idMenuLang, idAudioLang, idSubtitlesLang;
@@ -870,6 +870,7 @@ public:
     bool bShowLangInStatusbar;
     bool bShowFPSInStatusbar;
     bool bShowABMarksInStatusbar;
+    bool bShowVideoInfoInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
     bool bUseTitleInRecentFileList;
