@@ -30,7 +30,6 @@
 #include "AppSettings.h"
 #include "PPageOutput.h"
 #include "MpcAudioRenderer/MpcAudioRenderer.h"
-#include <OCIdl.h>
 #include "ComPropertySheet.h"
 
 namespace
