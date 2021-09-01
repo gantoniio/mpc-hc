@@ -8,7 +8,7 @@
 #define AVCONV_DATADIR "/usr/local/share/ffmpeg"
 #define CC_IDENT "Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30038.1 for x64"
 #define OS_NAME win32
-#define av_restrict restrict
+#define av_restrict __restrict
 #define BUILDSUF ""
 #define SLIBSUF ".dll"
 #define HAVE_MMX2 HAVE_MMXEXT
