@@ -77,7 +77,8 @@ $(OBJ_DIRS):
 
 clean:
 	@rm -f $(TARGET_LIB)
-	@rm -rf $(OBJ_DIR)
+	@find $(OBJ_DIR) -type f ! -name "*.log" -delete
+	@find $(OBJ_DIR) -type d -mindepth 1 -delete
 
 SRCS_LC = \
 	\
