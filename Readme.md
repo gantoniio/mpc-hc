@@ -17,8 +17,8 @@ MPC-HC is an extremely light-weight all around media player that supports all co
 * Playback and recording of television programs, if a supported [TV tuner card](https://en.wikipedia.org/wiki/TV_tuner_card) is installed,
 * Video preview on the seekbar, quick seek (`Ctrl` + mouse scrollwheel), adjustable playback speed (0.25 - 8×),
 * Video rotate, flip, mirror, stretch, zoom and predefined widescreen size profiles,
-* A-B playback repeat  (press `[` and `]` to set start and stop markers)
-* More than 20 [pixel shaders](https://en.wikipedia.org/wiki/Shader#Pixel_shaders) for video rendering special effects, [Color management](https://en.wikipedia.org/wiki/Color_management), VSync, option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing),
+* A-B playback repeat  (press `[` and `]` to set start and stop markers),
+* [Pixel shaders](https://en.wikipedia.org/wiki/Shader#Pixel_shaders) for video rendering special effects, [Color management](https://en.wikipedia.org/wiki/Color_management), VSync, option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing),
 * Built-in audio switcher with customizable channel mapping (up to 18 input channels),
 * Web interface and MPC API for remote control, rich command line,
 * Dark visual theme, customizable logo image,
