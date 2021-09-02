@@ -13248,36 +13248,17 @@ void CMainFrame::OpenSetupStatusBar()
     m_wndStatusBar.ShowTimer(true);
 
     if (!m_fCustomGraph) {
-        // Find video output pin of the source filter or splitter
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            CString fcc;
-            int input_pins = 0;
-            bool splitter = false;
-            BeginEnumPins(pBF, pEP, pPin) {               
-                PIN_DIRECTION dir;
-                CMediaTypeEx mt;
-                if (SUCCEEDED(pPin->QueryDirection(&dir)) && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-                    if (dir == PINDIR_OUTPUT) {
-                        if (mt.majortype == MEDIATYPE_Video) {
-                            GetMediaTypeFourCC(mt.subtype, fcc);
-                            if (splitter) {
-                                break;
-                            }
-                        }
-                    } else {
-                        input_pins++;
-                        splitter = (mt.majortype == MEDIATYPE_Stream);
-                    }
-                }
-            }
-            EndEnumPins;
 
-            if ((input_pins == 0 || splitter) && !fcc.IsEmpty()) {
-                m_statusbarVideoFourCC = fcc;
-                break;
+        auto addStream = [&](const CMediaTypeEx& mt, const CString& pinOrStreamName) {
+            // TODO: Combine FourCC, VideoSize, FPS etc. into one info text (?)
+            if (m_statusbarVideoFourCC.IsEmpty() && mt.majortype == MEDIATYPE_Video) {
+                m_statusbarVideoFourCC = mt.ToString(MediaTypeFormat::Short);
             }
-        }
-        EndEnumFilters;
+        };
+
+        // Find video and audio output pins
+        EnumOutputMediaTypes(m_pGB, addStream);
+
         // ToDo: merge the two filter enumeration loops
 
         UINT id = IDB_AUDIOTYPE_NOAUDIO;

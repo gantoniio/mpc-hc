@@ -23,6 +23,12 @@
 
 #include <atlcoll.h>
 
+enum class MediaTypeFormat
+{
+    Full,
+    Short,
+};
+
 class CMediaTypeEx : public CMediaType
 {
 public:
@@ -32,11 +38,18 @@ public:
         CMediaType::operator = (mt);
     }
 
-    CString ToString(IPin* pPin = nullptr);
+    CString ToString(IPin* pPin = nullptr) const;
+    CString ToString(MediaTypeFormat format) const;
 
-    static CString GetVideoCodecName(const GUID& subtype, DWORD biCompression);
+    static CString GetVideoCodecName(const GUID& subtype, DWORD biCompression) {
+        return GetVideoCodecNameFull(subtype, biCompression);
+    }
     static CString GetAudioCodecName(const GUID& subtype, WORD wFormatTag);
     static CString GetSubtitleCodecName(const GUID& subtype);
 
     void Dump(CAtlList<CString>& sl);
+
+private:
+    static CString GetVideoCodecNameFull(const GUID& subtype, DWORD biCompression);
+    static CString GetVideoCodecNameShort(const GUID& subtype, DWORD biCompression);
 };

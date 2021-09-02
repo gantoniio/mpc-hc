@@ -214,7 +214,12 @@ void CPPageFileInfoDetails::InitTrackInfoText(IFilterGraph* pFG)
     CAtlList<CString> videoStreams;
     CAtlList<CString> otherStreams;
 
-    auto addStream = [&](const AM_MEDIA_TYPE & mt, const CString & str) {
+    auto addStream = [&](const CMediaTypeEx& mt, const CString& pinOrStreamName) {
+        CString str = mt.ToString();
+        if (!pinOrStreamName.IsEmpty()) {
+            str.AppendFormat(_T(" [%s]"), pinOrStreamName.GetString());
+        }
+
         if (mt.majortype == MEDIATYPE_Video) {
             videoStreams.AddTail(str);
         } else {
@@ -222,73 +227,7 @@ void CPPageFileInfoDetails::InitTrackInfoText(IFilterGraph* pFG)
         }
     };
 
-    BeginEnumFilters(pFG, pEF, pBF) {
-        CComPtr<IBaseFilter> pUSBF = GetUpStreamFilter(pBF);
-
-        if (GetCLSID(pBF) == CLSID_NetShowSource) {
-            continue;
-        } else if (GetCLSID(pUSBF) != CLSID_NetShowSource) {
-            if (IPin* pPin = GetFirstPin(pBF, PINDIR_INPUT)) {
-                CMediaType mt;
-                if (FAILED(pPin->ConnectionMediaType(&mt)) || mt.majortype != MEDIATYPE_Stream) {
-                    continue;
-                }
-            }
-
-            if (IPin* pPin = GetFirstPin(pBF, PINDIR_OUTPUT)) {
-                CMediaType mt;
-                if (SUCCEEDED(pPin->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream) {
-                    continue;
-                }
-            }
-        }
-
-        bool bUsePins = true;
-
-        // If the filter claims to have tracks, we use that
-        if (CComQIPtr<IAMStreamSelect> pSS = pBF) {
-            DWORD nCount;
-            if (FAILED(pSS->Count(&nCount))) {
-                nCount = 0;
-            }
-
-            for (DWORD i = 0; i < nCount; i++) {
-                AM_MEDIA_TYPE* pmt = nullptr;
-                WCHAR* pszName = nullptr;
-                if (SUCCEEDED(pSS->Info(i, &pmt, nullptr, nullptr, nullptr, &pszName, nullptr, nullptr)) && pmt) {
-                    CMediaTypeEx mt = *pmt;
-                    CString str = mt.ToString();
-
-                    if (!str.IsEmpty()) {
-                        if (pszName && wcslen(pszName)) {
-                            str.AppendFormat(_T(" [%s]"), pszName);
-                        }
-                        addStream(mt, str);
-                        bUsePins = false;
-                    }
-                }
-                DeleteMediaType(pmt);
-                CoTaskMemFree(pszName);
-            }
-        }
-        // We fall back to listing the pins only if we could not get any info from IAMStreamSelect
-        if (bUsePins) {
-            BeginEnumPins(pBF, pEP, pPin) {
-                CMediaTypeEx mt;
-                PIN_DIRECTION dir;
-                if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_OUTPUT
-                        && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-                    CString str = mt.ToString();
-
-                    if (!str.IsEmpty()) {
-                        addStream(mt, str + CString(L" [" + GetPinName(pPin) + L"]"));
-                    }
-                }
-            }
-            EndEnumPins;
-        }
-    }
-    EndEnumFilters;
+    EnumOutputMediaTypes(pFG, addStream);
 
     m_trackInfo = Implode(videoStreams, _T("\r\n"));
     if (!videoStreams.IsEmpty() && !otherStreams.IsEmpty()) {

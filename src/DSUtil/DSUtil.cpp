@@ -537,6 +537,77 @@ void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts)
     EndEnumMediaTypes(pmt);
 }
 
+void EnumOutputMediaTypes(IFilterGraph* pFG, const std::function<void(const CMediaTypeEx&, const CString&)>& addStream)
+{
+    BeginEnumFilters(pFG, pEF, pBF) {
+        CComPtr<IBaseFilter> pUSBF = GetUpStreamFilter(pBF);
+
+        if (GetCLSID(pBF) == CLSID_NetShowSource) {
+            continue;
+        } else if (GetCLSID(pUSBF) != CLSID_NetShowSource) {
+            if (IPin* pPin = GetFirstPin(pBF, PINDIR_INPUT)) {
+                CMediaType mt;
+                if (FAILED(pPin->ConnectionMediaType(&mt)) || mt.majortype != MEDIATYPE_Stream) {
+                    continue;
+                }
+            }
+
+            if (IPin* pPin = GetFirstPin(pBF, PINDIR_OUTPUT)) {
+                CMediaType mt;
+                if (SUCCEEDED(pPin->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream) {
+                    continue;
+                }
+            }
+        }
+
+        bool bUsePins = true;
+
+        // If the filter claims to have tracks, we use that
+        if (CComQIPtr<IAMStreamSelect> pSS = pBF) {
+            DWORD nCount;
+            if (FAILED(pSS->Count(&nCount))) {
+                nCount = 0;
+            }
+
+            for (DWORD i = 0; i < nCount; i++) {
+                AM_MEDIA_TYPE* pmt = nullptr;
+                WCHAR* pszName = nullptr;
+                if (SUCCEEDED(pSS->Info(i, &pmt, nullptr, nullptr, nullptr, &pszName, nullptr, nullptr)) && pmt) {
+                    CMediaTypeEx mt = *pmt;
+                    CString str = mt.ToString();
+
+                    if (!str.IsEmpty()) {
+                        CString name(pszName); 
+                        addStream(mt, name);
+                        bUsePins = false;
+                    }
+                }
+                DeleteMediaType(pmt);
+                CoTaskMemFree(pszName);
+            }
+        }
+
+        // We fall back to listing the pins only if we could not get any info from IAMStreamSelect
+        if (bUsePins) {
+            BeginEnumPins(pBF, pEP, pPin) {
+                CMediaTypeEx mt;
+                PIN_DIRECTION dir;
+                if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_OUTPUT
+                        && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    CString str = mt.ToString();
+
+                    if (!str.IsEmpty()) {
+                        CString name(GetPinName(pPin));
+                        addStream(mt, name);
+                    }
+                }
+            }
+            EndEnumPins;
+        }
+    }
+    EndEnumFilters;
+}
+
 int Eval_Exception(int n_except)
 {
     if (n_except == STATUS_ACCESS_VIOLATION) {
@@ -1420,7 +1491,7 @@ CString GetMediaTypeName(const GUID& guid)
                   ? CString(_T("Any type"))
                   : CString(GuidNames[guid]);
 
-    if (ret == _T("FOURCC GUID")) {
+    if (ret == _T("FOURCC GUID")) { // TODO: There is no such GUID in uuids.h
         CString str;
         if (guid.Data1 >= 0x10000) {
             str.Format(_T("Video: %c%c%c%c"), (guid.Data1 >> 0) & 0xff, (guid.Data1 >> 8) & 0xff, (guid.Data1 >> 16) & 0xff, (guid.Data1 >> 24) & 0xff);

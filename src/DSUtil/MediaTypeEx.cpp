@@ -46,7 +46,7 @@ CMediaTypeEx::~CMediaTypeEx()
 {
 }
 
-CString CMediaTypeEx::ToString(IPin* pPin)
+CString CMediaTypeEx::ToString(IPin* pPin) const
 {
     CString packing, type, codec, dim, rate, dur;
 
@@ -222,7 +222,32 @@ CString CMediaTypeEx::ToString(IPin* pPin)
     return str;
 }
 
-CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression)
+CString CMediaTypeEx::ToString(MediaTypeFormat format) const
+{
+    if(format == MediaTypeFormat::Full)
+    {
+        return ToString();
+    }
+
+    ASSERT(format == MediaTypeFormat::Short && _T("Unsupported media type format"));
+
+    CString str;
+
+    if(majortype == MEDIATYPE_Video || subtype == MEDIASUBTYPE_MPEG2_VIDEO) {
+        BITMAPINFOHEADER bih;
+        bool fBIH = ExtractBIH(this, &bih);
+
+        if(fBIH) {
+            str = GetVideoCodecNameShort(subtype, bih.biCompression);
+        }
+
+        // TODO: Resolution, AR, FPS etc.
+    }
+
+    return str;
+}
+
+CString CMediaTypeEx::GetVideoCodecNameFull(const GUID& subtype, DWORD biCompression)
 {
     CString str = _T("");
 
@@ -253,7 +278,6 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
         names['SVQ3'] = _T("SVQ3");
         names['SVQ1'] = _T("SVQ1");
         names['H263'] = _T("H263");
-        // names[''] = _T("");
     }
 
     if (biCompression) {
@@ -269,11 +293,83 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
             if (subtype == MEDIASUBTYPE_DiracVideo) {
                 str = _T("Dirac Video");
             }
-            // else if (subtype == ) str = _T("");
             else if (biCompression < 256) {
                 str.Format(_T("%lu"), biCompression);
             } else {
-                str.Format(_T("%4.4hs"), &biCompression);
+                str.Format(_T("%4.4hs"), (LPCSTR)&biCompression);
+            }
+        }
+    } else {
+        if (subtype == MEDIASUBTYPE_RGB32) {
+            str = _T("RGB32");
+        } else if (subtype == MEDIASUBTYPE_RGB24) {
+            str = _T("RGB24");
+        } else if (subtype == MEDIASUBTYPE_RGB555) {
+            str = _T("RGB555");
+        } else if (subtype == MEDIASUBTYPE_RGB565) {
+            str = _T("RGB565");
+        }
+    }
+
+    return str;
+}
+
+CString CMediaTypeEx::GetVideoCodecNameShort(const GUID& subtype, DWORD biCompression)
+{
+    CString str = _T("");
+
+    static CAtlMap<DWORD, CString> names;
+
+    if (names.IsEmpty()) {
+        names['AVC1'] = _T("H264");             // MEDIASUBTYPE_AVC1
+        names['DIV3'] = _T("DivX");
+        names['DIVX'] = _T("DivX6");
+        names['DRAC'] = _T("Dirac");            // MEDIASUBTYPE_DRAC
+        names['DX50'] = _T("DivX5");
+        names['FLV1'] = _T("Flash1");           // MEDIASUBTYPE_FLV1
+        names['FLV4'] = _T("Flash4");           // MEDIASUBTYPE_FLV4
+        names['H263'] = _T("H263");             // MEDIASUBTYPE_H263
+        names['H264'] = _T("H264");             // MEDIASUBTYPE_H264
+        names['HEVC'] = _T("H265");             // MEDIASUBTYPE_HEVC
+        names['MP41'] = _T("MPEG4v1");          // MEDIASUBTYPE_MP41    Microsoft MPEG-4 version 1
+        names['MP42'] = _T("MPEG4v2");          // MEDIASUBTYPE_MP41    Microsoft MPEG-4 version 2
+        names['MP43'] = _T("MPEG4v3");          // MEDIASUBTYPE_MP41    Microsoft MPEG-4 version 3
+        names['MP4S'] = _T("MPEG4");            // MEDIASUBTYPE_MP4S    MPEG-4 Simple Profile
+        names['MP4V'] = _T("MPEG4");            // MEDIASUBTYPE_MP4V    MPEG-4 Part 2
+        names['M4S2'] = _T("MPEG4");            // MEDIASUBTYPE_M4S2    MPEG-4 Advanced Simple Profile
+        names['MSS1'] = _T("WMV7Scr");          // MEDIASUBTYPE_MSS1    WMV7 Screen
+        names['MSS2'] = _T("WMV9Scr");          // MEDIASUBTYPE_MSS2    WMV9 Screen
+        names['RV10'] = _T("RealVideo1");
+        names['RV20'] = _T("RealVideo2");
+        names['RV30'] = _T("RealVideo3");
+        names['RV40'] = _T("RealVideo4");
+        names['SVQ1'] = _T("SVQ1");
+        names['SVQ3'] = _T("SVQ3");
+        names['VCRD'] = _T("Dirac");            // MEDIASUBTYPE_DiracVideo
+        names['VP50'] = _T("On2VP5");
+        names['VP60'] = _T("On2VP6");
+        names['WMV1'] = _T("WMV7");             // MEDIASUBTYPE_WMV1
+        names['WMV2'] = _T("WMV8");             // MEDIASUBTYPE_WMV2
+        names['WMV3'] = _T("WMV9");             // MEDIASUBTYPE_WMV3
+        names['XVID'] = _T("Xvid");
+        names['X264'] = _T("H264");             // MEDIASUBTYPE_X264
+
+    }
+
+    if (biCompression) {
+        BYTE* b = (BYTE*)&biCompression;
+
+        for (ptrdiff_t i = 0; i < 4; i++) {
+            if (b[i] >= 'a' && b[i] <= 'z') {
+                b[i] = (BYTE)toupper(b[i]);
+            }
+        }
+
+        if (!names.Lookup(MAKEFOURCC(b[3], b[2], b[1], b[0]), str)) {
+            if (biCompression < 256) {
+                str.Format(_T("%lu"), biCompression);
+            } else {
+                str.Format(_T("%4.4hs"), (LPCSTR)&biCompression);
             }
         }
     } else {

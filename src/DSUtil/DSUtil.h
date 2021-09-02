@@ -28,6 +28,7 @@
 #include "BaseClasses/streams.h"
 #include <atlcoll.h>
 #include <atlpath.h>
+#include <functional>
 #include "MFCHelper.h"
 #include "Utils.h"
 
@@ -59,6 +60,7 @@ extern IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB);
 extern IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB);
 extern void  ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types);
 extern void  ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts);
+extern void  EnumOutputMediaTypes(IFilterGraph* pFG, const std::function<void(const CMediaTypeEx&, const CString&)>& f);
 extern void  ShowPPage(CString DisplayName, HWND hParentWnd);
 extern void  ShowPPage(IUnknown* pUnknown, HWND hParentWnd);
 extern CLSID GetCLSID(IBaseFilter* pBF);
