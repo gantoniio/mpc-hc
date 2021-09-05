@@ -4006,6 +4006,7 @@ BEGIN
     IDS_ARS_CHANNELS        "Channels:"
     IDS_ARS_WASAPI_METHOD   "WASAPI method:"
     IDS_ARS_DUMMY_CHANNELS  "Don't fill channels when upmixing"
+    IDS_AG_DEFAULT          "Default"
 END
 
 #endif    // English (United States) resources
