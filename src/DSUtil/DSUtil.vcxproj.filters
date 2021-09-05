@@ -157,6 +157,9 @@
     <ClInclude Include="ISOLang.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="VersionHelpersInternal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
