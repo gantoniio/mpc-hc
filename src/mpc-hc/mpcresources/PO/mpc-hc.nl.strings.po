@@ -490,6 +490,46 @@ msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
 msgstr "&Reset"
 
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&Origineel"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&Huidig"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "&Bewerken"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "&Ja"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "&Nee"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "&Meer"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "M&inder"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "Opties"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "&Selecteer shaders"
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "&Foutopsporing shaders"
+
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
 msgstr "Ondertiteling vertragen -"
@@ -511,8 +551,8 @@ msgid "Player"
 msgstr "Speler"
 
 msgctxt "IDD_PPAGEDVD"
-msgid "Playback::DVD/OGM"
-msgstr "Weergave::DVD / OGM"
+msgid "Playback::DVD"
+msgstr "Weergave::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -855,6 +895,10 @@ msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync opbouwer"
 
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
+msgid "MPC Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
 msgstr "Regulier \"offscreen\" vlakke ondergrond"
@@ -908,8 +952,8 @@ msgid "Null (uncompressed)"
 msgstr "Null (ongecomprimeerd)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
-msgid "Internal Audio Renderer"
-msgstr "Interne audiorenderer"
+msgid "SaneAR Audio Renderer"
+msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -932,10 +976,6 @@ msgstr ""
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
 msgstr "Ondertiteling downloaden..."
-
-msgctxt "IDS_SUBTITLES_UPLOAD"
-msgid "Upload Subtitles..."
-msgstr "Ondertiteling uploaden..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1142,46 +1182,6 @@ msgid ""
 msgstr ""
 "Spring verder\n"
 "Spring verder"
-
-msgctxt "IDS_SUBRESYNC_ORIGINAL"
-msgid "&Original"
-msgstr "&Origineel"
-
-msgctxt "IDS_SUBRESYNC_CURRENT"
-msgid "&Current"
-msgstr "&Huidig"
-
-msgctxt "IDS_SUBRESYNC_EDIT"
-msgid "&Edit"
-msgstr "&Bewerken"
-
-msgctxt "IDS_SUBRESYNC_YES"
-msgid "&Yes"
-msgstr "&Ja"
-
-msgctxt "IDS_SUBRESYNC_NO"
-msgid "&No"
-msgstr "&Nee"
-
-msgctxt "IDS_SUBRESYNC_DECREASE"
-msgid "&Decrease"
-msgstr "&Meer"
-
-msgctxt "IDS_SUBRESYNC_INCREASE"
-msgid "&Increase"
-msgstr "M&inder"
-
-msgctxt "IDS_OPTIONS_CAPTION"
-msgid "Options"
-msgstr "Opties"
-
-msgctxt "IDS_SHADERS_SELECT"
-msgid "&Select Shaders..."
-msgstr "&Selecteer shaders"
-
-msgctxt "IDS_SHADERS_DEBUG"
-msgid "&Debug Shaders..."
-msgstr "&Foutopsporing shaders"
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -4584,3 +4584,95 @@ msgstr ""
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
 msgstr "Toon titel in lijst met recente bestanden."
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
+msgid "Display current A-B repeat marks in status bar."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
+msgid "Display video info (codec name, resolution) in status bar."
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI mode:"
+msgstr ""
+
+msgctxt "IDS_ARS_EXCLUSIVE"
+msgid "Exclusive"
+msgstr ""
+
+msgctxt "IDS_ARS_SHARED"
+msgid "Shared"
+msgstr ""
+
+msgctxt "IDS_ARS_BITEXACT_OUTPUT"
+msgid "Allow bit-exact output"
+msgstr ""
+
+msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
+msgid "Use system layout channels"
+msgstr ""
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr ""
+
+msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
+msgid "Release device when idle"
+msgstr ""
+
+msgctxt "IDS_ARS_CROSSFEED"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr ""
+
+msgctxt "IDS_ARS_DEVICE_PERIOD"
+msgid "Device buffer:"
+msgstr ""
+
+msgctxt "IDS_ARS_CHECK_FORMAT"
+msgid "Do not check format support"
+msgstr ""
+
+msgctxt "IDS_ARS_STATUS"
+msgid "Status"
+msgstr ""
+
+msgctxt "IDS_ARS_DEVICE"
+msgid "Device:"
+msgstr ""
+
+msgctxt "IDS_ARS_MODE"
+msgid "Mode:"
+msgstr ""
+
+msgctxt "IDS_ARS_INPUT"
+msgid "Input"
+msgstr ""
+
+msgctxt "IDS_ARS_OUTPUT"
+msgid "Output"
+msgstr ""
+
+msgctxt "IDS_ARS_FORMAT"
+msgid "Format:"
+msgstr ""
+
+msgctxt "IDS_ARS_SAMPLERATE"
+msgid "Sample rate:"
+msgstr ""
+
+msgctxt "IDS_ARS_CHANNELS"
+msgid "Channels:"
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_METHOD"
+msgid "WASAPI method:"
+msgstr ""
+
+msgctxt "IDS_ARS_DUMMY_CHANNELS"
+msgid "Don't fill channels when upmixing"
+msgstr ""
+
+msgctxt "IDS_AG_DEFAULT"
+msgid "Default"
+msgstr ""

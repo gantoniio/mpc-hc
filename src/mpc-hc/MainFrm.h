@@ -46,6 +46,10 @@
 #include "VMROSD.h"
 #include "CMPCThemeMenu.h"
 #include "../SubPic/MemSubPic.h"
+#include <initguid.h>
+#include <qnetwork.h>
+#include "../DSUtil/FontInstaller.h"
+#include "AppSettings.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -231,6 +235,8 @@ private:
     CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;
+    CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> m_pAMMC;
+    CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> m_pAMNS;
     // SmarkSeek
     CComPtr<IGraphBuilder2>         m_pGB_preview;
     CComQIPtr<IMediaControl>        m_pMC_preview;
@@ -244,6 +250,8 @@ private:
     CComPtr<IMFVideoDisplayControl> m_pMFVDC_preview;
     CComPtr<IVMRWindowlessControl9> m_pVMR9C_preview;
     CComPtr<IMFVideoProcessor>      m_pMFVP_preview;
+    CComPtr<ISubPicAllocatorPresenter2> m_pCAP2_preview;
+    int defaultVideoAngle;
     //
     CComPtr<IVMRMixerControl9> m_pVMRMC;
     CComPtr<IMFVideoDisplayControl> m_pMFVDC;
@@ -281,6 +289,9 @@ private:
 
     void SetVolumeBoost(UINT nAudioBoost);
     void SetBalance(int balance);
+	
+	// temp fonts loader
+	CFontInstaller m_FontInstaller;
 
     // subtitles
 
@@ -292,8 +303,11 @@ private:
     POSITION m_posFirstExtSub;
     SubtitleInput m_pCurrentSubInput;
 
+    // StatusBar message text parts
     CString currentAudioLang;
     CString currentSubLang;
+    CString m_statusbarVideoFourCC;
+    CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
 
@@ -429,9 +443,10 @@ private:
     void SendNowPlayingToSkype();
 
     MLS m_eMediaLoadState;
+    OAFilterState m_CachedFilterState;
+
     bool m_bSettingUpMenus;
     bool m_bOpenMediaActive;
-    bool streampospoller_active;
 
     REFTIME GetAvgTimePerFrame() const;
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
@@ -551,8 +566,8 @@ protected:
 protected:
     friend class CSubtitleDlDlg;
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
-    friend class CSubtitleUpDlg;
-    CSubtitleUpDlg m_wndSubtitlesUploadDialog;
+    //friend class CSubtitleUpDlg;
+    //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
     friend class CPPageSubMisc;
 
     friend class SubtitlesProviders;
@@ -564,8 +579,9 @@ protected:
 public:
     void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0, bool reopen = false);
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
-    void PlayFavoriteFile(CString fav);
+    void PlayFavoriteFile(const CString& fav);
     void PlayFavoriteDVD(CString fav);
+    void ParseFavoriteFile(const CString& fav, CAtlList<CString>& args, REFERENCE_TIME* prtStart = nullptr);
     bool ResetDevice();
     bool DisplayChange();
     void CloseMedia(bool bNextIsQueued = false);
@@ -577,9 +593,10 @@ public:
 
     bool m_bTrayIcon;
     void ShowTrayIcon(bool bShow);
-    void SetTrayTip(CString str);
+    void SetTrayTip(const CString& str);
 
     CSize GetVideoSize() const;
+    CSize GetVideoSizeWithRotation(bool forPreview = false) const;
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
     void ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo);
     void MoveVideoWindow(bool fShowStats = false, bool bSetStoppedVideoRect = false);
@@ -588,7 +605,12 @@ public:
     void RepaintVideo();
     void HideVideoWindow(bool fHide);
 
-    OAFilterState GetMediaState() const;
+    OAFilterState GetMediaStateDirect();
+    OAFilterState GetMediaState();
+    bool MediaControlRun(bool waitforcompletion = false);
+    bool MediaControlPause(bool waitforcompletion = false);
+    bool MediaControlStop(bool waitforcompletion = false);
+
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;
     bool GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFERENCE_TIME rtMax, bool nearest, REFERENCE_TIME& keyframetime) const;
@@ -841,8 +863,8 @@ public:
     afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesSave();
     afx_msg void OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI);
-    afx_msg void OnFileSubtitlesUpload();
-    afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
+    //afx_msg void OnFileSubtitlesUpload();
+    //afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesDownload();
     afx_msg void OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI);
     afx_msg void OnFileProperties();
@@ -998,7 +1020,6 @@ public:
 
     afx_msg void OnPlayPlay();
     afx_msg void OnPlayPause();
-    afx_msg void OnPlayPauseI();
     afx_msg void OnPlayPlaypause();
     afx_msg void OnApiPlay();
     afx_msg void OnApiPause();
@@ -1152,6 +1173,8 @@ public:
     CMPCThemeMenu* defaultMPCThemeMenu = nullptr;
     void enableFileDialogHook(CMPCThemeUtil* helper);
 
+    bool isSafeZone(CPoint pt);
+
 protected:
     afx_msg void OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct);
     // GDI+
@@ -1198,6 +1221,11 @@ protected:
 
     CString m_sydlLastProcessURL;
 
+    bool IsImageFile(CString fn);
+
+    // Handles MF_DEFAULT and escapes '&'
+    static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT_PTR nIDNewItem, CString& text);
+
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
     afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
@@ -1228,11 +1256,11 @@ public:
     RecentFileEntry m_current_rfe;
     static bool IsOnYDLWhitelist(const CString url);
 
-private:
     bool CanSendToYoutubeDL(const CString url);
     bool ProcessYoutubeDLURL(CString url, bool append, bool replace = false);
     bool DownloadWithYoutubeDL(CString url, CString filename);
 
+private:
     bool watchingFileDialog;
     HWND fileDialogHandle;
     CMPCThemeUtil* fileDialogHookHelper;

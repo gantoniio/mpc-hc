@@ -32,11 +32,12 @@
 // CPPageFileInfoClip dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoClip, CMPCThemePropertyPage)
-CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
+CPPageFileInfoClip::CPPageFileInfoClip(CString path, CString ydlsrc, IFilterGraph* pFG, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
     : CMPCThemePropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
     , m_hIcon(nullptr)
     , m_fn(path)
-    , m_displayFn(path)
+    , m_ydlsrc(ydlsrc)
+    , m_displayFn()
     , m_path(path)
     , m_clip(StrRes(IDS_AG_NONE))
     , m_author(StrRes(IDS_AG_NONE))
@@ -58,44 +59,33 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
         }
     }
 
-    bool bFound = false;
-    BeginEnumFilters(pFG, pEF, pBF) {
-        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-            CComBSTR bstr;
-            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                m_clip = bstr.m_str;
-                m_clip.Trim();
-                bFound = true;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
-                m_author = bstr.m_str;
-                bFound = true;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
-                m_copyright = bstr.m_str;
-                bFound = true;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
-                m_rating = bstr.m_str;
-                bFound = true;
-            }
-            bstr.Empty();
-            if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
-                m_desc = bstr.m_str;
-                m_desc.Replace(L"\r\n", L"\n"); //Replace existing \r\n to \n
-                m_desc.Replace(L"\n", L"\r\n");
-                bFound = true;
-            }
-            bstr.Empty();
-            if (bFound) {
-                break;
-            }
+    CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pFSF;
+    if (pAMMC) {
+        CComBSTR bstr;
+        if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
+            m_clip = bstr.m_str;
+            m_clip.Trim();
         }
+        bstr.Empty();
+        if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
+            m_author = bstr.m_str;
+        }
+        bstr.Empty();
+        if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
+            m_copyright = bstr.m_str;
+        }
+        bstr.Empty();
+        if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
+            m_rating = bstr.m_str;
+        }
+        bstr.Empty();
+        if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+            m_desc = bstr.m_str;
+            m_desc.Replace(L"\r\n", L"\n"); //Replace existing \r\n to \n
+            m_desc.Replace(L"\n", L"\r\n");
+        }
+        bstr.Empty();
     }
-    EndEnumFilters;
 }
 
 CPPageFileInfoClip::~CPPageFileInfoClip()
@@ -165,8 +155,11 @@ BOOL CPPageFileInfoClip::OnInitDialog()
         m_icon.SetIcon(m_hIcon);
     }
 
-    if (PathUtils::IsURL(m_path)) {
-        m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn));
+    if (!m_ydlsrc.IsEmpty()) {
+        m_displayFn = m_ydlsrc;
+        m_displayLocation = UrlDecodeWithUTF8(m_location, true);
+    } else if (PathUtils::IsURL(m_path)) {
+        m_displayFn = UrlDecodeWithUTF8(ShortenURL(m_fn, 200));
         m_displayLocation = UrlDecodeWithUTF8(m_location, true);
     } else {
         m_displayFn = m_fn;

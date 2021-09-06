@@ -367,8 +367,8 @@ msgid "Always open the default location:"
 msgstr "Заўсёды адкрываць вызначаную папку:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
-msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Пажаданая мова для DVD Navigator і OGM Splitter"
+msgid "Preferred language for DVD"
+msgstr "Пажаданая мова для DVD Navigator"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -1286,25 +1286,9 @@ msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
 msgstr ""
 
-msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
-msgid "Upload subtitles"
-msgstr "Запампаваць субцітры"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
-msgid "Upload"
-msgstr "Запампаваць"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
-msgid "Abort"
-msgstr "Перарваць"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
-msgid "Options"
-msgstr "Налады"
-
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Захаваць як..."
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1604,8 +1588,8 @@ msgid "Reset"
 msgstr "Скінуць"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online search, download and upload subtitles"
-msgstr "Пошук у інтэрнэце, спампоўка і запампоўка субцітраў"
+msgid "Online subtitle search"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1784,7 +1768,11 @@ msgid ""
 msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "Internal Audio Renderer Enabled"
+msgid "SaneAR Audio Renderer Enabled"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
+msgid "MPC Audio Renderer Settings"
 msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"

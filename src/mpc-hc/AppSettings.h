@@ -149,6 +149,8 @@ enum MCE_RAW_INPUT {
 #define AUDRNDT_NULL_COMP       _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP     _T("Null Audio Renderer (Uncompressed)")
 #define AUDRNDT_INTERNAL        _T("Internal Audio Renderer")
+#define AUDRNDT_MPC             L"MPC Audio Renderer"
+
 
 #define DEFAULT_SUBTITLE_PATHS  _T(".;.\\subtitles;.\\subs")
 #define DEFAULT_JUMPDISTANCE_1  1000
@@ -473,24 +475,24 @@ class CAppSettings
         CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize) : m_section(lpszSection), m_maxSize(nSize){}
 
         CAtlArray<RecentFileEntry> rfe_array;
-        int m_maxSize;
+        size_t m_maxSize;
         LPCTSTR m_section;
 
         int GetSize() {
             return (int)rfe_array.GetCount();
         }
 
-        RecentFileEntry& operator[](int nIndex) {
+        RecentFileEntry& operator[](size_t nIndex) {
             ASSERT(nIndex >= 0 && nIndex < rfe_array.GetCount());
             return rfe_array[nIndex];
         }
 
-        void Remove(int nIndex);
+        void Remove(size_t nIndex);
         void Add(LPCTSTR fn);
         void Add(RecentFileEntry r);
         void ReadList();
         void WriteList();
-        void SetSize(int nSize);
+        void SetSize(size_t nSize);
     };
 
 public:
@@ -618,7 +620,7 @@ public:
         EXIT
     } eAfterPlayback;
 
-    // DVD/OGM
+    // DVD
     bool            fUseDVDPath;
     CString         strDVDPath;
     LCID            idMenuLang, idAudioLang, idSubtitlesLang;
@@ -859,6 +861,7 @@ public:
     int iYDLMaxHeight;
     int iYDLVideoFormat;
     bool bYDLAudioOnly;
+    CString sYDLExePath;
     CString sYDLCommandLine;
 
     bool bEnableCrashReporter;
@@ -866,6 +869,8 @@ public:
     int nStreamPosPollerInterval;
     bool bShowLangInStatusbar;
     bool bShowFPSInStatusbar;
+    bool bShowABMarksInStatusbar;
+    bool bShowVideoInfoInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
     bool bUseTitleInRecentFileList;

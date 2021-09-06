@@ -370,8 +370,8 @@ msgid "Always open the default location:"
 msgstr "Отвори винаги местоположение по подразбиране:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
-msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Предпочитан език за DVD Navigator и външния OGM Splitter"
+msgid "Preferred language for DVD"
+msgstr "Предпочитан език за DVD"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -1290,25 +1290,9 @@ msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
 msgstr "Търсене"
 
-msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
-msgid "Upload subtitles"
-msgstr "Качване на субтитри"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
-msgid "Upload"
-msgstr "Качи"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
-msgid "Abort"
-msgstr "Прекратяване"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
-msgid "Options"
-msgstr "Опции"
-
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Запиши като..."
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1609,8 +1593,8 @@ msgid "Reset"
 msgstr "Изчисти"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online search, download and upload subtitles"
-msgstr "Онлайн търсене, изтегляне и качване на субтитри"
+msgid "Online subtitle search"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1799,8 +1783,12 @@ msgstr ""
 " звука на около 85%, когато пускате силно съдържание кодирано със загуба."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "Internal Audio Renderer Enabled"
-msgstr "Вътрешния аудио рендер е включен"
+msgid "SaneAR Audio Renderer Enabled"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
+msgid "MPC Audio Renderer Settings"
+msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

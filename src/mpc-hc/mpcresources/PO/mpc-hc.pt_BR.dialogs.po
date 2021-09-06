@@ -370,8 +370,8 @@ msgid "Always open the default location:"
 msgstr "Sempre abrir o local padrão:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
-msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Idioma preferido pro Navegador do DVD e o Splitter OGM externo"
+msgid "Preferred language for DVD"
+msgstr "Idioma preferido pro Navegador do DVD"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -1290,25 +1290,9 @@ msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
 msgstr "Procurar"
 
-msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
-msgid "Upload subtitles"
-msgstr "Fazer upload das legendas"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
-msgid "Upload"
-msgstr "Upload"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
-msgid "Abort"
-msgstr "Abortar"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
-msgid "Options"
-msgstr "Opções"
-
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Salvar Como..."
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1607,8 +1591,8 @@ msgid "Reset"
 msgstr "Resetar"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online search, download and upload subtitles"
-msgstr "Busca online, baixar e fazer upload das legendas"
+msgid "Online subtitle search"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1800,8 +1784,12 @@ msgstr ""
 " com volume alto."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "Internal Audio Renderer Enabled"
-msgstr "Renderizador Interno do Áudio Ativado"
+msgid "SaneAR Audio Renderer Enabled"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
+msgid "MPC Audio Renderer Settings"
+msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

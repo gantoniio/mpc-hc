@@ -490,13 +490,14 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     m_dD3DRefreshCycle = 1000.0 / m_refreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
-    CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
     BOOL bCompositionEnabled = false;
     if (m_pDwmIsCompositionEnabled) {
         m_pDwmIsCompositionEnabled(&bCompositionEnabled);
     }
     m_bCompositionEnabled = bCompositionEnabled != 0;
+
+    CSize largestScreen = GetLargestScreenSize(CSize(2560, 1440));
 
     ZeroMemory(&m_pp, sizeof(m_pp));
     if (m_bIsFullscreen) { // Exclusive mode fullscreen
@@ -577,8 +578,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         m_pp.SwapEffect = D3DSWAPEFFECT_COPY;
         m_pp.Flags = D3DPRESENTFLAG_VIDEO;
         m_pp.BackBufferCount = 1;
-        m_pp.BackBufferWidth  = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cx : m_ScreenSize.cx;
-        m_pp.BackBufferHeight = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cy : m_ScreenSize.cy;
+        CSize bbsize = GetBackBufferSize(m_ScreenSize, largestScreen, r.m_AdvRendSets.bDesktopSizeBackBuffer);
+        m_pp.BackBufferWidth  = bbsize.cx;
+        m_pp.BackBufferHeight = bbsize.cy;
         m_BackbufferType = d3ddm.Format;
         m_DisplayType = d3ddm.Format;
         m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
@@ -662,7 +664,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     m_bicubicA = 0;
 
-    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY);
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY, largestScreen);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
@@ -793,6 +795,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     m_bCompositionEnabled = bCompositionEnabled != 0;
     m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
 
+    CSize largestScreen = GetLargestScreenSize(CSize(2560, 1440));
+
     if (m_bIsFullscreen) { // Exclusive mode fullscreen
         m_pp.BackBufferWidth = d3ddm.Width;
         m_pp.BackBufferHeight = d3ddm.Height;
@@ -829,8 +833,9 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         m_BackbufferType = m_pp.BackBufferFormat;
         m_DisplayType = d3ddm.Format;
     } else { // Windowed
-        m_pp.BackBufferWidth  = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cx : m_ScreenSize.cx;
-        m_pp.BackBufferHeight = r.m_AdvRendSets.bDesktopSizeBackBuffer ? szDesktopSize.cy : m_ScreenSize.cy;
+        CSize bbsize = GetBackBufferSize(m_ScreenSize, largestScreen, r.m_AdvRendSets.bDesktopSizeBackBuffer);
+        m_pp.BackBufferWidth  = bbsize.cx;
+        m_pp.BackBufferHeight = bbsize.cy;
         m_BackbufferType = d3ddm.Format;
         m_DisplayType = d3ddm.Format;
         if (m_bHighColorResolution) {
@@ -884,7 +889,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY);
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY, largestScreen);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
@@ -2323,7 +2328,7 @@ bool CBaseAP::ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
 }
 
 HRESULT CBaseAP::Resize(IDirect3DTexture9* pTexture, const CRect& srcRect, const CRect& destRect) {
-    HRESULT hr;
+    HRESULT hr = E_FAIL;
 
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2663,7 +2668,7 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
         CComPtr<IPin> pPin = GetFirstPin(pBF);
         CComQIPtr<IMemInputPin> pMemInputPin = pPin;
 
-        m_bUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
+        m_bUseInternalTimer = HookNewSegment((IPinC*)(IPin*)pPin);
         if (FAILED(hr)) {
             *ppRenderer = nullptr;
         } else {
@@ -3816,9 +3821,6 @@ void CSyncAP::RenderThread()
         }
     };
 
-    const CRenderersSettings r = GetRenderersSettings();
-    double dTargetSyncOffset = r.m_AdvRendSets.fTargetSyncOffset;
-
     while (!bQuit) {
         m_lNextSampleWait = 1; // Default value for running this loop
         int nSamplesLeft = 0;
@@ -3826,6 +3828,9 @@ void CSyncAP::RenderThread()
         LONG lDisplayCycle  = (LONG)(GetDisplayCycle());
         LONG lDisplayCycle2 = (LONG)(GetDisplayCycle() / 2.0); // These are a couple of empirically determined constants used the control the "snap" function
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
+
+        const CRenderersSettings& r = GetRenderersSettings();
+        double dTargetSyncOffset = r.m_AdvRendSets.fTargetSyncOffset;
 
         if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) {  // If either streaming or the pre-roll sample and no sample yet fetched
             if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) { // Get the next sample
@@ -4320,12 +4325,6 @@ STDMETHODIMP CSyncRenderer::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* p
     return S_OK;
 }
 
-STDMETHODIMP CSyncRenderer::support_ffdshow()
-{
-    queue_ffdshow_support = true;
-    return S_OK;
-}
-
 STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     HRESULT hr;
@@ -4351,11 +4350,6 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
     hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
     if (m_pEVR && FAILED(hr)) {
         hr = m_pAllocatorPresenter ? m_pAllocatorPresenter->QueryInterface(riid, ppv) : E_NOINTERFACE;
-        if (FAILED(hr)) {
-            if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched MPC-HC.
-                return GetInterface((IVMRffdshow9*)this, ppv);
-            }
-        }
     }
     return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
 }

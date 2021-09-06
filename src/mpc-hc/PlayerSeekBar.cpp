@@ -140,8 +140,9 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
     if (m_bHasDuration) {
         REFERENCE_TIME rtPos = PositionFromClientPoint(point);
         const CAppSettings& s = AfxGetAppSettings();
-        if (s.bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-            REFERENCE_TIME rtMaxDiff = s.bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, m_rtStop / 30);
+        REFERENCE_TIME duration = m_rtStop - m_rtStart;
+        if (duration >= 600000000LL && s.bFastSeek && (GetKeyState(VK_SHIFT) >= 0)) {
+            REFERENCE_TIME rtMaxDiff = s.bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, duration / 30);
             rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos, rtMaxDiff, rtMaxDiff);
         }
         SyncThumbToVideo(rtPos);
@@ -521,6 +522,11 @@ bool CPlayerSeekBar::HasDuration() const
     return m_bHasDuration;
 }
 
+REFERENCE_TIME CPlayerSeekBar::GetDuration()
+{
+    return m_bHasDuration ? m_rtStop - m_rtStart : 0LL;
+}
+
 void CPlayerSeekBar::SetChapterBag(IDSMChapterBag* pCB)
 {
     CAutoLock lock(&m_csChapterBag);
@@ -609,8 +615,20 @@ void CPlayerSeekBar::OnPaint()
             m_lastThumbRect = r;
         }
 
-        // Chapters
         if (m_bHasDuration) {
+            // A-B Repeat
+            REFERENCE_TIME aPos, bPos;
+            bool aEnabled, bEnabled;
+            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
+                if (aEnabled) {
+                    funcMarkChannel(aPos, 1, CMPCTheme::SeekbarABColor);
+                }
+                if (bEnabled) {
+                    funcMarkChannel(bPos, 1, CMPCTheme::SeekbarABColor);
+                }
+            }
+
+            // Chapters
             CAutoLock lock(&m_csChapterBag);
             if (m_pChapterBag) {
                 for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
@@ -620,16 +638,6 @@ void CPlayerSeekBar::OnPaint()
                     } else {
                         ASSERT(FALSE);
                     }
-                }
-            }
-            REFERENCE_TIME aPos, bPos;
-            bool aEnabled, bEnabled;
-            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
-                if (aEnabled) {
-                    funcMarkChannel(aPos, 1, CMPCTheme::SeekbarABColor);
-                }
-                if (bEnabled) {
-                    funcMarkChannel(bPos, 1, CMPCTheme::SeekbarABColor);
                 }
             }
         }
@@ -688,8 +696,20 @@ void CPlayerSeekBar::OnPaint()
             m_lastThumbRect = r;
         }
 
-        // Chapters
         if (m_bHasDuration) {
+            // A-B Repeat
+            REFERENCE_TIME aPos, bPos;
+            bool aEnabled, bEnabled;
+            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
+                if (aEnabled) {
+                    funcMarkChannel(aPos, 0, CMPCTheme::SeekbarABColor);
+                }
+                if (bEnabled) {
+                    funcMarkChannel(bPos, 0, CMPCTheme::SeekbarABColor);
+                }
+            }
+
+            // Chapters
             CAutoLock lock(&m_csChapterBag);
             if (m_pChapterBag) {
                 for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
@@ -700,17 +720,6 @@ void CPlayerSeekBar::OnPaint()
                         ASSERT(FALSE);
                     }
                 }
-            }
-        }
-
-        REFERENCE_TIME aPos, bPos;
-        bool aEnabled, bEnabled;
-        if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
-            if (aEnabled) {
-                funcMarkChannel(aPos, 0, CMPCTheme::SeekbarABColor);
-            }
-            if (bEnabled) {
-                funcMarkChannel(bPos, 0, CMPCTheme::SeekbarABColor);
             }
         }
 
@@ -824,26 +833,27 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 
     if (DraggingThumb() && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
-        // update video position if seekbar moved at least 5 sec or 1/30th of duration
-        CheckScrollDistance(point, std::min(50000000LL, m_rtStop / 30));
+        // update video position if seekbar moved at least 500ms or 1/30th of duration
+        CheckScrollDistance(point, std::min(5000000LL, m_rtStop / 30));
     }
     if (AfxGetAppSettings().fUseTimeTooltip) {
         UpdateTooltip(point);
     }
 
-    if (m_pMainFrame->CanPreviewUse()) {
+    if (m_bHasDuration && m_pMainFrame->CanPreviewUse()) {
         UpdateTooltip(point);
-    }
 
-    checkHover(point);
-    const OAFilterState fs = m_pMainFrame->GetMediaState();
-    if (fs != -1) {
-        if (m_pMainFrame->CanPreviewUse()) {
-            UpdateToolTipPosition(point);
-            PreviewWindowShow(point);            
+        checkHover(point);
+
+        const OAFilterState fs = m_pMainFrame->GetMediaState();
+        if (fs != -1) {
+            if (m_pMainFrame->CanPreviewUse()) {
+                UpdateToolTipPosition(point);
+                PreviewWindowShow(point);
+            }
+        } else {
+            m_pMainFrame->PreviewWindowHide();
         }
-    } else {
-        m_pMainFrame->PreviewWindowHide();
     }
 }
 

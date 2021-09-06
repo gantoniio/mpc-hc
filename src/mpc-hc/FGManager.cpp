@@ -33,6 +33,7 @@
 #include "SyncAllocatorPresenter.h"
 #include "mplayerc.h"
 #include "sanear/src/Factory.h"
+#include "../src/thirdparty/MpcAudioRenderer/MpcAudioRenderer.h"
 #include <d3d9.h>
 #include <evr.h>
 #include <evr9.h>
@@ -57,6 +58,7 @@ CFGManager::CFGManager(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview)
     , m_dwRegister(0)
 	, m_hWnd(hWnd)
 	, m_bIsPreview(IsPreview)
+    , m_bPreviewSupportsRotation(false)
     , m_ignoreVideo(false)
 {
     m_pUnkInner.CoCreateInstance(CLSID_FilterGraph, GetOwner());
@@ -738,9 +740,26 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
         }
 
+        CComPtr<IBaseFilter> pUpstreamFilter = GetFilterFromPin(pPinOut);
+        CLSID clsid_upstream = GetCLSID(pUpstreamFilter);
+
         pos = fl.GetHeadPosition();
         while (pos) {
             CFGFilter* pFGF = fl.GetNext(pos);
+
+            // avoid pointless connection attempts
+            CLSID candidate = pFGF->GetCLSID();
+            if (clsid_upstream == candidate) {
+                continue;
+            } else if (clsid_upstream == __uuidof(CAudioSwitcherFilter)) {
+                if (candidate == CLSID_VSFilter || candidate == GUID_LAVAudio || candidate == CLSID_RDPDShowRedirectionFilter) {
+                    continue;
+                }
+            } else if (candidate == CLSID_VSFilter) {
+                if (clsid_upstream == GUID_LAVAudio) {
+                    continue;
+                }
+            }
 
 #if 0
             // Checks if madVR is already in the graph to avoid two instances at the same time
@@ -766,11 +785,19 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 TRACE(_T("     --> Filter creation failed\n"));
                 // Check if selected video renderer fails to load
                 CLSID filter = pFGF->GetCLSID();
-                if (filter == CLSID_EVRAllocatorPresenter || filter == CLSID_VMR9AllocatorPresenter || filter == CLSID_MPCVRAllocatorPresenter || filter == CLSID_madVRAllocatorPresenter || filter == CLSID_DXRAllocatorPresenter) {
-                    if (IDYES == AfxMessageBox(_T("The selected video renderer has failed to load.\n\nThis problem is often caused by a bug in the graphics driver. Or you may be using a generic driver which has limited capabilities. It is recommended to update the graphics driver to solve this problem. A proper driver is required for optimal video playback performance and quality.\n\nThe player will now fallback to using a basic video renderer, which has reduced performance and quality. Subtitles may also fail to load for current video.\n\nYou can select a different renderer here:\nOptions > playback > Output\n\nDo you want to use the basic video renderer by default?"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                if (filter == CLSID_MPCVRAllocatorPresenter || filter == CLSID_madVRAllocatorPresenter || filter == CLSID_DXRAllocatorPresenter) {
+                    if (IDYES == AfxMessageBox(_T("The selected video renderer has failed to load.\n\nThe player will now fallback to using a basic video renderer, which has reduced performance and quality. Subtitles may also fail to load.\n\nDo you want to change settings to use the default video renderer (EVR-CP/VMR9)? (player restart required)"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                        CAppSettings& s = AfxGetAppSettings();
+                        s.iDSVideoRendererType = IsCLSIDRegistered(CLSID_EnhancedVideoRenderer) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS;
+                    }
+                } else if (filter == CLSID_EVRAllocatorPresenter || filter == CLSID_VMR9AllocatorPresenter) {
+                    if (IDYES == AfxMessageBox(_T("The selected video renderer has failed to load.\n\nThis problem is often caused by a bug in the graphics driver. Or you may be using a generic driver which has limited capabilities. It is recommended to update the graphics driver to solve this problem. A proper driver is required for optimal video playback performance and quality.\n\nThe player will now fallback to using a basic video renderer, which has reduced performance and quality. Subtitles may also fail to load.\n\nYou can select a different renderer here:\nOptions > playback > Output\n\nDo you want to use the basic video renderer by default?"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
                         CAppSettings& s = AfxGetAppSettings();
                         s.iDSVideoRendererType = IsCLSIDRegistered(CLSID_EnhancedVideoRenderer) ? VIDRNDT_DS_EVR : VIDRNDT_DS_VMR9WINDOWED;
                         s.SetSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
+                        // Disable DXVA in internal video decoder
+                        CMPlayerCApp* pApp = AfxGetMyApp();
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), 0);
                     }
                 }
                 continue;
@@ -2303,7 +2330,7 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
     pFGF->AddType(MEDIATYPE_ScriptCommand, MEDIASUBTYPE_NULL);
     pFGF->AddType(MEDIATYPE_Subtitle, MEDIASUBTYPE_NULL);
     pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
-    pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_DVD_SUBPICTURE);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DVD_SUBPICTURE);
     pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_CVD_SUBPICTURE);
     pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_SVCD_SUBPICTURE);
     m_transform.AddTail(pFGF);
@@ -2539,6 +2566,11 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
     // Renderers
     if (!m_bIsPreview) {
         switch (s.iDSVideoRendererType) {
+            case VIDRNDT_DS_DEFAULT:
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRendererDefault,  MERIT64(0x800001)));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoMixingRenderer9,  MERIT64(0x200003)));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_EnhancedVideoRenderer, MERIT64(0x200002)));
+                break;
             case VIDRNDT_DS_OLDRENDERER:
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRenderer, renderer_merit));
                 break;
@@ -2581,7 +2613,11 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                 break;
         }
     } else {
-        if (CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR)) {
+        bool preview_evrcp = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || (s.iDSVideoRendererType == VIDRNDT_DS_SYNC) || (s.iDSVideoRendererType == VIDRNDT_DS_MADVR) || (s.iDSVideoRendererType == VIDRNDT_DS_MPCVR);
+        if (preview_evrcp && CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) {
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, L"EVRCP - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));
+            m_bPreviewSupportsRotation = true;
+        } else if (CAppSettings::IsVideoRendererAvailable(VIDRNDT_DS_EVR)) {
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"EVR - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));
         } else {
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, L"VMR9 - Preview Window", MERIT64_ABOVE_DSHOW + 2, true));
@@ -2622,6 +2658,11 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
             };
             pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_INTERNAL, renderer_merit + 0x50);
             pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+            m_transform.AddTail(pFGF);
+        } else if (SelAudioRenderer == AUDRNDT_MPC) {
+            pFGF = DEBUG_NEW CFGFilterInternal<CMpcAudioRenderer>(AUDRNDT_MPC, renderer_merit);
+            pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM);
+            pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IEEE_FLOAT);
             m_transform.AddTail(pFGF);
         } else if (!SelAudioRenderer.IsEmpty()) {
             pFGF = DEBUG_NEW CFGFilterRegistry(SelAudioRenderer, renderer_merit);

@@ -28,8 +28,12 @@
 #include "BaseClasses/streams.h"
 #include <atlcoll.h>
 #include <atlpath.h>
+#include "MFCHelper.h"
+#include "Utils.h"
 
 #define LCID_NOSUBTITLES -1
+
+#define IsWaveFormatExtensible(wfe) (wfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe->cbSize == 22)
 
 extern int  CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
 extern bool IsSplitter(IBaseFilter* pBF, bool fCountConnectedOnly = false);
@@ -99,6 +103,7 @@ extern bool UnloadUnusedExternalObjects();
 extern void ExtendMaxPathLengthIfNeeded(CString& path, int max_length = MAX_PATH);
 extern void ShortenLongPath(CString& path);
 extern CString MakeFullPath(LPCTSTR path);
+extern bool GetMediaTypeFourCC(const GUID& guid, CString& fourCC);
 extern CString GetMediaTypeName(const GUID& guid);
 extern GUID GUIDFromCString(CString str);
 extern HRESULT GUIDFromCString(CString str, GUID& guid);
@@ -120,10 +125,10 @@ extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
 extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
 extern REFERENCE_TIME StringToReftime(LPCTSTR strVal);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
-extern void CorrectComboListWidth(CComboBox& m_pComboBox);
-extern void CorrectComboBoxHeaderWidth(CWnd* pComboBox);
 extern CString FindCoverArt(const CString& path, const CString& author);
 extern CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid);
+
+extern inline const LONGLONG GetPerfCounter();
 
 enum FF_FIELD_TYPE {
     PICT_NONE,
@@ -242,6 +247,7 @@ public:
 #define SAFE_DELETE_ARRAY(p) { if (p) { delete [] (p);  (p) = nullptr; } }
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
 #define SAFE_CLOSE_HANDLE(p) { if (p) { if ((p) != INVALID_HANDLE_VALUE) VERIFY(CloseHandle(p)); (p) = nullptr; } }
+#define EXIT_ON_ERROR(hres)  { if (FAILED(hres)) return hres; }
 
 #define StrRes(id)  MAKEINTRESOURCE((id))
 #define ResStr(id)  CString(StrRes((id)))

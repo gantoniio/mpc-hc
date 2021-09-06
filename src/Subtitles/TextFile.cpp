@@ -278,10 +278,25 @@ bool CTextFile::FillBuffer()
     }
     m_posInBuffer = 0;
 
-    UINT nBytesRead = Read(&m_buffer[m_nInBuffer], UINT(TEXTFILE_BUFFER_SIZE - m_nInBuffer) * sizeof(char));
+    UINT nBytesRead;
+    try {
+        nBytesRead = __super::Read(&m_buffer[m_nInBuffer], UINT(TEXTFILE_BUFFER_SIZE - m_nInBuffer) * sizeof(char));
+    } catch (...) {
+        return true; // signal EOF in case of exception
+    }
     if (nBytesRead) {
         m_nInBuffer += nBytesRead;
     }
+
+    // Workaround for buggy text files that contain a duplicate UTF BOM
+    if (m_posInFile == m_offset && m_offset >= 2 && m_nInBuffer > 3) {
+        if (m_buffer[0] == '\xEF' && m_buffer[1] == '\xBB' && m_buffer[2] == '\xBF') {
+            m_posInBuffer = 3;
+        } else if (m_buffer[0] == '\xFE' && m_buffer[1] == '\xFF' || m_buffer[0] == '\xFF' && m_buffer[1] == '\xEF') {
+            m_posInBuffer = 2;
+        }
+    }
+
     m_posInFile = __super::GetPosition();
 
     return !nBytesRead;
@@ -625,8 +640,9 @@ BOOL CTextFile::ReadString(CStringW& str)
             }
 
             if (bValid || m_offset) {
-                str.Append(m_wbuffer, nCharsRead);
-
+                if (nCharsRead > 0) {
+                    str.Append(m_wbuffer, nCharsRead);
+                }
                 if (!bLineEndFound) {
                     bLineEndFound = FillBuffer();
                     if (!nCharsRead) {

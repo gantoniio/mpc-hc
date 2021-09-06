@@ -42,6 +42,9 @@
 #endif
 #define sse2_required
 
+#if GetEnv('MPC_DRDUMP') == '1'
+#define USE_DRDUMP_CRASH_REPORTER 1
+#endif
 
 ; From now on you shouldn't need to change anything
 
@@ -127,9 +130,6 @@ AppVersion                = {#app_ver}
 AppVerName                = {#app_vername}
 AppPublisher              = MPC-HC Team
 AppPublisherURL           = {#WEBSITE_URL}
-AppSupportURL             = {#TRAC_URL}
-AppUpdatesURL             = {#WEBSITE_URL}
-AppContact                = {#WEBSITE_URL}contact-us/
 AppCopyright              = {#copyright_str}
 VersionInfoVersion        = {#app_ver}
 UninstallDisplayIcon      = {app}\{#mpchc_exe}
@@ -278,7 +278,6 @@ Name: {commondesktop}\{#app_name};               Filename: {app}\{#mpchc_exe}; C
 Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; Comment: {#app_vername}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
 Name: {#quick_launch}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_vername}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
-Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: {#WEBSITE_URL}
 Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
 
 

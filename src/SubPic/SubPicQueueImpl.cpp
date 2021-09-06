@@ -801,8 +801,11 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, boo
                         m_pAllocator->SetMaxTextureSize(maxTextureSize);
                         if (!bAllocSubPic) {
                             // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
-                            SIZE maxSize;
+                            SIZE maxSize = {0L,0L};
                             bAllocSubPic = FAILED(pSubPic->GetMaxSize(&maxSize)) || maxSize.cx < maxTextureSize.cx || maxSize.cy < maxTextureSize.cy;
+                            if (bAllocSubPic) {
+                                TRACE(_T("AllocSubPic required: maxSize=%dx%d maxTextureSize=%dx%d\n"), maxSize.cx, maxSize.cy, maxTextureSize.cx, maxTextureSize.cy);
+                            }
                         }
                     }
 
@@ -812,6 +815,8 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, boo
                         m_pSubPic.Release();
 
                         if (FAILED(m_pAllocator->AllocDynamic(&m_pSubPic))) {
+                            TRACE(_T("CSubPicQueueNoThread::LookupSubPic -> AllocDynamic failed\n"));
+                            pSubPicProvider->Unlock();
                             return false;
                         }
 

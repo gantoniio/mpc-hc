@@ -69,8 +69,8 @@ MFVideoArea MakeArea(float x, float y, DWORD width, DWORD height)
 
 using namespace DSObjects;
 
-CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
-    : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error)
+CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error, bool isPreview)
+    : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error, isPreview)
     , m_ModeratedTime(0)
     , m_ModeratedTimeLast(-1)
     , m_ModeratedClockLast(-1)
@@ -154,7 +154,9 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
                 SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
             TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x\n", hDevice);
-            HookDirectXVideoDecoderService(pDecoderService);
+            if (!m_bIsPreview) {
+                HookDirectXVideoDecoderService(pDecoderService);
+            }
 
             m_pD3DManager->CloseDeviceHandle(hDevice);
         }
@@ -162,8 +164,9 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         _Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";
     }
 
+
     // Bufferize frame only with 3D texture!
-    if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
+    if (!m_bIsPreview && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
         m_nNbDXSurface  = std::max(std::min(r.iEvrBuffers, MAX_VIDEO_SURFACES), 4);
     } else {
         m_nNbDXSurface = 1;
@@ -276,7 +279,7 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF;
     CComQIPtr<IEVRFilterConfig> pConfig = pBF;
     if (SUCCEEDED(hr)) {
-        if (FAILED(pConfig->SetNumberOfStreams(3))) { // TODO - maybe need other number of input stream ...
+        if (FAILED(pConfig->SetNumberOfStreams(m_bIsPreview?1:3))) { // TODO - maybe need other number of input stream ...
             return E_FAIL;
         }
     }
@@ -295,7 +298,7 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     CComQIPtr<IMemInputPin> pMemInputPin = pPin;
 
     // No NewSegment : no chocolate :o)
-    m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
+    m_fUseInternalTimer = !m_bIsPreview && HookNewSegment((IPinC*)(IPin*)pPin);
 #else
     m_fUseInternalTimer = false;
 #endif
@@ -2060,10 +2063,10 @@ void CEVRAllocatorPresenter::RenderThread()
         }
     };
 
-    const CRenderersSettings r = GetRenderersSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     auto SubPicSetTime = [&] {
-        if (!g_bExternalSubtitleTime) {
+        if (!g_bExternalSubtitleTime && !m_bIsPreview) {
             CSubPicAllocatorPresenterImpl::SetTime(g_tSegmentStart + nsSampleTime * (g_bExternalSubtitle ? g_dRate : 1));
         }
     };

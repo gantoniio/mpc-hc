@@ -439,7 +439,7 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
 CFGFilterVideoRenderer::~CFGFilterVideoRenderer()
 {
     if (m_bHas10BitWorkAround) {
-        UnhookWorkAround10BitBug();
+        UnhookReceiveConnection();
     }
 }
 
@@ -458,7 +458,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     };
 
     if (m_clsid == CLSID_EVRAllocatorPresenter) {
-        CheckNoLog(CreateEVR(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+        CheckNoLog(CreateEVR(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP, m_bIsPreview));
     } else if (m_clsid == CLSID_SyncAllocatorPresenter) {
         CheckNoLog(CreateSyncRenderer(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
     } else if (m_clsid == CLSID_MPCVRAllocatorPresenter || m_clsid == CLSID_madVRAllocatorPresenter ||
@@ -534,7 +534,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     CheckPointer(*ppBF, E_FAIL);
 
     if (!m_bIsPreview && (m_clsid == CLSID_EnhancedVideoRenderer || m_clsid == CLSID_EVRAllocatorPresenter || m_clsid == CLSID_SyncAllocatorPresenter || m_clsid == CLSID_VMR9AllocatorPresenter)) {
-        HookWorkAround10BitBug(*ppBF);
+        HookReceiveConnection(*ppBF);
         m_bHas10BitWorkAround = true;
     }
 
@@ -570,34 +570,47 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
 {
     bool bInsert = true;
 
-    TRACE(_T("FGM: Inserting %d %d %016I64x '%s' --> "), group, exactmatch, pFGF->GetMerit(),
-          pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()).GetString() : CString(pFGF->GetName()).GetString());
+#if DEBUG
+    bool do_log = pFGF->GetMerit() != MERIT64_DO_NOT_USE;
+    if (do_log) {
+        TRACE(_T("FGM: Inserting %d %d %016I64x %s\n"), group, exactmatch, pFGF->GetMerit(),
+            pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()).GetString() : CString(pFGF->GetName()).GetString());
+    }
+#endif
 
-    CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
+    CLSID insert_clsid = pFGF->GetCLSID();
 
     POSITION pos = m_filters.GetHeadPosition();
     while (pos) {
         filter_t& f = m_filters.GetNext(pos);
 
         if (pFGF == f.pFGF) {
-            TRACE(_T("Rejected (exact duplicate)\n"));
             bInsert = false;
+#if DEBUG
+            if (do_log) {
+                TRACE(_T("FGM: ^ duplicate (exact)\n"));
+            }
+#endif
             break;
         }
 
-        if (pFGF->GetCLSID() != GUID_NULL && pFGF->GetCLSID() == f.pFGF->GetCLSID()) {
-            if (group == f.group && f.pFGF->GetMerit() == MERIT64_DO_NOT_USE) {
-                TRACE(_T("Rejected (same filter with merit DO_NOT_USE already in the list)\n"));
+        // Filters are inserted in this order:
+        // 1) Internal filters
+        // 2) Renderers
+        // 3) Overrides
+        // 4) Registry
+
+        if (insert_clsid != GUID_NULL && insert_clsid == f.pFGF->GetCLSID()) {
+            // Exact same filter if name also identical. Name is different for the internal filters, and those should be handled as different filters.
+            // Blacklisted filters can have empty name.
+            if (f.pFGF->GetMerit() == MERIT64_DO_NOT_USE || pFGF->GetName() == f.pFGF->GetName()) {
                 bInsert = false;
-                break;
-            }
-            if (f.pFGF->GetCLSID() == CLSID_AsyncReader || f.pFGF->GetCLSID() == CLSID_URLReader) {
-                if (pFGF->GetMerit() == f.pFGF->GetMerit()) {
-                    // to avoid duplicates with different group value
-                    TRACE(_T("Rejected (same source filter already in list)\n"));
-                    bInsert = false;
-                    break;
+#if DEBUG
+                if (do_log) {
+                    TRACE(_T("FGM: ^ duplicate\n"));
                 }
+#endif
+                break;
             }
         }
 
@@ -605,18 +618,22 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
             continue;
         }
 
-        if (CFGFilterRegistry* pFGFR2 = dynamic_cast<CFGFilterRegistry*>(f.pFGF)) {
-            if (pFGFR && pFGFR->GetMoniker() && pFGFR2->GetMoniker() && S_OK == pFGFR->GetMoniker()->IsEqual(pFGFR2->GetMoniker())) {
-                TRACE(_T("Rejected (duplicated moniker)\n"));
+        CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
+        if (pFGFR && pFGFR->GetMoniker()) {
+            CFGFilterRegistry* pFGFR2 = dynamic_cast<CFGFilterRegistry*>(f.pFGF);
+            if (pFGFR2 && pFGFR2->GetMoniker() && S_OK == pFGFR->GetMoniker()->IsEqual(pFGFR2->GetMoniker())) {
                 bInsert = false;
+#if DEBUG
+                if (do_log) {
+                    TRACE(_T("FGM: ^ duplicate (moniker)\n"));
+                }
+#endif
                 break;
             }
         }
     }
 
     if (bInsert) {
-        TRACE(_T("Success\n"));
-
         filter_t f = {(int)m_filters.GetCount(), pFGF, group, exactmatch, autodelete};
         m_filters.AddTail(f);
 
@@ -641,17 +658,16 @@ POSITION CFGFilterList::GetHeadPosition()
                 m_sortedfilters.AddTail(sort[i].pFGF);
             }
         }
-    }
 
 #ifdef _DEBUG
-    TRACE(_T("FGM: Sorting filters\n"));
-
-    POSITION pos = m_sortedfilters.GetHeadPosition();
-    while (pos) {
-        CFGFilter* pFGF = m_sortedfilters.GetNext(pos);
-        TRACE(_T("FGM: - %016I64x '%s'\n"), pFGF->GetMerit(), pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()).GetString() : CString(pFGF->GetName()).GetString());
-    }
+        TRACE(_T("FGM: Sorting filters\n"));
+        pos = m_sortedfilters.GetHeadPosition();
+        while (pos) {
+            CFGFilter* pFGF = m_sortedfilters.GetNext(pos);
+            TRACE(_T("FGM: - %016I64x '%s'\n"), pFGF->GetMerit(), pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()).GetString() : CString(pFGF->GetName()).GetString());
+        }
 #endif
+    }
 
     return m_sortedfilters.GetHeadPosition();
 }

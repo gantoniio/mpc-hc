@@ -19,6 +19,7 @@
  */
 
 #include "stdafx.h"
+#include <WinAPIUtils.h>
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "AuthDlg.h"
@@ -228,30 +229,8 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 break;
             case COPY_URL: {
                 if (!provider.Url().empty()) {
-                    size_t len = provider.Url().length() + 1;
-                    HGLOBAL hGlob = ::GlobalAlloc(GMEM_MOVEABLE, len * sizeof(CHAR));
-                    if (hGlob) {
-                        // Lock the handle and copy the text to the buffer
-                        LPVOID pData = ::GlobalLock(hGlob);
-                        if (pData) {
-                            ::strcpy_s((CHAR*)pData, len, (LPCSTR)provider.Url().c_str());
-                            ::GlobalUnlock(hGlob);
-
-                            if (GetParent()->OpenClipboard()) {
-                                // Place the handle on the clipboard, if the call succeeds
-                                // the system will take care of the allocated memory
-                                if (::EmptyClipboard() && ::SetClipboardData(CF_TEXT, hGlob)) {
-                                    hGlob = nullptr;
-                                }
-
-                                ::CloseClipboard();
-                            }
-                        }
-
-                        if (hGlob) {
-                            ::GlobalFree(hGlob);
-                        }
-                    }
+                    CClipboard clipboard(this);
+                    VERIFY(clipboard.SetText(provider.Url().c_str()));
                 }
                 break;
             }
@@ -321,7 +300,7 @@ void CPPageSubMisc::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
 
         if (openSubProvider.Enabled(SPF_SEARCH) == 0 && openSubProvider.UserName().size() == 0) {
             CString msg = L"You must enter your OpenSubtitles login information to continue.\r\n\r\n" \
-                "If you do not yet have an OpenSubtitles account, you can create a free account on http://www.opensubtitles.com\r\n\r\n" \
+                "If you do not yet have an OpenSubtitles account, you can create a free account on http://www.opensubtitles.org\r\n\r\n" \
                 "Click OK if you have an account and want to fill in your login details. Click CANCEL to disable this subtitle search provider.";
             if (AfxMessageBox(msg, MB_OKCANCEL | MB_ICONINFORMATION) == IDCANCEL) {
                 ListView_SetCheckState(pNMHDR->hwndFrom, 0, FALSE);

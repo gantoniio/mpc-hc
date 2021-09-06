@@ -329,18 +329,22 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     if (redir_count == 0) {
         ResolveLinkFiles(fns);
 
-        CAtlList<CString> sl;
-        if (SearchFiles(fns.GetHead(), sl)) {
-            if (sl.GetCount() > 0) {
-                if (sl.GetCount() > 1) {
-                    subs = nullptr;
+        // single entry can be a directory or file mask -> search for files
+        // multiple filenames means video file plus audio dub
+        if (fns.GetCount() == 1) {
+            CAtlList<CString> sl;
+            if (SearchFiles(fns.GetHead(), sl)) {
+                if (sl.GetCount() > 0) {
+                    if (sl.GetCount() > 1) {
+                        subs = nullptr;
+                    }
+                    POSITION pos = sl.GetHeadPosition();
+                    while (pos) {
+                        ParsePlayList(sl.GetNext(pos), subs, redir_count + 1);
+                    }
                 }
-                POSITION pos = sl.GetHeadPosition();
-                while (pos) {
-                    ParsePlayList(sl.GetNext(pos), subs, redir_count + 1);
-                }
+                return;
             }
-            return;
         }
     }
 
@@ -837,7 +841,7 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
                     if (!s.data.IsEmpty()) continue;
                     CString t;
                     CString t2 = s.isAutomaticCaptions ? _T("ydl_auto_sub") : _T("ydl_sub");
-                    t.Format(_T("%d,%s,%s,%s,%s\n"), i, t2, s.lang, s.ext, s.url);
+                    t.Format(_T("%d,%s,%s,%s,%s\n"), i, static_cast<LPCWSTR>(t2), static_cast<LPCWSTR>(s.lang), static_cast<LPCWSTR>(s.ext), static_cast<LPCWSTR>(s.url));
                     f.WriteString(t);
                 }
             }
@@ -875,9 +879,9 @@ bool CPlayerPlaylistBar::Empty()
 
 void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
 {
-    ResolveLinkFiles(fns);
     Empty();
     Append(fns, fMulti, subs, label, ydl_src, cue);
+
     CString ext = CPath(fns.GetHead()).GetExtension().MakeLower();
     if (!fMulti && (ext == _T(".mpcpl"))) {
         m_playListPath = fns.GetHead();
@@ -1069,7 +1073,20 @@ CPlaylistItem* CPlayerPlaylistBar::GetCur()
     return &m_pl.GetAt(m_pl.GetPos());
 }
 
-CString CPlayerPlaylistBar::GetCurFileName()
+CString CPlayerPlaylistBar::GetCurFileName(bool use_ydl_source)
+{
+    CString fn;
+    CPlaylistItem* pli = GetCur();
+
+    if (pli && pli->m_bYoutubeDL && use_ydl_source) {
+        fn = pli->m_ydlSourceURL;
+    } else if (pli && !pli->m_fns.IsEmpty()) {
+        fn = pli->m_fns.GetHead();
+    }
+    return fn;
+}
+
+CString CPlayerPlaylistBar::GetCurFileNameTitle()
 {
     CString fn;
     CPlaylistItem* pli = GetCur();
@@ -1257,30 +1274,32 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
         m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     }
 
-    if (SUCCEEDED(FileDelete(m_pl.GetAt(pos).m_fns.GetHead(), m_pMainFrame->m_hWnd, recycle))) {
-        POSITION nextpos = pos;
-        if (isplaying) {
-            // Get position of next file
-            m_pl.GetNext(nextpos);
-        }
-        // remove selected from playlist
-        int listPos = FindItem(pos);
-        m_list.DeleteItem(listPos);
-        m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
-        m_pl.RemoveAt(pos);
-        SavePlaylist();
-        if (isplaying) {
-            // play next file
-            if (folderPlayNext) {
-                m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
-            } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
-                m_pl.SetPos(nextpos);
-                m_pMainFrame->OpenCurPlaylistItem();
-            }
-        }
-        return true;
+    CString filename = m_pl.GetAt(pos).m_fns.GetHead();
+
+    // Get position of next file
+    POSITION nextpos = pos;
+    if (isplaying) {
+        m_pl.GetNext(nextpos);
     }
-    return false;
+    // remove selected from playlist
+    int listPos = FindItem(pos);
+    m_list.DeleteItem(listPos);
+    m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
+    m_pl.RemoveAt(pos);
+    SavePlaylist();
+    // Delete file
+    FileDelete(filename, m_pMainFrame->m_hWnd, recycle);
+    // Continue with next file
+    if (isplaying) {
+        if (folderPlayNext) {
+            m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
+        } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
+            m_pl.SetPos(nextpos);
+            m_pMainFrame->OpenCurPlaylistItem();
+        }
+    }
+
+    return true;
 }
 
 void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
@@ -1650,9 +1669,20 @@ void CPlayerPlaylistBar::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT)
     SetForegroundWindow();
     m_list.SetFocus();
 
+    bool fMulti = slFiles.GetCount() > 1;
+
+    if (!fMulti && m_pMainFrame->CanSendToYoutubeDL(slFiles.GetHead())) {
+        if (m_pMainFrame->ProcessYoutubeDLURL(slFiles.GetHead(), true)) {
+            return;
+        } else if (m_pMainFrame->IsOnYDLWhitelist(slFiles.GetHead())) {
+            // don't bother trying to open this website URL directly
+            return;
+        }
+    }
+
     PathUtils::ParseDirs(slFiles);
 
-    Append(slFiles, true);
+    Append(slFiles, fMulti);
 }
 
 void CPlayerPlaylistBar::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
@@ -1995,8 +2025,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
         case M_RANDOMIZE:
             Randomize();
             break;
-        case M_CLIPBOARD:
-            if (OpenClipboard() && EmptyClipboard()) {
+        case M_CLIPBOARD: {
                 CString str;
 
                 CPlaylistItem& pli = m_pl.GetAt(pos);
@@ -2006,14 +2035,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
                 }
                 str.Trim();
 
-                if (HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, (str.GetLength() + 1) * sizeof(TCHAR))) {
-                    if (TCHAR* cp = (TCHAR*)GlobalLock(h)) {
-                        _tcscpy_s(cp, str.GetLength() + 1, str);
-                        GlobalUnlock(h);
-                        SetClipboardData(CF_UNICODETEXT, h);
-                    }
-                }
-                CloseClipboard();
+                CClipboard clipboard(this);
+                VERIFY(clipboard.SetText(str));
             }
             break;
         case M_SHOWFOLDER:

@@ -367,8 +367,8 @@ msgid "Always open the default location:"
 msgstr "Vselej odpri privzeto lokacijo:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
-msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Želeni jezik za DVD Navigacijo in zunanji OGM razdelilnik"
+msgid "Preferred language for DVD"
+msgstr "Želeni jezik za DVD Navigacijo"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -1287,25 +1287,9 @@ msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
 msgstr ""
 
-msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
-msgid "Upload subtitles"
-msgstr "Prenesi podnapise gor"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
-msgid "Upload"
-msgstr "Prenesi gor"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
-msgid "Abort"
-msgstr "Prekini"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
-msgid "Options"
-msgstr "Možnosti"
-
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Shrani kot..."
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1604,8 +1588,8 @@ msgid "Reset"
 msgstr "Ponastavi"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online search, download and upload subtitles"
-msgstr "Išči, prenesi podnapise dol in gor"
+msgid "Online subtitle search"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1785,7 +1769,11 @@ msgid ""
 msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "Internal Audio Renderer Enabled"
+msgid "SaneAR Audio Renderer Enabled"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
+msgid "MPC Audio Renderer Settings"
 msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"

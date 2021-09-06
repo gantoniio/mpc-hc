@@ -363,7 +363,7 @@ msgid "Always open the default location:"
 msgstr "總是開啟預設位置:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
-msgid "Preferred language for DVD Navigator and the external OGM Splitter"
+msgid "Preferred language for DVD"
 msgstr "DVD 導覽與外部 OGM 分離器的偏好語言"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
@@ -1272,25 +1272,9 @@ msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
 msgstr "搜尋"
 
-msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
-msgid "Upload subtitles"
-msgstr "上傳字幕"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
-msgid "Upload"
-msgstr "上傳"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
-msgid "Abort"
-msgstr "中止"
-
-msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
-msgid "Options"
-msgstr "選項"
-
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "儲存為..."
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1589,8 +1573,8 @@ msgid "Reset"
 msgstr "重設"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online search, download and upload subtitles"
-msgstr "線上搜尋、下載和上傳字幕"
+msgid "Online subtitle search"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1768,8 +1752,12 @@ msgid ""
 msgstr "為使音訊失真降至最低，當播放音量較大的有損編碼內容時，建議將將播放器音量設定為 85% 左右。"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "Internal Audio Renderer Enabled"
-msgstr "已開啟內部音訊譜製器"
+msgid "SaneAR Audio Renderer Enabled"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
+msgid "MPC Audio Renderer Settings"
+msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

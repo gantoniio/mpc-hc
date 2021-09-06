@@ -27,6 +27,29 @@ struct CUtf16JSON {
     rapidjson::GenericDocument<rapidjson::UTF16<>> d;
 };
 
+CString GetYDLExePath() {
+    auto& s = AfxGetAppSettings();
+    CString ydlpath;
+    if (s.sYDLExePath.IsEmpty()) {
+        CString appdir = PathUtils::GetProgramPath(false);
+        if (CPath(appdir + _T("\\yt-dlp.exe")).FileExists()) {
+            ydlpath = _T("yt-dlp.exe");
+        } else {
+            ydlpath = _T("youtube-dl.exe");
+        }
+    } else {
+        ydlpath = s.sYDLExePath;
+        // expand environment variables
+        if (ydlpath.Find(_T('%')) >= 0) {
+            wchar_t expanded_buf[MAX_PATH] = { 0 };
+            DWORD req = ExpandEnvironmentStrings(ydlpath, expanded_buf, MAX_PATH);
+            if (req > 0 && req < MAX_PATH) {
+                ydlpath = CString(expanded_buf);
+            }
+        }
+    }
+    return ydlpath;
+}
 
 CYoutubeDLInstance::CYoutubeDLInstance()
     : idx_out(0), idx_err(0),
@@ -58,7 +81,7 @@ bool CYoutubeDLInstance::Run(CString url)
 
     YDL_LOG(url);
 
-    CString args = _T("youtube-dl -J --no-warnings --youtube-skip-dash-manifest");
+    CString args = _T("\"") + GetYDLExePath() + _T("\" -J --no-warnings --youtube-skip-dash-manifest");
     if (!s.sYDLSubsPreference.IsEmpty()) {
         args.Append(_T(" --all-subs --write-sub"));
         if (s.bUseAutomaticCaptions) args.Append(_T(" --write-auto-sub"));
@@ -91,7 +114,7 @@ bool CYoutubeDLInstance::Run(CString url)
 
     if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, true, 0,
                        NULL, NULL, &startup_info, &proc_info)) {
-        YDL_LOG(_T("Failed to run YDL"));
+        YDL_LOG(_T("Failed to create process for YDL"));
         return false;
     }
 
@@ -162,13 +185,17 @@ bool CYoutubeDLInstance::Run(CString url)
     if (exitcode) {
         CString err = buf_err;
         if (err.IsEmpty()) {
-            err.Format(_T("An error occurred while running youtube-dl.exe\n\nprocess exitcode = %d"), exitcode);
+            if (exitcode == 0xC0000135) {
+                err.Format(_T("An error occurred while running Youtube-DL\n\nYou probably forgot to install this required runtime:\nMicrosoft Visual C++ 2010 Service Pack 1 Redistributable Package (x86)"));
+            } else {
+                err.Format(_T("An error occurred while running Youtube-DL\n\nprocess exitcode = 0x%08x"), exitcode);
+            }
         } else {
             if (err.Find(_T("ERROR: Unsupported URL")) >= 0) {
                 // abort without showing error message
                 return false;
             }
-            err = _T("Youtube-dl.exe error message:\n\n") + err;
+            err = _T("Youtube-DL error message:\n\n") + err;
         }
         AfxMessageBox(err, MB_ICONERROR, 0);
     }
@@ -235,6 +262,8 @@ struct YDLStreamDetails {
     int abr;
     int fps;
     CString format_id;
+    CString language;
+    bool pref_lang;
 };
 
 #define YDL_EXTRA_LOGGING 0
@@ -243,7 +272,7 @@ struct YDLStreamDetails {
 
 bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool require_video, bool require_audio_only)
 {
-    details = { _T(""), _T(""), 0, 0, _T(""), _T(""), _T(""), false, false, 0, 0, 0, _T("") };
+    details = { _T(""), _T(""), 0, 0, _T(""), _T(""), _T(""), false, false, 0, 0, 0, _T(""), _T(""), false };
 
     details.url = format[_T("url")].GetString();
     if (details.url.IsEmpty()) {
@@ -260,11 +289,16 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
     details.acodec    = format.HasMember(_T("acodec"))   && !format[_T("acodec")].IsNull()   ? format[_T("acodec")].GetString() : _T("");
     details.format    = format.HasMember(_T("format"))   && !format[_T("format")].IsNull()   ? format[_T("format")].GetString() : _T("");
     details.format_id = format.HasMember(_T("format_id")) && !format[_T("format_id")].IsNull() ? format[_T("format_id")].GetString() : _T("");
+    details.language  = format.HasMember(_T("language")) && !format[_T("language")].IsNull() ? format[_T("language")].GetString() : _T("");
+    details.pref_lang = format.HasMember(_T("language_preference")) && !format[_T("language_preference")].IsNull() && format[_T("language_preference")].GetInt() > 0;
 
     details.has_audio = !details.acodec.IsEmpty() && details.acodec != _T("none");
     details.has_video = !details.vcodec.IsEmpty() && details.vcodec != _T("none") || (details.width > 0) || (details.height > 0);
 
-    if (details.has_video && !details.has_audio) {
+    if (!details.has_video && details.protocol == _T("http_dash_segments")) {
+        details.has_video = details.url.Find(_T("_hd_clear")) > 0; // youtube manifest url that should have video
+    }
+    if (!details.has_audio && details.protocol == _T("http_dash_segments")) {
         details.has_audio = details.url.Find(_T("_audio_clear")) > 0; // youtube manifest url that should have audio
     }
 
@@ -310,10 +344,10 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
     }
 
     #if YDL_TRACE
-    TRACE(_T("vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s url=%s\n"), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.url));
+    TRACE(_T("protocol=%s vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s lang=%s(p%d) url=%s\n"), static_cast<LPCWSTR>(details.protocol), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.language), details.pref_lang, static_cast<LPCWSTR>(details.url));
     #endif
     #if YDL_LOG_URLS
-    YDL_LOG(_T("vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s url=%s"), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.url));
+    YDL_LOG(_T("protocol=%s vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s lang=%s(p%d) url=%s"), static_cast<LPCWSTR>(details.protocol), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.language), details.pref_lang, static_cast<LPCWSTR>(details.url));
     #endif
 
     return true;
@@ -441,6 +475,11 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
     } else if (first.has_audio) {
         if (!second.has_audio) {
             return false;
+        }
+
+        // Preferred track
+        if (first.pref_lang != second.pref_lang) {
+            return second.pref_lang;
         }
 
         // Audio format
@@ -704,7 +743,7 @@ void CYoutubeDLInstance::loadSub(const Value& obj, CAtlList<YDLSubInfo>& subs, b
         }
         if (iter->value.IsArray()) {
             const Value& arr = obj[(LPCTSTR)lang];
-            for (int i = 0; i < arr.Size(); i++) {
+            for (rapidjson::SizeType i = 0; i < arr.Size(); i++) {
                 const Value& dict = arr[i];
                 YDLSubInfo sub;
                 sub.isAutomaticCaptions = isAutomaticCaptions;

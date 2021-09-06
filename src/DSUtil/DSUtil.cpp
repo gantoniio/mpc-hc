@@ -30,7 +30,6 @@
 #include <d3d9.h>
 #include "NullRenderers.h"
 
-#include <initguid.h>
 #include "moreuuids.h"
 #include <dxva.h>
 #include <dxva2api.h>
@@ -753,65 +752,78 @@ OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files)
     CString path;
     path.Format(_T("%c:"), drive);
 
-    if (GetDriveType(path + _T("\\")) == DRIVE_CDROM) {
-        // CDROM_DVDVideo
-        FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
-        if (!files.IsEmpty()) {
-            return OpticalDisk_DVDVideo;
-        }
-
-        // CDROM_BD
-        FindFiles(path + _T("\\BDMV\\index.bdmv"), files);
-        if (!files.IsEmpty()) {
-            return OpticalDisk_BD;
-        }
-
-        // CDROM_VideoCD
-        FindFiles(path + _T("\\mpegav\\avseq??.dat"), files);
-        FindFiles(path + _T("\\mpegav\\avseq??.mpg"), files);
-        FindFiles(path + _T("\\mpeg2\\avseq??.dat"), files);
-        FindFiles(path + _T("\\mpeg2\\avseq??.mpg"), files);
-        FindFiles(path + _T("\\mpegav\\music??.dat"), files);
-        FindFiles(path + _T("\\mpegav\\music??.mpg"), files);
-        FindFiles(path + _T("\\mpeg2\\music??.dat"), files);
-        FindFiles(path + _T("\\mpeg2\\music??.mpg"), files);
-        if (!files.IsEmpty()) {
-            return OpticalDisk_VideoCD;
-        }
-
-        // CDROM_Audio
-        HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, nullptr,
-                                   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)nullptr);
-        if (hDrive != INVALID_HANDLE_VALUE) {
-            DWORD BytesReturned;
-            CDROM_TOC TOC;
-            if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, nullptr, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
-                ASSERT(TOC.FirstTrack >= 1u && TOC.LastTrack <= _countof(TOC.TrackData));
-                TOC.FirstTrack = std::max(TOC.FirstTrack, UCHAR(1));
-                TOC.LastTrack = std::min(TOC.LastTrack, UCHAR(_countof(TOC.TrackData)));
-                for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
-                    // MMC-3 Draft Revision 10g: Table 222 - Q Sub-channel control field
-                    auto& trackData = TOC.TrackData[i - 1];
-                    trackData.Control &= 5;
-                    if (trackData.Control == 0 || trackData.Control == 1) {
-                        CString fn;
-                        fn.Format(_T("%s\\track%02Id.cda"), path.GetString(), i);
-                        files.AddTail(fn);
-                    }
-                }
-            }
-
-            CloseHandle(hDrive);
-        }
-        if (!files.IsEmpty()) {
-            return OpticalDisk_Audio;
-        }
-
-        // it is a cdrom but nothing special
-        return OpticalDisk_Unknown;
+    if (GetDriveType(path + _T("\\")) != DRIVE_CDROM) {
+        return OpticalDisk_NotFound;
     }
 
-    return OpticalDisk_NotFound;
+    // Check if it contains a disc
+    HANDLE hDevice = CreateFile(CString(_T("\\\\.\\")) + path, FILE_READ_ATTRIBUTES,
+        FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+    if (hDevice == INVALID_HANDLE_VALUE) {
+        return OpticalDisk_NotFound;
+    }
+    DWORD cbBytesReturned;
+    BOOL bSuccess = DeviceIoControl(hDevice, IOCTL_STORAGE_CHECK_VERIFY2,
+        NULL, 0, NULL, 0, &cbBytesReturned, (LPOVERLAPPED)NULL);
+    if (!bSuccess) {
+        return OpticalDisk_NotFound;
+    }
+
+    // CDROM_DVDVideo
+    FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
+    if (!files.IsEmpty()) {
+        return OpticalDisk_DVDVideo;
+    }
+
+    // CDROM_BD
+    FindFiles(path + _T("\\BDMV\\index.bdmv"), files);
+    if (!files.IsEmpty()) {
+        return OpticalDisk_BD;
+    }
+
+    // CDROM_VideoCD
+    FindFiles(path + _T("\\mpegav\\avseq??.dat"), files);
+    FindFiles(path + _T("\\mpegav\\avseq??.mpg"), files);
+    FindFiles(path + _T("\\mpeg2\\avseq??.dat"), files);
+    FindFiles(path + _T("\\mpeg2\\avseq??.mpg"), files);
+    FindFiles(path + _T("\\mpegav\\music??.dat"), files);
+    FindFiles(path + _T("\\mpegav\\music??.mpg"), files);
+    FindFiles(path + _T("\\mpeg2\\music??.dat"), files);
+    FindFiles(path + _T("\\mpeg2\\music??.mpg"), files);
+    if (!files.IsEmpty()) {
+        return OpticalDisk_VideoCD;
+    }
+
+    // CDROM_Audio
+    HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, nullptr,
+                                OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)nullptr);
+    if (hDrive != INVALID_HANDLE_VALUE) {
+        DWORD BytesReturned;
+        CDROM_TOC TOC;
+        if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, nullptr, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
+            ASSERT(TOC.FirstTrack >= 1u && TOC.LastTrack <= _countof(TOC.TrackData));
+            TOC.FirstTrack = std::max(TOC.FirstTrack, UCHAR(1));
+            TOC.LastTrack = std::min(TOC.LastTrack, UCHAR(_countof(TOC.TrackData)));
+            for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
+                // MMC-3 Draft Revision 10g: Table 222 - Q Sub-channel control field
+                auto& trackData = TOC.TrackData[i - 1];
+                trackData.Control &= 5;
+                if (trackData.Control == 0 || trackData.Control == 1) {
+                    CString fn;
+                    fn.Format(_T("%s\\track%02Id.cda"), path.GetString(), i);
+                    files.AddTail(fn);
+                }
+            }
+        }
+
+        CloseHandle(hDrive);
+    }
+    if (!files.IsEmpty()) {
+        return OpticalDisk_Audio;
+    }
+
+    // it is a cdrom but nothing special
+    return OpticalDisk_Unknown;
 }
 
 CString GetDriveLabel(TCHAR drive)
@@ -1339,7 +1351,7 @@ void ShortenLongPath(CString& path)
 {
     if (path.GetLength() > MAX_PATH && path.Find(_T("\\\\?\\")) < 0) {
         CString longpath = _T("\\\\?\\") + path;
-        TCHAR* buffer = new TCHAR[MAX_PATH];
+        TCHAR* buffer = DEBUG_NEW TCHAR[MAX_PATH];
         long length = GetShortPathName(longpath, buffer, MAX_PATH);
         if (length > 0 && length < MAX_PATH) {
             path = buffer;
@@ -1380,7 +1392,27 @@ CString MakeFullPath(LPCTSTR path)
     return CString(c);
 }
 
-//
+inline bool _IsFourCC(const GUID& guid)
+{
+    // XXXXXXXX-0000-0010-8000-00AA00389B71
+    return (guid.Data2 == 0x0000) && (guid.Data3 == 0x0010) &&
+        (((DWORD*)guid.Data4)[0] == 0xAA000080) &&
+        (((DWORD*)guid.Data4)[1] == 0x719b3800);
+}
+
+bool GetMediaTypeFourCC(const GUID& guid, CString& fourCC)
+{
+    if (_IsFourCC(guid) && (guid.Data1 >= 0x10000)) {
+        fourCC.Format(_T("%c%c%c%c"),
+            (TCHAR)(guid.Data1 >> 0 ) & 0xFF, (TCHAR)(guid.Data1 >> 8 ) & 0xFF,
+            (TCHAR)(guid.Data1 >> 16) & 0xFF, (TCHAR)(guid.Data1 >> 24) & 0xFF);
+        fourCC.MakeUpper();
+        return true;
+    }
+
+    fourCC = _T("UNKN");
+    return false;
+}
 
 CString GetMediaTypeName(const GUID& guid)
 {
@@ -1839,52 +1871,6 @@ void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
     }
 }
 
-void CorrectComboListWidth(CComboBox& m_pComboBox)
-{
-    // Find the longest string in the combo box.
-    if (m_pComboBox.GetCount() <= 0) {
-        return;
-    }
-
-    CString    str;
-    CSize      sz;
-    int        dx = 0;
-    TEXTMETRIC tm;
-    CDC*       pDC = m_pComboBox.GetDC();
-    CFont*     pFont = m_pComboBox.GetFont();
-
-    // Select the listbox font, save the old font
-    CFont* pOldFont = pDC->SelectObject(pFont);
-    // Get the text metrics for avg char width
-    pDC->GetTextMetrics(&tm);
-
-    for (int i = 0; i < m_pComboBox.GetCount(); i++) {
-        m_pComboBox.GetLBText(i, str);
-        sz = pDC->GetTextExtent(str);
-
-        // Add the avg width to prevent clipping
-        sz.cx += tm.tmAveCharWidth;
-
-        if (sz.cx > dx) {
-            dx = sz.cx;
-        }
-    }
-    // Select the old font back into the DC
-    pDC->SelectObject(pOldFont);
-    m_pComboBox.ReleaseDC(pDC);
-
-    // Get the scrollbar width if it exists
-    int min_visible = m_pComboBox.GetMinVisible();
-    int scroll_width = (m_pComboBox.GetCount() > min_visible) ?
-                       ::GetSystemMetrics(SM_CXVSCROLL) : 0;
-
-    // Adjust the width for the vertical scroll bar and the left and right border.
-    dx += scroll_width + 2 *::GetSystemMetrics(SM_CXEDGE);
-
-    // Set the width of the list box so that every item is completely visible.
-    m_pComboBox.SetDroppedWidth(dx);
-}
-
 void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
 {
     if (!pComboBox) {
@@ -1947,4 +1933,21 @@ CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid) {
     CString ret = dest;
     delete[] dest;
     return ret;
+}
+
+inline const LONGLONG GetPerfCounter() {
+    auto GetPerfFrequency = [] {
+        LARGE_INTEGER freq;
+        QueryPerformanceFrequency(&freq);
+        return freq.QuadPart;
+    };
+    static const LONGLONG llPerfFrequency = GetPerfFrequency();
+    if (llPerfFrequency) {
+        LARGE_INTEGER llPerfCounter;
+        QueryPerformanceCounter(&llPerfCounter);
+        return llMulDiv(llPerfCounter.QuadPart, 10000000LL, llPerfFrequency, 0);
+    } else {
+        // ms to 100ns units
+        return timeGetTime() * 10000;
+    }
 }
