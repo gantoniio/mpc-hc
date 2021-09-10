@@ -195,17 +195,9 @@ bool FileFavorite::TryParse(const CString& fav, FileFavorite& ff, CAtlList<CStri
     ff.Name = parts.RemoveHead();
 
     if (!parts.IsEmpty()) {
-        // Start position and optional A-B marks "pos[:[A][-B]]"
+        // Start position and optional A-B marks "pos[:A:B]"
         auto startPos = parts.RemoveHead();
-        int scanned = _stscanf_s(startPos, _T("%I64d:%I64d%I64d"), &ff.Start, &ff.MarkA, &ff.MarkB);
-        if (scanned == 2) {
-            if(ff.MarkA < 0) {   // ":-B" -> B mark only
-                ff.MarkB = -ff.MarkA;
-                ff.MarkA = 0;
-            }
-        } else if (scanned == 3) {
-            ff.MarkB = -ff.MarkB;
-        }
+        _stscanf_s(startPos, _T("%I64d:%I64d:%I64d"), &ff.Start, &ff.MarkA, &ff.MarkB);
         ff.Start = std::max(ff.Start, 0ll); // Sanitize
     }
     if (!parts.IsEmpty()) {
@@ -9971,13 +9963,9 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
         }
         // RememberABMarks
         if (s.bFavRememberABMarks && (abRepeatPositionAEnabled || abRepeatPositionBEnabled )) {
-            posStr.Append(_T(":"));
-            if (abRepeatPositionAEnabled) {
-                posStr.AppendFormat(_T("%I64d"), abRepeatPositionA);
-            }
-            if (abRepeatPositionBEnabled) {
-                posStr.AppendFormat(_T("-%I64d"), abRepeatPositionB);   // Negative
-            }
+            posStr.AppendFormat(_T(":%I64d:%I64d"),
+                abRepeatPositionAEnabled ? abRepeatPositionA : 0ll,
+                abRepeatPositionBEnabled ? abRepeatPositionB : 0ll);
         }
         args.AddTail(posStr);
 
