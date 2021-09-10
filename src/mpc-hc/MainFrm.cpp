@@ -3676,7 +3676,14 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                 }
             }
             if (s.bShowFPSInStatusbar && m_pCAP) {
-                msg.AppendFormat(_T("\u2001[%.2lf fps (%.2lfx)]"), m_pCAP->GetFPS(), m_dSpeedRate);
+                double fps;
+                int avgFrameRate;
+                if (m_pQP && SUCCEEDED(m_pQP->get_AvgFrameRate(&avgFrameRate))) {
+                    fps = avgFrameRate/100.0;
+                } else {
+                    fps = m_pCAP->GetFPS();
+                }
+                msg.AppendFormat(_T("\u2001[%.2lf fps (%.2lfx)]"), fps, m_dSpeedRate);
             }
             if (s.bShowABMarksInStatusbar) {
                 if (abRepeatPositionAEnabled || abRepeatPositionBEnabled) {
