@@ -21,14 +21,10 @@ setlocal enabledelayedexpansion
 set BUILDDIR="%~dp0"
 
 IF EXIST "..\..\..\build.user.bat" CALL "..\..\..\build.user.bat"
-
 IF NOT DEFINED MPCHC_GIT     IF DEFINED GIT     (SET MPCHC_GIT=%GIT%)
 IF NOT DEFINED MPCHC_MSYS    IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
 
 IF NOT EXIST "%MPCHC_MSYS%"    GOTO MissingVar
-
-
-IF EXIST "%~dp0..\environments.bat" CALL "%~dp0..\environments.bat"
 
 IF NOT DEFINED VCTOOLS IF DEFINED MPCHC_VS_PATH (
   SET "VCTOOLS=%MPCHC_VS_PATH%\Common7\Tools"

@@ -3,12 +3,6 @@
 echo "$(pwd)" | grep -q '[[:blank:]]' &&
   echo "Out of tree builds are impossible with whitespace in source path." && exit 1
 
-if [ "${4}" == "VS2015" ]; then
-  bin_folder=bin15
-else
-  bin_folder=bin
-fi
-
 mkdir -p tmp/32
 mkdir -p tmp/64
 
@@ -53,7 +47,6 @@ configure() {
   sh ${LAVSRCDIR}ffmpeg/configure ${TOOLCHAIN} --x86asmexe=yasm ${OPTIONS} --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}"
 }
 
-if [ "0" == "1" ]; then
 pushd tmp/64
 cmd /c "VsDevCmd.bat -no_logo -arch=amd64 && bash -c 'export' > vcvars.tmp"
 source vcvars.tmp
@@ -77,7 +70,6 @@ echo "#endif" >> tmp/config.h
 echo "#endif /* FFMPEG_CONFIG_H */" >> tmp/config.h
 cp -f config.h config.h.old
 cp -f tmp/config.h ./config.h
-fi
 
 fgrep -x -f tmp/32/config.asm tmp/64/config.asm | grep -v "#endif" > tmp/config.asm
 echo "%ifdef WIN64" >> tmp/config.asm
