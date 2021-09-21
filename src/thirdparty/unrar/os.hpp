@@ -79,8 +79,10 @@
   #include <direct.h>
   #include <intrin.h>
 
-  #define USE_SSE
-  #define SSE_ALIGNMENT 16
+  #if defined(_M_IX86) || defined(_M_AMD64)
+    #define USE_SSE
+    #define SSE_ALIGNMENT 16
+  #endif // _M_IX86 || _M_AMD64
 #else
   #include <dirent.h>
 #endif // _MSC_VER

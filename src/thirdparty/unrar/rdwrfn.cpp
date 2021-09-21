@@ -172,7 +172,7 @@ void ComprDataIO::UnpWrite(byte *Addr,size_t Count)
       // even though in year 2001 we announced in unrar.dll whatsnew.txt
       // that it will be PASCAL type (for compatibility with Visual Basic).
 #if defined(_MSC_VER)
-#ifndef _WIN_64
+#ifdef _M_IX86
       __asm mov ebx,esp
 #endif
 #elif defined(_WIN_ALL) && defined(__BORLANDC__)
@@ -183,7 +183,7 @@ void ComprDataIO::UnpWrite(byte *Addr,size_t Count)
       // Restore ESP after ProcessDataProc with wrongly defined calling
       // convention broken it.
 #if defined(_MSC_VER)
-#ifndef _WIN_64
+#ifdef _M_IX86
       __asm mov esp,ebx
 #endif
 #elif defined(_WIN_ALL) && defined(__BORLANDC__)
