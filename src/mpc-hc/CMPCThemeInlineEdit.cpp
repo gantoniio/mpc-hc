@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CMPCThemeInlineEdit.h"
 #include "CMPCTheme.h"
-#include "CMPCThemeUtil.h"
 #include "mplayerc.h"
 
 CMPCThemeInlineEdit::CMPCThemeInlineEdit():
