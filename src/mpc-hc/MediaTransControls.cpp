@@ -1,5 +1,29 @@
+/*
+* (C) 2002-2021 see Authors.txt
+*
+* This file is part of MPC-HC.
+*
+* MPC-HC is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3 of the License, or
+* (at your option) any later version.
+*
+* MPC-HC is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
 #include "stdafx.h"
+#include "MainFrm.h"
 #include "MediaTransControls.h"
+#include "shcore.h"
+
+#pragma comment(lib, "RuntimeObject.lib")
+#pragma comment(lib, "ShCore.lib")
 
 /// #include <SystemMediaTransportControlsInterop.h>
 #include <wrl.h>
@@ -22,6 +46,7 @@ ISystemMediaTransportControlsInterop : public IInspectable{
 using namespace Windows::Foundation;
 using namespace ABI::Windows::Media;
 using namespace ABI::Windows::Storage;
+using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Wrappers;
 
 inline bool IsWindowsVersionOrLater(uint32_t aVersion) {
@@ -62,7 +87,7 @@ inline bool IsWindowsVersionOrLater(uint32_t aVersion) {
     return false;
 }
 
-bool MediaTransControls::configure(HWND main) {
+bool MediaTransControls::Init(CMainFrame* main) {
     /// Windows 8.1 or later is required
     if (!IsWindowsVersionOrLater(0x06030000ul)) return false;
     CComPtr<ISystemMediaTransportControlsInterop> op;
@@ -71,7 +96,7 @@ bool MediaTransControls::configure(HWND main) {
         this->controls = nullptr;
         return false;
     }
-    if ((ret = op->GetForWindow(main, IID_PPV_ARGS(&this->controls))) != S_OK) {
+    if ((ret = op->GetForWindow(main->GetSafeHwnd(), IID_PPV_ARGS(&this->controls))) != S_OK) {
         this->controls = nullptr;
         return false;
     }
@@ -151,16 +176,21 @@ void MediaTransControls::loadThumbnail(CString fn) {
 
 void MediaTransControls::loadThumbnail(BYTE* content, size_t size) {
     if (!content || !size || !updater) return;
-    wchar_t pb[MAX_PATH + 1];
-    if (!GetTempPathW(MAX_PATH + 1, pb)) {
+    ComPtr<Streams::IRandomAccessStream> s;
+    HRESULT ret;
+    if ((ret = ActivateInstance(HStringReference(RuntimeClass_Windows_Storage_Streams_InMemoryRandomAccessStream).Get(), s.GetAddressOf())) != S_OK) {
         return;
     }
-    wchar_t pn[MAX_PATH + 1];
-    if (!GetTempFileNameW(pb, L"thumbnail_", 0, pn)) return;
-    FILE* f;
-    if (_wfopen_s(&f, pn, L"wb")) return;
-    if (!f) return;
-    fwrite(content, sizeof(BYTE), size, f);
-    fclose(f);
-    loadThumbnail(pn);
+    ComPtr<IStream> writer;
+    CreateStreamOverRandomAccessStream(s.Get(), IID_PPV_ARGS(writer.GetAddressOf()));
+    writer->Write(content, size, nullptr);
+    CComPtr<Streams::IRandomAccessStreamReferenceStatics> rasrs;
+    if ((ret = GetActivationFactory(HStringReference(L"Windows.Storage.Streams.RandomAccessStreamReference").Get(), &rasrs)) != S_OK) {
+        return;
+    }
+    CComPtr<Streams::IRandomAccessStreamReference> stream;
+    if ((ret = rasrs->CreateFromStream(s.Get(), &stream)) != S_OK) {
+        return;
+    }
+    updater->put_Thumbnail(stream);
 }
