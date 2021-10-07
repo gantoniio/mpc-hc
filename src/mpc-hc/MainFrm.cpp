@@ -19899,7 +19899,8 @@ CString CMainFrame::getBestTitle(bool fTitleBarTextTitle) {
 void CMainFrame::updateMediaTransControl() {
     if (m_media_trans_control.updater) {
         boolean enabled;
-        assert(m_media_trans_control.controls->get_IsEnabled(&enabled) == S_OK);
+        HRESULT ret = m_media_trans_control.controls->get_IsEnabled(&enabled);
+        ASSERT(ret == S_OK);
         if (enabled) {
             m_media_trans_control.updater->put_Type(ABI::Windows::Media::MediaPlaybackType_Video);
             CString title = getBestTitle();
@@ -19909,7 +19910,8 @@ void CMainFrame::updateMediaTransControl() {
             if (!title.IsEmpty()) {
                 HSTRING ttitle;
                 if (WindowsCreateString(title.GetString(), title.GetLength(), &ttitle) == S_OK) {
-                    assert(m_media_trans_control.video->put_Title(ttitle) == S_OK);
+                    ret = m_media_trans_control.video->put_Title(ttitle);
+                    ASSERT(ret == S_OK);
                 }
             }
             if (m_pAMMC) {
@@ -19920,12 +19922,14 @@ void CMainFrame::updateMediaTransControl() {
                     if (!author.IsEmpty()) {
                         HSTRING ttitle;
                         if (WindowsCreateString(author.GetString(), author.GetLength(), &ttitle) == S_OK) {
-                            assert(m_media_trans_control.video->put_Subtitle(ttitle) == S_OK);
+                            ret = m_media_trans_control.video->put_Subtitle(ttitle);
+                            ASSERT(ret == S_OK);
                         }
                     }
                 }
             }
-            assert(m_media_trans_control.updater->Update() == S_OK);
+            ret = m_media_trans_control.updater->Update();
+            ASSERT(ret == S_OK);
         }
     }
 }

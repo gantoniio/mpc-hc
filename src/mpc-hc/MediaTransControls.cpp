@@ -63,6 +63,7 @@ inline bool IsWindowsVersionOrLater(uint32_t aVersion) {
 }
 
 bool MediaTransControls::configure(HWND main) {
+    /// Windows 8.1 or later is required
     if (!IsWindowsVersionOrLater(0x06030000ul)) return false;
     CComPtr<ISystemMediaTransportControlsInterop> op;
     HRESULT ret;
@@ -75,9 +76,12 @@ bool MediaTransControls::configure(HWND main) {
         return false;
     }
     this->controls->put_PlaybackStatus(MediaPlaybackStatus::MediaPlaybackStatus_Closed);
-    assert(S_OK == this->controls->get_DisplayUpdater(&this->updater));
-    assert(S_OK == this->updater->put_Type(MediaPlaybackType::MediaPlaybackType_Video));
-    assert(S_OK == this->updater->get_VideoProperties(&this->video));
+    ret = this->controls->get_DisplayUpdater(&this->updater);
+    ASSERT(ret == S_OK);
+    ret = this->updater->put_Type(MediaPlaybackType::MediaPlaybackType_Video);
+    ASSERT(ret == S_OK);
+    ret = this->updater->get_VideoProperties(&this->video);
+    ASSERT(ret == S_OK);
     return true;
 }
 
