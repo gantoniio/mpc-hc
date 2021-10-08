@@ -1295,6 +1295,7 @@ public:
     MediaTransControls m_media_trans_control;
 
     void updateMediaTransControl();
+    void updateMediaTransControlThumbnail();
 
 private:
     bool watchingFileDialog;

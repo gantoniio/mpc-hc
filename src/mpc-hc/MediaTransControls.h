@@ -29,6 +29,7 @@ public:
     MediaTransControls(void) {
         this->controls = nullptr;
         this->updater = nullptr;
+        this->video = nullptr;
     }
     /**
      * @brief Intitialize the interface
@@ -49,4 +50,5 @@ public:
     CComPtr<ABI::Windows::Media::IVideoDisplayProperties> video;
     void loadThumbnail(CString fn);
     void loadThumbnail(BYTE* content, size_t size);
+    void loadThumbnailFromUrl(CString url);
 };

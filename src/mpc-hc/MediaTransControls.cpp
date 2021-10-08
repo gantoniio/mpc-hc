@@ -21,6 +21,7 @@
 #include "MainFrm.h"
 #include "MediaTransControls.h"
 #include "shcore.h"
+#include "PathUtils.h"
 
 #pragma comment(lib, "RuntimeObject.lib")
 #pragma comment(lib, "ShCore.lib")
@@ -114,7 +115,7 @@ void MediaTransControls::stop() {
     if (this->controls != nullptr) {
         this->controls->put_IsEnabled(false);
         this->controls->put_PlaybackStatus(MediaPlaybackStatus::MediaPlaybackStatus_Closed);
-        this->updater->ClearAll();
+        if (this->updater) this->updater->ClearAll();
     }
 }
 
@@ -146,9 +147,10 @@ bool AwaitForIAsyncOperation(CComPtr<ABI::Windows::Foundation::IAsyncOperation<T
 
 void MediaTransControls::loadThumbnail(CString fn) {
     if (fn.IsEmpty() || !updater) return;
+    if (PathUtils::IsURL(fn)) return loadThumbnailFromUrl(fn);
     HRESULT ret;
     CComPtr<IStorageFileStatics> sfs;
-    if ((ret = GetActivationFactory(HStringReference(L"Windows.Storage.StorageFile").Get(), &sfs)) != S_OK) {
+    if ((ret = GetActivationFactory(HStringReference(RuntimeClass_Windows_Storage_StorageFile).Get(), &sfs)) != S_OK) {
         return;
     }
     CComPtr<ABI::Windows::Foundation::IAsyncOperation<StorageFile*>> af;
@@ -164,7 +166,7 @@ void MediaTransControls::loadThumbnail(CString fn) {
         return;
     }
     CComPtr<Streams::IRandomAccessStreamReferenceStatics> rasrs;
-    if ((ret = GetActivationFactory(HStringReference(L"Windows.Storage.Streams.RandomAccessStreamReference").Get(), &rasrs)) != S_OK) {
+    if ((ret = GetActivationFactory(HStringReference(RuntimeClass_Windows_Storage_Streams_RandomAccessStreamReference).Get(), &rasrs)) != S_OK) {
         return;
     }
     CComPtr<Streams::IRandomAccessStreamReference> stream;
@@ -185,7 +187,7 @@ void MediaTransControls::loadThumbnail(BYTE* content, size_t size) {
     CreateStreamOverRandomAccessStream(s.Get(), IID_PPV_ARGS(writer.GetAddressOf()));
     writer->Write(content, size, nullptr);
     CComPtr<Streams::IRandomAccessStreamReferenceStatics> rasrs;
-    if ((ret = GetActivationFactory(HStringReference(L"Windows.Storage.Streams.RandomAccessStreamReference").Get(), &rasrs)) != S_OK) {
+    if ((ret = GetActivationFactory(HStringReference(RuntimeClass_Windows_Storage_Streams_RandomAccessStreamReference).Get(), &rasrs)) != S_OK) {
         return;
     }
     CComPtr<Streams::IRandomAccessStreamReference> stream;
@@ -193,4 +195,28 @@ void MediaTransControls::loadThumbnail(BYTE* content, size_t size) {
         return;
     }
     updater->put_Thumbnail(stream);
+}
+
+void MediaTransControls::loadThumbnailFromUrl(CString url) {
+    if (url.IsEmpty() || !updater) return;
+    if (PathUtils::IsFile(url)) return loadThumbnail(url);
+    HRESULT ret;
+    CComPtr<ABI::Windows::Foundation::IUriRuntimeClassFactory> u;
+    if ((ret = Windows::Foundation::GetActivationFactory(HStringReference(RuntimeClass_Windows_Foundation_Uri).Get(), &u)) != S_OK) {
+        return;
+    }
+    CComPtr<ABI::Windows::Foundation::IUriRuntimeClass> uri;
+    if ((ret = u->CreateUri(HStringReference(url).Get(), &uri)) != S_OK) {
+        return;
+    }
+    CComPtr<Streams::IRandomAccessStreamReferenceStatics> rasrs;
+    if ((ret = GetActivationFactory(HStringReference(RuntimeClass_Windows_Storage_Streams_RandomAccessStreamReference).Get(), &rasrs)) != S_OK) {
+        return;
+    }
+    CComPtr<Streams::IRandomAccessStreamReference> stream;
+    if ((ret = rasrs->CreateFromUri(uri, &stream)) != S_OK) {
+        return;
+    }
+    ret = updater->put_Thumbnail(stream);
+    ASSERT(ret == S_OK);
 }

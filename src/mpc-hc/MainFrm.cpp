@@ -3906,6 +3906,8 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     m_bSettingUpMenus = false;
 
+    updateMediaTransControlThumbnail();
+
     return 0;
 }
 
@@ -18952,16 +18954,13 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
                 std::vector<BYTE> internalCover;
                 if (CoverArt::FindEmbedded(pFilterGraph, internalCover)) {
                     m_wndView.LoadImg(internalCover);
-                    m_media_trans_control.loadThumbnail(internalCover.data(), internalCover.size());
                     m_currentCoverPath = filename;
                     m_currentCoverAuthor = author;
                 } else if (pli && !pli->m_cover.IsEmpty() && CPath(pli->m_cover).FileExists()) {
                     m_wndView.LoadImg(pli->m_cover);
-                    m_media_trans_control.loadThumbnail(pli->m_cover);
                 } else if (!filedir.IsEmpty() && (m_currentCoverPath != filedir || m_currentCoverAuthor != author || currentCoverIsFileArt)) {
                     CString img = CoverArt::FindExternal(filename_no_ext, filedir, author, currentCoverIsFileArt);
                     m_wndView.LoadImg(img);
-                    m_media_trans_control.loadThumbnail(img);
                     m_currentCoverPath = filedir;
                     m_currentCoverAuthor = author;
                 } else if (!m_wndView.IsCustomImgLoaded()) {
@@ -19931,5 +19930,47 @@ void CMainFrame::updateMediaTransControl() {
             ret = m_media_trans_control.updater->Update();
             ASSERT(ret == S_OK);
         }
+    }
+}
+
+void CMainFrame::updateMediaTransControlThumbnail() {
+    if (m_media_trans_control.updater) {
+        CString filename = m_wndPlaylistBar.GetCurFileName();
+        CString filename_no_ext;
+        CString filedir;
+        if (!PathUtils::IsURL(filename)) {
+            CPath path = CPath(filename);
+            if (path.FileExists()) {
+                path.RemoveExtension();
+                filename_no_ext = path.m_strPath;
+                path.RemoveFileSpec();
+                filedir = path.m_strPath;
+            }
+        }
+
+        CString author;
+        if (m_pAMMC) {
+            CComBSTR bstr;
+            if (SUCCEEDED(m_pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
+                author = bstr.m_str;
+            }
+        }
+        CComQIPtr<IFilterGraph> pFilterGraph = m_pGB;
+        CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+        std::vector<BYTE> internalCover;
+        if (CoverArt::FindEmbedded(pFilterGraph, internalCover)) {
+            m_media_trans_control.loadThumbnail(internalCover.data(), internalCover.size());
+        } else if (pli && !pli->m_cover.IsEmpty()) {
+            m_media_trans_control.loadThumbnail(pli->m_cover);
+        } else if (!filedir.IsEmpty()) {
+            bool is_file_art = false;
+            CString img = CoverArt::FindExternal(filename_no_ext, filedir, author, is_file_art);
+            if (!img.IsEmpty()) {
+                if (m_fAudioOnly || is_file_art) {
+                    m_media_trans_control.loadThumbnail(img);
+                }
+            }
+        }
+        m_media_trans_control.updater->Update();
     }
 }
