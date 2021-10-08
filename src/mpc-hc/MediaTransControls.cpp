@@ -22,6 +22,7 @@
 #include "MediaTransControls.h"
 #include "shcore.h"
 #include "PathUtils.h"
+#include "SysVersion.h"
 
 #pragma comment(lib, "RuntimeObject.lib")
 #pragma comment(lib, "ShCore.lib")
@@ -50,47 +51,9 @@ using namespace ABI::Windows::Storage;
 using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Wrappers;
 
-inline bool IsWindowsVersionOrLater(uint32_t aVersion) {
-    static uint32_t minVersion(0);
-    static uint32_t maxVersion(UINT32_MAX);
-
-    if (minVersion >= aVersion) {
-        return true;
-    }
-
-    if (aVersion >= maxVersion) {
-        return false;
-    }
-
-    OSVERSIONINFOEXW info;
-    ZeroMemory(&info, sizeof(OSVERSIONINFOEXW));
-    info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
-    info.dwMajorVersion = aVersion >> 24;
-    info.dwMinorVersion = (aVersion >> 16) & 0xFF;
-    info.wServicePackMajor = (aVersion >> 8) & 0xFF;
-    info.wServicePackMinor = aVersion & 0xFF;
-
-    DWORDLONG conditionMask = 0;
-    VER_SET_CONDITION(conditionMask, VER_MAJORVERSION, VER_GREATER_EQUAL);
-    VER_SET_CONDITION(conditionMask, VER_MINORVERSION, VER_GREATER_EQUAL);
-    VER_SET_CONDITION(conditionMask, VER_SERVICEPACKMAJOR, VER_GREATER_EQUAL);
-    VER_SET_CONDITION(conditionMask, VER_SERVICEPACKMINOR, VER_GREATER_EQUAL);
-
-    if (VerifyVersionInfoW(&info,
-        VER_MAJORVERSION | VER_MINORVERSION |
-        VER_SERVICEPACKMAJOR | VER_SERVICEPACKMINOR,
-        conditionMask)) {
-        minVersion = aVersion;
-        return true;
-    }
-
-    maxVersion = aVersion;
-    return false;
-}
-
 bool MediaTransControls::Init(CMainFrame* main) {
     /// Windows 8.1 or later is required
-    if (!IsWindowsVersionOrLater(0x06030000ul)) return false;
+    if (!SysVersion::IsWin81orLater()) return false;
     CComPtr<ISystemMediaTransportControlsInterop> op;
     HRESULT ret;
     if ((ret = GetActivationFactory(HStringReference(L"Windows.Media.SystemMediaTransportControls").Get(), &op)) != S_OK) {
