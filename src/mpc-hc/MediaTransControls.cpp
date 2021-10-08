@@ -108,6 +108,24 @@ bool MediaTransControls::Init(CMainFrame* main) {
     ASSERT(ret == S_OK);
     ret = this->updater->get_VideoProperties(&this->video);
     ASSERT(ret == S_OK);
+    m_pMainFrame = main;
+    auto callbackButtonPressed = Callback<ABI::Windows::Foundation::ITypedEventHandler<SystemMediaTransportControls*, SystemMediaTransportControlsButtonPressedEventArgs*>>(
+        [this](ISystemMediaTransportControls*, ISystemMediaTransportControlsButtonPressedEventArgs* pArgs) {
+            HRESULT ret;
+            SystemMediaTransportControlsButton button;
+            if ((ret = pArgs->get_Button(&button)) != S_OK) {
+                return ret;
+            }
+            OnButtonPressed(button);
+            return S_OK;
+        });
+    ret = controls->add_ButtonPressed(callbackButtonPressed.Get(), &m_EventRegistrationToken);
+    ASSERT(ret == S_OK);
+    this->controls->put_IsPlayEnabled(true);
+    this->controls->put_IsPauseEnabled(true);
+    this->controls->put_IsStopEnabled(true);
+    this->controls->put_IsPreviousEnabled(true);
+    this->controls->put_IsNextEnabled(true);
     return true;
 }
 
@@ -122,7 +140,6 @@ void MediaTransControls::stop() {
 void MediaTransControls::play() {
     if (this->controls != nullptr) {
         this->controls->put_IsEnabled(true);
-        this->controls->put_IsPlayEnabled(true);
         this->controls->put_PlaybackStatus(MediaPlaybackStatus::MediaPlaybackStatus_Playing);
     }
 }
@@ -219,4 +236,25 @@ void MediaTransControls::loadThumbnailFromUrl(CString url) {
     }
     ret = updater->put_Thumbnail(stream);
     ASSERT(ret == S_OK);
+}
+
+void MediaTransControls::OnButtonPressed(SystemMediaTransportControlsButton button) {
+    if (!m_pMainFrame) return;
+    switch (button) {
+    case SystemMediaTransportControlsButton_Play:
+        m_pMainFrame->PostMessageW(WM_COMMAND, ID_PLAY_PLAY);
+        break;
+    case SystemMediaTransportControlsButton_Pause:
+        m_pMainFrame->PostMessageW(WM_COMMAND, ID_PLAY_PAUSE);
+        break;
+    case SystemMediaTransportControlsButton_Stop:
+        m_pMainFrame->PostMessageW(WM_COMMAND, ID_PLAY_STOP);
+        break;
+    case SystemMediaTransportControlsButton_Previous:
+        m_pMainFrame->PostMessageW(WM_COMMAND, ID_NAVIGATE_SKIPBACK);
+        break;
+    case SystemMediaTransportControlsButton_Next:
+        m_pMainFrame->PostMessageW(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+        break;
+    }
 }

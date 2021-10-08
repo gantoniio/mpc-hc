@@ -31,6 +31,11 @@ public:
         this->updater = nullptr;
         this->video = nullptr;
     }
+    ~MediaTransControls(void) {
+        if (controls && m_EventRegistrationToken.value) {
+            controls->remove_ButtonPressed(m_EventRegistrationToken);
+        }
+    }
     /**
      * @brief Intitialize the interface
      * @param main 
@@ -51,4 +56,8 @@ public:
     void loadThumbnail(CString fn);
     void loadThumbnail(BYTE* content, size_t size);
     void loadThumbnailFromUrl(CString url);
+protected:
+    CMainFrame* m_pMainFrame;
+    EventRegistrationToken m_EventRegistrationToken;
+    void OnButtonPressed(ABI::Windows::Media::SystemMediaTransportControlsButton button);
 };

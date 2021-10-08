@@ -8196,6 +8196,12 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
                     fEnable = false;
                 }
             }
+
+            if (m_media_trans_control.controls) {
+                if (fs == State_Running) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Playing);
+                else if (fs == State_Paused) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Paused);
+                else if (fs == State_Stopped) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Stopped);
+            }
         }
     } else if (GetLoadState() == MLS::CLOSED) {
         fEnable = (pCmdUI->m_nID == ID_PLAY_PLAY || pCmdUI->m_nID == ID_PLAY_PLAYPAUSE) && !IsPlaylistEmpty();
@@ -19913,16 +19919,42 @@ void CMainFrame::updateMediaTransControl() {
                     ASSERT(ret == S_OK);
                 }
             }
-            if (m_pAMMC) {
+            bool have_subtitle = false;
+            CString chapter;
+            if (m_pCB) {
+                DWORD dwChapCount = m_pCB->ChapGetCount();
+                if (dwChapCount) {
+                    REFERENCE_TIME rtNow;
+                    m_pMS->GetCurrentPosition(&rtNow);
+
+                    CComBSTR bstr;
+                    long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
+                    if (bstr.Length()) {
+                        chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, std::max(0l, currentChap + 1l), dwChapCount);
+                    } else {
+                        chapter.Format(_T("%ld/%lu"), currentChap + 1, dwChapCount);
+                    }
+                }
+            }
+            if (!chapter.IsEmpty()) {
+                HSTRING temp;
+                if (WindowsCreateString(chapter.GetString(), chapter.GetLength(), &temp) == S_OK) {
+                    ret = m_media_trans_control.video->put_Subtitle(temp);
+                    ASSERT(ret == S_OK);
+                    have_subtitle = true;
+                }
+            }
+            if (!have_subtitle && m_pAMMC) {
                 CComBSTR bstr;
                 if (SUCCEEDED(m_pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
                     CString author = bstr.m_str;
                     author.Trim();
                     if (!author.IsEmpty()) {
-                        HSTRING ttitle;
-                        if (WindowsCreateString(author.GetString(), author.GetLength(), &ttitle) == S_OK) {
-                            ret = m_media_trans_control.video->put_Subtitle(ttitle);
+                        HSTRING temp;
+                        if (WindowsCreateString(author.GetString(), author.GetLength(), &temp) == S_OK) {
+                            ret = m_media_trans_control.video->put_Subtitle(temp);
                             ASSERT(ret == S_OK);
+                            have_subtitle = true;
                         }
                     }
                 }
