@@ -8196,12 +8196,6 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
                     fEnable = false;
                 }
             }
-
-            if (m_media_trans_control.controls) {
-                if (fs == State_Running) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Playing);
-                else if (fs == State_Paused) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Paused);
-                else if (fs == State_Stopped) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Stopped);
-            }
         }
     } else if (GetLoadState() == MLS::CLOSED) {
         fEnable = (pCmdUI->m_nID == ID_PLAY_PLAY || pCmdUI->m_nID == ID_PLAY_PLAYPAUSE) && !IsPlaylistEmpty();
@@ -10609,6 +10603,7 @@ void CMainFrame::UpdateCachedMediaState()
 
 bool CMainFrame::MediaControlRun(bool waitforcompletion)
 {
+    MediaTransControlUpdateState(State_Running);
     m_dwLastPause = 0;
     if (m_pMC) {
         ASSERT(m_CachedFilterState != State_Running);
@@ -10628,6 +10623,7 @@ bool CMainFrame::MediaControlRun(bool waitforcompletion)
 
 bool CMainFrame::MediaControlPause(bool waitforcompletion)
 {
+    MediaTransControlUpdateState(State_Paused);
     m_dwLastPause = GetTickCount64();
     if (m_pMC) {
         ASSERT(m_CachedFilterState != State_Paused);
@@ -10647,6 +10643,7 @@ bool CMainFrame::MediaControlPause(bool waitforcompletion)
 
 bool CMainFrame::MediaControlStop(bool waitforcompletion)
 {
+    MediaTransControlUpdateState(State_Stopped);
     m_dwLastPause = 0;
     if (m_pMC) {
         m_CachedFilterState = State_Stopped;
@@ -19919,7 +19916,7 @@ void CMainFrame::updateMediaTransControl() {
                     ASSERT(ret == S_OK);
                 }
             }
-            bool have_subtitle = false;
+            bool have_secondary_title = false;
             CString chapter;
             if (m_pCB) {
                 DWORD dwChapCount = m_pCB->ChapGetCount();
@@ -19941,10 +19938,10 @@ void CMainFrame::updateMediaTransControl() {
                 if (WindowsCreateString(chapter.GetString(), chapter.GetLength(), &temp) == S_OK) {
                     ret = m_media_trans_control.video->put_Subtitle(temp);
                     ASSERT(ret == S_OK);
-                    have_subtitle = true;
+                    have_secondary_title = true;
                 }
             }
-            if (!have_subtitle && m_pAMMC) {
+            if (!have_secondary_title && m_pAMMC) {
                 CComBSTR bstr;
                 if (SUCCEEDED(m_pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
                     CString author = bstr.m_str;
@@ -19954,7 +19951,7 @@ void CMainFrame::updateMediaTransControl() {
                         if (WindowsCreateString(author.GetString(), author.GetLength(), &temp) == S_OK) {
                             ret = m_media_trans_control.video->put_Subtitle(temp);
                             ASSERT(ret == S_OK);
-                            have_subtitle = true;
+                            have_secondary_title = true;
                         }
                     }
                 }
@@ -20004,5 +20001,13 @@ void CMainFrame::updateMediaTransControlThumbnail() {
             }
         }
         m_media_trans_control.updater->Update();
+    }
+}
+
+void CMainFrame::MediaTransControlUpdateState(OAFilterState state) {
+    if (m_media_trans_control.controls) {
+        if (state == State_Running) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Playing);
+        else if (state == State_Paused) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Paused);
+        else if (state == State_Stopped) m_media_trans_control.controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Stopped);
     }
 }

@@ -1296,6 +1296,7 @@ public:
 
     void updateMediaTransControl();
     void updateMediaTransControlThumbnail();
+    void MediaTransControlUpdateState(OAFilterState state);
 
 private:
     bool watchingFileDialog;
