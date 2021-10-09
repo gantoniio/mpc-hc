@@ -56,6 +56,7 @@ public:
     void loadThumbnail(CString fn);
     void loadThumbnail(BYTE* content, size_t size);
     void loadThumbnailFromUrl(CString url);
+    bool IsActive();
 protected:
     CMainFrame* m_pMainFrame;
     EventRegistrationToken m_EventRegistrationToken;

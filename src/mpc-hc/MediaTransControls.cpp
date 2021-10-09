@@ -221,3 +221,14 @@ void MediaTransControls::OnButtonPressed(SystemMediaTransportControlsButton butt
         break;
     }
 }
+
+bool MediaTransControls::IsActive() {
+    if (controls) {
+        boolean enabled;
+        HRESULT hr;
+        if ((hr = controls->get_IsEnabled(&enabled)) == S_OK) {
+            return enabled;
+        }
+    }
+    return false;
+}
