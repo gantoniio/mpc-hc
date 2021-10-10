@@ -19986,14 +19986,6 @@ void CMainFrame::updateMediaTransControl() {
                     ASSERT(ret == S_OK);
                 }
             }
-            CString album_artist;  // TODO: Read album artist from file tags
-            if (!album_artist.IsEmpty()) {
-                HSTRING temp;
-                if (WindowsCreateString(album_artist.GetString(), album_artist.GetLength(), &temp) == S_OK) {
-                    ret = m_media_trans_control.audio->put_AlbumArtist(temp);
-                    ASSERT(ret == S_OK);
-                }
-            }
             ret = m_media_trans_control.updater->Update();
             ASSERT(ret == S_OK);
         }
