@@ -19903,7 +19903,7 @@ void CMainFrame::updateMediaTransControl() {
         boolean enabled;
         HRESULT ret = m_media_trans_control.controls->get_IsEnabled(&enabled);
         ASSERT(ret == S_OK);
-        if (enabled) {
+        if (ret == S_OK && enabled) {
             m_media_trans_control.updater->put_Type(ABI::Windows::Media::MediaPlaybackType_Video);
             CString title = getBestTitle();
             if (title.IsEmpty()) {

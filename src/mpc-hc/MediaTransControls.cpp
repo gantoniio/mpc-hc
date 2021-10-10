@@ -67,10 +67,24 @@ bool MediaTransControls::Init(CMainFrame* main) {
     this->controls->put_PlaybackStatus(MediaPlaybackStatus::MediaPlaybackStatus_Closed);
     ret = this->controls->get_DisplayUpdater(&this->updater);
     ASSERT(ret == S_OK);
+    if (ret != S_OK) {
+        controls = nullptr;
+        return false;
+    }
     ret = this->updater->put_Type(MediaPlaybackType::MediaPlaybackType_Video);
     ASSERT(ret == S_OK);
+    if (ret != S_OK) {
+        controls = nullptr;
+        updater = nullptr;
+        return false;
+    }
     ret = this->updater->get_VideoProperties(&this->video);
     ASSERT(ret == S_OK);
+    if (ret != S_OK) {
+        controls = nullptr;
+        updater = nullptr;
+        return false;
+    }
     m_pMainFrame = main;
     auto callbackButtonPressed = Callback<ABI::Windows::Foundation::ITypedEventHandler<SystemMediaTransportControls*, SystemMediaTransportControlsButtonPressedEventArgs*>>(
         [this](ISystemMediaTransportControls*, ISystemMediaTransportControlsButtonPressedEventArgs* pArgs) {
@@ -84,6 +98,12 @@ bool MediaTransControls::Init(CMainFrame* main) {
         });
     ret = controls->add_ButtonPressed(callbackButtonPressed.Get(), &m_EventRegistrationToken);
     ASSERT(ret == S_OK);
+    if (ret != S_OK) {
+        controls = nullptr;
+        updater = nullptr;
+        video = nullptr;
+        return false;
+    }
     this->controls->put_IsPlayEnabled(true);
     this->controls->put_IsPauseEnabled(true);
     this->controls->put_IsStopEnabled(true);
