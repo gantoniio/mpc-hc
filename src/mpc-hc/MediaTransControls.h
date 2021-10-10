@@ -53,6 +53,7 @@ public:
     CComPtr<ABI::Windows::Media::ISystemMediaTransportControls> controls;
     CComPtr<ABI::Windows::Media::ISystemMediaTransportControlsDisplayUpdater> updater;
     CComPtr<ABI::Windows::Media::IVideoDisplayProperties> video;
+    CComPtr<ABI::Windows::Media::IMusicDisplayProperties> audio;
     void loadThumbnail(CString fn);
     void loadThumbnail(BYTE* content, size_t size);
     void loadThumbnailFromUrl(CString url);

@@ -19903,7 +19903,7 @@ void CMainFrame::updateMediaTransControl() {
         boolean enabled;
         HRESULT ret = m_media_trans_control.controls->get_IsEnabled(&enabled);
         ASSERT(ret == S_OK);
-        if (ret == S_OK && enabled) {
+        if (ret == S_OK && enabled && !m_fAudioOnly) {
             m_media_trans_control.updater->put_Type(ABI::Windows::Media::MediaPlaybackType_Video);
             CString title = getBestTitle();
             if (title.IsEmpty()) {
@@ -19954,6 +19954,44 @@ void CMainFrame::updateMediaTransControl() {
                             have_secondary_title = true;
                         }
                     }
+                }
+            }
+            ret = m_media_trans_control.updater->Update();
+            ASSERT(ret == S_OK);
+        } else if (ret == S_OK && enabled && m_fAudioOnly) {
+            m_media_trans_control.updater->put_Type(ABI::Windows::Media::MediaPlaybackType_Music);
+            CString title = getBestTitle();
+            CString author;
+            if (title.IsEmpty()) {
+                title = GetFileName();
+            }
+            if (!title.IsEmpty()) {
+                HSTRING ttitle;
+                if (WindowsCreateString(title.GetString(), title.GetLength(), &ttitle) == S_OK) {
+                    ret = m_media_trans_control.audio->put_Title(ttitle);
+                    ASSERT(ret == S_OK);
+                }
+            }
+            if (author.IsEmpty() && m_pAMMC) {
+                CComBSTR bstr;
+                if (SUCCEEDED(m_pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
+                    author = bstr.m_str;
+                    author.Trim();
+                }
+            }
+            if (!author.IsEmpty()) {
+                HSTRING temp;
+                if (WindowsCreateString(author.GetString(), author.GetLength(), &temp) == S_OK) {
+                    ret = m_media_trans_control.audio->put_Artist(temp);
+                    ASSERT(ret == S_OK);
+                }
+            }
+            CString album_artist;  // TODO: Read album artist from file tags
+            if (!album_artist.IsEmpty()) {
+                HSTRING temp;
+                if (WindowsCreateString(album_artist.GetString(), album_artist.GetLength(), &temp) == S_OK) {
+                    ret = m_media_trans_control.audio->put_AlbumArtist(temp);
+                    ASSERT(ret == S_OK);
                 }
             }
             ret = m_media_trans_control.updater->Update();

@@ -85,6 +85,15 @@ bool MediaTransControls::Init(CMainFrame* main) {
         updater = nullptr;
         return false;
     }
+    ret = this->updater->put_Type(MediaPlaybackType::MediaPlaybackType_Music);
+    ret = this->updater->get_MusicProperties(&this->audio);
+    ASSERT(ret == S_OK);
+    if (ret != S_OK) {
+        controls = nullptr;
+        updater = nullptr;
+        video = nullptr;
+        return false;
+    }
     m_pMainFrame = main;
     auto callbackButtonPressed = Callback<ABI::Windows::Foundation::ITypedEventHandler<SystemMediaTransportControls*, SystemMediaTransportControlsButtonPressedEventArgs*>>(
         [this](ISystemMediaTransportControls*, ISystemMediaTransportControlsButtonPressedEventArgs* pArgs) {
@@ -102,6 +111,7 @@ bool MediaTransControls::Init(CMainFrame* main) {
         controls = nullptr;
         updater = nullptr;
         video = nullptr;
+        audio = nullptr;
         return false;
     }
     this->controls->put_IsPlayEnabled(true);
@@ -199,7 +209,6 @@ void MediaTransControls::loadThumbnail(BYTE* content, size_t size) {
 
 void MediaTransControls::loadThumbnailFromUrl(CString url) {
     if (url.IsEmpty() || !updater) return;
-    if (PathUtils::IsFile(url)) return loadThumbnail(url);
     HRESULT ret;
     CComPtr<ABI::Windows::Foundation::IUriRuntimeClassFactory> u;
     if ((ret = Windows::Foundation::GetActivationFactory(HStringReference(RuntimeClass_Windows_Foundation_Uri).Get(), &u)) != S_OK) {
