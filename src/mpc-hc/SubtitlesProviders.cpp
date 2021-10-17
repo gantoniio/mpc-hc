@@ -904,7 +904,7 @@ void SubtitlesThread::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
             {
                 // remove trash
                 int search = 0;
-                while (subtitles[search] == '?' && search < subtitles.length())
+                while (search < subtitles.length() && subtitles[search] == '?')
                     search++;
 
                 if (search > 0 && search < subtitles.length())
