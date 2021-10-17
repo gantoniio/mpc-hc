@@ -2226,7 +2226,9 @@ static std::vector<int> PreferredOpenFuncts(CString fn) {
         } else if (fileExt == _T("style")) {
             if (OpenFuncts[i].open == OpenSubStationAlpha) functs.push_back(i);
         } else if (fileExt == _T("tmp")) { // used for embedded subs
-            if (OpenFuncts[i].open == OpenSubRipper || OpenFuncts[i].open == OpenSubStationAlpha || OpenFuncts[i].open == OpenVTT) functs.push_back(i);
+            if (OpenFuncts[i].open == OpenSubRipper || OpenFuncts[i].open == OpenSubStationAlpha || OpenFuncts[i].open == OpenVTT) functs.insert(functs.begin(), i);
+            // could be downloaded OpenVPlayer or anything else renamed by processing to *.tmp despite having a name, put at the end
+            else functs.push_back(i);
         } else {
             functs.push_back(i);
         }

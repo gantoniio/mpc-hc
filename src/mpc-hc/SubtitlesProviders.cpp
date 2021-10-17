@@ -897,12 +897,29 @@ void SubtitlesThread::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
         CheckAbortAndThrow();
         for (const auto& iter : fileData) {
             CheckAbortAndThrow();
+
+            std::string subtitles = iter.second;
+
+            if (pSubtitlesInfo.Provider()->Name() == "Napisy24" && pSubtitlesInfo.languageCode == "pl")
+            {
+                // remove trash
+                int search = 0;
+                while (subtitles[search] == '?' && search < subtitles.length())
+                    search++;
+
+                if (search > 0 && search < subtitles.length())
+                    subtitles = subtitles.substr(search, subtitles.length()- search);
+
+                // do windows-1250 to UTF8
+                subtitles = to_utf8(subtitles, iter.second, 1250);
+            }
+
             struct {
                 SubtitlesInfo* pSubtitlesInfo;
                 BOOL bActivate;
                 std::string fileName;
                 std::string fileContents;
-            } data({ &pSubtitlesInfo, bActivate, iter.first, iter.second });
+            } data({ &pSubtitlesInfo, bActivate, iter.first, subtitles });
 
             if (m_pTask->m_pMainFrame->SendMessage(WM_LOADSUBTITLES, (BOOL)bActivate, (LPARAM)&data) == TRUE) {
                 if (!m_pTask->m_AutoDownload.empty()) {

@@ -84,6 +84,7 @@ namespace SubtitlesProvidersUtils
     std::list<std::string> LanguagesISO6391();
     std::list<std::string> LanguagesISO6392();
     UINT64 GenerateOSHash(SubtitlesInfo& pFileInfo);
+    std::string to_utf8(const std::string& input, const std::string& fallback, UINT codePage);
 
     template <typename T>
     std::string JoinContainer(const T& c, LPCSTR delim)

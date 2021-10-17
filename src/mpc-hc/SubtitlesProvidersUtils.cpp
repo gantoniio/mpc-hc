@@ -38,6 +38,7 @@
 #include <WinCrypt.h>
 #include <sstream>
 #include <cstdlib>
+#include <codecvt>
 
 int SubtitlesProvidersUtils::LevenshteinDistance(std::string s, std::string t)
 {
@@ -844,4 +845,22 @@ UINT64 SubtitlesProvidersUtils::GenerateOSHash(SubtitlesInfo& pFileInfo)
     }
     std::free(buffer);
     return fileHash;
+}
+
+
+std::string SubtitlesProvidersUtils::to_utf8(const std::string& input, const std::string& fallback, UINT codePage)
+{
+    int size_needed = MultiByteToWideChar(codePage, MB_ERR_INVALID_CHARS, input.c_str(), (int)input.size(), NULL, 0);
+
+    if (size_needed == 0)
+    {
+        return fallback;
+    }
+    else
+    {
+        std::wstring wstrTo(size_needed, 0);
+        MultiByteToWideChar(codePage, 0, input.c_str(), (int)input.size(), &wstrTo[0], size_needed);
+        std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+        return converterX.to_bytes(wstrTo);
+    }
 }
