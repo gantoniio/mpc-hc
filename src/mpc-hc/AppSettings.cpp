@@ -199,6 +199,7 @@ CAppSettings::CAppSettings()
     , iOnTop(0)
     , bFavRememberPos(true)
     , bFavRelativeDrive(false)
+    , bFavRememberABMarks(false)
     , iThumbRows(4)
     , iThumbCols(4)
     , iThumbWidth(1024)
@@ -240,6 +241,8 @@ CAppSettings::CAppSettings()
     , bUseTitleInRecentFileList(true)
     , sYDLSubsPreference()
     , bUseAutomaticCaptions(false)
+    , bLockNoPause(false)
+    , bUseSMTC(true)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -479,7 +482,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_SUBTITLES_LOAD,             'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLES },
     { ID_FILE_SUBTITLES_SAVE,             'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLES },
     { ID_FILE_SUBTITLES_DOWNLOAD,         'D', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_DOWNLOAD },
-    { ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_SUBTITLES_UPLOAD },
+    //{ ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_SUBTITLES_UPLOAD },
     { ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE },
     { ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES },
     { ID_FILE_OPEN_LOCATION,           VK_F10, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,IDS_AG_OPEN_FILE_LOCATION },
@@ -870,6 +873,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDEPLAYLISTFULLSCREEN, bHidePlaylistFullScreen);
     pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, bFavRememberPos);
     pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, bFavRelativeDrive);
+    pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERABMARKS, bFavRememberABMarks);
 
     UpdateRenderersData(true);
 
@@ -1145,6 +1149,9 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, bAllowInaccurateFastseek);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, bLoopFolderOnPlayNextFile);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOCK_NOPAUSE, bLockNoPause);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_SMTC, bUseSMTC);
+
     {
         CComHeapPtr<WCHAR> pDeviceId;
         BOOL bExclusive;
@@ -1154,9 +1161,6 @@ void CAppSettings::SaveSettings()
             pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, bExclusive);
             pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER, uBufferDuration);
         }
-
-        BOOL bAllowBitstreaming = sanear->GetAllowBitstreaming();
-        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, bAllowBitstreaming);
 
         BOOL bCrossfeedEnabled = sanear->GetCrossfeedEnabled();
         pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, bCrossfeedEnabled);
@@ -1562,6 +1566,7 @@ void CAppSettings::LoadSettings()
     bHidePlaylistFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDEPLAYLISTFULLSCREEN, FALSE);
     bFavRememberPos = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
     bFavRelativeDrive = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
+    bFavRememberABMarks = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERABMARKS, FALSE);
 
     strDVDPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_DVDPATH);
     fUseDVDPath = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDVDPATH, FALSE);
@@ -1968,6 +1973,9 @@ void CAppSettings::LoadSettings()
     bAllowInaccurateFastseek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, TRUE);
     bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, FALSE);
 
+    bLockNoPause = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOCK_NOPAUSE, FALSE);
+    bUseSMTC = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_SMTC, TRUE);
+
     if (fLaunchfullscreen && slFiles.GetCount() > 0) {
         nCLSwitches |= CLSW_FULLSCREEN;
     }
@@ -1976,8 +1984,6 @@ void CAppSettings::LoadSettings()
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, FALSE),
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER,
                                                SaneAudioRenderer::ISettings::OUTPUT_DEVICE_BUFFER_DEFAULT_MS));
-
-    sanear->SetAllowBitstreaming(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, TRUE));
 
     sanear->SetCrossfeedEnabled(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, FALSE));
 

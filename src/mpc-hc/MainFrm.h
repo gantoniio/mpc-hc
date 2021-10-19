@@ -50,6 +50,8 @@
 #include <qnetwork.h>
 #include "../DSUtil/FontInstaller.h"
 #include "AppSettings.h"
+#include "../filters/transform/VSFilter/IDirectVobSub.h"
+#include "MediaTransControls.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -153,6 +155,27 @@ struct SubtitleInput {
     SubtitleInput(CComQIPtr<ISubStream> pSubStream, CComPtr<IBaseFilter> pSourceFilter)
         : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
+
+struct FileFavorite {
+    CString Name;
+    REFERENCE_TIME Start;
+    REFERENCE_TIME MarkA;
+    REFERENCE_TIME MarkB;
+    BOOL RelativeDrive;
+
+    FileFavorite() {
+        Start = MarkA = MarkB = 0;
+        RelativeDrive = FALSE;
+    }
+
+    static bool TryParse(const CString& fav, FileFavorite& ff);
+    static bool TryParse(const CString& fav, FileFavorite& ff, CAtlList<CString>& parts);
+
+    CString ToString() const;
+};
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame
 
 class CMainFrame : public CFrameWnd, public CDropClient
 {
@@ -282,6 +305,8 @@ private:
     CComPtr<IAMDroppedFrames> m_pAMDF;
 
     CComPtr<IUnknown> m_pProv;
+
+    CComQIPtr<IDirectVobSub> m_pDVS;
 
     bool m_bUsingDXVA;
     LPCTSTR m_HWAccelType;
@@ -605,8 +630,9 @@ public:
     void RepaintVideo();
     void HideVideoWindow(bool fHide);
 
-    OAFilterState GetMediaStateDirect();
-    OAFilterState GetMediaState();
+    OAFilterState GetMediaStateDirect() const;
+    OAFilterState GetMediaState() const;
+    void CMainFrame::UpdateCachedMediaState();
     bool MediaControlRun(bool waitforcompletion = false);
     bool MediaControlPause(bool waitforcompletion = false);
     bool MediaControlStop(bool waitforcompletion = false);
@@ -1133,7 +1159,7 @@ public:
     void        SetClosedCaptions(bool enable);
     LPCTSTR     GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const;
     void        SetAudioDelay(REFERENCE_TIME rtShift);
-    void        SetSubtitleDelay(int delay_ms);
+    void        SetSubtitleDelay(int delay_ms, bool relative = false);
     //void      AutoSelectTracks();
     bool        IsRealEngineCompatible(CString strFilename) const;
     void        SetTimersPlay();
@@ -1259,6 +1285,17 @@ public:
     bool CanSendToYoutubeDL(const CString url);
     bool ProcessYoutubeDLURL(CString url, bool append, bool replace = false);
     bool DownloadWithYoutubeDL(CString url, CString filename);
+
+    /**
+     * @brief Get title of file
+     * @param fTitleBarTextTitle 
+     * @return 
+    */
+    CString getBestTitle(bool fTitleBarTextTitle = true);
+    MediaTransControls m_media_trans_control;
+
+    void MediaTransportControlSetMedia();
+    void MediaTransportControlUpdateState(OAFilterState state);
 
 private:
     bool watchingFileDialog;

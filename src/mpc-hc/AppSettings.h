@@ -149,6 +149,7 @@ enum MCE_RAW_INPUT {
 #define AUDRNDT_NULL_COMP       _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP     _T("Null Audio Renderer (Uncompressed)")
 #define AUDRNDT_INTERNAL        _T("Internal Audio Renderer")
+#define AUDRNDT_SANEAR          _T("SaneAR Audio Renderer")
 #define AUDRNDT_MPC             L"MPC Audio Renderer"
 
 
@@ -610,6 +611,8 @@ public:
     bool            bSaveImageCurrentTime;
     bool            bAllowInaccurateFastseek;
     bool            bLoopFolderOnPlayNextFile;
+    bool            bLockNoPause;
+    bool            bUseSMTC;
 
     enum class AfterPlayback {
         DO_NOTHING,
@@ -780,6 +783,7 @@ public:
     // Add Favorite
     bool            bFavRememberPos;
     bool            bFavRelativeDrive;
+    bool            bFavRememberABMarks;
     // Save Image...
     CString         strSnapshotPath, strSnapshotExt;
     bool			bSnapShotSubtitles;

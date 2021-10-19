@@ -29,6 +29,7 @@
 #include <emmintrin.h>
 #include <d3d9.h>
 #include "NullRenderers.h"
+#include "mvrInterfaces.h"
 
 #include "moreuuids.h"
 #include <dxva.h>
@@ -124,7 +125,7 @@ bool IsVideoRenderer(IBaseFilter* pBF)
     memcpy(&clsid, &GUID_NULL, sizeof(clsid));
     pBF->GetClassID(&clsid);
 
-    return (clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault);
+    return (clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault || clsid == CLSID_VideoMixingRenderer9 || clsid == CLSID_EnhancedVideoRenderer || clsid == CLSID_madVR || clsid == CLSID_DXR || clsid == CLSID_MPCVR);
 }
 
 bool IsAudioWaveRenderer(IBaseFilter* pBF)
@@ -623,6 +624,15 @@ CLSID GetCLSID(IBaseFilter* pBF)
 CLSID GetCLSID(IPin* pPin)
 {
     return GetCLSID(GetFilterFromPin(pPin));
+}
+
+CString CLSIDToString(CLSID& clsid)
+{
+    CComHeapPtr<OLECHAR> pStr;
+    if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
+        return CString(pStr);
+    }
+    return CString();
 }
 
 bool IsCLSIDRegistered(LPCTSTR clsid)

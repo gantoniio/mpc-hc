@@ -179,6 +179,10 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter()
     m_pMediaType  = nullptr;
     m_pClock      = nullptr;
     m_pD3DManager = nullptr;
+
+    if (m_bHookedNewSegment) {
+        UnhookNewSegment();
+    }
 }
 
 void CEVRAllocatorPresenter::ResetStats()
@@ -293,20 +297,17 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         hr = pMFVR->InitializeRenderer(nullptr, pVP);
     }
 
-#if 1
-    CComPtr<IPin> pPin = GetFirstPin(pBF);
-    CComQIPtr<IMemInputPin> pMemInputPin = pPin;
-
-    // No NewSegment : no chocolate :o)
-    m_fUseInternalTimer = !m_bIsPreview && HookNewSegment((IPinC*)(IPin*)pPin);
-#else
-    m_fUseInternalTimer = false;
-#endif
-
-    if (FAILED(hr)) {
-        *ppRenderer = nullptr;
-    } else {
+    if (SUCCEEDED(hr)) {
+        if (!m_bIsPreview) {
+            CComPtr<IPin> pPin = GetFirstPin(pBF);
+            if (HookNewSegment((IPinC*)(IPin*)pPin)) {
+                m_fUseInternalTimer = true;
+                m_bHookedNewSegment = true;
+            };
+        }
         *ppRenderer = pBF.Detach();
+    } else {
+        *ppRenderer = nullptr;
     }
 
     return hr;
@@ -2463,15 +2464,15 @@ void CEVRAllocatorPresenter::VSyncThread()
                         }
 
                         int ScanlineStart = ScanLine;
-                        bool bTakenLock;
-                        WaitForVBlankRange(ScanlineStart, 5, true, true, false, bTakenLock);
+                        HANDLE lockOwner = nullptr;
+                        WaitForVBlankRange(ScanlineStart, 5, true, true, false, lockOwner);
                         LONGLONG TimeStart = rd->GetPerfCounter();
 
-                        WaitForVBlankRange(ScanLineMiddle, 5, true, true, false, bTakenLock);
+                        WaitForVBlankRange(ScanLineMiddle, 5, true, true, false, lockOwner);
                         LONGLONG TimeMiddle = rd->GetPerfCounter();
 
                         int ScanlineEnd = ScanLine;
-                        WaitForVBlankRange(ScanlineEnd, 5, true, true, false, bTakenLock);
+                        WaitForVBlankRange(ScanlineEnd, 5, true, true, false, lockOwner);
                         LONGLONG TimeEnd = rd->GetPerfCounter();
 
                         double nSeconds = (TimeEnd - TimeStart) / 10000000.0;

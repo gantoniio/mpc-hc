@@ -71,7 +71,9 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;strmiids.lib;Uuid.Lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;strmiids.lib;Uuid.Lib;Version.lib;Bcrypt.lib;RuntimeObject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>psapi.dll;api-ms-win-shcore-stream-winrt-l1-1-0.dll;api-ms-win-core-winrt-l1-1-0.dll;api-ms-win-core-winrt-string-l1-1-0.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\DSUtil;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\AudioTools;..\thirdparty\MediaInfo\library\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -104,7 +106,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Lite'))">
     <Link>
-      <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;ResizableLib.lib;sizecbar.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;minhook.lib;tinyxml2.lib;RARFileSource.lib;MpcAudioRenderer.lib;AudioTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;ResizableLib.lib;sizecbar.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;minhook.lib;tinyxml2.lib;RARFileSource.lib;MpcAudioRenderer.lib;AudioTools.lib;ffmpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>MPCHC_LITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -275,6 +277,7 @@
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShockwaveGraph.cpp" />
     <ClCompile Include="SkypeMoodMsgHandler.cpp" />
+    <ClCompile Include="MediaTransControls.cpp" />
     <ClCompile Include="SVGImage.cpp" />
     <ClCompile Include="Translations.cpp" />
     <ClCompile Include="StaticLink.cpp" />
@@ -386,6 +389,7 @@
     <ClInclude Include="FullscreenWnd.h" />
     <ClInclude Include="GoToDlg.h" />
     <ClInclude Include="GraphThread.h" />
+    <ClInclude Include="MediaTransControls.h" />
     <ClInclude Include="Ifo.h" />
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="ImageGrayer.h" />

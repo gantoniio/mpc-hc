@@ -318,7 +318,6 @@ void CPlayerSeekBar::UpdateTooltip(const CPoint& point)
         case TOOLTIP_HIDDEN: {
             // If mouse moved or the tooltip wasn't hidden by timeout
             if (point != m_tooltipPoint || m_bIgnoreLastTooltipPoint) {
-                m_bIgnoreLastTooltipPoint = false;
                 // Start show tooltip countdown
                 m_tooltipState = TOOLTIP_TRIGGERED;
                 VERIFY(SetTimer(TIMER_SHOWHIDE_TOOLTIP, TOOLTIP_SHOW_DELAY, nullptr));
@@ -755,7 +754,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         invalidateThumb();
     } else {
         if (!m_pMainFrame->m_fFullScreen) {
-            MapWindowPoints(m_pMainFrame, &point, 1);
+            ClientToScreen(&point);
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
         }
     }
@@ -929,7 +928,8 @@ void CPlayerSeekBar::OnCaptureChanged(CWnd* pWnd)
 }
 
 void CPlayerSeekBar::PreviewWindowShow(CPoint point) {
-    if (point.x != m_last_pointx_preview && !DraggingThumb()) {
+    if ((point.x != m_last_pointx_preview || m_bIgnoreLastTooltipPoint) && !DraggingThumb()) {
+        m_bIgnoreLastTooltipPoint = false;
         m_last_pointx_preview = point.x;
         if (m_pMainFrame->CanPreviewUse()) {
             REFERENCE_TIME newpos = std::clamp(PositionFromClientPoint(point), 0LL, m_rtStop);

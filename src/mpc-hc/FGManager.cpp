@@ -627,9 +627,14 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
     // 2. Try cached filters
 
+    CComPtr<IBaseFilter> pFilterPinIn = nullptr;
+    if (pPinIn) {
+        pFilterPinIn = GetFilterFromPin(pPinIn);
+    }
+
     if (CComQIPtr<IGraphConfig> pGC = (IGraphBuilder2*)this) {
         BeginEnumCachedFilters(pGC, pEF, pBF) {
-            if (pPinIn && GetFilterFromPin(pPinIn) == pBF) {
+            if (pFilterPinIn && pFilterPinIn == pBF) {
                 continue;
             }
 
@@ -654,17 +659,19 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
     // 3. Try filters in the graph
 
+    CComPtr<IBaseFilter> pFilterPinOut = GetFilterFromPin(pPinOut);
+    CLSID clsid_pinout = GetCLSID(pFilterPinOut);
+
     {
         CInterfaceList<IBaseFilter> pBFs;
 
         BeginEnumFilters(this, pEF, pBF) {
-            if (pPinIn && GetFilterFromPin(pPinIn) == pBF
-                    || GetFilterFromPin(pPinOut) == pBF) {
+            if (pFilterPinIn && pFilterPinIn == pBF || pFilterPinOut == pBF) {
                 continue;
             }
 
             // HACK: ffdshow - audio capture filter
-            if (GetCLSID(pPinOut) == GUIDFromCString(_T("{04FE9017-F873-410E-871E-AB91661A4EF7}"))
+            if (clsid_pinout == GUIDFromCString(_T("{04FE9017-F873-410E-871E-AB91661A4EF7}"))
                     && GetCLSID(pBF) == GUIDFromCString(_T("{E30629D2-27E5-11CE-875D-00608CB78066}"))) {
                 continue;
             }
@@ -694,6 +701,17 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
     // 4. Look up filters in the registry
 
     {
+        // workaround for Cyberlink video decoder, which can have an unwanted output pin
+        if (clsid_pinout == GUIDFromCString(_T("{F8FC6C1F-DE81-41A8-90FF-0316FDD439FD}"))) {
+            CPinInfo infoPinOut;
+            if (SUCCEEDED(pPinOut->QueryPinInfo(&infoPinOut))) {
+                if (CString(infoPinOut.achName) == L"~Encode Out") {
+                    // ignore this pin
+                    return S_OK;
+                }
+            }
+        }
+
         CFGFilterList fl;
 
         CAtlArray<GUID> types;
@@ -740,23 +758,28 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
         }
 
-        CComPtr<IBaseFilter> pUpstreamFilter = GetFilterFromPin(pPinOut);
-        CLSID clsid_upstream = GetCLSID(pUpstreamFilter);
-
         pos = fl.GetHeadPosition();
         while (pos) {
             CFGFilter* pFGF = fl.GetNext(pos);
 
             // avoid pointless connection attempts
             CLSID candidate = pFGF->GetCLSID();
-            if (clsid_upstream == candidate) {
+            if (clsid_pinout == candidate) {
                 continue;
-            } else if (clsid_upstream == __uuidof(CAudioSwitcherFilter)) {
-                if (candidate == CLSID_VSFilter || candidate == GUID_LAVAudio || candidate == CLSID_RDPDShowRedirectionFilter) {
+            } else if (candidate == CLSID_VSFilter) {
+                if (clsid_pinout == GUID_LAVAudio || clsid_pinout == __uuidof(CAudioSwitcherFilter)) {
                     continue;
                 }
-            } else if (candidate == CLSID_VSFilter) {
-                if (clsid_upstream == GUID_LAVAudio) {
+            } else if (candidate == CLSID_RDPDShowRedirectionFilter) {
+                #if _DEBUG
+                continue;
+                #else
+                if (clsid_pinout == __uuidof(CAudioSwitcherFilter)) {
+                    continue;
+                }
+                #endif
+            } else if (candidate == GUID_LAVAudio) {
+                if (clsid_pinout == __uuidof(CAudioSwitcherFilter)) {
                     continue;
                 }
             }
@@ -777,7 +800,11 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 pFGF = pMadVRAllocatorPresenter;
             }
 
-            TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName().GetString());
+            CString filtername = pFGF->GetName().GetString();
+            if (filtername.IsEmpty()) {
+                filtername = CLSIDToString(candidate);
+            }
+            TRACE(_T("FGM: Connecting '%s'\n"), filtername);
 
             CComPtr<IBaseFilter> pBF;
             CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
@@ -853,7 +880,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
             */
             if (SUCCEEDED(hr)) {
-                TRACE(_T("     --> Filter connected\n"));
+                TRACE(_T("     --> Filter connected to %s\n"), CLSIDToString(clsid_pinout));
                 if (!IsStreamEnd(pBF)) {
                     fDeadEnd = false;
                 }
@@ -922,7 +949,11 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 }
             }
 
-            TRACE(_T("     --> Failed to connect\n"));
+            TRACE(_T("     --> Failed to connect to %s\n"), CLSIDToString(clsid_pinout));
+            CPinInfo infoPinOut;
+            if (SUCCEEDED(pPinOut->QueryPinInfo(&infoPinOut))) {
+                TRACE(_T("     --> Output pin name: %s\n"), infoPinOut.achName);
+            }
             EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
             pUnks.RemoveAll();
             pBF.Release();
@@ -2656,7 +2687,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                     return SaneAudioRenderer::Factory::CreateFilter(AfxGetAppSettings().sanear, ppBF);
                 }
             };
-            pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_INTERNAL, renderer_merit + 0x50);
+            pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_SANEAR, renderer_merit + 0x50);
             pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
             m_transform.AddTail(pFGF);
         } else if (SelAudioRenderer == AUDRNDT_MPC) {
