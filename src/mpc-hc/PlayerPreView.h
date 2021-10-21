@@ -25,10 +25,17 @@ class CMainFrame;
 
 // CPreView
 
+class previewView : public CWnd {
+    DECLARE_DYNAMIC(previewView)
+    afx_msg void OnPaint();
+    DECLARE_MESSAGE_MAP()
+};
+
 class CPreView : public CWnd {
     DECLARE_DYNAMIC(CPreView)
 
 private:
+
     CMainFrame* m_pMainFrame;
 
     int m_border = 2;
@@ -37,7 +44,7 @@ private:
     int m_relativeSize = 15;
 
     CString	m_tooltipstr;
-    CWnd	m_view;
+    previewView	m_view;
     CRect	m_videorect;
 
     CFont m_font;

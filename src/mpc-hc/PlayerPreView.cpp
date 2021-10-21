@@ -70,6 +70,12 @@ BEGIN_MESSAGE_MAP(CPreView, CWnd)
     ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
+IMPLEMENT_DYNAMIC(previewView, CWnd)
+
+BEGIN_MESSAGE_MAP(previewView, CWnd)
+    ON_WM_PAINT()
+END_MESSAGE_MAP()
+
 // CPreView message handlers
 
 BOOL CPreView::PreCreateWindow(CREATESTRUCT& cs) {
@@ -117,6 +123,15 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
     return 0;
 }
+
+void previewView::OnPaint() {
+    CPaintDC dc(this);
+
+    CRect rc;
+    GetClientRect(&rc);
+    dc.FillSolidRect(0, 0, rc.Width(), rc.Height(), RGB(0,0,0)); //fill
+}
+
 
 void CPreView::OnPaint() {
     CPaintDC dc(this);
