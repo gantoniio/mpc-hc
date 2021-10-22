@@ -24,6 +24,7 @@
 #include "PlayerPreView.h"
 #include "CMPCTheme.h"
 #include "mplayerc.h"
+#include "resource.h"
 
 #define PREVIEW_TOOLTIP_BOTTOM 1
 
@@ -130,6 +131,16 @@ void previewView::OnPaint() {
     if (onePaint) {
         CRect rc;
         GetClientRect(&rc);
+        if (!noImage.m_hObject) {
+            noImage.Load(IDB_NOIMAGE);
+        }
+        CImage i;
+        i.Attach(noImage);
+        CPoint p = { (rc.Width() - i.GetWidth()) / 2, (rc.Height() - i.GetHeight()) / 2 };
+        CRect exRect = { p.x, p.y, p.x + i.GetWidth(), p.y + i.GetHeight() };
+        i.BitBlt(dc, p);
+        i.Detach();
+        dc.ExcludeClipRect(exRect);
         dc.FillSolidRect(rc, RGB(0, 0, 0)); //fill
         onePaint = false;
     }

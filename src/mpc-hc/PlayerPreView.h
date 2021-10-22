@@ -32,6 +32,8 @@ public:
     afx_msg void OnPaint();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     bool onePaint = false;
+private:
+    CMPCPngImage noImage;
 };
 
 class CPreView : public CWnd {
