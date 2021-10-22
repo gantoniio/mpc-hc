@@ -130,7 +130,7 @@ void previewView::OnPaint() {
     if (onePaint) {
         CRect rc;
         GetClientRect(&rc);
-        dc.FillSolidRect(rc, RGB(255, 0, 0)); //fill
+        dc.FillSolidRect(rc, RGB(0, 0, 0)); //fill
         onePaint = false;
     }
 }
@@ -241,7 +241,6 @@ void CPreView::SetWindowSize() {
         }
 
         m_view.SetWindowPos(nullptr, 0, 0, m_videorect.Width(), m_videorect.Height(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
-        UpdateWindow();
     }
 }
 
