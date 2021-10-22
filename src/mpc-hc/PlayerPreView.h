@@ -27,8 +27,11 @@ class CMainFrame;
 
 class previewView : public CWnd {
     DECLARE_DYNAMIC(previewView)
-    afx_msg void OnPaint();
     DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnPaint();
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    bool onePaint = false;
 };
 
 class CPreView : public CWnd {

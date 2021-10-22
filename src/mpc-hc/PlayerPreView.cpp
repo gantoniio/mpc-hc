@@ -74,6 +74,7 @@ IMPLEMENT_DYNAMIC(previewView, CWnd)
 
 BEGIN_MESSAGE_MAP(previewView, CWnd)
     ON_WM_PAINT()
+    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CPreView message handlers
@@ -126,12 +127,17 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void previewView::OnPaint() {
     CPaintDC dc(this);
-
-    CRect rc;
-    GetClientRect(&rc);
-    dc.FillSolidRect(0, 0, rc.Width(), rc.Height(), RGB(0,0,0)); //fill
+    if (onePaint) {
+        CRect rc;
+        GetClientRect(&rc);
+        dc.FillSolidRect(rc, RGB(255, 0, 0)); //fill
+        onePaint = false;
+    }
 }
 
+BOOL previewView::OnEraseBkgnd(CDC* pDC) {
+    return TRUE;
+}
 
 void CPreView::OnPaint() {
     CPaintDC dc(this);
@@ -190,6 +196,8 @@ void CPreView::OnPaint() {
 
 void CPreView::OnShowWindow(BOOL bShow, UINT nStatus) {
     if (bShow) {
+        m_view.onePaint = true;
+        UpdateWindow();
         m_pMainFrame->SetPreviewVideoPosition();
     }
 
@@ -233,6 +241,7 @@ void CPreView::SetWindowSize() {
         }
 
         m_view.SetWindowPos(nullptr, 0, 0, m_videorect.Width(), m_videorect.Height(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+        UpdateWindow();
     }
 }
 
