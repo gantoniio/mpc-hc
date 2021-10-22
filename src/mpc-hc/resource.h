@@ -628,7 +628,6 @@
 #define IDS_MESSAGEBOX_CONTINUE         20064
 #define IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE 20065
 #define ID_FILE_OPEN_LOCATION           20066
-#define IDB_PNG1                        20067
 #define IDB_NOIMAGE                     20067
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
