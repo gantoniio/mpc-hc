@@ -1058,6 +1058,7 @@ SRESULT Addic7ed::Search(const SubtitlesInfo& pFileInfo)
 
     if (data.length() < 128 || status != 200)
     {
+        LOG(LOG_INPUT, ("Error during downloading the search result"));
         return SR_FAILED;
     }
 
@@ -1105,7 +1106,10 @@ SRESULT Addic7ed::Search(const SubtitlesInfo& pFileInfo)
     // parse the result
     while (std::getline(lineStream, currentLine, '\n')) {
         if (currentLine.find(noresultToken) != std::string::npos)
+        {
+            LOG(LOG_INPUT, ("No results"));
             return SR_FAILED;
+        }
 
         // check hearing impaired info
         if (currentLine.find(hearingImpairedToken) != std::string::npos)
@@ -1116,7 +1120,7 @@ SRESULT Addic7ed::Search(const SubtitlesInfo& pFileInfo)
         if (foundIndex != std::string::npos)
         {
             std::string downNum;
-            for (unsigned i = foundIndex + downloadsCountToken.length(); i < currentLine.length(); ++i)
+            for (size_t i = foundIndex + downloadsCountToken.length(); i < currentLine.length(); ++i)
             {
                 char inChar = currentLine.at(i);
                 if ((inChar >= '0' && inChar <= '9') || inChar == ' ')
@@ -1177,7 +1181,8 @@ SRESULT Addic7ed::Search(const SubtitlesInfo& pFileInfo)
                 bool foundISO = false;
                 for (auto lang : Addic7ed_languages)
                 {
-                    if (lang.name == foundLanguage && std::find(languages.begin(), languages.end(), lang.code) != languages.end())
+                    if (lang.name == foundLanguage &&
+                        (languages.empty() || (std::find(languages.begin(), languages.end(), lang.code) != languages.end())))
                     {
 
                         foundISO = true;
