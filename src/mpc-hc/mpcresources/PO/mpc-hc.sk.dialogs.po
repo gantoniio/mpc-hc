@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2021-09-29 19:19:15+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2021\n"
 "Language-Team: Slovak (https://www.transifex.com/mpchc/teams/106126/sk/)\n"
@@ -824,7 +824,7 @@ msgstr "Zapamätať si pozíciu"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "Zapamätať si značky opakovania A-B"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
