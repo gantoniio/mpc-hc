@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2021-09-08 08:33:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2021\n"
 "Language-Team: Slovak (https://www.transifex.com/mpchc/teams/106126/sk/)\n"
@@ -4183,7 +4183,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"cesta\"\t\tHlavný súbor alebo priečinok, ktorý sa má načítať\n"
+"\"cesta\"\tHlavný súbor alebo priečinok, ktorý sa má načítať\n"
 "\t\t(sú povolené zástupné znaky, znak \"-\" označuje štandardný vstup)"
 
 msgctxt "IDS_CMD_DUB"
@@ -4263,7 +4263,7 @@ msgstr "/standby\t\tPrepnúť operačný systém do pohotovostného režimu po p
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tZapnúť hiberáciu operačného systému po prehraní"
+msgstr "/hibernate\tZapnúť hiberáciu operačného systému po prehraní"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
