@@ -49,6 +49,8 @@ void CBDAChannel::FromString(CString strValue)
     m_ulFrequency   = _tstol(strValue.Tokenize(_T("|"), i));
     m_ulBandwidth   = (nVersion > FORMAT_VERSION_4) ? _tstol(strValue.Tokenize(_T("|"), i))
                       : AfxGetAppSettings().iBDABandwidth * 1000;
+    m_ulSymbolRate  = (nVersion > FORMAT_VERSION_5) ? _tstol(strValue.Tokenize(_T("|"), i))
+        : AfxGetAppSettings().iBDASymbolRate;
     m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
     m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_0) {
@@ -112,6 +114,7 @@ CString CBDAChannel::ToString() const
                           m_strName.GetString(),
                           m_ulFrequency,
                           m_ulBandwidth,
+                          m_ulSymbolRate,
                           m_nPrefNumber,
                           m_nOriginNumber,
                           m_bEncrypted,
