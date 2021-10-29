@@ -109,7 +109,7 @@ CString CBDAChannel::ToString() const
     };
 
     CString strValue;
-    strValue.AppendFormat(_T("%d|%s|%lu|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
+    strValue.AppendFormat(_T("%d|%s|%lu|%lu|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
                           FORMAT_VERSION_CURRENT,
                           m_strName.GetString(),
                           m_ulFrequency,
