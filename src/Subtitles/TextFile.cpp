@@ -613,8 +613,7 @@ BOOL CTextFile::ReadString(CStringW& str)
                                 m_wbuffer[nCharsRead] = (m_buffer[m_posInBuffer] & 0x0f) << 12 | (m_buffer[m_posInBuffer + 1] & 0x3f) << 6 | (m_buffer[m_posInBuffer + 2] & 0x3f);
                                 break;
                             case 3: // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-                                // not supported
-                                m_wbuffer[nCharsRead] = ' ';
+                                m_wbuffer[nCharsRead] = (m_buffer[m_posInBuffer] & 0x07) << 18 | (m_buffer[m_posInBuffer + 1] & 0x3f) << 12 | (m_buffer[m_posInBuffer + 2] & 0x3f) << 6 | (m_buffer[m_posInBuffer + 3] & 0x3f);
                                 break;
                         }
                         m_posInBuffer += nContinuationBytes;
