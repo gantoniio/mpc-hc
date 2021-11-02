@@ -1491,7 +1491,7 @@ CStringA UTF16To8(LPCWSTR utf16)
     return str;
 }
 
-CStringW UTF8ToStringW(const char* S)
+CStringW UTF8ToStringW(const char* S, bool singleCodePoint /* = false */)
 {
     CStringW str;
     if (S == nullptr) {
@@ -1538,6 +1538,9 @@ CStringW UTF8ToStringW(const char* S)
         } else {
             str.Empty();
             return str; //Bad character
+        }
+        if (singleCodePoint) {
+            return str;
         }
     }
     return str;
