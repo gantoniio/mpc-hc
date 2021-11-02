@@ -588,14 +588,28 @@ BOOL CTextFile::ReadString(CStringW& str)
                     m_wbuffer[nCharsRead] = m_buffer[m_posInBuffer] & 0x7f;
                 } else if (Utf8::isFirstOfMultibyte(m_buffer[m_posInBuffer])) {
                     int nContinuationBytes = Utf8::continuationBytes(m_buffer[m_posInBuffer]);
-                    int nWchars = MultiByteToWideChar(CP_UTF8, 0, &m_buffer[m_posInBuffer], nContinuationBytes + 1, nullptr, 0);
-                    if (nWchars > 0) {
-                        MultiByteToWideChar(CP_UTF8, 0, &m_buffer[m_posInBuffer], nContinuationBytes + 1, &m_wbuffer[nCharsRead], nWchars);
-                        nCharsRead += nWchars - 1; //subtract one for loop increment
+                    if (m_posInBuffer + nContinuationBytes >= m_nInBuffer) {
+                        // If we are at the end of the file, the buffer won't be full
+                        // and we won't be able to read any more continuation bytes.
+                        bValid = (m_nInBuffer == TEXTFILE_BUFFER_SIZE);
+                        break;
                     } else {
-                        bValid = false;
+                        for (int j = 1; j <= nContinuationBytes; j++) {
+                            if (!Utf8::isContinuation(m_buffer[m_posInBuffer + j])) { //maybe redundant since MultiByteToWideChar should return zero if bad utf-8?
+                                bValid = false;
+                            }
+                        }
+                        if (bValid) {
+                            int nWchars = MultiByteToWideChar(CP_UTF8, 0, &m_buffer[m_posInBuffer], nContinuationBytes + 1, nullptr, 0);
+                            if (nWchars > 0) {
+                                MultiByteToWideChar(CP_UTF8, 0, &m_buffer[m_posInBuffer], nContinuationBytes + 1, &m_wbuffer[nCharsRead], nWchars);
+                                nCharsRead += nWchars - 1; //subtract one for loop increment
+                            } else {
+                                bValid = false;
+                            }
+                        }
+                        m_posInBuffer += nContinuationBytes;
                     }
-                    m_posInBuffer += nContinuationBytes;
                 } else {
                     bValid = false;
                     TRACE(_T("Invalid UTF8 character found\n"));
