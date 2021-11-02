@@ -588,12 +588,14 @@ BOOL CTextFile::ReadString(CStringW& str)
                     m_wbuffer[nCharsRead] = m_buffer[m_posInBuffer] & 0x7f;
                 } else if (Utf8::isFirstOfMultibyte(m_buffer[m_posInBuffer])) {
                     int nContinuationBytes = Utf8::continuationBytes(m_buffer[m_posInBuffer]);
-                    CStringW codePoint = UTF8ToStringW(&m_buffer[m_posInBuffer], true);
-                    for (int i = 0; i < codePoint.GetLength(); i++) {
-                        m_wbuffer[nCharsRead+i] = codePoint.GetAt(i);
+                    int nWchars = MultiByteToWideChar(CP_UTF8, 0, &m_buffer[m_posInBuffer], nContinuationBytes + 1, nullptr, 0);
+                    if (nWchars > 0) {
+                        MultiByteToWideChar(CP_UTF8, 0, &m_buffer[m_posInBuffer], nContinuationBytes + 1, &m_wbuffer[nCharsRead], nWchars);
+                        nCharsRead += nWchars - 1; //subtract one for loop increment
+                    } else {
+                        bValid = false;
                     }
                     m_posInBuffer += nContinuationBytes;
-                    nCharsRead += codePoint.GetLength() - 1; //subtract one for loop increment
                 } else {
                     bValid = false;
                     TRACE(_T("Invalid UTF8 character found\n"));

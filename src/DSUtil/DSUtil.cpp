@@ -1473,7 +1473,7 @@ CStringW UTF8To16(LPCSTR utf8)
 {
     CStringW str;
     int n = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, nullptr, 0) - 1;
-    if (n < 0) {
+    if (n <= 0) {
         return str;
     }
     str.ReleaseBuffer(MultiByteToWideChar(CP_UTF8, 0, utf8, -1, str.GetBuffer(n), n + 1) - 1);
@@ -1491,7 +1491,7 @@ CStringA UTF16To8(LPCWSTR utf16)
     return str;
 }
 
-CStringW UTF8ToStringW(const char* S, bool singleCodePoint /* = false */)
+CStringW UTF8ToStringW(const char* S)
 {
     CStringW str;
     if (S == nullptr) {
@@ -1538,9 +1538,6 @@ CStringW UTF8ToStringW(const char* S, bool singleCodePoint /* = false */)
         } else {
             str.Empty();
             return str; //Bad character
-        }
-        if (singleCodePoint) {
-            return str;
         }
     }
     return str;
