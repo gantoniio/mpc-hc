@@ -303,7 +303,7 @@ VERSIONH=$(MAK_DIR)/libavutil/ffversion.h
 
 # Commands
 $(VERSIONH): Changelog
-	sh ffbuild/version.sh . $(MAK_DIR)libavutil/ffversion.h
+	sh ffbuild/version.sh . mvsc_ffversion.h && mv mvsc_ffversion.h $(VERSIONH)
 
 $(OBJ_DIR)libavcodec/%.o: libavcodec/%.c
 	@echo $<
