@@ -2618,33 +2618,105 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
     rfe_array.FreeExtra();
 }
 
+#define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
+CStringW getFilenameHash(CStringW fn) {
+    BCRYPT_ALG_HANDLE   algHandle = nullptr;
+    BCRYPT_HASH_HANDLE  hashHandle = nullptr;
+
+    PBYTE   hash = nullptr;
+    DWORD   hashLen = 0;
+    DWORD   cbResult = 0;
+    ULONG   dwFlags = 0;
+    const int shortHashLen = 10;
+
+    NTSTATUS stat;
+    CStringW shortHash=L"";
+
+    stat = BCryptOpenAlgorithmProvider(&algHandle, BCRYPT_SHA256_ALGORITHM, nullptr, BCRYPT_HASH_REUSABLE_FLAG);
+    if (NT_SUCCESS(stat)) {
+        stat = BCryptGetProperty(algHandle, BCRYPT_HASH_LENGTH, (PBYTE)&hashLen, sizeof(hashLen), &cbResult, dwFlags);
+        if (NT_SUCCESS(stat)) {
+            hash = (PBYTE)HeapAlloc(GetProcessHeap(), dwFlags, hashLen);
+            if (nullptr != hash) {
+                stat = BCryptCreateHash(algHandle, &hashHandle, nullptr, 0, nullptr, 0, dwFlags);
+                if (NT_SUCCESS(stat)) {
+                    stat = BCryptHashData(hashHandle, (PBYTE)fn.GetString(), fn.GetLength()*sizeof(WCHAR), dwFlags);
+                    if (NT_SUCCESS(stat)) {
+                        stat = BCryptFinishHash(hashHandle, hash, hashLen, 0);
+                        if (NT_SUCCESS(stat)) {
+                            DWORD hashStrLen;
+                            if (CryptBinaryToStringW(hash, hashLen, CRYPT_STRING_BASE64, nullptr, &hashStrLen) && hashStrLen > 0) {
+                                CStringW longHash;
+                                if (CryptBinaryToStringW(hash, hashLen, CRYPT_STRING_BASE64, longHash.GetBuffer(hashStrLen-1), &hashStrLen)) {
+                                    longHash.ReleaseBuffer(hashStrLen);
+                                    shortHash = longHash.Left(shortHashLen);
+                                } else {
+                                    longHash.ReleaseBuffer();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (nullptr != hash) {
+        HeapFree(GetProcessHeap(), dwFlags, hash);
+    }
+
+    if (nullptr != hashHandle) {
+        BCryptDestroyHash(hashHandle);
+    }
+
+    if (nullptr != algHandle) {
+        BCryptCloseAlgorithmProvider(algHandle, dwFlags);
+    }
+    return shortHash;
+}
+
 void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
     rfe_array.RemoveAll();
     auto pApp = AfxGetMyApp();
     for (size_t i = 1; i <= m_maxSize; i++) {
-        CString t;
-        t.Format(_T("File%zu"), i);
-        CString fn = pApp->GetProfileString(m_section, t);
-        if (fn.IsEmpty()) break;
-        t.Format(_T("Title%zu"), i);
-        CString title = pApp->GetProfileString(m_section, t);
-        t.Format(_T("Cue%zu"), i);
-        CString cue = pApp->GetProfileString(m_section, t);
+        CStringW hashName, t;
+        hashName.Format(L"Hash%03zu", i);
+        CStringW hash = pApp->GetProfileStringW(m_section, hashName);
+        CStringW fn, subSection;
+
+        if (hash.IsEmpty()) { //backwards compatibility--find entry by filename
+            t.Format(L"File%zu", i);
+            fn = pApp->GetProfileStringW(m_section, t);
+            if (fn.IsEmpty()) {
+                break;
+            } else {
+                hash = getFilenameHash(fn);
+                pApp->WriteProfileStringW(m_section, hashName, hash);
+                subSection.Format(L"%s\\FileData\\%s", m_section, hash);
+                pApp->WriteProfileStringW(subSection, L"Filename", fn);
+            }
+        } else {
+            subSection.Format(L"%s\\FileData\\%s", m_section, hash);
+            fn = pApp->GetProfileStringW(subSection, L"Filename");
+        }
+
+        CString title = pApp->GetProfileString(subSection, L"Title");
+        CString cue = pApp->GetProfileString(subSection, L"Cue");
         RecentFileEntry r;
         r.fns.AddTail(fn);
         r.title = title;
         r.cue = cue;
         int k = 2;
         for (;; k++) {
-            t.Format(_T("File%zu,%d"), i, k);
-            CString ft = pApp->GetProfileString(m_section, t);
+            t.Format(_T("Filename%03d"), k);
+            CString ft = pApp->GetProfileString(subSection, t);
             if (ft.IsEmpty()) break;
             r.fns.AddTail(ft);
         }
         k = 1;
         for (;; k++) {
-            t.Format(_T("Sub%zu,%d"), i, k);
-            CString st = pApp->GetProfileString(m_section, t);
+            t.Format(_T("Sub%03d"), k);
+            CString st = pApp->GetProfileString(subSection, t);
             if (st.IsEmpty()) break;
             r.subs.AddTail(st);
         }
@@ -2658,35 +2730,39 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
     pApp->WriteProfileString(m_section, nullptr, nullptr);
     for (size_t i = 1; i <= rfe_array.GetCount() && i <= m_maxSize; i++) {
         auto& r = rfe_array.GetAt(i - 1);
-        CString t;
-        t.Format(_T("File%zu"), i);
-        pApp->WriteProfileString(m_section, t, r.fns.GetHead());
+        CStringW hash = getFilenameHash(r.fns.GetHead());
+        CString hashName, subSection, t;
+        hashName.Format(_T("Hash%03zu"), i);
+        pApp->WriteProfileStringW(m_section, hashName, hash);
+        subSection.Format(L"%s\\FileData\\%s", m_section, hash);
+        pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
+
         if (r.fns.GetCount() > 1) {
             int k = 2;
             POSITION p(r.fns.GetHeadPosition());
             r.fns.GetNext(p);
             while (p != nullptr) {
                 CString fn = r.fns.GetNext(p);
-                t.Format(_T("File%zu,%d"), i, k);
-                pApp->WriteProfileString(m_section, t, fn);
+                t.Format(_T("Filename%03d"), k);
+                pApp->WriteProfileString(subSection, t, fn);
                 k++;
             }
         }
         if (!r.title.IsEmpty()) {
-            t.Format(_T("Title%zu"), i);
-            pApp->WriteProfileString(m_section, t, r.title);
+            t.Format(_T("Title"));
+            pApp->WriteProfileString(subSection, t, r.title);
         }
         if (!r.cue.IsEmpty()) {
-            t.Format(_T("Cue%zu"), i);
-            pApp->WriteProfileString(m_section, t, r.cue);
+            t.Format(_T("Cue"));
+            pApp->WriteProfileString(subSection, t, r.cue);
         }
         if (r.subs.GetCount() > 0) {
             int k = 1;
             POSITION p(r.subs.GetHeadPosition());
             while (p != nullptr) {
                 CString fn = r.subs.GetNext(p);
-                t.Format(_T("Sub%zu,%d"), i, k);
-                pApp->WriteProfileString(m_section, t, fn);
+                t.Format(_T("Sub%03d"), k);
+                pApp->WriteProfileString(subSection, t, fn);
                 k++;
             }
         }
