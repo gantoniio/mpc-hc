@@ -1,0 +1,171 @@
+name: mpc-hc CI build action
+
+on: [push, pull_request]
+
+env:
+    WINSYSTEM: '8.1'
+    
+jobs:
+
+######################
+###### Windows #######
+######################
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    env:
+      VC_DIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC'
+      MSYS: 'D:\tmp'
+      
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+          submodules: true
+      
+      - name: Checkout modules
+        run: git submodule update --init --recursive
+          
+      - name: Re-attach to temporary branch
+        run: |
+          git switch -c "github-action"
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install msys2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          location:  ${{ env.MSYS }}
+          install: make pkg-config diffutils
+
+      # Shorten the PATH with unnecessary tools (MSYS2 x64 build fails if PATH lenght > 259)
+      - name: Clean up path
+        shell: cmd
+        run: |        
+          set Path=${{ env.pythonLocation}};${{ env.VC_DIR }};${{ env.MSYS }}\msys64\mingw64\bin;${{ env.MSYS }}\msys64\usr\bin;
+          set Path=%Path%C:\Program Files\7-Zip;C:\Program Files\Git;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\PowerShell\7\;
+          echo CLEAN_PATH=%path% > %GITHUB_ENV%
+          
+      - name: Install polib
+        env:
+          PATH: ${{env.CLEAN_PATH}}      
+        run: |
+          pip install polib
+          python -c 'import sys; import polib; print(polib.escape(""Testing polib..."")); print(sys.version);' 
+
+      - name: Set up nasm
+        uses: ilammy/setup-nasm@v1      
+        with:
+          destination: ${{env.VC_DIR}}
+             
+      - name: Install patched mingw
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Method Get -Uri http://files.1f0.de/mingw/mingw-w64-gcc-11.2-stable-r35.7z -OutFile update.7z -UseBasicParsing
+          Start-Process -Wait "C:\Program Files\7-Zip\7z.exe" -ArgumentList "x", "update.7z", "-aoa", "-o${{ env.MSYS }}\msys64\mingw64"        
+          
+      - name: Install Yasm
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Method Get -Uri http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe -OutFile ${{ env.MSYS }}\msys64\usr\bin\yasm.exe -UseBasicParsing
+        
+      - name: Install Inno Setup 5
+        run: |
+          Invoke-WebRequest -Method Get -Uri https://files.jrsoftware.org/is/5/innosetup-5.6.1-unicode.exe -OutFile inno.exe -UseBasicParsing
+          Start-Process -Wait inno.exe -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-"
+          (Get-ItemProperty -Path 'HKLM:SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1')
+
+      - name: Installer detection fix
+        shell: powershell
+        run: |
+          $file = 'common.bat'
+          $find = ':SubDetectInnoSetup'
+          $replace = ":SubDetectInnoSetup`nSET ""InnoSetupPath=C:\Program Files (x86)\Inno Setup 5\ISCC.exe""`nEXIT /B`n"
+          ((Get-Content -path $file -Raw) -replace $find,$replace) | Set-Content -Path $file
+          get-content $file
+
+      - name: Install Windows 8.1 SDK
+        if: env.WINSYSTEM == '8.1'
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Method Get -Uri https://go.microsoft.com/fwlink/p/?LinkId=323507 -OutFile sdksetup.exe -UseBasicParsing
+          Start-Process -Wait sdksetup.exe -ArgumentList "/q", "/norestart", "/features", "OptionId.WindowsDesktopSoftwareDevelopmentKit"         
+          
+      # Build the package x64
+      - name: Build the package (x64)
+        env:
+          MPCHC_MSYS: ${{ env.MSYS }}\msys64
+          MPCHC_MINGW32: ${{ env.MSYS }}\msys64\mingw64
+          MPCHC_MINGW64: ${{ env.MSYS }}\msys64\mingw64
+          MSYSTEM: MINGW32
+          MSYS2_PATH_TYPE: inherit
+          MPCHC_WINSDK_VER: ${{ env.WINSYSTEM }}
+          MPCHC_GIT: 'C:\Program Files\Git'
+          PATH: ${{env.CLEAN_PATH}}
+        shell: cmd
+        run: |
+          set PATH
+          ./build.bat x64 Release Packages
+
+      - name: Upload 7z archives (x64)
+        uses: actions/upload-artifact@v2
+        with: 
+          name: archive-file-x64
+          path: bin/*x64.7z
+
+      - name: Upload Installer (x64)
+        uses: actions/upload-artifact@v2
+        with: 
+          name: setup-x64
+          path: bin/*x64.exe
+
+      # Clean up
+      - name: Clean-up
+        env:
+          MPCHC_MSYS: ${{ env.MSYS }}\msys64
+          MPCHC_MINGW32: ${{ env.MSYS }}\msys64\mingw64
+          MPCHC_MINGW64: ${{ env.MSYS }}\msys64\mingw64
+          MSYSTEM: MINGW32
+          MSYS2_PATH_TYPE: inherit
+          MPCHC_WINSDK_VER: ${{ env.WINSYSTEM }}
+          MPCHC_GIT: 'C:\Program Files\Git'
+          PATH: ${{env.CLEAN_PATH}}
+        shell: cmd
+        run: |
+          ./build.bat Clean
+          rmdir bin /s /q
+
+      # Build the package x86
+      - name: Build the package (x86)
+        env:
+          MPCHC_MSYS: ${{ env.MSYS }}\msys64
+          MPCHC_MINGW32: ${{ env.MSYS }}\msys64\mingw64
+          MPCHC_MINGW64: ${{ env.MSYS }}\msys64\mingw64
+          MSYSTEM: MINGW32
+          MSYS2_PATH_TYPE: inherit
+          MPCHC_WINSDK_VER: ${{ env.WINSYSTEM }}
+          MPCHC_GIT: 'C:\Program Files\Git'
+          PATH: ${{env.CLEAN_PATH}}
+        shell: cmd
+        run: |
+          set PATH
+          ./build.bat x86 Release Packages
+
+      - name: Upload 7z archives (x86)
+        uses: actions/upload-artifact@v2
+        with: 
+          name: archive-file-x86
+          path: bin/*x86.7z
+
+      - name: Upload Installer (x86)
+        uses: actions/upload-artifact@v2
+        with: 
+          name: setup-x86
+          path: bin/*x86.exe
