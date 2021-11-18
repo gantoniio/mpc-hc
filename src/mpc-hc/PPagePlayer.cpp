@@ -205,7 +205,6 @@ BOOL CPPagePlayer::OnApply()
         for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
             s.MRUDub.Remove(i);
         }
-        s.MRU.WriteList();
         s.MRUDub.WriteList();
 
         // Empty the "Recent" jump list

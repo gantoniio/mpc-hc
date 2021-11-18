@@ -491,8 +491,10 @@ class CAppSettings
         void Remove(size_t nIndex);
         void Add(LPCTSTR fn);
         void Add(RecentFileEntry r);
-        void ReadList();
-        void WriteList();
+        void ReadMediaHistory();
+        void WriteMediaHistoryEntry(RecentFileEntry& r);
+        void ReadLegacyMediaHistory();
+        void WriteLegacyHistoryToMediaHistory();
         void SetSize(size_t nSize);
     };
 

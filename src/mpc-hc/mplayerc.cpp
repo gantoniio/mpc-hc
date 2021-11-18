@@ -1094,6 +1094,36 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
     return res;
 }
 
+std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    std::list<CStringW> keys;
+
+    if (m_pszRegistryKey) {
+        WCHAR    achKey[MAX_REGKEY_LEN];   // buffer for subkey name
+        DWORD    cbName;                   // size of name string 
+        DWORD    cSubKeys = 0;             // number of subkeys 
+
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (ERROR_SUCCESS == RegOpenKeyExW(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
+                RegQueryInfoKeyW(hSectionKey, NULL, NULL, NULL, &cSubKeys, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+                if (cSubKeys) {
+                    for (int i = 0; i < cSubKeys; i++) {
+                        cbName = MAX_REGKEY_LEN;
+                        if (ERROR_SUCCESS == RegEnumKeyExW(hSectionKey, i, achKey, &cbName, NULL, NULL, NULL, NULL)){
+                            keys.push_back(achKey);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return keys;
+}
+
+
 CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault)
 {
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
@@ -1162,6 +1192,19 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
             m_bQueuedProfileFlush = true;
         }
         return TRUE;
+    }
+}
+
+LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    if (m_pszRegistryKey) {
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (ERROR_SUCCESS == RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
+                return CWinAppEx::DelRegTree(hSectionKey, lpszEntry);
+            }
+        }
     }
 }
 

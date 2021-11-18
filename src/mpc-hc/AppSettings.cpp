@@ -36,6 +36,8 @@
 #include <VersionHelpersInternal.h>
 #include <mvrInterfaces.h>
 #include "../Subtitles/SubRendererSettings.h"
+#include <chrono>
+#include "date/date.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
@@ -60,7 +62,7 @@ CAppSettings::CAppSettings()
     , fTitleBarTextTitle(false)
     , fKeepHistory(true)
     , iRecentFilesNumber(40)
-    , MRU(_T("Recent File List"), iRecentFilesNumber)
+    , MRU(L"MediaHistory", iRecentFilesNumber)
     , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), iRecentFilesNumber)
     , filePositions(AfxGetApp(), IDS_R_SETTINGS, iRecentFilesNumber)
     , dvdPositions(AfxGetApp(), IDS_R_SETTINGS, iRecentFilesNumber)
@@ -2584,40 +2586,6 @@ void CAppSettings::CRecentFileAndURLList::SetSize(int nSize)
     }
 }
 
-void CAppSettings::CRecentFileListWithMoreInfo::Remove(size_t nIndex) {
-    if (nIndex >= 0 && nIndex < rfe_array.GetCount()) {
-        rfe_array.RemoveAt(nIndex);
-        rfe_array.FreeExtra();
-    }
-}
-
-void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
-    RecentFileEntry r;
-    r.fns.AddHead(fn);
-    Add(r);
-}
-
-void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
-    if (r.fns.GetCount() < 1) {
-        return;
-    }
-    if (CString(r.fns.GetHead()).MakeLower().Find(_T("@device:")) >= 0) {
-        return;
-    }
-
-    for (size_t i = 0; i < rfe_array.GetCount(); i++) {
-        if (r == rfe_array[i]) {
-            Remove(i);
-            break;
-        }
-    }
-    rfe_array.InsertAt(0, r);
-    if (rfe_array.GetCount() > m_maxSize) {
-        rfe_array.SetCount(m_maxSize);
-    }
-    rfe_array.FreeExtra();
-}
-
 #define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
 CStringW getFilenameHash(CStringW fn) {
     BCRYPT_ALG_HANDLE   algHandle = nullptr;
@@ -2630,7 +2598,7 @@ CStringW getFilenameHash(CStringW fn) {
     const int shortHashLen = 10;
 
     NTSTATUS stat;
-    CStringW shortHash=L"";
+    CStringW shortHash = L"";
 
     stat = BCryptOpenAlgorithmProvider(&algHandle, BCRYPT_SHA256_ALGORITHM, nullptr, BCRYPT_HASH_REUSABLE_FLAG);
     if (NT_SUCCESS(stat)) {
@@ -2640,14 +2608,14 @@ CStringW getFilenameHash(CStringW fn) {
             if (nullptr != hash) {
                 stat = BCryptCreateHash(algHandle, &hashHandle, nullptr, 0, nullptr, 0, dwFlags);
                 if (NT_SUCCESS(stat)) {
-                    stat = BCryptHashData(hashHandle, (PBYTE)fn.GetString(), fn.GetLength()*sizeof(WCHAR), dwFlags);
+                    stat = BCryptHashData(hashHandle, (PBYTE)fn.GetString(), fn.GetLength() * sizeof(WCHAR), dwFlags);
                     if (NT_SUCCESS(stat)) {
                         stat = BCryptFinishHash(hashHandle, hash, hashLen, 0);
                         if (NT_SUCCESS(stat)) {
                             DWORD hashStrLen;
                             if (CryptBinaryToStringW(hash, hashLen, CRYPT_STRING_BASE64, nullptr, &hashStrLen) && hashStrLen > 0) {
                                 CStringW longHash;
-                                if (CryptBinaryToStringW(hash, hashLen, CRYPT_STRING_BASE64, longHash.GetBuffer(hashStrLen-1), &hashStrLen)) {
+                                if (CryptBinaryToStringW(hash, hashLen, CRYPT_STRING_BASE64, longHash.GetBuffer(hashStrLen - 1), &hashStrLen)) {
                                     longHash.ReleaseBuffer(hashStrLen);
                                     shortHash = longHash.Left(shortHashLen);
                                 } else {
@@ -2675,48 +2643,72 @@ CStringW getFilenameHash(CStringW fn) {
     return shortHash;
 }
 
-void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
+void CAppSettings::CRecentFileListWithMoreInfo::Remove(size_t nIndex) {
+    if (nIndex >= 0 && nIndex < rfe_array.GetCount()) {
+        auto pApp = AfxGetMyApp();
+        CStringW hash = getFilenameHash(rfe_array[nIndex].fns.GetHead());
+        pApp->RemoveProfileKey(m_section, hash);
+        rfe_array.RemoveAt(nIndex);
+        rfe_array.FreeExtra();
+    }
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
+    RecentFileEntry r;
+    r.fns.AddHead(fn);
+    Add(r);
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
+    WriteMediaHistoryEntry(r);
+    if (r.fns.GetCount() < 1) {
+        return;
+    }
+    if (CString(r.fns.GetHead()).MakeLower().Find(_T("@device:")) >= 0) {
+        return;
+    }
+
+    for (size_t i = 0; i < rfe_array.GetCount(); i++) {
+        if (r == rfe_array[i]) {
+            Remove(i);
+            break;
+        }
+    }
+    rfe_array.InsertAt(0, r);
+    if (rfe_array.GetCount() > m_maxSize) {
+        rfe_array.SetCount(m_maxSize);
+    }
+    rfe_array.FreeExtra();
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::ReadLegacyMediaHistory() {
     rfe_array.RemoveAll();
     auto pApp = AfxGetMyApp();
+    LPCWSTR legacySection = L"Recent File List";
     for (size_t i = 1; i <= m_maxSize; i++) {
-        CStringW hashName, t;
-        hashName.Format(L"Hash%03zu", i);
-        CStringW hash = pApp->GetProfileStringW(m_section, hashName);
-        CStringW fn, subSection;
-
-        if (hash.IsEmpty()) { //backwards compatibility--find entry by filename
-            t.Format(L"File%zu", i);
-            fn = pApp->GetProfileStringW(m_section, t);
-            if (fn.IsEmpty()) {
-                break;
-            } else {
-                hash = getFilenameHash(fn);
-                pApp->WriteProfileStringW(m_section, hashName, hash);
-                subSection.Format(L"%s\\FileData\\%s", m_section, hash);
-                pApp->WriteProfileStringW(subSection, L"Filename", fn);
-            }
-        } else {
-            subSection.Format(L"%s\\FileData\\%s", m_section, hash);
-            fn = pApp->GetProfileStringW(subSection, L"Filename");
-        }
-
-        CString title = pApp->GetProfileString(subSection, L"Title");
-        CString cue = pApp->GetProfileString(subSection, L"Cue");
+        CStringW t;
+        t.Format(_T("File%zu"), i);
+        CStringW fn = pApp->GetProfileStringW(legacySection, t);
+        if (fn.IsEmpty()) break;
+        t.Format(_T("Title%zu"), i);
+        CStringW title = pApp->GetProfileStringW(legacySection, t);
+        t.Format(_T("Cue%zu"), i);
+        CStringW cue = pApp->GetProfileStringW(legacySection, t);
         RecentFileEntry r;
         r.fns.AddTail(fn);
         r.title = title;
         r.cue = cue;
         int k = 2;
         for (;; k++) {
-            t.Format(_T("Filename%03d"), k);
-            CString ft = pApp->GetProfileString(subSection, t);
+            t.Format(_T("File%zu,%d"), i, k);
+            CStringW ft = pApp->GetProfileStringW(legacySection, t);
             if (ft.IsEmpty()) break;
             r.fns.AddTail(ft);
         }
         k = 1;
         for (;; k++) {
-            t.Format(_T("Sub%03d"), k);
-            CString st = pApp->GetProfileString(subSection, t);
+            t.Format(_T("Sub%zu,%d"), i, k);
+            CStringW st = pApp->GetProfileStringW(legacySection, t);
             if (st.IsEmpty()) break;
             r.subs.AddTail(st);
         }
@@ -2725,48 +2717,108 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadList() {
     rfe_array.FreeExtra();
 }
 
-void CAppSettings::CRecentFileListWithMoreInfo::WriteList() {
+void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
     auto pApp = AfxGetMyApp();
-    pApp->WriteProfileString(m_section, nullptr, nullptr);
-    for (size_t i = 1; i <= rfe_array.GetCount() && i <= m_maxSize; i++) {
-        auto& r = rfe_array.GetAt(i - 1);
-        CStringW hash = getFilenameHash(r.fns.GetHead());
-        CString hashName, subSection, t;
-        hashName.Format(_T("Hash%03zu"), i);
-        pApp->WriteProfileStringW(m_section, hashName, hash);
-        subSection.Format(L"%s\\FileData\\%s", m_section, hash);
-        pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
+    std::list<CStringW> hashes = pApp->GetSectionSubKeys(m_section);
 
-        if (r.fns.GetCount() > 1) {
-            int k = 2;
-            POSITION p(r.fns.GetHeadPosition());
-            r.fns.GetNext(p);
-            while (p != nullptr) {
-                CString fn = r.fns.GetNext(p);
-                t.Format(_T("Filename%03d"), k);
-                pApp->WriteProfileString(subSection, t, fn);
-                k++;
-            }
+    if (hashes.empty()) {
+        ReadLegacyMediaHistory();
+        WriteLegacyHistoryToMediaHistory();
+        hashes = pApp->GetSectionSubKeys(m_section);
+    }
+
+    std::map<CStringW, CStringW> timeToHash;
+    for (auto const& hash : hashes) {
+        CStringW lastOpened, subSection;
+        subSection.Format(L"%s\\%s", m_section, hash);
+        lastOpened = pApp->GetProfileStringW(subSection, L"LastOpened");
+        timeToHash[lastOpened] = hash;
+    }
+
+    rfe_array.RemoveAll();
+    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter) {
+        CStringW hash = iter->second;
+        CStringW fn, subSection, t;
+
+        subSection.Format(L"%s\\%s", m_section, hash);
+        fn = pApp->GetProfileStringW(subSection, L"Filename");
+
+        CStringW title = pApp->GetProfileStringW(subSection, L"Title");
+        CStringW cue = pApp->GetProfileStringW(subSection, L"Cue");
+        RecentFileEntry r;
+        r.fns.AddTail(fn);
+        r.title = title;
+        r.cue = cue;
+        int k = 2;
+        for (;; k++) {
+            t.Format(_T("Filename%03d"), k);
+            CStringW ft = pApp->GetProfileStringW(subSection, t);
+            if (ft.IsEmpty()) break;
+            r.fns.AddTail(ft);
         }
-        if (!r.title.IsEmpty()) {
-            t.Format(_T("Title"));
-            pApp->WriteProfileString(subSection, t, r.title);
+        k = 1;
+        for (;; k++) {
+            t.Format(_T("Sub%03d"), k);
+            CStringW st = pApp->GetProfileStringW(subSection, t);
+            if (st.IsEmpty()) break;
+            r.subs.AddTail(st);
         }
-        if (!r.cue.IsEmpty()) {
-            t.Format(_T("Cue"));
-            pApp->WriteProfileString(subSection, t, r.cue);
-        }
-        if (r.subs.GetCount() > 0) {
-            int k = 1;
-            POSITION p(r.subs.GetHeadPosition());
-            while (p != nullptr) {
-                CString fn = r.subs.GetNext(p);
-                t.Format(_T("Sub%03d"), k);
-                pApp->WriteProfileString(subSection, t, fn);
-                k++;
-            }
+        rfe_array.Add(r);
+    }
+    rfe_array.FreeExtra();
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFileEntry& r) {
+    auto pApp = AfxGetMyApp();
+
+    CStringW hash = getFilenameHash(r.fns.GetHead());
+    CStringW hashName, subSection, t;
+    subSection.Format(L"%s\\%s", m_section, hash);
+    pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
+
+    if (r.fns.GetCount() > 1) {
+        int k = 2;
+        POSITION p(r.fns.GetHeadPosition());
+        r.fns.GetNext(p);
+        while (p != nullptr) {
+            CString fn = r.fns.GetNext(p);
+            t.Format(_T("Filename%03d"), k);
+            pApp->WriteProfileString(subSection, t, fn);
+            k++;
         }
     }
+    if (!r.title.IsEmpty()) {
+        t.Format(_T("Title"));
+        pApp->WriteProfileString(subSection, t, r.title);
+    }
+    if (!r.cue.IsEmpty()) {
+        t.Format(_T("Cue"));
+        pApp->WriteProfileString(subSection, t, r.cue);
+    }
+    if (r.subs.GetCount() > 0) {
+        int k = 1;
+        POSITION p(r.subs.GetHeadPosition());
+        while (p != nullptr) {
+            CString fn = r.subs.GetNext(p);
+            t.Format(_T("Sub%03d"), k);
+            pApp->WriteProfileString(subSection, t, fn);
+            k++;
+        }
+    }
+    auto now = std::chrono::system_clock::now();
+    auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
+    CStringW lastOpened(nowISO.c_str());
+    pApp->WriteProfileStringW(subSection, L"LastOpened", lastOpened);
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::WriteLegacyHistoryToMediaHistory() {
+    auto pApp = AfxGetMyApp();
+    for (size_t i = rfe_array.GetCount()-1, j=0; i >= 0 && j < m_maxSize; i--,j++) {
+        auto& r = rfe_array.GetAt(i);
+        WriteMediaHistoryEntry(r);
+    }
+    LPCWSTR legacySection = L"Recent File List";
+    pApp->WriteProfileString(legacySection, nullptr, nullptr);
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::SetSize(size_t nSize) {

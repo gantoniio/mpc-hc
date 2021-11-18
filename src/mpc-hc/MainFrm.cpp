@@ -1194,7 +1194,7 @@ void CMainFrame::OnClose()
 LPCTSTR CMainFrame::GetRecentFile() const
 {
     auto& MRU = AfxGetAppSettings().MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
     for (int i = 0; i < MRU.GetSize(); i++) {
         if (MRU[i].fns.GetCount() > 0 && !MRU[i].fns.GetHead().IsEmpty()) {
             return MRU[i].fns.GetHead();
@@ -10163,7 +10163,6 @@ void CMainFrame::OnRecentFileClear()
     for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
         s.MRUDub.Remove(i);
     }
-    s.MRU.WriteList();
     s.MRUDub.WriteList();
 
     // Empty the "Recent" jump list
@@ -10276,7 +10275,7 @@ void CMainFrame::OnRecentFile(UINT nID)
 {
     CAtlList<CString> fns;
     auto& MRU = AfxGetAppSettings().MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
     RecentFileEntry r;
 
     // find corresponding item in MRU list, we can't directly use string from menu because it may have been shortened
@@ -12465,7 +12464,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (s.fKeepHistory && fn.Find(_T("pipe:")) != 0 && pOFD->bAddToRecent) {
             if (bMainFile) {
                 auto* pMRU = &s.MRU;
-                pMRU->ReadList();
+                pMRU->ReadMediaHistory();
                 RecentFileEntry r;
                 r.fns.AddTail(fn);
                 CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
@@ -12508,7 +12507,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 }
                 m_current_rfe = r;
                 pMRU->Add(r);
-                pMRU->WriteList();
                 SHAddToRecentDocs(SHARD_PATH, fn);
             }
             else {
@@ -12848,9 +12846,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 
     if (s.fKeepHistory) {
         auto* pMRU = &s.MRU;
-        pMRU->ReadList();
         pMRU->Add(pODD->title);
-        pMRU->WriteList();
         SHAddToRecentDocs(SHARD_PATH, pODD->title);
     }
 
@@ -15505,7 +15501,7 @@ void CMainFrame::SetupRecentFilesSubMenu()
     UINT id = ID_RECENT_FILE_START;
     auto& s = AfxGetAppSettings();
     auto& MRU = s.MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
 
     bool bNoEmptyMRU = false;
     for (int i = 0; i < MRU.GetSize(); i++) {
@@ -19747,7 +19743,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
 
     if (s.fKeepHistory) {
         auto* mru = &s.MRU;
-        mru->ReadList();
+        mru->ReadMediaHistory();
         RecentFileEntry r;
         r.fns.AddTail(url);
         if (streams.GetCount() > 1) {
@@ -19772,7 +19768,6 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         }
         m_current_rfe = r;
         mru->Add(r);
-        mru->WriteList();
     }
 
     if (!append && (!replace || !m_wndPlaylistBar.GetCur())) {
@@ -19859,10 +19854,7 @@ void CMainFrame::updateRecentFileListSub() {
                 RecentFileEntry r = m_current_rfe;
                 r.subs.AddTail(subpath);
                 auto& MRU = AfxGetAppSettings().MRU;
-                MRU.ReadList();
-
                 MRU.Add(r);
-                MRU.WriteList();
             }            
         }
     }
