@@ -192,6 +192,7 @@ Name: ms_MY; MessagesFile: Languages\Malaysian.isl
 Name: nl;    MessagesFile: compiler:Languages\Dutch.isl
 Name: pl;    MessagesFile: compiler:Languages\Polish.isl
 Name: pt_BR; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
+Name: pt_PT; MessagesFile: compiler:Languages\Portuguese.isl
 Name: ro;    MessagesFile: Languages\Romanian.isl
 Name: ru;    MessagesFile: compiler:Languages\Russian.isl
 Name: sk;    MessagesFile: Languages\Slovak.isl
@@ -209,10 +210,6 @@ Name: zh_TW; MessagesFile: Languages\ChineseTraditional.isl
 
 ; Include installer's custom messages
 #include "custom_messages.iss"
-
-
-[Messages]
-BeveledLabel={#FullAppNameVer}
 
 
 [Types]

@@ -1462,7 +1462,9 @@ HRESULT CMpcAudioRenderer::Transform(IMediaSample *pMediaSample)
 		return S_FALSE;
 	}
 
-	m_rtLastReceivedSampleTimeEnd = rtStart + SamplesToTime(lSize / m_pWaveFormatExInput->nBlockAlign, m_pWaveFormatExInput) / m_dRate;
+    if (m_pWaveFormatExInput) {
+        m_rtLastReceivedSampleTimeEnd = rtStart + SamplesToTime(lSize / m_pWaveFormatExInput->nBlockAlign, m_pWaveFormatExInput) / m_dRate;
+    }
 
 	if (!m_pRenderClient) {
 		if (!m_pAudioClient) {
@@ -1789,7 +1791,12 @@ HRESULT CMpcAudioRenderer::InitAudioClient()
 	if (FAILED(hr)) {
 		TRACE(L"CMpcAudioRenderer::InitAudioClient() - IMMDevice::Activate() failed: (0x%08x)\n", hr);
 	} else {
-		TRACE(L"CMpcAudioRenderer::InitAudioClient() - success\n");
+        if (m_pAudioClient) {
+            TRACE(L"CMpcAudioRenderer::InitAudioClient() - success\n");
+        } else {
+            TRACE(L"CMpcAudioRenderer::InitAudioClient() - nullptr\n");
+            return E_FAIL;
+        }
 		if (m_wBitsPerSampleList.empty()) {
 			// get list of supported output formats - wBitsPerSample, nChannels(dwChannelMask), nSamplesPerSec
 			const WORD  wBitsPerSampleValues[] = {16, 24, 32};

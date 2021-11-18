@@ -1357,6 +1357,24 @@ void ExtendMaxPathLengthIfNeeded(CString& path, int max_length /*= MAX_PATH*/)
     }
 }
 
+bool ContainsWildcard(CString& path)
+{
+    int p = path.Find('*');
+    if (p >= 0) {
+        return true;
+    }
+    p = path.Find('?');
+    if (p >= 0) {
+        if (p == 2 && path.Left(4) == _T("\\\\?\\")) {
+            CString tmp = CString(path);
+            tmp.Delete(0, 3);
+            return tmp.Find('?') > 0;
+        }
+        return true;
+    }
+    return false;
+}
+
 void ShortenLongPath(CString& path)
 {
     if (path.GetLength() > MAX_PATH && path.Find(_T("\\\\?\\")) < 0) {
@@ -1473,7 +1491,7 @@ CStringW UTF8To16(LPCSTR utf8)
 {
     CStringW str;
     int n = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, nullptr, 0) - 1;
-    if (n < 0) {
+    if (n <= 0) {
         return str;
     }
     str.ReleaseBuffer(MultiByteToWideChar(CP_UTF8, 0, utf8, -1, str.GetBuffer(n), n + 1) - 1);
