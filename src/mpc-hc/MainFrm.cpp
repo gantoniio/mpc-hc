@@ -12482,7 +12482,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (s.fKeepHistory && fn.Find(_T("pipe:")) != 0 && pOFD->bAddToRecent) {
             if (bMainFile) {
                 auto* pMRU = &s.MRU;
-                pMRU->ReadMediaHistory();
                 RecentFileEntry r;
                 r.fns.AddTail(fn);
                 CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
@@ -19858,7 +19857,6 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
 
     if (s.fKeepHistory) {
         auto* mru = &s.MRU;
-        mru->ReadMediaHistory();
         RecentFileEntry r;
         r.fns.AddTail(url);
         if (streams.GetCount() > 1) {
