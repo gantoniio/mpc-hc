@@ -33,6 +33,7 @@
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 
+#define LOG_FILTER_INSERT 0
 
 //
 // CFGFilter
@@ -434,6 +435,9 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
     , m_bHasHookReceiveConnection(false)
     , m_bIsPreview(preview)
 {
+    bool mpcvr = (clsid == CLSID_MPCVR || clsid == CLSID_MPCVRAllocatorPresenter);
+    bool madvr = (clsid == CLSID_madVR || clsid == CLSID_madVRAllocatorPresenter);
+
     // List is based on filter registration data from madVR.
     // ToDo: Some subtypes might only work with madVR. Figure out which ones and add them conditionally for extra efficiency.
 
@@ -489,8 +493,8 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_RGB0);
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_0RGB); // 50
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_b48r);
-    AddType(MEDIATYPE_Video, MEDIASUBTYPE_RBA_at);
-    AddType(MEDIATYPE_Video, MEDIASUBTYPE_at_RBA);
+    AddType(MEDIATYPE_Video, MEDIASUBTYPE_RBA64);
+    AddType(MEDIATYPE_Video, MEDIASUBTYPE_64RBA);
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_b64a);
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_P010);
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_P210);
@@ -504,6 +508,11 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_v216);
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_Y416);
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_v416); // 66
+
+    if (mpcvr) {
+        AddType(MEDIATYPE_Video, MEDIASUBTYPE_Y8);
+        AddType(MEDIATYPE_Video, MEDIASUBTYPE_Y16);
+    }
 }
 
 CFGFilterVideoRenderer::~CFGFilterVideoRenderer()
@@ -639,7 +648,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
 {
     bool bInsert = true;
 
-#if DEBUG
+#if DEBUG & LOG_FILTER_INSERT
     bool do_log = pFGF->GetMerit() != MERIT64_DO_NOT_USE;
     if (do_log) {
         TRACE(_T("FGM: Inserting %d %d %016I64x %s\n"), group, exactmatch, pFGF->GetMerit(),
@@ -655,7 +664,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
 
         if (pFGF == f.pFGF) {
             bInsert = false;
-#if DEBUG
+#if DEBUG & LOG_FILTER_INSERT
             if (do_log) {
                 TRACE(_T("FGM: ^ duplicate (exact)\n"));
             }
@@ -674,7 +683,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
             // Blacklisted filters can have empty name.
             if (f.pFGF->GetMerit() == MERIT64_DO_NOT_USE || pFGF->GetName() == f.pFGF->GetName()) {
                 bInsert = false;
-#if DEBUG
+#if DEBUG & LOG_FILTER_INSERT
                 if (do_log) {
                     TRACE(_T("FGM: ^ duplicate\n"));
                 }
@@ -692,7 +701,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
             CFGFilterRegistry* pFGFR2 = dynamic_cast<CFGFilterRegistry*>(f.pFGF);
             if (pFGFR2 && pFGFR2->GetMoniker() && S_OK == pFGFR->GetMoniker()->IsEqual(pFGFR2->GetMoniker())) {
                 bInsert = false;
-#if DEBUG
+#if DEBUG & LOG_FILTER_INSERT
                 if (do_log) {
                     TRACE(_T("FGM: ^ duplicate (moniker)\n"));
                 }

@@ -102,6 +102,7 @@ CAppSettings::CAppSettings()
     , fReportFailedPins(true)
     , fAutoloadAudio(true)
     , fBlockVSFilter(true)
+    , bBlockRDP(false)
     , nVolumeStep(5)
     , nSpeedStep(0)
     , nDefaultToolbarSize(24)
@@ -124,6 +125,7 @@ CAppSettings::CAppSettings()
     , iBDAScanFreqStart(474000)
     , iBDAScanFreqEnd(858000)
     , iBDABandwidth(8)
+    , iBDASymbolRate(0)
     , fBDAUseOffset(false)
     , iBDAOffset(166)
     , fBDAIgnoreEncryptedChannels(false)
@@ -242,7 +244,8 @@ CAppSettings::CAppSettings()
     , sYDLSubsPreference()
     , bUseAutomaticCaptions(false)
     , bLockNoPause(false)
-    , bUseSMTC(true)
+    , bUseSMTC(false)
+    , iReloadAfterLongPause(30)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -882,6 +885,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, CString(strSubtitlesLanguageOrder));
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, CString(strAudiosLanguageOrder));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKVSFILTER, fBlockVSFilter);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKRDP, bBlockRDP);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEWORKERTHREADFOROPENING, fEnableWorkerThreadForOpening);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REPORTFAILEDPINS, fReportFailedPins);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_DVDPATH, strDVDPath);
@@ -990,6 +994,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_START, iBDAScanFreqStart);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_END, iBDAScanFreqEnd);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_BANDWIDTH, iBDABandwidth);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_SYMBOLRATE, iBDASymbolRate);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_USE_OFFSET, fBDAUseOffset);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_OFFSET, iBDAOffset);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, fBDAIgnoreEncryptedChannels);
@@ -1151,6 +1156,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOCK_NOPAUSE, bLockNoPause);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_SMTC, bUseSMTC);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RELOAD_AFTER_LONG_PAUSE, iReloadAfterLongPause);
 
     {
         CComHeapPtr<WCHAR> pDeviceId;
@@ -1452,6 +1458,7 @@ void CAppSettings::LoadSettings()
     strSubtitlesLanguageOrder = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER);
     strAudiosLanguageOrder = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER);
     fBlockVSFilter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKVSFILTER, TRUE);
+    bBlockRDP = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKRDP, FALSE);
     fEnableWorkerThreadForOpening = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEWORKERTHREADFOROPENING, TRUE);
     fReportFailedPins = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REPORTFAILEDPINS, TRUE);
     fAllowMultipleInst = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, FALSE);
@@ -1901,6 +1908,7 @@ void CAppSettings::LoadSettings()
     iBDAScanFreqStart     = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_START, 474000);
     iBDAScanFreqEnd       = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_END, 858000);
     iBDABandwidth         = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_BANDWIDTH, 8);
+    iBDASymbolRate        = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SYMBOLRATE, 0);
     fBDAUseOffset         = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_USE_OFFSET, FALSE);
     iBDAOffset            = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_OFFSET, 166);
     fBDAIgnoreEncryptedChannels = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, FALSE);
@@ -1974,7 +1982,8 @@ void CAppSettings::LoadSettings()
     bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, FALSE);
 
     bLockNoPause = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOCK_NOPAUSE, FALSE);
-    bUseSMTC = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_SMTC, TRUE);
+    bUseSMTC = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_SMTC, FALSE);
+    iReloadAfterLongPause = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RELOAD_AFTER_LONG_PAUSE, 30);
 
     if (fLaunchfullscreen && slFiles.GetCount() > 0) {
         nCLSwitches |= CLSW_FULLSCREEN;
