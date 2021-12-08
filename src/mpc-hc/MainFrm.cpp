@@ -778,7 +778,7 @@ void CMainFrame::EventCallback(MpcEvent ev)
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
-    : m_timer32Hz(this, TIMER_32HZ, 32)
+    : m_timerHider(this, TIMER_HIDER, 200)
     , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
     , m_bUsingDXVA(false)
     , m_HWAccelType(nullptr)
@@ -2413,8 +2413,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
         }
         break;
-        case TIMER_32HZ:
-            m_timer32Hz.NotifySubscribers();
+        case TIMER_HIDER:
+            m_timerHider.NotifySubscribers();
             break;
         case TIMER_DELAYEDSEEK:
             KillTimer(TIMER_DELAYEDSEEK);
@@ -2743,7 +2743,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         CComPtr<IDvdState> pStateData;
         switch (evCode) {
             case EC_PAUSED:
-                m_CachedFilterState = -1;
+                if (!m_fFrameSteppingActive && m_CachedFilterState != State_Paused) {
+                    UpdateCachedMediaState();
+                }
                 break;
             case EC_COMPLETE:
                 UpdateCachedMediaState();
@@ -3630,7 +3632,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 
         if (msg.IsEmpty()) {
             int msg_id = 0;
-            switch (GetMediaState()) {
+            switch (m_CachedFilterState) {
                 case State_Stopped:
                     msg_id = IDS_CONTROLS_STOPPED;
                     break;
@@ -7942,9 +7944,10 @@ void CMainFrame::OnPlayPlay()
             if (m_fEndOfStream) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP);
             } else {
-                if (!m_fAudioOnly) {
-                    // after long pause (30min) or hibernation, reload file to avoid playback issues on some systems (with buggy drivers)
-                    if (m_dwLastPause && m_wndSeekBar.HasDuration() && (GetTickCount64() - m_dwLastPause >= 30 * 60 * 1000)) {
+                if (!m_fAudioOnly && m_dwLastPause && m_wndSeekBar.HasDuration()) {
+                    // after long pause or hibernation, reload video file to avoid playback issues on some systems (with buggy drivers)
+                    // in case of hibernate, m_dwLastPause equals 1
+                    if (m_dwLastPause == 1 || s.iReloadAfterLongPause > 0 && (GetTickCount64() - m_dwLastPause >= s.iReloadAfterLongPause * 60 * 1000)) {
                         m_dwReloadPos = m_wndSeekBar.GetPos();
                         m_iReloadAudioIdx = GetCurrentAudioTrackIdx();
                         m_iReloadSubIdx = GetCurrentSubtitleTrackIdx();
@@ -7953,7 +7956,9 @@ void CMainFrame::OnPlayPlay()
                     }
                 }
             }
-            m_pMS->SetRate(m_dSpeedRate);
+            if (m_pMS) {
+                m_pMS->SetRate(m_dSpeedRate);
+            }
         } else if (GetPlaybackMode() == PM_DVD) {
             m_dSpeedRate = 1.0;
             m_pDVDC->PlayForwards(m_dSpeedRate, DVD_CMD_FLAG_Block, nullptr);
@@ -8483,7 +8488,9 @@ void CMainFrame::SetPlayingRate(double rate)
         if (GetMediaState() != State_Running) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
         }
-        hr = m_pMS->SetRate(rate);
+        if (m_pMS) {
+            hr = m_pMS->SetRate(rate);
+        }
     } else if (GetPlaybackMode() == PM_DVD) {
         if (GetMediaState() != State_Running) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -14279,6 +14286,8 @@ bool CMainFrame::WildcardFileSearch(CString searchstr, std::set<CString, CString
     CFileFind finder;
     if (finder.FindFile(searchstr)) {
         const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+        CString search_ext = searchstr.Mid(searchstr.ReverseFind('.')).MakeLower();
+        bool other_ext = (search_ext != _T(".*"));
         bool bHasNext = true;
 
         while (bHasNext) {
@@ -14288,10 +14297,19 @@ bool CMainFrame::WildcardFileSearch(CString searchstr, std::set<CString, CString
                 CString path = finder.GetFilePath();
                 CString ext = path.Mid(path.ReverseFind('.')).MakeLower();
 
+                if (ext.IsEmpty()) {
+                    continue;
+                }
+
                 if (mf.FindExt(ext)) {
                     /* playlist and cue files should be ignored when searching dir for playable files */
                     if (ext != _T(".m3u") && ext != _T(".m3u8") && ext != _T(".mpcpl") && ext != _T(".pls") && ext != _T(".cue") && ext != _T(".asx")) {
                         results.insert(path);
+                    }
+                } else if (other_ext && search_ext == ext) {
+                    results.insert(path);
+                    if (ext == _T(".rar")) {
+                        break;
                     }
                 }
             }
