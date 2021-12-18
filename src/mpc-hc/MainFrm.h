@@ -1286,7 +1286,6 @@ public:
     bool GetDecoderType(CString& type) const;
     void updateRecentFileListSub();
 
-    RecentFileEntry m_current_rfe;
     static bool IsOnYDLWhitelist(const CString url);
 
     bool CanSendToYoutubeDL(const CString url);

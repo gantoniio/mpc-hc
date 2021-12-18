@@ -28,7 +28,6 @@
 #include "FileAssoc.h"
 #include "FilterEnum.h"
 #include "MediaFormats.h"
-#include "MediaPositionList.h"
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "SettingsDefines.h"
 #include "Shaders.h"
@@ -424,33 +423,41 @@ public:
 
 #define APPSETTINGS_VERSION 8
 
+struct DVD_POSITION {
+    ULONGLONG           llDVDGuid;
+    ULONG               lTitle;
+    DVD_HMSF_TIMECODE   timecode;
+};
+
 class RecentFileEntry {
 public:
     RecentFileEntry() {}
-    RecentFileEntry(const RecentFileEntry &r) {
+    void InitEntry(const RecentFileEntry& r) {
         cue = r.cue;
         title = r.title;
+        filePosition = r.filePosition;
+        DVDPosition = r.DVDPosition;
         fns.RemoveAll();
         subs.RemoveAll();
         fns.AddHeadList(&r.fns);
         subs.AddHeadList(&r.subs);
+    }
+    RecentFileEntry(const RecentFileEntry &r) {
+        InitEntry(r);
     }
 
     CString title;
     CAtlList<CString> fns;
     CString cue;
     CAtlList<CString> subs;
+    REFERENCE_TIME filePosition=0;
+    DVD_POSITION DVDPosition = {};
 
     BOOL operator==(RecentFileEntry c) {
         return this->fns.GetHead() == c.fns.GetHead() && cue == c.cue;
     }
     void operator=(const RecentFileEntry &r) {
-        cue = r.cue;
-        title = r.title;
-        fns.RemoveAll();
-        subs.RemoveAll();
-        fns.AddHeadList(&r.fns);
-        subs.AddHeadList(&r.subs);
+        InitEntry(r);
     }
 };
 
@@ -490,11 +497,25 @@ class CAppSettings
 
         void Remove(size_t nIndex);
         void Add(LPCTSTR fn);
+        void Add(LPCTSTR fn, ULONGLONG llDVDGuid);
         void Add(RecentFileEntry r);
+        void UpdateCurrentFilePosition(REFERENCE_TIME time);
+        REFERENCE_TIME GetCurrentFilePosition();
+        void UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE *time);
+        void UpdateCurrentDVDTitle(DWORD title);
+        DVD_POSITION GetCurrentDVDPosition();
+        void AddSubToCurrent(CStringW subpath);
+        void SetCurrentTitle(CStringW subpath);
+        void WriteCurrentEntry();
         void ReadMediaHistory();
-        void WriteMediaHistoryEntry(RecentFileEntry& r);
-        void ReadLegacyMediaHistory();
-        void WriteLegacyHistoryToMediaHistory();
+        void WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened = false);
+        void SaveMediaHistory(bool updateLastOpened = false);
+        void ReadLegacyMediaHistory(std::map<CStringW, size_t> &filenameToIndex);
+        void ReadLegacyMediaPosition(std::map<CStringW, size_t> &filenameToIndex);
+        bool LoadMediaHistoryEntryFN(CStringW fn, RecentFileEntry& r);
+        bool LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, RecentFileEntry& r);
+        bool LoadMediaHistoryEntry(CStringW hash, RecentFileEntry& r);
+        void MigrateLegacyHistory();
         void SetSize(size_t nSize);
     };
 
@@ -539,8 +560,6 @@ public:
     int             iRecentFilesNumber;
     CRecentFileListWithMoreInfo MRU;
     CRecentFileAndURLList MRUDub;
-    CFilePositionList filePositions;
-    CDVDPositionList  dvdPositions;
     bool            fRememberDVDPos;
     bool            fRememberFilePos;
     int             iRememberPosForLongerThan;
@@ -956,3 +975,4 @@ public:
     SubRendererSettings	GetSubRendererSettings();
 #endif
 };
+
