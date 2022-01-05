@@ -1978,11 +1978,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             if (m_bRememberFilePos && !m_fEndOfStream) {
                                 auto* pMRU = &AfxGetAppSettings().MRU;
                                 if (pMRU->rfe_array.GetCount()) {
-                                    bool bSave = std::abs(pMRU->GetCurrentFilePosition() - rtNow) > 300000000;
                                     pMRU->UpdateCurrentFilePosition(rtNow);
-                                    if (bSave) {
-                                        pMRU->WriteCurrentEntry();
-                                    }
                                 }
                             }
 
@@ -2671,8 +2667,7 @@ void CMainFrame::GraphEventComplete()
 
     if (m_bRememberFilePos) {
         auto* pMRU = &s.MRU;
-        pMRU->UpdateCurrentFilePosition(0);
-        pMRU->WriteCurrentEntry();
+        pMRU->UpdateCurrentFilePosition(0, true);
     }
 
     bool bBreak = false;

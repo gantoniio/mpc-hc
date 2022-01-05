@@ -450,7 +450,7 @@ public:
     CAtlList<CString> fns;
     CString cue;
     CAtlList<CString> subs;
-    REFERENCE_TIME filePosition=0;
+    REFERENCE_TIME filePosition=0, persistedFilePosition;
     DVD_POSITION DVDPosition = {};
 
     BOOL operator==(RecentFileEntry c) {
@@ -499,7 +499,7 @@ class CAppSettings
         void Add(LPCTSTR fn);
         void Add(LPCTSTR fn, ULONGLONG llDVDGuid);
         void Add(RecentFileEntry r);
-        void UpdateCurrentFilePosition(REFERENCE_TIME time);
+        void UpdateCurrentFilePosition(REFERENCE_TIME time, bool forcePersist = false);
         REFERENCE_TIME GetCurrentFilePosition();
         void UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE *time);
         void UpdateCurrentDVDTitle(DWORD title);
