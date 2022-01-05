@@ -2589,7 +2589,7 @@ CStringW getShortHash(PBYTE bytes, ULONG size) {
     DWORD   hashLen = 0;
     DWORD   cbResult = 0;
     ULONG   dwFlags = 0;
-    const int shortHashLen = 10;
+    const int shortHashLen = 12;
 
     NTSTATUS stat;
     CStringW shortHash = L"";
