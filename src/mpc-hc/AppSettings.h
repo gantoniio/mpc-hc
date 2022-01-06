@@ -450,7 +450,7 @@ public:
     CAtlList<CString> fns;
     CString cue;
     CAtlList<CString> subs;
-    REFERENCE_TIME filePosition=0, persistedFilePosition;
+    REFERENCE_TIME filePosition=0;
     DVD_POSITION DVDPosition = {};
 
     BOOL operator==(RecentFileEntry c) {
@@ -485,6 +485,7 @@ class CAppSettings
         CAtlArray<RecentFileEntry> rfe_array;
         size_t m_maxSize;
         LPCTSTR m_section;
+        REFERENCE_TIME persistedFilePosition = 0;
 
         int GetSize() {
             return (int)rfe_array.GetCount();

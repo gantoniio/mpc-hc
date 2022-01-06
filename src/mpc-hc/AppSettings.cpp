@@ -2688,7 +2688,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn, ULONGLONG llDVDG
 void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentFilePosition(REFERENCE_TIME time, bool forcePersist /* = false */) {
     if (rfe_array.GetCount()) {
         rfe_array[0].filePosition = time;
-        if (forcePersist || std::abs(rfe_array[0].persistedFilePosition - time) > 300000000) {
+        if (forcePersist || std::abs(persistedFilePosition - time) > 300000000) {
             WriteCurrentEntry();
         }
     }
@@ -2763,6 +2763,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
     WriteMediaHistoryEntry(r, true);
 
     rfe_array.InsertAt(0, r);
+
     if (rfe_array.GetCount() > m_maxSize) {
         rfe_array.SetCount(m_maxSize);
     }
@@ -2988,7 +2989,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
     } else {
         t = L"FilePosition";
         pApp->WriteProfileInt(subSection, t, r.filePosition);
-        r.persistedFilePosition = r.filePosition;
+        persistedFilePosition = r.filePosition;
     }
     if (updateLastOpened) {
         auto now = std::chrono::system_clock::now();
