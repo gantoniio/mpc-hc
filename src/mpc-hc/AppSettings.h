@@ -514,7 +514,7 @@ class CAppSettings
         void ReadLegacyMediaHistory(std::map<CStringW, size_t> &filenameToIndex);
         void ReadLegacyMediaPosition(std::map<CStringW, size_t> &filenameToIndex);
         bool LoadMediaHistoryEntryFN(CStringW fn, RecentFileEntry& r);
-        bool LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, RecentFileEntry& r);
+        bool LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, CStringW fn, RecentFileEntry& r);
         bool LoadMediaHistoryEntry(CStringW hash, RecentFileEntry& r);
         void MigrateLegacyHistory();
         void SetSize(size_t nSize);

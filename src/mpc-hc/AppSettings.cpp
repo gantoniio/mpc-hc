@@ -2668,19 +2668,13 @@ void CAppSettings::CRecentFileListWithMoreInfo::Remove(size_t nIndex) {
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
     RecentFileEntry r;
-    if (!LoadMediaHistoryEntryFN(fn, r)) { //if it exists in history, load saved settings
-        r.fns.AddHead(fn); //otherwise add a new entry
-    }
-
+    LoadMediaHistoryEntryFN(fn, r);
     Add(r);
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn, ULONGLONG llDVDGuid) {
     RecentFileEntry r;
-    if (!LoadMediaHistoryEntryDVD(llDVDGuid, r)) { //if it exists in history, load saved settings
-        r.fns.AddHead(fn); //otherwise add a new entry
-        r.DVDPosition.llDVDGuid=llDVDGuid;
-    }
+    LoadMediaHistoryEntryDVD(llDVDGuid, fn, r);
 
     Add(r);
 }
@@ -2866,12 +2860,21 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadLegacyMediaPosition(std::map
 
 bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntryFN(CStringW fn, RecentFileEntry& r) {
     CStringW hash = getRFEHash(fn);
-    return LoadMediaHistoryEntry(hash, r);
+    if (!LoadMediaHistoryEntry(hash, r)) {
+        r.fns.AddHead(fn); //otherwise add a new entry
+        return false;
+    }
+    return true;
 }
 
-bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, RecentFileEntry& r) {
+bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, CStringW fn, RecentFileEntry& r) {
     CStringW hash = getRFEHash(llDVDGuid);
-    return LoadMediaHistoryEntry(hash, r);
+    if (!LoadMediaHistoryEntry(hash, r)) {
+        r.fns.AddHead(fn); //otherwise add a new entry
+        r.DVDPosition.llDVDGuid = llDVDGuid;
+        return false;
+    }
+    return true;
 }
 
 bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntry(CStringW hash, RecentFileEntry &r) {
@@ -2935,11 +2938,19 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
     }
 
     rfe_array.RemoveAll();
-    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter) {
+    int entries = 0;
+    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter, ++entries) {
         CStringW hash = iter->second;
-        RecentFileEntry r;
-        LoadMediaHistoryEntry(hash, r);
-        rfe_array.Add(r);
+        if (entries < m_maxSize) {
+            RecentFileEntry r;
+            LoadMediaHistoryEntry(hash, r);
+            rfe_array.Add(r);
+        } else { //purge entry
+            CStringW subSection;
+            auto pApp = AfxGetMyApp();
+            subSection.Format(L"%s\\%s", m_section, hash);
+            pApp->WriteProfileString(subSection, nullptr, nullptr);
+        }
     }
     rfe_array.FreeExtra();
 }
