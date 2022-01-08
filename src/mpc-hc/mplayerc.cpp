@@ -1119,6 +1119,26 @@ std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
                 }
             }
         }
+    } else {
+        if (!lpszSection) {
+            ASSERT(FALSE);
+            return keys;
+        }
+        CStringW sectionStr(lpszSection);
+        if (sectionStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return keys;
+        }
+        InitProfile();
+        auto it1 = m_ProfileMap.begin();
+        while (it1 != m_ProfileMap.end()) {
+            if (it1->first.Find(sectionStr + L"\\") == 0) {
+                CStringW subKey = it1->first.Mid(sectionStr.GetLength() + 1);
+                keys.push_back(subKey);
+            }
+            it1++;
+        }
+
     }
     return keys;
 }
@@ -1203,6 +1223,26 @@ LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry) {
             HKEY hSectionKey;
             if (ERROR_SUCCESS == RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
                 return CWinAppEx::DelRegTree(hSectionKey, lpszEntry);
+            }
+        }
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return 1;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return 1;
+        }
+
+        InitProfile();
+        m_ProfileMap.erase(sectionStr);
+        auto it1 = m_ProfileMap.begin();
+        if (it1 != m_ProfileMap.end()) {
+            if (it1->first.Find(sectionStr + L"\\") == 0) {
+                m_ProfileMap.erase(it1);
             }
         }
     }
