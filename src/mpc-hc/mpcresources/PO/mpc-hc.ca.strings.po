@@ -4675,11 +4675,7 @@ msgstr "Dispositiu de so:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
-<<<<<<< HEAD
 msgstr "Allibera el dispositiu quan estigui inactiu"
-=======
-msgstr "Allibera el dispositiu quan no s'utilitzi"
->>>>>>> upstream/develop
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
