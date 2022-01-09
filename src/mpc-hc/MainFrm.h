@@ -136,6 +136,7 @@ public:
     ULONG FrequencyStart;
     ULONG FrequencyStop;
     ULONG Bandwidth;
+    ULONG SymbolRate;
     LONG  Offset;
     HWND  Hwnd;
 };
@@ -183,12 +184,12 @@ public:
 
     DpiHelper m_dpi;
 
-    enum class Timer32HzSubscriber {
+    enum class TimerHiderSubscriber {
         TOOLBARS_HIDER,
         CURSOR_HIDER,
         CURSOR_HIDER_D3DFS,
     };
-    OnDemandTimer<Timer32HzSubscriber> m_timer32Hz;
+    OnDemandTimer<TimerHiderSubscriber> m_timerHider;
 
     enum class TimerOneTimeSubscriber {
         TOOLBARS_DELAY_NOTLOADED,
@@ -214,7 +215,7 @@ private:
         TIMER_STREAMPOSPOLLER2,
         TIMER_STATS,
         TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS,
-        TIMER_32HZ,
+        TIMER_HIDER,
         TIMER_WINDOW_FULLSCREEN,
         TIMER_DELAYEDSEEK,
         TIMER_ONETIME_START,
@@ -420,6 +421,9 @@ private:
 
     bool m_fEndOfStream;
     ULONGLONG m_dwLastPause;
+    ULONGLONG m_dwReloadPos;
+    int m_iReloadAudioIdx;
+    int m_iReloadSubIdx;
 
     bool m_bRememberFilePos;
 
@@ -632,7 +636,7 @@ public:
 
     OAFilterState GetMediaStateDirect() const;
     OAFilterState GetMediaState() const;
-    void CMainFrame::UpdateCachedMediaState();
+    OAFilterState CMainFrame::UpdateCachedMediaState();
     bool MediaControlRun(bool waitforcompletion = false);
     bool MediaControlPause(bool waitforcompletion = false);
     bool MediaControlStop(bool waitforcompletion = false);
@@ -667,6 +671,8 @@ public:
 
     void SetAudioTrackIdx(int index);
     void SetSubtitleTrackIdx(int index);
+    int GetCurrentAudioTrackIdx();
+    int GetCurrentSubtitleTrackIdx();
 
     void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
 
@@ -694,6 +700,7 @@ public:
 
     void DoAfterPlaybackEvent();
     bool SearchInDir(bool bDirForward, bool bLoop = false);
+    bool WildcardFileSearch(CString searchstr, std::set<CString, CStringUtils::LogicalLess>& results);
     CString lastOpenFile;
     bool CanSkipFromClosedFile();
 
@@ -1041,8 +1048,10 @@ public:
     afx_msg void OnViewOSDShowFileName();
     afx_msg void OnD3DFullscreenToggle();
     afx_msg void OnGotoSubtitle(UINT nID);
-    afx_msg void OnShiftSubtitle(UINT nID);
+    afx_msg void OnSubresyncShiftSub(UINT nID);
     afx_msg void OnSubtitleDelay(UINT nID);
+    afx_msg void OnSubtitlePos(UINT nID);
+    afx_msg void OnSubtitleFontSize(UINT nID);
 
     afx_msg void OnPlayPlay();
     afx_msg void OnPlayPause();
@@ -1161,12 +1170,11 @@ public:
     void        SetAudioDelay(REFERENCE_TIME rtShift);
     void        SetSubtitleDelay(int delay_ms, bool relative = false);
     //void      AutoSelectTracks();
-    bool        IsRealEngineCompatible(CString strFilename) const;
     void        SetTimersPlay();
     void        KillTimerDelayedSeek();
     void        KillTimersStop();
     void        AdjustStreamPosPoller(bool restart);
-
+    void        ResetSubtitlePosAndSize(bool repaint = false);
 
     // MPC API functions
     void        ProcessAPICommand(COPYDATASTRUCT* pCDS);

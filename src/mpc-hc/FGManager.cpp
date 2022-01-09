@@ -34,6 +34,7 @@
 #include "mplayerc.h"
 #include "sanear/src/Factory.h"
 #include "../src/thirdparty/MpcAudioRenderer/MpcAudioRenderer.h"
+#include "DSUtil.h"
 #include <d3d9.h>
 #include <evr.h>
 #include <evr9.h>
@@ -771,13 +772,9 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                     continue;
                 }
             } else if (candidate == CLSID_RDPDShowRedirectionFilter) {
-                #if _DEBUG
-                continue;
-                #else
                 if (clsid_pinout == __uuidof(CAudioSwitcherFilter)) {
                     continue;
                 }
-                #endif
             } else if (candidate == GUID_LAVAudio) {
                 if (clsid_pinout == __uuidof(CAudioSwitcherFilter)) {
                     continue;
@@ -809,7 +806,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             CComPtr<IBaseFilter> pBF;
             CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
             if (FAILED(pFGF->Create(&pBF, pUnks))) {
-                TRACE(_T("     --> Filter creation failed\n"));
+                TRACE(_T("FGM: Filter creation failed\n"));
                 // Check if selected video renderer fails to load
                 CLSID filter = pFGF->GetCLSID();
                 if (filter == CLSID_MPCVRAllocatorPresenter || filter == CLSID_madVRAllocatorPresenter || filter == CLSID_DXRAllocatorPresenter) {
@@ -831,7 +828,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
 
             if (FAILED(hr = AddFilter(pBF, pFGF->GetName()))) {
-                TRACE(_T("     --> Adding the filter failed\n"));
+                TRACE(_T("FGM: Adding the filter failed\n"));
                 pUnks.RemoveAll();
                 pBF.Release();
                 continue;
@@ -880,7 +877,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
             */
             if (SUCCEEDED(hr)) {
-                TRACE(_T("     --> Filter connected to %s\n"), CLSIDToString(clsid_pinout));
+                TRACE(_T("FGM: Filter connected to %s\n"), CLSIDToString(clsid_pinout));
                 if (!IsStreamEnd(pBF)) {
                     fDeadEnd = false;
                 }
@@ -949,10 +946,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 }
             }
 
-            TRACE(_T("     --> Failed to connect to %s\n"), CLSIDToString(clsid_pinout));
+            TRACE(_T("FGM: Failed to connect to %s\n"), CLSIDToString(clsid_pinout));
             CPinInfo infoPinOut;
             if (SUCCEEDED(pPinOut->QueryPinInfo(&infoPinOut))) {
-                TRACE(_T("     --> Output pin name: %s\n"), infoPinOut.achName);
+                TRACE(_T("FGM: Output pin name: %s\n"), infoPinOut.achName);
             }
             EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
             pUnks.RemoveAll();
@@ -995,7 +992,7 @@ HRESULT CFGManager::RenderRFSFileEntry(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrP
 
 STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList)
 {
-    TRACE(_T("--> CFGManager::RenderFile on thread: %lu\n"), GetCurrentThreadId());
+    TRACE(_T("CFGManager::RenderFile on thread: %lu\n"), GetCurrentThreadId());
     CAutoLock cAutoLock(this);
 
     m_streampath.RemoveAll();
@@ -1031,6 +1028,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
             if (SUCCEEDED(hr = ConnectFilter(pBF, nullptr))) {
                 // insert null video renderer on next RenderFile call which is used for audio dubs
                 m_ignoreVideo = True;
+                TRACE(_T("CFGManager::RenderFile complete\n"));
                 return hr;
             }
 
@@ -1599,8 +1597,12 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,4,,F8726FBB"));                      // MLP
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".ac3"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".eac3"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".mlp"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".truehd"));
         pFGLAVSplitterSource->AddEnabledFormat("ac3");
         pFGLAVSplitterSource->AddEnabledFormat("eac3");
+        pFGLAVSplitterSource->AddEnabledFormat("mlp");
+        pFGLAVSplitterSource->AddEnabledFormat("truehd");
     }
 #endif
 
@@ -1631,6 +1633,8 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
         pFGLAVSplitterSource->m_protocols.AddTail(_T("https"));
         pFGLAVSplitterSource->m_protocols.AddTail(_T("icyx"));
         pFGLAVSplitterSource->AddEnabledFormat("http");
+        pFGLAVSplitterSource->AddEnabledFormat("dash");
+        pFGLAVSplitterSource->AddEnabledFormat("hls");
     }
 #endif
 
@@ -1673,6 +1677,47 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
     if (src[SRC_RTMP] && !IsPreview) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtmp"));
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtmpt"));
+        pFGLAVSplitterSource->AddEnabledFormat("live_flv");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_MISC
+    // ToDo: split into separate options
+    if (src[SRC_MISC] || IsPreview) {
+        // video
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dv"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dhav"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".m3u8"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".y4m"));
+        pFGLAVSplitterSource->AddEnabledFormat("dv");
+        pFGLAVSplitterSource->AddEnabledFormat("dhav");
+        pFGLAVSplitterSource->AddEnabledFormat("y4m");
+    }
+    if (src[SRC_MISC] && !IsPreview) {
+        // raw video
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".264"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".265"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".h264"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".h265"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".av1"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".m4v"));
+        pFGLAVSplitterSource->AddEnabledFormat("av1");
+        pFGLAVSplitterSource->AddEnabledFormat("m4v");
+        pFGLAVSplitterSource->AddEnabledFormat("rawvideo");
+        // audio
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".amr"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".ape"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".mpc"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".w64"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".wav"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".wv"));
+        pFGLAVSplitterSource->AddEnabledFormat("amr");
+        pFGLAVSplitterSource->AddEnabledFormat("ape");
+        pFGLAVSplitterSource->AddEnabledFormat("mpc");
+        pFGLAVSplitterSource->AddEnabledFormat("mpc8");
+        pFGLAVSplitterSource->AddEnabledFormat("w64");
+        pFGLAVSplitterSource->AddEnabledFormat("wav");
+        pFGLAVSplitterSource->AddEnabledFormat("wv");
     }
 #endif
 
@@ -1812,12 +1857,15 @@ void CFGManagerCustom::InsertLAVSplitter(bool IsPreview)
         pFGLAVSplitterLM->AddDisabledFormat("ass");
         pFGLAVSplitterLM->AddDisabledFormat("microdvd");
         pFGLAVSplitterLM->AddDisabledFormat("mpl2");
+        pFGLAVSplitterLM->AddDisabledFormat("mpsub");
         pFGLAVSplitterLM->AddDisabledFormat("realtext");
         pFGLAVSplitterLM->AddDisabledFormat("sami");
         pFGLAVSplitterLM->AddDisabledFormat("srt");
         pFGLAVSplitterLM->AddDisabledFormat("subviewer");
         pFGLAVSplitterLM->AddDisabledFormat("subviewer1");
+        pFGLAVSplitterLM->AddDisabledFormat("sup");
         pFGLAVSplitterLM->AddDisabledFormat("vobsub");
+        pFGLAVSplitterLM->AddDisabledFormat("webvtt");
         m_transform.AddTail(pFGLAVSplitterLM.Detach());
     }
 }
@@ -2332,6 +2380,10 @@ void CFGManagerCustom::InsertBlockedFilters()
     // Morgan's Stream Switcher (mmswitch.ax)
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_MorganStreamSwitcher, MERIT64_DO_NOT_USE));
 
+    if (AfxGetAppSettings().bBlockRDP) {
+        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_RDPDShowRedirectionFilter, MERIT64_DO_NOT_USE));
+    }
+
     // DCDSPFilter (early versions crash mpc)
     {
         CRegKey key;
@@ -2578,7 +2630,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
     : CFGManagerCustom(pName, pUnk, hWnd, IsPreview)
     , m_hWnd(hWnd)
 {
-    TRACE(_T("--> CFGManagerPlayer::CFGManagerPlayer on thread: %lu\n"), GetCurrentThreadId());
+    TRACE(_T("CFGManagerPlayer::CFGManagerPlayer on thread: %lu\n"), GetCurrentThreadId());
     CFGFilter* pFGF;
 
     const CAppSettings& s = AfxGetAppSettings();

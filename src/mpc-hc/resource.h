@@ -84,7 +84,6 @@
 #define ID_FILE_SAVE_THUMBNAILS         808
 #define ID_FILE_SUBTITLES_LOAD          809
 #define ID_FILE_SUBTITLES_SAVE          810
-//#define ID_FILE_SUBTITLES_UPLOAD        811
 #define ID_FILE_SUBTITLES_DOWNLOAD      812
 #define ID_VIEW_ZOOM_25                 813
 #define ID_FILE_PROPERTIES              814
@@ -629,6 +628,7 @@
 #define IDS_MESSAGEBOX_CONTINUE         20064
 #define IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE 20065
 #define ID_FILE_OPEN_LOCATION           20066
+#define IDB_NOIMAGE                     20067
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -655,6 +655,7 @@
 #define IDC_FREQ_END                    22023
 #define IDC_CHANNEL_LIST                22024
 #define ID_START                        22025
+#define IDC_SYMBOLRATE                  22026
 #define ID_SAVE                         22030
 #define IDC_STRENGTH                    22031
 #define IDC_SYNCVIDEO                   22032
@@ -727,6 +728,14 @@
 #define PLAYER_PLAYLIST_LVN_ITEMCHANGED 24048
 #define IDF_LOGO4                       24050
 #define ID_SUBTITLES_DEFAULT_STYLE      24051
+#define ID_SUB_POS_DOWN                 24052
+#define ID_SUB_POS_UP                   24053
+#define ID_SUB_FONT_SIZE_DEC            24054
+#define ID_SUB_FONT_SIZE_INC            24055
+#define IDS_SUB_POS_DOWN                24056
+#define IDS_SUB_POS_UP                  24057
+#define IDS_SUB_FONT_SIZE_DEC           24058
+#define IDS_SUB_FONT_SIZE_INC           24059
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_FILE_OPENDISC                32774
 #define ID_SHADERS                      32775
@@ -735,8 +744,8 @@
 #define ID_D3DFULLSCREEN_TOGGLE         32779
 #define ID_GOTO_PREV_SUB                32780
 #define ID_GOTO_NEXT_SUB                32781
-#define ID_SHIFT_SUB_DOWN               32782
-#define ID_SHIFT_SUB_UP                 32783
+#define ID_SUBRESYNC_SHIFT_DOWN         32782
+#define ID_SUBRESYNC_SHIFT_UP           32783
 #define ID_VIEW_DISPLAY_RENDERER_STATS  32784
 #define ID_VIEW_RESET_RENDERER_STATS    32785
 #define IDS_AG_CLOSE                    32830
@@ -1684,7 +1693,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20067
+#define _APS_NEXT_RESOURCE_VALUE        20069
 #define _APS_NEXT_COMMAND_VALUE         33456
 #define _APS_NEXT_CONTROL_VALUE         22087
 #define _APS_NEXT_SYMED_VALUE           24052

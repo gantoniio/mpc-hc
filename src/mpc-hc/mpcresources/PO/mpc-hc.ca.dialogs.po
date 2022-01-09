@@ -205,8 +205,8 @@ msgid "About"
 msgstr "Sobre"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2021 clsid2 and others"
-msgstr "Copyright 2002-2021 clsid2 i altres"
+msgid "Copyright 2002-2022 clsid2 and others"
+msgstr "Copyright 2002-2022 clsid2 i altres"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -1411,6 +1411,10 @@ msgstr "Q"
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
 msgstr "Utilitza un desfasament"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Symbol Rate"
+msgstr ""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"

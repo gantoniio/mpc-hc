@@ -157,6 +157,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
     addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, StrRes(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
+    addBoolItem(BLOCK_RDP, IDS_RS_BLOCKRDP, false, s.bBlockRDP, _T("Block use of RDP Redirection Filter"));
     addBoolItem(LOOP_FOLDER_NEXT_FILE, IDS_RS_LOOP_FOLDER_NEXT_FILE, false, s.bLoopFolderOnPlayNextFile, StrRes(IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE));
     addBoolItem(USE_YDL, IDS_RS_USE_YDL, true, s.bUseYDL, StrRes(IDS_PPAGEADVANCED_USE_YDL));
     addIntItem(YDL_MAX_HEIGHT, IDS_RS_YDL_MAX_HEIGHT, 1440, s.iYDLMaxHeight, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_YDL_MAX_HEIGHT));
@@ -170,10 +171,11 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(SAVEIMAGE_CURRENTTIME, IDS_RS_SAVEIMAGE_CURRENTTIME, false, s.bSaveImageCurrentTime, StrRes(IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME));
     addBoolItem(SNAPSHOTSUBTITLES, IDS_RS_SNAPSHOTSUBTITLES, true, s.bSnapShotSubtitles, StrRes(IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES));
     addBoolItem(SNAPSHOTKEEPVIDEOEXTENSION, IDS_RS_SNAPSHOTKEEPVIDEOEXTENSION, true, s.bSnapShotKeepVideoExtension, StrRes(IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION));
-    addBoolItem(USE_SMTC, IDS_RS_USE_SMTC, true, s.bUseSMTC, _T("Allow control of the player through System Media Transport Controls in Windows 8.1/10/11."));
+    addBoolItem(USE_SMTC, IDS_RS_USE_SMTC, false, s.bUseSMTC, _T("Allow control of the player through System Media Transport Controls in Windows 8.1/10/11."));
     addBoolItem(ADD_LANGCODE_WHEN_SAVE_SUBTITLES, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, false, s.bAddLangCodeWhenSaveSubtitles, StrRes(IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES));
     addBoolItem(USE_TITLE_IN_RECENT_FILE_LIST, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, true, s.bUseTitleInRecentFileList, StrRes(IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST));
     addBoolItem(LOCK_NOPAUSE, IDS_RS_LOCK_NOPAUSE, false, s.bLockNoPause, _T("Do not pause playback when locking the screen."));
+    addIntItem(RELOAD_AFTER_LONG_PAUSE, IDS_RS_RELOAD_AFTER_LONG_PAUSE, 30, s.iReloadAfterLongPause, std::make_pair(0, 1440), _T("Reload video file before resuming playback if it was paused for more than X minutes. Use 0 to disable automatic file reload."));
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, StrRes(IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK));
     addIntItem(STREAMPOSPOLLER_INTERVAL, IDS_RS_TIME_REFRESH_INTERVAL, 100, s.nStreamPosPollerInterval, std::make_pair(40, 500), StrRes(IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL));
 #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER

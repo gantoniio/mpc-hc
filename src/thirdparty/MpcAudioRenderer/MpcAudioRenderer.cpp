@@ -1462,7 +1462,9 @@ HRESULT CMpcAudioRenderer::Transform(IMediaSample *pMediaSample)
 		return S_FALSE;
 	}
 
-	m_rtLastReceivedSampleTimeEnd = rtStart + SamplesToTime(lSize / m_pWaveFormatExInput->nBlockAlign, m_pWaveFormatExInput) / m_dRate;
+    if (m_pWaveFormatExInput) {
+        m_rtLastReceivedSampleTimeEnd = rtStart + SamplesToTime(lSize / m_pWaveFormatExInput->nBlockAlign, m_pWaveFormatExInput) / m_dRate;
+    }
 
 	if (!m_pRenderClient) {
 		if (!m_pAudioClient) {
@@ -1475,7 +1477,9 @@ HRESULT CMpcAudioRenderer::Transform(IMediaSample *pMediaSample)
 		if (!m_pRenderClient) {
 			m_bReleased = false;
 
-			m_rtNextRenderedSampleTime = rtStart + SamplesToTime(lSize / m_pWaveFormatExInput->nBlockAlign, m_pWaveFormatExInput) / m_dRate;
+            if (m_pWaveFormatExInput) {
+                m_rtNextRenderedSampleTime = rtStart + SamplesToTime(lSize / m_pWaveFormatExInput->nBlockAlign, m_pWaveFormatExInput) / m_dRate;
+            }
 
 			const auto duration = m_rtStartTime + rtStart - m_pSyncClock->GetPrivateTime() - m_hnsBufferDuration;
 			if (duration >= OneMillisecond) {
@@ -1789,7 +1793,12 @@ HRESULT CMpcAudioRenderer::InitAudioClient()
 	if (FAILED(hr)) {
 		TRACE(L"CMpcAudioRenderer::InitAudioClient() - IMMDevice::Activate() failed: (0x%08x)\n", hr);
 	} else {
-		TRACE(L"CMpcAudioRenderer::InitAudioClient() - success\n");
+        if (m_pAudioClient) {
+            TRACE(L"CMpcAudioRenderer::InitAudioClient() - success\n");
+        } else {
+            TRACE(L"CMpcAudioRenderer::InitAudioClient() - nullptr\n");
+            return E_FAIL;
+        }
 		if (m_wBitsPerSampleList.empty()) {
 			// get list of supported output formats - wBitsPerSample, nChannels(dwChannelMask), nSamplesPerSec
 			const WORD  wBitsPerSampleValues[] = {16, 24, 32};
@@ -2358,6 +2367,12 @@ HRESULT CMpcAudioRenderer::CreateRenderClient(WAVEFORMATEX *pWaveFormatEx, const
 		return hr;
 	}
 
+    if (!m_pAudioClient) {
+        // based on crash dump, don't know why this occurs.
+        ASSERT(FALSE);
+        return E_FAIL;
+    }
+
 	// get the buffer size, which is aligned
 	hr = m_pAudioClient->GetBufferSize(&m_nFramesInBuffer);
 	EXIT_ON_ERROR(hr);
@@ -2682,7 +2697,10 @@ HRESULT CMpcAudioRenderer::ReinitializeAudioDevice(BOOL bFullInitialization/* = 
 	CAutoLock cRenderLock(&m_csRender);
 
 	WAVEFORMATEX* pWaveFormatEx = nullptr;
-	CopyWaveFormat(m_pWaveFormatExInput, &pWaveFormatEx);
+    if (!CopyWaveFormat(m_pWaveFormatExInput, &pWaveFormatEx)) {
+        ASSERT(FALSE);
+        return E_FAIL;
+    }
 
 	if (m_bIsAudioClientStarted && m_pAudioClient) {
 		m_pAudioClient->Stop();

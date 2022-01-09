@@ -48,7 +48,7 @@
 
 #define MPC_VERSION_MAJOR       1
 #define MPC_VERSION_MINOR       9
-#define MPC_VERSION_PATCH       16
+#define MPC_VERSION_PATCH       18
 
 #if MPC_VERSION_REV > 0
 #define MPC_NIGHTLY_RELEASE     1
@@ -57,7 +57,7 @@
 #endif
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
-#define MPC_COPYRIGHT_STR       _T("Copyright 2002-2021 clsid2 and others")
+#define MPC_COPYRIGHT_STR       _T("Copyright 2002-2022 clsid2 and others")
 #define MPC_VERSION_COMMENTS    WEBSITE_URL
 
 

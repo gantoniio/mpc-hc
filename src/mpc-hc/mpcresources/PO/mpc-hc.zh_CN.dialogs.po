@@ -198,8 +198,8 @@ msgid "About"
 msgstr "关于"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2021 clsid2 and others"
-msgstr "版权所有 2002-2021 clsid2和其他开发者"
+msgid "Copyright 2002-2022 clsid2 and others"
+msgstr "版权所有 2002-2022 clsid2和其他开发者"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -1379,6 +1379,10 @@ msgstr "Q"
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
 msgstr "使用一个偏移"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Symbol Rate"
+msgstr ""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"

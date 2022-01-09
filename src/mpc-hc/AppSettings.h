@@ -604,6 +604,7 @@ public:
     bool            fReportFailedPins;
     bool            fAutoloadAudio;
     bool            fBlockVSFilter;
+    bool            bBlockRDP;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
     int             nDefaultToolbarSize;
@@ -613,6 +614,7 @@ public:
     bool            bLoopFolderOnPlayNextFile;
     bool            bLockNoPause;
     bool            bUseSMTC;
+    int             iReloadAfterLongPause;
 
     enum class AfterPlayback {
         DO_NOTHING,
@@ -664,6 +666,7 @@ public:
     int             iBDAScanFreqStart;
     int             iBDAScanFreqEnd;
     int             iBDABandwidth;
+    int             iBDASymbolRate;
     bool            fBDAUseOffset;
     int             iBDAOffset;
     bool            fBDAIgnoreEncryptedChannels;

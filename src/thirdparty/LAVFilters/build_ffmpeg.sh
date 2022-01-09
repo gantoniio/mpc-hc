@@ -3,12 +3,6 @@
 echo "$(pwd)" | grep -q '[[:blank:]]' &&
   echo "Out of tree builds are impossible with whitespace in source path." && exit 1
 
-if [ "${4}" == "VS2015" ]; then
-  bin_folder=bin15
-else
-  bin_folder=bin
-fi
-
 if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
@@ -24,12 +18,12 @@ else
 fi
 
 if [ "${2}" == "Debug" ]; then
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}_Debug/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}_Debug/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}d
   cross_prefix=
   COMPILER=MSVC
 else
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}
   COMPILER=GCC
 fi
@@ -52,12 +46,12 @@ copy_libs() {
   cp lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
   if [ "${COMPILER}" == "GCC" ]; then
     #${cross_prefix}strip ${FFMPEG_DLL_PATH}/*-lav-*.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avcodec-lav-58.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avfilter-lav-7.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avformat-lav-58.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avresample-lav-4.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avutil-lav-56.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swscale-lav-5.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avcodec-lav-59.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avfilter-lav-8.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avformat-lav-59.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avutil-lav-57.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swresample-lav-4.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swscale-lav-6.dll
   fi
   cp -u lib*/*.lib ${FFMPEG_LIB_PATH}
 }
@@ -77,44 +71,45 @@ configure() {
     --disable-static                \
     --enable-gpl                    \
     --enable-version3               \
+    --disable-autodetect            \
     --enable-w32threads             \
     --disable-demuxer=matroska      \
     --disable-filters               \
-    --enable-filter=scale,yadif,w3fdif \
+    --enable-filter=scale,yadif,w3fdif,bwdif \
     --disable-protocol=async,cache,concat,httpproxy,icecast,md5,subfile \
     --disable-muxers                \
     --enable-muxer=spdif            \
     --disable-bsfs                  \
     --enable-bsf=extract_extradata,vp9_superframe_split \
-    --disable-cuda                  \
-    --disable-cuda-llvm             \
-    --disable-cuvid                 \
-    --disable-nvenc                 \
-    --disable-mediafoundation       \
-    --enable-avresample             \
-    --enable-avisynth               \
     --disable-avdevice              \
     --disable-postproc              \
-    --disable-swresample            \
     --disable-encoders              \
     --disable-devices               \
     --disable-programs              \
     --disable-doc                   \
+    --enable-avisynth               \
+    --enable-d3d11va                \
+    --enable-dxva2                  \
+    --enable-zlib                   \
     --build-suffix=-lav             \
     --arch=${arch}"
 
   if [ "${COMPILER}" == "GCC" ]; then
     OPTIONS="${OPTIONS}             \
+    --disable-debug                 \
+    --enable-bzlib                  \
+    --enable-gnutls                 \
+     --enable-gmp                   \
     --enable-libdav1d               \
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
-    --disable-debug                 \
-    --disable-schannel              \
-    --enable-gnutls                 \
     --enable-libxml2                \
-    --disable-stripping             \
-    --enable-gmp"
+    --disable-stripping"
+  fi
+  
+  if [ "${COMPILER}" == "MSVC" ]; then
+    OPTIONS="${OPTIONS} --enable-schannel"
   fi
   
   EXTRA_LDFLAGS=""

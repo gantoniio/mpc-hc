@@ -89,9 +89,7 @@ SRCS_LC = \
 	libavcodec/avdct.c \
 	libavcodec/avfft.c \
 	libavcodec/avpacket.c \
-	libavcodec/avpicture.c \
 	libavcodec/bitstream.c \
-	libavcodec/bitstream_filter.c \
 	libavcodec/bitstream_filters.c \
 	libavcodec/bsf.c \
 	libavcodec/codec_desc.c \
@@ -303,7 +301,7 @@ VERSIONH=$(MAK_DIR)/libavutil/ffversion.h
 
 # Commands
 $(VERSIONH): Changelog
-	sh ffbuild/version.sh . $(MAK_DIR)libavutil/ffversion.h
+	sh ffbuild/version.sh . msvc_ffversion.h && mv msvc_ffversion.h $(VERSIONH)
 
 $(OBJ_DIR)libavcodec/%.o: libavcodec/%.c
 	@echo $<

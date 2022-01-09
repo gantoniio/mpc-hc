@@ -205,8 +205,8 @@ msgid "About"
 msgstr "Περί"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2021 clsid2 and others"
-msgstr "Copyright © 2002-2021 clsid2 και άλλοι"
+msgid "Copyright 2002-2022 clsid2 and others"
+msgstr "Copyright © 2002-2022 clsid2 και άλλοι"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -1402,6 +1402,10 @@ msgstr "Π"
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
 msgstr "Χρήση μίας μετατόπ."
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Symbol Rate"
+msgstr ""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
