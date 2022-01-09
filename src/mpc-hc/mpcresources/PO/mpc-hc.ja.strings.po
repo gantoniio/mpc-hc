@@ -6,14 +6,13 @@
 # O SA, 2020
 # Sonozaki Shion <mskt01a@gmail.com>, 2021
 # ever_green, 2021
-# Sonozaki Shion <mskt01a@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-08 08:33:47+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Sonozaki Shion <mskt01a@gmail.com>, 2021\n"
+"Last-Translator: ever_green, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,11 +94,11 @@ msgstr "A-B"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
 msgid "A-B Repeat: Mark A Position"
-msgstr "A-B リピート: 開始点 A を設定"
+msgstr "A-B リピート: 始点 A を設定"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
 msgid "A-B Repeat: Mark B Position"
-msgstr "A-B リピート: 終了点 B を設定"
+msgstr "A-B リピート: 終点 B を設定"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
@@ -190,7 +189,7 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid ""
 "Not supported by some devices. Two video decoders always present in the "
 "filter graph."
-msgstr "一部のデバイスでサポートされていない。2 つのビデオ デコーダが常にフィルタ グラフに存在する。"
+msgstr "一部のデバイスではサポートされていない。フィルタ グラフに常に 2 つのビデオ デコーダが存在する。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid ""
@@ -685,8 +684,6 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"ここに優先言語を入力してください。\n"
-"例: \"eng jpn swe\" のように入力します。"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -827,7 +824,7 @@ msgstr "EVR と同じですが、字幕と後処理のために HPC-HC のアロ
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高品質のレンダラで、D3D9 以降をサポートする GPU が必要です。"
+msgstr "高画質なレンダラーで、D3D9 以降に対応した GPU が必要です。"
 
 msgctxt "IDC_DSSYNC"
 msgid ""
@@ -865,7 +862,7 @@ msgctxt "IDC_DX9RESIZER_COMBO"
 msgid ""
 "If there is no Pixel Shader 2.0 support, simple bilinear is used "
 "automatically."
-msgstr "ピクセル シェーダ 2.0 をサポートしていない場合、単純な線形補間が自動的に使用されます。"
+msgstr "ピクセル シェーダ 2.0 に対応していない場合、自動的に単純な線形補間が使用されます。"
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid ""
@@ -878,7 +875,7 @@ msgstr ""
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高品質のレンダラで、D3D9 以降をサポートする GPU が必要です。"
+msgstr "高画質なレンダラーで、D3D9 以降に対応した GPU が必要です。"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -984,11 +981,11 @@ msgstr "アーカイブ内にメディア ファイルが見つかりません�
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "圧縮されたファイルはサポートされていません"
+msgstr "圧縮ファイルには対応していません"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "暗号化されたファイルはサポートされていません"
+msgstr "暗号化されたファイルには対応していません。"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -1020,7 +1017,7 @@ msgstr "VTS_xx_x.vob ファイルをまとめて読み込むには VTS_xx_0.ifo 
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "RARFileSource に基づいて、圧縮されたファイルをサポートしていません"
+msgstr "RARFileSource をベースにしていますが、圧縮ファイルには対応していません"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -2406,8 +2403,8 @@ msgid ""
 "It supports all common video and audio file formats available for playback. "
 "We are 100% spyware free, there are no advertisements or toolbars."
 msgstr ""
-"MPC-HC は非常に軽量な Windows 用オープン ソースのメディア プレーヤーです。再生に使用される一般的なすべてのビデオおよびオーディオ "
-"ファイル形式をサポートしています。私たちは 100％ スパイウェアを含まず、広告やツール バーもありません。"
+"MPC-HC は、非常に軽量なオープン ソースの Windows 用メディア プレーヤーです。再生可能なすべての一般的なビデオおよびオーディオ "
+"ファイル形式をサポートしています。100％ スパイウェアを含まず、広告やツールバーは一切ありません。"
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -3831,7 +3828,7 @@ msgstr "色の設定が復元されました"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "カラー コントロールはサポートされていません"
+msgstr "カラー コントロールには対応していません"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -4496,7 +4493,7 @@ msgstr "ステータス バーに現在の音声と字幕の言語を表示し�
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
 msgid "Display current fps and rate in status bar"
-msgstr "ステータス バーに現在の fps と再生速度を表示します"
+msgstr "ステータス バーに現在のフレーム レートと再生速度を表示します"
 
 msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
 msgid ""
@@ -4514,7 +4511,7 @@ msgstr "ステータス バーに現在の A-B リピート マークを表示�
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
-msgstr "ステータス バーにビデオの情報 (コーデック名、解像度) を表示します。"
+msgstr "ステータス バーにビデオ情報 (コーデック名、解像度) を表示します。"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
@@ -4534,7 +4531,7 @@ msgstr "ビットパーフェクト出力を許可する"
 
 msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
 msgid "Use system layout channels"
-msgstr "Windows のスピーカー構成を使用する"
+msgstr "システム レイアウト チャンネルを使用する"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -4542,11 +4539,11 @@ msgstr "サウンド デバイス:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
-msgstr "アイドル時にデバイスを解放する"
+msgstr "アイドル状態時にデバイスを解放する"
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr "クロスフィードを有効にする (ヘッドホン用)"
+msgstr "ステレオ クロスフィードを有効にする (ヘッドホン用)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
