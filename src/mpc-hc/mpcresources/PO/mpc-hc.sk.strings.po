@@ -541,11 +541,11 @@ msgstr "Uložiť náhľady"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr "Presunúť titulky nadol"
+msgstr "Posunúť titulky nadol"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr "Presunúť titulky nahor"
+msgstr "Posunúť titulky nahor"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
