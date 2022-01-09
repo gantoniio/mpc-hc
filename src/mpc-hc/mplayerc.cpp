@@ -1134,7 +1134,9 @@ std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
         while (it1 != m_ProfileMap.end()) {
             if (it1->first.Find(sectionStr + L"\\") == 0) {
                 CStringW subKey = it1->first.Mid(sectionStr.GetLength() + 1);
-                keys.push_back(subKey);
+                if (subKey.Find(L"\\") == -1) {
+                    keys.push_back(subKey);
+                }
             }
             it1++;
         }
