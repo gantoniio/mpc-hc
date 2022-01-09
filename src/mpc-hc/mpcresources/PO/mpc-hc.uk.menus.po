@@ -656,7 +656,7 @@ msgstr "Шв&идше"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Нормально"
+msgstr "Звичайна швидкість"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -692,11 +692,11 @@ msgstr "&Тихіше"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Вимкнути"
+msgstr "&Вимкнути звук"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Наприкінці"
+msgstr "Після відтворення"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
@@ -776,7 +776,7 @@ msgstr "Меню с&цен"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "&Закладки"
+msgstr "&Вибране"
 
 msgctxt "POPUP"
 msgid "&Help"
@@ -784,7 +784,7 @@ msgstr "&Допомога"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Домівка"
+msgstr "&Домашня сторінка"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
@@ -792,11 +792,11 @@ msgstr "Перевірити &оновлення"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Параметри &запуску"
+msgstr "Параметри &командного рядку"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Завантажити користувацькі панелі інструментів"
+msgstr "Завантажити панелі інструментів"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
