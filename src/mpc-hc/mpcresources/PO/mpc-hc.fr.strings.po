@@ -543,19 +543,19 @@ msgstr "Enregistrer les miniatures"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Déplacer les sous-titres vers le bas"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Déplacer les sous-titres vers le haut"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Diminuer la taille du texte des sous-titres"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Augmenter la taille du texte des sous-titres"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -690,6 +690,8 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
+"Entrez votre langue préférée ici.\n"
+"Par exemple, tapez : \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -2006,11 +2008,11 @@ msgstr "Sous-titre suivant"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Sous-resynchronisation: décalage -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Sous-resynchronisation: décalage +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
