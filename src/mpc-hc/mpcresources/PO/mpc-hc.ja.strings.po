@@ -5,14 +5,14 @@
 # MPC HC <adiposegithub@gmail.com>, 2020
 # O SA, 2020
 # Sonozaki Shion <mskt01a@gmail.com>, 2021
-# ever_green, 2021
+# ever_green, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: ever_green, 2021\n"
+"Last-Translator: ever_green, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -255,7 +255,7 @@ msgstr "ナビゲーション バー"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "字幕の再同期"
+msgstr "字幕調整"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -537,19 +537,19 @@ msgstr "サムネイルを保存"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "字幕を下に移動"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "字幕を上に移動"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "字幕の文字サイズを縮小"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "字幕の文字サイズを拡大"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -684,6 +684,8 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
+"ここに優先言語を入力してください。\n"
+"例: \"eng jpn swe\" のように入力します。"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1927,11 +1929,11 @@ msgstr "次の字幕に移動"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "字幕調整: -100 ミリ秒移動"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "字幕調整: +100 ミリ秒移動"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2856,7 +2858,7 @@ msgstr "ステータスの表示"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "字幕の再同期バーの表示"
+msgstr "字幕調整バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
