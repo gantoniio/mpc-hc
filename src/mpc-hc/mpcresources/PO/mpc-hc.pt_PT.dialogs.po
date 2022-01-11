@@ -1400,7 +1400,7 @@ msgstr "Usar um deslocamento"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr "Taxa dos símbolos"
+msgstr "Taxa de símbolos"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
