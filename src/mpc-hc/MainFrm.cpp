@@ -7467,25 +7467,92 @@ void CMainFrame::OnViewZoomAutoFitLarger()
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
+struct WindowSizeAdjuster : public CRect
+{
+    enum Side { RIGHT, BOTTOM };
+
+    void SizeBy(int value, Side side = RIGHT)
+    {
+        if (ReferenceRect.first) {
+            CRect& rref = ReferenceRect.second;
+            CSize diff(
+                Width() - rref.Width(),
+                Height() - rref.Height());
+
+            if (side == RIGHT) {
+                rref.right += value;
+                rref.bottom = ceil(GetRatioAdjustmentWith(rref, side));
+            } else {
+                rref.bottom += value;
+                rref.right = ceil(GetRatioAdjustmentWith(rref, side));
+            }
+
+            right = left + rref.Width() + diff.cx;
+            bottom = top + rref.Height() + diff.cy;
+        } else {
+            if (side == RIGHT) {
+                right += value;
+                bottom = GetRatioAdjustmentWith(*this, side) + 0.5;
+            } else {
+                bottom += value;
+                right = GetRatioAdjustmentWith(*this, side) + 0.5;
+            }
+        }
+    }
+
+    std::pair<bool, CRect> ReferenceRect{ false, {} };
+    double DesiredRatio = 0.0;
+private:
+    double GetRatioAdjustmentWith(CRect& rect, Side fixedSide)
+    {
+        return fixedSide == RIGHT ?
+            rect.top + rect.Width() / DesiredRatio :
+            rect.left + rect.Height() * DesiredRatio;
+    }
+};
+
 void CMainFrame::OnViewModifySize(UINT nID)
 {
     if (m_fFullScreen || IsZoomed() || IsIconic()) {
         return;
     }
 
-    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
-    double videoRatio = double(videoSize.cy) / double(videoSize.cx);
-
-    CRect videoRect;
-    m_pVideoWnd->GetWindowRect(&videoRect);
-    LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
-    LONG newHeight = ceil(newWidth * videoRatio);
-
-    CRect rect;
+    WindowSizeAdjuster rect;
     GetWindowRect(&rect);
-    rect.right = rect.right + newWidth - videoRect.Width();
-    rect.bottom = rect.bottom + newHeight - videoRect.Height();
-    
+    if (m_pVideoWnd) {
+        rect.ReferenceRect.first = true;
+        m_pVideoWnd->GetWindowRect(&rect.ReferenceRect.second);
+        const CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
+        rect.DesiredRatio = double(videoSize.cx) / double(videoSize.cy);
+    } else {
+        rect.DesiredRatio = double(rect.Width()) / double(rect.Height());
+    }
+    rect.SizeBy(32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0));
+
+    if (AfxGetAppSettings().fSnapToDesktopEdges)
+    {
+        CRect areaRect;
+        CMonitors::GetNearestMonitor(this).GetWorkAreaRect(areaRect);
+        const CRect invisibleBorderSize = GetInvisibleBorderSize();
+        areaRect.InflateRect(invisibleBorderSize);
+        int threshold = 16;
+        int horzDist = abs(rect.right - areaRect.right);
+        int vertDist = abs(rect.bottom - areaRect.bottom);
+        WindowSizeAdjuster rectSnapped = rect;
+        if (std::min(horzDist, vertDist) <= threshold) {
+            if (areaRect.right - rectSnapped.right < areaRect.bottom - rectSnapped.bottom && horzDist < threshold) {
+                rectSnapped.SizeBy(areaRect.right - rectSnapped.right, WindowSizeAdjuster::RIGHT);
+            }
+            else {
+                rectSnapped.SizeBy(areaRect.bottom - rectSnapped.bottom, WindowSizeAdjuster::BOTTOM);
+            }
+        }
+        CRect rectOrig;
+        GetWindowRect(&rectOrig);
+        if (rectOrig != rectSnapped)
+            rect = rectSnapped;
+    }
+
     MoveWindow(&rect);
 }
 
