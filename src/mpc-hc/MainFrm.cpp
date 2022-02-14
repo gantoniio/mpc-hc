@@ -4789,6 +4789,18 @@ void CMainFrame::OnFileReopen()
     if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
         return;
     }
+
+    // save playback position
+    if (GetLoadState() == MLS::LOADED) {
+        if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
+            auto& s = AfxGetAppSettings();
+            REFERENCE_TIME rtNow = 0;
+            m_pMS->GetCurrentPosition(&rtNow);
+            m_dwReloadPos = rtNow;
+            s.MRU.UpdateCurrentFilePosition(rtNow, true);
+        }
+    }
+
     OpenCurPlaylistItem(0, true);
 }
 
@@ -8111,7 +8123,7 @@ void CMainFrame::OnPlayPlaypause()
         } else if (fs == State_Stopped || fs == State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
         }
-    } else if (GetLoadState() == MLS::CLOSED && !m_fFullScreen && !IsPlaylistEmpty()) {
+    } else if (GetLoadState() == MLS::CLOSED && !IsPlaylistEmpty()) {
         SendMessage(WM_COMMAND, ID_PLAY_PLAY);        
     }
 }
@@ -17402,6 +17414,23 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     if (m_bSettingUpMenus) {
         SleepEx(500, false);
         ASSERT(!m_bSettingUpMenus);
+    }
+
+    // save playback position
+    if (GetLoadState() == MLS::LOADED) {
+        if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
+            auto& s = AfxGetAppSettings();
+            REFERENCE_TIME rtNow = 0;
+            REFERENCE_TIME rtDur = 0;
+            m_pMS->GetCurrentPosition(&rtNow);
+            m_pMS->GetDuration(&rtDur);
+            // if very close to end, assume we have reached the credits section of the movie, so reset to begin
+            if (rtNow < rtDur * 0.95) {
+                s.MRU.UpdateCurrentFilePosition(rtNow, true);
+            } else {
+                s.MRU.UpdateCurrentFilePosition(0LL, true);
+            }
+        }
     }
 
     // delay showing auto-hidden controls if new media is queued
