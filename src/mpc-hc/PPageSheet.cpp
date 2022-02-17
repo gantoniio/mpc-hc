@@ -27,6 +27,7 @@
 #include "CMPCThemeUtil.h"
 #include <prsht.h>
 #include "Monitors.h"
+#include "Translations.h"
 
 // CPPageSheet
 
@@ -359,7 +360,7 @@ int CALLBACK PropSheetCallBackRTL(HWND hWnd, UINT message, LPARAM lParam) {
         case PSCB_PRECREATE:
         {
             //arabic or hebrew
-            if (AfxGetAppSettings().language == 1025 || AfxGetAppSettings().language == 1037) {
+            if (Translations::IsLangRTL(AfxGetAppSettings().language)) {
                 LPDLGTEMPLATE lpTemplate = (LPDLGTEMPLATE)lParam;
                 lpTemplate->dwExtendedStyle |= WS_EX_LAYOUTRTL;
             }

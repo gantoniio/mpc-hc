@@ -126,6 +126,14 @@ LANGID Translations::SetDefaultLanguage()
     return SetLanguage(localeID, false) ? localeID : 0;
 }
 
+bool Translations::IsLangRTL(LANGID localeID) {
+    //arabic or hebrew
+    if (localeID == 1025 || localeID == 1037) {
+        return true;
+    }
+    return false;
+}
+
 bool Translations::SetLanguage(LANGID localeID, bool showErrorMsg /*= true*/)
 {
     // Note that all messages should stay in English in this method!
@@ -175,8 +183,7 @@ bool Translations::SetLanguage(LANGID localeID, bool showErrorMsg /*= true*/)
         hMod = AfxGetApp()->m_hInstance;
     }
     // In case a dll was loaded, check if some special action is needed
-    else if (PRIMARYLANGID(languageResource.localeID) == LANG_ARABIC || PRIMARYLANGID(languageResource.localeID) == LANG_HEBREW) {
-        // Hebrew needs the RTL flag.
+    else if (IsLangRTL(languageResource.localeID)) {
         SetProcessDefaultLayout(LAYOUT_RTL);
         SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, nullptr, GetCurrentThreadId());
     }
