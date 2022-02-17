@@ -23,6 +23,7 @@
 #include "FileVersionInfo.h"
 #include "PathUtils.h"
 #include "VersionInfo.h"
+#include "PPageSheet.h"
 
 namespace
 {
@@ -81,7 +82,10 @@ namespace
         if (code == HCBT_CREATEWND) {
             HWND hWnd = (HWND)wParam;
             if ((GetWindowLongPtr(hWnd, GWL_STYLE) & WS_CHILD) == 0) {
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, GetWindowLongPtr(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+                CWnd* wnd = CWnd::FromHandle(hWnd);
+                if (nullptr == DYNAMIC_DOWNCAST(CPPageSheet, wnd)) { //see CPPageSheet::DoModal().  in Windows 11, SetWindowLongPtr corrupts CPPageSheet dialog
+                    SetWindowLongPtr(hWnd, GWL_EXSTYLE, GetWindowLongPtr(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+                }
             }
         }
         return CallNextHookEx(nullptr, code, wParam, lParam);
