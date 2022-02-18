@@ -590,7 +590,6 @@
     <ClCompile Include="PlayerPreView.cpp">
       <Filter>Toolbars</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="MPCToolbarLayout.cpp">
       <Filter>Toolbars</Filter>
     </ClCompile>

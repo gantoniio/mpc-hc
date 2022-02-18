@@ -1995,7 +1995,7 @@ void CAppSettings::LoadSettings()
     {
         CString temp = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_TOOLBAR_LAYOUT);
         if (temp.IsEmpty()) {
-            temp = "<|PLAY_PLAY|-1|><|PLAY_PAUSE|-1|><|PLAY_STOP|-1|><|BUTTONSEP|-1|><|NAVIGATE_SKIPBACK|-1|><|PLAY_DECRATE|-1|><|PLAY_INCRATE|-1|><|NAVIGATE_SKIPFORWARD|-1|><|BUTTONSEP|-1|><|PLAY_FRAMESTEP|-1|><|BUTTONSEP|-1|><|DUMMYSEPARATOR|-1|><|VOLUME_MUTE|-1|>";
+            temp = MPCToolbarLayout::defaultLayout;
         }
         toolBarLayout <<= temp;
     }
