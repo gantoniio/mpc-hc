@@ -62,6 +62,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Silent"       SET "SILENT=True"        & SET /A VALID+=1
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
   IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1
+  IF /I "%%G" == "MINGWLIB"     ENDLOCAL & SET "FORCE_MINGW_UPDATE=True" & CALL "%~dp0common.bat" :SubMINGWLIB & EXIT /B
 )
 
 SET "FILE_DIR=%~dp0"
@@ -187,7 +188,6 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 TITLE Compiling MPC-HC Filters %COMPILER% - %BUILDCFG% Filter^|%1...
-REM Call update_version.bat before building the filters
 CALL "update_version.bat"
 
 MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
@@ -209,6 +209,8 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 TITLE Compiling MPC-HC %COMPILER% - %BUILDCFG%^|%1...
+CALL "update_version.bat"
+
 MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";Platform=%1^
  /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
@@ -368,6 +370,7 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 CALL "%COMMON%" :SubDetectSevenzipPath
 CALL "%COMMON%" :SubGetVersion
+CALL "%COMMON%" :SubMINGWLIB
 
 IF NOT DEFINED SEVENZIP (
   CALL "%COMMON%" :SubMsg "WARNING" "7-Zip wasn't found, the %1 %2 package wasn't built"

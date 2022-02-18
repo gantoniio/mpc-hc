@@ -47,6 +47,8 @@ CPlaylistItem::CPlaylistItem()
     , m_cue_filename(_T(""))
     , m_cue_index(0)
     , m_cover(_T(""))
+    , m_ydl_subs()
+    , inlineEditMaxWidth(0)
 {
     m_id = m_globalid++;
 }
@@ -84,6 +86,8 @@ CPlaylistItem& CPlaylistItem::operator=(const CPlaylistItem& pli)
         m_cue_filename = pli.m_cue_filename;
         m_cue_index = pli.m_cue_index;
         m_cover = pli.m_cover;
+        m_ydl_subs.RemoveAll();
+        m_ydl_subs.AddHeadList(&pli.m_ydl_subs);
     }
     return *this;
 }
@@ -137,18 +141,6 @@ CString CPlaylistItem::GetLabel(int i)
     return str;
 }
 
-bool FindFileInList(const CAtlList<CString>& sl, CString fn)
-{
-    bool fFound = false;
-    POSITION pos = sl.GetHeadPosition();
-    while (pos && !fFound) {
-        if (!sl.GetNext(pos).CompareNoCase(fn)) {
-            fFound = true;
-        }
-    }
-    return fFound;
-}
-
 void CPlaylistItem::AutoLoadFiles()
 {
     if (m_fns.IsEmpty()) {
@@ -182,7 +174,7 @@ void CPlaylistItem::AutoLoadFiles()
 
                         CString fullpath = path + fd.cFileName;
                         CString ext2 = fullpath.Mid(fullpath.ReverseFind('.') + 1).MakeLower();
-                        if (!FindFileInList(m_fns, fullpath) && ext != ext2
+                        if (!FindStringInList(m_fns, fullpath) && ext != ext2
                                 && mf.FindExt(ext2, true) && mf.IsUsingEngine(fullpath, DirectShow)) {
                             m_fns.AddTail(fullpath);
                         }
@@ -221,7 +213,7 @@ void CPlaylistItem::AutoLoadFiles()
         Subtitle::GetSubFileNames(fn, paths, ret);
 
         for (size_t i = 0; i < ret.GetCount(); i++) {
-            if (!FindFileInList(m_subs, ret[i].fn)) {
+            if (!FindStringInList(m_subs, ret[i].fn)) {
                 m_subs.AddTail(ret[i].fn);
             }
         }

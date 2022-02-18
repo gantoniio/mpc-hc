@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# CyanVesper <SharpNight93@gmail.com>, 2020
 # lifegpc <g1710431395@gmail.com>, 2021
+# BCZJG6GT <luticliu@foxmail.com>, 2021
+# CyanVesper <SharpNight93@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: lifegpc <g1710431395@gmail.com>, 2021\n"
+"Last-Translator: CyanVesper <SharpNight93@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/mpchc/teams/106126/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -440,6 +441,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "复制到剪贴板(&C)"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr "保存(&V)"
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "另存为(&S)..."
@@ -476,6 +481,46 @@ msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
 msgstr "重置(&R)"
 
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "原始(&O)"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "当前(&C)"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "编辑(&E)"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "是(&Y)"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "否(&N)"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "减少(&D)"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "增加(&I)"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "选项"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "选择着色器(&S)..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "调试着色器(&D)..."
+
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
 msgstr "字幕延迟 -"
@@ -488,6 +533,22 @@ msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
 msgstr "保存缩略图"
 
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
 msgstr "回放"
@@ -497,8 +558,8 @@ msgid "Player"
 msgstr "播放器"
 
 msgctxt "IDD_PPAGEDVD"
-msgid "Playback::DVD/OGM"
-msgstr "回放::DVD/OGM"
+msgid "Playback::DVD"
+msgstr "回放::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -619,10 +680,8 @@ msgstr "madVR"
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid ""
 "Enter your preferred languages here.\n"
-"For example, type: \"eng jap swe\""
+"For example, type: \"eng jpn swe\""
 msgstr ""
-"请在这里输入您预设的语言。\n"
-"例如, 输入: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -810,6 +869,10 @@ msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "同步渲染器"
 
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
+msgid "MPC Audio Renderer"
+msgstr "MPC 音频渲染器"
+
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
 msgstr "标准离屏表面"
@@ -863,8 +926,8 @@ msgid "Null (uncompressed)"
 msgstr "空 (未压缩)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
-msgid "Internal Audio Renderer"
-msgstr "内部音频渲染器"
+msgid "SaneAR Audio Renderer"
+msgstr "SaneAR 音频渲染器"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -887,10 +950,6 @@ msgstr ""
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
 msgstr "下载字幕..."
-
-msgctxt "IDS_SUBTITLES_UPLOAD"
-msgid "Upload Subtitles..."
-msgstr "上传字幕..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1081,46 +1140,6 @@ msgid ""
 msgstr ""
 "向前跳转\n"
 "向前跳转"
-
-msgctxt "IDS_SUBRESYNC_ORIGINAL"
-msgid "&Original"
-msgstr "原始(&O)"
-
-msgctxt "IDS_SUBRESYNC_CURRENT"
-msgid "&Current"
-msgstr "当前(&C)"
-
-msgctxt "IDS_SUBRESYNC_EDIT"
-msgid "&Edit"
-msgstr "编辑(&E)"
-
-msgctxt "IDS_SUBRESYNC_YES"
-msgid "&Yes"
-msgstr "是(&Y)"
-
-msgctxt "IDS_SUBRESYNC_NO"
-msgid "&No"
-msgstr "否(&N)"
-
-msgctxt "IDS_SUBRESYNC_DECREASE"
-msgid "&Decrease"
-msgstr "减少(&D)"
-
-msgctxt "IDS_SUBRESYNC_INCREASE"
-msgid "&Increase"
-msgstr "增加(&I)"
-
-msgctxt "IDS_OPTIONS_CAPTION"
-msgid "Options"
-msgstr "选项"
-
-msgctxt "IDS_SHADERS_SELECT"
-msgid "&Select Shaders..."
-msgstr "选择着色器(&S)..."
-
-msgctxt "IDS_SHADERS_DEBUG"
-msgid "&Debug Shaders..."
-msgstr "调试着色器(&D)..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1890,12 +1909,12 @@ msgid "Goto Next Subtitle"
 msgstr "转到下一个字幕"
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
-msgstr "字幕左移"
+msgid "Subresync: shift -100ms"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
-msgstr "字幕右移"
+msgid "Subresync: shift +100ms"
+msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2583,12 +2602,8 @@ msgid "Out of memory"
 msgstr "内存不足"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "错误: 需要用于 Internet Explorer 的 Adobe Flash Player"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime 还不支持 X64 (apple 库不可用)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
+msgstr "错误：需要安装已应用解除终止开关补丁的 Adobe Flash Player for IE"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2922,6 +2937,14 @@ msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "全屏状态的鼠标修饰键"
 
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
+
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
 msgstr "VidFrm 缩放 1"
@@ -3110,9 +3133,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -4169,8 +4192,8 @@ msgid "/standby\t\tPut the operating system in standby mode after playback"
 msgstr "/standby\t\t播放完毕后将操作系统置于待机模式"
 
 msgctxt "IDS_CMD_HIBERNATE"
-msgid "/hibernate\tHibernate operating system after playback"
-msgstr "/hibernate\t播放完毕后将操作系统置于休眠模式"
+msgid "/hibernate\t\tHibernate operating system after playback"
+msgstr "/hibernate\t\t在回放后休眠操作系统"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4466,3 +4489,100 @@ msgstr "当保存字幕文件时，语言代码（如果有的话）会默认加
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
 msgstr "在最近播放列表中使用标题。"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
+msgid "Display current A-B repeat marks in status bar."
+msgstr "在状态栏中显示当前的 A-B 重播标记。"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
+msgid "Display video info (codec name, resolution) in status bar."
+msgstr "在状态栏中显示视频信息 (编码名称、分辨率) 。"
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI mode:"
+msgstr "WASAPI 模式:"
+
+msgctxt "IDS_ARS_EXCLUSIVE"
+msgid "Exclusive"
+msgstr "独占"
+
+msgctxt "IDS_ARS_SHARED"
+msgid "Shared"
+msgstr "共享"
+
+msgctxt "IDS_ARS_BITEXACT_OUTPUT"
+msgid "Allow bit-exact output"
+msgstr "允许精确对位式输出"
+
+msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
+msgid "Use system layout channels"
+msgstr "使用系统布局通道"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "音响设备:"
+
+msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
+msgid "Release device when idle"
+msgstr "空闲时释放设备"
+
+msgctxt "IDS_ARS_CROSSFEED"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "启用立体声交叉馈音 (用于耳机)"
+
+msgctxt "IDS_ARS_DEVICE_PERIOD"
+msgid "Device buffer:"
+msgstr "设备缓冲区:"
+
+msgctxt "IDS_ARS_CHECK_FORMAT"
+msgid "Do not check format support"
+msgstr "不检查格式支持"
+
+msgctxt "IDS_ARS_STATUS"
+msgid "Status"
+msgstr "状态"
+
+msgctxt "IDS_ARS_DEVICE"
+msgid "Device:"
+msgstr "设备:"
+
+msgctxt "IDS_ARS_MODE"
+msgid "Mode:"
+msgstr "模式:"
+
+msgctxt "IDS_ARS_INPUT"
+msgid "Input"
+msgstr "输入"
+
+msgctxt "IDS_ARS_OUTPUT"
+msgid "Output"
+msgstr "输出"
+
+msgctxt "IDS_ARS_FORMAT"
+msgid "Format:"
+msgstr "格式:"
+
+msgctxt "IDS_ARS_SAMPLERATE"
+msgid "Sample rate:"
+msgstr "采样率:"
+
+msgctxt "IDS_ARS_CHANNELS"
+msgid "Channels:"
+msgstr "通道:"
+
+msgctxt "IDS_ARS_WASAPI_METHOD"
+msgid "WASAPI method:"
+msgstr "WASAPI 方法:"
+
+msgctxt "IDS_ARS_DUMMY_CHANNELS"
+msgid "Don't fill channels when upmixing"
+msgstr "在上混时不要填充通道"
+
+msgctxt "IDS_AG_DEFAULT"
+msgid "Default"
+msgstr "默认"

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Андрей Станков <astankov84@gmail.com>, 2021\n"
 "Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
@@ -448,6 +448,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "&Копирай в клипборда"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr "За&пазване"
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "&Запиши като..."
@@ -484,6 +488,46 @@ msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
 msgstr "&Изчисти"
 
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&Оригинален"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&Текущ"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "&Редактирай"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "&Да"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "&Не"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "&Намали"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "&Увеличи"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "Опции"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "&Избери шейдъри..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "&Дебъг шейдъри..."
+
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
 msgstr "Забавяне на субтитри -"
@@ -496,6 +540,22 @@ msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
 msgstr "Запиши миниатюрите"
 
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
 msgstr "Възпроизвеждане"
@@ -505,8 +565,8 @@ msgid "Player"
 msgstr "Плейър"
 
 msgctxt "IDD_PPAGEDVD"
-msgid "Playback::DVD/OGM"
-msgstr "Възпроизвеждане::DVD/OGM"
+msgid "Playback::DVD"
+msgstr "Възпроизвеждане::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -627,10 +687,8 @@ msgstr "madVR"
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid ""
 "Enter your preferred languages here.\n"
-"For example, type: \"eng jap swe\""
+"For example, type: \"eng jpn swe\""
 msgstr ""
-"Въведете предпочитаните езици тук.\n"
-"Например напишете: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -855,6 +913,10 @@ msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync Renderer"
 
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
+msgid "MPC Audio Renderer"
+msgstr "MPC Audio Renderer"
+
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
 msgstr "Обикновена извънекранна текстура"
@@ -908,8 +970,8 @@ msgid "Null (uncompressed)"
 msgstr "Null (без компресия)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
-msgid "Internal Audio Renderer"
-msgstr "Вътрешен аудио рендер"
+msgid "SaneAR Audio Renderer"
+msgstr "SaneAR Audio Renderer"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -932,10 +994,6 @@ msgstr ""
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
 msgstr "Изтегляне на субтитри..."
-
-msgctxt "IDS_SUBTITLES_UPLOAD"
-msgid "Upload Subtitles..."
-msgstr "Качване на субтитри..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1008,7 +1066,7 @@ msgid ""
 "If you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr ""
 "Ползва LAV Filters. Изключен по подразбиране защото филтрите на Microsoft обикновено за по-стабилни за тези формати.\n"
-"Ако изберете да ползвате вътрешните филтри включете двата и за източник и за декодиране за по-добро възпройзвеждане."
+"Ако изберете да ползвате вътрешните филтри включете двата и за източник и за декодиране за по-добро възпроизвеждане."
 
 msgctxt "IDS_AG_OPEN_FILE_LOCATION"
 msgid "Open File Location"
@@ -1141,46 +1199,6 @@ msgid ""
 msgstr ""
 "Пропусни напред\n"
 "Пропусни напред"
-
-msgctxt "IDS_SUBRESYNC_ORIGINAL"
-msgid "&Original"
-msgstr "&Оригинален"
-
-msgctxt "IDS_SUBRESYNC_CURRENT"
-msgid "&Current"
-msgstr "&Текущ"
-
-msgctxt "IDS_SUBRESYNC_EDIT"
-msgid "&Edit"
-msgstr "&Редактирай"
-
-msgctxt "IDS_SUBRESYNC_YES"
-msgid "&Yes"
-msgstr "&Да"
-
-msgctxt "IDS_SUBRESYNC_NO"
-msgid "&No"
-msgstr "&Не"
-
-msgctxt "IDS_SUBRESYNC_DECREASE"
-msgid "&Decrease"
-msgstr "&Намали"
-
-msgctxt "IDS_SUBRESYNC_INCREASE"
-msgid "&Increase"
-msgstr "&Увеличи"
-
-msgctxt "IDS_OPTIONS_CAPTION"
-msgid "Options"
-msgstr "Опции"
-
-msgctxt "IDS_SHADERS_SELECT"
-msgid "&Select Shaders..."
-msgstr "&Избери шейдъри..."
-
-msgctxt "IDS_SHADERS_DEBUG"
-msgid "&Debug Shaders..."
-msgstr "&Дебъг шейдъри..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1971,12 +1989,12 @@ msgid "Goto Next Subtitle"
 msgstr "Отиди до следващи субтитри"
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
-msgstr "Премести субтитрите наляво"
+msgid "Subresync: shift -100ms"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
-msgstr "Премести субтитрите надясно"
+msgid "Subresync: shift +100ms"
+msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2668,13 +2686,8 @@ msgid "Out of memory"
 msgstr "Недостатъчна памет"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Грешка: Изисква се Adobe Flash Player за Internet Explorer"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr ""
-"QuickTime не се поддържа все още за X64 (няма налична библиотека от Apple)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
+msgstr "Грешка: Изисква се Adobe Flash Player за IE с поправка killswitch"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3008,6 +3021,14 @@ msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "FS модификатор на мишката"
 
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
+
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
 msgstr "Увеличение на кадър 1"
@@ -3196,9 +3217,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -4267,8 +4288,8 @@ msgid "/standby\t\tPut the operating system in standby mode after playback"
 msgstr "/standby\t\tПоставя компютъра в режим стендбай след изпълнение"
 
 msgctxt "IDS_CMD_HIBERNATE"
-msgid "/hibernate\tHibernate operating system after playback"
-msgstr "/hibernate\tПоставя компютъра в режим на хибернация след изпълнение"
+msgid "/hibernate\t\tHibernate operating system after playback"
+msgstr "/hibernate\t\tПоставя компютъра в режим на хибернация след изпълнение"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4586,3 +4607,101 @@ msgstr ""
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
 msgstr "Ползвай заглавието в списъка със скорошни файлове."
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
+msgid "Display current A-B repeat marks in status bar."
+msgstr "Показване на текущите A-B маркери за повторение в статус лентата."
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
+msgid "Display video info (codec name, resolution) in status bar."
+msgstr ""
+"Показване на информация за видеото (кодек, резолюция) в статус лентата."
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI mode:"
+msgstr "WASAPI режим:"
+
+msgctxt "IDS_ARS_EXCLUSIVE"
+msgid "Exclusive"
+msgstr "Ексклузивен"
+
+msgctxt "IDS_ARS_SHARED"
+msgid "Shared"
+msgstr "Споделен"
+
+msgctxt "IDS_ARS_BITEXACT_OUTPUT"
+msgid "Allow bit-exact output"
+msgstr "Позволяване на точен побитов изход"
+
+msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
+msgid "Use system layout channels"
+msgstr "Използване на системна настройка на каналите"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "Звуково устройство:"
+
+msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
+msgid "Release device when idle"
+msgstr "Освобождаване на устройство при бездействие"
+
+msgctxt "IDS_ARS_CROSSFEED"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Разрешаване на стерео crossfeed (за слушалки)"
+
+msgctxt "IDS_ARS_DEVICE_PERIOD"
+msgid "Device buffer:"
+msgstr "Буфер на устройството:"
+
+msgctxt "IDS_ARS_CHECK_FORMAT"
+msgid "Do not check format support"
+msgstr "Да не се проверява поддръжката на формати"
+
+msgctxt "IDS_ARS_STATUS"
+msgid "Status"
+msgstr "Статус"
+
+msgctxt "IDS_ARS_DEVICE"
+msgid "Device:"
+msgstr "Устройство:"
+
+msgctxt "IDS_ARS_MODE"
+msgid "Mode:"
+msgstr "Режим:"
+
+msgctxt "IDS_ARS_INPUT"
+msgid "Input"
+msgstr "Източник"
+
+msgctxt "IDS_ARS_OUTPUT"
+msgid "Output"
+msgstr "Извеждане"
+
+msgctxt "IDS_ARS_FORMAT"
+msgid "Format:"
+msgstr "Формат:"
+
+msgctxt "IDS_ARS_SAMPLERATE"
+msgid "Sample rate:"
+msgstr "Побитова скорост:"
+
+msgctxt "IDS_ARS_CHANNELS"
+msgid "Channels:"
+msgstr "Канали:"
+
+msgctxt "IDS_ARS_WASAPI_METHOD"
+msgid "WASAPI method:"
+msgstr "WASAPI метод:"
+
+msgctxt "IDS_ARS_DUMMY_CHANNELS"
+msgid "Don't fill channels when upmixing"
+msgstr "Да не се запълват каналите при upmixing"
+
+msgctxt "IDS_AG_DEFAULT"
+msgid "Default"
+msgstr "По подразбиране"

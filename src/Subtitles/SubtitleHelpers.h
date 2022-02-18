@@ -28,6 +28,8 @@
 #define RT2MS(t)        ((t) / 10000)
 #define UNITS_FLOAT     (10000000.0)
 
+#define RT2SEC(x) (double(x) / 10000000.0)
+
 namespace Subtitle
 {
     enum SubType {
@@ -65,5 +67,5 @@ namespace Subtitle
 
     void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);
 
-    CString GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, HearingImpairedType& hi);
+    CString GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, CString& langname, HearingImpairedType& hi);
 };

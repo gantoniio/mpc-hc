@@ -74,9 +74,7 @@ CSubtitleInputPin::~CSubtitleInputPin()
 HRESULT CSubtitleInputPin::CheckMediaType(const CMediaType* pmt)
 {
     return pmt->majortype == MEDIATYPE_Text && (pmt->subtype == MEDIASUBTYPE_NULL || pmt->subtype == FOURCCMap((DWORD)0))
-           || pmt->majortype == MEDIATYPE_Subtitle && pmt->subtype == MEDIASUBTYPE_UTF8
-           || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_SSA || pmt->subtype == MEDIASUBTYPE_ASS || pmt->subtype == MEDIASUBTYPE_ASS2)
-           || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_VOBSUB)
+           || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_UTF8 || pmt->subtype == MEDIASUBTYPE_SSA || pmt->subtype == MEDIASUBTYPE_ASS || pmt->subtype == MEDIASUBTYPE_ASS2 || pmt->subtype == MEDIASUBTYPE_VOBSUB || pmt->subtype == MEDIASUBTYPE_WEBVTT)
            || IsRLECodedSub(pmt)
            ? S_OK
            : E_FAIL;
@@ -106,10 +104,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             lcid = ISOLang::ISO6392ToLcid(psi->IsoLang);
             if (0 == lcid) { //try 639-1 in case it comes from BCP-47 (contains mix of 639-1 and 639-2)
                 lcid = ISOLang::ISO6391ToLcid(psi->IsoLang);
-                name = ISOLang::ISO6391ToLanguage(psi->IsoLang);
-            } else {
-                name = ISOLang::ISO6392ToLanguage(psi->IsoLang);
             }
+            name = ISOLang::ISO639XToLanguage(psi->IsoLang);
 
             CString trackName(psi->TrackName);
             trackName.Trim();
@@ -132,6 +128,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 
         if (m_mt.subtype == MEDIASUBTYPE_UTF8
                 /*|| m_mt.subtype == MEDIASUBTYPE_USF*/
+                || m_mt.subtype == MEDIASUBTYPE_WEBVTT
                 || m_mt.subtype == MEDIASUBTYPE_SSA
                 || m_mt.subtype == MEDIASUBTYPE_ASS
                 || m_mt.subtype == MEDIASUBTYPE_ASS2) {
@@ -147,8 +144,15 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 #endif
             pRTS->m_name = name;
             pRTS->m_lcid = lcid;
+            if (lcid > 0) {
+                pRTS->m_langname = ISOLang::LCIDToLanguage(lcid);
+            }
             pRTS->m_dstScreenSize = CSize(384, 288);
             pRTS->CreateDefaultStyle(DEFAULT_CHARSET);
+
+            if (m_mt.subtype == MEDIASUBTYPE_WEBVTT) {
+                pRTS->m_subtitleType = Subtitle::VTT;
+            }
 
             if (dwOffset > 0 && m_mt.cbFormat - dwOffset > 0) {
                 CMediaType mt = m_mt;
@@ -226,18 +230,24 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
     CAutoLock cAutoLock(&m_csReceive);
 
     InvalidateSamples();
-
+  
     if (m_mt.majortype == MEDIATYPE_Text
             || m_mt.majortype == MEDIATYPE_Subtitle
             && (m_mt.subtype == MEDIASUBTYPE_UTF8
                 /*|| m_mt.subtype == MEDIASUBTYPE_USF*/
+                || m_mt.subtype == MEDIASUBTYPE_WEBVTT
                 || m_mt.subtype == MEDIASUBTYPE_SSA
                 || m_mt.subtype == MEDIASUBTYPE_ASS
                 || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
-        CAutoLock cAutoLock2(m_pSubLock);
-        CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-        pRTS->RemoveAll();
-        pRTS->CreateSegments();
+        if (m_mt.subtype != MEDIASUBTYPE_WEBVTT) {
+            // WebVTT can be read as one big blob of data during pin connection, instead of as samples during playback.
+            // This depends on how it is being demuxed. So both situations need to be handled.
+            // Don't remove existing data in case of WebVTT. Instead we check for duplicates in CSimpleTextSubtitle::Add()
+            CAutoLock cAutoLock2(m_pSubLock);
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+            pRTS->RemoveAll();
+            pRTS->CreateSegments();
+        }
     } else if (m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_VOBSUB)) {
         CAutoLock cAutoLock2(m_pSubLock);
         CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
@@ -248,7 +258,7 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
         pRLECodedSubtitle->NewSegment(tStart, tStop, dRate);
     }
 
-    TRACE(_T("NewSegment: InvalidateSubtitle(%I64d, ...)\n"), tStart);
+    TRACE(_T("NewSegment: InvalidateSubtitle %.3f\n"), RT2SEC(tStart));
     // IMPORTANT: m_pSubLock must not be locked when calling this
     InvalidateSubtitle(tStart, m_pSubStream);
 
@@ -356,7 +366,7 @@ void  CSubtitleInputPin::DecodeSamples()
 
                 if (pSample) {
                     REFERENCE_TIME rtSampleInvalidate = DecodeSample(pSample);
-                    if (rtSampleInvalidate >= 0 && (rtSampleInvalidate < rtInvalidate /*|| rtInvalidate < 0*/)) {
+                    if (rtSampleInvalidate >= 0 && (rtSampleInvalidate < rtInvalidate || rtInvalidate < 0)) {
                         rtInvalidate = rtSampleInvalidate;
                     }
                 } else { // marker for end of stream
@@ -371,7 +381,7 @@ void  CSubtitleInputPin::DecodeSamples()
         }
 
         if (rtInvalidate >= 0) {
-            TRACE(_T("NewSegment: InvalidateSubtitle %.3f\n"), double(rtInvalidate) / 10000000.0);
+            //TRACE(_T("NewSegment: InvalidateSubtitle %.3f\n"), double(rtInvalidate) / 10000000.0);
             // IMPORTANT: m_pSubLock must not be locked when calling this
             InvalidateSubtitle(rtInvalidate, m_pSubStream);
         }
@@ -442,7 +452,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             }
         }
     } else if (m_mt.majortype == MEDIATYPE_Subtitle) {
-        if (m_mt.subtype == MEDIASUBTYPE_UTF8) {
+        if (m_mt.subtype == MEDIASUBTYPE_UTF8 || m_mt.subtype == MEDIASUBTYPE_WEBVTT) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
             CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
@@ -467,9 +477,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
-            LPCSTR data = (LPCSTR)pSample->data.data();
-            int dataSize = (int)pSample->data.size();
-            CStringW str = UTF8To16(CStringA(data, dataSize));
+            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
             FastTrim(str);
             if (!str.IsEmpty()) {
                 STSEntry stse;
@@ -477,20 +485,20 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 int fields = m_mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
 
                 CAtlList<CStringW> sl;
-                Explode(str, sl, ',', fields);
+                ExplodeNoTrim(str, sl, ',', fields);
                 if (sl.GetCount() == (size_t)fields) {
                     stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.style = sl.RemoveHead();
-                    stse.actor = sl.RemoveHead();
+                    stse.style = sl.RemoveHead(); // no trim, its value is a lookup key
+                    stse.actor = sl.RemoveHead().Trim();
                     stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
                     stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
                     if (fields == 10) {
                         stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
                     }
-                    stse.effect = sl.RemoveHead();
-                    stse.str = sl.RemoveHead();
+                    stse.effect = sl.RemoveHead().Trim();
+                    stse.str = sl.RemoveHead().Trim();
                 }
 
                 if (!stse.str.IsEmpty()) {
@@ -501,7 +509,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
 
 #if USE_LIBASS
                 if (pRTS->m_assloaded) {
-                    ass_process_chunk(pRTS->m_track.get(), (char*)data, dataSize, pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
+                    ass_process_chunk(pRTS->m_track.get(), (char *)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
                 }
 #endif
             }

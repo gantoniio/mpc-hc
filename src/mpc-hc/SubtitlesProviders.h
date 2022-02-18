@@ -237,7 +237,7 @@ private:
     void Search();
     void Download(SubtitlesInfo& pFileInfo, BOOL bActivate);
     void Download();
-    void Upload();
+    //void Upload();
 
     void CheckAbortAndThrow() {
         if (IsThreadAborting()) {
@@ -274,8 +274,10 @@ public:
     }
 
     void RemoveThread(SubtitlesThread* pThread) {
-        CAutoLock cAutoLock(&m_csThreads);
-        m_pThreads.remove(pThread);
+        {
+            CAutoLock cAutoLock(&m_csThreads);
+            m_pThreads.remove(pThread);
+        }
         delete pThread;
     }
 
@@ -430,7 +432,6 @@ public:
         if(!m_pTasks.empty()) {
             m_pTasks.remove(pTask);
         }
-        delete pTask;
     }
 
     void MoveUp(size_t nIndex) {

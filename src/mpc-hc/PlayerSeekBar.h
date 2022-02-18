@@ -41,7 +41,7 @@ private:
     enum { TIMER_SHOWHIDE_TOOLTIP = 1 };
 
     CMainFrame* m_pMainFrame;
-    REFERENCE_TIME m_rtStart, m_rtStop, m_rtPos;
+    REFERENCE_TIME m_rtStart, m_rtStop, m_rtPos, m_rtPosDraw;
 	REFERENCE_TIME m_pos_preview = 0;
     LONG m_last_pointx_preview = 0;
 
@@ -78,10 +78,10 @@ private:
     void SyncVideoToThumb();
     void checkHover(CPoint point);
     void invalidateThumb();
-    void CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_duration_change);
+    void CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_duration_change, ULONGLONG minimum_elapsed_tickcount);
     long ChannelPointFromPosition(REFERENCE_TIME rtPos) const;
     REFERENCE_TIME PositionFromClientPoint(const CPoint& point) const;
-    void SyncThumbToVideo(REFERENCE_TIME rtPos);
+    void SyncThumbToVideo(REFERENCE_TIME rtPos, REFERENCE_TIME rtPosDraw);
 
     void CreateThumb(bool bEnabled, CDC& parentDC);
     CRect GetChannelRect() const;
@@ -102,6 +102,7 @@ public:
     REFERENCE_TIME GetPos() const;
     void SetPos(REFERENCE_TIME rtPos);
     bool HasDuration() const;
+    REFERENCE_TIME GetDuration();
 
     void SetChapterBag(IDSMChapterBag* pCB);
     void RemoveChapters();

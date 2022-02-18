@@ -82,6 +82,7 @@ public:
         bool    bVMRFlushGPUBeforeVSync;
         bool    bVMRFlushGPUAfterPresent;
         bool    bVMRFlushGPUWait;
+        bool    bDesktopSizeBackBuffer;
 
         // EVR
         bool    bEVRHighColorResolution;
@@ -115,6 +116,9 @@ public:
     int         iEvrBuffers;
 
     SubPicQueueSettings subPicQueueSettings;
+
+    int         subPicVerticalShift;
+    double      fontScaleOverride;
 
     CString     D3D9RenderDevice;
     void        UpdateData(bool fSave);

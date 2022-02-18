@@ -51,10 +51,10 @@ int  g_nDXVAVersion = 0;
 
 extern double g_dRate;
 
-IPinCVtbl* g_pPinCVtbl = nullptr;
-IPinCVtbl* g_pPinCVtbl10BitWorkAround = nullptr;
+IPinCVtbl* g_pPinCVtbl_NewSegment = nullptr;
+IPinCVtbl* g_pPinCVtbl_ReceiveConnection = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
-IPinC* g_pPinC = nullptr;
+IPinC* g_pPinC_NewSegment = nullptr;
 
 struct D3DFORMAT_TYPE {
     int Format;
@@ -151,7 +151,7 @@ static HRESULT(STDMETHODCALLTYPE* NewSegmentOrg)(IPinC* This, /* [in] */ REFEREN
 
 static HRESULT STDMETHODCALLTYPE NewSegmentMine(IPinC* This, /* [in] */ REFERENCE_TIME tStart, /* [in] */ REFERENCE_TIME tStop, /* [in] */ double dRate)
 {
-    if (g_pPinC == This) {
+    if (g_pPinC_NewSegment == This) {
         g_tSegmentStart = tStart;
         g_dRate = dRate;
     }
@@ -177,7 +177,7 @@ static HRESULT STDMETHODCALLTYPE ReceiveConnectionMine(IPinC* This, /* [in] */ I
 
 static HRESULT(STDMETHODCALLTYPE* ReceiveOrg)(IMemInputPinC* This, IMediaSample* pSample) = nullptr;
 
-static HRESULT STDMETHODCALLTYPE ReceiveMineI(IMemInputPinC* This, IMediaSample* pSample)
+static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* pSample)
 {
     REFERENCE_TIME rtStart, rtStop;
     if (pSample && SUCCEEDED(pSample->GetTime(&rtStart, &rtStop))) {
@@ -186,19 +186,12 @@ static HRESULT STDMETHODCALLTYPE ReceiveMineI(IMemInputPinC* This, IMediaSample*
     return ReceiveOrg(This, pSample);
 }
 
-static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* pSample)
+bool HookReceiveConnection(IBaseFilter* pBF)
 {
-    // Support ffdshow queueing.
-    // To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with CMainFrame::OnPlayPause.
-    if (queue_ffdshow_support) {
-        CAutoLock lck(&g_ffdshowReceive);
-        return ReceiveMineI(This, pSample);
+    if (!pBF || g_pPinCVtbl_ReceiveConnection) {
+        return false;
     }
-    return ReceiveMineI(This, pSample);
-}
 
-void HookWorkAround10BitBug(IBaseFilter* pBF)
-{
     if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
         IPinC* pPinC = (IPinC*)(IPin*)pPin;
 
@@ -210,56 +203,62 @@ void HookWorkAround10BitBug(IBaseFilter* pBF)
             pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
             FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
             VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtbl10BitWorkAround = pPinC->lpVtbl;
+            g_pPinCVtbl_ReceiveConnection = pPinC->lpVtbl;
+            return true;
         } else {
             TRACE(_T("HookWorkAroundVideoDriversBug: Could not hook the VTable"));
             ASSERT(FALSE);
         }
     }
+    return false;
 }
 
-void UnhookWorkAround10BitBug()
+void UnhookReceiveConnection()
 {
     // Unhook previous VTable
-    if (g_pPinCVtbl10BitWorkAround) {
+    if (g_pPinCVtbl_ReceiveConnection) {
         DWORD flOldProtect = 0;
-        if (VirtualProtect(g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (g_pPinCVtbl10BitWorkAround->ReceiveConnection == ReceiveConnectionMine) {
-                g_pPinCVtbl10BitWorkAround->ReceiveConnection = ReceiveConnectionOrg;
+        if (VirtualProtect(g_pPinCVtbl_ReceiveConnection, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
+            if (g_pPinCVtbl_ReceiveConnection->ReceiveConnection == ReceiveConnectionMine) {
+                g_pPinCVtbl_ReceiveConnection->ReceiveConnection = ReceiveConnectionOrg;
             }
             ReceiveConnectionOrg = nullptr;
-            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl));
-            VirtualProtect(g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtbl10BitWorkAround = nullptr;
+            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl_ReceiveConnection, sizeof(IPinCVtbl));
+            VirtualProtect(g_pPinCVtbl_ReceiveConnection, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl_ReceiveConnection = nullptr;
         } else {
-            TRACE(_T("UnhookWorkAroundVideoDriversBug: Could not unhook previous VTable"));
+            TRACE(_T("UnhookReceiveConnection: Could not unhook previous VTable"));
             ASSERT(FALSE);
         }
     }
 }
 
-void UnhookNewSegmentAndReceive()
+void UnhookNewSegment()
 {
-    DWORD flOldProtect = 0;
-
     // Unhook previous VTables
-    if (g_pPinCVtbl) {
-        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
-                g_pPinCVtbl->NewSegment = NewSegmentOrg;
+    if (g_pPinCVtbl_NewSegment) {
+        DWORD flOldProtect = 0;
+        if (VirtualProtect(g_pPinCVtbl_NewSegment, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
+            if (g_pPinCVtbl_NewSegment->NewSegment == NewSegmentMine) {
+                g_pPinCVtbl_NewSegment->NewSegment = NewSegmentOrg;
             }
-            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl, sizeof(IPinCVtbl));
-            VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtbl = nullptr;
-            g_pPinC = nullptr;
+            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl_NewSegment, sizeof(IPinCVtbl));
+            VirtualProtect(g_pPinCVtbl_NewSegment, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl_NewSegment = nullptr;
+            g_pPinC_NewSegment = nullptr;
             NewSegmentOrg = nullptr;
         } else {
-            TRACE(_T("UnhookNewSegmentAndReceive: Could not unhook g_pPinCVtbl VTable"));
+            TRACE(_T("UnhookNewSegment: Could not unhook g_pPinCVtbl VTable"));
             ASSERT(FALSE);
         }
     }
+}
 
+void UnhookReceive()
+{
+    // Unhook previous VTables
     if (g_pMemInputPinCVtbl) {
+        DWORD flOldProtect = 0;
         if (VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pMemInputPinCVtbl->Receive == ReceiveMine) {
                 g_pMemInputPinCVtbl->Receive = ReceiveOrg;
@@ -269,58 +268,62 @@ void UnhookNewSegmentAndReceive()
             g_pMemInputPinCVtbl = nullptr;
             ReceiveOrg = nullptr;
         } else {
-            TRACE(_T("UnhookNewSegmentAndReceive: Could not unhook g_pMemInputPinCVtbl VTable"));
+            TRACE(_T("UnhookReceive: Could not unhook g_pMemInputPinCVtbl VTable"));
             ASSERT(FALSE);
         }
     }
 }
 
-bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
+bool HookNewSegment(IPinC* pPinC)
 {
-    if (!pPinC || !pMemInputPinC) {
+    if (!pPinC || g_pPinCVtbl_NewSegment) {
         return false;
     }
 
-    g_tSegmentStart = 0;
-    g_tSampleStart = 0;
-    g_dRate = 1.0;
+    DWORD flOldProtect = 0;
+    if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
+        g_tSegmentStart = 0;
+        g_dRate = 1.0;
+        if (NewSegmentOrg == nullptr) {
+            NewSegmentOrg = pPinC->lpVtbl->NewSegment;
+        }
+        pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
+        FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
+        VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+        g_pPinCVtbl_NewSegment = pPinC->lpVtbl;
+        g_pPinC_NewSegment = pPinC;
+        return true;
+    } else {
+        TRACE(_T("HookNewSegment: Could not unhook VTable"));
+        ASSERT(FALSE);
+    }
 
-    UnhookNewSegmentAndReceive();
+    return false;
+}
+
+bool HookReceive(IMemInputPinC* pMemInputPinC)
+{
+    if (!pMemInputPinC || g_pMemInputPinCVtbl) {
+        return false;
+    }
 
     DWORD flOldProtect = 0;
-
-    if (!g_pPinCVtbl) {
-        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (NewSegmentOrg == nullptr) {
-                NewSegmentOrg = pPinC->lpVtbl->NewSegment;
-            }
-            pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
-            FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
-            VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtbl = pPinC->lpVtbl;
-            g_pPinC = pPinC;
-        } else {
-            TRACE(_T("HookNewSegmentAndReceive: Could not unhook g_pPinCVtbl VTable"));
-            ASSERT(FALSE);
+    if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
+        g_tSampleStart = 0;
+        if (ReceiveOrg == nullptr) {
+            ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
         }
+        pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
+        FlushInstructionCache(GetCurrentProcess(), pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl));
+        VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+        g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
+        return true;
+    } else {
+        TRACE(_T("HookReceive: Could not unhook VTable"));
+        ASSERT(FALSE);
     }
 
-    if (!g_pMemInputPinCVtbl) {
-        if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (ReceiveOrg == nullptr) {
-                ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
-            }
-            pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
-            FlushInstructionCache(GetCurrentProcess(), pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl));
-            VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
-            g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
-        } else {
-            TRACE(_T("HookNewSegmentAndReceive: Could not unhook g_pMemInputPinCVtbl VTable"));
-            ASSERT(FALSE);
-        }
-    }
-
-    return true;
+    return false;
 }
 
 

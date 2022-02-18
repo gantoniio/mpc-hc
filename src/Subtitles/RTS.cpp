@@ -27,6 +27,7 @@
 #include "RTS.h"
 #include "../DSUtil/PathUtils.h"
 #include <ppl.h>
+#include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -134,13 +135,17 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
     if (m_renderingCaches.overlayCache.Lookup(overlayKey, m_pOverlayData)) {
         m_fDrawn = m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
-            VERIFY(CreateOpaqueBox());
+            if (m_style.outlineWidthX > 0.0 || m_style.shadowDepthX > 0.0 || m_style.outlineWidthY > 0.0 || m_style.shadowDepthY > 0.0) {
+                VERIFY(CreateOpaqueBox());
+            }
         }
     } else {
         if (!m_fDrawn) {
             if (m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData)) {
                 if (m_style.borderStyle == 1) {
-                    VERIFY(CreateOpaqueBox());
+                    if (m_style.outlineWidthX > 0.0 || m_style.shadowDepthX > 0.0 || m_style.outlineWidthY > 0.0 || m_style.shadowDepthY > 0.0) {
+                        VERIFY(CreateOpaqueBox());
+                    }
                 }
             } else {
                 if (!CreatePath()) {
@@ -170,7 +175,9 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                         return;
                     }
                 } else if (m_style.borderStyle == 1) {
-                    VERIFY(CreateOpaqueBox());
+                    if (m_style.outlineWidthX > 0.0 || m_style.shadowDepthX > 0.0 || m_style.outlineWidthY > 0.0 || m_style.shadowDepthY > 0.0) {
+                        VERIFY(CreateOpaqueBox());
+                    }
                 }
 
                 m_renderingCaches.outlineCache.SetAt(overlayKey, m_pOutlineData);
@@ -1109,14 +1116,15 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
             return bbox;    // should not happen since this class is just a line of text without any breaks
         }
 
-        if ((w->m_style.outlineWidthX + w->m_style.outlineWidthY > 0 || w->m_style.borderStyle == 1) && !(w->m_ktype == 2 && time < w->m_kstart)) {
+        bool has_outline = w->m_style.outlineWidthX + w->m_style.outlineWidthY > 0.0;
+        if ((has_outline || w->m_style.borderStyle == 1) && !(w->m_ktype == 2 && time < w->m_kstart)) {
             int x = p.x;
             int y = p.y + m_ascent - w->m_ascent;
             DWORD aoutline = w->m_style.alpha[2];
             if (alpha > 0) {
                 aoutline += alpha * (0xff - w->m_style.alpha[2]) / 0xff;
             }
-            COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff - aoutline) << 24);
+            COLORREF outline = revcolor(has_outline ? w->m_style.colors[2] : w->m_style.colors[3]) | ((0xff - aoutline) << 24);
             DWORD sw[6] = {outline, DWORD_MAX};
             sw[0] = ColorConvTable::ColorCorrection(sw[0]);
 
@@ -1704,12 +1712,20 @@ void CRenderedTextSubtitle::OnChanged()
 
 bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
 {
-    Deinit();
+    if (!vidrect.Width()) {
+        return false;
+    }
 
-    m_size = CSize(size.cx * 8, size.cy * 8);
-    m_vidrect = CRect(vidrect.left * 8, vidrect.top * 8, vidrect.right * 8, vidrect.bottom * 8);
-
-    m_sla.Empty();
+    CAutoLock cAutoLock(&renderLock);
+    CRect newVidRect = CRect(vidrect.left * 8, vidrect.top * 8, vidrect.right * 8, vidrect.bottom * 8);
+    CSize newSize = CSize(size.cx * 8, size.cy * 8);
+    if (m_size != newSize || m_vidrect != newVidRect) {
+        TRACE(_T("Change RTS sizes: %dx%d | %dx%d\n"), size.cx, size.cy, vidrect.Width(), vidrect.Height());
+        Deinit();
+        m_size = newSize;
+        m_vidrect = newVidRect;
+        m_sla.Empty();
+    }
 
     return true;
 }
@@ -1807,14 +1823,15 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
         return;
     }
 
+    str.Replace(L"<br>", L"\n");
     str.Replace(L"\\N", L"\n");
     str.Replace(L"\\n", (sub->m_wrapStyle < 2 || sub->m_wrapStyle == 3) ? L" " : L"\n");
-    str.Replace(L"\\h", L"\x00A0");
+    str.Replace(L"\\h", L"\x00A0"); // no-break space
 
     for (int i = 0, j = 0, len = str.GetLength(); j <= len; j++) {
         WCHAR c = str[j];
 
-        if (c != L'\n' && c != L' ' && c != L'\x00A0' && c != 0) {
+        if (c != L'\n' && c != L' ' && c != 0) {
             continue;
         }
 
@@ -1830,7 +1847,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
-        } else if (c == L' ' || c == L'\x00A0') {
+        } else if (c == L' ') {
             if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_renderingCaches)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
@@ -1861,8 +1878,10 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
 bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& str)
 {
     if (m_renderingCaches.SSATagsCache.Lookup(str, tagsList)) {
+        //TRACE(_T("ParseSSATag (cached): %s\n"), str.GetString());
         return true;
     }
+    //TRACE(_T("ParseSSATag: %s\n"), str.GetString());
 
     int nTags = 0, nUnrecognizedTags = 0;
     tagsList.reset(DEBUG_NEW CAtlList<SSATag>());
@@ -2298,6 +2317,12 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                 style.fontName = (!tag.params.IsEmpty() && !tag.params[0].IsEmpty() && tag.params[0] != L"0")
                                  ? CString(tag.params[0]).Trim()
                                  : org.fontName;
+                if (style.fontName == _T("splatter")) {
+                    /* workaround for slow rendering with this font
+                       slowness occurs in Windows GDI CloseFigure() function
+                    */
+                    style.fontName = _T("Arial");
+                }
                 break;
             case SSA_frx:
                 style.fontAngleX = !tag.paramsReal.IsEmpty()
@@ -2576,7 +2601,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
         str = str.Mid(i + 1);
     }
 
-    if (tag == L"text") {
+    if (tag == L"text" || tag == L"span") {
         ;
     } else if (tag == L"b" || tag == L"strong") {
         style.fontWeight = !fClosing ? FW_BOLD : org.fontWeight;
@@ -2737,14 +2762,19 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         dFontScaleXCompensation = m_dPARCompensation;
     }
 
+    const CRenderersSettings& r = GetRenderersSettings();
+    if (r.fontScaleOverride != 1.0) {
+        stss.fontSize *= r.fontScaleOverride;
+    }
+
     STSStyle orgstss = stss;
 
     sub->m_scrAlignment = -stss.scrAlignment;
     sub->m_wrapStyle = m_defaultWrapStyle;
     sub->m_fAnimated = false;
     sub->m_relativeTo = stss.relativeTo;
-    sub->m_scalex = m_dstScreenSize.cx > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
-    sub->m_scaley = m_dstScreenSize.cy > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
+    sub->m_scalex = m_dstScreenSize.cx > 0 && m_vidrect.Width()  > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Width()  : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
+    sub->m_scaley = m_dstScreenSize.cy > 0 && m_vidrect.Height() > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
 
     const STSEntry& stse = GetAt(entry);
     CRect marginRect = stse.marginRect;
@@ -3010,6 +3040,11 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     CAutoLock cAutoLock(&renderLock);
     //TRACE(_T("render sub start: %lld\n"), rt);
 
+    if (!spd.vidrect.right) {
+        // video size is not known yet
+        return S_FALSE;
+    }
+
 #if USE_LIBASS
     if (m_assloaded) {
         if (spd.bpp != 32) {
@@ -3040,11 +3075,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     }
 #endif
 
-    CRect bbox2(0, 0, 0, 0);
-
-    if (m_size != CSize(spd.w * 8, spd.h * 8) || m_vidrect != CRect(spd.vidrect.left * 8, spd.vidrect.top * 8, spd.vidrect.right * 8, spd.vidrect.bottom * 8)) {
-        Init(CSize(spd.w, spd.h), spd.vidrect);
-    }
+    Init(CSize(spd.w, spd.h), spd.vidrect);
 
     int segment;
     const STSSegment* stss = SearchSubs(rt, fps, &segment);
@@ -3052,6 +3083,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         //TRACE(_T("render sub skipped: %lld\n"), rt);
         return S_FALSE;
     }
+
+    CRect bbox2(0, 0, 0, 0);
 
     // clear any cached subs that is behind current time
     {
@@ -3357,6 +3390,10 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
         strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
     }
 
+    if (strLanguage.IsEmpty() && !m_langname.IsEmpty()) {
+        strLanguage = m_langname;
+    }
+
     if (!strLanguage.IsEmpty() && m_eHearingImpaired == Subtitle::HI_YES) {
         strLanguage = '[' + strLanguage + ']';
     }
@@ -3425,7 +3462,7 @@ STDMETHODIMP CRenderedTextSubtitle::SetSourceTargetInfo(CString yuvVideoMatrix, 
         parseMatrixString(yuvVideoMatrix);
     }
 
-    bool bTransformColors = !bIsVSFilter && !m_sYCbCrMatrix.IsEmpty();
+    bool bTransformColors = !bIsVSFilter && (!m_sYCbCrMatrix.IsEmpty() || !yuvVideoMatrix.IsEmpty());
     ColorConvTable::SetDefaultConvType(yuvMatrix, yuvRange, (targetWhiteLevel < 245), bTransformColors);
 
     return S_OK;

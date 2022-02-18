@@ -240,7 +240,7 @@ void CMPCThemeMenu::fulfillThemeReqs(bool isMenubar)
                 CMPCThemeMenu* pSubMenu;
                 pSubMenu = DYNAMIC_DOWNCAST(CMPCThemeMenu, t);
                 if (!pSubMenu) {
-                    pSubMenu = new CMPCThemeMenu;
+                    pSubMenu = DEBUG_NEW CMPCThemeMenu;
                     allocatedMenus.push_back(pSubMenu);
                     pSubMenu->Attach(t->Detach());
                 }
@@ -258,7 +258,7 @@ void CMPCThemeMenu::fulfillThemeReqsItem(UINT i, bool byCommand, bool isMenuBar)
         GetMenuItemInfo(i, &tInfo, !byCommand);
         if (NULL == tInfo.dwItemData) {
             CString nameHolder;
-            MenuObject* pObject = new MenuObject;
+            MenuObject* pObject = DEBUG_NEW MenuObject;
             allocatedItems.push_back(pObject);
             pObject->m_hIcon = NULL;
             pObject->isMenubar = isMenuBar;
@@ -295,7 +295,7 @@ void CMPCThemeMenu::fulfillThemeReqsItem(UINT i, bool byCommand, bool isMenuBar)
                 CMPCThemeMenu* pSubMenu;
                 pSubMenu = DYNAMIC_DOWNCAST(CMPCThemeMenu, t);
                 if (!pSubMenu) {
-                    pSubMenu = new CMPCThemeMenu;
+                    pSubMenu = DEBUG_NEW CMPCThemeMenu;
                     allocatedMenus.push_back(pSubMenu);
                     pSubMenu->Attach(t->Detach());
                 }
@@ -430,8 +430,7 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
         if (CMPCThemeUtil::getFontByType(font, pDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont)) {
             pDC->SelectObject(&font);
         }
-
-        if ((lpDrawItemStruct->itemState & ODS_SELECTED) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
+        if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
             pDC->FillSolidRect(&rectM, TextSelectColor);
         }
         CString left, right;

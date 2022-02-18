@@ -30,12 +30,6 @@
 
 #define LAV_FILTERS_VERSION(major, minor, rev, commit) ((QWORD)(major) << 48 | (QWORD)(minor) << 32 | (QWORD)(rev) << 16 | (QWORD)(commit))
 
-#define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
-#define IDS_R_INTERNAL_LAVVIDEO              IDS_R_INTERNAL_FILTERS  _T("\\LAVVideo")
-#define IDS_R_INTERNAL_LAVVIDEO_OUTPUTFORMAT IDS_R_INTERNAL_LAVVIDEO _T("\\OutputFormat")
-#define IDS_R_INTERNAL_LAVVIDEO_HWACCEL      IDS_R_INTERNAL_LAVVIDEO _T("\\HWAccel")
-#define IDS_R_INTERNAL_LAVAUDIO              IDS_R_INTERNAL_FILTERS  _T("\\LAVAudio")
-
 #ifndef _WIN64
 #define LAVFILTERS_DIR _T("LAVFilters\\")
 #else
@@ -357,6 +351,8 @@ void CFGFilterLAVSplitterBase::Settings::LoadSettings()
 
     bMatroskaExternalSegments = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("MatroskaExternalSegments"), bMatroskaExternalSegments);
 
+    bStreamSwitchRemoveAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
+
     bStreamSwitchRemoveAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchRemoveAudio"), bStreamSwitchRemoveAudio);
 
     bPreferHighQualityAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("PreferHighQualityAudio"), bPreferHighQualityAudio);
@@ -392,6 +388,10 @@ void CFGFilterLAVSplitterBase::Settings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("substreams"), bSubstreams);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("MatroskaExternalSegments"), bMatroskaExternalSegments);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
+    }
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchRemoveAudio"), bStreamSwitchRemoveAudio);
 
@@ -446,6 +446,12 @@ bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pL
 
     bMatroskaExternalSegments = pLAVFSettings->GetLoadMatroskaExternalSegments();
 
+    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
+        bStreamSwitchReselectSubs = pLAVFSettings->GetStreamSwitchReselectSubtitles();
+    } else {
+        bStreamSwitchReselectSubs = FALSE;
+    }
+
     bStreamSwitchRemoveAudio = pLAVFSettings->GetStreamSwitchRemoveAudio();
 
     bImpairedAudio = pLAVFSettings->GetUseAudioForHearingVisuallyImpaired();
@@ -484,6 +490,10 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
     pLAVFSettings->SetSubstreamsEnabled(bSubstreams);
 
     pLAVFSettings->SetLoadMatroskaExternalSegments(bMatroskaExternalSegments);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
+        pLAVFSettings->SetStreamSwitchReselectSubtitles(bStreamSwitchReselectSubs);
+    }
 
     pLAVFSettings->SetStreamSwitchRemoveAudio(bStreamSwitchRemoveAudio);
 
@@ -770,12 +780,22 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
         dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
+    } else {
+        dwHWAccelDeviceDXVA2 = LAVHWACCEL_DEVICE_DEFAULT;
+        dwHWAccelDeviceDXVA2Desc = 0;
     }
+
     if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
         dwHWAccelDeviceD3D11 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_D3D11, &dwHWAccelDeviceD3D11Desc);
+    } else {
+        dwHWAccelDeviceD3D11 = LAVHWACCEL_DEVICE_DEFAULT;
+        dwHWAccelDeviceD3D11Desc = 0;
     }
+
     if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
         bHWAccelCUVIDXVA = pLAVFSettings->GetHWAccelDeintHQ();
+    } else {
+        bHWAccelCUVIDXVA = TRUE;
     }
 
     return true;
@@ -918,7 +938,9 @@ void CFGFilterLAVAudio::Settings::LoadSettings()
 
     bDTSHDFraming = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("DTSHDFraming"), bDTSHDFraming);
 
-    bBitstreamingFallback = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
+        bBitstreamingFallback = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
+    }
 
     bAutoAVSync = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("AutoAVSync"), bAutoAVSync);
 
@@ -974,7 +996,9 @@ void CFGFilterLAVAudio::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("DTSHDFraming"), bDTSHDFraming);
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
+    }
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("AutoAVSync"), bAutoAVSync);
 
@@ -1029,7 +1053,11 @@ bool CFGFilterLAVAudio::Settings::GetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     bDTSHDFraming = pLAVFSettings->GetDTSHDFraming();
 
-    bBitstreamingFallback = pLAVFSettings->GetBitstreamingFallback();
+    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
+        bBitstreamingFallback = pLAVFSettings->GetBitstreamingFallback();
+    } else {
+        bBitstreamingFallback = FALSE;
+    }
 
     bAutoAVSync = pLAVFSettings->GetAutoAVSync();
 
@@ -1078,7 +1106,9 @@ bool CFGFilterLAVAudio::Settings::SetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     pLAVFSettings->SetDTSHDFraming(bDTSHDFraming);
 
-    pLAVFSettings->SetBitstreamingFallback(bBitstreamingFallback);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
+        pLAVFSettings->SetBitstreamingFallback(bBitstreamingFallback);
+    }
 
     pLAVFSettings->SetAutoAVSync(bAutoAVSync);
 

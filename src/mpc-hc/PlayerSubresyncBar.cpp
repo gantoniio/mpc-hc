@@ -172,6 +172,7 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
         m_pSubStream = pSubStream;
         m_fps = fps;
 
+        // FIXME: if subresync bar is not visible, then delay this until we enable it
         ReloadSubtitle();
     }
 }
@@ -185,8 +186,11 @@ void CPlayerSubresyncBar::ReloadSubtitle()
 
     ResetSubtitle();
 
-    for (int i = 0, count = m_list.GetHeaderCtrl()->GetItemCount(); i < count; i++) {
-        m_list.DeleteColumn(0);
+    CHeaderCtrl* hctrl = m_list.GetHeaderCtrl();
+    if (hctrl) {
+        for (int i = 0, count = hctrl->GetItemCount(); i < count; i++) {
+            m_list.DeleteColumn(0);
+        }
     }
 
     if (!m_pSubStream) {

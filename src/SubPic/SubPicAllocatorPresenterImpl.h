@@ -27,6 +27,7 @@
 #include "ISubPic.h"
 #include "CoordGeom.h"
 #include "SubRenderIntf.h"
+#include "ScreenUtil.h"
 
 class CSubPicAllocatorPresenterImpl
     : public CUnknown
@@ -62,17 +63,13 @@ protected:
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
-    enum SubtitleTextureLimit {
-        STATIC, VIDEO, DESKTOP
-    };
-    SubtitleTextureLimit m_SubtitleTextureLimit;
-    void InitMaxSubtitleTextureSize(int maxSize, CSize desktopSize);
+    void InitMaxSubtitleTextureSize(int maxSizeX, int maxSizeY, CSize largestScreen);
 
     HRESULT AlphaBltSubPic(const CRect& windowRect,
                            const CRect& videoRect,
                            SubPicDesc* pTarget = nullptr,
                            const double videoStretchFactor = 1.0,
-                           int xOffsetInPixels = 0);
+                           int xOffsetInPixels = 0, int yOffsetInPixels = 0);
 
     void UpdateXForm();
     HRESULT CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const;
@@ -81,6 +78,9 @@ protected:
     bool m_bDefaultVideoAngleSwitchAR;
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);
+
+    bool m_bHookedNewSegment;
+    bool m_bHookedReceive;
 
 public:
     CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError);
@@ -108,6 +108,7 @@ public:
     STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) { return E_NOTIMPL; }
     STDMETHODIMP_(bool) ResetDevice() { return false; }
     STDMETHODIMP_(bool) DisplayChange() { return false; }
+    STDMETHODIMP_(void) GetPosition(RECT* windowRect, RECT* videoRect) { *windowRect = m_windowRect; *videoRect = m_videoRect; }
 
     // ISubPicAllocatorPresenter2
 

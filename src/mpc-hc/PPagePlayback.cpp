@@ -67,7 +67,6 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Slider(pDX, IDC_SLIDER1, m_nVolume);
     DDX_Slider(pDX, IDC_SLIDER2, m_nBalance);
     DDX_Radio(pDX, IDC_RADIO1, m_iLoopForever);
-    DDX_Control(pDX, IDC_EDIT1, m_loopnumctrl);
     DDX_Text(pDX, IDC_EDIT1, m_nLoops);
     DDX_CBIndex(pDX, IDC_COMBO2, m_iAfterPlayback);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
@@ -121,7 +120,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_VolumeStepCtrl.SetRange32(1, 25);
     m_nSpeedStep = s.nSpeedStep;
     m_SpeedStepCtrl.SetPos32(m_nSpeedStep);
-    m_SpeedStepCtrl.SetRange32(0, 100);
+    m_SpeedStepCtrl.SetRange32(0, 75);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_iLoopMode = static_cast<int>(s.eLoopMode);
     m_nLoops = s.nLoops;
@@ -165,7 +164,7 @@ BOOL CPPagePlayback::OnInitDialog()
     CorrectComboListWidth(m_LoopMode);
 
     // set the spinner acceleration value
-    UDACCEL accel = { 0, 10 };
+    UDACCEL accel = { 0, 5 };
     m_SpeedStepCtrl.SetAccel(1, &accel);
 
     EnableThemedDialogTooltips(this);

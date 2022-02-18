@@ -4,14 +4,15 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # O SA, 2020
-# ever_green, 2021
+# Sonozaki Shion <mskt01a@gmail.com>, 2021
+# ever_green, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: ever_green, 2021\n"
+"Last-Translator: ever_green, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,11 +94,11 @@ msgstr "A-B"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
 msgid "A-B Repeat: Mark A Position"
-msgstr "A-B リピート: 開始点 A を設定"
+msgstr "A-B リピート: 始点 A を設定"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
 msgid "A-B Repeat: Mark B Position"
-msgstr "A-B リピート: 終了点 B を設定"
+msgstr "A-B リピート: 終点 B を設定"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
@@ -188,7 +189,7 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid ""
 "Not supported by some devices. Two video decoders always present in the "
 "filter graph."
-msgstr "一部のデバイスでサポートされていない。2 つのビデオ デコーダが常にフィルタ グラフに存在する。"
+msgstr "一部のデバイスではサポートされていない。フィルタ グラフに常に 2 つのビデオ デコーダが存在する。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid ""
@@ -254,7 +255,7 @@ msgstr "ナビゲーション バー"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "字幕の再同期"
+msgstr "字幕調整"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -442,6 +443,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "クリップボードにコピー(&C)"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr "保存(&V)"
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "名前を付けて保存(&S)..."
@@ -478,6 +483,46 @@ msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
 msgstr "リセット(&R)"
 
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "オリジナル(&O)"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "現在(&C)"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "編集(&E)"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "はい(&Y)"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "いいえ(&N)"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "減少(&D)"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "増加(&I)"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "オプション"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "シェーダを選択(&S)..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "シェーダ デバッガ(&D)..."
+
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
 msgstr "字幕の遅延 減少"
@@ -490,6 +535,22 @@ msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
 msgstr "サムネイルを保存"
 
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr "字幕を下に移動"
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr "字幕を上に移動"
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr "字幕の文字サイズを縮小"
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
+msgstr "字幕の文字サイズを拡大"
+
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
 msgstr "再生"
@@ -499,8 +560,8 @@ msgid "Player"
 msgstr "プレーヤー"
 
 msgctxt "IDD_PPAGEDVD"
-msgid "Playback::DVD/OGM"
-msgstr "再生::DVD/OGM"
+msgid "Playback::DVD"
+msgstr "再生::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -621,10 +682,10 @@ msgstr "madVR"
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid ""
 "Enter your preferred languages here.\n"
-"For example, type: \"eng jap swe\""
+"For example, type: \"eng jpn swe\""
 msgstr ""
 "ここに優先言語を入力してください。\n"
-"例: \"eng jap swe\" のように入力します。"
+"例: \"eng jpn swe\" のように入力します。"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -765,7 +826,7 @@ msgstr "EVR と同じですが、字幕と後処理のために HPC-HC のアロ
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高品質のレンダラで、D3D9 以降をサポートする GPU が必要です。"
+msgstr "高画質なレンダラーで、D3D9 以降に対応した GPU が必要です。"
 
 msgctxt "IDC_DSSYNC"
 msgid ""
@@ -803,7 +864,7 @@ msgctxt "IDC_DX9RESIZER_COMBO"
 msgid ""
 "If there is no Pixel Shader 2.0 support, simple bilinear is used "
 "automatically."
-msgstr "ピクセル シェーダ 2.0 をサポートしていない場合、単純な線形補間が自動的に使用されます。"
+msgstr "ピクセル シェーダ 2.0 に対応していない場合、自動的に単純な線形補間が使用されます。"
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid ""
@@ -816,11 +877,15 @@ msgstr ""
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高品質のレンダラで、D3D9 以降をサポートする GPU が必要です。"
+msgstr "高画質なレンダラーで、D3D9 以降に対応した GPU が必要です。"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "同期レンダラ"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
+msgid "MPC Audio Renderer"
+msgstr "MPC オーディオ レンダラ"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -875,8 +940,8 @@ msgid "Null (uncompressed)"
 msgstr "Null (非圧縮)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
-msgid "Internal Audio Renderer"
-msgstr "内部オーディオ レンダラ"
+msgid "SaneAR Audio Renderer"
+msgstr "SaneAR オーディオ レンダラ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -900,10 +965,6 @@ msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
 msgstr "字幕をダウンロード..."
 
-msgctxt "IDS_SUBTITLES_UPLOAD"
-msgid "Upload Subtitles..."
-msgstr "字幕をアップロード..."
-
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
 msgstr "遅延 (ミリ秒):"
@@ -922,11 +983,11 @@ msgstr "アーカイブ内にメディア ファイルが見つかりません�
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "圧縮されたファイルはサポートされていません"
+msgstr "圧縮ファイルには対応していません"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "暗号化されたファイルはサポートされていません"
+msgstr "暗号化されたファイルには対応していません。"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -958,7 +1019,7 @@ msgstr "VTS_xx_x.vob ファイルをまとめて読み込むには VTS_xx_0.ifo 
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "RARFileSource に基づいて、圧縮されたファイルをサポートしていません"
+msgstr "RARFileSource をベースにしていますが、圧縮ファイルには対応していません"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -1096,46 +1157,6 @@ msgid ""
 msgstr ""
 "進む\n"
 "進む"
-
-msgctxt "IDS_SUBRESYNC_ORIGINAL"
-msgid "&Original"
-msgstr "オリジナル(&O)"
-
-msgctxt "IDS_SUBRESYNC_CURRENT"
-msgid "&Current"
-msgstr "現在(&C)"
-
-msgctxt "IDS_SUBRESYNC_EDIT"
-msgid "&Edit"
-msgstr "編集(&E)"
-
-msgctxt "IDS_SUBRESYNC_YES"
-msgid "&Yes"
-msgstr "はい(&Y)"
-
-msgctxt "IDS_SUBRESYNC_NO"
-msgid "&No"
-msgstr "いいえ(&N)"
-
-msgctxt "IDS_SUBRESYNC_DECREASE"
-msgid "&Decrease"
-msgstr "減少(&D)"
-
-msgctxt "IDS_SUBRESYNC_INCREASE"
-msgid "&Increase"
-msgstr "増加(&I)"
-
-msgctxt "IDS_OPTIONS_CAPTION"
-msgid "Options"
-msgstr "オプション"
-
-msgctxt "IDS_SHADERS_SELECT"
-msgid "&Select Shaders..."
-msgstr "シェーダを選択(&S)..."
-
-msgctxt "IDS_SHADERS_DEBUG"
-msgid "&Debug Shaders..."
-msgstr "シェーダ デバッガ(&D)..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1907,12 +1928,12 @@ msgid "Goto Next Subtitle"
 msgstr "次の字幕に移動"
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
-msgstr "字幕を左へ移動"
+msgid "Subresync: shift -100ms"
+msgstr "字幕調整: -100 ミリ秒移動"
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
-msgstr "字幕を右へ移動"
+msgid "Subresync: shift +100ms"
+msgstr "字幕調整: +100 ミリ秒移動"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2384,8 +2405,8 @@ msgid ""
 "It supports all common video and audio file formats available for playback. "
 "We are 100% spyware free, there are no advertisements or toolbars."
 msgstr ""
-"MPC-HC は非常に軽量な Windows 用オープン ソースのメディア プレーヤーです。再生に使用される一般的なすべてのビデオおよびオーディオ "
-"ファイル形式をサポートしています。私たちは 100％ スパイウェアを含まず、広告やツール バーもありません。"
+"MPC-HC は、非常に軽量なオープン ソースの Windows 用メディア プレーヤーです。再生可能なすべての一般的なビデオおよびオーディオ "
+"ファイル形式をサポートしています。100％ スパイウェアを含まず、広告やツールバーは一切ありません。"
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2600,12 +2621,8 @@ msgid "Out of memory"
 msgstr "メモリが不足しています"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "エラー: Internet Explorer 用の Adobe Flash Player が必要です"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime はまだ X64 でサポートされていません (apple ライブラリは使用できません)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
+msgstr "エラー: キルスイッチ パッチ付き IE 用 Adobe Flash Player が必要"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2841,7 +2858,7 @@ msgstr "ステータスの表示"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "字幕の再同期バーの表示"
+msgstr "字幕調整バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
@@ -2938,6 +2955,14 @@ msgstr "マウス 修飾キー"
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "マウス 全画面 修飾キー"
+
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -3127,9 +3152,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -3813,7 +3838,7 @@ msgstr "色の設定が復元されました"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "カラー コントロールはサポートされていません"
+msgstr "カラー コントロールには対応していません"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -4187,7 +4212,7 @@ msgid "/standby\t\tPut the operating system in standby mode after playback"
 msgstr "/standby\t\t再生終了後に OS をスタンバイ モードにする"
 
 msgctxt "IDS_CMD_HIBERNATE"
-msgid "/hibernate\tHibernate operating system after playback"
+msgid "/hibernate\t\tHibernate operating system after playback"
 msgstr "/hibernate\t\t再生終了後に OS を休止状態にする"
 
 msgctxt "IDS_CMD_LOGOFF"
@@ -4478,7 +4503,7 @@ msgstr "ステータス バーに現在の音声と字幕の言語を表示し�
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
 msgid "Display current fps and rate in status bar"
-msgstr "ステータス バーに現在の fps とレートを表示します"
+msgstr "ステータス バーに現在のフレーム レートと再生速度を表示します"
 
 msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
 msgid ""
@@ -4489,3 +4514,100 @@ msgstr "字幕ファイルを保存すると、言語コード (利用可能な�
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
 msgstr "最近使ったファイルの一覧でタイトルを使用します。"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
+msgid "Display current A-B repeat marks in status bar."
+msgstr "ステータス バーに現在の A-B リピート マークを表示します。"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
+msgid "Display video info (codec name, resolution) in status bar."
+msgstr "ステータス バーにビデオ情報 (コーデック名、解像度) を表示します。"
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI mode:"
+msgstr "WASAPI モード:"
+
+msgctxt "IDS_ARS_EXCLUSIVE"
+msgid "Exclusive"
+msgstr "排他 (Exclusive)"
+
+msgctxt "IDS_ARS_SHARED"
+msgid "Shared"
+msgstr "共有 (Shared)"
+
+msgctxt "IDS_ARS_BITEXACT_OUTPUT"
+msgid "Allow bit-exact output"
+msgstr "ビットパーフェクト出力を許可する"
+
+msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
+msgid "Use system layout channels"
+msgstr "システム レイアウト チャンネルを使用する"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "サウンド デバイス:"
+
+msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
+msgid "Release device when idle"
+msgstr "アイドル状態時にデバイスを解放する"
+
+msgctxt "IDS_ARS_CROSSFEED"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "ステレオ クロスフィードを有効にする (ヘッドホン用)"
+
+msgctxt "IDS_ARS_DEVICE_PERIOD"
+msgid "Device buffer:"
+msgstr "デバイス バッファ:"
+
+msgctxt "IDS_ARS_CHECK_FORMAT"
+msgid "Do not check format support"
+msgstr "サポート形式の確認をしない"
+
+msgctxt "IDS_ARS_STATUS"
+msgid "Status"
+msgstr "ステータス"
+
+msgctxt "IDS_ARS_DEVICE"
+msgid "Device:"
+msgstr "デバイス:"
+
+msgctxt "IDS_ARS_MODE"
+msgid "Mode:"
+msgstr "モード:"
+
+msgctxt "IDS_ARS_INPUT"
+msgid "Input"
+msgstr "入力"
+
+msgctxt "IDS_ARS_OUTPUT"
+msgid "Output"
+msgstr "出力"
+
+msgctxt "IDS_ARS_FORMAT"
+msgid "Format:"
+msgstr "形式:"
+
+msgctxt "IDS_ARS_SAMPLERATE"
+msgid "Sample rate:"
+msgstr "サンプル レート:"
+
+msgctxt "IDS_ARS_CHANNELS"
+msgid "Channels:"
+msgstr "チャンネル:"
+
+msgctxt "IDS_ARS_WASAPI_METHOD"
+msgid "WASAPI method:"
+msgstr "WASAPI メソッド:"
+
+msgctxt "IDS_ARS_DUMMY_CHANNELS"
+msgid "Don't fill channels when upmixing"
+msgstr "アップミックス時にチャンネルを埋めない"
+
+msgctxt "IDS_AG_DEFAULT"
+msgid "Default"
+msgstr "既定"

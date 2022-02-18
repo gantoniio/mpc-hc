@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "mplayerc.h"
 #include <afxcmn.h>
+#include <afxdlgs.h>
 #include "CMPCTheme.h"
 #include "CMPCThemeToolTipCtrl.h"
 
@@ -17,7 +17,7 @@ public:
     void enableFileDialogHook();
 
     static HBRUSH getCtlColorFileDialog(HDC hDC, UINT nCtlColor);
-    HBRUSH getCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    static HBRUSH getCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     static bool MPCThemeEraseBkgnd(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     void subClassFileDialog(CWnd* wnd, HWND hwnd, bool findSink = true);
 
@@ -26,7 +26,7 @@ protected:
     std::vector<CWnd*> allocatedWindows;
 
     void fulfillThemeReqs(CWnd* wnd);
-    void initHelperObjects(CWnd* wnd);
+    static void initHelperObjects();
     void makeThemed(CWnd* pObject, CWnd* tChild);
 
     //replaces tooltip from EnableTooltips()

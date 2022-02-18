@@ -84,7 +84,6 @@
 #define ID_FILE_SAVE_THUMBNAILS         808
 #define ID_FILE_SUBTITLES_LOAD          809
 #define ID_FILE_SUBTITLES_SAVE          810
-#define ID_FILE_SUBTITLES_UPLOAD        811
 #define ID_FILE_SUBTITLES_DOWNLOAD      812
 #define ID_VIEW_ZOOM_25                 813
 #define ID_FILE_PROPERTIES              814
@@ -165,7 +164,7 @@
 #define IDS_SHADERNOTES                 889
 #define ID_PLAY_STOP                    890
 #define ID_PLAY_FRAMESTEP               891
-#define ID_PLAY_FRAMESTEPCANCEL         892
+#define ID_PLAY_FRAMESTEP_BACK          892
 #define ID_NAVIGATE_GOTO                893
 #define ID_PLAY_DECRATE                 894
 #define ID_PLAY_INCRATE                 895
@@ -515,25 +514,26 @@
 #define IDS_PLAYLIST_REMOVE             14116
 #define IDS_PLAYLIST_CLEAR              14117
 #define IDS_PLAYLIST_COPYTOCLIPBOARD    14118
-#define IDS_PLAYLIST_SAVEAS             14119
-#define IDS_PLAYLIST_SORTBYLABEL        14120
-#define IDS_PLAYLIST_SORTBYPATH         14121
-#define IDS_PLAYLIST_RANDOMIZE          14122
-#define IDS_PLAYLIST_RESTORE            14123
-#define IDS_SUBRESYNC_SEPARATOR         14124
-#define IDS_SUBRESYNC_DELETE            14125
-#define IDS_SUBRESYNC_DUPLICATE         14126
-#define IDS_SUBRESYNC_RESET             14127
-#define IDS_SUBRESYNC_ORIGINAL          14128
-#define IDS_SUBRESYNC_CURRENT           14129
-#define IDS_SUBRESYNC_EDIT              14130
-#define IDS_SUBRESYNC_YES               14131
-#define IDS_SUBRESYNC_NO                14132
-#define IDS_SUBRESYNC_DECREASE          14133
-#define IDS_SUBRESYNC_INCREASE          14134
-#define IDS_OPTIONS_CAPTION             14135
-#define IDS_SHADERS_SELECT              14136
-#define IDS_SHADERS_DEBUG               14137
+#define IDS_PLAYLIST_SAVE               14119
+#define IDS_PLAYLIST_SAVEAS             14120
+#define IDS_PLAYLIST_SORTBYLABEL        14121
+#define IDS_PLAYLIST_SORTBYPATH         14122
+#define IDS_PLAYLIST_RANDOMIZE          14123
+#define IDS_PLAYLIST_RESTORE            14124
+#define IDS_SUBRESYNC_SEPARATOR         14125
+#define IDS_SUBRESYNC_DELETE            14126
+#define IDS_SUBRESYNC_DUPLICATE         14127
+#define IDS_SUBRESYNC_RESET             14128
+#define IDS_SUBRESYNC_ORIGINAL          14129
+#define IDS_SUBRESYNC_CURRENT           14130
+#define IDS_SUBRESYNC_EDIT              14131
+#define IDS_SUBRESYNC_YES               14132
+#define IDS_SUBRESYNC_NO                14133
+#define IDS_SUBRESYNC_DECREASE          14134
+#define IDS_SUBRESYNC_INCREASE          14135
+#define IDS_OPTIONS_CAPTION             14136
+#define IDS_SHADERS_SELECT              14137
+#define IDS_SHADERS_DEBUG               14138
 #define IDS_FAVORITES_ADD               14153
 #define IDS_FAVORITES_ORGANIZE          14154
 #define IDS_PLAYLIST_SHUFFLE            14155
@@ -628,6 +628,7 @@
 #define IDS_MESSAGEBOX_CONTINUE         20064
 #define IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE 20065
 #define ID_FILE_OPEN_LOCATION           20066
+#define IDB_NOIMAGE                     20067
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -654,6 +655,7 @@
 #define IDC_FREQ_END                    22023
 #define IDC_CHANNEL_LIST                22024
 #define ID_START                        22025
+#define IDC_SYMBOLRATE                  22026
 #define ID_SAVE                         22030
 #define IDC_STRENGTH                    22031
 #define IDC_SYNCVIDEO                   22032
@@ -726,6 +728,14 @@
 #define PLAYER_PLAYLIST_LVN_ITEMCHANGED 24048
 #define IDF_LOGO4                       24050
 #define ID_SUBTITLES_DEFAULT_STYLE      24051
+#define ID_SUB_POS_DOWN                 24052
+#define ID_SUB_POS_UP                   24053
+#define ID_SUB_FONT_SIZE_DEC            24054
+#define ID_SUB_FONT_SIZE_INC            24055
+#define IDS_SUB_POS_DOWN                24056
+#define IDS_SUB_POS_UP                  24057
+#define IDS_SUB_FONT_SIZE_DEC           24058
+#define IDS_SUB_FONT_SIZE_INC           24059
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_FILE_OPENDISC                32774
 #define ID_SHADERS                      32775
@@ -734,8 +744,8 @@
 #define ID_D3DFULLSCREEN_TOGGLE         32779
 #define ID_GOTO_PREV_SUB                32780
 #define ID_GOTO_NEXT_SUB                32781
-#define ID_SHIFT_SUB_DOWN               32782
-#define ID_SHIFT_SUB_UP                 32783
+#define ID_SUBRESYNC_SHIFT_DOWN         32782
+#define ID_SUBRESYNC_SHIFT_UP           32783
 #define ID_VIEW_DISPLAY_RENDERER_STATS  32784
 #define ID_VIEW_RESET_RENDERER_STATS    32785
 #define IDS_AG_CLOSE                    32830
@@ -904,7 +914,6 @@
 #define IDS_AG_CHAPTER                  33078
 #define IDS_AG_OUT_OF_MEMORY            33081
 #define IDS_MAINFRM_77                  33082
-#define IDS_MAINFRM_78                  33083
 #define IDS_MAINFRM_80                  33084
 #define IDS_MAINFRM_81                  33085
 #define IDS_MAINFRM_82                  33086
@@ -1073,6 +1082,10 @@
 #define ID_PLAY_REPEAT_AB_MARK_A        33454
 #define IDS_AG_MOUSE_FS_MODIFIER        33454
 #define ID_PLAY_REPEAT_AB_MARK_B        33455
+#define ID_VIEW_ZOOM_SUB                33456
+#define ID_VIEW_ZOOM_ADD                33457
+#define IDS_AG_ZOOM_ADD                 33458
+#define IDS_AG_ZOOM_SUB                 33459
 #define ID_RECENT_FILE_START            34000
 #define ID_RECENT_FILE_END              34999
 #define IDS_MFMT_AVI                    39001
@@ -1084,7 +1097,7 @@
 #define IDS_MFMT_MP4                    39007
 #define IDS_MFMT_MOV                    39008
 #define IDS_MFMT_3GP                    39009
-#define IDS_MFMT_3G2                    39010
+#define IDS_MFMT_3GA                    39010
 #define IDS_MFMT_FLV                    39011
 #define IDS_MFMT_OGM                    39012
 #define IDS_MFMT_RM                     39013
@@ -1389,6 +1402,7 @@
 #define IDS_PPAGE_OUTPUT_NULL_UNCOMP    41422
 #define IDS_PPAGE_OUTPUT_MADVR          41423
 #define IDS_PPAGE_OUTPUT_SYNC           41424
+#define IDS_PPAGE_OUTPUT_AUD_MPC_REND   41425
 #define IDS_PPAGE_OUTPUT_SURF_OFFSCREEN 41427
 #define IDS_PPAGE_OUTPUT_SURF_2D        41428
 #define IDS_PPAGE_OUTPUT_SURF_3D        41429
@@ -1655,14 +1669,37 @@
 #define IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR 57569
 #define IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES 57570
 #define IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST 57571
-
+#define IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR 57572
+#define IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR 57573
+#define IDS_ARS_WASAPI_MODE             57600
+#define IDS_ARS_EXCLUSIVE               57601
+#define IDS_ARS_SHARED                  57602
+#define IDS_ARS_BITEXACT_OUTPUT         57603
+#define IDS_ARS_SYSTEM_LAYOUT_CHANNELS  57604
+#define IDS_ARS_SOUND_DEVICE            57605
+#define IDS_ARS_RELEASE_DEVICE_IDLE     57606
+#define IDS_ARS_CROSSFEED               57607
+#define IDS_ARS_DEVICE_PERIOD           57608
+#define IDS_ARS_CHECK_FORMAT            57609
+#define IDS_ARS_STATUS                  57610
+#define IDS_ARS_DEVICE                  57611
+#define IDS_ARS_MODE                    57612
+#define IDS_ARS_INPUT                   57613
+#define IDS_ARS_OUTPUT                  57614
+#define IDS_ARS_FORMAT                  57615
+#define IDS_ARS_SAMPLERATE              57616
+#define IDS_ARS_CHANNELS                57617
+#define IDS_ARS_WASAPI_METHOD           57618
+#define IDS_ARS_DUMMY_CHANNELS          57619
+#define IDS_AG_DEFAULT                  57620
+#define IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE 57621
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20067
-#define _APS_NEXT_COMMAND_VALUE         33456
+#define _APS_NEXT_RESOURCE_VALUE        20069
+#define _APS_NEXT_COMMAND_VALUE         33460
 #define _APS_NEXT_CONTROL_VALUE         22087
 #define _APS_NEXT_SYMED_VALUE           24052
 #endif

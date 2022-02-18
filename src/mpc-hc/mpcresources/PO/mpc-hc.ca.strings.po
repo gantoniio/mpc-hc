@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Roger Espolet <roger.espolet@gmail.com>, 2020
+# Roger Espolet <roger.espolet@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-17 23:32:57+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2020\n"
+"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2021\n"
 "Language-Team: Catalan (https://www.transifex.com/mpchc/teams/106126/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -366,7 +366,7 @@ msgstr "Disc"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr "Títol(s)"
+msgstr "Títol/s"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -455,6 +455,10 @@ msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
 msgstr "&Copia al porta-retalls"
 
+msgctxt "IDS_PLAYLIST_SAVE"
+msgid "Sa&ve"
+msgstr "De&sa"
+
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
 msgstr "A&nomena i desa…"
@@ -491,6 +495,46 @@ msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
 msgstr "&Restableix"
 
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&Original"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&Actual"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "&Edita"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "&Sí"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "&No"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "&Redueix"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "&Augmenta "
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "Opcions"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "&Selecciona els shaders..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "&Depura els shaders..."
+
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
 msgstr "Redueix el retard dels subtítols"
@@ -503,6 +547,22 @@ msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
 msgstr "Desa les miniatures"
 
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
 msgstr "Reproducció"
@@ -512,8 +572,8 @@ msgid "Player"
 msgstr "Reproductor"
 
 msgctxt "IDD_PPAGEDVD"
-msgid "Playback::DVD/OGM"
-msgstr "Reproducció::DVD/OGM"
+msgid "Playback::DVD"
+msgstr "Reproducció::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -634,10 +694,8 @@ msgstr "madVR"
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid ""
 "Enter your preferred languages here.\n"
-"For example, type: \"eng jap swe\""
+"For example, type: \"eng jpn swe\""
 msgstr ""
-"Introduïu els vostres idiomes preferits aquí.\n"
-"Per exemple, escriviu: \"cat spa eng\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -673,7 +731,7 @@ msgstr "Renderitzador de vídeo MPC"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7"
 msgid "Video Mixing Renderer 7"
-msgstr ""
+msgstr "Video Mixing Renderer 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -745,9 +803,9 @@ msgid ""
 "never use Overlay rendering and because of this it may be a little slower "
 "than Overlay mixer."
 msgstr ""
-"Només està disponible si té el DirectX 9 instal·lat. És molt estable, però "
-"mai s'utilitzarà l'Overlay per renderitzar, i per això, pot ser que sigui "
-"una mica més lent que l'Overlay mixer."
+"Només està disponible si teniu el DirectX 9 instal·lat. És molt estable, "
+"però mai s'utilitzarà l'Overlay per renderitzar, i per això, pot ser que "
+"sigui una mica més lent que l'Overlay mixer."
 
 msgctxt "IDC_DSVMR9REN"
 msgid ""
@@ -865,6 +923,10 @@ msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync Renderer"
 
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
+msgid "MPC Audio Renderer"
+msgstr "Renderitzador d'àudio de l'MPC"
+
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
 msgstr "Superfície simple normal fora de pantalla"
@@ -918,8 +980,8 @@ msgid "Null (uncompressed)"
 msgstr "Renderitzador nul (entrada no comprimida)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
-msgid "Internal Audio Renderer"
-msgstr "Renderitzador intern d'àudio"
+msgid "SaneAR Audio Renderer"
+msgstr "Renderitzador d'àudio SaneAR"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -942,10 +1004,6 @@ msgstr ""
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
 msgstr "Descarrega subtítols..."
-
-msgctxt "IDS_SUBTITLES_UPLOAD"
-msgid "Upload Subtitles..."
-msgstr "Penja subtítols..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1153,46 +1211,6 @@ msgid ""
 msgstr ""
 "Avança\n"
 "Avança"
-
-msgctxt "IDS_SUBRESYNC_ORIGINAL"
-msgid "&Original"
-msgstr "&Original"
-
-msgctxt "IDS_SUBRESYNC_CURRENT"
-msgid "&Current"
-msgstr "&Actual"
-
-msgctxt "IDS_SUBRESYNC_EDIT"
-msgid "&Edit"
-msgstr "&Edita"
-
-msgctxt "IDS_SUBRESYNC_YES"
-msgid "&Yes"
-msgstr "&Sí"
-
-msgctxt "IDS_SUBRESYNC_NO"
-msgid "&No"
-msgstr "&No"
-
-msgctxt "IDS_SUBRESYNC_DECREASE"
-msgid "&Decrease"
-msgstr "&Redueix"
-
-msgctxt "IDS_SUBRESYNC_INCREASE"
-msgid "&Increase"
-msgstr "&Augmenta "
-
-msgctxt "IDS_OPTIONS_CAPTION"
-msgid "Options"
-msgstr "Opcions"
-
-msgctxt "IDS_SHADERS_SELECT"
-msgid "&Select Shaders..."
-msgstr "&Selecciona els shaders..."
-
-msgctxt "IDS_SHADERS_DEBUG"
-msgid "&Debug Shaders..."
-msgstr "&Depura els shaders..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1986,12 +2004,12 @@ msgid "Goto Next Subtitle"
 msgstr "Ves al subtítol següent"
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
-msgstr "Desplaça el subtítol cap a l'esquerra"
+msgid "Subresync: shift -100ms"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
-msgstr "Desplaça el subtítol cap a la dreta"
+msgid "Subresync: shift +100ms"
+msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2683,14 +2701,10 @@ msgid "Out of memory"
 msgstr "Memòria esgotada"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Error: es necessita el reproductor Flash per al Internet Explorer"
-
-msgctxt "IDS_MAINFRM_78"
-msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
 msgstr ""
-"El QuickTime encara no és compatible amb la versió X64 (no hi ha llibreries "
-"d'Apple disponible)"
+"Error: Requereix l'Adobe Flash Player per a l'Internet Explorer amb el pedaç"
+" d'interruptor d'apagada (killswitch)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -3025,6 +3039,14 @@ msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "Modificador del ratolí FS"
 
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
+
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
 msgstr "Zoom 1 de fotograma"
@@ -3213,9 +3235,9 @@ msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
 msgstr "3GP"
 
-msgctxt "IDS_MFMT_3G2"
-msgid "3G2"
-msgstr "3G2"
+msgctxt "IDS_MFMT_3GA"
+msgid "3GA"
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -4291,8 +4313,8 @@ msgstr ""
 "reproducció"
 
 msgctxt "IDS_CMD_HIBERNATE"
-msgid "/hibernate\tHibernate operating system after playback"
-msgstr "/hibernate\tHiberna el sistema operatiu un cop acabada la reproducció"
+msgid "/hibernate\t\tHibernate operating system after playback"
+msgstr "/hibernate\t\tHiberna el sistema operatiu després de la reproducció"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4355,7 +4377,7 @@ msgid ""
 "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal "
 "whitelist/blacklist for URLs that are always/never processed."
 msgstr ""
-"Processa les URL HTTP(S) amb el Youtube-DL (si està disponible). Existeixen "
+"Processa les URL HTTP(s) amb el Youtube-DL (si està disponible). Existeixen "
 "llistes blanques i negres internes per decidir quines URL es processaran."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
@@ -4601,22 +4623,123 @@ msgstr "Activa post-redimensionament dels píxel shaders"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
-msgstr ""
+msgstr "Interval de refresc (en mil·lisegons) de temps a la barra d'estat"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
 msgstr ""
+"Mostra l'idioma de l'àudio i dels subtítols actuals a la barra d'estat"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
 msgid "Display current fps and rate in status bar"
-msgstr ""
+msgstr "Mostra els fps i la taxa de bits actuals a la barra d'estat"
 
 msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
 msgid ""
 "When save the subtitles file, the language code (if available) text will be "
 "added to suggested file name by default."
 msgstr ""
+"Quan es desi el fitxer de subtítols, el codi d'idioma (si està disponible) "
+"s'afegirà per defecte al nom de fitxer suggerit"
 
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
+msgstr "Utilitza el títol a la llista de fitxers recents."
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
+msgid "Display current A-B repeat marks in status bar."
+msgstr "Mostra les marques A-B de repetició actuals a la barra d'estat"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
+msgid "Display video info (codec name, resolution) in status bar."
 msgstr ""
+"Mostra informació del vídeo (nom del còdec, resolució) a la barra d'estat."
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "WASAPI mode:"
+msgstr "Mode WASAPI:"
+
+msgctxt "IDS_ARS_EXCLUSIVE"
+msgid "Exclusive"
+msgstr "Exclusiu:"
+
+msgctxt "IDS_ARS_SHARED"
+msgid "Shared"
+msgstr "Compartit"
+
+msgctxt "IDS_ARS_BITEXACT_OUTPUT"
+msgid "Allow bit-exact output"
+msgstr "Permetre la sortida exacta de bits."
+
+msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
+msgid "Use system layout channels"
+msgstr "Utilitza els canals de disposició del sistema"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "Dispositiu de so:"
+
+msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
+msgid "Release device when idle"
+msgstr "Allibera el dispositiu quan estigui inactiu"
+
+msgctxt "IDS_ARS_CROSSFEED"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Activa l'estèreo ampliat (crossfeed per a auriculars)"
+
+msgctxt "IDS_ARS_DEVICE_PERIOD"
+msgid "Device buffer:"
+msgstr "Buffer del dispositiu:"
+
+msgctxt "IDS_ARS_CHECK_FORMAT"
+msgid "Do not check format support"
+msgstr "No comprovis el suport de format"
+
+msgctxt "IDS_ARS_STATUS"
+msgid "Status"
+msgstr "Estat"
+
+msgctxt "IDS_ARS_DEVICE"
+msgid "Device:"
+msgstr "Dispositiu:"
+
+msgctxt "IDS_ARS_MODE"
+msgid "Mode:"
+msgstr "Mode:"
+
+msgctxt "IDS_ARS_INPUT"
+msgid "Input"
+msgstr "Entrada"
+
+msgctxt "IDS_ARS_OUTPUT"
+msgid "Output"
+msgstr "Sortida"
+
+msgctxt "IDS_ARS_FORMAT"
+msgid "Format:"
+msgstr "Format:"
+
+msgctxt "IDS_ARS_SAMPLERATE"
+msgid "Sample rate:"
+msgstr "Freqüència de mostratge:"
+
+msgctxt "IDS_ARS_CHANNELS"
+msgid "Channels:"
+msgstr "Canals:"
+
+msgctxt "IDS_ARS_WASAPI_METHOD"
+msgid "WASAPI method:"
+msgstr "Mètode WASAPI:"
+
+msgctxt "IDS_ARS_DUMMY_CHANNELS"
+msgid "Don't fill channels when upmixing"
+msgstr "No omplis els canals quan es faci upmixing"
+
+msgctxt "IDS_AG_DEFAULT"
+msgid "Default"
+msgstr "Per defecte"

@@ -62,12 +62,6 @@
     <Filter Include="Property Dialogs\File Properties\Pages">
       <UniqueIdentifier>{4a9b9989-f6a5-499e-9611-c7bfe024b7a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Quicktime">
-      <UniqueIdentifier>{712820f7-6798-4c06-b4ff-f66492918e78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graph\RealMedia">
-      <UniqueIdentifier>{f4c95cb0-6f49-4d24-9e78-0a89d8a8cf1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Integration\Skype">
       <UniqueIdentifier>{3e62affc-727b-4af9-95eb-76f4eb63918c}</UniqueIdentifier>
     </Filter>
@@ -187,9 +181,6 @@
     <ClCompile Include="MediaFormats.cpp">
       <Filter>Player Config</Filter>
     </ClCompile>
-    <ClCompile Include="MediaPositionList.cpp">
-      <Filter>Player Config</Filter>
-    </ClCompile>
     <ClCompile Include="MediaTypesDlg.cpp">
       <Filter>Modal Dialogs</Filter>
     </ClCompile>
@@ -306,15 +297,6 @@
     </ClCompile>
     <ClCompile Include="PPageWebServer.cpp">
       <Filter>Property Dialogs\Player Options\Pages</Filter>
-    </ClCompile>
-    <ClCompile Include="QuicktimeGraph.cpp">
-      <Filter>Graph\Quicktime</Filter>
-    </ClCompile>
-    <ClCompile Include="RealMediaGraph.cpp">
-      <Filter>Graph\RealMedia</Filter>
-    </ClCompile>
-    <ClCompile Include="RealMediaWindowlessSite.cpp">
-      <Filter>Graph\RealMedia</Filter>
     </ClCompile>
     <ClCompile Include="RegFilterChooserDlg.cpp">
       <Filter>Modal Dialogs</Filter>
@@ -608,8 +590,13 @@
     <ClCompile Include="PlayerPreView.cpp">
       <Filter>Toolbars</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="MPCToolbarLayout.cpp">
       <Filter>Toolbars</Filter>
+    </ClCompile>
+    <ClCompile Include="RegexUtil.cpp" />
+    <ClCompile Include="MediaTransControls.cpp">
+      <Filter>Main View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -701,9 +688,6 @@
       <Filter>Integration\Logitech LCD</Filter>
     </ClInclude>
     <ClInclude Include="MediaFormats.h">
-      <Filter>Player Config</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaPositionList.h">
       <Filter>Player Config</Filter>
     </ClInclude>
     <ClInclude Include="MediaTypesDlg.h">
@@ -825,15 +809,6 @@
     </ClInclude>
     <ClInclude Include="PPageTweaks.h">
       <Filter>Property Dialogs\Player Options\Pages</Filter>
-    </ClInclude>
-    <ClInclude Include="QuicktimeGraph.h">
-      <Filter>Graph\Quicktime</Filter>
-    </ClInclude>
-    <ClInclude Include="RealMediaGraph.h">
-      <Filter>Graph\RealMedia</Filter>
-    </ClInclude>
-    <ClInclude Include="RealMediaWindowlessSite.h">
-      <Filter>Graph\RealMedia</Filter>
     </ClInclude>
     <ClInclude Include="RegFilterChooserDlg.h">
       <Filter>Modal Dialogs</Filter>
@@ -1155,6 +1130,10 @@
     <ClInclude Include="MPCToolbarLayout.h">
       <Filter>Toolbars</Filter>
     </ClInclude>
+    <ClInclude Include="RegexUtil.h" />
+    <ClInclude Include="MediaTransControls.h">
+      <Filter>Main View</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">
@@ -1420,6 +1399,7 @@
     <Image Include="res\darktheme\radios-192.png">
       <Filter>MPCTheme\resources</Filter>
     </Image>
+    <Image Include="res\noimage.png" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\subtitles\favicon_opensubtitles.ico">
@@ -1429,12 +1409,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\subtitles\favicon_subdb.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\subtitles\favicon_titlovi.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\subtitles\favicon_ysubs.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

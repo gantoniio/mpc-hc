@@ -23,6 +23,8 @@
 #include "MainFrm.h"
 #include "PlayerPreView.h"
 #include "CMPCTheme.h"
+#include "mplayerc.h"
+#include "resource.h"
 
 #define PREVIEW_TOOLTIP_BOTTOM 1
 
@@ -39,14 +41,14 @@ BOOL CPreView::SetWindowTextW(LPCWSTR lpString) {
     GetClientRect(&rect);
 
     if (PREVIEW_TOOLTIP_BOTTOM) {
-        rect.top = rect.bottom - m_caption - m_border;
-        rect.bottom = rect.bottom - m_border;
+        rect.top    = rect.bottom - m_border - m_caption + 2;
+        rect.bottom = rect.bottom - m_border - 1;
     } else {
-        rect.top = m_border;
-        rect.bottom = m_caption + m_border;
+        rect.top    = m_border + 1;
+        rect.bottom = m_border + m_caption - 2;
     }
-    rect.left += 10;
-    rect.right -= 10;
+    rect.left  += m_border + 2;
+    rect.right -= m_border + 2;
 
     InvalidateRect(rect);
 
@@ -69,6 +71,13 @@ BEGIN_MESSAGE_MAP(CPreView, CWnd)
     ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
+IMPLEMENT_DYNAMIC(previewView, CWnd)
+
+BEGIN_MESSAGE_MAP(previewView, CWnd)
+    ON_WM_PAINT()
+    ON_WM_ERASEBKGND()
+END_MESSAGE_MAP()
+
 // CPreView message handlers
 
 BOOL CPreView::PreCreateWindow(CREATESTRUCT& cs) {
@@ -86,25 +95,19 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         return -1;
     }
 
-    m_caption = m_pMainFrame->m_dpi.ScaleY(20);
+    m_caption = m_pMainFrame->m_dpi.ScaleY(20) + 3; // 3 pixels of padding
 
     CRect rc;
     GetClientRect(&rc);
 
-    if (AfxGetAppSettings().bMPCTheme) {
-        m_border = 1;
-    } else {
-        m_border = 5;
-    }
-
-    m_videorect.left = (m_border + 1);
-    m_videorect.right = rc.right - (m_border + 1);
+    m_videorect.left = m_border;
+    m_videorect.right = rc.right - m_border;
     if (PREVIEW_TOOLTIP_BOTTOM) { //bottom tooltip
-        m_videorect.top = (m_border + 1);
-        m_videorect.bottom = rc.bottom - (m_caption + 1);
+        m_videorect.top = m_border;
+        m_videorect.bottom = rc.bottom - m_caption;
     } else {
-        m_videorect.top = (m_caption + 1);
-        m_videorect.bottom = rc.bottom - (m_border + 1);
+        m_videorect.top = m_caption;
+        m_videorect.bottom = rc.bottom - m_border;
     }
 
     if (!m_view.Create(nullptr, nullptr, WS_CHILD | WS_VISIBLE, m_videorect, this, 0)) {
@@ -115,6 +118,30 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     SetColor();
 
     return 0;
+}
+
+void previewView::OnPaint() {
+    CPaintDC dc(this);
+    if (onePaint) {
+        CRect rc;
+        GetClientRect(&rc);
+        if (!noImage.m_hObject) {
+            noImage.Load(IDB_NOIMAGE);
+        }
+        CImage i;
+        i.Attach(noImage);
+        CPoint p = { (rc.Width() - i.GetWidth()) / 2, (rc.Height() - i.GetHeight()) / 2 };
+        CRect exRect = { p.x, p.y, p.x + i.GetWidth(), p.y + i.GetHeight() };
+        i.BitBlt(dc, p);
+        i.Detach();
+        dc.ExcludeClipRect(exRect);
+        dc.FillSolidRect(rc, RGB(0, 0, 0)); //fill
+        onePaint = false;
+    }
+}
+
+BOOL previewView::OnEraseBkgnd(CDC* pDC) {
+    return TRUE;
 }
 
 void CPreView::OnPaint() {
@@ -131,62 +158,32 @@ void CPreView::OnPaint() {
     CBitmap* pOldBm = mdc.SelectObject(&bm);
     mdc.SetBkMode(TRANSPARENT);
 
-    COLORREF bg = GetSysColor(COLOR_BTNFACE);
-    COLORREF frameLight = RGB(255, 255, 255);
-    COLORREF frameShadow = GetSysColor(COLOR_BTNSHADOW);
-
+    COLORREF bg;
     if (AfxGetAppSettings().bMPCTheme) {
         bg = CMPCTheme::CMPCTheme::MenuBGColor;
-        frameLight = frameShadow = CMPCTheme::NoBorderColor;
         m_crText = CMPCTheme::TextFGColor;
     } else {
-        m_crText = 0;
+        bg = GetSysColor(COLOR_BTNFACE);
+        m_crText = GetSysColor(COLOR_BTNTEXT);
     }
 
     mdc.FillSolidRect(0, 0, rcBar.Width(), rcBar.Height(), bg); //fill
 
-    mdc.FillSolidRect(0, 0, rcBar.Width(), 1, frameLight); //top border
-    mdc.FillSolidRect(0, rcBar.Height() - 1, rcBar.Width(), 1, frameShadow); //bottom border
-    mdc.FillSolidRect(0, 0, 1, rcBar.Height() - 1, frameLight); //left border
-    mdc.FillSolidRect(rcBar.right - 1, 0, 1, rcBar.Height(), frameShadow); //right border
-
     CRect rtime(rcBar);
     if (PREVIEW_TOOLTIP_BOTTOM) {
-        rtime.top = rcBar.Height() - m_caption - 1;
-        rtime.bottom = rcBar.Height() - 2;
+        rtime.top    = rtime.bottom - m_border - m_caption + 2;
+        rtime.bottom = rtime.bottom - m_border - 1;
     } else {
-        rtime.top = 0;
-        rtime.bottom = m_caption;
+        rtime.top    = m_border + 1;
+        rtime.bottom = m_border + m_caption - 2;
     }
-
-    if (AfxGetAppSettings().bMPCTheme) {
-        mdc.FillSolidRect(1, 1, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor);
-        mdc.FillSolidRect(1, rcBar.Height() - 2, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor);
-        mdc.FillSolidRect(1, 1, 1, rcBar.Height() - 2, CMPCTheme::TooltipBorderColor);
-        mdc.FillSolidRect(rcBar.right - 2, 1, 1, rcBar.Height() - 2, CMPCTheme::TooltipBorderColor);
-        if (PREVIEW_TOOLTIP_BOTTOM) {
-            mdc.FillSolidRect(1, rtime.top, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor); //caption top border
-        } else {
-            mdc.FillSolidRect(1, rtime.bottom, rcBar.Width() - 2, 1, CMPCTheme::TooltipBorderColor); //caption bottom border
-        }
-    } else {
-        if (PREVIEW_TOOLTIP_BOTTOM) {
-            mdc.FillSolidRect(m_border, m_border, rcBar.Width() - 2 * m_border, 1, frameShadow); //video top border
-            mdc.FillSolidRect(m_border, rcBar.Height() - m_caption - 1, rcBar.Width() - 2 * m_border, 1, frameLight); //video bottom border
-            mdc.FillSolidRect(m_border, m_border, 1, rcBar.Height() - m_border - m_caption, frameShadow); //video left border
-            mdc.FillSolidRect(rcBar.right - m_border - 1, m_border + 1, 1, rcBar.Height() - m_border - m_caption - 1, frameLight); //video right border
-        } else {
-            mdc.FillSolidRect(m_border, m_caption, rcBar.Width() - 2 * m_border, 1, frameShadow); //video top border
-            mdc.FillSolidRect(m_border, rcBar.Height() - m_border - 1, rcBar.Width() - 2 * m_border, 1, frameLight); //video bottom border
-            mdc.FillSolidRect(m_border, m_caption, 1, rcBar.Height() - m_border - m_caption, frameShadow); //video left border
-            mdc.FillSolidRect(rcBar.right - m_border - 1, m_caption + 1, 1, rcBar.Height() - m_border - m_caption, frameLight); //video right border
-        }
-    }
+    rtime.left  += m_border + 2;
+    rtime.right -= m_border + 2;
 
     // text
     mdc.SelectObject(&m_font);
     mdc.SetTextColor(m_crText);
-    mdc.DrawTextW(m_tooltipstr, m_tooltipstr.GetLength(), &rtime, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    mdc.DrawTextW(m_tooltipstr, m_tooltipstr.GetLength(), &rtime, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
 
     dc.ExcludeClipRect(m_videorect);
     dc.BitBlt(0, 0, rcBar.Width(), rcBar.Height(), &mdc, 0, 0, SRCCOPY);
@@ -198,6 +195,8 @@ void CPreView::OnPaint() {
 
 void CPreView::OnShowWindow(BOOL bShow, UINT nStatus) {
     if (bShow) {
+        m_view.onePaint = true;
+        UpdateWindow();
         m_pMainFrame->SetPreviewVideoPosition();
     }
 
@@ -215,9 +214,17 @@ void CPreView::SetWindowSize() {
     // the preview size should not be larger than half size of the main window, but not less than 160
     w = std::max(160, std::min(w, wr.Width() / 2));
 
-    int h = (w - ((m_border + 1) * 2)) * 9 / 16;
-    h += (m_caption + 1);
-    h += (m_border + 1);
+    CSize vs;
+
+    vs = m_pMainFrame->GetVideoSizeWithRotation(true);
+    if (vs.cx == 0) {
+        vs.cx = 160;
+        vs.cy = 90;
+    }
+
+    int h = w * vs.cy / vs.cx;
+    w += m_border * 2;
+    h += m_caption + m_border;
 
     CRect rc;
     GetClientRect(&rc);
@@ -225,11 +232,11 @@ void CPreView::SetWindowSize() {
         SetWindowPos(nullptr, 0, 0, w, h, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 
         GetClientRect(&rc);
-        m_videorect.right = rc.right - (m_border + 1);
+        m_videorect.right = rc.right - m_border;
         if (PREVIEW_TOOLTIP_BOTTOM) { //bottom tooltip
-            m_videorect.bottom = rc.bottom - (m_caption + 1);
+            m_videorect.bottom = rc.bottom - m_caption;
         } else {
-            m_videorect.bottom = rc.bottom - (m_border + 1);
+            m_videorect.bottom = rc.bottom - m_border;
         }
 
         m_view.SetWindowPos(nullptr, 0, 0, m_videorect.Width(), m_videorect.Height(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);

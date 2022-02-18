@@ -32,7 +32,6 @@
 #include "resource.h"
 
 #include <atlsync.h>
-#include <afxwinappex.h>
 #include <d3d9.h>
 #include <dxva2api.h>
 #include <vmr9.h>
@@ -40,6 +39,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <afxwinappex.h>
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
@@ -52,11 +52,12 @@
 
 #define MIN_FULLSCREEN_DELAY 0
 #define MAX_FULLSCREEN_DELAY 500
+#define MAX_REGKEY_LEN 255
 
 extern HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper = nullptr);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
-extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = nullptr);
+extern CString GetContentType(CString fn, CAtlList<CString>* redir = nullptr);
 extern WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen = false, bool bCheckMouse = true);
 extern void SetAudioRenderer(int AudioDevNo);
 extern void SetHandCursor(HWND m_hWnd, UINT nID);
@@ -161,8 +162,11 @@ public:
     void FlushProfile(bool bForce = true);
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes) override;
     virtual UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault) override;
+
+    std::list<CStringW> GetSectionSubKeys(LPCWSTR lpszSection);
     virtual CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = nullptr) override;
     virtual BOOL WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes) override;
+    virtual LONG RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry);
     virtual BOOL WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue) override;
     virtual BOOL WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue) override;
     bool HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry);

@@ -20,6 +20,7 @@
  */
 
 #pragma once
+#include "mpc-hc_config.h"
 #include "../Subtitles/STS.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "../thirdparty/sanear/src/Interfaces.h"
@@ -27,7 +28,6 @@
 #include "FileAssoc.h"
 #include "FilterEnum.h"
 #include "MediaFormats.h"
-#include "MediaPositionList.h"
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "SettingsDefines.h"
 #include "Shaders.h"
@@ -149,6 +149,9 @@ enum MCE_RAW_INPUT {
 #define AUDRNDT_NULL_COMP       _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP     _T("Null Audio Renderer (Uncompressed)")
 #define AUDRNDT_INTERNAL        _T("Internal Audio Renderer")
+#define AUDRNDT_SANEAR          _T("SaneAR Audio Renderer")
+#define AUDRNDT_MPC             L"MPC Audio Renderer"
+
 
 #define DEFAULT_SUBTITLE_PATHS  _T(".;.\\subtitles;.\\subs")
 #define DEFAULT_JUMPDISTANCE_1  1000
@@ -422,33 +425,43 @@ public:
 
 #define APPSETTINGS_VERSION 8
 
+struct DVD_POSITION {
+    ULONGLONG           llDVDGuid;
+    ULONG               lTitle;
+    DVD_HMSF_TIMECODE   timecode;
+};
+
 class RecentFileEntry {
 public:
     RecentFileEntry() {}
-    RecentFileEntry(const RecentFileEntry &r) {
+    void InitEntry(const RecentFileEntry& r) {
+        hash = r.hash;
         cue = r.cue;
         title = r.title;
+        filePosition = r.filePosition;
+        DVDPosition = r.DVDPosition;
         fns.RemoveAll();
         subs.RemoveAll();
         fns.AddHeadList(&r.fns);
         subs.AddHeadList(&r.subs);
     }
+    RecentFileEntry(const RecentFileEntry &r) {
+        InitEntry(r);
+    }
 
+    CStringW hash;
     CString title;
     CAtlList<CString> fns;
     CString cue;
     CAtlList<CString> subs;
+    REFERENCE_TIME filePosition=0;
+    DVD_POSITION DVDPosition = {};
 
     BOOL operator==(RecentFileEntry c) {
         return this->fns.GetHead() == c.fns.GetHead() && cue == c.cue;
     }
     void operator=(const RecentFileEntry &r) {
-        cue = r.cue;
-        title = r.title;
-        fns.RemoveAll();
-        subs.RemoveAll();
-        fns.AddHeadList(&r.fns);
-        subs.AddHeadList(&r.subs);
+        InitEntry(r);
     }
 };
 
@@ -474,24 +487,41 @@ class CAppSettings
         CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize) : m_section(lpszSection), m_maxSize(nSize){}
 
         CAtlArray<RecentFileEntry> rfe_array;
-        int m_maxSize;
+        size_t m_maxSize;
         LPCTSTR m_section;
+        REFERENCE_TIME persistedFilePosition = 0;
 
         int GetSize() {
             return (int)rfe_array.GetCount();
         }
 
-        RecentFileEntry& operator[](int nIndex) {
+        RecentFileEntry& operator[](size_t nIndex) {
             ASSERT(nIndex >= 0 && nIndex < rfe_array.GetCount());
             return rfe_array[nIndex];
         }
 
-        void Remove(int nIndex);
+        void Remove(size_t nIndex);
         void Add(LPCTSTR fn);
+        void Add(LPCTSTR fn, ULONGLONG llDVDGuid);
         void Add(RecentFileEntry r);
-        void ReadList();
-        void WriteList();
-        void SetSize(int nSize);
+        void UpdateCurrentFilePosition(REFERENCE_TIME time, bool forcePersist = false);
+        REFERENCE_TIME GetCurrentFilePosition();
+        void UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE *time);
+        void UpdateCurrentDVDTitle(DWORD title);
+        DVD_POSITION GetCurrentDVDPosition();
+        void AddSubToCurrent(CStringW subpath);
+        void SetCurrentTitle(CStringW subpath);
+        void WriteCurrentEntry();
+        void ReadMediaHistory();
+        void WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened = false);
+        void SaveMediaHistory(bool updateLastOpened = false);
+        void ReadLegacyMediaHistory(std::map<CStringW, size_t> &filenameToIndex);
+        void ReadLegacyMediaPosition(std::map<CStringW, size_t> &filenameToIndex);
+        bool LoadMediaHistoryEntryFN(CStringW fn, RecentFileEntry& r);
+        bool LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, CStringW fn, RecentFileEntry& r);
+        bool LoadMediaHistoryEntry(CStringW hash, RecentFileEntry& r);
+        void MigrateLegacyHistory();
+        void SetSize(size_t nSize);
     };
 
 public:
@@ -537,8 +567,6 @@ public:
     int             iRecentFilesNumber;
     CRecentFileListWithMoreInfo MRU;
     CRecentFileAndURLList MRUDub;
-    CFilePositionList filePositions;
-    CDVDPositionList  dvdPositions;
     bool            fRememberDVDPos;
     bool            fRememberFilePos;
     int             iRememberPosForLongerThan;
@@ -567,7 +595,7 @@ public:
     bool            fGlobalMedia;
 
     // Logo
-    UINT            nLogoId;
+    int             nLogoId;
     bool            fLogoExternal;
     BOOL            fLogoColorProfileEnabled;
     CString         strLogoFileName;
@@ -604,6 +632,7 @@ public:
     bool            fReportFailedPins;
     bool            fAutoloadAudio;
     bool            fBlockVSFilter;
+    bool            bBlockRDP;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
     int             nDefaultToolbarSize;
@@ -611,6 +640,10 @@ public:
     bool            bSaveImageCurrentTime;
     bool            bAllowInaccurateFastseek;
     bool            bLoopFolderOnPlayNextFile;
+    bool            bLockNoPause;
+    bool            bUseSMTC;
+    int             iReloadAfterLongPause;
+    bool            bOpenRecPanelWhenOpeningDevice;
 
     enum class AfterPlayback {
         DO_NOTHING,
@@ -621,7 +654,7 @@ public:
         EXIT
     } eAfterPlayback;
 
-    // DVD/OGM
+    // DVD
     bool            fUseDVDPath;
     CString         strDVDPath;
     LCID            idMenuLang, idAudioLang, idSubtitlesLang;
@@ -662,6 +695,7 @@ public:
     int             iBDAScanFreqStart;
     int             iBDAScanFreqEnd;
     int             iBDABandwidth;
+    int             iBDASymbolRate;
     bool            fBDAUseOffset;
     int             iBDAOffset;
     bool            fBDAIgnoreEncryptedChannels;
@@ -781,6 +815,7 @@ public:
     // Add Favorite
     bool            bFavRememberPos;
     bool            bFavRelativeDrive;
+    bool            bFavRememberABMarks;
     // Save Image...
     CString         strSnapshotPath, strSnapshotExt;
     bool			bSnapShotSubtitles;
@@ -806,7 +841,6 @@ public:
     bool            bHighPrecisionTimer;
     bool            fLastFullScreen;
 
-    bool            fIntRealMedia;
     bool            fEnableEDLEditor;
 
     HWND            hMasterWnd;
@@ -864,6 +898,7 @@ public:
     int iYDLMaxHeight;
     int iYDLVideoFormat;
     bool bYDLAudioOnly;
+    CString sYDLExePath;
     CString sYDLCommandLine;
 
     bool bEnableCrashReporter;
@@ -871,9 +906,14 @@ public:
     int nStreamPosPollerInterval;
     bool bShowLangInStatusbar;
     bool bShowFPSInStatusbar;
+    bool bShowABMarksInStatusbar;
+    bool bShowVideoInfoInStatusbar;
 
     bool bAddLangCodeWhenSaveSubtitles;
     bool bUseTitleInRecentFileList;
+    bool bUseSubsFromYDL;
+    CString sYDLSubsPreference;
+    bool bUseAutomaticCaptions;
 
 private:
     struct FilterKey {
@@ -918,7 +958,7 @@ public:
 
     CAppSettings& operator = (const CAppSettings&) = delete;
 
-    void            SaveSettings();
+    void            SaveSettings(bool write_full_history = false);
     void            LoadSettings();
     void            SaveExternalFilters() {
         if (bInitialized) {
@@ -944,3 +984,4 @@ public:
     SubRendererSettings	GetSubRendererSettings();
 #endif
 };
+

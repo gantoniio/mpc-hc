@@ -39,6 +39,7 @@ CPlayerSeekBar::CPlayerSeekBar(CMainFrame* pMainFrame)
     , m_rtStart(0)
     , m_rtStop(0)
     , m_rtPos(0)
+    , m_rtPosDraw(0)
     , m_bEnabled(false)
     , m_bHasDuration(false)
     , m_rtHoverPos(0)
@@ -138,13 +139,15 @@ CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 void CPlayerSeekBar::MoveThumb(const CPoint& point)
 {
     if (m_bHasDuration) {
-        REFERENCE_TIME rtPos = PositionFromClientPoint(point);
+        REFERENCE_TIME rtPosDraw = PositionFromClientPoint(point);
+        REFERENCE_TIME rtPos = rtPosDraw;
         const CAppSettings& s = AfxGetAppSettings();
-        if (s.bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-            REFERENCE_TIME rtMaxDiff = s.bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, m_rtStop / 30);
+        REFERENCE_TIME duration = m_rtStop - m_rtStart;
+        if (duration >= 600000000LL && s.bFastSeek && (GetKeyState(VK_SHIFT) >= 0)) {
+            REFERENCE_TIME rtMaxDiff = s.bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, duration / 30);
             rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos, rtMaxDiff, rtMaxDiff);
         }
-        SyncThumbToVideo(rtPos);
+        SyncThumbToVideo(rtPos, rtPosDraw);
     }
 }
 
@@ -153,15 +156,15 @@ void CPlayerSeekBar::SyncVideoToThumb()
     GetParent()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_hWnd));
 }
 
-void CPlayerSeekBar::CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_duration_change)
+void CPlayerSeekBar::CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_duration_change, ULONGLONG minimum_elapsed_tickcount)
 {
     ULONGLONG tickcount = GetTickCount64();
     ULONGLONG ticks_since_last_seek = tickcount - m_lastDragSeekTickCount;
-    REFERENCE_TIME posdiff = m_rtHoverPos > m_rtPos ? m_rtHoverPos - m_rtPos : m_rtPos - m_rtHoverPos;
+    REFERENCE_TIME posdiff = m_rtHoverPos > m_rtPosDraw ? m_rtHoverPos - m_rtPosDraw : m_rtPosDraw - m_rtHoverPos;
 
-    if (minimum_duration_change == 0 || (ticks_since_last_seek >= 150ULL) && (posdiff >= minimum_duration_change) || (ticks_since_last_seek >= 1000ULL) && (posdiff >= minimum_duration_change / 2)) {
+    if (posdiff >= minimum_duration_change && ticks_since_last_seek >= minimum_elapsed_tickcount) {
         m_lastDragSeekTickCount = tickcount;
-        m_rtHoverPos = m_rtPos;
+        m_rtHoverPos = m_rtPosDraw;
         m_hoverPoint = point;
         SyncVideoToThumb();
     }
@@ -195,9 +198,10 @@ REFERENCE_TIME CPlayerSeekBar::PositionFromClientPoint(const CPoint& point) cons
     return rtRet;
 }
 
-void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
+void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos, REFERENCE_TIME rtPosDraw)
 {
     m_rtPos = rtPos;
+    m_rtPosDraw = rtPosDraw;
     if (m_bHasDuration) {
         CRect newThumbRect(GetThumbRect());
         bool bSetTaskbar = (rtPos <= 0);
@@ -283,7 +287,7 @@ CRect CPlayerSeekBar::GetChannelRect() const
 CRect CPlayerSeekBar::GetThumbRect() const
 {
     const CRect channelRect(GetChannelRect());
-    const long x = channelRect.left + ChannelPointFromPosition(m_rtPos);
+    const long x = channelRect.left + ChannelPointFromPosition(m_rtPosDraw);
     CSize s;
     s.cy = m_pMainFrame->m_dpi.ScaleFloorY(SEEK_DRAGGER_OVERLAP);
     s.cx = m_pMainFrame->m_dpi.TransposeScaledY(channelRect.Height()) / 2 + s.cy;
@@ -317,7 +321,6 @@ void CPlayerSeekBar::UpdateTooltip(const CPoint& point)
         case TOOLTIP_HIDDEN: {
             // If mouse moved or the tooltip wasn't hidden by timeout
             if (point != m_tooltipPoint || m_bIgnoreLastTooltipPoint) {
-                m_bIgnoreLastTooltipPoint = false;
                 // Start show tooltip countdown
                 m_tooltipState = TOOLTIP_TRIGGERED;
                 VERIFY(SetTimer(TIMER_SHOWHIDE_TOOLTIP, TOOLTIP_SHOW_DELAY, nullptr));
@@ -332,7 +335,7 @@ void CPlayerSeekBar::UpdateTooltip(const CPoint& point)
             break;
         case TOOLTIP_VISIBLE:
             // Update the tooltip if needed
-            ASSERT(!m_bIgnoreLastTooltipPoint);
+            ASSERT(!m_bIgnoreLastTooltipPoint || !m_pMainFrame->CanPreviewUse()); // ??
             if (point != m_tooltipPoint) {
                 m_tooltipPoint = point;
                 if (!m_pMainFrame->CanPreviewUse()) {
@@ -513,12 +516,17 @@ void CPlayerSeekBar::SetPos(REFERENCE_TIME rtPos)
         return;
     }
 
-    SyncThumbToVideo(rtPos);
+    SyncThumbToVideo(rtPos, rtPos);
 }
 
 bool CPlayerSeekBar::HasDuration() const
 {
     return m_bHasDuration;
+}
+
+REFERENCE_TIME CPlayerSeekBar::GetDuration()
+{
+    return m_bHasDuration ? m_rtStop - m_rtStart : 0LL;
 }
 
 void CPlayerSeekBar::SetChapterBag(IDSMChapterBag* pCB)
@@ -609,8 +617,20 @@ void CPlayerSeekBar::OnPaint()
             m_lastThumbRect = r;
         }
 
-        // Chapters
         if (m_bHasDuration) {
+            // A-B Repeat
+            REFERENCE_TIME aPos, bPos;
+            bool aEnabled, bEnabled;
+            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
+                if (aEnabled) {
+                    funcMarkChannel(aPos, 1, CMPCTheme::SeekbarABColor);
+                }
+                if (bEnabled) {
+                    funcMarkChannel(bPos, 1, CMPCTheme::SeekbarABColor);
+                }
+            }
+
+            // Chapters
             CAutoLock lock(&m_csChapterBag);
             if (m_pChapterBag) {
                 for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
@@ -622,22 +642,12 @@ void CPlayerSeekBar::OnPaint()
                     }
                 }
             }
-            REFERENCE_TIME aPos, bPos;
-            bool aEnabled, bEnabled;
-            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
-                if (aEnabled) {
-                    funcMarkChannel(aPos, 1, CMPCTheme::SeekbarABColor);
-                }
-                if (bEnabled) {
-                    funcMarkChannel(bPos, 1, CMPCTheme::SeekbarABColor);
-                }
-            }
         }
 
         // Channel
         {
             if (s.bModernSeekbar) {
-                long seekPos = ChannelPointFromPosition(m_rtPos);
+                long seekPos = ChannelPointFromPosition(m_rtPosDraw);
                 CRect r, playedRect, unplayedRect, curPosRect;
                 playedRect = channelRect;
                 playedRect.right = playedRect.left + seekPos - m_pMainFrame->m_dpi.ScaleX(2) + 1;
@@ -688,8 +698,20 @@ void CPlayerSeekBar::OnPaint()
             m_lastThumbRect = r;
         }
 
-        // Chapters
         if (m_bHasDuration) {
+            // A-B Repeat
+            REFERENCE_TIME aPos, bPos;
+            bool aEnabled, bEnabled;
+            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
+                if (aEnabled) {
+                    funcMarkChannel(aPos, 0, CMPCTheme::SeekbarABColor);
+                }
+                if (bEnabled) {
+                    funcMarkChannel(bPos, 0, CMPCTheme::SeekbarABColor);
+                }
+            }
+
+            // Chapters
             CAutoLock lock(&m_csChapterBag);
             if (m_pChapterBag) {
                 for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
@@ -700,17 +722,6 @@ void CPlayerSeekBar::OnPaint()
                         ASSERT(FALSE);
                     }
                 }
-            }
-        }
-
-        REFERENCE_TIME aPos, bPos;
-        bool aEnabled, bEnabled;
-        if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
-            if (aEnabled) {
-                funcMarkChannel(aPos, 0, CMPCTheme::SeekbarABColor);
-            }
-            if (bEnabled) {
-                funcMarkChannel(bPos, 0, CMPCTheme::SeekbarABColor);
             }
         }
 
@@ -742,11 +753,11 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         SetCapture();
         m_bDraggingThumb = true;
         MoveThumb(point);
-        CheckScrollDistance(point, 0);
+        CheckScrollDistance(point, 0ULL, 0LL);
         invalidateThumb();
     } else {
         if (!m_pMainFrame->m_fFullScreen) {
-            MapWindowPoints(m_pMainFrame, &point, 1);
+            ClientToScreen(&point);
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
         }
     }
@@ -762,7 +773,7 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
     if (DraggingThumb()) {
         ReleaseCapture();
         // update video position if seekbar moved at least 250 ms or 1/100th of duration
-        CheckScrollDistance(point, std::min(2500000LL, m_rtStop / 100));
+        CheckScrollDistance(point, std::min(2500000LL, m_rtStop / 100), 0LL);
         invalidateThumb();
     }
     checkHover(point);
@@ -824,26 +835,27 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 
     if (DraggingThumb() && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
-        // update video position if seekbar moved at least 5 sec or 1/30th of duration
-        CheckScrollDistance(point, std::min(50000000LL, m_rtStop / 30));
+        // update video position if seekbar moved at least 500ms or 1/30th of duration
+        CheckScrollDistance(point, std::min(5000000LL, m_rtStop / 30), 150LL);
     }
     if (AfxGetAppSettings().fUseTimeTooltip) {
         UpdateTooltip(point);
     }
 
-    if (m_pMainFrame->CanPreviewUse()) {
+    if (m_bHasDuration && m_pMainFrame->CanPreviewUse()) {
         UpdateTooltip(point);
-    }
 
-    checkHover(point);
-    const OAFilterState fs = m_pMainFrame->GetMediaState();
-    if (fs != -1) {
-        if (m_pMainFrame->CanPreviewUse()) {
-            UpdateToolTipPosition(point);
-            PreviewWindowShow(point);            
+        checkHover(point);
+
+        const OAFilterState fs = m_pMainFrame->m_CachedFilterState;
+        if (fs != -1) {
+            if (m_pMainFrame->CanPreviewUse()) {
+                UpdateToolTipPosition(point);
+                PreviewWindowShow(point);
+            }
+        } else {
+            m_pMainFrame->PreviewWindowHide();
         }
-    } else {
-        m_pMainFrame->PreviewWindowHide();
     }
 }
 
@@ -919,7 +931,8 @@ void CPlayerSeekBar::OnCaptureChanged(CWnd* pWnd)
 }
 
 void CPlayerSeekBar::PreviewWindowShow(CPoint point) {
-    if (point.x != m_last_pointx_preview && !DraggingThumb()) {
+    if ((point.x != m_last_pointx_preview || m_bIgnoreLastTooltipPoint) && !DraggingThumb()) {
+        m_bIgnoreLastTooltipPoint = false;
         m_last_pointx_preview = point.x;
         if (m_pMainFrame->CanPreviewUse()) {
             REFERENCE_TIME newpos = std::clamp(PositionFromClientPoint(point), 0LL, m_rtStop);

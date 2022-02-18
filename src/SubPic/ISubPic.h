@@ -88,7 +88,7 @@ public IUnknown {
     STDMETHOD(GetSourceAndDest)(RECT rcWindow /*[in]*/, RECT rcVideo /*[in]*/,
                                 RECT* pRcSource /*[out]*/,  RECT* pRcDest /*[out]*/,
                                 const double videoStretchFactor = 1.0 /*[in]*/,
-                                int xOffsetInPixels = 1 /*[in]*/) const PURE;
+                                int xOffsetInPixels = 0 /*[in]*/, int yOffsetInPixels = 0 /*[in]*/) const PURE;
     STDMETHOD(SetVirtualTextureSize)(const SIZE pSize, const POINT pTopLeft) PURE;
     STDMETHOD(GetRelativeTo)(RelativeTo* pRelativeTo /*[out]*/) const PURE;
     STDMETHOD(SetRelativeTo)(RelativeTo relativeTo /*[in]*/) PURE;
@@ -201,6 +201,8 @@ public IUnknown {
 
     STDMETHOD_(bool, ResetDevice)() PURE;
     STDMETHOD_(bool, DisplayChange)() PURE;
+
+    STDMETHOD_(void, GetPosition)(RECT* windowRect, RECT* videoRect) PURE;
 };
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))

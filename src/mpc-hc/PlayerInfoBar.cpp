@@ -237,6 +237,11 @@ BOOL CPlayerInfoBar::PreTranslateMessage(MSG* pMsg)
 
 BOOL CPlayerInfoBar::OnEraseBkgnd(CDC* pDC)
 {
+    if (!pDC) {
+        ASSERT(FALSE);
+        return FALSE;
+    }
+
     for (CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
         CRect r;
         pChild->GetClientRect(&r);
@@ -283,7 +288,7 @@ void CPlayerInfoBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
     if (!pFrame->m_fFullScreen) {
-        MapWindowPoints(pFrame, &point, 1);
+        ClientToScreen(&point);
         pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     }
 }

@@ -29,6 +29,8 @@
 #include <sanear/src/Settings.h>
 #include "AppSettings.h"
 #include "PPageOutput.h"
+#include "MpcAudioRenderer/MpcAudioRenderer.h"
+#include "ComPropertySheet.h"
 
 namespace
 {
@@ -70,7 +72,6 @@ IMPLEMENT_DYNAMIC(CPPageAudioRenderer, CMPCThemePPageBase)
 CPPageAudioRenderer::CPPageAudioRenderer()
     : CMPCThemePPageBase(IDD, IDD_PPAGEAUDIORENDERER)
     , m_bExclusiveMode(FALSE)
-    , m_bAllowBitstreaming(TRUE)
     , m_bCrossfeedEnabled(FALSE)
     , m_bIgnoreSystemChannelMixer(TRUE)
     , curAudioRenderer()
@@ -81,7 +82,6 @@ void CPPageAudioRenderer::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
     DDX_Check(pDX, IDC_CHECK1, m_bExclusiveMode);
-    DDX_Check(pDX, IDC_CHECK2, m_bAllowBitstreaming);
     DDX_Check(pDX, IDC_CHECK3, m_bCrossfeedEnabled);
     DDX_Check(pDX, IDC_CHECK4, m_bIgnoreSystemChannelMixer);
     DDX_Check(pDX, IDC_CHECK5, m_bIsEnabled);
@@ -93,7 +93,6 @@ void CPPageAudioRenderer::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageAudioRenderer, CMPCThemePPageBase)
     ON_WM_HSCROLL()
-    ON_UPDATE_COMMAND_UI(IDC_CHECK2, OnUpdateAllowBitstreamingCheckbox)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateCrossfeedGroup)
     ON_BN_CLICKED(IDC_BUTTON1, OnCMoyButton)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateCrossfeedGroup)
@@ -114,6 +113,9 @@ BEGIN_MESSAGE_MAP(CPPageAudioRenderer, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateInternalAudioEnabled)
     ON_UPDATE_COMMAND_UI(IDC_STATIC7, OnUpdateInternalAudioEnabled)
     ON_UPDATE_COMMAND_UI(IDC_STATIC8, OnUpdateInternalAudioEnabled)
+
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateMPCAudioRenderer)
+    ON_BN_CLICKED(IDC_BUTTON3, OnMPCAudioRendererButton)
 
 END_MESSAGE_MAP()
 
@@ -160,7 +162,6 @@ BOOL CPPageAudioRenderer::OnInitDialog()
         }
     }
 
-    m_bAllowBitstreaming = s.sanear->GetAllowBitstreaming();
     m_bCrossfeedEnabled = s.sanear->GetCrossfeedEnabled();
     m_bIgnoreSystemChannelMixer = s.sanear->GetIgnoreSystemChannelMixer();
 
@@ -175,7 +176,12 @@ BOOL CPPageAudioRenderer::OnInitDialog()
     m_slider1.SetPos(crossfeedCuttoffFrequency);
     m_slider2.SetPos(crossfeedLevel);
 
-    curAudioRenderer = s.SelectedAudioRenderer();
+    CPPageOutput* po = static_cast<CPPageOutput*>(FindSiblingPage(RUNTIME_CLASS(CPPageOutput)));
+    if (po) { //output page visible, so we will use its setting (maybe unapplied)
+        curAudioRenderer = po->GetAudioRendererDisplayName();
+    } else {
+        curAudioRenderer = s.SelectedAudioRenderer();
+    }
     m_bIsEnabled = (curAudioRenderer == AUDRNDT_INTERNAL);
 
     UpdateData(FALSE);
@@ -201,7 +207,6 @@ BOOL CPPageAudioRenderer::OnApply()
     s.sanear->GetOutputDevice(nullptr, nullptr, &buffer);
     s.sanear->SetOutputDevice(deviceId, m_bExclusiveMode, buffer);
 
-    s.sanear->SetAllowBitstreaming(m_bAllowBitstreaming);
     s.sanear->SetCrossfeedSettings(m_slider1.GetPos(), m_slider2.GetPos());
     s.sanear->SetCrossfeedEnabled(m_bCrossfeedEnabled);
     s.sanear->SetIgnoreSystemChannelMixer(m_bIgnoreSystemChannelMixer);
@@ -244,6 +249,91 @@ void CPPageAudioRenderer::OnClickInternalAudioRenderer()
     SetModified(TRUE);
 }
 
+void CPPageAudioRenderer::ShowPPage(CUnknown* (WINAPI* CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr)) {
+    if (!CreateInstance) {
+        return;
+    }
+
+    HRESULT hr;
+    CUnknown* pObj = CreateInstance(nullptr, &hr);
+
+    if (!pObj) {
+        return;
+    }
+
+    CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pObj;
+
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
+            CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), this);
+            ps.AddPages(pSPP);
+            ps.DoModal();
+        }
+    }
+}
+
+void CPPageAudioRenderer::OnMPCAudioRendererButton() {
+    if (curAudioRenderer == AUDRNDT_MPC) {
+        ShowPPage(CreateInstance<CMpcAudioRenderer>);
+    } else {
+        BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
+            LPOLESTR olestr = nullptr;
+            if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
+                continue;
+            }
+
+            CStringW str(olestr);
+            CoTaskMemFree(olestr);
+
+            if (str == curAudioRenderer) {
+                CComPtr<IBaseFilter> pBF;
+                HRESULT hr = pMoniker->BindToObject(nullptr, nullptr, IID_PPV_ARGS(&pBF));
+                if (SUCCEEDED(hr)) {
+                    ISpecifyPropertyPages* pProp = nullptr;
+                    hr = pBF->QueryInterface(IID_PPV_ARGS(&pProp));
+                    if (SUCCEEDED(hr)) {
+                        // Get the filter's name and IUnknown pointer.
+                        FILTER_INFO FilterInfo;
+                        hr = pBF->QueryFilterInfo(&FilterInfo);
+                        if (SUCCEEDED(hr)) {
+                            IUnknown* pFilterUnk;
+                            hr = pBF->QueryInterface(IID_PPV_ARGS(&pFilterUnk));
+                            if (SUCCEEDED(hr)) {
+
+                                // Show the page.
+                                CAUUID caGUID;
+                                pProp->GetPages(&caGUID);
+                                pProp->Release();
+
+                                OleCreatePropertyFrame(
+                                    this->m_hWnd,			// Parent window
+                                    0, 0,					// Reserved
+                                    FilterInfo.achName,		// Caption for the dialog box
+                                    1,						// Number of objects (just the filter)
+                                    &pFilterUnk,			// Array of object pointers.
+                                    caGUID.cElems,			// Number of property pages
+                                    caGUID.pElems,			// Array of property page CLSIDs
+                                    0,						// Locale identifier
+                                    0, nullptr				// Reserved
+                                );
+
+                                // Clean up.
+                                CoTaskMemFree(caGUID.pElems);
+                                pFilterUnk->Release();
+                            }
+                            if (FilterInfo.pGraph) {
+                                FilterInfo.pGraph->Release();
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        EndEnumSysDev
+    }
+}
+
 void CPPageAudioRenderer::OnCMoyButton()
 {
     m_slider1.SetPos(SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_CMOY);
@@ -258,11 +348,6 @@ void CPPageAudioRenderer::OnJMeierButton()
     SetModified(TRUE);
 }
 
-void CPPageAudioRenderer::OnUpdateAllowBitstreamingCheckbox(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK1) && m_bIsEnabled);
-}
-
 void CPPageAudioRenderer::OnUpdateCrossfeedGroup(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK3) && m_bIsEnabled);
@@ -272,8 +357,18 @@ void CPPageAudioRenderer::OnUpdateInternalAudioEnabled(CCmdUI* pCmdUI) {
     pCmdUI->Enable(m_bIsEnabled);
 }
 
+void CPPageAudioRenderer::OnUpdateMPCAudioRenderer(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(curAudioRenderer == AUDRNDT_MPC);
+}
+
+
 void CPPageAudioRenderer::SetEnabled(bool enabled) {
     m_bIsEnabled = enabled;
+}
+
+void CPPageAudioRenderer::SetCurAudioRenderer(CString renderer) {
+    curAudioRenderer = renderer;
+    SetEnabled(renderer == AUDRNDT_INTERNAL);
 }
 
 void CPPageAudioRenderer::OnUpdateCrossfeedCutoffLabel(CCmdUI* pCmdUI)

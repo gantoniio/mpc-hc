@@ -205,7 +205,6 @@ BOOL CPPagePlayer::OnApply()
         for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
             s.MRUDub.Remove(i);
         }
-        s.MRU.WriteList();
         s.MRUDub.WriteList();
 
         // Empty the "Recent" jump list
@@ -220,12 +219,6 @@ BOOL CPPagePlayer::OnApply()
     } else {
         // Re-enable Windows recent menu and the "Recent" jump list if needed
         s.fileAssoc.SetNoRecentDocs(false, true);
-    }
-    if (!m_fKeepHistory || !m_fRememberFilePos) {
-        s.filePositions.Empty();
-    }
-    if (!m_fKeepHistory || !m_fRememberDVDPos) {
-        s.dvdPositions.Empty();
     }
 
     // Check if the settings location needs to be changed
@@ -267,13 +260,17 @@ void CPPagePlayer::OnUpdateSaveToIni(CCmdUI* pCmdUI)
     ULONGLONG dwTick = GetTickCount64();
     // run this check no often than once per second
     if (dwTick - m_dwCheckIniLastTick >= 1000ULL) {
-        CPath iniDirPath(AfxGetMyApp()->GetIniPath());
-        VERIFY(iniDirPath.RemoveFileSpec());
-        HANDLE hDir = CreateFile(iniDirPath, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
-                                 OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
-        // gray-out "save to .ini" option when we don't have writing permissions in the target directory
-        pCmdUI->Enable(hDir != INVALID_HANDLE_VALUE);
-        CloseHandle(hDir);
+        CPath iniPath = AfxGetMyApp()->GetIniPath();
+        HANDLE hFile = CreateFile(iniPath, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+        if (hFile == INVALID_HANDLE_VALUE) {
+            CPath iniDirPath(iniPath);
+            VERIFY(iniDirPath.RemoveFileSpec());
+            HANDLE hDir = CreateFile(iniDirPath, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+            // gray-out "save to .ini" option when we don't have writing permissions in the target directory
+            pCmdUI->Enable(hDir != INVALID_HANDLE_VALUE);
+            CloseHandle(hDir);
+        }
+        CloseHandle(hFile);
         m_dwCheckIniLastTick = dwTick;
     }
 }

@@ -20,10 +20,11 @@
  */
 
 #include "stdafx.h"
+#include <strsafe.h>
+#include <WinAPIUtils.h>
 #include "FavoriteOrganizeDlg.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include <strsafe.h>
 #include "CMPCTheme.h"
 
 // CFavoriteOrganizeDlg dialog
@@ -58,25 +59,18 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
     } else {
         m_list.DeleteAllItems();
 
-        POSITION pos = m_sl[i].GetHeadPosition(), tmp;
-        while (pos) {
+        for(POSITION pos = m_sl[i].GetHeadPosition(), tmp; pos; ) {
             tmp = pos;
 
-            CAtlList<CString> sl;
-            ExplodeEsc(m_sl[i].GetNext(pos), sl, _T(';'), 3);
+            FileFavorite ff;
+            VERIFY(FileFavorite::TryParse(m_sl[i].GetNext(pos), ff));
 
-            int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
+            int n = m_list.InsertItem(m_list.GetItemCount(), ff.Name);
             m_list.SetItemData(n, (DWORD_PTR)tmp);
 
-            if (!sl.IsEmpty()) {
-                REFERENCE_TIME rt = 0;
-                if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
-                    DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
-
-                    CString str;
-                    str.Format(_T("[%02u:%02u:%02u]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
-                    m_list.SetItemText(n, 1, str);
-                }
+            CString str = ff.ToString();
+            if (!str.IsEmpty()) {
+                m_list.SetItemText(n, 1, str);
             }
         }
 
@@ -311,6 +305,15 @@ void CFavoriteOrganizeDlg::OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult)
             }
             *pResult = 1;
             break;
+
+        case 'C':
+            if (GetKeyState(VK_CONTROL) < 0) {
+                if(m_tab.GetCurSel() == 0) {   // Files
+                    CopyToClipboard();
+                }
+            }
+            *pResult = 1;
+            break;
         default:
             *pResult = 0;
     }
@@ -448,4 +451,30 @@ void CFavoriteOrganizeDlg::OnLvnGetInfoTipList(NMHDR* pNMHDR, LRESULT* pResult)
     StringCchCopy(pGetInfoTip->pszText, pGetInfoTip->cchTextMax, path.Mid(rootLength));
 
     *pResult = 0;
+}
+
+
+void CFavoriteOrganizeDlg::CopyToClipboard()
+{
+    CAtlList<CString>* pSL = &m_sl[m_tab.GetCurSel()];
+
+    // Iterate through selected items
+    CString favorites;
+    for(POSITION pos = m_list.GetFirstSelectedItemPosition(); pos; ) {
+        int iItem = m_list.GetNextSelectedItem(pos);
+        const CString& fav = pSL->GetAt((POSITION)m_list.GetItemData(iItem));
+        CAtlList<CString> args;
+        ((CMainFrame*)GetParentFrame())->ParseFavoriteFile(fav, args);
+
+        CString path = args.GetHead().Trim();
+        if (!path.IsEmpty()) {
+            favorites.Append(path);
+            favorites.Append(_T("\r\n"));
+        }
+    }
+
+    if (!favorites.IsEmpty()) {
+        CClipboard clipboard(this);
+        VERIFY(clipboard.SetText(favorites));
+    }
 }

@@ -71,7 +71,7 @@ public:
     DWORD      SrtResX = 1920;
     DWORD      SrtResY = 1080;
     bool       Kerning = false;
-    bool       ScaledBorderAndShadow = true;
+    bool       ScaledBorderAndShadow = false;
     CString    customTags;
 #endif
 
@@ -150,6 +150,7 @@ protected:
 public:
     CString m_name;
     LCID m_lcid;
+    CString m_langname;
     Subtitle::SubType m_subtitleType;
     tmode m_mode;
     CTextFile::enc m_encoding;
@@ -194,6 +195,8 @@ public:
 
     bool Open(CString fn, int CharSet, CString name = _T(""), CString videoName = _T(""));
     bool Open(CTextFile* f, int CharSet, CString name);
+    bool Open(BYTE* data, int length, int CharSet, CString provider, CString lang, CString ext = _T(""));
+    bool Open(CString data, CTextFile::enc SaveCharSet, int ReadCharSet, CString provider, CString lang, CString ext = _T(""));
     bool Open(BYTE* data, int len, int CharSet, CString name);
     bool Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid);
     bool SaveAs(CString fn, Subtitle::SubType type, double fps = -1, LONGLONG delay = 0, CTextFile::enc e = CTextFile::DEFAULT_ENCODING, bool bCreateExternalStyleFile = true);
