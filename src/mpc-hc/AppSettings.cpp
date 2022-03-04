@@ -1207,7 +1207,6 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, lastQuickOpenPath);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_SAVEIMAGE_PATH, lastSaveImagePath);
 
-
     if (fKeepHistory) {
         if (write_full_history) {
             MRU.SaveMediaHistory();
