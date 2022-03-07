@@ -3386,9 +3386,6 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
     CString strLanguage;
     if (m_lcid && m_lcid != LCID(-1)) {
-        WCHAR strNameBuffer[LOCALE_NAME_MAX_LENGTH];
-        //if (0 == LCIDToLocaleName(m_lcid, strNameBuffer, LOCALE_NAME_MAX_LENGTH, 0)) {
-
         WCHAR dispName[1024];
         memset(dispName, 0, 1024 * sizeof(WCHAR));
         if (0 == GetLocaleInfoEx(m_langname, LOCALE_SLOCALIZEDDISPLAYNAME, (LPWSTR)&dispName, 1024)) {
