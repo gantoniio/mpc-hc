@@ -10889,12 +10889,19 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     CMonitors monitors;
     CMonitor defaultMonitor = monitors.GetPrimaryMonitor();
     CMonitor currentMonitor = monitors.GetNearestMonitor(this);
+    CMonitor fullscreenMonitor = monitors.GetMonitor(s.strFullScreenMonitor);
+    if (!fullscreenMonitor.IsMonitor()) {
+        fullscreenMonitor = currentMonitor;
+    }
 
     const CWnd* pInsertAfter = nullptr;
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
 
-    bool fullScreenSecondMonitor = true; //adipose-fixme to decide when to do this
+    bool fullScreenSecondMonitor = false;
+    if (fullscreenMonitor.IsMonitor() && fullscreenMonitor != currentMonitor) {
+        fullScreenSecondMonitor = true;
+    }
 
     if (!fullScreenSecondMonitor && s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         BOOL setEnabled = TRUE;
@@ -10964,27 +10971,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 AutoChangeMonitorMode();
             }
 
-            CMonitor monitor;
-            if (s.strFullScreenMonitor != _T("Current")) {
-                for (int i = 0; i < monitors.GetCount(); i++) {
-                    monitor = monitors.GetMonitor(i);
-                    if (!monitor.IsMonitor()) {
-                        continue;
-                    }
-                    CString str;
-                    monitor.GetName(str);
-                    if (s.strFullScreenMonitor == str) {
-                        break;
-                    }
-                    monitor.Detach();
-                }
-            }
-            if (!monitor.IsMonitor()) {
-                monitor = currentMonitor;
-            }
-
             dwRemove |= WS_CAPTION | WS_THICKFRAME;
-            if (s.fPreventMinimize && monitor != defaultMonitor) {
+            if (s.fPreventMinimize && fullscreenMonitor != defaultMonitor) {
                 dwRemove |= WS_MINIMIZEBOX;
             }
 
@@ -10992,7 +10980,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             pInsertAfter = &wndTopMost;
 
             if (fToNearest) {
-                monitor.GetMonitorRect(windowRect);
+                fullscreenMonitor.GetMonitorRect(windowRect);
             } else {
                 GetDesktopWindow()->GetWindowRect(windowRect);
             }
@@ -11232,9 +11220,9 @@ void CMainFrame::SetDispMode(CString displayName, const DisplayMode& dm, int msA
 
     m_eventc.FireEvent(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
     if (AfxGetAppSettings().autoChangeFSMode.bRestoreResAfterProgExit) {
-        ret = ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
+        ret = ChangeDisplaySettingsExW(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
     } else {
-        ret = ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, 0, nullptr);
+        ret = ChangeDisplaySettingsExW(displayName, &dmScreenSettings, nullptr, 0, nullptr);
     }
     m_eventc.FireEvent(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
 
@@ -17944,19 +17932,9 @@ bool CMainFrame::CreateFullScreenWindow(bool isD3D /* = true */)
         m_pFullscreenWnd->DestroyWindow();
     }
 
-    if (s.iMonitor == 0 && s.strFullScreenMonitor != _T("Current")) {
+    if (s.iMonitor == 0) {
         CMonitors monitors;
-        for (int i = 0; i < monitors.GetCount(); i++) {
-            monitor = monitors.GetMonitor(i);
-            if (monitor.IsMonitor()) {
-                CString str;
-                monitor.GetName(str);
-                if (s.strFullScreenMonitor == str) {
-                    break;
-                }
-                monitor.Detach();
-            }
-        }
+        monitor = monitors.GetMonitor(s.strFullScreenMonitor);
     }
 
     if (!monitor.IsMonitor()) {
