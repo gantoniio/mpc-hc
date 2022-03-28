@@ -7503,7 +7503,7 @@ void CMainFrame::OnViewModifySize(UINT nID)
     CRect videoRect;
     m_pVideoWnd->GetWindowRect(&videoRect);
     LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
-    LONG newHeight = ceil(newWidth * videoRatio);
+    LONG newHeight = (LONG)ceil(newWidth * videoRatio);
 
     CRect rect;
     GetWindowRect(&rect);
@@ -10581,6 +10581,11 @@ void CMainFrame::SetDefaultFullscreenState()
 {
     CAppSettings& s = AfxGetAppSettings();
 
+    if (s.fLaunchfullscreen) {
+        // delay going into fullscreen
+        return;
+    }
+
     bool clGoFullscreen = !(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN);
 
     if (clGoFullscreen && !s.slFiles.IsEmpty()) {
@@ -10966,10 +10971,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             // Destroy the Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
             if (m_fFirstFSAfterLaunchOnFS) {
+                m_fFirstFSAfterLaunchOnFS = false;
                 if (s.fRememberZoomLevel) {
                     ZoomVideoWindow();
                 }
-                m_fFirstFSAfterLaunchOnFS = false;
             }
         }
         MoveVideoWindow();
@@ -11006,6 +11011,17 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         } else {
             m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
+            if (m_pVideoWnd != &m_wndView) {
+                m_pVideoWnd = &m_wndView;
+                m_OSD.SetVideoWindow(m_pVideoWnd);
+                if (m_pMFVDC) {
+                    m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
+                } else if (m_pVMRWC) {
+                    m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
+                }
+            }
+            m_pFullscreenWnd->DestroyWindow();
+
             if (s.autoChangeFSMode.bEnabled && s.autoChangeFSMode.bApplyDefaultModeAtFSExit && !s.autoChangeFSMode.modes.empty() && s.autoChangeFSMode.modes[0].bChecked) {
                 SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm, s.fAudioTimeShift ? s.iAudioTimeShift : 0); // Restore default time shift
             }
@@ -11022,8 +11038,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                     dwAdd |= WS_CAPTION;
                 }
             }
-
-            m_pFullscreenWnd->DestroyWindow();
 
             if (m_wndPlaylistBar.IsHiddenDueToFullscreen() && !m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
                 m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
@@ -19170,7 +19184,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     }
     if (message == WM_ACTIVATE || message == WM_SETFOCUS) {
         if (AfxGetMyApp()->m_fClosingState) {
-            ASSERT(false);
+            TRACE(_T("Dropped WindowProc: message %u value %d\n"), message, LOWORD(wParam));
             return 0;
         }
     }
@@ -20293,7 +20307,7 @@ void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt) {
     __super::OnMouseHWheel(nFlags, zDelta, pt);
 }
 
-BOOL CMainFrame::AppendMenuEx(CMenu& menu, UINT nFlags, UINT_PTR nIDNewItem, CString& text)
+BOOL CMainFrame::AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text)
 {
     text.Replace(_T("&"), _T("&&"));
     auto bResult = menu.AppendMenu(nFlags, nIDNewItem, text.GetString());

@@ -2003,10 +2003,6 @@ void CAppSettings::LoadSettings()
     iReloadAfterLongPause = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RELOAD_AFTER_LONG_PAUSE, -1);
     bOpenRecPanelWhenOpeningDevice = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OPEN_REC_PANEL_WHEN_OPENING_DEVICE, TRUE);
 
-    if (fLaunchfullscreen && slFiles.GetCount() > 0) {
-        nCLSwitches |= CLSW_FULLSCREEN;
-    }
-
     sanear->SetOutputDevice(pApp->GetProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID),
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, FALSE),
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER,
@@ -3104,7 +3100,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
         pApp->WriteProfileString(subSection, t, strValue);
     } else {
         t = L"FilePosition";
-        pApp->WriteProfileInt(subSection, t, r.filePosition / 10000LL);
+        pApp->WriteProfileInt(subSection, t, int(r.filePosition / 10000LL));
         persistedFilePosition = r.filePosition;
     }
     if (updateLastOpened || r.lastOpened.IsEmpty()) {
