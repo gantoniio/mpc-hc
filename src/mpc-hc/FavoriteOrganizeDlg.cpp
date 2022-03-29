@@ -237,11 +237,11 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 
         if (!isEdited) {
             str = m_list.GetItemText(nItem, 0);
-            dcMem.DrawTextW(str, rText, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_LEFT);
+            dcMem.DrawTextW(str, rText, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_LEFT | DT_NOPREFIX);
         }
         str = m_list.GetItemText(nItem, 1);
         if (!str.IsEmpty()) {
-            dcMem.DrawTextW(str, rTime, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_LEFT);
+            dcMem.DrawTextW(str, rTime, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_LEFT | DT_NOPREFIX);
         }
         if (isEdited) { //added to reduce flicker while editing.  
             CRect r;
