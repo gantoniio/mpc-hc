@@ -476,7 +476,7 @@ BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
                 *pResult = CDRF_SKIPDEFAULT;
             }
         } else if (pLVCD->nmcd.dwDrawStage == (CDDS_ITEMPREPAINT | CDDS_SUBITEM)) {
-            if (LVS_OWNERDRAWFIXED == (GetStyle() & LVS_OWNERDRAWFIXED)) {
+            if (GetStyle() & LVS_OWNERDRAWFIXED) {
                 //found that for ownerdraw routines, we can end up here and draw both ways on hover/tooltip. this should prevent it
                 *pResult = CDRF_DODEFAULT;
             } else {
