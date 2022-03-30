@@ -473,7 +473,6 @@ void CFavoriteOrganizeDlg::OnSize(UINT nType, int cx, int cy)
     __super::OnSize(nType, cx, cy);
 
     if (IsWindow(m_list)) {
-        m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
         UpdateColumnsSizes(); //on first size, we need to call this, or it doesn't use the full window until a rename/resize
     }
 }
