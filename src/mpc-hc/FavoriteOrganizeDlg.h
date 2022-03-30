@@ -46,6 +46,7 @@ public:
     CMPCThemeTabCtrl m_tab;
     CMPCThemePlayerListCtrl m_list;
     bool firstSize=false;
+    int minSizeTime = 0;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

@@ -87,8 +87,9 @@ void CFavoriteOrganizeDlg::UpdateColumnsSizes()
     if (firstSize) {
         m_list.SetColumnWidth(1, LVSCW_AUTOSIZE); //this is needed to calculate the min width, but don't keep resetting it or you get flicker
         firstSize = false;
+        minSizeTime = m_list.GetColumnWidth(1);
     }
-    m_list.SetColumnWidth(1, std::max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
+    m_list.SetColumnWidth(1, std::max(minSizeTime, r.Width() - m_list.GetColumnWidth(0)));
 }
 
 void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
@@ -127,6 +128,7 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
 {
     __super::OnInitDialog();
     firstSize = true;
+    minSizeTime = 0;
     m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
     m_tab.InsertItem(1, ResStr(IDS_FAVDVDS));
     //  m_tab.InsertItem(2, ResStr(IDS_FAVDEVICES));
