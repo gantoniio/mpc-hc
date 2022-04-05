@@ -52,6 +52,7 @@
 #include "AppSettings.h"
 #include "../filters/transform/VSFilter/IDirectVobSub.h"
 #include "MediaTransControls.h"
+#include "FavoriteOrganizeDlg.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -600,6 +601,8 @@ protected:
 protected:
     friend class CSubtitleDlDlg;
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
+    friend class CFavoriteOrganizeDlg;
+    CFavoriteOrganizeDlg m_wndFavoriteOrganizeDialog;
     //friend class CSubtitleUpDlg;
     //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
     friend class CPPageSubMisc;
