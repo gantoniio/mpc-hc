@@ -601,9 +601,9 @@ protected:
 protected:
     friend class CSubtitleDlDlg;
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
-    CFavoriteOrganizeDlg m_wndFavoriteOrganizeDialog;
     //friend class CSubtitleUpDlg;
     //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
+    CFavoriteOrganizeDlg m_wndFavoriteOrganizeDialog;
     friend class CPPageSubMisc;
 
     friend class SubtitlesProviders;
