@@ -26,6 +26,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "CMPCTheme.h"
+#undef SubclassWindow
 
 // CFavoriteOrganizeDlg dialog
 
@@ -82,9 +83,13 @@ void CFavoriteOrganizeDlg::UpdateColumnsSizes()
 {
     CRect r;
     m_list.GetClientRect(r);
-    m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
-    m_list.SetColumnWidth(1, LVSCW_AUTOSIZE);
-    m_list.SetColumnWidth(1, std::max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
+    m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+    if (firstSize) {
+        m_list.SetColumnWidth(1, LVSCW_AUTOSIZE); //this is needed to calculate the min width, but don't keep resetting it or you get flicker
+        firstSize = false;
+        minSizeTime = m_list.GetColumnWidth(1);
+    }
+    m_list.SetColumnWidth(1, std::max(minSizeTime, r.Width() - m_list.GetColumnWidth(0)));
 }
 
 void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
@@ -122,7 +127,8 @@ END_MESSAGE_MAP()
 BOOL CFavoriteOrganizeDlg::OnInitDialog()
 {
     __super::OnInitDialog();
-
+    firstSize = true;
+    minSizeTime = 0;
     m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
     m_tab.InsertItem(1, ResStr(IDS_FAVDVDS));
     //  m_tab.InsertItem(2, ResStr(IDS_FAVDEVICES));
@@ -180,48 +186,83 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
     }
 
     int nItem = lpDrawItemStruct->itemID;
-    CRect rcItem = lpDrawItemStruct->rcItem;
+    if (m_list.IsItemVisible(nItem)) {
+        CEdit* pEdit = m_list.GetEditControl();
 
-    CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+        CRect rcItem = lpDrawItemStruct->rcItem;
+        CRect rText, rTime, rectDC, rHighlight;
 
-    if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-        if (AppIsThemeLoaded()) {
-            CBrush b(CMPCTheme::ContentSelectedColor);
-            pDC->FillRect(rcItem, &b);
-        } else {
-            CBrush b1, b2;
-            b1.CreateSolidBrush(0xf1dacc);
-            pDC->FillRect(rcItem, &b1);
-            b1.DeleteObject();
-            b2.CreateSolidBrush(0xc56a31);
-            pDC->FrameRect(rcItem, &b2);
-            b2.DeleteObject();
-        }
-    } else {
+        m_list.GetSubItemRect(nItem, 0, LVIR_LABEL, rText);
+        rText.left += 2; //magic number for column 0
+        m_list.GetSubItemRect(nItem, 1, LVIR_LABEL, rTime);
+        rTime.right -= 6; //magic number for column >0, from right
+        rectDC = rcItem;
+        rHighlight = rcItem;
+        rHighlight.left = rText.left;
+        rHighlight.right = rTime.right;
+
+        CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+        int savedDC = pDC->SaveDC();
+        bool isSelected = !!m_list.GetItemState(nItem, LVIS_SELECTED);
+        bool isEdited = pEdit && ::IsWindow(pEdit->m_hWnd) && isSelected;
+
+        CDC dcMem;
+        CBitmap bmMem;
+        CMPCThemeUtil::initMemDC(pDC, dcMem, bmMem, rectDC);
+        rcItem.OffsetRect(-rectDC.TopLeft());
+        rText.OffsetRect(-rectDC.TopLeft());
+        rTime.OffsetRect(-rectDC.TopLeft());
+        rHighlight.OffsetRect(-rectDC.TopLeft());
+
         if (AppIsThemeLoaded()) {
             CBrush b(CMPCTheme::ContentBGColor);
-            pDC->FillRect(rcItem, &b);
+            dcMem.FillRect(rcItem, &b);
         } else {
             CBrush b;
             b.CreateSysColorBrush(COLOR_WINDOW);
-            pDC->FillRect(rcItem, &b);
+            dcMem.FillRect(rcItem, &b);
         }
-    }
 
-    COLORREF textcolor;
-    if (AppIsThemeLoaded()) {
-        textcolor = CMPCTheme::TextFGColor;
-    } else {
-        textcolor = 0;
-    }
-    pDC->SetTextColor(textcolor);
+        if (isSelected) {
+            if (AppIsThemeLoaded()) {
+                dcMem.FillSolidRect(rHighlight, CMPCTheme::ContentSelectedColor);
+            } else {
+                CBrush b1, b2;
+                b1.CreateSolidBrush(0xf1dacc);
+                dcMem.FillRect(rHighlight, &b1);
+                b1.DeleteObject();
+                b2.CreateSolidBrush(0xc56a31);
+                dcMem.FrameRect(rHighlight, &b2);
+                b2.DeleteObject();
+            }
+        }
 
-    CString str;
-    str = m_list.GetItemText(nItem, 0);
-    pDC->TextOut(rcItem.left + 3, (rcItem.top + rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
-    str = m_list.GetItemText(nItem, 1);
-    if (!str.IsEmpty()) {
-        pDC->TextOut(rcItem.right - pDC->GetTextExtent(str).cx - 3, (rcItem.top + rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
+        COLORREF textcolor;
+        if (AppIsThemeLoaded()) {
+            textcolor = CMPCTheme::TextFGColor;
+        } else {
+            textcolor = 0;
+        }
+        dcMem.SetTextColor(textcolor);
+
+        CString str;
+
+        if (!isEdited) {
+            str = m_list.GetItemText(nItem, 0);
+            dcMem.DrawTextW(str, rText, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_LEFT | DT_NOPREFIX);
+        }
+        str = m_list.GetItemText(nItem, 1);
+        if (!str.IsEmpty()) {
+            dcMem.DrawTextW(str, rTime, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_RIGHT | DT_NOPREFIX);
+        }
+        if (isEdited) { //added to reduce flicker while editing.  
+            CRect r;
+            pEdit->GetWindowRect(r);
+            m_list.ScreenToClient(r);
+            pDC->ExcludeClipRect(r);
+        }
+        CMPCThemeUtil::flushMemDC(pDC, dcMem, rectDC);
+        pDC->RestoreDC(savedDC);
     }
 }
 
@@ -434,7 +475,7 @@ void CFavoriteOrganizeDlg::OnSize(UINT nType, int cx, int cy)
     __super::OnSize(nType, cx, cy);
 
     if (IsWindow(m_list)) {
-        m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+        UpdateColumnsSizes(); //on first size, we need to call this, or it doesn't use the full window until a rename/resize
     }
 }
 
@@ -448,7 +489,7 @@ void CFavoriteOrganizeDlg::OnLvnGetInfoTipList(NMHDR* pNMHDR, LRESULT* pResult)
     // Relative to drive value is always third. If less args are available that means it is not included.
     int rootLength = (args.GetCount() == 3 && args.RemoveTail() != _T("0")) ? CPath(path).SkipRoot() : 0;
 
-    StringCchCopy(pGetInfoTip->pszText, pGetInfoTip->cchTextMax, path.Mid(rootLength));
+    StringCchCopyW(pGetInfoTip->pszText, pGetInfoTip->cchTextMax, path.Mid(rootLength));
 
     *pResult = 0;
 }

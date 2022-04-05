@@ -259,7 +259,7 @@ private:
     CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;
-    CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> m_pAMMC;
+    CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> m_pAMMC[2];
     CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> m_pAMNS;
     // SmarkSeek
     CComPtr<IGraphBuilder2>         m_pGB_preview;
@@ -511,6 +511,8 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
+    bool m_fStartInFullscreenMainFrame;
+    bool m_bFullScreenWindowIsD3D;
 
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
     CComPtr<ISyncClock> m_pSyncClock;
@@ -520,6 +522,9 @@ public:
     bool IsMenuHidden() const;
     bool IsPlaylistEmpty() const;
     bool IsInteractiveVideo() const;
+    bool IsFullScreenMode() const;
+    bool IsFullScreenMainFrame() const;
+    bool HasFullScreenWindow() const;
     bool IsD3DFullScreenMode() const;
     bool IsSubresyncBarVisible() const;
 
@@ -947,6 +952,7 @@ public:
     afx_msg void OnUpdateViewZoom(CCmdUI* pCmdUI);
     afx_msg void OnViewZoomAutoFit();
     afx_msg void OnViewZoomAutoFitLarger();
+    afx_msg void OnViewModifySize(UINT nID);
     afx_msg void OnViewDefaultVideoFrame(UINT nID);
     afx_msg void OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI);
     afx_msg void OnViewSwitchVideoFrame();
@@ -1161,7 +1167,7 @@ public:
     void        SetLoadState(MLS eState);
     MLS         GetLoadState() const;
     void        SetPlayState(MPC_PLAYSTATE iState);
-    bool        CreateFullScreenWindow();
+    bool        CreateFullScreenWindow(bool isD3D=true);
     void        SetupEVRColorControl();
     void        SetupVMR9ColorControl();
     void        SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation);
@@ -1258,7 +1264,7 @@ protected:
     bool IsImageFile(CString fn);
 
     // Handles MF_DEFAULT and escapes '&'
-    static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT_PTR nIDNewItem, CString& text);
+    static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
@@ -1285,9 +1291,7 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
-    void updateRecentFileListSub();
 
-    RecentFileEntry m_current_rfe;
     static bool IsOnYDLWhitelist(const CString url);
 
     bool CanSendToYoutubeDL(const CString url);
@@ -1312,4 +1316,6 @@ private:
 public:
     afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
     afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
+private:
+    void SetupExternalChapters();
 };
