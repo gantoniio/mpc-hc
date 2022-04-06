@@ -32,7 +32,6 @@
 #include "FakeFilterMapper2.h"
 
 #include "FavoriteAddDlg.h"
-#include "FavoriteOrganizeDlg.h"
 #include "GoToDlg.h"
 #include "MediaTypesDlg.h"
 #include "OpenFileDlg.h"
@@ -844,6 +843,7 @@ CMainFrame::CMainFrame()
     , m_bWasSnapped(false)
     , m_wndSubtitlesDownloadDialog(this)
     //, m_wndSubtitlesUploadDialog(this)
+    , m_wndFavoriteOrganizeDialog(this)
     , m_bTrayIcon(false)
     , m_fCapturing(false)
     , m_controls(this)
@@ -3858,7 +3858,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         ZoomVideoWindow();
     }
 
-    if (s.fLaunchfullscreen && !HasFullScreenWindow() && !m_fAudioOnly) {
+    if (s.fLaunchfullscreen && !m_fAudioOnly && !IsFullScreenMode()) {
         OnViewFullscreen();
     }
 
@@ -10236,8 +10236,10 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 
 void CMainFrame::OnFavoritesOrganize()
 {
-    CFavoriteOrganizeDlg dlg;
-    dlg.DoModal();
+    if (!::IsWindow(m_wndFavoriteOrganizeDialog.m_hWnd)) {
+        m_wndFavoriteOrganizeDialog.Create(CFavoriteOrganizeDlg::IDD, this);
+    }
+    m_wndFavoriteOrganizeDialog.ShowWindow(SW_SHOW);
 }
 
 void CMainFrame::OnUpdateFavoritesOrganize(CCmdUI* pCmdUI)
@@ -10583,11 +10585,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 void CMainFrame::SetDefaultFullscreenState()
 {
     CAppSettings& s = AfxGetAppSettings();
-
-    if (s.fLaunchfullscreen) {
-        // delay going into fullscreen
-        return;
-    }
 
     bool clGoFullscreen = !(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN);
 
@@ -11155,9 +11152,12 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
                 }
                 m_fFirstFSAfterLaunchOnFS = false;
             }
+
             MoveVideoWindow();
             m_OSD.EnableShowMessage(true);
         } else {
+            m_OSD.EnableShowMessage(false);
+
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
                 AutoChangeMonitorMode();
@@ -11167,10 +11167,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             CreateFullScreenWindow();
 
             m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN_D3D);
-
-            // Turn on D3D Fullscreen
-            m_OSD.EnableShowSeekBar(true);
-            pD3DFS->SetD3DFullscreen(true);
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = m_pFullscreenWnd;
@@ -11183,6 +11179,11 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             m_wndView.Invalidate();
 
             MoveVideoWindow();
+
+            // Turn on D3D Fullscreen
+            m_OSD.EnableShowSeekBar(true);
+            m_OSD.EnableShowMessage(true);
+            pD3DFS->SetD3DFullscreen(true);
 
             m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
         }
@@ -17982,15 +17983,13 @@ bool CMainFrame::CreateFullScreenWindow(bool isD3D /* = true */)
     monitor.GetMonitorRect(monitorRect);
 
     m_bFullScreenWindowIsD3D = isD3D;
-    if (isD3D) { //for d3d window, we will take focus as no other window is visible
-        return !!m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), WS_POPUP | WS_VISIBLE, monitorRect, nullptr, 0);
-    } else { //for second monitor fullscreen mode, allow the mainframe to keep focus
-        bool ret  = !!m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), WS_POPUP, monitorRect, nullptr, 0);
-        if (ret) {
-            m_pFullscreenWnd->ShowWindow(SW_SHOWNOACTIVATE);
-        }
-        return ret;
+
+    // allow the mainframe to keep focus
+    bool ret = !!m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), WS_POPUP, monitorRect, nullptr, 0);
+    if (ret) {
+        m_pFullscreenWnd->ShowWindow(SW_SHOWNOACTIVATE);
     }
+    return ret;
 }
 
 bool CMainFrame::IsFrameLessWindow() const
