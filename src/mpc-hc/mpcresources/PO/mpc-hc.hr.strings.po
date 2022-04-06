@@ -4228,7 +4228,7 @@ msgstr "/dvdpos T#C\tPočni reprodukciju na naslovu T, poglavlju C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr "/dvdpos T#P⇥Počni reprodukciju na naslovu T, poziciji P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tPočni reprodukciju na naslovu T, poziciji P (hh:mm:ss)"
 
 msgctxt "IDS_CMD_CD"
 msgid ""
