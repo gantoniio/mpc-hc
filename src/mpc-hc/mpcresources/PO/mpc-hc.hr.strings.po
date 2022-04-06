@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# MPC HC <adiposegithub@gmail.com>, 2020
 # Anton G, 2020
+# MPC HC <adiposegithub@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Anton G, 2020\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2022\n"
 "Language-Team: Croatian (https://www.transifex.com/mpchc/teams/106126/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -565,7 +565,7 @@ msgstr "Izvođač"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
-msgstr ""
+msgstr "Reprodukcija::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -688,6 +688,8 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
+"Ovdje unesite Vaše preferirane jezike.\n"
+"Npr.: \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -4267,7 +4269,7 @@ msgstr "/standby\t\tStavi operativni sustav u način mirovanja nakon reprodukcij
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\t\tHiberniraj operativni sustav nakon reprodukcije"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
