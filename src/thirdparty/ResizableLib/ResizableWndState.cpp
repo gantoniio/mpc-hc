@@ -116,7 +116,7 @@ BOOL CResizableWndState::LoadWindowRect(LPCTSTR pszName, BOOL bRectOnly)
 	{
 
         // MPC-HC custom code
-        if (initiallyHidden) {
+        if (!showOnWindowPlacement) {
             wp.showCmd = SW_HIDE;
         }
 
