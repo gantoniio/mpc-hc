@@ -93,7 +93,7 @@ enum : UINT64 {
     CLSW_CONFIGLAVVIDEO = CLSW_CONFIGLAVAUDIO << 1,
     CLSW_MUTE = CLSW_CONFIGLAVVIDEO << 1,
     CLSW_VOLUME = CLSW_MUTE << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1 // 46
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1, // 46
 };
 
 enum MpcCaptionState {
@@ -430,9 +430,9 @@ struct DVD_POSITION {
 };
 
 struct ABRepeat {
-    bool positionAEnabled=false, positionBEnabled=false;
-    REFERENCE_TIME positionA = 0, positionB = 0;
-    ULONG dvdTitle = -1; //whatever title they saved last will be the only one we remember
+    ABRepeat() : positionA(0), positionB(0), dvdTitle(-1) {}
+    REFERENCE_TIME positionA, positionB;
+    ULONG dvdTitle; //whatever title they saved last will be the only one we remember
 };
 
 class RecentFileEntry {
@@ -545,6 +545,7 @@ public:
     // Initial position (used by command line flags)
     REFERENCE_TIME      rtShift;
     REFERENCE_TIME      rtStart;
+    ABRepeat            abRepeat;
     ULONG               lDVDTitle;
     ULONG               lDVDChapter;
     DVD_HMSF_TIMECODE   DVDPosition;

@@ -110,6 +110,7 @@ public:
     OpenFileData() : rtStart(0), bAddToRecent(true) {}
     CAtlList<CString> fns;
     REFERENCE_TIME rtStart;
+    ABRepeat abRepeat;
     bool bAddToRecent;
 };
 
@@ -612,7 +613,7 @@ protected:
     friend class SubtitlesThread;
 
 public:
-    void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0, bool reopen = false);
+    void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0, bool reopen = false, ABRepeat abRepeat = ABRepeat());
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
     void PlayFavoriteFile(const CString& fav);
     void PlayFavoriteDVD(CString fav);
@@ -720,7 +721,7 @@ public:
     void UpdateCurrentChannelInfo(bool bShowOSD = true, bool bShowInfoBar = false);
     LRESULT OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam);
 
-    bool CheckABRepeat(REFERENCE_TIME& aPos, REFERENCE_TIME& bPos, bool& aEnabled, bool& bEnabled);
+    bool CheckABRepeat(REFERENCE_TIME& aPos, REFERENCE_TIME& bPos);
     void PerformABRepeat();
     void DisableABRepeat();
 

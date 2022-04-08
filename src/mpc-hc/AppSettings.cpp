@@ -2459,6 +2459,10 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_CONFIGLAVAUDIO;
             } else if (sw == _T("configlavvideo")) {
                 nCLSwitches |= CLSW_CONFIGLAVVIDEO;
+            } else if (sw == L"abrepeata" && pos) {
+                abRepeat.positionA = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
+            } else if (sw == L"abrepeatb" && pos) {
+                abRepeat.positionB = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
@@ -3018,9 +3022,7 @@ bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntry(CStringW h
     }
     r.abRepeat.positionA = pApp->GetProfileIntW(subSection, L"abRepeat.positionA", 0) * 10000LL;
     r.abRepeat.positionB = pApp->GetProfileIntW(subSection, L"abRepeat.positionB", 0) * 10000LL;
-    r.abRepeat.positionAEnabled = (bool)pApp->GetProfileIntW(subSection, L"abRepeat.positionAEnabled", 0);
-    r.abRepeat.positionBEnabled = (bool)pApp->GetProfileIntW(subSection, L"abRepeat.positionBEnabled", 0);
-    r.abRepeat.dvdTitle = pApp->GetProfileIntW(subSection, L"abRepeat.dvdTitle", 1);
+    r.abRepeat.dvdTitle = pApp->GetProfileIntW(subSection, L"abRepeat.dvdTitle", -1);
 
     int k = 2;
     for (;; k++) {
@@ -3135,11 +3137,21 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
         pApp->WriteProfileInt(subSection, t, int(r.filePosition / 10000LL));
         persistedFilePosition = r.filePosition;
     }
-    pApp->WriteProfileInt(subSection, L"abRepeat.positionA", int(r.abRepeat.positionA / 10000LL));
-    pApp->WriteProfileInt(subSection, L"abRepeat.positionB", int(r.abRepeat.positionB / 10000LL));
-    pApp->WriteProfileInt(subSection, L"abRepeat.positionAEnabled", int(r.abRepeat.positionAEnabled));
-    pApp->WriteProfileInt(subSection, L"abRepeat.positionBEnabled", int(r.abRepeat.positionBEnabled));
-    pApp->WriteProfileInt(subSection, L"abRepeat.dvdTitle", int(r.abRepeat.dvdTitle));
+    if (r.abRepeat.positionA) {
+        pApp->WriteProfileInt(subSection, L"abRepeat.positionA", int(r.abRepeat.positionA / 10000LL));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"abRepeat.positionA", nullptr);
+    }
+    if (r.abRepeat.positionB) {
+        pApp->WriteProfileInt(subSection, L"abRepeat.positionB", int(r.abRepeat.positionB / 10000LL));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"abRepeat.positionB", nullptr);
+    }
+    if ((r.abRepeat.positionA || r.abRepeat.positionB) && r.abRepeat.dvdTitle != -1) {
+        pApp->WriteProfileInt(subSection, L"abRepeat.dvdTitle", int(r.abRepeat.dvdTitle));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"abRepeat.dvdTitle", nullptr);
+    }
 
 
     if (updateLastOpened || r.lastOpened.IsEmpty()) {
