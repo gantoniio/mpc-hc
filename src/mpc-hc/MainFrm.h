@@ -404,8 +404,7 @@ private:
     void AddTextPassThruFilter();
 
     int m_nLoops;
-    REFERENCE_TIME abRepeatPositionA, abRepeatPositionB;
-    bool abRepeatPositionAEnabled, abRepeatPositionBEnabled;
+    ABRepeat abRepeat;
     UINT m_nLastSkipDirection;
 
     int m_iStreamPosPollerInterval;

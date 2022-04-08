@@ -429,6 +429,12 @@ struct DVD_POSITION {
     DVD_HMSF_TIMECODE   timecode;
 };
 
+struct ABRepeat {
+    bool positionAEnabled=false, positionBEnabled=false;
+    REFERENCE_TIME positionA = 0, positionB = 0;
+    ULONG dvdTitle = -1; //whatever title they saved last will be the only one we remember
+};
+
 class RecentFileEntry {
 public:
     RecentFileEntry() {}
@@ -443,6 +449,7 @@ public:
         subs.RemoveAll();
         fns.AddHeadList(&r.fns);
         subs.AddHeadList(&r.subs);
+        abRepeat = r.abRepeat;
     }
     RecentFileEntry(const RecentFileEntry &r) {
         InitEntry(r);
@@ -456,6 +463,7 @@ public:
     CAtlList<CString> subs;
     REFERENCE_TIME filePosition=0;
     DVD_POSITION DVDPosition = {};
+    ABRepeat abRepeat;
 
     void operator=(const RecentFileEntry &r) {
         InitEntry(r);
@@ -509,11 +517,13 @@ class CAppSettings
         bool GetCurrentIndex(size_t& idx);
         void UpdateCurrentFilePosition(REFERENCE_TIME time, bool forcePersist = false);
         REFERENCE_TIME GetCurrentFilePosition();
+        ABRepeat GetCurrentABRepeat();
         void UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE *time);
         void UpdateCurrentDVDTitle(DWORD title);
         DVD_POSITION GetCurrentDVDPosition();
         void AddSubToCurrent(CStringW subpath);
         void SetCurrentTitle(CStringW subpath);
+        void UpdateCurrentABRepeat(ABRepeat abRepeat);
         void WriteCurrentEntry();
         void ReadMediaHistory();
         void WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened = false);

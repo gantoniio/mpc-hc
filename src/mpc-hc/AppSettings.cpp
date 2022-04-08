@@ -2762,6 +2762,14 @@ REFERENCE_TIME CAppSettings::CRecentFileListWithMoreInfo::GetCurrentFilePosition
     return 0;
 }
 
+ABRepeat CAppSettings::CRecentFileListWithMoreInfo::GetCurrentABRepeat() {
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        return rfe_array[idx].abRepeat;
+    }
+    return ABRepeat();
+}
+
 void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE* time) {
     size_t idx;
     if (GetCurrentIndex(idx)) {
@@ -2805,6 +2813,14 @@ void CAppSettings::CRecentFileListWithMoreInfo::SetCurrentTitle(CStringW title) 
     size_t idx;
     if (GetCurrentIndex(idx)) {
         rfe_array[idx].title = title;
+    }
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentABRepeat(ABRepeat abRepeat) {
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        rfe_array[idx].abRepeat = abRepeat;
+        WriteMediaHistoryEntry(rfe_array[idx]);
     }
 }
 
@@ -3000,6 +3016,11 @@ bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntry(CStringW h
             DeserializeHex(dvdPosition, (BYTE*)&r.DVDPosition, sizeof(DVD_POSITION));
         }
     }
+    r.abRepeat.positionA = pApp->GetProfileIntW(subSection, L"abRepeat.positionA", 0) * 10000LL;
+    r.abRepeat.positionB = pApp->GetProfileIntW(subSection, L"abRepeat.positionB", 0) * 10000LL;
+    r.abRepeat.positionAEnabled = (bool)pApp->GetProfileIntW(subSection, L"abRepeat.positionAEnabled", 0);
+    r.abRepeat.positionBEnabled = (bool)pApp->GetProfileIntW(subSection, L"abRepeat.positionBEnabled", 0);
+    r.abRepeat.dvdTitle = pApp->GetProfileIntW(subSection, L"abRepeat.dvdTitle", 1);
 
     int k = 2;
     for (;; k++) {
@@ -3114,6 +3135,13 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
         pApp->WriteProfileInt(subSection, t, int(r.filePosition / 10000LL));
         persistedFilePosition = r.filePosition;
     }
+    pApp->WriteProfileInt(subSection, L"abRepeat.positionA", int(r.abRepeat.positionA / 10000LL));
+    pApp->WriteProfileInt(subSection, L"abRepeat.positionB", int(r.abRepeat.positionB / 10000LL));
+    pApp->WriteProfileInt(subSection, L"abRepeat.positionAEnabled", int(r.abRepeat.positionAEnabled));
+    pApp->WriteProfileInt(subSection, L"abRepeat.positionBEnabled", int(r.abRepeat.positionBEnabled));
+    pApp->WriteProfileInt(subSection, L"abRepeat.dvdTitle", int(r.abRepeat.dvdTitle));
+
+
     if (updateLastOpened || r.lastOpened.IsEmpty()) {
         auto now = std::chrono::system_clock::now();
         auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
