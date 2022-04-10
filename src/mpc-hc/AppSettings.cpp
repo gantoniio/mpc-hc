@@ -2459,9 +2459,9 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_CONFIGLAVAUDIO;
             } else if (sw == _T("configlavvideo")) {
                 nCLSwitches |= CLSW_CONFIGLAVVIDEO;
-            } else if (sw == L"abrepeata" && pos) {
+            } else if (sw == L"ab_start" && pos) {
                 abRepeat.positionA = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
-            } else if (sw == L"abrepeatb" && pos) {
+            } else if (sw == L"ab_end" && pos) {
                 abRepeat.positionB = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
@@ -2475,6 +2475,11 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             }
         }
     }
+
+    if (abRepeat.positionA > rtStart || (abRepeat.positionB && abRepeat.positionB < rtStart)) {
+        rtStart = abRepeat.positionA;
+    }
+
     if (0 == (nCLSwitches & CLSW_AFTERPLAYBACK_MASK)) { //no changes to playback mask, so let's preserve existing
         nCLSwitches |= existingAfterPlaybackCL;
     }
