@@ -287,6 +287,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_QUERYENDSESSION()
     ON_WM_ENDSESSION()
 
+    ON_COMMAND(ID_MENU_PLAYER_AUTO, OnMenuPlayerAuto)
     ON_COMMAND(ID_MENU_PLAYER_SHORT, OnMenuPlayerShort)
     ON_COMMAND(ID_MENU_PLAYER_LONG, OnMenuPlayerLong)
     ON_COMMAND(ID_MENU_FILTERS, OnMenuFilters)
@@ -3491,13 +3492,18 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
     return TRUE;
 }
 
-void CMainFrame::OnMenuPlayerShort()
+void CMainFrame::OnMenuPlayerAuto()
 {
     if (IsMenuHidden() || IsD3DFullScreenMode()) {
         OnMenu(m_mainPopupMenu.GetSubMenu(0));
     } else {
         OnMenu(m_popupMenu.GetSubMenu(0));
     }
+}
+
+void CMainFrame::OnMenuPlayerShort()
+{
+    OnMenu(m_popupMenu.GetSubMenu(0));
 }
 
 void CMainFrame::OnMenuPlayerLong()
