@@ -221,7 +221,7 @@
 #define ID_BUTTONSEP                    946
 #define ID_AFTERPLAYBACK_PLAYNEXT       947
 #define ID_AFTERPLAYBACK_DONOTHING      948
-#define ID_MENU_PLAYER_SHORT            949
+#define ID_MENU_PLAYER_AUTO             949
 #define ID_MENU_PLAYER_LONG             950
 #define ID_MENU_FILTERS                 951
 #define ID_STREAM_AUDIO_NEXT            952
@@ -229,6 +229,7 @@
 #define ID_STREAM_SUB_NEXT              954
 #define ID_STREAM_SUB_PREV              955
 #define ID_STREAM_SUB_ONOFF             956
+#define ID_MENU_PLAYER_SHORT            957
 #define ID_DVD_ANGLE_NEXT               961
 #define ID_DVD_ANGLE_PREV               962
 #define ID_DVD_AUDIO_NEXT               963
@@ -846,6 +847,7 @@
 #define IDS_AG_PREV_SUBTITLE            32961
 #define IDS_MPLAYERC_85                 32962
 #define IDS_MPLAYERC_86                 32963
+#define IDS_MPLAYERC_87                 32964
 #define IDS_MPLAYERC_91                 32968
 #define IDS_MPLAYERC_92                 32969
 #define IDS_MPLAYERC_93                 32970
