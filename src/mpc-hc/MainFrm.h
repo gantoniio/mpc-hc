@@ -858,6 +858,7 @@ public:
     afx_msg void OnEndSession(BOOL bEnding);
 
     BOOL OnMenu(CMenu* pMenu);
+    afx_msg void OnMenuPlayerAuto();
     afx_msg void OnMenuPlayerShort();
     afx_msg void OnMenuPlayerLong();
     afx_msg void OnMenuFilters();
