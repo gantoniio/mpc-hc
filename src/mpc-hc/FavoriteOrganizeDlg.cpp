@@ -127,6 +127,11 @@ void  CFavoriteOrganizeDlg::OnLvnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResul
 BOOL CFavoriteOrganizeDlg::OnInitDialog()
 {
     __super::OnInitDialog();
+    if (GetExStyle() & WS_EX_TOPMOST) {
+        if (auto tt = m_list.GetToolTips()) { //when dialog is topmost, tooltips appear behind the dialog?
+            tt->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOMOVE);
+        }
+    }
     firstSize = true;
     minSizeTime = 0;
     m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
