@@ -103,6 +103,7 @@ void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CModelessResizableDialog)
     ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
     ON_WM_DRAWITEM()
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnLvnItemchangedList2)
     ON_BN_CLICKED(IDC_BUTTON1, OnRenameBnClicked)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateRenameBn)
     ON_BN_CLICKED(IDC_BUTTON2, OnDeleteBnClicked)
@@ -121,7 +122,9 @@ BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CModelessResizableDialog)
     ON_WM_SIZE()
 END_MESSAGE_MAP()
 
-
+void  CFavoriteOrganizeDlg::OnLvnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResult) {
+    CWnd::UpdateDialogControls(this, TRUE); //needed for modeless dialog due to no idle pump
+}
 // CFavoriteOrganizeDlg message handlers
 
 BOOL CFavoriteOrganizeDlg::OnInitDialog()

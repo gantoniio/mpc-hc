@@ -62,6 +62,7 @@ protected:
 public:
     afx_msg void OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+    afx_msg void OnLvnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnRenameBnClicked();
     afx_msg void OnUpdateRenameBn(CCmdUI* pCmdUI);
     afx_msg void OnDeleteBnClicked();
