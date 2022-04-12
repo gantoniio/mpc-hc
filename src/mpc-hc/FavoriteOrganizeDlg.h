@@ -47,12 +47,14 @@ public:
     CMPCThemePlayerListCtrl m_list;
     bool firstSize=false;
     int minSizeTime = 0;
+    void LoadList();
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 
     void SetupList(bool fSave);
+
     void UpdateColumnsSizes();
     void MoveItem(int nItem, int offset);
     void PlayFavorite(int nItem);

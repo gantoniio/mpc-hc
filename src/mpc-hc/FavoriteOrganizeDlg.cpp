@@ -54,9 +54,6 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
             args.AddHead(m_list.GetItemText(j, 0));
             sl.AddTail(ImplodeEsc(args, _T(';')));
         }
-
-        m_sl[i].RemoveAll();
-        m_sl[i].AddTailList(&sl);
     } else {
         m_list.DeleteAllItems();
 
@@ -142,12 +139,7 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_INFOTIP);
     m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT);
 
-    const CAppSettings& s = AfxGetAppSettings();
-    s.GetFav(FAV_FILE, m_sl[0]);
-    s.GetFav(FAV_DVD, m_sl[1]);
-    s.GetFav(FAV_DEVICE, m_sl[2]);
-
-    SetupList(false);
+    LoadList();
 
     AddAnchor(IDC_TAB1, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_LIST2, TOP_LEFT, BOTTOM_RIGHT);
@@ -160,6 +152,15 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
     fulfillThemeReqs();
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CFavoriteOrganizeDlg::LoadList() {
+    const CAppSettings& s = AfxGetAppSettings();
+    s.GetFav(FAV_FILE, m_sl[0]);
+    s.GetFav(FAV_DVD, m_sl[1]);
+    s.GetFav(FAV_DEVICE, m_sl[2]);
+
+    SetupList(false);
 }
 
 BOOL CFavoriteOrganizeDlg::PreTranslateMessage(MSG* pMsg)
