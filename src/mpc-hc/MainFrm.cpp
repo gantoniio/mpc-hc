@@ -3948,6 +3948,7 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     m_bOpenMediaActive = false;
 
     m_dwReloadPos = 0;
+    reloadABRepeat = ABRepeat();
     m_iReloadAudioIdx = -1;
     m_iReloadSubIdx = -1;
 
@@ -4833,6 +4834,7 @@ void CMainFrame::OnFileReopen()
             REFERENCE_TIME rtNow = 0;
             m_pMS->GetCurrentPosition(&rtNow);
             m_dwReloadPos = rtNow;
+            reloadABRepeat = abRepeat;
             s.MRU.UpdateCurrentFilePosition(rtNow, true);
         }
     }
@@ -8026,6 +8028,7 @@ void CMainFrame::OnPlayPlay()
                     // in case of hibernate, m_dwLastPause equals 1
                     if (m_dwLastPause == 1 || s.iReloadAfterLongPause > 0 && (GetTickCount64() - m_dwLastPause >= s.iReloadAfterLongPause * 60 * 1000)) {
                         m_dwReloadPos = m_wndSeekBar.GetPos();
+                        reloadABRepeat = abRepeat;
                         m_iReloadAudioIdx = GetCurrentAudioTrackIdx();
                         m_iReloadSubIdx = GetCurrentSubtitleTrackIdx();
                         OnFileReopen();
@@ -14262,6 +14265,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             if (m_dwReloadPos > 0) {
                 rtPos = m_dwReloadPos;
                 m_dwReloadPos = 0;
+                abRepeat = reloadABRepeat;
             }
             if (m_bRememberFilePos) { // Check if we want to remember the position
                 auto* pMRU = &AfxGetAppSettings().MRU;
