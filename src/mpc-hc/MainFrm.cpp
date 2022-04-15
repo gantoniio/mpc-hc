@@ -14266,6 +14266,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 rtPos = m_dwReloadPos;
                 m_dwReloadPos = 0;
                 abRepeat = reloadABRepeat;
+                reloadABRepeat = ABRepeat();
             }
             if (m_bRememberFilePos) { // Check if we want to remember the position
                 auto* pMRU = &AfxGetAppSettings().MRU;
