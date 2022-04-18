@@ -931,6 +931,7 @@ public:
 
     int iRedirectOpenToAppendThreshold;
     bool bFullscreenSeparateControls;
+    bool bAlwaysUseShortMenu;
 
 private:
     struct FilterKey {
