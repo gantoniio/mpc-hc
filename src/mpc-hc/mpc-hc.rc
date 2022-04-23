@@ -392,7 +392,7 @@ BEGIN
     PUSHBUTTON      "Set as &default program",IDC_BUTTON7,181,199,162,14,BS_MULTILINE
     GROUPBOX        "Explorer Context Menu",IDC_STATIC,6,256,142,29
     CONTROL         "Directory",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,270,60,8
-    CONTROL         "File(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,77,270,66,8
+    CONTROL         "Playlist",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,77,270,66,8
     GROUPBOX        "Autoplay",IDC_STATIC1,152,256,197,29
     CONTROL         "Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,270,41,8
     CONTROL         "Music",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,270,44,8
@@ -2863,7 +2863,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_FAVORITES_ADD       "&Add to Favorites..."
-    IDS_FAVORITES_ORGANIZE  "&Organize Favorites..."
+    IDS_FAVORITES_ORGANIZE  "Organize Favorites..."
     IDS_PLAYLIST_SHUFFLE    "Sh&uffle"
     IDS_PLAYLIST_SHOWFOLDER "Ope&n file location"
     IDS_CONTROLS_CLOSING    "Closing..."
@@ -4009,6 +4009,8 @@ BEGIN
                             "Display video info (codec name, resolution) in status bar."
     IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE
                             "Show the recording settings dialog automatically when opening a device."
+    IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU
+                            "Player Menu shortcuts and right-click show compact menu -- even when main menu is hidden."
 END
 
 STRINGTABLE

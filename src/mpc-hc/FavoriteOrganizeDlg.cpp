@@ -42,6 +42,7 @@ CFavoriteOrganizeDlg::~CFavoriteOrganizeDlg()
 
 void CFavoriteOrganizeDlg::SetupList(bool fSave)
 {
+
     int i = m_tab.GetCurSel();
 
     if (fSave) {
@@ -54,10 +55,11 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
             args.AddHead(m_list.GetItemText(j, 0));
             sl.AddTail(ImplodeEsc(args, _T(';')));
         }
-
         m_sl[i].RemoveAll();
         m_sl[i].AddTailList(&sl);
+        SetupList(false); //reload the list to invalide the old itemdata
     } else {
+        m_list.SetRedraw(FALSE);
         m_list.DeleteAllItems();
 
         for(POSITION pos = m_sl[i].GetHeadPosition(), tmp; pos; ) {
@@ -76,6 +78,8 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
         }
 
         UpdateColumnsSizes();
+        m_list.SetRedraw(TRUE);
+        m_list.RedrawWindow(0, 0, RDW_INVALIDATE);
     }
 }
 
@@ -103,6 +107,7 @@ void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CModelessResizableDialog)
     ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
     ON_WM_DRAWITEM()
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnLvnItemchangedList2)
     ON_BN_CLICKED(IDC_BUTTON1, OnRenameBnClicked)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateRenameBn)
     ON_BN_CLICKED(IDC_BUTTON2, OnDeleteBnClicked)
@@ -121,12 +126,19 @@ BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CModelessResizableDialog)
     ON_WM_SIZE()
 END_MESSAGE_MAP()
 
-
+void  CFavoriteOrganizeDlg::OnLvnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResult) {
+    CWnd::UpdateDialogControls(this, TRUE); //needed for modeless dialog due to no idle pump
+}
 // CFavoriteOrganizeDlg message handlers
 
 BOOL CFavoriteOrganizeDlg::OnInitDialog()
 {
     __super::OnInitDialog();
+    if (GetExStyle() & WS_EX_TOPMOST) {
+        if (auto tt = m_list.GetToolTips()) { //when dialog is topmost, tooltips appear behind the dialog?
+            tt->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOMOVE);
+        }
+    }
     firstSize = true;
     minSizeTime = 0;
     m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
@@ -139,12 +151,7 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_INFOTIP);
     m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT);
 
-    const CAppSettings& s = AfxGetAppSettings();
-    s.GetFav(FAV_FILE, m_sl[0]);
-    s.GetFav(FAV_DVD, m_sl[1]);
-    s.GetFav(FAV_DEVICE, m_sl[2]);
-
-    SetupList(false);
+    LoadList();
 
     AddAnchor(IDC_TAB1, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_LIST2, TOP_LEFT, BOTTOM_RIGHT);
@@ -157,6 +164,15 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
     fulfillThemeReqs();
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CFavoriteOrganizeDlg::LoadList() {
+    const CAppSettings& s = AfxGetAppSettings();
+    s.GetFav(FAV_FILE, m_sl[0]);
+    s.GetFav(FAV_DVD, m_sl[1]);
+    s.GetFav(FAV_DEVICE, m_sl[2]);
+
+    SetupList(false);
 }
 
 BOOL CFavoriteOrganizeDlg::PreTranslateMessage(MSG* pMsg)
@@ -217,7 +233,7 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
         if (AppIsThemeLoaded()) {
             dcMem.FillSolidRect(rcItem, CMPCTheme::ContentBGColor);
         } else {
-            dcMem.FillSolidRect(rcItem, COLOR_WINDOW);
+            dcMem.FillSolidRect(rcItem, GetSysColor(COLOR_WINDOW));
         }
 
         if (isSelected) {

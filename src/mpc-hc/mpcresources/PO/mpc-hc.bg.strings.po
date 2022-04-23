@@ -1207,8 +1207,8 @@ msgid "&Add to Favorites..."
 msgstr "&Добави към любими..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Създаване на любими..."
+msgid "Organize Favorites..."
+msgstr "Създаване на любими..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -4624,6 +4624,12 @@ msgid ""
 "Show the recording settings dialog automatically when opening a device."
 msgstr ""
 "Автоматично показване на настройките за запис при отваряне на устройство."
+
+msgctxt "IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU"
+msgid ""
+"Player Menu shortcuts and right-click show compact menu -- even when main "
+"menu is hidden."
+msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
