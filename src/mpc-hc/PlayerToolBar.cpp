@@ -513,10 +513,10 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
         lr |= CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
         break;
         case CDDS_ITEMPREPAINT:
-            lr |= CDRF_NOTIFYPOSTPAINT;
+            lr |= CDRF_NOTIFYPOSTPAINT | TBCDRF_NOOFFSET;
             {
                 if (AppIsThemeLoaded()) {
-                    lr |= TBCDRF_NOBACKGROUND | TBCDRF_NOOFFSET;
+                    lr |= TBCDRF_NOBACKGROUND;
                     if (pTBCD->nmcd.uItemState & CDIS_CHECKED) {
                         drawButtonBG(pTBCD->nmcd, CMPCTheme::PlayerButtonCheckedColor);
                     } else if (pTBCD->nmcd.uItemState & CDIS_HOT) {
