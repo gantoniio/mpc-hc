@@ -64,9 +64,9 @@ CAppSettings::CAppSettings()
     , iTitleBarTextStyle(1)
     , fTitleBarTextTitle(false)
     , fKeepHistory(true)
-    , iRecentFilesNumber(40)
+    , iRecentFilesNumber(100)
     , MRU(L"MediaHistory", iRecentFilesNumber)
-    , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), iRecentFilesNumber)
+    , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), 20)
     , fRememberDVDPos(false)
     , fRememberFilePos(false)
     , iRememberPosForLongerThan(0)
@@ -248,8 +248,13 @@ CAppSettings::CAppSettings()
     , bUseAutomaticCaptions(false)
     , bLockNoPause(false)
     , bUseSMTC(false)
-    , iReloadAfterLongPause(30)
+    , iReloadAfterLongPause(-1)
     , bOpenRecPanelWhenOpeningDevice(true)
+    , lastQuickOpenPath(L"")
+    , lastSaveImagePath(L"")
+    , iRedirectOpenToAppendThreshold(1000)
+    , bFullscreenSeparateControls(false)
+    , bAlwaysUseShortMenu(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -1215,9 +1220,16 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_SUBS_PREFERENCE, sYDLSubsPreference);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_AUTOMATIC_CAPTIONS, bUseAutomaticCaptions);
 
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, lastQuickOpenPath);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_SAVEIMAGE_PATH, lastSaveImagePath);
+
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, iRedirectOpenToAppendThreshold);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, bFullscreenSeparateControls);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, bAlwaysUseShortMenu);
+
     if (fKeepHistory) {
         if (write_full_history) {
-            MRU.SaveMediaHistory(true);
+            MRU.SaveMediaHistory();
         } else {
             MRU.WriteCurrentEntry();
         }
@@ -1577,9 +1589,8 @@ void CAppSettings::LoadSettings()
 
     fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, TRUE);
     fileAssoc.SetNoRecentDocs(!fKeepHistory);
-    iRecentFilesNumber = std::max(0, (int)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RECENT_FILES_NUMBER, 40));
+    iRecentFilesNumber = std::max(0, (int)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RECENT_FILES_NUMBER, 100));
     MRU.SetSize(iRecentFilesNumber);
-    MRUDub.SetSize(iRecentFilesNumber);
 
     if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len)) {
         if (len == sizeof(CRect)) {
@@ -2014,12 +2025,8 @@ void CAppSettings::LoadSettings()
 
     bLockNoPause = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOCK_NOPAUSE, FALSE);
     bUseSMTC = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_SMTC, FALSE);
-    iReloadAfterLongPause = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RELOAD_AFTER_LONG_PAUSE, 30);
+    iReloadAfterLongPause = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RELOAD_AFTER_LONG_PAUSE, -1);
     bOpenRecPanelWhenOpeningDevice = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OPEN_REC_PANEL_WHEN_OPENING_DEVICE, TRUE);
-
-    if (fLaunchfullscreen && slFiles.GetCount() > 0) {
-        nCLSwitches |= CLSW_FULLSCREEN;
-    }
 
     sanear->SetOutputDevice(pApp->GetProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID),
                            pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, FALSE),
@@ -2055,8 +2062,19 @@ void CAppSettings::LoadSettings()
     sYDLSubsPreference = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_SUBS_PREFERENCE, _T(""));
     bUseAutomaticCaptions = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_AUTOMATIC_CAPTIONS, FALSE);
 
+    lastQuickOpenPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, L"");
+    lastSaveImagePath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_SAVEIMAGE_PATH, L"");
+
+    iRedirectOpenToAppendThreshold = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, 1000);
+    bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, FALSE);
+    bAlwaysUseShortMenu = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, FALSE);
+
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;
+
+    if (fLaunchfullscreen && slFiles.GetCount() > 0) {
+        nCLSwitches |= CLSW_FULLSCREEN;
+    }
 
     bInitialized = true;
 }
@@ -2465,6 +2483,10 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_CONFIGLAVAUDIO;
             } else if (sw == _T("configlavvideo")) {
                 nCLSwitches |= CLSW_CONFIGLAVVIDEO;
+            } else if (sw == L"ab_start" && pos) {
+                abRepeat.positionA = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
+            } else if (sw == L"ab_end" && pos) {
+                abRepeat.positionB = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
@@ -2477,6 +2499,16 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             }
         }
     }
+
+    if (abRepeat.positionA && abRepeat.positionB && abRepeat.positionA >= abRepeat.positionB) {
+        abRepeat.positionA = 0;
+        abRepeat.positionB = 0;
+    }
+    if (abRepeat.positionA > rtStart || (abRepeat.positionB && abRepeat.positionB < rtStart)) {
+        rtStart = abRepeat.positionA;
+        nCLSwitches |= CLSW_STARTVALID;
+    }
+
     if (0 == (nCLSwitches & CLSW_AFTERPLAYBACK_MASK)) { //no changes to playback mask, so let's preserve existing
         nCLSwitches |= existingAfterPlaybackCL;
     }
@@ -2680,20 +2712,24 @@ CStringW getShortHash(PBYTE bytes, ULONG size) {
         BCryptCloseAlgorithmProvider(algHandle, dwFlags);
     }
 
-    if (shortHash.IsEmpty()) {
-        ASSERT(FALSE);
-    }
-
     return shortHash;
 }
 
 CStringW getRFEHash(CStringW fn) {
     fn.MakeLower();
-    return getShortHash((PBYTE)fn.GetString(), fn.GetLength() * sizeof(WCHAR));
+    CStringW hash = getShortHash((PBYTE)fn.GetString(), fn.GetLength() * sizeof(WCHAR));
+    if (hash.IsEmpty()) {
+        ASSERT(FALSE);
+        hash = fn.Right(30);
+        hash.Replace(L"\\", L"/");
+    }
+    return hash;
 }
 
 CStringW getRFEHash(ULONGLONG llDVDGuid) {
-    return getShortHash((PBYTE)&llDVDGuid, sizeof(ULONGLONG));
+    CStringW hash;
+    hash.Format(L"DVD%llu", llDVDGuid);
+    return hash;
 }
 
 CStringW getRFEHash(RecentFileEntry &r) {
@@ -2716,40 +2752,66 @@ void CAppSettings::CRecentFileListWithMoreInfo::Remove(size_t nIndex) {
         rfe_array.RemoveAt(nIndex);
         rfe_array.FreeExtra();
     }
+    if (nIndex == 0 && rfe_array.GetCount() == 0) {
+        // list was cleared
+        current_rfe_hash.Empty();
+    }
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
     RecentFileEntry r;
     LoadMediaHistoryEntryFN(fn, r);
-    Add(r);
+    Add(r, true);
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn, ULONGLONG llDVDGuid) {
     RecentFileEntry r;
     LoadMediaHistoryEntryDVD(llDVDGuid, fn, r);
+    Add(r, true);
+}
 
-    Add(r);
+bool CAppSettings::CRecentFileListWithMoreInfo::GetCurrentIndex(size_t& idx) {
+    ASSERT(!current_rfe_hash.IsEmpty());
+    for (int i = 0; i < rfe_array.GetCount(); i++) {
+        if (rfe_array[i].hash == current_rfe_hash) {
+            idx = i;
+            return true;
+        }
+    }
+    ASSERT(false);
+    return false;
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentFilePosition(REFERENCE_TIME time, bool forcePersist /* = false */) {
-    if (rfe_array.GetCount()) {
-        rfe_array[0].filePosition = time;
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        rfe_array[idx].filePosition = time;
         if (forcePersist || std::abs(persistedFilePosition - time) > 300000000) {
-            WriteCurrentEntry();
+            WriteMediaHistoryEntry(rfe_array[idx]);
         }
     }
 }
 
 REFERENCE_TIME CAppSettings::CRecentFileListWithMoreInfo::GetCurrentFilePosition() {
-    if (rfe_array.GetCount()) {
-        return rfe_array[0].filePosition;
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        return rfe_array[idx].filePosition;
     }
     return 0;
 }
 
+ABRepeat CAppSettings::CRecentFileListWithMoreInfo::GetCurrentABRepeat() {
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        return rfe_array[idx].abRepeat;
+    }
+    return ABRepeat();
+}
+
 void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE* time) {
-    if (rfe_array.GetCount()) {
-        DVD_POSITION* dvdPosition = &rfe_array[0].DVDPosition;
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        DVD_POSITION* dvdPosition = &rfe_array[idx].DVDPosition;
         if (dvdPosition) {
             memcpy(&dvdPosition->timecode, (void*)time, sizeof(DVD_HMSF_TIMECODE));
         }
@@ -2757,8 +2819,9 @@ void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentDVDTimecode(DVD_HMS
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentDVDTitle(DWORD title) {
-    if (rfe_array.GetCount()) {
-        DVD_POSITION* dvdPosition = &rfe_array[0].DVDPosition;
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        DVD_POSITION* dvdPosition = &rfe_array[idx].DVDPosition;
         if (dvdPosition) {
             dvdPosition->lTitle = title;
         }
@@ -2766,43 +2829,59 @@ void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentDVDTitle(DWORD titl
 }
 
 DVD_POSITION CAppSettings::CRecentFileListWithMoreInfo::GetCurrentDVDPosition() {
-    if (rfe_array.GetCount()) {
-        return rfe_array[0].DVDPosition;
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        return rfe_array[idx].DVDPosition;
     }
     return DVD_POSITION();
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::AddSubToCurrent(CStringW subpath) {
-    if (rfe_array.GetCount()) {
-        bool found = rfe_array[0].subs.Find(subpath);
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        bool found = rfe_array[idx].subs.Find(subpath);
         if (!found) {
-            rfe_array[0].subs.AddHead(subpath);
-            WriteMediaHistoryEntry(rfe_array[0]);
+            rfe_array[idx].subs.AddHead(subpath);
+            WriteMediaHistoryEntry(rfe_array[idx]);
         }
     }
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::SetCurrentTitle(CStringW title) {
-    if (rfe_array.GetCount()) {
-        rfe_array[0].title = title;
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        rfe_array[idx].title = title;
+    }
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentABRepeat(ABRepeat abRepeat) {
+    size_t idx;
+    if (GetCurrentIndex(idx)) {
+        rfe_array[idx].abRepeat = abRepeat;
+        WriteMediaHistoryEntry(rfe_array[idx]);
     }
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::WriteCurrentEntry() {
-    if (rfe_array.GetCount()) {
-        WriteMediaHistoryEntry(rfe_array[0]);
+    size_t idx;
+    if (!current_rfe_hash.IsEmpty() && GetCurrentIndex(idx)) {
+        WriteMediaHistoryEntry(rfe_array[idx]);
     }
 }
 
-void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
+void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r, bool current_open) {
     if (r.fns.GetCount() < 1) {
         return;
     }
     if (CString(r.fns.GetHead()).MakeLower().Find(_T("@device:")) >= 0) {
         return;
     }
+
+    if (r.hash.IsEmpty()) {
+        r.hash = getRFEHash(r);
+    }
     for (size_t i = 0; i < rfe_array.GetCount(); i++) {
-        if (r == rfe_array[i]) {
+        if (r.hash == rfe_array[i].hash) {
             rfe_array.RemoveAt(i); //do not call Remove as it will purge reg key.  we are just resorting
             break;
         }
@@ -2810,6 +2889,10 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(RecentFileEntry r) {
     WriteMediaHistoryEntry(r, true);
 
     rfe_array.InsertAt(0, r);
+    if (current_open) {
+        current_rfe_hash = r.hash;
+        persistedFilePosition = r.filePosition;
+    }
 
     // purge obsolete entry
     if (rfe_array.GetCount() > m_maxSize) {
@@ -2939,6 +3022,7 @@ bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntryFN(CStringW
 bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntryDVD(ULONGLONG llDVDGuid, CStringW fn, RecentFileEntry& r) {
     CStringW hash = getRFEHash(llDVDGuid);
     if (!LoadMediaHistoryEntry(hash, r)) {
+        r.hash = hash;
         r.fns.AddHead(fn); //otherwise add a new entry
         r.DVDPosition.llDVDGuid = llDVDGuid;
         return false;
@@ -2952,39 +3036,44 @@ bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntry(CStringW h
 
     subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(hash));
 
-    if (!pApp->HasProfileEntry(subSection, L"LastOpened")) {
+    fn = pApp->GetProfileStringW(subSection, L"Filename", L"");
+    if (fn.IsEmpty()) {
         return false;
     }
 
-    fn = pApp->GetProfileStringW(subSection, L"Filename");
-
-    CStringW title = pApp->GetProfileStringW(subSection, L"Title");
-    CStringW cue = pApp->GetProfileStringW(subSection, L"Cue", L"");
     DWORD filePosition = pApp->GetProfileIntW(subSection, L"FilePosition", 0);
     CStringW dvdPosition = pApp->GetProfileStringW(subSection, L"DVDPosition", L"");
+
     r.hash = hash;
-    r.fns.AddTail(fn);
-    r.title = title;
-    r.cue = cue;
+    r.fns.AddHead(fn);
+    r.title = pApp->GetProfileStringW(subSection, L"Title", L"");
+    r.cue   = pApp->GetProfileStringW(subSection, L"Cue", L"");
     r.filePosition = filePosition * 10000LL;
     if (!dvdPosition.IsEmpty()) {
         if (dvdPosition.GetLength() / 2 == sizeof(DVD_POSITION)) {
             DeserializeHex(dvdPosition, (BYTE*)&r.DVDPosition, sizeof(DVD_POSITION));
         }
     }
+    r.abRepeat.positionA = pApp->GetProfileIntW(subSection, L"abRepeat.positionA", 0) * 10000LL;
+    r.abRepeat.positionB = pApp->GetProfileIntW(subSection, L"abRepeat.positionB", 0) * 10000LL;
+    r.abRepeat.dvdTitle = pApp->GetProfileIntW(subSection, L"abRepeat.dvdTitle", -1);
 
     int k = 2;
     for (;; k++) {
         t.Format(_T("Filename%03d"), k);
         CStringW ft = pApp->GetProfileStringW(subSection, t);
-        if (ft.IsEmpty()) break;
+        if (ft.IsEmpty()) {
+            break;
+        }
         r.fns.AddTail(ft);
     }
     k = 1;
     for (;; k++) {
         t.Format(_T("Sub%03d"), k);
         CStringW st = pApp->GetProfileStringW(subSection, t);
-        if (st.IsEmpty()) break;
+        if (st.IsEmpty()) {
+            break;
+        }
         r.subs.AddTail(st);
     }
     return true;
@@ -3000,23 +3089,31 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
         hashes = pApp->GetSectionSubKeys(m_section);
     }
 
-    std::map<CStringW, CStringW> timeToHash;
+    std::multimap<CStringW, CStringW> timeToHash;
     for (auto const& hash : hashes) {
         CStringW lastOpened, subSection;
         subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(hash));
         lastOpened = pApp->GetProfileStringW(subSection, L"LastOpened");
-        timeToHash[lastOpened] = hash;
+        if (!lastOpened.IsEmpty()) {
+            timeToHash.insert(std::pair<CStringW, CStringW>(lastOpened, hash));
+        }
     }
 
     rfe_array.RemoveAll();
     int entries = 0;
-    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter, ++entries) {
+    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter) {
+        bool purge_rfe = true;
         CStringW hash = iter->second;
         if (entries < maxsize) {
             RecentFileEntry r;
-            LoadMediaHistoryEntry(hash, r);
-            rfe_array.Add(r);
-        } else { //purge entry
+            r.lastOpened = iter->first;
+            if (LoadMediaHistoryEntry(hash, r)) {
+                rfe_array.Add(r);
+                purge_rfe = false;
+                entries++;
+            }
+        }
+        if (purge_rfe) { //purge entry
             CStringW subSection;
             subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(hash));
             pApp->WriteProfileString(subSection, nullptr, nullptr);
@@ -3071,23 +3168,40 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
         pApp->WriteProfileString(subSection, t, strValue);
     } else {
         t = L"FilePosition";
-        pApp->WriteProfileInt(subSection, t, r.filePosition / 10000LL);
+        pApp->WriteProfileInt(subSection, t, int(r.filePosition / 10000LL));
         persistedFilePosition = r.filePosition;
     }
-    if (updateLastOpened) {
+    if (r.abRepeat.positionA) {
+        pApp->WriteProfileInt(subSection, L"abRepeat.positionA", int(r.abRepeat.positionA / 10000LL));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"abRepeat.positionA", nullptr);
+    }
+    if (r.abRepeat.positionB) {
+        pApp->WriteProfileInt(subSection, L"abRepeat.positionB", int(r.abRepeat.positionB / 10000LL));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"abRepeat.positionB", nullptr);
+    }
+    if (r.abRepeat && r.abRepeat.dvdTitle != -1) {
+        pApp->WriteProfileInt(subSection, L"abRepeat.dvdTitle", int(r.abRepeat.dvdTitle));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"abRepeat.dvdTitle", nullptr);
+    }
+
+
+    if (updateLastOpened || r.lastOpened.IsEmpty()) {
         auto now = std::chrono::system_clock::now();
         auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
-        CStringW lastOpened(nowISO.c_str());
-        pApp->WriteProfileStringW(subSection, L"LastOpened", lastOpened);
+        r.lastOpened = CStringW(nowISO.c_str());
     }
+    pApp->WriteProfileStringW(subSection, L"LastOpened", r.lastOpened);
 }
 
-void CAppSettings::CRecentFileListWithMoreInfo::SaveMediaHistory(bool updateLastOpened /* = false */) {
+void CAppSettings::CRecentFileListWithMoreInfo::SaveMediaHistory() {
     if (rfe_array.GetCount()) {
         //go in reverse in case we are setting last opened when migrating history (makes last appear oldest)
         for (size_t i = rfe_array.GetCount() - 1, j = 0; j < m_maxSize && j < rfe_array.GetCount(); i--, j++) {
             auto& r = rfe_array.GetAt(i);
-            WriteMediaHistoryEntry(r, updateLastOpened);
+            WriteMediaHistoryEntry(r);
         }
     }
 }
@@ -3097,7 +3211,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::MigrateLegacyHistory() {
     std::map<CStringW, size_t> filenameToIndex;
     ReadLegacyMediaHistory(filenameToIndex);
     ReadLegacyMediaPosition(filenameToIndex);
-    SaveMediaHistory(true);
+    SaveMediaHistory();
     LPCWSTR legacySection = L"Recent File List";
     pApp->WriteProfileString(legacySection, nullptr, nullptr);
 }

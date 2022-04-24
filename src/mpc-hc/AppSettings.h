@@ -94,7 +94,7 @@ enum : UINT64 {
     CLSW_CONFIGLAVVIDEO = CLSW_CONFIGLAVAUDIO << 1,
     CLSW_MUTE = CLSW_CONFIGLAVVIDEO << 1,
     CLSW_VOLUME = CLSW_MUTE << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1 // 46
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1, // 46
 };
 
 enum MpcCaptionState {
@@ -431,6 +431,13 @@ struct DVD_POSITION {
     DVD_HMSF_TIMECODE   timecode;
 };
 
+struct ABRepeat {
+    ABRepeat() : positionA(0), positionB(0), dvdTitle(-1) {}
+    operator bool() const { return positionA || positionB; };
+    REFERENCE_TIME positionA, positionB;
+    ULONG dvdTitle; //whatever title they saved last will be the only one we remember
+};
+
 class RecentFileEntry {
 public:
     RecentFileEntry() {}
@@ -438,12 +445,14 @@ public:
         hash = r.hash;
         cue = r.cue;
         title = r.title;
+        lastOpened = r.lastOpened;
         filePosition = r.filePosition;
         DVDPosition = r.DVDPosition;
         fns.RemoveAll();
         subs.RemoveAll();
         fns.AddHeadList(&r.fns);
         subs.AddHeadList(&r.subs);
+        abRepeat = r.abRepeat;
     }
     RecentFileEntry(const RecentFileEntry &r) {
         InitEntry(r);
@@ -451,15 +460,14 @@ public:
 
     CStringW hash;
     CString title;
+    CString lastOpened;
     CAtlList<CString> fns;
     CString cue;
     CAtlList<CString> subs;
     REFERENCE_TIME filePosition=0;
     DVD_POSITION DVDPosition = {};
+    ABRepeat abRepeat;
 
-    BOOL operator==(RecentFileEntry c) {
-        return this->fns.GetHead() == c.fns.GetHead() && cue == c.cue;
-    }
     void operator=(const RecentFileEntry &r) {
         InitEntry(r);
     }
@@ -484,12 +492,17 @@ class CAppSettings
     class CRecentFileListWithMoreInfo
     {
     public:
-        CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize) : m_section(lpszSection), m_maxSize(nSize){}
+        CRecentFileListWithMoreInfo(LPCTSTR lpszSection, int nSize)
+        : m_section(lpszSection)
+        , m_maxSize(nSize)
+        , current_rfe_hash(L"")
+        {}
 
         CAtlArray<RecentFileEntry> rfe_array;
         size_t m_maxSize;
         LPCTSTR m_section;
         REFERENCE_TIME persistedFilePosition = 0;
+        CString current_rfe_hash;
 
         int GetSize() {
             return (int)rfe_array.GetCount();
@@ -503,18 +516,21 @@ class CAppSettings
         void Remove(size_t nIndex);
         void Add(LPCTSTR fn);
         void Add(LPCTSTR fn, ULONGLONG llDVDGuid);
-        void Add(RecentFileEntry r);
+        void Add(RecentFileEntry r, bool current_open = false);
+        bool GetCurrentIndex(size_t& idx);
         void UpdateCurrentFilePosition(REFERENCE_TIME time, bool forcePersist = false);
         REFERENCE_TIME GetCurrentFilePosition();
+        ABRepeat GetCurrentABRepeat();
         void UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE *time);
         void UpdateCurrentDVDTitle(DWORD title);
         DVD_POSITION GetCurrentDVDPosition();
         void AddSubToCurrent(CStringW subpath);
         void SetCurrentTitle(CStringW subpath);
+        void UpdateCurrentABRepeat(ABRepeat abRepeat);
         void WriteCurrentEntry();
         void ReadMediaHistory();
         void WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened = false);
-        void SaveMediaHistory(bool updateLastOpened = false);
+        void SaveMediaHistory();
         void ReadLegacyMediaHistory(std::map<CStringW, size_t> &filenameToIndex);
         void ReadLegacyMediaPosition(std::map<CStringW, size_t> &filenameToIndex);
         bool LoadMediaHistoryEntryFN(CStringW fn, RecentFileEntry& r);
@@ -534,6 +550,7 @@ public:
     // Initial position (used by command line flags)
     REFERENCE_TIME      rtShift;
     REFERENCE_TIME      rtStart;
+    ABRepeat            abRepeat;
     ULONG               lDVDTitle;
     ULONG               lDVDChapter;
     DVD_HMSF_TIMECODE   DVDPosition;
@@ -914,6 +931,13 @@ public:
     bool bUseSubsFromYDL;
     CString sYDLSubsPreference;
     bool bUseAutomaticCaptions;
+
+    CStringW lastQuickOpenPath;
+    CStringW lastSaveImagePath;
+
+    int iRedirectOpenToAppendThreshold;
+    bool bFullscreenSeparateControls;
+    bool bAlwaysUseShortMenu;
 
 private:
     struct FilterKey {

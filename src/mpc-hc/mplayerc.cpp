@@ -1110,7 +1110,7 @@ std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
                 RegQueryInfoKeyW(hSectionKey, NULL, NULL, NULL, &cSubKeys, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
                 if (cSubKeys) {
-                    for (int i = 0; i < cSubKeys; i++) {
+                    for (DWORD i = 0; i < cSubKeys; i++) {
                         cbName = MAX_REGKEY_LEN;
                         if (ERROR_SUCCESS == RegEnumKeyExW(hSectionKey, i, achKey, &cbName, NULL, NULL, NULL, NULL)){
                             keys.push_back(achKey);
@@ -1240,12 +1240,10 @@ LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry) {
         }
 
         InitProfile();
-        m_ProfileMap.erase(sectionStr);
-        auto it1 = m_ProfileMap.begin();
+        auto it1 = m_ProfileMap.find(sectionStr + L"\\" + keyStr);
         if (it1 != m_ProfileMap.end()) {
-            if (it1->first.Find(sectionStr + L"\\") == 0) {
-                m_ProfileMap.erase(it1);
-            }
+            m_ProfileMap.erase(it1);
+            m_bQueuedProfileFlush = true;
         }
     }
     return 0;
@@ -2266,7 +2264,7 @@ void CMPlayerCApp::OnAppAbout()
 void CMPlayerCApp::SetClosingState()
 {
     m_fClosingState = true;
-#if USE_DRDUMP_CRASH_REPORTER & (MPC_VERSION_REV < 50)
+#if USE_DRDUMP_CRASH_REPORTER & (MPC_VERSION_REV < 20)
     DisableCrashReporter();
 #endif
 }

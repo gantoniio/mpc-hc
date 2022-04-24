@@ -2746,7 +2746,9 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     double dFontScaleXCompensation = 1.0;
     double dFontScaleYCompensation = 1.0;
 
-    if (m_ePARCompensationType == EPCTUpscale) {
+    if (m_ePARCompensationType == EPCTAccurateSize_ISR || m_ePARCompensationType == EPCTAccurateSize) {
+        dFontScaleXCompensation = m_dPARCompensation;
+    } else if (m_ePARCompensationType == EPCTUpscale) {
         if (m_dPARCompensation < 1.0) {
             dFontScaleYCompensation = 1.0 / m_dPARCompensation;
         } else {
@@ -2758,8 +2760,6 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         } else {
             dFontScaleYCompensation = 1.0 / m_dPARCompensation;
         }
-    } else if (m_ePARCompensationType == EPCTAccurateSize || m_ePARCompensationType == EPCTAccurateSize_ISR) {
-        dFontScaleXCompensation = m_dPARCompensation;
     }
 
     const CRenderersSettings& r = GetRenderersSettings();
@@ -2872,15 +2872,14 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         tmp.shadowDepthX  *= (fScaledBAS ? sub->m_scalex : 1.0) * 8.0;
         tmp.shadowDepthY  *= (fScaledBAS ? sub->m_scaley : 1.0) * 8.0;
 
-        if ((tmp.fontScaleX == tmp.fontScaleY && m_ePARCompensationType != EPCTAccurateSize_ISR)
-                || (tmp.fontScaleX != tmp.fontScaleY && m_ePARCompensationType == EPCTAccurateSize_ISR)) {
-            tmp.fontScaleX *= dFontScaleXCompensation;
-            tmp.fontScaleY *= dFontScaleYCompensation;
-        }
-
         if (m_nPolygon) {
             ParsePolygon(sub, str.Mid(iStart, iEnd - iStart), tmp);
         } else {
+            if (m_ePARCompensationType != EPCTDisabled) {
+                tmp.fontScaleX *= dFontScaleXCompensation;
+                tmp.fontScaleY *= dFontScaleYCompensation;
+            }
+
             ParseString(sub, str.Mid(iStart, iEnd - iStart), tmp);
         }
     }
@@ -3386,8 +3385,14 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
     CString strLanguage;
     if (m_lcid && m_lcid != LCID(-1)) {
-        int len = GetLocaleInfo(m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
-        strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
+        WCHAR dispName[1024];
+        memset(dispName, 0, 1024 * sizeof(WCHAR));
+        if (0 == GetLocaleInfoEx(m_langname, LOCALE_SLOCALIZEDDISPLAYNAME, (LPWSTR)&dispName, 1024)) {
+            int len = GetLocaleInfo(m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
+            strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
+        } else {
+            strLanguage = dispName;
+        }
     }
 
     if (strLanguage.IsEmpty() && !m_langname.IsEmpty()) {
