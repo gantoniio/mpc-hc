@@ -80,7 +80,7 @@ BOOL CSaveTextFileDialog::OnFileNameOK()
         pfdc->Release();
         m_e = (CTextFile::enc)result;
     } else {
-        m_e = CTextFile::UTF8;
+        m_e = CTextFile::DEFAULT_ENCODING;
     }
 
     return __super::OnFileNameOK();
