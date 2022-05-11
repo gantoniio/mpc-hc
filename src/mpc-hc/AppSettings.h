@@ -938,6 +938,7 @@ public:
     int iRedirectOpenToAppendThreshold;
     bool bFullscreenSeparateControls;
     bool bAlwaysUseShortMenu;
+    int iStillVideoDuration;
 
 private:
     struct FilterKey {
