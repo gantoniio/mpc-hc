@@ -39,7 +39,6 @@ private:
     bool IsMuted() const;
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
-    bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
     bool mouseDown;
     CMPCThemeToolTipCtrl themedToolTip;
@@ -52,14 +51,13 @@ private:
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
-    std::map<int, int> idToLegacyButtonIndex; //holds a map of cmdids -> button index into toolbar.svg
     int volumeButtonIndex, dummyButtonIndex, flexibleSpaceIndex;
     bool useFlexibleSpace;
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
-    bool LoadExternalToolBar(CImage& image, bool useColor, bool dynamicIcons = false);
+    bool LoadExternalToolBar(CImage& image, float svgscale);
 
     int GetVolume() const;
     int GetMinWidth() const;

@@ -34,7 +34,30 @@
 
 // CPlayerToolBar
 
-#define USE_LEGACY_TOOLBAR 0
+static std::map<int,int> supportedButtons = {
+    {ID_PLAY_PLAY, 0},
+    {ID_PLAY_PAUSE, 1},
+    {ID_PLAY_STOP, 2},
+    {ID_NAVIGATE_SKIPBACK, 4},
+    {ID_PLAY_DECRATE, 5},
+    {ID_PLAY_INCRATE, 6},
+    {ID_NAVIGATE_SKIPFORWARD, 7},
+    {ID_PLAY_FRAMESTEP, 9},
+    {ID_DUMMYSEPARATOR, 11},
+    {ID_VOLUME_MUTE, 12},
+};
+
+static UINT styles[] = {
+    TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
+    TBBS_SEPARATOR,
+    TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
+    TBBS_SEPARATOR,
+    TBBS_BUTTON,
+    TBBS_SEPARATOR,
+    TBBS_SEPARATOR,
+    TBBS_CHECKBOX,
+};
+
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
@@ -57,7 +80,7 @@ CPlayerToolBar::~CPlayerToolBar()
 {
 }
 
-bool CPlayerToolBar::LoadExternalToolBar(CImage& image, bool useColor, bool dynamicIcons /*=false*/)
+bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale)
 {
     // Paths and extensions to try (by order of preference)
     std::vector<CString> paths({ PathUtils::GetProgramPath() });
@@ -66,26 +89,11 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, bool useColor, bool dyna
         paths.emplace_back(appDataPath);
     }
     CString basetbname;
-    if (AppIsThemeLoaded()) {
-        basetbname = _T("toolbar_dark.");
-    } else {
-        basetbname = _T("toolbar.");
-    }
-
-    if (useColor) {
-        basetbname = _T("color_") + basetbname;
-    }
-
-    if (dynamicIcons) {
-        basetbname = _T("dynamic_") + basetbname;
-    }
-
-    // TODO: Find a better solution?
-    float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+    basetbname = _T("buttons.");
 
     // Try loading the external toolbar
     for (const auto& path : paths) {
-        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, basetbname + _T("svg")), image, dpiScaling))) {
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, basetbname + _T("svg")), image, svgscale))) {
             return true;
         }
     }
@@ -100,136 +108,82 @@ void CPlayerToolBar::LoadToolbarImage()
     int targetsize = int(dpiScaling * AfxGetAppSettings().nDefaultToolbarSize);
     float svgscale = targetsize / 16.0f;
 
-    CImage image, themedImage, origImage;
-    CImage dynamicButtonsImage, dynamicThemedButtonsImage, dynamicOrigImage;
+    CImage image;
+
     m_pButtonsImages.reset();
     m_pDisabledButtonsImages.reset();
 
-    bool colorToolbar = false, toolbarImageLoaded = false, dynamicButtonsImageLoaded=false;
-    if (LoadExternalToolBar(origImage, true)) {
-        colorToolbar = true;
-        toolbarImageLoaded = true;
-    } else if (LoadExternalToolBar(origImage, false)) {
-        toolbarImageLoaded = true;
+    bool buttonsImageLoaded = false;
+    if (LoadExternalToolBar(image, svgscale) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight()/4) == 0) {
+        buttonsImageLoaded = true;
     }
 
-    if (toolbarImageLoaded || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, origImage, svgscale))) {
-        if (0 == USE_LEGACY_TOOLBAR && LoadExternalToolBar(dynamicOrigImage, colorToolbar, true)) {
-            if (dynamicOrigImage.GetHeight() == origImage.GetHeight() && 0 == dynamicOrigImage.GetWidth() % origImage.GetHeight()) {
-                dynamicButtonsImageLoaded = true;
-            } else {
-                dynamicButtonsImageLoaded = false;
-            }
-        }
-
-        if (AppIsThemeLoaded() && colorToolbar == false) {
-            ImageGrayer::UpdateColor(origImage, themedImage, false, ImageGrayer::mpcMono);
-            image = themedImage;
-            if (dynamicButtonsImageLoaded) {
-                ImageGrayer::UpdateColor(dynamicOrigImage, dynamicThemedButtonsImage, false, ImageGrayer::mpcMono);
-                dynamicButtonsImage = dynamicThemedButtonsImage;
-            }
-        } else {
-            image = origImage;
-            dynamicButtonsImage = dynamicOrigImage;
-        }
+    if (buttonsImageLoaded || SUCCEEDED(SVGImage::Load(IDF_SVG_BUTTONS, image, svgscale))) {
         CImage imageDisabled;
-        bool createdDisabledImage = false;
         CBitmap* bmp = CBitmap::FromHandle(image);
+
         int width = image.GetWidth();
-        int height = image.GetHeight();
+        int height = image.GetHeight() / 4;
         int bpp = image.GetBPP();
-        if (width == height * 15) {
+        if (width % height == 0) { //todo: dynamically determine which buttons are supported by this toolbar, otherwise show generic buttons?
             // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
             SetSizes(CSize(height + 7, height + 6), CSize(height, height));
 
             m_pButtonsImages.reset(DEBUG_NEW CImageList());
-            if (bpp == 32) {
-                m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
-            } else {
-                m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
+            m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
+            m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
+            m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
+            
+            CImage dynamicToolbar, dynamicToolbarDisabled;
+
+            dynamicToolbar.Create(width, height, bpp, CImage::createAlphaChannel);
+            dynamicToolbarDisabled.Create(width, height, bpp, CImage::createAlphaChannel);
+
+            CBitmap* pOldTargetBmp = nullptr;
+            CBitmap* pOldSourceBmp = nullptr;
+
+            CDC targetDC;
+            CDC sourceDC;
+            CDC* pDC = this->GetDC();
+            targetDC.CreateCompatibleDC(pDC);
+            sourceDC.CreateCompatibleDC(pDC);
+            pOldTargetBmp = targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
+            pOldSourceBmp = sourceDC.GetCurrentBitmap();
+
+            int imageOffset = 0, imageDisabledOffset=height;
+            if (AppIsThemeLoaded()) {
+                imageOffset = height * 2;
+                imageDisabledOffset = height * 3;
             }
 
-            if (USE_LEGACY_TOOLBAR) {
-                if (bpp == 32) {
-                    m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
-                } else {
-                    m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
-                }
-                if (colorToolbar == false && bpp == 32) {//if color toolbar, we assume the imagelist can gray itself nicely, rather than using imagegrayer
-                    createdDisabledImage = ImageGrayer::UpdateColor(origImage, imageDisabled, true, AppIsThemeLoaded() ? ImageGrayer::mpcMono : ImageGrayer::classicGrayscale);
-                }
-            } else { //dynamic toolbar
-                CImage dynamicToolbar;
-                int dynamicWidth = width;
-                if (dynamicButtonsImageLoaded) {
-                    dynamicWidth += dynamicButtonsImage.GetWidth();
-                }
-                dynamicToolbar.Create(dynamicWidth, height, bpp, 32 == bpp ? CImage::createAlphaChannel : 0);
+            sourceDC.SelectObject(bmp);
+            targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageOffset, SRCCOPY);
 
-                CBitmap* pOldTargetBmp = nullptr;
-                CBitmap* pOldSourceBmp = nullptr;
+            targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbarDisabled));
+            targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
 
-                CDC targetDC;
-                CDC sourceDC;
-                CDC* pDC = this->GetDC();
-                targetDC.CreateCompatibleDC(pDC);
-                sourceDC.CreateCompatibleDC(pDC);
-                pOldTargetBmp = targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
-                pOldSourceBmp = sourceDC.GetCurrentBitmap();
 
-                sourceDC.SelectObject(CBitmap::FromHandle(image));
-                targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, 0, SRCCOPY);
+            sourceDC.SelectObject(pOldSourceBmp);
+            targetDC.SelectObject(pOldTargetBmp);
 
-                if (dynamicButtonsImageLoaded) {
-                    sourceDC.SelectObject(CBitmap::FromHandle(dynamicButtonsImage));
-                    targetDC.BitBlt(image.GetWidth(), 0, dynamicButtonsImage.GetWidth(), height, &sourceDC, 0, 0, SRCCOPY);
-                }
+            sourceDC.DeleteDC();
+            targetDC.DeleteDC();
 
-                sourceDC.SelectObject(pOldSourceBmp);
-                targetDC.SelectObject(pOldTargetBmp);
+            ReleaseDC(pDC);
 
-                sourceDC.DeleteDC();
-                targetDC.DeleteDC();
+            m_pButtonsImages->Add(CBitmap::FromHandle(dynamicToolbar), nullptr);
+            dynamicToolbar.Destroy();
 
-                ReleaseDC(pDC);
-
-                if (32 == bpp) {
-                    m_pButtonsImages->Add(CBitmap::FromHandle(dynamicToolbar), nullptr);
-                } else {
-                    m_pButtonsImages->Add(CBitmap::FromHandle(dynamicToolbar), RGB(255, 0, 255));
-                }
-                dynamicToolbar.Save(_T("c:\\temp\\toolbar.bmp"));
-                if (colorToolbar == false && bpp == 32) {//if color toolbar, we assume the imagelist can gray itself nicely, rather than using imagegrayer
-                    createdDisabledImage = ImageGrayer::UpdateColor(dynamicToolbar, imageDisabled, true, AppIsThemeLoaded() ? ImageGrayer::mpcMono : ImageGrayer::classicGrayscale);
-                }
-                dynamicToolbar.Destroy();
-            }
-            if (createdDisabledImage) {
-                m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
-                m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
-                m_pDisabledButtonsImages->Add(CBitmap::FromHandle(imageDisabled), nullptr); // alpha is the mask
-                imageDisabled.Destroy();
-            } else {
-                m_pDisabledButtonsImages = nullptr;
-            }
+            m_pDisabledButtonsImages->Add(CBitmap::FromHandle(dynamicToolbarDisabled), nullptr);
+            dynamicToolbarDisabled.Destroy();
 
             m_nButtonHeight = height;
 
             GetToolBarCtrl().SetImageList(m_pButtonsImages.get());
             GetToolBarCtrl().SetDisabledImageList(m_pDisabledButtonsImages.get());
         }
-        if (themedImage) {
-            themedImage.Destroy();
-        }
-        if (dynamicThemedButtonsImage) {
-            dynamicThemedButtonsImage.Destroy();
-        }
     }
-    origImage.Destroy();
-    if (dynamicOrigImage) {
-        dynamicOrigImage.Destroy();
-    }
+    image.Destroy();
     
 }
 
@@ -243,100 +197,48 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     auto& s = AfxGetAppSettings();
 
     CToolBarCtrl& tb = GetToolBarCtrl();
-    UINT styles[] = {
-        TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
-        TBBS_SEPARATOR,
-        TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
-        TBBS_SEPARATOR,
-        TBBS_BUTTON,
-        TBBS_SEPARATOR,
-        TBBS_SEPARATOR,
-        TBBS_CHECKBOX,
+
+    dummyButtonIndex = -1;
+    volumeButtonIndex = -1;
+    flexibleSpaceIndex = -1;
+    useFlexibleSpace = false; //can be enabled with right conditions: ID_DUMMYSEPARATOR placed directly before ID_VOLUME_MUTE
+
+    auto addButton = [&](int cmdid, int svgIndex) {
+        TBBUTTON button = { 0 };
+        button.iBitmap = svgIndex;
+        button.idCommand = cmdid;
+        button.iString = -1;
+        tb.AddButtons(1, &button);
+        SetButtonStyle(tb.GetButtonCount() - 1, styles[svgIndex] | TBBS_DISABLED);
+        if (cmdid == ID_VOLUME_MUTE) {
+            volumeButtonIndex = tb.GetButtonCount() - 1;
+            if (dummyButtonIndex == volumeButtonIndex -1) {
+                flexibleSpaceIndex = dummyButtonIndex - 1;
+                useFlexibleSpace = true;
+            }
+        } else if (cmdid == ID_DUMMYSEPARATOR) {
+            dummyButtonIndex = tb.GetButtonCount() - 1;
+        }
     };
 
-    if (USE_LEGACY_TOOLBAR) {
-        VERIFY(LoadToolBar(IDB_PLAYERTOOLBAR));
-        tb.DeleteButton(tb.GetButtonCount() - 1);
-        tb.DeleteButton(tb.GetButtonCount() - 1);
-        
-        for (int i = 0; i < _countof(styles); ++i) {
-            // This fixes missing separator in Win 7
-            if (styles[i] & TBBS_SEPARATOR) {
-                SetButtonInfo(i, GetItemID(i), styles[i], -1);
-            } else {
-                SetButtonStyle(i, styles[i] | TBBS_DISABLED);
+    auto addSeparator = [&]() {
+        TBBUTTON button = { 0 };
+        button.iBitmap = -1;
+        button.iString = -1;
+        button.fsStyle = BTNS_SEP;
+        tb.AddButtons(1, &button);
+    };
+
+    for (std::vector<int>::size_type i = 0; i < s.toolBarLayout.buttons.size(); ++i) {
+        int cmdid = s.toolBarLayout.buttons[i];
+        if (cmdid == ID_BUTTONSEP) {
+            addSeparator();
+        } else if (!useFlexibleSpace) {
+            if (supportedButtons.count(cmdid)) {
+                int svgIndex = supportedButtons[cmdid];
+                addButton(cmdid, svgIndex);
             }
         }
-    } else {
-        CToolBar legacyTB;
-        legacyTB.CreateEx(pParentWnd, TBSTYLE_FLAT, WS_CHILD, CRect(2, 2, 0, 1));
-        VERIFY(legacyTB.LoadToolBar(IDB_PLAYERTOOLBAR));
-        auto& ltbCtrl = legacyTB.GetToolBarCtrl();
-        ASSERT(ltbCtrl.GetButtonCount() == 15);
-
-        idToLegacyButtonIndex.clear();
-        dummyButtonIndex = -1;
-        volumeButtonIndex = -1;
-        flexibleSpaceIndex = -1;
-        useFlexibleSpace = false; //can be enabled with right conditions: ID_DUMMYSEPARATOR placed directly before ID_VOLUME_MUTE
-
-        for (int i = 0; i < ltbCtrl.GetButtonCount(); i++) {
-            TBBUTTON button;
-            ltbCtrl.GetButton(i, &button);
-            idToLegacyButtonIndex[button.idCommand] = i;
-        }
-
-        auto addLegacyButton = [&](int cmdid) {
-            int legacyButtonIndex = idToLegacyButtonIndex[cmdid];
-            TBBUTTON lb;
-            ltbCtrl.GetButton(legacyButtonIndex, &lb);
-
-            tb.AddButtons(1, &lb);
-            SetButtonStyle(tb.GetButtonCount() - 1, styles[legacyButtonIndex] | TBBS_DISABLED);
-            if (cmdid == ID_VOLUME_MUTE) {
-                volumeButtonIndex = tb.GetButtonCount() - 1;
-                if (dummyButtonIndex == volumeButtonIndex -1) {
-                    flexibleSpaceIndex = dummyButtonIndex - 1;
-                    useFlexibleSpace = true;
-                }
-            } else if (cmdid == ID_DUMMYSEPARATOR) {
-                dummyButtonIndex = tb.GetButtonCount() - 1;
-            }
-        };
-
-        auto addSeparator = [&]() {
-            TBBUTTON button = { 0 };
-            button.iBitmap = -1;
-            button.iString = -1;
-            button.fsStyle = BTNS_SEP;
-            tb.AddButtons(1, &button);
-        };
-
-        auto addDynamicButton = [&](int cmdid, int index) {
-            TBBUTTON button = { 0 };
-            button.iBitmap = index;
-            button.idCommand = cmdid;
-            button.iString = -1;
-            button.fsStyle = BTNS_BUTTON;
-            tb.AddButtons(1, &button);
-            SetButtonStyle(tb.GetButtonCount()-1, TBBS_BUTTON | TBBS_DISABLED);
-        };
-
-        for (std::vector<int>::size_type i = 0; i < s.toolBarLayout.buttons.size(); ++i) {
-            int cmdid = s.toolBarLayout.buttons[i];
-            int svgIndex = s.toolBarLayout.SVGIndex[i];
-            if (cmdid == ID_BUTTONSEP) {
-                addSeparator();
-            } else if (cmdid == ID_DUMMYSEPARATOR || (idToLegacyButtonIndex.count(cmdid) > 0 && svgIndex == -1)) { //is a legacy button included in toolbar.svg, or is special case dummyseparator
-                addLegacyButton(cmdid);
-            } else if (!useFlexibleSpace) { //any command not included in legacy toolbar.svg. if we've already passed the spacer for volume, ignore it as there's nowhere to put it
-                addDynamicButton(cmdid, svgIndex);
-            }
-            int xxx = tb.GetButtonCount();
-            xxx = 1;
-        }
-
-        ltbCtrl.DestroyWindow();
     }
 
     // Should never be RTLed
@@ -676,8 +578,8 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     static CString strTipText;
-    if (nID != ID_VOLUME_MUTE) { //handle any buttons that don't exist on legacy toolbar
-        if (idToLegacyButtonIndex.count(nID) == 0 && s.CommandIDToWMCMD.count(nID) > 0) {
+    if (nID != ID_VOLUME_MUTE) { 
+        if (s.CommandIDToWMCMD.count(nID) > 0) {
             strTipText.LoadString(s.CommandIDToWMCMD[nID]->dwname);
         } else {
             return FALSE;
