@@ -24,6 +24,8 @@
 #include "VolumeCtrl.h"
 #include "AppSettings.h"
 #include "CMPCTheme.h"
+#include "PlayerToolBar.h"
+#include "CMPCThemeUtil.h"
 #undef SubclassWindow
 
 
@@ -131,98 +133,48 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
             case CDDS_ITEMPREPAINT:
 
                 if (pNMCD->dwItemSpec == TBCD_CHANNEL) {
+                    CRect rect;
+                    GetClientRect(rect);
+
                     CDC dc;
                     dc.Attach(pNMCD->hdc);
+                    CDC dcMem;
+                    CBitmap bmMem;
+                    CRect memRect = { 0, 0, rect.right, rect.bottom };
+                    CMPCThemeUtil::initMemDC(&dc, dcMem, bmMem, memRect);
 
-                    if (usetheme) {
-                        CRect rect;
-                        GetClientRect(rect);
-                        dc.FillSolidRect(&rect, CMPCTheme::PlayerBGColor);
-                    }
+                    dcMem.FillSolidRect(&rect, CMPCTheme::PlayerBGColor);
 
-                    getCustomChannelRect(&pNMCD->rc);
+                    DpiHelper dpiWindow;
+                    dpiWindow.Override(GetSafeHwnd());
 
-                    if (usetheme) {
-                        DpiHelper dpiWindow;
-                        dpiWindow.Override(GetSafeHwnd());
-
-                        CRect r(pNMCD->rc);
-                        if (!modernStyle) {
-                            r.DeflateRect(0, dpiWindow.ScaleFloorY(6), 0, dpiWindow.ScaleFloorY(6));
-                            dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
-                            CBrush fb;
-                            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
-                            dc.FrameRect(r, &fb);
-                            fb.DeleteObject();
-                        } else {
-                            r.DeflateRect(0, dpiWindow.ScaleFloorY(3), 0, dpiWindow.ScaleFloorY(2));
-                            CRect filledRect, unfilledRect;
-                            filledRect = r;
-                            filledRect.right = r.left + lround(r.Width() * float(GetPos()) / 100);
-                            dc.FillSolidRect(&filledRect, CMPCTheme::ScrollProgressColor);
-                            if (filledRect.right < r.right) { //do not fill bg if already full
-                                unfilledRect = r;
-                                unfilledRect.left = filledRect.right;
-                                dc.FillSolidRect(&unfilledRect, CMPCTheme::ScrollBGColor);
-                            }
-
-                            CBrush fb;
-                            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
-                            dc.FrameRect(r, &fb);
-                            fb.DeleteObject();
+                    CPlayerToolBar* tb = DYNAMIC_DOWNCAST(CPlayerToolBar, GetParent());
+                    if (tb) {
+                        CImage& vOn = tb->GetVolumeImageOn();
+                        CImage& vOff = tb->GetVolumeImageOff();
+                        CRect dr, drOn, drOff, src;
+                        dr.SetRect(0, 0, vOn.GetWidth(), vOn.GetHeight());
+                        dr.OffsetRect((rect.Width() - vOn.GetWidth()) / 2, (rect.Height() - vOn.GetHeight()) / 2);
+                        drOn = dr;
+                        drOn.right = dr.left + lround(dr.Width() * float(GetPos()) / 100);
+                        if (drOn.Width() > 0) {
+                            src = drOn;
+                            src.OffsetRect(-src.TopLeft());
+                            vOn.Draw(dcMem, drOn, src);
                         }
-                    } else {
-                        CPen shadow;
-                        CPen light;
-                        shadow.CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
-                        light.CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
-                        CPen* old = dc.SelectObject(&light);
-                        dc.MoveTo(pNMCD->rc.right, pNMCD->rc.top);
-                        dc.LineTo(pNMCD->rc.right, pNMCD->rc.bottom);
-                        dc.LineTo(pNMCD->rc.left, pNMCD->rc.bottom);
-                        dc.SelectObject(&shadow);
-                        dc.LineTo(pNMCD->rc.right, pNMCD->rc.top);
-                        dc.SelectObject(old);
-                        shadow.DeleteObject();
-                        light.DeleteObject();
+                        drOff = dr;
+                        drOff.left = drOn.right;
+                        if (drOff.Width() > 0) {
+                            src = drOff;
+                            src.OffsetRect(-src.TopLeft());
+                            src.OffsetRect(drOn.right-drOn.left, 0);
+                            vOff.Draw(dcMem, drOff, src);
+                        }
                     }
-
+                    CMPCThemeUtil::flushMemDC(&dc, dcMem, memRect);
                     dc.Detach();
                     lr = CDRF_SKIPDEFAULT;
                 } else if (pNMCD->dwItemSpec == TBCD_THUMB) {
-                    CDC dc;
-                    dc.Attach(pNMCD->hdc);
-                    pNMCD->rc.bottom--;
-                    CRect r(pNMCD->rc);
-                    r.DeflateRect(0, 0, 1, 0);
-
-                    COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
-                    COLORREF light = GetSysColor(COLOR_3DHILIGHT);
-                    if (usetheme) {
-                        if (!modernStyle) {
-                            CBrush fb;
-                            if (m_bDrag) {
-                                dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
-                            } else if (m_bHover) {
-                                dc.FillSolidRect(r, CMPCTheme::ScrollThumbHoverColor);
-                            } else {
-                                dc.FillSolidRect(r, CMPCTheme::ScrollThumbColor);
-                            }
-                            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
-                            dc.FrameRect(r, &fb);
-                            fb.DeleteObject();
-                        }
-                    } else {
-
-                        dc.Draw3dRect(&r, light, 0);
-                        r.DeflateRect(0, 0, 1, 1);
-                        dc.Draw3dRect(&r, light, shadow);
-                        r.DeflateRect(1, 1, 1, 1);
-                        dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
-                        dc.SetPixel(r.left + 7, r.top - 1, GetSysColor(COLOR_BTNFACE));
-                    }
-
-                    dc.Detach();
                     lr = CDRF_SKIPDEFAULT;
                 }
 
@@ -393,7 +345,8 @@ void CVolumeCtrl::updateModernVolCtrl(CPoint point)
     }
 
     RECT ur;
-    getCustomChannelRect(&ur);
+    //getCustomChannelRect(&ur);
+    GetClientRect(&ur);
     RedrawWindow(&ur, nullptr, RDW_INVALIDATE); //we must redraw the whole channel with the modern volume ctrl. by default only areas where thumb has been are invalidated
 }
 

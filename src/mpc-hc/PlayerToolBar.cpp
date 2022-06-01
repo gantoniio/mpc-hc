@@ -122,12 +122,19 @@ void CPlayerToolBar::LoadToolbarImage()
         CImage imageDisabled;
         CBitmap* bmp = CBitmap::FromHandle(image);
 
+
         int width = image.GetWidth();
         int height = image.GetHeight() / 4;
         int bpp = image.GetBPP();
         if (width % height == 0) { //todo: dynamically determine which buttons are supported by this toolbar, otherwise show generic buttons?
             // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
             SetSizes(CSize(height + 7, height + 6), CSize(height, height));
+
+            int volumeIndex = supportedButtons[ID_VOLUME_MUTE] + 3;
+            volumeOn.Destroy();
+            volumeOff.Destroy();
+            volumeOn.Create(height * 2, height, bpp, CImage::createAlphaChannel);
+            volumeOff.Create(height * 2, height, bpp, CImage::createAlphaChannel);
 
             m_pButtonsImages.reset(DEBUG_NEW CImageList());
             m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
@@ -141,12 +148,14 @@ void CPlayerToolBar::LoadToolbarImage()
 
             CBitmap* pOldTargetBmp = nullptr;
             CBitmap* pOldSourceBmp = nullptr;
+            
 
             CDC targetDC;
             CDC sourceDC;
             CDC* pDC = this->GetDC();
             targetDC.CreateCompatibleDC(pDC);
             sourceDC.CreateCompatibleDC(pDC);
+
             pOldTargetBmp = targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
             pOldSourceBmp = sourceDC.GetCurrentBitmap();
 
@@ -162,6 +171,13 @@ void CPlayerToolBar::LoadToolbarImage()
             targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbarDisabled));
             targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
 
+            targetDC.SelectObject(CBitmap::FromHandle(volumeOn));
+            targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageOffset, SRCCOPY);
+            targetDC.SelectObject(CBitmap::FromHandle(volumeOff));
+            targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageDisabledOffset, SRCCOPY);
+
+            //volumeOn.Save(_T("c:\\temp\\vON.bmp"));
+            //volumeOff.Save(_T("c:\\temp\\vOFF.bmp"));
 
             sourceDC.SelectObject(pOldSourceBmp);
             targetDC.SelectObject(pOldTargetBmp);
@@ -202,6 +218,8 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     volumeButtonIndex = -1;
     flexibleSpaceIndex = -1;
     useFlexibleSpace = false; //can be enabled with right conditions: ID_DUMMYSEPARATOR placed directly before ID_VOLUME_MUTE
+    buttonCount = 0;
+    sepCount = 0;
 
     auto addButton = [&](int cmdid, int svgIndex) {
         TBBUTTON button = { 0 };
@@ -219,6 +237,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         } else if (cmdid == ID_DUMMYSEPARATOR) {
             dummyButtonIndex = tb.GetButtonCount() - 1;
         }
+        buttonCount++;
     };
 
     auto addSeparator = [&]() {
@@ -227,6 +246,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         button.iString = -1;
         button.fsStyle = BTNS_SEP;
         tb.AddButtons(1, &button);
+        sepCount++;
     };
 
     for (std::vector<int>::size_type i = 0; i < s.toolBarLayout.buttons.size(); ++i) {
@@ -273,16 +293,13 @@ void CPlayerToolBar::ArrangeControls() {
     GetClientRect(&r);
 
     CRect br = GetBorders();
+    int imageWidth = volumeOn.GetWidth(), imageHeight=volumeOn.GetHeight();
+    int volSpace = MulDiv(imageWidth, 12, 10);
+    int top = r.top + (r.Height() - imageHeight) / 2;
+    CRect vr(r.right + br.right - volSpace, top, r.right + br.right, top+imageHeight);
 
-    CRect vr(r.right + br.right - 60, r.top - 2, r.right + br.right + 6, r.bottom);
     m_volctrl.MoveWindow(vr);
-
-    CRect thumbRect;
-    m_volctrl.GetThumbRect(thumbRect);
-    m_volctrl.MapWindowPoints(this, thumbRect);
-    vr.top += std::max((r.bottom - thumbRect.bottom - 4) / 2, 0l);
-    vr.left -= m_volumeMinSizeInc = MulDiv(thumbRect.Height(), 50, 19) - 50;
-    m_volctrl.MoveWindow(vr);
+    m_volumeMinSizeInc = imageWidth;
 
     if (useFlexibleSpace) {
         UINT nID;
@@ -335,7 +352,7 @@ int CPlayerToolBar::GetVolume() const
 
 int CPlayerToolBar::GetMinWidth() const
 {
-    return m_nButtonHeight * 9 + 155 + m_volumeMinSizeInc;
+    return (m_nButtonHeight + 1 + 7) * buttonCount + (1 + 7) * sepCount + m_volumeMinSizeInc;
 }
 
 void CPlayerToolBar::SetVolume(int volume)

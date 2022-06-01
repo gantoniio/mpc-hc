@@ -36,6 +36,7 @@ class CPlayerToolBar : public CToolBar
 private:
     CMainFrame* m_pMainFrame;
 
+    CImage volumeOn, volumeOff;
     bool IsMuted() const;
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
@@ -47,7 +48,7 @@ private:
     std::unique_ptr<CImageList> m_pButtonsImages;
     std::unique_ptr<CImageList> m_pDisabledButtonsImages;
 
-    int m_volumeMinSizeInc;
+    int m_volumeMinSizeInc, buttonCount, sepCount;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
@@ -65,6 +66,8 @@ public:
     __declspec(property(get = GetVolume, put = SetVolume)) int Volume;
 
     void ArrangeControls();
+    CImage& GetVolumeImageOn() { return volumeOn; };
+    CImage& GetVolumeImageOff() { return volumeOff; };
 
     CVolumeCtrl m_volctrl;
 
