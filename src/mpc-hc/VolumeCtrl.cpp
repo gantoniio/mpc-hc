@@ -75,6 +75,7 @@ void CVolumeCtrl::SetPosInternal(int pos)
     ::GetCursorPos(&p);
     ScreenToClient(&p);
     checkHover(p);
+    RedrawWindow(nullptr, nullptr, RDW_INVALIDATE); //we must redraw the whole window as it can be larger than volctrl expects
 }
 
 void CVolumeCtrl::IncreaseVolume()

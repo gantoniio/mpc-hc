@@ -299,7 +299,7 @@ void CPlayerToolBar::ArrangeControls() {
     CRect vr(r.right + br.right - volSpace, top, r.right + br.right, top+imageHeight);
 
     m_volctrl.MoveWindow(vr);
-    m_volumeMinSizeInc = imageWidth;
+    m_volumeMinSizeInc = volSpace;
 
     if (useFlexibleSpace) {
         UINT nID;
