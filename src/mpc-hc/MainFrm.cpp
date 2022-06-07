@@ -3741,7 +3741,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     ASSERT(GetMediaStateDirect() == State_Stopped);
 
     // destroy invisible top-level d3dfs window if there is no video renderer
-    if (HasFullScreenWindow() && !m_pMFVDC && !m_pVMRWC) {
+    if (HasFullScreenWindow() && !m_pMFVDC && !m_pVMRWC && !m_pVW) {
         m_pFullscreenWnd->DestroyWindow();
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
@@ -4648,6 +4648,8 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             s.nCLSwitches &= ~CLSW_ADD;
         }
+    } else if ((s.nCLSwitches & CLSW_PLAY) && !IsPlaylistEmpty()) {
+        OpenCurPlaylistItem();
     } else {
         applyRandomizeSwitch();
     }
@@ -5413,7 +5415,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
         CComPtr<CMemSubPicAllocator> pSubPicAllocator = DEBUG_NEW CMemSubPicAllocator(spdRender.type, CSize(spdRender.w, spdRender.h));
 
         CMemSubPic memSubPic(spdRender, pSubPicAllocator);
-        memSubPic.ClearDirtyRect(0xFF000000);
+        //memSubPic.SetInverseAlpha(true);
 
         RECT bbox = {};
         hr = pSubPicProvider->Render(spdRender, rtNow, m_pCAP->GetFPS(), bbox);
