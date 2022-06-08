@@ -177,8 +177,8 @@ void CPlayerToolBar::LoadToolbarImage()
             targetDC.SelectObject(CBitmap::FromHandle(volumeOff));
             targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageDisabledOffset, SRCCOPY);
 
-            volumeOn.Save(L"c:\\temp\\vON.png", Gdiplus::ImageFormatPNG);
-            volumeOff.Save(L"c:\\temp\\vOFF.png", Gdiplus::ImageFormatPNG);
+            //volumeOn.Save(L"c:\\temp\\vON.png", Gdiplus::ImageFormatPNG);
+            //volumeOff.Save(L"c:\\temp\\vOFF.png", Gdiplus::ImageFormatPNG);
 
             ImageGrayer::PreMultiplyAlpha(volumeOn);
             ImageGrayer::PreMultiplyAlpha(volumeOff);
