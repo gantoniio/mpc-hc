@@ -31,6 +31,7 @@
 #include "SVGImage.h"
 #include "ImageGrayer.h"
 #include "CMPCTheme.h"
+#include "Gdiplusimaging.h"
 
 // CPlayerToolBar
 
@@ -176,8 +177,11 @@ void CPlayerToolBar::LoadToolbarImage()
             targetDC.SelectObject(CBitmap::FromHandle(volumeOff));
             targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageDisabledOffset, SRCCOPY);
 
-            //volumeOn.Save(_T("c:\\temp\\vON.bmp"));
-            //volumeOff.Save(_T("c:\\temp\\vOFF.bmp"));
+            volumeOn.Save(L"c:\\temp\\vON.png", Gdiplus::ImageFormatPNG);
+            volumeOff.Save(L"c:\\temp\\vOFF.png", Gdiplus::ImageFormatPNG);
+
+            ImageGrayer::PreMultiplyAlpha(volumeOn);
+            ImageGrayer::PreMultiplyAlpha(volumeOff);
 
             sourceDC.SelectObject(pOldSourceBmp);
             targetDC.SelectObject(pOldTargetBmp);

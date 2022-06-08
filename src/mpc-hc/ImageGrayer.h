@@ -30,4 +30,5 @@ namespace ImageGrayer
 
     bool Gray(const CImage& imgSource, CImage& imgDest, float brightness = 1.0f);
     bool UpdateColor(const CImage& imgSource, CImage& imgDest, bool disabled, mpcColorStyle colorStyle);
+    void PreMultiplyAlpha(CImage& imgSource);
 }

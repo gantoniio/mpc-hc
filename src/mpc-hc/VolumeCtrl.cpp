@@ -161,7 +161,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                         if (drOn.Width() > 0) {
                             src = drOn;
                             src.OffsetRect(-src.TopLeft());
-                            vOn.Draw(dcMem, drOn, src);
+                            vOn.AlphaBlend(dcMem, drOn, src);
                         }
                         drOff = dr;
                         drOff.left = drOn.right;
@@ -169,7 +169,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                             src = drOff;
                             src.OffsetRect(-src.TopLeft());
                             src.OffsetRect(drOn.right-drOn.left, 0);
-                            vOff.Draw(dcMem, drOff, src);
+                            vOff.AlphaBlend(dcMem, drOff, src);
                         }
                     }
                     CMPCThemeUtil::flushMemDC(&dc, dcMem, memRect);
