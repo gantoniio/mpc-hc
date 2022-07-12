@@ -155,6 +155,7 @@ CAppSettings::CAppSettings()
     , fDisableInternalSubtitles(true)
     , bAllowOverridingExternalSplitterChoice(false)
     , bAutoDownloadSubtitles(false)
+    , bAutoSaveDownloadedSubtitles(false)
     , nAutoDownloadScoreMovies(0x16)
     , nAutoDownloadScoreSeries(0x18)
     , bAutoUploadSubtitles(false)
@@ -227,6 +228,7 @@ CAppSettings::CAppSettings()
     , bUseYDL(true)
     , iYDLMaxHeight(1440)
     , iYDLVideoFormat(0)
+    , iYDLAudioFormat(0)
     , bYDLAudioOnly(false)
     , sYDLExePath(_T(""))
     , sYDLCommandLine(_T(""))
@@ -719,12 +721,16 @@ bool CAppSettings::IsISRAutoLoadEnabled() const
 
 CAppSettings::SubtitleRenderer CAppSettings::GetSubtitleRenderer() const
 {
-    if (IsSubtitleRendererSupported(SubtitleRenderer::INTERNAL, iDSVideoRendererType) ||
-            IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType) ||
-            IsSubtitleRendererSupported(SubtitleRenderer::ASS_FILTER, iDSVideoRendererType)) {
-        return eSubtitleRenderer;
+    switch (eSubtitleRenderer) {
+        case SubtitleRenderer::INTERNAL:
+            return IsSubtitleRendererSupported(SubtitleRenderer::INTERNAL, iDSVideoRendererType) ? eSubtitleRenderer : SubtitleRenderer::VS_FILTER;
+        case SubtitleRenderer::XY_SUB_FILTER:
+            return IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType) ? eSubtitleRenderer : SubtitleRenderer::VS_FILTER;
+        case SubtitleRenderer::ASS_FILTER:
+            return IsSubtitleRendererSupported(SubtitleRenderer::ASS_FILTER, iDSVideoRendererType) ? eSubtitleRenderer : SubtitleRenderer::VS_FILTER;
+        default:
+            return eSubtitleRenderer;
     }
-    return SubtitleRenderer::VS_FILTER;
 }
 
 bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer)
@@ -738,6 +744,8 @@ bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRender
             return IsCLSIDRegistered(CLSID_XySubFilter);
         case SubtitleRenderer::ASS_FILTER:
             return IsCLSIDRegistered(CLSID_AssFilter);
+        case SubtitleRenderer::NONE:
+            return true;
         default:
             ASSERT(FALSE);
             return false;
@@ -773,6 +781,8 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
                     return true;
             }
             break;
+        case SubtitleRenderer::NONE:
+            return true;
 
         default:
             ASSERT(FALSE);
@@ -927,6 +937,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEINTERNALSUBTITLES, fDisableInternalSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER, bAllowOverridingExternalSplitterChoice);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLES, bAutoDownloadSubtitles);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOSAVEDOWNLOADEDSUBTITLES, bAutoSaveDownloadedSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCOREMOVIES, nAutoDownloadScoreMovies);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCORESERIES, nAutoDownloadScoreSeries);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE, strAutoDownloadSubtitlesExclude);
@@ -1192,6 +1203,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, bUseYDL);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, iYDLMaxHeight);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_VIDEO_FORMAT, iYDLVideoFormat);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_FORMAT, iYDLAudioFormat);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_EXEPATH, sYDLExePath);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, sYDLCommandLine);
@@ -1630,6 +1642,7 @@ void CAppSettings::LoadSettings()
     fDisableInternalSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEINTERNALSUBTITLES, FALSE);
     bAllowOverridingExternalSplitterChoice = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER, FALSE);
     bAutoDownloadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLES, FALSE);
+    bAutoSaveDownloadedSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOSAVEDOWNLOADEDSUBTITLES, FALSE);
     nAutoDownloadScoreMovies = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCOREMOVIES, 0x16);
     nAutoDownloadScoreSeries = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18);
     strAutoDownloadSubtitlesExclude = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE);
@@ -2026,6 +2039,7 @@ void CAppSettings::LoadSettings()
     bUseYDL       = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, TRUE);
     iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 1440);
     iYDLVideoFormat = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_VIDEO_FORMAT, 0);
+    iYDLAudioFormat = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_FORMAT, 0);
     bYDLAudioOnly   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
     sYDLExePath     = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_EXEPATH, _T(""));
     sYDLCommandLine = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, _T(""));
@@ -2268,10 +2282,9 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
 
 CString CAppSettings::ParseFileName(CString const& param)
 {
-    CString fullPathName;
-
     // Try to transform relative pathname into full pathname
     if (param.Find(_T(":")) < 0) {
+        CString fullPathName;
         DWORD dwLen = GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr);
         if (dwLen > 0 && dwLen < MAX_PATH) {
             fullPathName.ReleaseBuffer(dwLen);
@@ -2280,6 +2293,10 @@ CString CAppSettings::ParseFileName(CString const& param)
                 return fullPathName;
             }
         }
+    } else {
+        CString fullPathName = param;
+        ExtendMaxPathLengthIfNeeded(fullPathName, MAX_PATH);
+        return fullPathName;
     }
 
     return param;

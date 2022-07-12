@@ -693,7 +693,7 @@ BOOL CMPlayerCApp::IsIdleMessage(MSG* pMsg)
             ret = FALSE;
         } else {
             auto pMainFrm = AfxGetMainFrame();
-            if (pMainFrm) {
+            if (pMainFrm && m_pMainWnd) {
                 const unsigned uTimeout = 100;
                 // delay next WM_MOUSEMOVE initiated idle for uTimeout ms
                 // if there will be no WM_MOUSEMOVE messages, WM_TIMER will initiate the idle
@@ -2245,6 +2245,23 @@ int CMPlayerCApp::ExitInstance()
     OleUninitialize();
 
     return CWinAppEx::ExitInstance();
+}
+
+BOOL CMPlayerCApp::SaveAllModified()
+{
+    // CWinApp::SaveAllModified
+    // Called by the framework to save all documents
+    // when the application's main frame window is to be closed,
+    // or through a WM_QUERYENDSESSION message.
+    if (m_s && !m_fClosingState) {
+        if (auto pMainFrame = AfxFindMainFrame()) {
+            if (pMainFrame->GetLoadState() != MLS::CLOSED) {
+                pMainFrame->CloseMedia();
+            }
+        }
+    }
+
+    return TRUE;
 }
 
 // CMPlayerCApp message handlers

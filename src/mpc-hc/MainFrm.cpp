@@ -149,6 +149,17 @@ CMainFrame::PlaybackRateMap CMainFrame::dvdPlaybackRates = {
 };
 
 
+static bool EnsureDirectory(CString directory)
+{
+    int ret = SHCreateDirectoryEx(nullptr, directory, nullptr);
+    bool result = ret == ERROR_SUCCESS || ret == ERROR_ALREADY_EXISTS;
+    if (!result) {
+        AfxMessageBox(_T("Cannot create directory: ") + directory, MB_ICONEXCLAMATION | MB_OK);
+    }
+    return result;
+}
+
+
 #include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
 
@@ -3741,7 +3752,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     ASSERT(GetMediaStateDirect() == State_Stopped);
 
     // destroy invisible top-level d3dfs window if there is no video renderer
-    if (HasFullScreenWindow() && !m_pMFVDC && !m_pVMRWC) {
+    if (HasFullScreenWindow() && !m_pMFVDC && !m_pVMRWC && !m_pVW) {
         m_pFullscreenWnd->DestroyWindow();
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
@@ -4078,6 +4089,8 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
         }
         m_pFullscreenWnd->DestroyWindow();
     }
+
+    UpdateWindow(); // redraw
 }
 
 void CMainFrame::OnBossKey()
@@ -4386,7 +4399,7 @@ void CMainFrame::OnFileOpenmedia()
     }
 
     if (!dlg.GetAppendToPlaylist()) {
-        SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+        CloseMediaBeforeOpen();
     }
 
     if (IsIconic()) {
@@ -4648,6 +4661,8 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             s.nCLSwitches &= ~CLSW_ADD;
         }
+    } else if ((s.nCLSwitches & CLSW_PLAY) && !IsPlaylistEmpty()) {
+        OpenCurPlaylistItem();
     } else {
         applyRandomizeSwitch();
     }
@@ -5413,7 +5428,8 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
         CComPtr<CMemSubPicAllocator> pSubPicAllocator = DEBUG_NEW CMemSubPicAllocator(spdRender.type, CSize(spdRender.w, spdRender.h));
 
         CMemSubPic memSubPic(spdRender, pSubPicAllocator);
-        memSubPic.ClearDirtyRect(0xFF000000);
+        memSubPic.SetInverseAlpha(false);
+        memSubPic.ClearDirtyRect();
 
         RECT bbox = {};
         hr = pSubPicProvider->Render(spdRender, rtNow, m_pCAP->GetFPS(), bbox);
@@ -5442,7 +5458,7 @@ void CMainFrame::SaveImage(LPCWSTR fn, bool displayed, bool includeSubtitles) {
         hr = GetDisplayedImage(dib, errmsg);
     } else {
         hr = GetCurrentFrame(dib, errmsg);
-        if (includeSubtitles && hr == S_OK) {
+        if (includeSubtitles && m_pCAP && hr == S_OK) {
             RenderCurrentSubtitles(dib.data());
         }
     }
@@ -5736,7 +5752,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         CStringW fs;
         CString curfile = m_wndPlaylistBar.GetCurFileName();
         if (!PathUtils::IsURL(curfile)) {
-            ExtendMaxPathLengthIfNeeded(curfile, MAX_PATH);
+            ExtendMaxPathLengthIfNeeded(curfile, MAX_PATH, true);
             WIN32_FIND_DATA wfd;
             HANDLE hFind = FindFirstFile(curfile, &wfd);
             if (hFind != INVALID_HANDLE_VALUE) {
@@ -6072,42 +6088,99 @@ void CMainFrame::OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI)
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP);
 }
 
-void CMainFrame::OnFileSubtitlesSave()
+void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
 {
+    CAppSettings& s = AfxGetAppSettings();
+
     int i = 0;
     SubtitleInput* pSubInput = GetSubtitleInput(i, true);
+    if (!pSubInput) {
+        return;
+    }
 
-    if (pSubInput) {
-        CLSID clsid;
-        if (FAILED(pSubInput->pSubStream->GetClassID(&clsid))) {
+    CLSID clsid;
+    if (FAILED(pSubInput->pSubStream->GetClassID(&clsid))) {
+        return;
+    }
+
+    CString suggestedFileName;
+    CString curfile = m_wndPlaylistBar.GetCurFileName();
+    if (PathUtils::IsURL(curfile)) {
+        if (silent) {
             return;
         }
+        suggestedFileName = _T("subtitle");
+    } else {
+        CPath path(curfile);
+        path.RemoveExtension();
+        suggestedFileName = CString(path);
+    }
 
-        CString suggestedFileName;
-        CString curfile = m_wndPlaylistBar.GetCurFileName();
-        if (PathUtils::IsURL(curfile)) {
-            suggestedFileName = _T("subtitle");
-        } else {
-            CPath path(curfile);
-            path.RemoveExtension();
-            suggestedFileName = CString(path);
+    if (directory && *directory) {
+        CPath suggestedPath(suggestedFileName);
+        int pos = suggestedPath.FindFileName();
+        CString fileName = suggestedPath.m_strPath.Mid(pos);
+        CPath dirPath(directory);
+        if (dirPath.IsRelative()) {
+            dirPath = CPath(suggestedPath.m_strPath.Left(pos)) += dirPath;
         }
+        if (EnsureDirectory(dirPath)) {
+            suggestedFileName = CString(dirPath += fileName);
+        }
+        else if (silent) {
+            return;
+        }
+    }
 
-        if (clsid == __uuidof(CVobSubFile)) {
-            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubInput->pSubStream;
+    bool isSaved = false;
+    if (clsid == __uuidof(CVobSubFile)) {
+        CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubInput->pSubStream;
 
-            // remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
-            // and tracks attempts to overwrite in a graceful manner
+        // remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
+        // and tracks attempts to overwrite in a graceful manner
+        if (silent) {
+            isSaved = pVSF->Save(suggestedFileName + _T(".idx"), m_pCAP->GetSubtitleDelay());
+        } else {
             CSaveSubtitlesFileDialog fd(m_pCAP->GetSubtitleDelay(), _T("idx"), suggestedFileName,
-                                        _T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent());
+                _T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent());
 
             if (fd.DoModal() == IDOK) {
                 CAutoLock cAutoLock(&m_csSubLock);
-                pVSF->Save(fd.GetPathName(), fd.GetDelay());
+                isSaved = pVSF->Save(fd.GetPathName(), fd.GetDelay());
             }
-        } else if (clsid == __uuidof(CRenderedTextSubtitle)) {
-            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
+        }
+    }
+    else if (clsid == __uuidof(CRenderedTextSubtitle)) {
+        CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
 
+        if (s.bAddLangCodeWhenSaveSubtitles && pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
+            CString str;
+            GetLocaleString(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str);
+            suggestedFileName += _T('.') + str;
+
+            if (pRTS->m_eHearingImpaired == Subtitle::HI_YES) {
+                suggestedFileName += _T(".hi");
+            }
+        }
+
+        // same thing as in the case of CVobSubFile above for lpszDefExt
+        if (silent) {
+            Subtitle::SubType type;
+            switch (pRTS->m_subtitleType)
+            {
+                case Subtitle::ASS:
+                case Subtitle::SSA:
+                case Subtitle::VTT:
+                    type = Subtitle::ASS;
+                    break;
+                default:
+                    type = Subtitle::SRT;
+            }
+
+            isSaved = pRTS->SaveAs(
+                suggestedFileName, type, m_pCAP->GetFPS(), m_pCAP->GetSubtitleDelay(),
+                CTextFile::DEFAULT_ENCODING, s.bSubSaveExternalStyleFile);
+        } else {
             const std::vector<Subtitle::SubType> types = {
                 Subtitle::SRT,
                 Subtitle::SUB,
@@ -6126,29 +6199,24 @@ void CMainFrame::OnFileSubtitlesSave()
             filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|");
             filter += _T("|");
 
-            CAppSettings& s = AfxGetAppSettings();
-
-            if (s.bAddLangCodeWhenSaveSubtitles && pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
-                CString str;
-                GetLocaleString(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str);
-                suggestedFileName += _T('.') + str;
-
-                if (pRTS->m_eHearingImpaired == Subtitle::HI_YES) {
-                    suggestedFileName += _T(".hi");
-                }
-            }
-
-            // same thing as in the case of CVobSubFile above for lpszDefExt
             CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), s.bSubSaveExternalStyleFile,
                                         _T("srt"), suggestedFileName, filter, types, GetModalParent());
 
             if (fd.DoModal() == IDOK) {
                 CAutoLock cAutoLock(&m_csSubLock);
                 s.bSubSaveExternalStyleFile = fd.GetSaveExternalStyleFile();
-                pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding(), fd.GetSaveExternalStyleFile());
+                isSaved = pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding(), fd.GetSaveExternalStyleFile());
             }
-        } else {
-            AfxMessageBox(_T("This operation is not supported.\r\nThe selected subtitles cannot be saved."), MB_ICONEXCLAMATION | MB_OK);
+        }
+    }
+    else {
+        AfxMessageBox(_T("This operation is not supported.\r\nThe selected subtitles cannot be saved."), MB_ICONEXCLAMATION | MB_OK);
+    }
+
+    if (isSaved && s.fKeepHistory) {
+        auto subPath = pSubInput->pSubStream->GetPath();
+        if (!subPath.IsEmpty()) {
+            s.MRU.AddSubToCurrent(subPath);
         }
     }
 }
@@ -7493,7 +7561,7 @@ void CMainFrame::OnViewZoomAutoFitLarger()
 
 void CMainFrame::OnViewModifySize(UINT nID)
 {
-    if (m_fFullScreen || IsZoomed() || IsIconic()) {
+    if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic()) {
         return;
     }
 
@@ -7821,8 +7889,17 @@ bool CMainFrame::PerformFlipRotate()
             }
         }
     } else if (m_pCAP) {
-        // default angle has already been set, so only apply custom angle
-        hr = m_pCAP->SetVideoAngle(Vector(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ)));
+        // EVR-CP behavior for custom angles is ignored when choosing video size and zoom
+        // We get better results if we treat the closest 90 as the standard rotation, and custom rotate the remainder (<45deg)
+        int z = m_AngleZ;
+        if (m_pCAP2) {
+            int nZ = nearest90(z);
+            z = z - nZ;
+            Vector defAngle = Vector(0, 0, Vector::DegToRad((nZ + m_iDefRotation) % 360));
+            m_pCAP2->SetDefaultVideoAngle(defAngle);
+        }
+        
+        hr = m_pCAP->SetVideoAngle(Vector(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(z)));
     }
 
     if (FAILED(hr)) {
@@ -10418,6 +10495,8 @@ void CMainFrame::OnRecentFile(UINT nID)
         ASSERT(false);
         return;
     }
+
+    CloseMediaBeforeOpen();
 
     if (fns.GetCount() == 1 && CanSendToYoutubeDL(r.fns.GetHead())) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
@@ -13555,12 +13634,14 @@ void CMainFrame::UpdateChapterInInfoBar()
             REFERENCE_TIME rtNow;
             m_pMS->GetCurrentPosition(&rtNow);
 
-            CComBSTR bstr;
-            long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
-            if (bstr.Length()) {
-                chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, std::max(0l, currentChap + 1l), dwChapCount);
-            } else {
-                chapter.Format(_T("%ld/%lu"), currentChap + 1, dwChapCount);
+            if (m_pCB) {
+                CComBSTR bstr;
+                long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
+                if (bstr.Length()) {
+                    chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, std::max(0l, currentChap + 1l), dwChapCount);
+                } else {
+                    chapter.Format(_T("%ld/%lu"), currentChap + 1, dwChapCount);
+                }
             }
         }
     }
@@ -16504,7 +16585,7 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = 
 
         if (m_pCAP) {
             g_bExternalSubtitle = (std::find(m_ExternalSubstreams.cbegin(), m_ExternalSubstreams.cend(), subInput.pSubStream) != m_ExternalSubstreams.cend());
-            m_wndSubresyncBar.SetSubtitle(subInput.pSubStream, m_pCAP->GetFPS());
+            m_wndSubresyncBar.SetSubtitle(subInput.pSubStream, m_pCAP->GetFPS(), g_bExternalSubtitle);
         }
     }
 
@@ -17481,23 +17562,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         }
     }
 
-    // Wait a little so we can maybe avoid having to close previous media while graph is still being created
-    int wait = 3000;
-    while (GetLoadState() == MLS::LOADING && wait > 0) {
-        SleepEx(200, false);
-        wait -= 200;
-    }
-
-    if (m_bSettingUpMenus) {
-        SleepEx(500, false);
-        ASSERT(!m_bSettingUpMenus);
-    }
-
-    // close the current graph before opening new media
-    if (GetLoadState() != MLS::CLOSED) {
-        CloseMedia(true);
-        ASSERT(GetLoadState() == MLS::CLOSED);
-    }
+    CloseMediaBeforeOpen();
 
     // if the file is on some removable drive and that drive is missing,
     // we yell at user before even trying to construct the graph
@@ -17620,6 +17685,22 @@ bool CMainFrame::DisplayChange()
     return true;
 }
 
+void CMainFrame::CloseMediaBeforeOpen()
+{
+    // Wait a little so we can maybe avoid having to close previous media while graph is still being created
+    int wait = 3000;
+    while (GetLoadState() == MLS::LOADING && wait > 0) {
+        SleepEx(200, false);
+        wait -= 200;
+    }
+
+    // close the current graph before opening new media
+    if (GetLoadState() != MLS::CLOSED) {
+        CloseMedia(true);
+        ASSERT(GetLoadState() == MLS::CLOSED);
+    }
+}
+
 void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 {
     TRACE(_T("CMainFrame::CloseMedia\n"));
@@ -17640,13 +17721,35 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         ASSERT(!m_bSettingUpMenus);
     }
 
-    // save playback position
     if (GetLoadState() == MLS::LOADED) {
+        // save playback position
         if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
             auto& s = AfxGetAppSettings();
             REFERENCE_TIME rtNow = 0;
             m_pMS->GetCurrentPosition(&rtNow);
             s.MRU.UpdateCurrentFilePosition(rtNow, true);
+        }
+
+        // abort sub search
+        m_pSubtitlesProviders->Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
+        m_wndSubtitlesDownloadDialog.DoClear();
+
+        // save external subtitle
+        if (g_bExternalSubtitle &&
+            m_pCurrentSubInput.pSubStream && m_pCurrentSubInput.pSubStream->GetPath().IsEmpty()) {
+            const auto& s = AfxGetAppSettings();
+            if (s.bAutoSaveDownloadedSubtitles) {
+                CString dirBuffer;
+                LPCTSTR dir = nullptr;
+                if (!s.strSubtitlePaths.IsEmpty()) {
+                    auto start = s.strSubtitlePaths.Left(2);
+                    if (start != _T(".") && start != _T(".;")) {
+                        int pos = 0;
+                        dir = dirBuffer = s.strSubtitlePaths.Tokenize(_T(";"), pos);
+                    }
+                }
+                SubtitlesSave(dir, true);
+            }
         }
     }
 
@@ -17729,9 +17832,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     }
 
     m_bSettingUpMenus = false;
-
-    m_pSubtitlesProviders->Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
-    m_wndSubtitlesDownloadDialog.DoClear();
 
     // initiate graph destruction
     if (m_pGraphThread && m_bOpenedThroughThread && !bGraphTerminated) {
@@ -18226,6 +18326,7 @@ afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
     if (!m_pSubStreams.IsEmpty() && !IsPlaybackCaptureMode()) {
         m_rtCurSubPos = m_wndSeekBar.GetPos();
         m_lSubtitleShift = 0;
+        m_wndSubresyncBar.RefreshEmbeddedTextSubtitleData();
         m_nCurSubtitle = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
         if (m_nCurSubtitle >= 0 && m_pMS) {
             if (nID == ID_GOTO_PREV_SUB) {

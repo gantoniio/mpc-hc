@@ -752,6 +752,7 @@ public:
     bool            fDisableInternalSubtitles;
     bool            bAllowOverridingExternalSplitterChoice;
     bool            bAutoDownloadSubtitles;
+    bool            bAutoSaveDownloadedSubtitles;
     int             nAutoDownloadScoreMovies;
     int             nAutoDownloadScoreSeries;
     CString         strAutoDownloadSubtitlesExclude;
@@ -886,6 +887,7 @@ public:
         VS_FILTER,
         XY_SUB_FILTER,
         ASS_FILTER,
+        NONE,
     };
 
     SubtitleRenderer GetSubtitleRenderer() const;
@@ -909,6 +911,7 @@ public:
     bool bUseYDL;
     int iYDLMaxHeight;
     int iYDLVideoFormat;
+    int iYDLAudioFormat;
     bool bYDLAudioOnly;
     CString sYDLExePath;
     CString sYDLCommandLine;

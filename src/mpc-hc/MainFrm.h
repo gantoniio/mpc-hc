@@ -54,8 +54,6 @@
 #include "MediaTransControls.h"
 #include "FavoriteOrganizeDlg.h"
 
-#define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
-
 class CDebugShadersDlg;
 class CFullscreenWnd;
 class SkypeMoodMsgHandler;
@@ -620,6 +618,7 @@ public:
     void ParseFavoriteFile(const CString& fav, CAtlList<CString>& args, REFERENCE_TIME* prtStart = nullptr);
     bool ResetDevice();
     bool DisplayChange();
+    void CloseMediaBeforeOpen();
     void CloseMedia(bool bNextIsQueued = false);
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
@@ -901,7 +900,7 @@ public:
     afx_msg void OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesLoad();
     afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
-    afx_msg void OnFileSubtitlesSave();
+    afx_msg void OnFileSubtitlesSave() { SubtitlesSave(); }
     afx_msg void OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI);
     //afx_msg void OnFileSubtitlesUpload();
     //afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
@@ -1267,6 +1266,8 @@ protected:
 
     // Handles MF_DEFAULT and escapes '&'
     static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);
+
+    void SubtitlesSave(const TCHAR* directory = nullptr, bool silent = false);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
