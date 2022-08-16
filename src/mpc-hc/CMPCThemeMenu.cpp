@@ -379,126 +379,126 @@ void CMPCThemeMenu::GetRects(RECT rcItem, CRect& rectFull, CRect& rectM, CRect& 
 
 void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-    initDimensions(); //should already be initialized but font objects used in this function
     CAutoLock cAutoLock(&resourceLock); //make sure our resources are protected
+    if (font.m_hObject) {
+        MenuObject* menuObject = (MenuObject*)lpDrawItemStruct->itemData;
 
-    MenuObject* menuObject = (MenuObject*)lpDrawItemStruct->itemData;
+        MENUITEMINFO mInfo = { sizeof(MENUITEMINFO) };
 
-    MENUITEMINFO mInfo = { sizeof(MENUITEMINFO) };
-
-    mInfo.fMask = MIIM_FTYPE | MIIM_SUBMENU;
-    if (lpDrawItemStruct->itemID) {
-        GetMenuItemInfo(lpDrawItemStruct->itemID, &mInfo);
-    } else {
-        //itemID=0 is default for anything inserted without specifying ID (separator).
-        //result can be finding the first separator rather than a valid item with id=0
-        MENUITEMINFO byDataInfo = { sizeof(MENUITEMINFO) };
-        byDataInfo.fMask = MIIM_DATA | MIIM_ID;
-        for (int a = 0; a < GetMenuItemCount(); a++) {
-            GetMenuItemInfo((UINT)a, &byDataInfo, true);
-            if (byDataInfo.wID == 0 && byDataInfo.dwItemData == lpDrawItemStruct->itemData) {
-                GetMenuItemInfo((UINT)a, &mInfo, true);
-                break;
-            }
-        }
-    }
-
-    CRect rectFull;
-    CRect rectM;
-    CRect rectIcon;
-    CRect rectText;
-    CRect rectArrow;
-
-    GetRects(lpDrawItemStruct->rcItem, rectFull, rectM, rectIcon, rectText, rectArrow);
-
-    UINT captionAlign = DT_LEFT;
-
-    COLORREF ArrowColor = CMPCTheme::SubmenuColor;
-    COLORREF TextFGColor;
-    COLORREF TextBGColor = CMPCTheme::MenuBGColor;
-    //TextBGColor = R255; //test
-    COLORREF TextSelectColor = CMPCTheme::MenuSelectedColor;
-
-    CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
-
-    if ((lpDrawItemStruct->itemState & ODS_DISABLED)) {
-        TextFGColor = CMPCTheme::MenuItemDisabledColor;
-        ArrowColor = CMPCTheme::MenuItemDisabledColor;
-    } else if (menuObject->isMenubar && GetForegroundWindow() != AfxGetMainWnd()->m_hWnd) {
-        TextFGColor = CMPCTheme::TextFGColorFade;
-    } else {
-        TextFGColor = CMPCTheme::TextFGColor;
-    }
-
-    int oldBKMode = pDC->SetBkMode(TRANSPARENT);
-    pDC->FillSolidRect(&rectM, TextBGColor);
-
-    if (menuObject->isMenubar) {
-        if (menuObject->isFirstMenuInMenuBar) { //clean up white borders
-            CRect wndSize;
-            ::GetClientRect(AfxGetMainWnd()->m_hWnd, &wndSize);
-
-            CRect rectBorder(rectM.left, rectM.bottom, rectM.left + wndSize.Width(), rectM.bottom + 1);
-            pDC->FillSolidRect(&rectBorder, CMPCTheme::MainMenuBorderColor);
-            ExcludeClipRect(lpDrawItemStruct->hDC, rectBorder.left, rectBorder.top, rectBorder.right, rectBorder.bottom);
-        }
-        rectM = rectFull;
-        rectText = rectFull;
-        captionAlign = DT_CENTER;
-    }
-
-    if (mInfo.fType & MFT_SEPARATOR) {
-        int centerOffset = (separatorHeight - 1) / 2;
-        CRect rectSeparator(rectM.left + separatorPadding, rectM.top + centerOffset, rectM.right - separatorPadding, rectM.top + centerOffset + 1);
-        pDC->FillSolidRect(&rectSeparator, CMPCTheme::MenuSeparatorColor);
-    } else {
-        COLORREF oldTextFGColor = pDC->SetTextColor(TextFGColor);
-
-        CFont* pOldFont = pDC->GetCurrentFont();
-        pDC->SelectObject(&font);
-        if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
-            pDC->FillSolidRect(&rectM, TextSelectColor);
-        }
-        CString left, right;
-        GetStrings(menuObject, left, right);
-
-        UINT accelStyle = 0;
-        if (lpDrawItemStruct->itemState & ODS_NOACCEL) { //removing single &s before drawtext
-            accelStyle = DT_HIDEPREFIX;
-        }
-        pDC->DrawTextW(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | accelStyle);
-
-        if (!menuObject->isMenubar) {
-
-            if (right.GetLength() > 0) {
-                pDC->DrawTextW(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE | accelStyle);
-            }
-
-            if (mInfo.hSubMenu) {
-                pDC->SelectObject(&symbolFont);
-                pDC->SetTextColor(ArrowColor);
-                pDC->DrawTextW(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
-            }
-
-            if (lpDrawItemStruct->itemState & ODS_CHECKED) {
-                CString check;
-                int size;
-                if (mInfo.fType & MFT_RADIOCHECK) {
-                    check = TEXT("\u25CF"); //bullet
-                } else {
-                    check = TEXT("\u2714"); //checkmark
+        mInfo.fMask = MIIM_FTYPE | MIIM_SUBMENU;
+        if (lpDrawItemStruct->itemID) {
+            GetMenuItemInfo(lpDrawItemStruct->itemID, &mInfo);
+        } else {
+            //itemID=0 is default for anything inserted without specifying ID (separator).
+            //result can be finding the first separator rather than a valid item with id=0
+            MENUITEMINFO byDataInfo = { sizeof(MENUITEMINFO) };
+            byDataInfo.fMask = MIIM_DATA | MIIM_ID;
+            for (int a = 0; a < GetMenuItemCount(); a++) {
+                GetMenuItemInfo((UINT)a, &byDataInfo, true);
+                if (byDataInfo.wID == 0 && byDataInfo.dwItemData == lpDrawItemStruct->itemData) {
+                    GetMenuItemInfo((UINT)a, &mInfo, true);
+                    break;
                 }
-                pDC->SelectObject(&bulletFont);
-                pDC->SetTextColor(TextFGColor);
-                pDC->DrawTextW(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }
         }
 
-        pDC->SetBkMode(oldBKMode);
-        pDC->SetTextColor(oldTextFGColor);
-        pDC->SelectObject(pOldFont);
+        CRect rectFull;
+        CRect rectM;
+        CRect rectIcon;
+        CRect rectText;
+        CRect rectArrow;
+
+        GetRects(lpDrawItemStruct->rcItem, rectFull, rectM, rectIcon, rectText, rectArrow);
+
+        UINT captionAlign = DT_LEFT;
+
+        COLORREF ArrowColor = CMPCTheme::SubmenuColor;
+        COLORREF TextFGColor;
+        COLORREF TextBGColor = CMPCTheme::MenuBGColor;
+        //TextBGColor = R255; //test
+        COLORREF TextSelectColor = CMPCTheme::MenuSelectedColor;
+
+        CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+
+        if ((lpDrawItemStruct->itemState & ODS_DISABLED)) {
+            TextFGColor = CMPCTheme::MenuItemDisabledColor;
+            ArrowColor = CMPCTheme::MenuItemDisabledColor;
+        } else if (menuObject->isMenubar && GetForegroundWindow() != AfxGetMainWnd()->m_hWnd) {
+            TextFGColor = CMPCTheme::TextFGColorFade;
+        } else {
+            TextFGColor = CMPCTheme::TextFGColor;
+        }
+
+        int oldBKMode = pDC->SetBkMode(TRANSPARENT);
+        pDC->FillSolidRect(&rectM, TextBGColor);
+
+        if (menuObject->isMenubar) {
+            if (menuObject->isFirstMenuInMenuBar) { //clean up white borders
+                CRect wndSize;
+                ::GetClientRect(AfxGetMainWnd()->m_hWnd, &wndSize);
+
+                CRect rectBorder(rectM.left, rectM.bottom, rectM.left + wndSize.Width(), rectM.bottom + 1);
+                pDC->FillSolidRect(&rectBorder, CMPCTheme::MainMenuBorderColor);
+                ExcludeClipRect(lpDrawItemStruct->hDC, rectBorder.left, rectBorder.top, rectBorder.right, rectBorder.bottom);
+            }
+            rectM = rectFull;
+            rectText = rectFull;
+            captionAlign = DT_CENTER;
+        }
+
+        if (mInfo.fType & MFT_SEPARATOR) {
+            int centerOffset = (separatorHeight - 1) / 2;
+            CRect rectSeparator(rectM.left + separatorPadding, rectM.top + centerOffset, rectM.right - separatorPadding, rectM.top + centerOffset + 1);
+            pDC->FillSolidRect(&rectSeparator, CMPCTheme::MenuSeparatorColor);
+        } else {
+            COLORREF oldTextFGColor = pDC->SetTextColor(TextFGColor);
+
+            CFont* pOldFont = pDC->GetCurrentFont();
+            pDC->SelectObject(&font);
+            if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
+                pDC->FillSolidRect(&rectM, TextSelectColor);
+            }
+            CString left, right;
+            GetStrings(menuObject, left, right);
+
+            UINT accelStyle = 0;
+            if (lpDrawItemStruct->itemState & ODS_NOACCEL) { //removing single &s before drawtext
+                accelStyle = DT_HIDEPREFIX;
+            }
+            pDC->DrawTextW(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | accelStyle);
+
+            if (!menuObject->isMenubar) {
+
+                if (right.GetLength() > 0) {
+                    pDC->DrawTextW(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE | accelStyle);
+                }
+
+                if (mInfo.hSubMenu) {
+                    pDC->SelectObject(&symbolFont);
+                    pDC->SetTextColor(ArrowColor);
+                    pDC->DrawTextW(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+                }
+
+                if (lpDrawItemStruct->itemState & ODS_CHECKED) {
+                    CString check;
+                    if (mInfo.fType & MFT_RADIOCHECK) {
+                        check = TEXT("\u25CF"); //bullet
+                        pDC->SelectObject(&bulletFont);
+                    } else {
+                        check = TEXT("\u2714"); //checkmark
+                        pDC->SelectObject(&checkFont);
+                    }
+                    pDC->SetTextColor(TextFGColor);
+                    pDC->DrawTextW(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+                }
+            }
+
+            pDC->SetBkMode(oldBKMode);
+            pDC->SetTextColor(oldTextFGColor);
+            pDC->SelectObject(pOldFont);
+        }
+        ExcludeClipRect(lpDrawItemStruct->hDC, rectFull.left, rectFull.top, rectFull.right, rectFull.bottom);
     }
-    ExcludeClipRect(lpDrawItemStruct->hDC, rectFull.left, rectFull.top, rectFull.right, rectFull.bottom);
 }
 
 void CMPCThemeMenu::GetStrings(MenuObject* mo, CString& left, CString& right)
