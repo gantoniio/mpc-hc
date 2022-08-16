@@ -485,10 +485,8 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
                 int size;
                 if (mInfo.fType & MFT_RADIOCHECK) {
                     check = TEXT("\u25CF"); //bullet
-                    size = 6;
                 } else {
                     check = TEXT("\u2714"); //checkmark
-                    size = 10;
                 }
                 pDC->SelectObject(&bulletFont);
                 pDC->SetTextColor(TextFGColor);
