@@ -549,7 +549,7 @@ CSize CMPCThemeUtil::GetTextSizeDiff(CString str, HDC hDC, CWnd* wnd, int type, 
     return cs - curCs;
 }
 
-void CMPCThemeUtil::GetMetrics(bool reset /* = true */)
+void CMPCThemeUtil::GetMetrics(bool reset /* = false */)
 {
     NONCLIENTMETRICS *m = &nonClientMetrics;
     if (m->cbSize == 0 || reset) {

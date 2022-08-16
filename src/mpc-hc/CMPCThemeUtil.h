@@ -55,7 +55,7 @@ public:
     static CSize GetTextSizeDiff(CString str, HDC hDC, CWnd* wnd, int type, CFont* curFont);
 
 
-    static void GetMetrics(bool reset = true);
+    static void GetMetrics(bool reset = false);
     static void initMemDC(CDC* pDC, CDC& dcMem, CBitmap& bmMem, CRect rect);
     static void flushMemDC(CDC* pDC, CDC& dcMem, CRect rect);
     static void DrawBufferedText(CDC* pDC, CString text, CRect rect, UINT format);
