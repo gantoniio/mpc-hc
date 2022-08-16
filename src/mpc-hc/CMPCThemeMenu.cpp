@@ -9,6 +9,10 @@
 
 std::map<UINT, CMPCThemeMenu*> CMPCThemeMenu::subMenuIDs;
 HBRUSH CMPCThemeMenu::bgBrush = 0;
+CFont CMPCThemeMenu::font;
+CFont CMPCThemeMenu::symbolFont;
+CFont CMPCThemeMenu::bulletFont;
+CFont CMPCThemeMenu::checkFont;
 
 IMPLEMENT_DYNAMIC(CMPCThemeMenu, CMenu);
 
@@ -21,6 +25,7 @@ int CMPCThemeMenu::separatorPadding;
 int CMPCThemeMenu::separatorHeight;
 int CMPCThemeMenu::postTextSpacing;
 int CMPCThemeMenu::accelSpacing;
+CCritSec CMPCThemeMenu::resourceLock;
 
 CMPCThemeMenu::CMPCThemeMenu()
 {
@@ -61,6 +66,25 @@ void CMPCThemeMenu::initDimensions()
         separatorHeight = dpi.ScaleX(7);
         postTextSpacing = dpi.ScaleX(20);
         accelSpacing = dpi.ScaleX(30);
+        {
+            CAutoLock cAutoLock(&resourceLock);
+            if (font.m_hObject) {
+                font.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByType(font, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+            if (symbolFont.m_hObject) {
+                symbolFont.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByFace(symbolFont, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 14, FW_BOLD);
+            if (bulletFont.m_hObject) {
+                bulletFont.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByFace(bulletFont, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 6, FW_REGULAR);
+            if (checkFont.m_hObject) {
+                checkFont.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByFace(checkFont, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 10, FW_REGULAR);
+        }
         hasDimensions = true;
     }
 }
@@ -355,6 +379,9 @@ void CMPCThemeMenu::GetRects(RECT rcItem, CRect& rectFull, CRect& rectM, CRect& 
 
 void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
+    initDimensions(); //should already be initialized but font objects used in this function
+    CAutoLock cAutoLock(&resourceLock); //make sure our resources are protected
+
     MenuObject* menuObject = (MenuObject*)lpDrawItemStruct->itemData;
 
     MENUITEMINFO mInfo = { sizeof(MENUITEMINFO) };
@@ -428,10 +455,7 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
         COLORREF oldTextFGColor = pDC->SetTextColor(TextFGColor);
 
         CFont* pOldFont = pDC->GetCurrentFont();
-        CFont font;
-        if (CMPCThemeUtil::getFontByType(font, pDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont)) {
-            pDC->SelectObject(&font);
-        }
+        pDC->SelectObject(&font);
         if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
             pDC->FillSolidRect(&rectM, TextSelectColor);
         }
@@ -451,10 +475,7 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
             }
 
             if (mInfo.hSubMenu) {
-                CFont sfont;
-                if (CMPCThemeUtil::getFontByFace(sfont, pDC, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 14, FW_BOLD)) {
-                    pDC->SelectObject(&sfont);
-                }
+                pDC->SelectObject(&symbolFont);
                 pDC->SetTextColor(ArrowColor);
                 pDC->DrawTextW(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }
@@ -469,10 +490,7 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
                     check = TEXT("\u2714"); //checkmark
                     size = 10;
                 }
-                CFont bFont;
-                if (CMPCThemeUtil::getFontByFace(bFont, pDC, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, size, FW_REGULAR)) {
-                    pDC->SelectObject(&bFont);
-                }
+                pDC->SelectObject(&bulletFont);
                 pDC->SetTextColor(TextFGColor);
                 pDC->DrawTextW(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }
@@ -503,7 +521,8 @@ void CMPCThemeMenu::GetStrings(MenuObject* mo, CString& left, CString& right)
 
 void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-    initDimensions();
+    initDimensions(); //should happen before drawitem
+    CAutoLock cAutoLock(&resourceLock); //make sure our resources are protected
 
     HWND mainWnd = AfxGetMainWnd()->GetSafeHwnd();
     HDC hDC = ::GetDC(mainWnd);
@@ -513,19 +532,19 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
         lpMeasureItemStruct->itemWidth = 0;
         lpMeasureItemStruct->itemHeight = separatorHeight;
     } else {
-        CSize height = CMPCThemeUtil::GetTextSize(_T("W"), hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+        CSize height = CMPCThemeUtil::GetTextSize(_T("W"), hDC, &font);
         if (mo->isMenubar) {
-            CSize cs = CMPCThemeUtil::GetTextSize(mo->m_strCaption, hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+            CSize cs = CMPCThemeUtil::GetTextSize(mo->m_strCaption, hDC, &font);
             lpMeasureItemStruct->itemWidth = cs.cx;
             lpMeasureItemStruct->itemHeight = height.cy + rowPadding;
         } else {
             CString left, right;
             GetStrings(mo, left, right);
-            CSize cs = CMPCThemeUtil::GetTextSize(left, hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+            CSize cs = CMPCThemeUtil::GetTextSize(left, hDC, &font);
             lpMeasureItemStruct->itemHeight = height.cy + rowPadding;
             lpMeasureItemStruct->itemWidth = iconSpacing + postTextSpacing + subMenuPadding + cs.cx;
             if (right.GetLength() > 0) {
-                CSize csAccel = CMPCThemeUtil::GetTextSize(right, hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+                CSize csAccel = CMPCThemeUtil::GetTextSize(right, hDC, &font);
                 lpMeasureItemStruct->itemWidth += accelSpacing + csAccel.cx;
             }
         }
@@ -551,4 +570,3 @@ void CMPCThemeMenu::updateItem(CCmdUI* pCmdUI)
         cm->GetMenuString(pCmdUI->m_nID, menuObject->m_strCaption, MF_BYCOMMAND);
     }
 }
-
