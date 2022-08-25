@@ -48,6 +48,7 @@ Rasterizer::Rasterizer()
     , mEdgeHeapSize(0)
     , mEdgeNext(0)
     , mpScanBuffer(nullptr)
+    , ftInitialized(false)
 {
     int cpuinfo[4];
     __cpuid(cpuinfo, 1);
@@ -67,6 +68,9 @@ Rasterizer::Rasterizer()
 
 Rasterizer::~Rasterizer()
 {
+    if (ftInitialized) {
+        FT_Done_FreeType(ftLibrary);
+    }
     _TrashPath();
 }
 
@@ -1860,8 +1864,6 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
     DrawInternal(m_bUseAVX2, dst, spd.pitch, BYTE(0x40), nWidth, nHeight, lColor);
 }
 
-FT_Library  library;
-
 void Rasterizer::AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData *data) {
     y = data->tmAscent - y + data->dy;
     x += data->dx;
@@ -1910,15 +1912,16 @@ bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size,
     }
 
     FT_Face face;
-    FT_Library library;
     FT_Error error;
-    error = FT_Init_FreeType(&library);
+    if (!ftInitialized) {
+        ftInitialized = !FT_Init_FreeType(&ftLibrary);
+    }
 
-    if (!error) {
+    if (ftInitialized) {
         DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
         FT_Byte* fontData = DEBUG_NEW FT_Byte[fontSize];
         GetFontData(hdc, 0, 0, fontData, fontSize);
-        error = FT_New_Memory_Face(library, fontData, fontSize, 0, &face);
+        error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
         if (!error) {
             TEXTMETRIC GDIMetrics;
             GetTextMetricsW(hdc, &GDIMetrics);
@@ -1968,7 +1971,6 @@ bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size,
         }
         delete[] fontData;
         FT_Done_Face(face);
-        FT_Done_FreeType(library);
         if (!error) {
             return true;
         }

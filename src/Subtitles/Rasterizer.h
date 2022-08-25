@@ -24,7 +24,7 @@
 #include "Ellipse.h"
 #include <memory>
 #include <vector>
-
+#include "freetype/freetype.h"
 
 #define PT_MOVETONC         0xfe
 #define PT_BSPLINETO        0xfc
@@ -165,6 +165,8 @@ private:
     unsigned int mEdgeNext;
 
     unsigned int* mpScanBuffer;
+    FT_Library ftLibrary;
+    bool ftInitialized;
 protected:
     CEllipseSharedPtr m_pEllipse;
     COutlineDataSharedPtr m_pOutlineData;
