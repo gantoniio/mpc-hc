@@ -27,6 +27,11 @@
 #include "Rasterizer.h"
 #include "SeparableFilter.h"
 #include "../SubPic/ISubPic.h"
+#include <ft2build.h>
+#include <freetype/ftoutln.h>
+#include <freetype/internal/ftobjs.h>
+#include FT_FREETYPE_H
+#include FT_SYNTHESIS_H
 
 int Rasterizer::getOverlayWidth() const
 {
@@ -290,14 +295,29 @@ bool Rasterizer::PartialBeginPath(HDC hdc, bool bClearPath)
     return !!::BeginPath(hdc);
 }
 
+bool Rasterizer::ResizePath(int nPoints) {
+    BYTE* pNewTypes;
+    POINT* pNewPoints;
+
+    pNewTypes = (BYTE*)realloc(mpPathTypes, (mPathPoints + nPoints) * sizeof(BYTE));
+    pNewPoints = (POINT*)realloc(mpPathPoints, (mPathPoints + nPoints) * sizeof(POINT));
+
+    if (pNewTypes) {
+        mpPathTypes = pNewTypes;
+    }
+
+    if (pNewPoints) {
+        mpPathPoints = pNewPoints;
+    }
+    return pNewTypes && pNewPoints;
+}
+
 bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
 {
     ::CloseFigure(hdc);
 
     if (::EndPath(hdc)) {
         int nPoints;
-        BYTE* pNewTypes;
-        POINT* pNewPoints;
 
         nPoints = GetPath(hdc, nullptr, nullptr, 0);
 
@@ -305,21 +325,12 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
             return true;
         }
 
-        pNewTypes = (BYTE*)realloc(mpPathTypes, (mPathPoints + nPoints) * sizeof(BYTE));
-        pNewPoints = (POINT*)realloc(mpPathPoints, (mPathPoints + nPoints) * sizeof(POINT));
-
-        if (pNewTypes) {
-            mpPathTypes = pNewTypes;
-        }
-
-        if (pNewPoints) {
-            mpPathPoints = pNewPoints;
-        }
+        bool resizeSuccess = ResizePath(nPoints);
 
         BYTE* pTypes = DEBUG_NEW BYTE[nPoints];
         POINT* pPoints = DEBUG_NEW POINT[nPoints];
 
-        if (pNewTypes && pNewPoints && nPoints == GetPath(hdc, pPoints, pTypes, nPoints)) {
+        if (resizeSuccess && nPoints == GetPath(hdc, pPoints, pTypes, nPoints)) {
             for (ptrdiff_t i = 0; i < nPoints; ++i) {
                 mpPathPoints[mPathPoints + i].x = pPoints[i].x + dx;
                 mpPathPoints[mPathPoints + i].y = pPoints[i].y + dy;
@@ -1847,4 +1858,120 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
     ASSERT(spd.w >= x + nWidth && spd.h >= y + nHeight);
     BYTE* dst = (BYTE*)((DWORD*)(spd.bits + spd.pitch * y) + x);
     DrawInternal(m_bUseAVX2, dst, spd.pitch, BYTE(0x40), nWidth, nHeight, lColor);
+}
+
+FT_Library  library;
+
+void Rasterizer::AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData *data) {
+    y = data->tmAscent - y + data->dy;
+    x += data->dx;
+    data->ftTypes.push_back(type);
+    data->ftPoints.push_back({ x, y });
+}
+
+static FT_Error ft_move_to(const FT_Vector* to, void* user) {
+    FTPathData* data = (FTPathData*)user;
+    data->r->AddFTPath(PT_MOVETO, to->x / 64, to->y / 64, data);
+    return 0;
+}
+static FT_Error ft_line_to(const FT_Vector* to, void* user) {
+    FTPathData* data = (FTPathData*)user;
+    data->r->AddFTPath(PT_LINETO, to->x / 64, to->y / 64, data);
+    return 0;
+}
+static FT_Error ft_conic_to(const FT_Vector* control_1, const FT_Vector* to, void* user) {
+    FTPathData* data = (FTPathData*)user;
+    data->r->AddFTPath(PT_BEZIERTO, control_1->x / 64, control_1->y / 64, data);
+    data->r->AddFTPath(PT_BEZIERTO, (control_1->x+to->x) / 128, (control_1->y+to->y) / 128, data);
+    data->r->AddFTPath(PT_BEZIERTO, to->x / 64, to->y / 64, data);
+    return 0;
+}
+static FT_Error ft_cubic_to(const FT_Vector* control_1, const FT_Vector* control_2, const FT_Vector* to, void* user) {
+    FTPathData* data = (FTPathData*)user;
+    data->r->AddFTPath(PT_BEZIERTO, control_1->x / 64, control_1->y / 64, data);
+    data->r->AddFTPath(PT_BEZIERTO, control_2->x / 64, control_2->y / 64, data);
+    data->r->AddFTPath(PT_BEZIERTO, to->x / 64, to->y / 64, data);
+    return 0;
+}
+
+FT_DEFINE_OUTLINE_FUNCS(
+    ft_decompose_funcs,
+    (FT_Outline_MoveTo_Func)ft_move_to,   /* move_to  */
+    (FT_Outline_LineTo_Func)ft_line_to,   /* line_to  */
+    (FT_Outline_ConicTo_Func)ft_conic_to,  /* conic_to */
+    (FT_Outline_CubicTo_Func)ft_cubic_to,  /* cubic_to */
+    0,                                      /* shift    */
+    0                                       /* delta    */
+)
+
+bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size, int dx, int dy) {
+    if (bClearPath) {
+        _TrashPath();
+    }
+
+    FT_Face face;
+    FT_Library library;
+    FT_Error error;
+    error = FT_Init_FreeType(&library);
+
+    if (!error) {
+        DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
+        FT_Byte* fontData = DEBUG_NEW FT_Byte[fontSize];
+        GetFontData(hdc, 0, 0, fontData, fontSize);
+        error = FT_New_Memory_Face(library, fontData, fontSize, 0, &face);
+        if (!error) {
+            TEXTMETRIC GDIMetrics;
+            GetTextMetricsW(hdc, &GDIMetrics);
+
+            FT_UInt glyph_index = FT_Get_Char_Index(face, ch);
+            FT_Set_Pixel_Sizes(face, 0xffff, 0xffff);
+            float ascRatio, heightRatio;
+            //this is a weird hack, but the ratio of the ascent seems a good estimate of the right font size.  Worked perfectly with Arial
+            ascRatio = float(GDIMetrics.tmAscent) / face->size->metrics.ascender;
+            heightRatio = float(GDIMetrics.tmHeight) / face->size->metrics.height;
+            error = FT_Set_Pixel_Sizes(face, 0xffff * ascRatio * 64, 0xffff * ascRatio * 64);
+            //If the ascent ratio didn't work (>3.125%), we will do a basic height ratio.  it works well on other fonts
+            if (std::abs(64 - float(face->size->metrics.height) / GDIMetrics.tmHeight) > 2) { 
+                error = FT_Set_Pixel_Sizes(face, 0xffff * heightRatio * 64, 0xffff * heightRatio * 64);
+            }
+
+            if (!error) {
+                error = FT_Load_Glyph(face, glyph_index, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_NO_BITMAP);
+                if (!error) {
+                    FT_Glyph_Metrics* metrics = &face->glyph->metrics;
+                    FTPathData pd;
+                    pd.dx = dx;
+                    pd.dy = dy;
+                    pd.r = this;
+                    pd.tmAscent = GDIMetrics.tmAscent; //this is the y baseline.  match windows and not Freetype
+                    error = FT_Outline_Decompose(&face->glyph->outline, &ft_decompose_funcs, (void*)&pd);
+#if 0
+                    for (int a = 0; a < mPathPoints; a++) {
+                        TRACE("winxxx\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
+                    }
+#endif
+                    int nPoints = pd.ftPoints.size();
+                    if (ResizePath(nPoints)) {
+                        for (int a = 0; a < pd.ftPoints.size(); a++) {
+                            mpPathTypes[mPathPoints+a] = pd.ftTypes[a];
+                            mpPathPoints[mPathPoints+a] = pd.ftPoints[a];
+                        }
+                        mPathPoints += nPoints;
+                    }
+#if 0
+                    for (int a = mPathPoints - nPoints; a < mPathPoints; a++) {
+                        TRACE("ft\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
+                    }
+#endif
+                }
+            }
+        }
+        delete[] fontData;
+        FT_Done_Face(face);
+        FT_Done_FreeType(library);
+        if (!error) {
+            return true;
+        }
+    }
+    return false;
 }

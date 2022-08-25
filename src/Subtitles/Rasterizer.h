@@ -125,7 +125,19 @@ struct COverlayData {
     }
 };
 
+class Rasterizer;
+
 typedef std::shared_ptr<COverlayData> COverlayDataSharedPtr;
+typedef signed long  FT_Pos;
+struct FTPathData {
+    std::vector<BYTE> ftTypes;
+    std::vector<POINT> ftPoints;
+    int dx;
+    int dy;
+    Rasterizer* r;
+    LONG tmAscent;
+};
+
 
 class Rasterizer
 {
@@ -153,7 +165,6 @@ private:
     unsigned int mEdgeNext;
 
     unsigned int* mpScanBuffer;
-
 protected:
     CEllipseSharedPtr m_pEllipse;
     COutlineDataSharedPtr m_pOutlineData;
@@ -169,6 +180,7 @@ private:
     template<int flag> __forceinline void _EvaluateLine(int x0, int y0, int x1, int y1);
     static void _OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy);
     void CreateWidenedRegionFast(int borderX, int borderY);
+    bool ResizePath(int nPoints);
 
 public:
     Rasterizer();
@@ -182,6 +194,8 @@ public:
     bool CreateWidenedRegion(int borderX, int borderY);
     bool Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur);
     int getOverlayWidth() const;
+    bool GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size, int dx, int dy);
+    void AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData* data);
 
     CRect Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub, const DWORD* switchpts, bool fBody, bool fBorder) const;
     void FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor) const;

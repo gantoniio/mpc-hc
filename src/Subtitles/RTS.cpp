@@ -530,11 +530,19 @@ bool CText::CreatePath()
                 ASSERT(0);
                 return false;
             }
-
+            bool wasFirstPath = bFirstPath;
             PartialBeginPath(g_hDC, bFirstPath);
             bFirstPath = false;
             TextOutW(g_hDC, 0, 0, s, 1);
+            int mp = mPathPoints;
             PartialEndPath(g_hDC, width, 0);
+            if (mp == mPathPoints && L' ' != s[0]) { //failed to add points, we will try again with FreeType as emulator
+                GetPathFreeType(g_hDC, wasFirstPath, s[0], m_style.fontSize, width, 0);
+            }
+#if 0
+            GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width+ extent.cx + (int)m_style.fontSpacing, 0);
+            GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width, m_style.fontSize*2);
+#endif
 
             width += extent.cx + (int)m_style.fontSpacing;
         }
