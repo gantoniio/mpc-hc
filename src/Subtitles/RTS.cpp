@@ -536,6 +536,7 @@ bool CText::CreatePath()
         bool bFirstPath = true;
         bool failedPath = false;
         int ftWidth = width;
+
         for (LPCWSTR s = m_str; *s; s++) {
             if (!getExtent(s)) {
                 return false;
@@ -564,7 +565,7 @@ bool CText::CreatePath()
                 if (!getExtent(s)) {
                     return false;
                 }
-                GetPathFreeType(g_hDC, bFirstPath, s[0], m_style.fontSize, width, 0);
+                GetPathFreeType(g_hDC, bFirstPath, m_style.fontName, s[0], m_style.fontSize, width, 0);
                 bFirstPath = false;
                 width += cx + (int)m_style.fontSpacing;
             }

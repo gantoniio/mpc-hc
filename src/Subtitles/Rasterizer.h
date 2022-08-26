@@ -24,6 +24,7 @@
 #include "Ellipse.h"
 #include <memory>
 #include <vector>
+#include <unordered_map>
 #include "freetype/freetype.h"
 
 #define PT_MOVETONC         0xfe
@@ -166,6 +167,11 @@ private:
 
     unsigned int* mpScanBuffer;
     FT_Library ftLibrary;
+    struct faceData {
+        FT_Byte* fontData;
+        FT_Face face;
+    };
+    std::unordered_map<std::wstring, faceData> faceCache;
     bool ftInitialized;
 protected:
     CEllipseSharedPtr m_pEllipse;
@@ -196,8 +202,8 @@ public:
     bool CreateWidenedRegion(int borderX, int borderY);
     bool Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur);
     int getOverlayWidth() const;
-    bool GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size, int dx, int dy);
-    void AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData* data);
+    bool GetPathFreeType(HDC hdc, bool bClearPath, CStringW fontName, wchar_t ch, int size, int dx, int dy);
+    inline void AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData* data);
 
     CRect Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub, const DWORD* switchpts, bool fBody, bool fBorder) const;
     void FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor) const;

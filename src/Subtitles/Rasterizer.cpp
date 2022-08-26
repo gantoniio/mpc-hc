@@ -69,6 +69,11 @@ Rasterizer::Rasterizer()
 Rasterizer::~Rasterizer()
 {
     if (ftInitialized) {
+        for (auto& it : faceCache) {
+            FT_Done_Face(it.second.face);
+            delete[] it.second.fontData;
+        }
+
         FT_Done_FreeType(ftLibrary);
     }
     _TrashPath();
@@ -1864,7 +1869,7 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
     DrawInternal(m_bUseAVX2, dst, spd.pitch, BYTE(0x40), nWidth, nHeight, lColor);
 }
 
-void Rasterizer::AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData *data) {
+inline void Rasterizer::AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData *data) {
     y = data->tmAscent - y + data->dy;
     x += data->dx;
     data->ftTypes.push_back(type);
@@ -1906,7 +1911,7 @@ FT_DEFINE_OUTLINE_FUNCS(
     0                                       /* delta    */
 )
 
-bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size, int dx, int dy) {
+bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, CStringW fontName, wchar_t ch, int size, int dx, int dy) {
     if (bClearPath) {
         _TrashPath();
     }
@@ -1918,10 +1923,20 @@ bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size,
     }
 
     if (ftInitialized) {
-        DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
-        FT_Byte* fontData = DEBUG_NEW FT_Byte[fontSize];
-        GetFontData(hdc, 0, 0, fontData, fontSize);
-        error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
+        std::wstring fontNameK = CW2W(fontName);
+        if (faceCache.count(fontNameK)>0) {
+            face = faceCache[fontNameK].face;
+            error = 0;
+        } else {
+            DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
+            FT_Byte* fontData = DEBUG_NEW FT_Byte[fontSize];
+            GetFontData(hdc, 0, 0, fontData, fontSize);
+            error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
+            if (!error) {
+                faceCache[fontNameK] = { fontData, face };
+            }
+        }
+
         if (!error) {
             TEXTMETRIC GDIMetrics;
             GetTextMetricsW(hdc, &GDIMetrics);
@@ -1969,8 +1984,6 @@ bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, wchar_t ch, int size,
                 }
             }
         }
-        delete[] fontData;
-        FT_Done_Face(face);
         if (!error) {
             return true;
         }
