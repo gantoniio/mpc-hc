@@ -170,6 +170,8 @@ private:
     struct faceData {
         FT_Byte* fontData;
         FT_Face face;
+        FT_UInt ratio;
+        LONG ascent;
     };
     std::unordered_map<std::wstring, faceData> faceCache;
     bool ftInitialized;

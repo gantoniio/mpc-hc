@@ -33,6 +33,29 @@
 #include FT_FREETYPE_H
 #include FT_SYNTHESIS_H
 
+#define DEBUG_PERFORMANCE 0
+#if DEBUG_PERFORMANCE
+#include <sstream>
+#include <chrono>
+#define BEGIN_PERF_TIMER(a) \
+    std::chrono::steady_clock::time_point begin##a = std::chrono::steady_clock::now();
+
+#define END_PERF_TIMER(a, ref1, ref2) \
+    std::chrono::steady_clock::time_point end##a = std::chrono::steady_clock::now(); \
+    { \
+        std::ostringstream ss; \
+        ss << "\n"; \
+        ss << std::chrono::time_point_cast<std::chrono::microseconds>(end##a).time_since_epoch().count(); \
+        ss << ": "##ref1 << "(" << CW2A(ref2) << ") = "; \
+        ss << std::chrono::duration_cast<std::chrono::microseconds>(end##a - begin##a).count() << "[µs]" << std::endl; \
+        TRACE("%s\n", ss.str().c_str()); \
+    }
+
+#else
+#define BEGIN_PERF_TIMER(a)
+#define END_PERF_TIMER(a, ref1, ref2)
+#endif
+
 int Rasterizer::getOverlayWidth() const
 {
     return m_pOverlayData ? m_pOverlayData->mOverlayWidth * 8 : 0;
@@ -1910,8 +1933,8 @@ FT_DEFINE_OUTLINE_FUNCS(
     0,                                      /* shift    */
     0                                       /* delta    */
 )
-
 bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, CStringW fontName, wchar_t ch, int size, int dx, int dy) {
+    BEGIN_PERF_TIMER(GetPathFreeType);
     if (bClearPath) {
         _TrashPath();
     }
@@ -1922,69 +1945,76 @@ bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, CStringW fontName, wc
         ftInitialized = !FT_Init_FreeType(&ftLibrary);
     }
 
+
     if (ftInitialized) {
         std::wstring fontNameK = CW2W(fontName);
+        fontNameK += std::to_wstring(size);
+        LONG tmAscent;
         if (faceCache.count(fontNameK)>0) {
             face = faceCache[fontNameK].face;
-            error = 0;
+            tmAscent = faceCache[fontNameK].ascent;
+            error = FT_Set_Pixel_Sizes(face, faceCache[fontNameK].ratio, faceCache[fontNameK].ratio);
         } else {
             DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
             FT_Byte* fontData = DEBUG_NEW FT_Byte[fontSize];
             GetFontData(hdc, 0, 0, fontData, fontSize);
             error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
             if (!error) {
-                faceCache[fontNameK] = { fontData, face };
-            }
-        }
+                TEXTMETRIC GDIMetrics;
+                GetTextMetricsW(hdc, &GDIMetrics);
 
-        if (!error) {
-            TEXTMETRIC GDIMetrics;
-            GetTextMetricsW(hdc, &GDIMetrics);
-
-            FT_UInt glyph_index = FT_Get_Char_Index(face, ch);
-            FT_Set_Pixel_Sizes(face, 0xffff, 0xffff);
-            float ascRatio, heightRatio;
-            //this is a weird hack, but the ratio of the ascent seems a good estimate of the right font size.  Worked perfectly with Arial
-            ascRatio = float(GDIMetrics.tmAscent) / face->size->metrics.ascender;
-            heightRatio = float(GDIMetrics.tmHeight) / face->size->metrics.height;
-            error = FT_Set_Pixel_Sizes(face, 0xffff * ascRatio * 64, 0xffff * ascRatio * 64);
-            //If the ascent ratio didn't work (>3.125%), we will do a basic height ratio.  it works well on other fonts
-            if (std::abs(64 - float(face->size->metrics.height) / GDIMetrics.tmHeight) > 2) { 
-                error = FT_Set_Pixel_Sizes(face, 0xffff * heightRatio * 64, 0xffff * heightRatio * 64);
-            }
-
-            if (!error) {
-                error = FT_Load_Glyph(face, glyph_index, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_NO_BITMAP);
+                error = FT_Set_Pixel_Sizes(face, 0xffff, 0xffff);
+                FT_UInt fRatio;
+                //this is a weird hack, but the ratio of the ascent seems a good estimate of the right font size.  Worked perfectly with Arial
+                FT_Pos tHeight = face->size->metrics.height;
+                fRatio = static_cast<FT_UInt>(float(GDIMetrics.tmAscent) / face->size->metrics.ascender * 0xffff * 64);
+                error = !error && FT_Set_Pixel_Sizes(face, fRatio, fRatio);
+                //If the ascent ratio didn't work (>3.125%), we will do a basic height ratio.  it works well on other fonts
+                if (!error && std::abs(64 - float(face->size->metrics.height) / GDIMetrics.tmHeight) > 2) {
+                    fRatio = static_cast<FT_UInt>(float(GDIMetrics.tmHeight) / tHeight * 0xffff * 64);
+                    error = FT_Set_Pixel_Sizes(face, fRatio, fRatio);
+                }
                 if (!error) {
-                    FT_Glyph_Metrics* metrics = &face->glyph->metrics;
-                    FTPathData pd;
-                    pd.dx = dx;
-                    pd.dy = dy;
-                    pd.r = this;
-                    pd.tmAscent = GDIMetrics.tmAscent; //this is the y baseline.  match windows and not Freetype
-                    error = FT_Outline_Decompose(&face->glyph->outline, &ft_decompose_funcs, (void*)&pd);
-#if 0
-                    for (int a = 0; a < mPathPoints; a++) {
-                        TRACE("winxxx\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
-                    }
-#endif
-                    int nPoints = pd.ftPoints.size();
-                    if (ResizePath(nPoints)) {
-                        for (int a = 0; a < pd.ftPoints.size(); a++) {
-                            mpPathTypes[mPathPoints+a] = pd.ftTypes[a];
-                            mpPathPoints[mPathPoints+a] = pd.ftPoints[a];
-                        }
-                        mPathPoints += nPoints;
-                    }
-#if 0
-                    for (int a = mPathPoints - nPoints; a < mPathPoints; a++) {
-                        TRACE("ft\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
-                    }
-#endif
+                    tmAscent = GDIMetrics.tmAscent;
+                    faceCache[fontNameK] = { fontData, face, fRatio, tmAscent };
                 }
             }
         }
+
         if (!error) {
+            BEGIN_PERF_TIMER(FT_Load_Glyph)
+            error = FT_Load_Char(face, ch, FT_LOAD_NO_HINTING|FT_LOAD_NO_BITMAP);
+            if (!error) {
+                FT_Glyph_Metrics* metrics = &face->glyph->metrics;
+                FTPathData pd;
+                pd.dx = dx;
+                pd.dy = dy;
+                pd.r = this;
+                pd.tmAscent = tmAscent; //this is the y baseline.  match windows and not Freetype
+                error = FT_Outline_Decompose(&face->glyph->outline, &ft_decompose_funcs, (void*)&pd);
+                END_PERF_TIMER(FT_Load_Glyph, "2", fontName)
+#if 0
+                for (int a = 0; a < mPathPoints; a++) {
+                    TRACE("winxxx\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
+                }
+#endif
+                int nPoints = pd.ftPoints.size();
+                if (ResizePath(nPoints)) {
+                    for (int a = 0; a < pd.ftPoints.size(); a++) {
+                        mpPathTypes[mPathPoints + a] = pd.ftTypes[a];
+                        mpPathPoints[mPathPoints + a] = pd.ftPoints[a];
+                    }
+                    mPathPoints += nPoints;
+                }
+#if 0
+                for (int a = mPathPoints - nPoints; a < mPathPoints; a++) {
+                    TRACE("ft\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
+                }
+#endif
+            }
+        }
+        if (!error) {
+            END_PERF_TIMER(GetPathFreeType, "function", CW2A(fontName));
             return true;
         }
     }
