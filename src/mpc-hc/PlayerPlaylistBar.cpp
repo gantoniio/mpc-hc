@@ -2182,6 +2182,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             const CString dirName = PathUtils::DirName(m_pl.GetAt(pos).m_fns.GetHead());
             if (PathUtils::IsDir(dirName)) {
                 if (AddItemsInFolder(dirName)) {
+                    // @todo - quickfix to restore old playlist behaviour to sort by path by default. may be a better way to do this?
+                    m_pl.SortByPath();
                     Refresh();
                     SavePlaylist();
                 }
