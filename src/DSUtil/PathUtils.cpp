@@ -22,6 +22,7 @@
 #include "PathUtils.h"
 #include <memory>
 #include "text.h"
+#include <regex>
 
 namespace PathUtils
 {
@@ -265,5 +266,28 @@ namespace PathUtils
     bool IsFullFilePath(CString& fn)
     {
         return (fn.Find(_T(":")) > 0) && !IsURL(fn) || (fn.Find(_T("\\\\")) == 0);
+    }
+
+    CString BaseName(const CString& fn)
+    {
+        return fn.Mid(std::max(fn.ReverseFind('\\'), fn.ReverseFind('/')) + 1);
+    }
+
+    CString Path(const CString& fn)
+    {
+        return fn.Left(std::max(fn.ReverseFind('\\'), fn.ReverseFind('/')) + 1);
+    }
+
+    CString StripExtensionAndMultiVolumeRarSuffix(const CString& fn)
+    {
+        // C:\some\dir\base.mkv        ==> C:\some\dir\base
+        // C:\some\dir\base.partNN.rar ==> C:\some\dir\base
+        std::wregex re(_T("(\\.part\\d+\\.rar|\\.[^.]+)$"));
+        std::wcmatch mc;
+        if (std::regex_search(fn.GetString(), mc, re)) {
+            return fn.Left((int)mc.position());
+        } else {
+            return fn;
+        }
     }
 }

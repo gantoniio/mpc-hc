@@ -47,4 +47,7 @@ namespace PathUtils
 
     bool IsURL(CString& fn);
     bool IsFullFilePath(CString& fn);
+    CString BaseName(const CString& fn);
+    CString Path(const CString& fn);
+    CString StripExtensionAndMultiVolumeRarSuffix(const CString& fn);
 }

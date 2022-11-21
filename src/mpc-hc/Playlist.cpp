@@ -159,13 +159,12 @@ void CPlaylistItem::AutoLoadFiles()
             CString ext = fn.Mid(i + 1).MakeLower();
 
             if (!mf.FindExt(ext, true)) {
-                CString path = fn;
-                path.Replace('/', '\\');
-                path = path.Left(path.ReverseFind('\\') + 1);
+                CString path = PathUtils::Path(fn);
+                CString base = PathUtils::StripExtensionAndMultiVolumeRarSuffix(fn);
 
                 WIN32_FIND_DATA fd;
                 ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
-                HANDLE hFind = FindFirstFile(fn.Left(i) + _T("*.*"), &fd);
+                HANDLE hFind = FindFirstFile(base + _T("*.*"), &fd);
                 if (hFind != INVALID_HANDLE_VALUE) {
                     do {
                         if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -199,14 +198,7 @@ void CPlaylistItem::AutoLoadFiles()
             }
         } while (pos != -1);
 
-        CString dir = fn;
-        dir.Replace('\\', '/');
-        int l  = dir.ReverseFind('/') + 1;
-        int l2 = dir.ReverseFind('.');
-        if (l2 < l) { // no extension, read to the end
-            l2 = fn.GetLength();
-        }
-        CString title = dir.Mid(l, l2 - l);
+        CString title = PathUtils::StripExtensionAndMultiVolumeRarSuffix(PathUtils::BaseName(fn));
         paths.Add(title);
 
         CAtlArray<Subtitle::SubFile> ret;
