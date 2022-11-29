@@ -200,6 +200,7 @@ private:
         USE_YDL,
         YDL_MAX_HEIGHT,
         YDL_VIDEO_FORMAT,
+        YDL_AUDIO_FORMAT,
         YDL_AUDIO_ONLY,
         YDL_EXEPATH,
         YDL_COMMAND_LINE,
@@ -215,6 +216,7 @@ private:
         LOCK_NOPAUSE,
         RELOAD_AFTER_LONG_PAUSE,
         INACCURATE_FASTSEEK,
+        STILL_VIDEO_DURATION,
         STREAMPOSPOLLER_INTERVAL,
         REDIR_OPEN_TO_APPEND,
 #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER

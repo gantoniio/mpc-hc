@@ -737,8 +737,8 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         if (!styleStr.IsEmpty()) {
             auto parseColor = [](std::wstring styles, std::wstring attr = L"color") {
                 //we only support color styles for now
-                std::wregex clrPat(attr + LR"(\s*:\s*#?([a-zA-Z0-9]*)\s*;)"); //e.g., 0xffffff or white
-                std::wregex rgbPat(attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
+                std::wregex clrPat(LR"(^\s*)" + attr + LR"(\s*:\s*#?([a-zA-Z0-9]*)\s*;)"); //e.g., 0xffffff or white
+                std::wregex rgbPat(LR"(^\s*)" + attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
                 std::wsmatch match;
                 std::wstring clrStr = L"";
                 if (std::regex_search(styles, match, clrPat)) {
@@ -762,7 +762,10 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
                 auto iter = results[results.size() - 1];
                 std::wstring clr, bgClr;
                 clr = parseColor(iter[0]);
-                bgClr = parseColor(iter[0], L"background");
+                bgClr = parseColor(iter[0], L"background-color");
+                if (bgClr == L"") {
+                    bgClr = parseColor(iter[0], L"background");
+                }
                 if (clr != L"" || bgClr != L"") {
                     cueColors[L"::cue"] = WebVTTcolorData({ clr, bgClr });
                 }
@@ -773,7 +776,10 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
             for (const auto& iter : results) {
                 std::wstring clr, bgClr;
                 clr=parseColor(iter[1]);
-                bgClr=parseColor(iter[1], L"background");
+                bgClr=parseColor(iter[1], L"background-color");
+                if (bgClr == L"") {
+                    bgClr = parseColor(iter[1], L"background");
+                }
                 if (clr != L"" || bgClr != L"") {
                     cueColors[iter[0]] = WebVTTcolorData({ clr, bgClr });
                 }
@@ -1740,11 +1746,20 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
     int version = 3, sver = 3;
     CStringW buff;
     int ignore_count = 0;
+    bool first_line = true;
 
     while (file->ReadString(buff)) {
         FastTrim(buff);
         if (buff.IsEmpty() || buff.GetAt(0) == L';') {
             continue;
+        }
+
+        if (first_line) {
+            if (buff == L"1") {
+                // SRT file
+                return false;
+            }
+            first_line = false;
         }
 
         LPCWSTR pszBuff = buff;
@@ -1953,6 +1968,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else if (entry == L"ycbcr matrix") {
             if (nBuffLength) {
                 ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
+                ret.m_sYCbCrMatrix.MakeUpper();
             }
         } else if (entry == L"format") {
             // ToDo: Parse this line and use it to correctly parse following style and dialogue lines
@@ -1963,7 +1979,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else {
             TRACE(_T("Ignoring unknown SSA entry: %s\n"), static_cast<LPCWSTR>(entry));
             if (!fRet) {
-                if (++ignore_count >= 20) {
+                if (++ignore_count >= 10) {
                     return false;
                 }
             }
@@ -2182,8 +2198,8 @@ struct OpenFunctStruct {
 static OpenFunctStruct OpenFuncts[] = {
     OpenSubRipper, TIME, Subtitle::SRT,
     OpenOldSubRipper, TIME, Subtitle::SRT,
-    OpenSubViewer, TIME, Subtitle::SUB,
-    OpenMicroDVD, FRAME, Subtitle::SSA,
+    OpenSubViewer, TIME, Subtitle::SRT,
+    OpenMicroDVD, FRAME, Subtitle::SUB,
     OpenVPlayer, TIME, Subtitle::SRT,
     OpenSubStationAlpha, TIME, Subtitle::SSA,
     OpenVTT, TIME, Subtitle::VTT,
@@ -3490,18 +3506,16 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
         CString str;
 
         str  = _T("[Script Info]\n");
-        str += (type == Subtitle::SSA) ? _T("; This is a Sub Station Alpha v4 script.\n") : _T("; This is an Advanced Sub Station Alpha v4+ script.\n");
-        str += _T(";\n");
-        if (type == Subtitle::ASS) {
-            str += _T("; Advanced Sub Station Alpha script format developed by #Anime-Fansubs@EfNET\n");
-            str += _T(";\n");
-        }
         str += _T("; Note: This file was saved by MPC-HC.\n");
-        str += _T(";\n");
         str += (type == Subtitle::SSA) ? _T("ScriptType: v4.00\n") : _T("ScriptType: v4.00+\n");
         str += (m_collisions == 0) ? _T("Collisions: Normal\n") : _T("Collisions: Reverse\n");
         if (type == Subtitle::ASS && m_fScaledBAS) {
             str += _T("ScaledBorderAndShadow: Yes\n");
+        }
+        if (m_sYCbCrMatrix.IsEmpty()) {
+            str += _T("YCbCr Matrix: None\n");
+        } else {
+            str += _T("YCbCr Matrix: ") + m_sYCbCrMatrix + _T("\n");
         }
         str.AppendFormat(_T("PlayResX: %d\n"), m_dstScreenSize.cx);
         str.AppendFormat(_T("PlayResY: %d\n"), m_dstScreenSize.cy);
@@ -3684,6 +3698,9 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
                     s->charSet);
         file.WriteString(str2);
     }
+
+    m_provider = _T("Local");
+    m_path = fn;
 
     return true;
 }

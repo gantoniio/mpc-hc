@@ -232,9 +232,9 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProv
     m_pSubPicProvider = pSubPicProvider;
 
     if (m_pAllocator) {
-        m_pAllocator->FreeStatic();
         m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
         m_pAllocator->SetCurSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurVidRect(m_videoRect);
     }
 
     if (m_pSubPicQueue) {
@@ -277,7 +277,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDefaultVideoAngle(Vector v)
 
         // In theory it should be a multiple of 90°
         int zAnglePi2 = std::lround(v.z / pi_2);
-        ASSERT(zAnglePi2 * pi_2 == v.z);
+        //ASSERT(zAnglePi2 * pi_2 == v.z);
 
         // Normalize the Z angle
         zAnglePi2 %= 4;
@@ -509,6 +509,9 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
                     case DXVA2_VideoTransferMatrix_SMPTE240M:
                         ret.Append(L"240M");
                         break;
+                    case 4:
+                        ret.Append(L"2020");
+                        break;
                     default:
                         ret = L"None";
                         break;
@@ -602,33 +605,13 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         hr = pSubConsumer->Connect(subtitleRenderer);
     } else {
         CComPtr<ISubPicProvider> pSubPicProvider = (ISubPicProvider*)DEBUG_NEW CXySubPicProvider(subtitleRenderer);
-
-        /* Disable subpic buffer until XySubFilter implements subtitle invalidation
-        CComPtr<ISubPicQueue> pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                                             ? (ISubPicQueue*)DEBUG_NEW CXySubPicQueue(GetRenderersSettings().nSPCSize, m_pAllocator, &hr)
-                                             : (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
-        */
-
-        // Lock and wait for m_pAllocator to be ready.
-        CAutoLock cAutoLock(this);
-        if (!m_pAllocator) {
-            std::mutex mutexAllocator;
-            std::unique_lock<std::mutex> lock(mutexAllocator);
-            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {
-            return !!m_pAllocator;
-        })) {
-                // Return early, CXySubPicQueueNoThread ctor would fail anyway.
-                ASSERT(FALSE);
-                return E_FAIL;
-            }
-        }
-
         CComPtr<ISubPicQueue> pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
 
         if (SUCCEEDED(hr)) {
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
             m_pSubPicProvider = pSubPicProvider;
             m_pSubPicQueue = pSubPicQueue;
+            m_pAllocator->SetInverseAlpha(true);
         }
     }
 

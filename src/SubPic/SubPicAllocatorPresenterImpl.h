@@ -58,8 +58,6 @@ protected:
     CComPtr<ISubPicAllocator> m_pAllocator;
     CComPtr<ISubPicQueue> m_pSubPicQueue;
 
-    std::condition_variable m_condAllocatorReady;
-
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
@@ -109,6 +107,7 @@ public:
     STDMETHODIMP_(bool) ResetDevice() { return false; }
     STDMETHODIMP_(bool) DisplayChange() { return false; }
     STDMETHODIMP_(void) GetPosition(RECT* windowRect, RECT* videoRect) { *windowRect = m_windowRect; *videoRect = m_videoRect; }
+    STDMETHODIMP_(void) SetVideoMediaType(CMediaType input) { m_inputMediaType = input; }
 
     // ISubPicAllocatorPresenter2
 

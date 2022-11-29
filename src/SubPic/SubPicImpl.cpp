@@ -131,8 +131,8 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
         CRect windowRect(rcWindow);
 
         CRect originalDirtyRect = m_rcDirty;
-        originalDirtyRect.OffsetRect(m_virtualTextureTopLeft + CPoint(xOffsetInPixels, yOffsetInPixels));
         *pRcSource = originalDirtyRect;
+        originalDirtyRect.OffsetRect(m_virtualTextureTopLeft);
 
         CRect targetDirtyRect;
 
@@ -243,6 +243,8 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
             targetDirtyRect.right -= stretch;
         }
 
+        targetDirtyRect.OffsetRect(CPoint(xOffsetInPixels, yOffsetInPixels));
+
         *pRcDest = targetDirtyRect;
         return S_OK;
     }
@@ -300,11 +302,6 @@ STDMETHODIMP CSubPicImpl::SetVirtualTextureSize(const SIZE pSize, const POINT pT
     m_virtualTextureTopLeft.SetPoint(pTopLeft.x, pTopLeft.y);
 
     return S_OK;
-}
-
-STDMETHODIMP_(bool) CSubPicImpl::GetInverseAlpha() const
-{
-    return m_bInvAlpha;
 }
 
 STDMETHODIMP_(void) CSubPicImpl::SetInverseAlpha(bool bInverted)
@@ -418,4 +415,9 @@ STDMETHODIMP CSubPicAllocatorImpl::FreeStatic()
         m_pStatic.Release();
     }
     return S_OK;
+}
+
+STDMETHODIMP_(void) CSubPicAllocatorImpl::SetInverseAlpha(bool bInverted)
+{
+    m_bInvAlpha = bInverted;
 }

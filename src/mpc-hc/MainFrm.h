@@ -54,8 +54,6 @@
 #include "MediaTransControls.h"
 #include "FavoriteOrganizeDlg.h"
 
-#define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
-
 class CDebugShadersDlg;
 class CFullscreenWnd;
 class SkypeMoodMsgHandler;
@@ -266,11 +264,11 @@ private:
     // SmarkSeek
     CComPtr<IGraphBuilder2>         m_pGB_preview;
     CComQIPtr<IMediaControl>        m_pMC_preview;
-    CComQIPtr<IMediaEventEx>        m_pME_preview;
+    //CComQIPtr<IMediaEventEx>        m_pME_preview;
     CComQIPtr<IMediaSeeking>        m_pMS_preview;
     CComQIPtr<IVideoWindow>         m_pVW_preview;
     CComQIPtr<IBasicVideo>          m_pBV_preview;
-    CComQIPtr<IVideoFrameStep>      m_pFS_preview;
+    //CComQIPtr<IVideoFrameStep>      m_pFS_preview;
     CComQIPtr<IDvdControl2>         m_pDVDC_preview;
     CComQIPtr<IDvdInfo2>            m_pDVDI_preview; // VtX: usually not necessary but may sometimes be necessary.
     CComPtr<IMFVideoDisplayControl> m_pMFVDC_preview;
@@ -620,6 +618,7 @@ public:
     void ParseFavoriteFile(const CString& fav, CAtlList<CString>& args, REFERENCE_TIME* prtStart = nullptr);
     bool ResetDevice();
     bool DisplayChange();
+    void CloseMediaBeforeOpen();
     void CloseMedia(bool bNextIsQueued = false);
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
@@ -667,6 +666,7 @@ public:
     bool LoadSubtitle(CYoutubeDLInstance::YDLSubInfo& sub);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false);
     void SetSubtitle(const SubtitleInput& subInput, bool skip_lcid = false);
+    void UpdateSubtitleColorInfo();
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = DWORD_PTR_MAX, REFERENCE_TIME rtInvalidate = -1);
@@ -901,7 +901,7 @@ public:
     afx_msg void OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesLoad();
     afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
-    afx_msg void OnFileSubtitlesSave();
+    afx_msg void OnFileSubtitlesSave() { SubtitlesSave(); }
     afx_msg void OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI);
     //afx_msg void OnFileSubtitlesUpload();
     //afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
@@ -1148,9 +1148,10 @@ public:
 
     CMPC_Lcd m_Lcd;
 
-    // ==== Added by CASIMIR666
     CWnd*       m_pVideoWnd;            // Current Video (main display screen or 2nd)
     CPreView    m_wndPreView;           // SeekPreview
+
+    void ReleasePreviewGraph();
     HRESULT PreviewWindowHide();
     HRESULT PreviewWindowShow(REFERENCE_TIME rtCur2);
     bool CanPreviewUse();
@@ -1267,6 +1268,8 @@ protected:
 
     // Handles MF_DEFAULT and escapes '&'
     static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);
+
+    void SubtitlesSave(const TCHAR* directory = nullptr, bool silent = false);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);

@@ -61,6 +61,8 @@ CMyFont::CMyFont(const STSStyle& style)
     lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
     lf.lfQuality = ANTIALIASED_QUALITY;
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+    if (lf.lfCharSet == 0)
+        lf.lfCharSet = DEFAULT_CHARSET;
 
     if (!CreateFontIndirect(&lf)) {
         _tcscpy_s(lf.lfFaceName, _T("Calibri"));
@@ -519,23 +521,55 @@ bool CText::CreatePath()
     HFONT hOldFont = SelectFont(g_hDC, font);
 
     if (m_style.fontSpacing) {
-        int width = 0;
-        bool bFirstPath = true;
-
-        for (LPCWSTR s = m_str; *s; s++) {
+        LONG cx;
+        auto getExtent = [&](LPCWSTR s) {
             CSize extent;
             if (!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {
                 SelectFont(g_hDC, hOldFont);
                 ASSERT(0);
                 return false;
             }
+            cx = extent.cx;
+            return true;
+        };
 
+        int width = 0;
+        bool bFirstPath = true;
+        bool failedPath = false;
+        int ftWidth = width;
+
+        for (LPCWSTR s = m_str; *s; s++) {
+            if (!getExtent(s)) {
+                return false;
+            }
             PartialBeginPath(g_hDC, bFirstPath);
             bFirstPath = false;
             TextOutW(g_hDC, 0, 0, s, 1);
+            int mp = mPathPoints;
             PartialEndPath(g_hDC, width, 0);
+            if (mp == mPathPoints && L' ' != s[0]) { //failed to add points, we will try again with FreeType as emulator
+                failedPath=true;
+                break;
+            }
+#if 0
+            GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width+ cx + (int)m_style.fontSpacing, 0);
+            GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width, m_style.fontSize*2);
+#endif
 
-            width += extent.cx + (int)m_style.fontSpacing;
+            width += cx + (int)m_style.fontSpacing;
+        }
+        if (failedPath) { //try freetype
+            width = ftWidth;
+            bFirstPath = true;
+
+            for (LPCWSTR s = m_str; *s; s++) {
+                if (!getExtent(s)) {
+                    return false;
+                }
+                GetPathFreeType(g_hDC, bFirstPath, m_style.fontName, s[0], m_style.fontSize, width, 0);
+                bFirstPath = false;
+                width += cx + (int)m_style.fontSpacing;
+            }
         }
     } else {
         CSize extent;
@@ -1594,6 +1628,7 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     , m_bOverrideStyle(false)
     , m_bOverridePlacement(false)
     , m_overridePlacement(50, 90)
+    , m_webvtt_allow_clear(false)
 {
     m_size = CSize(0, 0);
 
@@ -3436,18 +3471,20 @@ STDMETHODIMP CRenderedTextSubtitle::Reload()
 
 STDMETHODIMP CRenderedTextSubtitle::SetSourceTargetInfo(CString yuvVideoMatrix, int targetBlackLevel, int targetWhiteLevel)
 {
-    bool bIsVSFilter = !!yuvVideoMatrix.Replace(_T(".VSFilter"), _T(""));
     ColorConvTable::YuvMatrixType yuvMatrix = ColorConvTable::BT601;
     ColorConvTable::YuvRangeType  yuvRange = ColorConvTable::RANGE_TV;
+
+    yuvVideoMatrix.MakeUpper();
 
     auto parseMatrixString = [&](const CString & sYuvMatrix) {
         int nPos = 0;
         CString range = sYuvMatrix.Tokenize(_T("."), nPos);
         CString matrix = sYuvMatrix.Mid(nPos);
 
-        yuvRange = ColorConvTable::RANGE_TV;
         if (range == _T("PC")) {
             yuvRange = ColorConvTable::RANGE_PC;
+        } else {
+            yuvRange = ColorConvTable::RANGE_TV;
         }
 
         if (matrix == _T("709")) {
@@ -3456,18 +3493,30 @@ STDMETHODIMP CRenderedTextSubtitle::SetSourceTargetInfo(CString yuvVideoMatrix, 
             yuvMatrix = ColorConvTable::BT709;
         } else if (matrix == _T("601")) {
             yuvMatrix = ColorConvTable::BT601;
+        } else if (matrix == _T("2020")) {
+            yuvMatrix = ColorConvTable::BT2020;
         } else {
-            yuvMatrix = ColorConvTable::NONE;
+            yuvMatrix = ColorConvTable::AUTO;
         }
     };
 
     if (!m_sYCbCrMatrix.IsEmpty()) {
-        parseMatrixString(m_sYCbCrMatrix);
+        if (m_sYCbCrMatrix == _T("NONE")) {
+            yuvMatrix = ColorConvTable::NONE_RGB;
+            yuvRange = ColorConvTable::RANGE_PC;
+        } else {
+            parseMatrixString(m_sYCbCrMatrix);
+        }
     } else {
-        parseMatrixString(yuvVideoMatrix);
+        if (m_subtitleType != Subtitle::ASS && m_subtitleType != Subtitle::SSA || yuvVideoMatrix == _T("NONE")) {
+            yuvMatrix = ColorConvTable::NONE_RGB;
+            yuvRange = ColorConvTable::RANGE_PC;
+        } else {
+            parseMatrixString(yuvVideoMatrix);
+        }
     }
 
-    bool bTransformColors = !bIsVSFilter && (!m_sYCbCrMatrix.IsEmpty() || !yuvVideoMatrix.IsEmpty());
+    bool bTransformColors = (yuvMatrix != ColorConvTable::NONE_RGB) && (!m_sYCbCrMatrix.IsEmpty() || !yuvVideoMatrix.IsEmpty());
     ColorConvTable::SetDefaultConvType(yuvMatrix, yuvRange, (targetWhiteLevel < 245), bTransformColors);
 
     return S_OK;
