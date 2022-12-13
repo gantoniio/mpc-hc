@@ -141,7 +141,7 @@ msgstr "Tempo"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "Vai!"
+msgstr "Ir!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
@@ -157,7 +157,7 @@ msgstr "Fotograma"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "Vai!"
+msgstr "Ir!"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
