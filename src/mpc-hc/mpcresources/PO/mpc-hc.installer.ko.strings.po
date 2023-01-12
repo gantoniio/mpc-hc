@@ -24,7 +24,7 @@ msgid ""
 "\n"
 "It is recommended that you close all other applications before continuing."
 msgstr ""
-"이렇게  [이름]이(가) 컴퓨터에 설치됩니다.\n"
+"이렇게  [name]이(가) 컴퓨터에 설치됩니다.\n"
 "\n"
 "계속하시기 전에 다른 모든 응용 프로그램을 종료하시기 바랍니다."
 
