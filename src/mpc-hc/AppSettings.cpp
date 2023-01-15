@@ -255,6 +255,7 @@ CAppSettings::CAppSettings()
     , bFullscreenSeparateControls(false)
     , bAlwaysUseShortMenu(false)
     , iStillVideoDuration(10)
+    , iMouseLeftUpDelay(0)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -1229,6 +1230,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, bFullscreenSeparateControls);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, bAlwaysUseShortMenu);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, iStillVideoDuration);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, iMouseLeftUpDelay);
 
     if (fKeepHistory) {
         if (write_full_history) {
@@ -1639,6 +1641,9 @@ void CAppSettings::LoadSettings()
     nVerPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPVERPOS, 90);
     bSubtitleARCompensation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLEARCOMPENSATION, TRUE);
     nSubDelayStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBDELAYINTERVAL, 500);
+    if (nSubDelayStep < 10) {
+        nSubDelayStep = 500;
+    }
 
     fEnableSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLESUBTITLES, TRUE);
     bPreferDefaultForcedSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREFER_FORCED_DEFAULT_SUBTITLES, TRUE);
@@ -2068,6 +2073,7 @@ void CAppSettings::LoadSettings()
     bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, FALSE);
     bAlwaysUseShortMenu = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, FALSE);
     iStillVideoDuration = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, 10);
+    iMouseLeftUpDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, 0);
 
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;
@@ -2286,8 +2292,8 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
 
 CString CAppSettings::ParseFileName(CString const& param)
 {
-    // Try to transform relative pathname into full pathname
-    if (param.Find(_T(":")) < 0) {
+    if (param.Find(_T(":")) < 0 && param.Left(2) != L"\\\\") {
+        // Try to transform relative pathname into full pathname
         CString fullPathName;
         DWORD dwLen = GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr);
         if (dwLen > 0 && dwLen < MAX_PATH) {
@@ -2299,7 +2305,7 @@ CString CAppSettings::ParseFileName(CString const& param)
         }
     } else {
         CString fullPathName = param;
-        ExtendMaxPathLengthIfNeeded(fullPathName, MAX_PATH);
+        ExtendMaxPathLengthIfNeeded(fullPathName);
         return fullPathName;
     }
 
