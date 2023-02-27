@@ -208,7 +208,7 @@ msgstr "本程式是自由軟體，依照 GNU General Public License 發行。"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "繁體中文翻譯由 Chien Wei Lin、Kene Lin、Chiahong Hong 製作"
+msgstr "繁體中文翻譯由 Chien Wei Lin、Kene Lin、Chiahong Hong、Peter Chen 製作"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
