@@ -341,7 +341,7 @@ msgstr "檔案"
 
 msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
 msgid "Language"
-msgstr "語系"
+msgstr "語言"
 
 msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
 msgid "Format"
