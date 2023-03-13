@@ -3236,7 +3236,7 @@ msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr "Monkey's 오디오"
+msgstr "몽키스 오디오"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
