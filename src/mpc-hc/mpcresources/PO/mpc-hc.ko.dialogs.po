@@ -1499,7 +1499,7 @@ msgstr "전체 화면으로 재생 시작"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "전체화면에서 컨트롤 숨기기"
+msgstr "전체 화면에서 컨트롤 숨기기"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1511,7 +1511,7 @@ msgstr "고정 패널 숨기기"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "재생이 끝나면 전체화면 종료"
+msgstr "재생이 끝나면 전체 화면 종료"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
