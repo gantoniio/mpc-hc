@@ -1338,7 +1338,7 @@ msgstr "창 화면 마우스"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "전체화면 마우스"
+msgstr "마우스 전체 화면"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
