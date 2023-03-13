@@ -607,7 +607,7 @@ msgstr "재생::싱크 렌더러 설정"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "재생::전체화면"
+msgstr "재생::전체 화면"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
