@@ -1515,11 +1515,11 @@ msgstr "재생이 끝나면 전체 화면 종료"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "전체화면 모니터"
+msgstr "전체 화면 모니터"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "전체화면 모니터 모드 자동 전환 사용"
+msgstr "전체 화면 모니터 모드 자동 전환 사용"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
