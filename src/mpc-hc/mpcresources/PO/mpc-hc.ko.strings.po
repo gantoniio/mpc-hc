@@ -3272,7 +3272,7 @@ msgstr "MPEG 오디오"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
-msgstr "Musepack"
+msgstr " 뮤즈팩"
 
 msgctxt "IDS_MFMT_OFR"
 msgid "OptimFROG"
