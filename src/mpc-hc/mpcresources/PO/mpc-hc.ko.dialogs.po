@@ -60,7 +60,7 @@ msgstr "녹음"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
-msgstr "미리듣기"
+msgstr "미리 보기"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
@@ -660,7 +660,7 @@ msgstr "기본값"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
 msgid "Show preview on seek bar"
-msgstr "검색 바에 미리보기 표시"
+msgstr "검색 바에 미리 보기 표시"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Preview width (% of screen width)"
