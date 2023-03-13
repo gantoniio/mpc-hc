@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Hack茶ん TNC, 2023
+# Hack茶ん, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2022-06-24 16:57:41+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hack茶ん TNC, 2023\n"
+"Last-Translator: Hack茶ん, 2023\n"
 "Language-Team: Korean (https://www.transifex.com/mpchc/teams/106126/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -467,7 +467,7 @@ msgstr "복구(&E)"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
-msgstr "분리기(&S)"
+msgstr "구분 기호(&S)"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
@@ -647,7 +647,7 @@ msgstr "25%"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "비디오 믹싱 렌더러 9 (윈도)"
+msgstr "비디오 믹싱 렌더러 9(윈도)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -987,7 +987,7 @@ msgstr "암호화된 파일 미지원"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
-msgstr "모든 아카이브 볼륨을 찾지 못함"
+msgstr "모든 아카이브 음량을 찾지 못함"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -995,7 +995,7 @@ msgstr "잘림 현상이 줄어들지만 도구 모음이 표시되지 않습니
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "D3D에 내장된 기본 수직동기화를 우회하여 티어링을 줄입니다."
+msgstr "D3D에 내장된 기본 수직 동기화를 우회하여 티어링을 줄입니다."
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -1126,7 +1126,7 @@ msgstr ""
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "음소거"
+msgstr "음 소거"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
@@ -1202,7 +1202,7 @@ msgstr "프레임 시간 수정 사용"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "EDL 윈도 토글"
+msgstr "EDL 창 토글"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
@@ -1772,19 +1772,19 @@ msgstr "사전 크기 조정 셰이더 설정 실패"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
-msgstr "프레임 시간 수정 : 켜짐"
+msgstr "프레임 시간 수정 : 켜기"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "프레임 시간 수정 : 꺼짐"
+msgstr "프레임 시간 수정 : 끄기"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "목표 VSync 오프셋: %.1f"
+msgstr "목표 수직 동기화 오프셋 : %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr "VSync 오프셋: %d"
+msgstr "수직 동기화 오프셋 : %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
@@ -2003,15 +2003,15 @@ msgstr "자동 맞춤 확대"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
-msgstr "VidFrm 절반"
+msgstr "비디오폼 : 1/2"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "VidFrm Normal"
-msgstr "VidFrm 보통"
+msgstr "비디오폼 : 표준"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "VidFrm Double"
-msgstr "VidFrm 2배"
+msgstr "비디오폼 : 2배"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2149,15 +2149,15 @@ msgstr "PnS 아래로/오른쪽"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
-msgstr "볼륨 크게"
+msgstr "음량 크게"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
-msgstr "볼륨 작게"
+msgstr "음량 작게"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "음소거"
+msgstr "음 소거"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -2668,7 +2668,7 @@ msgstr "일시 정지"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "제목 표시줄 & 메뉴 토글"
+msgstr "제목 표시줄 & 메뉴 표시"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
@@ -2676,7 +2676,7 @@ msgstr "탐색바 토글"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "컨트롤 토글"
+msgstr "제어 표시"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
@@ -2812,19 +2812,19 @@ msgstr "자막 싱크 : %ld"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "볼륨 부스트 증가"
+msgstr "음량 증폭 증가"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "볼륨 부스트 감소"
+msgstr "음량 증폭 감소"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "볼륨 부스트 최소"
+msgstr "음량 증폭 최소"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "볼륨 부스트 최대"
+msgstr "음량 증폭 최대"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
@@ -2884,15 +2884,15 @@ msgstr "다음 AR 프리셋"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr "비디오폼 늘이기"
+msgstr "비디오폼 : 늘이기"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
-msgstr "비디오폼 안쪽"
+msgstr "비디오폼 : 안쪽"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "VidFrm Outside"
-msgstr "비디오폼 바깥쪽"
+msgstr "비디오폼 : 바깥쪽"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
@@ -2952,23 +2952,23 @@ msgstr "마우스 전체화면 수식키"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "확대/축소 윈도 +"
+msgstr "확대/축소 창 +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "확대/축소 윈도 -"
+msgstr "확대/축소 창 -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr "비디오폼 확대 1"
+msgstr "비디오폼 : 확대 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr "비디오폼 확대 2"
+msgstr "비디오폼 : 확대 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr "비디오폼 확대 전환"
+msgstr "비디오폼 : 확대 전환"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3100,7 +3100,7 @@ msgstr "줌 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
-msgstr "바깥쪽 윈도 창에서"
+msgstr "바깥쪽 창에서"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
@@ -3968,7 +3968,7 @@ msgid ""
 "\t\tOnly available for CUVID and DXVA2 (copy-back)"
 msgstr ""
 "/hwgpu \"index\"\t하드웨어 디코딩에 사용되는 GPU의 색인을 설정합니다.\n"
-"\t\tCUVID 및 DXVA2에만 사용 가능(카피백)"
+"\t\tCUVID 및 DXVA2(카피백)에만 사용 가능"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
