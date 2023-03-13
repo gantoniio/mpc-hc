@@ -3444,7 +3444,7 @@ msgstr "D3D 전체 화면 : 켜기"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "D3D 전체화면 : 끄기"
+msgstr "D3D 전체 화면 : 끄기"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3472,7 +3472,7 @@ msgstr "렌더러 설정을 최적값으로 다시 설정"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "D3D 전체화면 GUI 지원 : 켜기"
+msgstr "D3D 전체 화면 GUI 지원 : 켜기"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
