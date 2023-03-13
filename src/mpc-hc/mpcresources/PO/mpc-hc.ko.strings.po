@@ -3476,7 +3476,7 @@ msgstr "D3D 전체 화면 GUI 지원 : 켜기"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "D3D 전체화면 GUI 지원 : 끄기"
+msgstr "D3D 전체 화면 GUI 지원 : 끄기"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
