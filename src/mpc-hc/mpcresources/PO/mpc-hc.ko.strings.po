@@ -3440,7 +3440,7 @@ msgstr "GPU 플러싱 대기 : 끄기"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr "D3D 전체화면 : 켜기"
+msgstr "D3D 전체 화면 : 켜기"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
