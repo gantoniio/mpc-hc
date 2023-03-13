@@ -265,7 +265,7 @@ msgstr "끝"
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
-msgstr "미리보기"
+msgstr "미리 보기"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
