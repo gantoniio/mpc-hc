@@ -1991,11 +1991,11 @@ msgstr "표준 보기"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
-msgstr "전체화면"
+msgstr "전체 화면"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
-msgstr "전체화면(재조정 없음)"
+msgstr "전체 화면(재조정 없음)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
