@@ -1187,7 +1187,7 @@ msgstr "디스플레이 변경 시, 다시 초기화"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Direct3D 전체화면"
+msgstr "Direct3D 전체 화면"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1495,7 +1495,7 @@ msgstr "현재 파일을 닫고 다시 시작해야만 설정이 적용됩니다
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "전체화면으로 재생 시작"
+msgstr "전체 화면으로 재생 시작"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
