@@ -3192,7 +3192,7 @@ msgstr "기타"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
-msgstr "Shockwave 플래시"
+msgstr "어도비 플래시"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
