@@ -2800,7 +2800,7 @@ msgstr "수직 동기화 오프셋 감소"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "MPC-HC D3D 전체화면"
+msgstr "MPC-HC D3D 전체 화면"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
