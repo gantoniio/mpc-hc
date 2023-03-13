@@ -664,7 +664,7 @@ msgstr "검색 바에 미리보기 표시"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Preview width (% of screen width)"
-msgstr "미리보기 폭(화면 폭의 비율)"
+msgstr "미리 보기 폭(화면 폭의 비율)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
