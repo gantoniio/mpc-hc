@@ -1250,7 +1250,7 @@ msgstr "울트라와이드스크린으로 확대,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "전체화면에서 숨기기(&H)"
+msgstr "전체 화면에서 숨기기(&H)"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
