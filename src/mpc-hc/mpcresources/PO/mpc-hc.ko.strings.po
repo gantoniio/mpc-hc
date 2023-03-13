@@ -1911,7 +1911,7 @@ msgstr "이전 파일"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Direct3D 전체화면 토글"
+msgstr "Direct3D 전체 화면 토글"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
