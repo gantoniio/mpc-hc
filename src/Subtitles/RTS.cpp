@@ -1430,7 +1430,7 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
         return nullptr;
     }
 
-    ret->m_width = ret->m_ascent = ret->m_descent = ret->m_borderX = ret->m_borderY = 0;
+    ret->m_width = ret->m_ascent = ret->m_descent = ret->m_borderX = ret->m_borderY = ret->m_linePadding = 0;
 
     maxwidth = GetWrapWidth(pos, maxwidth);
 
@@ -1450,6 +1450,9 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
         }
         if (ret->m_borderY < w->m_style.outlineWidthY) {
             ret->m_borderY = (int)(w->m_style.outlineWidthY + 0.5);
+        }
+        if (w->m_style.borderStyle == 1 && (ret->m_linePadding < ret->m_borderY * 2)) {
+            ret->m_linePadding = ret->m_borderY * 2;
         }
 
         if (w->m_fLineBreak) {
@@ -1561,7 +1564,7 @@ void CSubtitle::MakeLines(CSize size, const CRect& marginRect)
         }
 
         spaceNeeded.cx = std::max<long>(l->m_width + l->m_borderX, spaceNeeded.cx);
-        spaceNeeded.cy += l->m_ascent + l->m_descent;
+        spaceNeeded.cy += l->m_ascent + l->m_descent + l->m_linePadding;
 
         AddTail(l);
     }
@@ -2812,7 +2815,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     }
 
     STSStyle stss;
-    bool fScaledBAS = m_fScaledBAS;
+    int scaledBAS = m_scaledBAS;
     if (m_bOverrideStyle) {
         // this RTS has been signaled to ignore embedded styles, use the built-in one
         stss = m_styleOverride;
@@ -2829,7 +2832,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         stss.marginRect.top    = std::lround(scaleY * stss.marginRect.top);
         stss.marginRect.right  = std::lround(scaleX * stss.marginRect.right);
         stss.marginRect.bottom = std::lround(scaleY * stss.marginRect.bottom);
-        fScaledBAS = false;
+        scaledBAS = 0;
     } else {
         // find the appropriate embedded style
         GetStyle(entry, stss);
@@ -2980,10 +2983,23 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
         tmp.fontSize      *= sub->m_total_scale_y * 64.0;
         tmp.fontSpacing   *= sub->m_total_scale_x * 64.0;
-        tmp.outlineWidthX *= (fScaledBAS ? sub->m_total_scale_x : sub->m_script_scale_x) * 8.0;
-        tmp.outlineWidthY *= (fScaledBAS ? sub->m_total_scale_y : sub->m_script_scale_y) * 8.0;
-        tmp.shadowDepthX  *= (fScaledBAS ? sub->m_total_scale_x : sub->m_script_scale_x) * 8.0;
-        tmp.shadowDepthY  *= (fScaledBAS ? sub->m_total_scale_y : sub->m_script_scale_y) * 8.0;
+        if (scaledBAS == 1) {
+            tmp.outlineWidthX *= sub->m_total_scale_x * 8.0;
+            tmp.outlineWidthY *= sub->m_total_scale_y * 8.0;
+            tmp.shadowDepthX  *= sub->m_total_scale_x * 8.0;
+            tmp.shadowDepthY  *= sub->m_total_scale_y * 8.0;
+        } else if (sub->m_script_scale_y <= 0.9 && scaledBAS == -1 && m_layoutRes.cx == 0 && (m_subtitleType == Subtitle::ASS || m_subtitleType == Subtitle::SSA)) {
+            // If PlayRes is bigger than video, it usually is a buggy script where ScaledBorderAndShadow was intended
+            tmp.outlineWidthX *= sub->m_total_scale_x * 8.0;
+            tmp.outlineWidthY *= sub->m_total_scale_y * 8.0;
+            tmp.shadowDepthX  *= sub->m_total_scale_x * 8.0;
+            tmp.shadowDepthY  *= sub->m_total_scale_y * 8.0;
+        } else {
+            tmp.outlineWidthX *= 8.0;
+            tmp.outlineWidthY *= 8.0;
+            tmp.shadowDepthX  *= 8.0;
+            tmp.shadowDepthY  *= 8.0;
+        }
 
         if (m_nPolygon) {
             ParsePolygon(sub, str.Mid(iStart, iEnd - iStart), tmp);
@@ -3393,11 +3409,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             org2 = org;
         }
 
-        CPoint p, p2(0, r.top);
-
+        CPoint p(0, r.top);
         POSITION pos;
-
-        p = p2;
 
         // Rectangles for inverse clip
         CRect iclipRect[4];
@@ -3418,50 +3431,20 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                 bbox2 |= l->PaintShadow(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintShadow(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintShadow(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
-            } else {
-                bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
-            }
-            p.y += l->m_ascent + l->m_descent;
-        }
-
-        p = p2;
-
-        pos = s->GetHeadPosition();
-        while (pos) {
-            CLine* l = s->GetNext(pos);
-
-            p.x = (s->m_scrAlignment % 3) == 1 ? org.x
-                  : (s->m_scrAlignment % 3) == 0 ? org.x - l->m_width
-                  :                            org.x - (l->m_width / 2);
-            if (s->m_clipInverse) {
                 bbox2 |= l->PaintOutline(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintOutline(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintOutline(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintOutline(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
-            } else {
-                bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
-            }
-            p.y += l->m_ascent + l->m_descent;
-        }
-
-        p = p2;
-
-        pos = s->GetHeadPosition();
-        while (pos) {
-            CLine* l = s->GetNext(pos);
-
-            p.x = (s->m_scrAlignment % 3) == 1 ? org.x
-                  : (s->m_scrAlignment % 3) == 0 ? org.x - l->m_width
-                  :                            org.x - (l->m_width / 2);
-            if (s->m_clipInverse) {
                 bbox2 |= l->PaintBody(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintBody(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintBody(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintBody(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
             } else {
+                bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
                 bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
             }
-            p.y += l->m_ascent + l->m_descent;
+            p.y += l->m_ascent + l->m_descent + l->m_linePadding;
         }
     }
 

@@ -2697,10 +2697,8 @@ void CMainFrame::GraphEventComplete()
         PerformABRepeat();
     } else if (s.fLoopForever || m_nLoops < s.nLoops) {
         if (bBreak) {
-            m_bRememberFilePos = false;
             DoAfterPlaybackEvent();
         } else if ((m_wndPlaylistBar.GetCount() > 1) && (s.eLoopMode == CAppSettings::LoopMode::PLAYLIST)) {
-            m_bRememberFilePos = false;
             int nLoops = m_nLoops;
             SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
             m_nLoops = nLoops;
@@ -2719,7 +2717,6 @@ void CMainFrame::GraphEventComplete()
             }
         }
     } else {
-        m_bRememberFilePos = false;
         DoAfterPlaybackEvent();
     }
 }
@@ -4192,7 +4189,7 @@ void CMainFrame::OnStreamSubOnOff()
         return;
     }
 
-    if (m_pCAP && !m_pSubStreams.IsEmpty()) {
+    if (m_pCAP && !m_pSubStreams.IsEmpty() || m_pDVS) {
         ToggleSubtitleOnOff(true);
         SetFocus();
     } else if (GetPlaybackMode() == PM_DVD) {
@@ -4913,6 +4910,9 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
     SubtitleInput subInputSelected;
     CString subfile;
     BOOL onlysubs = true;
+    BOOL subloaded = false;
+    BOOL canLoadSub = !bAppend && !m_fAudioOnly && GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode();
+    BOOL canLoadSubISR = canLoadSub && m_pCAP && (!m_pDVS || AfxGetAppSettings().IsISRAutoLoadEnabled());
     POSITION pos = slFiles.GetHeadPosition();
     while (pos) {
         SubtitleInput subInput;
@@ -4922,10 +4922,20 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
             // remove subtitle file from list
             slFiles.RemoveAt(curpos);
             // try to load it
-            if (!bAppend && m_pCAP && GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && LoadSubtitle(subfile, &subInput, False)) {
-                if (onlysubs && !subInputSelected.pSubStream) {
-                    // first one
-                    subInputSelected = subInput;
+            if (onlysubs && canLoadSub) {
+                if (canLoadSubISR && LoadSubtitle(subfile, &subInput, False)) {
+                    if (!subInputSelected.pSubStream) {
+                        // first one
+                        subInputSelected = subInput;
+                    }
+                    subloaded = true;
+                } else if (m_pDVS && slFiles.IsEmpty()) {
+                    if (SUCCEEDED(m_pDVS->put_FileName((LPWSTR)(LPCWSTR)subfile))) {
+                        m_pDVS->put_SelectedLanguage(0);
+                        m_pDVS->put_HideSubtitles(true);
+                        m_pDVS->put_HideSubtitles(false);
+                        subloaded = true;
+                    }
                 }
             }
         }
@@ -4934,21 +4944,19 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
         }
     }
 
-    if (onlysubs && subInputSelected.pSubStream) {
-        AfxGetAppSettings().fEnableSubtitles = true;
-        SetSubtitle(subInputSelected);
-
-        CPath fn(subfile);
-        fn.StripPath();
-        CString statusmsg(static_cast<LPCTSTR>(fn));
-        SendStatusMessage(statusmsg + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
-        // subtitles have been loaded, we are done now
-        return;
-    }
-
-    // list might be empty now if a subtitle file failed to load
-    if (slFiles.IsEmpty()) {
-        SendStatusMessage(_T("Failed to load subtitle file"), 3000);
+    if (onlysubs) {
+        if (subInputSelected.pSubStream) {
+            AfxGetAppSettings().fEnableSubtitles = true;
+            SetSubtitle(subInputSelected);
+        }
+        if (subloaded) {
+            CPath fn(subfile);
+            fn.StripPath();
+            CString statusmsg(static_cast<LPCTSTR>(fn));
+            SendStatusMessage(statusmsg + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
+        } else {
+            SendStatusMessage(_T("Failed to load subtitle file"), 3000);
+        }
         return;
     }
 
@@ -6087,7 +6095,7 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileSubtitlesLoad()
 {
-    if (!m_pCAP) {
+    if (!m_pCAP && !m_pDVS) {
         AfxMessageBox(IDS_CANNOT_LOAD_SUB, MB_ICONINFORMATION | MB_OK, 0);
         return;
     }
@@ -6122,12 +6130,22 @@ void CMainFrame::OnFileSubtitlesLoad()
         bool bFirstFile = true;
         POSITION pos = fd.GetStartPosition();
         while (pos) {
-            SubtitleInput subInput;
-            if (LoadSubtitle(fd.GetNextPathName(pos), &subInput) && bFirstFile) {
-                bFirstFile = false;
-                // Use the subtitles file that was just added
-                AfxGetAppSettings().fEnableSubtitles = true;
-                SetSubtitle(subInput);
+            CString subfile = fd.GetNextPathName(pos);
+            if (m_pDVS) {
+                if (SUCCEEDED(m_pDVS->put_FileName((LPWSTR)(LPCWSTR)subfile))) {
+                    m_pDVS->put_SelectedLanguage(0);
+                    m_pDVS->put_HideSubtitles(true);
+                    m_pDVS->put_HideSubtitles(false);
+                    break;
+                }
+            } else {
+                SubtitleInput subInput;
+                if (LoadSubtitle(subfile, &subInput) && bFirstFile) {
+                    bFirstFile = false;
+                    // Use the subtitles file that was just added
+                    AfxGetAppSettings().fEnableSubtitles = true;
+                    SetSubtitle(subInput);
+                }
             }
         }
     }
@@ -6135,7 +6153,7 @@ void CMainFrame::OnFileSubtitlesLoad()
 
 void CMainFrame::OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP);
+    pCmdUI->Enable(!m_fAudioOnly && (m_pCAP || m_pDVS) && GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode());
 }
 
 void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
@@ -6304,7 +6322,13 @@ void CMainFrame::OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileSubtitlesDownload()
 {
-    m_wndSubtitlesDownloadDialog.ShowWindow(SW_SHOW);
+    if (!m_fAudioOnly) {
+        if (m_pCAP && AfxGetAppSettings().IsISRAutoLoadEnabled()) {
+            m_wndSubtitlesDownloadDialog.ShowWindow(SW_SHOW);
+        } else {
+            AfxMessageBox(_T("Downloading subtitles only works when using the internal subtitle renderer."), MB_ICONINFORMATION | MB_OK, 0);
+        }
+    }
 }
 
 void CMainFrame::OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI)
@@ -12536,7 +12560,7 @@ HRESULT CMainFrame::PreviewWindowHide() {
         AnimationInfo.iMinAnimate = WindowAnimationType;
         ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 
-        if (m_pGB_preview) {
+        if (m_pGB_preview && m_pMC_preview) {
             m_pMC_preview->Pause();
         }
     }
@@ -12801,8 +12825,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                 RecentFileEntry r;
                 CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
                 if (pli) {
-                    if (pli->m_bYoutubeDL) {
-                        r.fns.AddHead(pli->m_ydlSourceURL);
+                    if (pli->m_bYoutubeDL && !pli->m_ydlSourceURL.IsEmpty()) {
+                        pMRU->LoadMediaHistoryEntryFN(pli->m_ydlSourceURL, r);
                     } else {
                         pMRU->LoadMediaHistoryEntryFN(fn, r);
                         if (pli->m_fns.GetCount() > r.fns.GetCount()) {
@@ -12886,7 +12910,7 @@ void CMainFrame::SetupExternalChapters()
     // - Located in same folder as the audio/video file, and has same base filename.
     // - It will override chapter metadata that is embedded in the file.
     // - Each line defines a chapter: timecode, optionally followed by a space and chapter title.
-    // - Timecode must be in this format: HH:MM:SS,ddd
+    // - Timecode must be in this format: HH:MM:SS.ddd or HH:MM:SS,ddd
 
     CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
     if (!pli) {
@@ -12924,7 +12948,7 @@ void CMainFrame::SetupExternalChapters()
             int lMinute = 0;
             int lSecond = 0;
             int lMillisec = 0;
-            if (_stscanf_s(str.Left(12), _T("%02d:%02d:%02d,%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
+            if (_stscanf_s(str.Left(12), _T("%02d:%02d:%02d[,.]+%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
                 rt = ((((lHour * 60) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
                 if (str.GetLength() > 12) {
                     name = str.Mid(12);
@@ -14062,6 +14086,10 @@ bool MatchSubtrackWithISOLang(CString& tname, const ISOLangT<CString>& l)
         if (p > 0) {
             return true;
         }
+        p = tname.Find(_T("[") + l.iso6391 + _T("-]")); // truncated BCP47
+        if (p > 0) {
+            return true;
+        }
     }
 
      if (!l.name.IsEmpty()) {
@@ -14124,15 +14152,21 @@ int CMainFrame::SetupSubtitleStreams()
         CString lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
             lang.MakeLower();
-            ISOLangT<CString> l = ISOLang::ISO639XToISOLang(CStringA(lang));
-            if (l.name.IsEmpty()) {
-                l.name = lang;
-                if (lang == _T("off")) {
-                    has_off_lang = true;
-                }
+            ISOLangT<CString> l = ISOLangT<CString>(lang, L"", L"", 0);
+
+            if (lang == _T("off")) {
+                has_off_lang = true;
+            } else if (lang.Find(L'-') == 2) {
+                // BCP 47
             } else {
-                l.name.MakeLower();
+                l = ISOLang::ISO639XToISOLang(CStringA(lang));
+                if (l.name.IsEmpty()) { // not an ISO code
+                    l.name = lang;
+                } else {
+                    l.name.MakeLower();
+                }
             }
+
             langs.emplace_back(l);
 
             lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
@@ -14715,42 +14749,41 @@ void CMainFrame::CloseMediaPrivate()
 
 bool CMainFrame::WildcardFileSearch(CString searchstr, std::set<CString, CStringUtils::LogicalLess>& results)
 {
-    // support very long paths
     ExtendMaxPathLengthIfNeeded(searchstr);
 
-    CFileFind finder;
-    if (finder.FindFile(searchstr)) {
+    CString path = searchstr;
+    path.Replace('/', '\\');
+    int p = path.ReverseFind('\\');
+    if (p < 0) return false;
+    path = path.Left(p + 1);
+
+    WIN32_FIND_DATA findData;
+    ZeroMemory(&findData, sizeof(WIN32_FIND_DATA));
+    HANDLE h = FindFirstFile(searchstr, &findData);
+    if (h != INVALID_HANDLE_VALUE) {
         const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
         CString search_ext = searchstr.Mid(searchstr.ReverseFind('.')).MakeLower();
         bool other_ext = (search_ext != _T(".*"));
-        bool bHasNext = true;
 
-        while (bHasNext) {
-            bHasNext = finder.FindNextFile();
+        do {
+            CString filename = findData.cFileName;
+            CString ext = filename.Mid(filename.ReverseFind('.')).MakeLower();
 
-            if (!finder.IsDirectory()) {
-                CString path = finder.GetFilePath();
-                CString ext = path.Mid(path.ReverseFind('.')).MakeLower();
-
-                if (ext.IsEmpty()) {
-                    continue;
+            if (mf.FindExt(ext)) {
+                /* playlist and cue files should be ignored when searching dir for playable files */
+                if (ext != _T(".m3u") && ext != _T(".m3u8") && ext != _T(".mpcpl") && ext != _T(".pls") && ext != _T(".cue") && ext != _T(".asx")) {
+                    results.insert(path + filename);
                 }
-
-                if (mf.FindExt(ext)) {
-                    /* playlist and cue files should be ignored when searching dir for playable files */
-                    if (ext != _T(".m3u") && ext != _T(".m3u8") && ext != _T(".mpcpl") && ext != _T(".pls") && ext != _T(".cue") && ext != _T(".asx")) {
-                        results.insert(path);
-                    }
-                } else if (other_ext && search_ext == ext) {
-                    results.insert(path);
-                    if (ext == _T(".rar")) {
-                        break;
-                    }
+            } else if (other_ext && search_ext == ext) {
+                results.insert(path + filename);
+                if (ext == _T(".rar")) {
+                    break;
                 }
             }
-        }
+        } while (FindNextFile(h, &findData));
+
+        FindClose(h);
     }
-    finder.Close();
 
     return results.size() > 0;
 }
@@ -16619,6 +16652,10 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = 
             }
         }
 
+        if (m_pCAP && m_pCurrentSubInput.pSubStream && m_pCurrentSubInput.pSubStream != subInput.pSubStream) {
+            m_pCAP->SetSubPicProvider(nullptr);
+        }
+
         m_pCurrentSubInput = subInput;
 
         UpdateSubtitleRenderingParameters();
@@ -16650,19 +16687,27 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = 
 
 void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
 {
-    CAppSettings& s = AfxGetAppSettings();
-    s.fEnableSubtitles = !s.fEnableSubtitles;
+    if (m_pDVS) {
+        bool bHideSubtitles = false;
+        m_pDVS->get_HideSubtitles(&bHideSubtitles);
+        bHideSubtitles = !bHideSubtitles;
+        m_pDVS->put_HideSubtitles(bHideSubtitles);
+    }
+    if (m_pCAP && (!m_pDVS || !m_pSubStreams.IsEmpty())) {
+        CAppSettings& s = AfxGetAppSettings();
+        s.fEnableSubtitles = !s.fEnableSubtitles;
 
-    if (s.fEnableSubtitles) {
-        SetSubtitle(0, true, bDisplayMessage);
-    } else {
-        if (m_pCAP) {
-            m_pCAP->SetSubPicProvider(nullptr);
-        }
-        currentSubLang.Empty();
+        if (s.fEnableSubtitles) {
+            SetSubtitle(0, true, bDisplayMessage);
+        } else {
+            if (m_pCAP) {
+                m_pCAP->SetSubPicProvider(nullptr);
+            }
+            currentSubLang.Empty();
 
-        if (bDisplayMessage) {
-            m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
+            if (bDisplayMessage) {
+                m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
+            }
         }
     }
 }
@@ -17781,6 +17826,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
             auto& s = AfxGetAppSettings();
             REFERENCE_TIME rtNow = 0;
             m_pMS->GetCurrentPosition(&rtNow);
+            if (rtNow > 0) {
+                REFERENCE_TIME rtDur = 0;
+                m_pMS->GetDuration(&rtDur);
+                if (rtNow > rtDur || rtDur - rtNow < 50000000LL) { // at end of file
+                    rtNow = 0;
+                }
+            }
             s.MRU.UpdateCurrentFilePosition(rtNow, true);
         }
 
