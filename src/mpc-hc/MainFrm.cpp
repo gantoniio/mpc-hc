@@ -16854,8 +16854,7 @@ int CMainFrame::GetCurrentSubtitleTrackIdx(CString *pstrName)
                         if (pstrName) {
                             CComHeapPtr<WCHAR> pName;
                             pSubStream->GetStreamInfo(pSubStream->GetStream(), &pName, nullptr);
-                            if (pstrName)
-                                *pstrName = pName;
+                            *pstrName = pName;
                         }
                         return idx + pSubStream->GetStream();
                     }
