@@ -4487,7 +4487,7 @@ msgstr "크기 조정 전, 픽셀 셰이더 활성화"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
-msgstr "크기 조정 후, 픽셀 셰이더 : 켜기"
+msgstr "크기 조정 후, 픽셀 셰이더 : 켬"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
