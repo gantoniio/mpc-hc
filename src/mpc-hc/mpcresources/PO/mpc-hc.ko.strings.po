@@ -3448,7 +3448,7 @@ msgstr "D3D 전체 화면 : 끔"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr "바탕 화면 구성 비활성화: 켜기"
+msgstr "바탕 화면 구성 비활성화 : 켬"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
