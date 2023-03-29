@@ -2249,7 +2249,7 @@ msgstr "이전 자막 트랙"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "자막 켬/끔"
+msgstr "자막 켜기/끄기"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
@@ -2281,7 +2281,7 @@ msgstr "이전 자막 트랙(DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr "자막 켬/끔(DVD)"
+msgstr "자막 켜기/끄기(DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
