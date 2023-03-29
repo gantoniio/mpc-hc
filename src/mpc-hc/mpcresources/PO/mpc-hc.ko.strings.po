@@ -3444,7 +3444,7 @@ msgstr "D3D 전체 화면 : 켜기"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "D3D 전체 화면 : 끄기"
+msgstr "D3D 전체 화면 : 끔"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
