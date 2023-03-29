@@ -3360,7 +3360,7 @@ msgstr "근접한 수직 동기화 출력 : 끔"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "색 관리 : 켜기"
+msgstr "색 관리 : 켬"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
