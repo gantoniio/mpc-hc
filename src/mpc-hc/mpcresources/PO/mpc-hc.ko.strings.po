@@ -3340,7 +3340,7 @@ msgstr "디스플레이에 비디오 동기화 : 켜기"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "디스플레이에 비디오 동기화 : 끄기"
+msgstr "디스플레이에 비디오 동기화 : 끔"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
@@ -3348,7 +3348,7 @@ msgstr "디스플레이를 비디오에 동기화 : 켜기"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr "디스플레이를 비디오에 동기화 : 끄기"
+msgstr "디스플레이를 비디오에 동기화 : 끔"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
