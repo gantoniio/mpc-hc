@@ -4219,7 +4219,7 @@ msgstr "/hibernate\t\t재생 후, 절전 모드"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr "/logoff\t\t재생 후, 로그오프"
+msgstr "/logoff\t\t재생 후, 로그 오프"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
