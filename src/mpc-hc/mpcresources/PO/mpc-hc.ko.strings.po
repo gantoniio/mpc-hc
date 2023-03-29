@@ -3610,7 +3610,7 @@ msgstr "정규화 전환"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr "정규화 : 켜기"
+msgstr "정규화 : 켬"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
