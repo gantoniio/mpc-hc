@@ -3488,7 +3488,7 @@ msgstr "10비트 RGB 출력 : 끔"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "강제 10비트 RGB 입력 : 켜기"
+msgstr "강제 10비트 RGB 입력 : 켬"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
