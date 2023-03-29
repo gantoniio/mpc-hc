@@ -3364,7 +3364,7 @@ msgstr "색 관리 : 켜기"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "색 관리 : 끄기"
+msgstr "색 관리 : 끔"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
