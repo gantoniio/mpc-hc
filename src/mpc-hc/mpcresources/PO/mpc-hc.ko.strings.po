@@ -165,7 +165,7 @@ msgstr "무한 반복 : 켜기"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "무한 반복 : 끄기"
+msgstr "무한 반복 : 끔"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
@@ -1772,11 +1772,11 @@ msgstr "사전 크기 조정 셰이더 설정 실패"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
-msgstr "프레임 시간 수정 : 켜기"
+msgstr "프레임 시간 수정 : 켬"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "프레임 시간 수정 : 끄기"
+msgstr "프레임 시간 수정 : 끔"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
