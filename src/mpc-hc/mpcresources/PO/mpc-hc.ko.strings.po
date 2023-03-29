@@ -3332,7 +3332,7 @@ msgstr "정확한 수직 동기화 : 켜기"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "정확한 수직 동기화 : 끄기"
+msgstr "정확한 수직 동기화 : 끔"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
