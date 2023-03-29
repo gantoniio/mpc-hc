@@ -3432,7 +3432,7 @@ msgstr "출력 후, GPU 플러싱 : 끔"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "GPU 플러싱 대기 : 켜기"
+msgstr "GPU 플러싱 대기 : 켬"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
