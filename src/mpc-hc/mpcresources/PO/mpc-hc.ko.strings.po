@@ -3336,7 +3336,7 @@ msgstr "정확한 수직 동기화 : 끔"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr "디스플레이에 비디오 동기화 : 켜기"
+msgstr "디스플레이에 비디오 동기화 : 켬"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
