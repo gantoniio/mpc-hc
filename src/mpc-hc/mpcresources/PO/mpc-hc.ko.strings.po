@@ -3622,7 +3622,7 @@ msgstr "음량 복구 전환"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr "음량 복구 : 켜기"
+msgstr "음량 복구 : 켬"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
