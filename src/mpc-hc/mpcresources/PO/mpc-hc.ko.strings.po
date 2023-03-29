@@ -3598,7 +3598,7 @@ msgstr "맞춤 채널 매핑 전환"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "맞춤 채널 매핑 : 켜기"
+msgstr "맞춤 채널 매핑 : 켬"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
