@@ -3472,7 +3472,7 @@ msgstr "렌더러 설정을 최적값으로 다시 설정"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "D3D 전체 화면 GUI 지원 : 켜기"
+msgstr "D3D 전체 화면 GUI 지원 : 켬"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
@@ -3480,7 +3480,7 @@ msgstr "D3D 전체 화면 GUI 지원 : 끔"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr "10비트 RGB 출력 : 켜기"
+msgstr "10비트 RGB 출력 : 켬"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
