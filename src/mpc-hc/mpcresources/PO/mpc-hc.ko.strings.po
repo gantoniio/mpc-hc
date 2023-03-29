@@ -4475,7 +4475,7 @@ msgstr "비디오 파일 확장자를 스냅샷 파일 이름의 일부로 유�
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
-msgstr "픽셀 셰이더 크기 조정 전 : 켜기"
+msgstr "픽셀 셰이더 크기 조정 전 : 켬"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
