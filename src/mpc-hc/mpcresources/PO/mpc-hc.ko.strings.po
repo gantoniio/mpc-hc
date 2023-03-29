@@ -3416,7 +3416,7 @@ msgstr "출력 범위 : %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "수직 동기화 전, GPU 플러싱 : 켜기"
+msgstr "수직 동기화 전, GPU 플러싱 : 켬"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
@@ -3424,7 +3424,7 @@ msgstr "수직 동기화 전, GPU 플러싱 : 끔"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "출력 후, GPU 플러싱 : 켜기"
+msgstr "출력 후, GPU 플러싱 : 켬"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
