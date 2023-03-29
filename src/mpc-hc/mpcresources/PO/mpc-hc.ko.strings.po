@@ -3452,7 +3452,7 @@ msgstr "바탕 화면 구성 비활성화: 켜기"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "바탕 화면 구성 비활성화 : 끄기"
+msgstr "바탕 화면 구성 비활성화 : 끔"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
