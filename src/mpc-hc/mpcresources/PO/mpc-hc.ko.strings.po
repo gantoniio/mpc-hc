@@ -3614,7 +3614,7 @@ msgstr "정규화 : 켜기"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr "정규화 : 끄기"
+msgstr "정규화 : 끔"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
@@ -3626,7 +3626,7 @@ msgstr "음량 복구 : 켜기"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "음량 복구 : 끄기"
+msgstr "음량 복구 : 끔"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
