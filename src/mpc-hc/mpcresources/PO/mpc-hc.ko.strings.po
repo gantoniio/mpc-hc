@@ -3602,7 +3602,7 @@ msgstr "맞춤 채널 매핑 : 켜기"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "맞춤 채널 매핑 : 끄기"
+msgstr "맞춤 채널 매핑 : 끔"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
