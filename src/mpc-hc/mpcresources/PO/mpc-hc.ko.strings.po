@@ -383,7 +383,7 @@ msgstr "재생목록"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "켜기/끄기"
+msgstr "켬/끔"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
