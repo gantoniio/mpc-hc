@@ -3456,7 +3456,7 @@ msgstr "바탕 화면 구성 비활성화 : 끔"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "대체 수직 동기화 : 켜기"
+msgstr "대체 수직 동기화 : 켬"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
