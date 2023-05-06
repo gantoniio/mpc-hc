@@ -66,11 +66,12 @@ CAppSettings::CAppSettings()
     , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), 20)
     , fRememberDVDPos(false)
     , fRememberFilePos(false)
-    , iRememberPosForLongerThan(0)
+    , iRememberPosForLongerThan(5)
     , bRememberPosForAudioFiles(true)
     , bRememberPlaylistItems(true)
     , fRememberWindowPos(false)
     , fRememberWindowSize(false)
+    , rcLastWindowPos(CRect(100, 100, 400, 300))
     , fSavePnSZoom(false)
     , dZoomX(1.0)
     , dZoomY(1.0)
@@ -255,6 +256,7 @@ CAppSettings::CAppSettings()
     , bFullscreenSeparateControls(false)
     , bAlwaysUseShortMenu(false)
     , iStillVideoDuration(10)
+    , iMouseLeftUpDelay(0)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -881,8 +883,10 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, fRememberWindowSize);
     if (fRememberWindowSize || fRememberWindowPos) {
         pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, (BYTE*)&rcLastWindowPos, sizeof(rcLastWindowPos));
-        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, nLastWindowType);
     }
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, nLastWindowType);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, fLastFullScreen);
+
     if (fSavePnSZoom) {
         CString str;
         str.Format(_T("%.3f,%.3f"), dZoomX, dZoomY);
@@ -968,7 +972,9 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, nSpeakerChannels);
 
     // Multi-monitor code
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR, CString(strFullScreenMonitor));
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR, CString(strFullScreenMonitorID));
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITORDEVICE, CString(strFullScreenMonitorDeviceName));
+
     // Prevent Minimize when in Fullscreen mode on non default monitor
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, fPreventMinimize);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENHANCED_TASKBAR, bUseEnhancedTaskBar);
@@ -1039,9 +1045,6 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, fRememberFilePos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSLONGER, iRememberPosForLongerThan);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSAUDIO, bRememberPosForAudioFiles);
-
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, fLastFullScreen);
-    // CASIMIR666 : end of new settings
 
     pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, nullptr, nullptr);
     for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
@@ -1227,6 +1230,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, bFullscreenSeparateControls);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, bAlwaysUseShortMenu);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, iStillVideoDuration);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, iMouseLeftUpDelay);
 
     if (fKeepHistory) {
         if (write_full_history) {
@@ -1520,7 +1524,9 @@ void CAppSettings::LoadSettings()
     bHideWindowedMousePointer = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_MOUSE_POINTER, TRUE);
 
     // Multi-monitor code
-    strFullScreenMonitor = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR);
+    strFullScreenMonitorID = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR);
+    strFullScreenMonitorDeviceName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITORDEVICE);
+
     // Prevent Minimize when in fullscreen mode on non default monitor
     fPreventMinimize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, FALSE);
     bUseEnhancedTaskBar = IsWindows7OrGreater() ? !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENHANCED_TASKBAR, TRUE) : FALSE;
@@ -1593,17 +1599,19 @@ void CAppSettings::LoadSettings()
     iRecentFilesNumber = std::max(0, (int)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RECENT_FILES_NUMBER, 100));
     MRU.SetSize(iRecentFilesNumber);
 
-    if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len)) {
-        if (len == sizeof(CRect)) {
-            memcpy(&rcLastWindowPos, ptr, sizeof(CRect));
-        } else {
-            fRememberWindowPos = false;
+    if (fRememberWindowPos || fRememberWindowSize) {
+        if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len)) {
+            if (len == sizeof(CRect)) {
+                memcpy(&rcLastWindowPos, ptr, sizeof(CRect));
+                if (rcLastWindowPos.Width() < 400 || rcLastWindowPos.Height() < 100) {
+                    rcLastWindowPos = CRect(100, 100, 400, 300);
+                }
+            }
+            delete[] ptr;
         }
-        delete [] ptr;
-    } else {
-        fRememberWindowPos = false;
     }
     nLastWindowType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, SIZE_RESTORED);
+    fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, FALSE);
 
     bShufflePlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHUFFLEPLAYLISTITEMS, FALSE);
     bRememberPlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERPLAYLISTITEMS, TRUE);
@@ -1635,6 +1643,9 @@ void CAppSettings::LoadSettings()
     nVerPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPVERPOS, 90);
     bSubtitleARCompensation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLEARCOMPENSATION, TRUE);
     nSubDelayStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBDELAYINTERVAL, 500);
+    if (nSubDelayStep < 10) {
+        nSubDelayStep = 500;
+    }
 
     fEnableSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLESUBTITLES, TRUE);
     bPreferDefaultForcedSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREFER_FORCED_DEFAULT_SUBTITLES, TRUE);
@@ -1973,13 +1984,14 @@ void CAppSettings::LoadSettings()
 
     // playback positions for last played files
     fRememberFilePos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, FALSE);
-    iRememberPosForLongerThan = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSLONGER, 0);
+    iRememberPosForLongerThan = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSLONGER, 5);
     bRememberPosForAudioFiles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSAUDIO, TRUE);
+    if (iRememberPosForLongerThan < 1) {
+        iRememberPosForLongerThan = 5;
+    }
 
     // playback positions for last played DVDs
     fRememberDVDPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, FALSE);
-
-    fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, FALSE);
 
     bToggleShader = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, TRUE);
     bToggleShaderScreenSpace = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADERSSCREENSPACE, TRUE);
@@ -2064,6 +2076,7 @@ void CAppSettings::LoadSettings()
     bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, FALSE);
     bAlwaysUseShortMenu = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, FALSE);
     iStillVideoDuration = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, 10);
+    iMouseLeftUpDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, 0);
 
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;
@@ -2282,8 +2295,8 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
 
 CString CAppSettings::ParseFileName(CString const& param)
 {
-    // Try to transform relative pathname into full pathname
-    if (param.Find(_T(":")) < 0) {
+    if (param.Find(_T(":")) < 0 && param.Left(2) != L"\\\\") {
+        // Try to transform relative pathname into full pathname
         CString fullPathName;
         DWORD dwLen = GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr);
         if (dwLen > 0 && dwLen < MAX_PATH) {
@@ -2295,7 +2308,7 @@ CString CAppSettings::ParseFileName(CString const& param)
         }
     } else {
         CString fullPathName = param;
-        ExtendMaxPathLengthIfNeeded(fullPathName, MAX_PATH);
+        ExtendMaxPathLengthIfNeeded(fullPathName);
         return fullPathName;
     }
 
@@ -3320,12 +3333,12 @@ void CAppSettings::UpdateSettings()
                 VERIFY(pApp->WriteProfileString(newSection, strTemp, strChannel));
             }
         }
-        // no break
+        [[fallthrough]];
         case 1: {
             // Internal decoding of WMV 1/2/3 is now disabled by default so we reinitialize its value
             pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, _T("TRA_WMV"), FALSE);
         }
-        // no break
+        [[fallthrough]];
         case 2: {
             const CString section(_T("Settings"));
             if (pApp->HasProfileEntry(section, _T("FullScreenCtrls")) &&
@@ -3355,7 +3368,7 @@ void CAppSettings::UpdateSettings()
                 }
             }
         }
-        // no break
+        [[fallthrough]];
         case 3: {
 #pragma pack(push, 1)
             struct dispmode {
@@ -3428,16 +3441,16 @@ void CAppSettings::UpdateSettings()
 
             SaveSettingsAutoChangeFullScreenMode();
         }
-        // no break
+        [[fallthrough]];
         case 4: {
             bool bDisableSubtitleAnimation = !pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
             VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, bDisableSubtitleAnimation));
         }
-        // no break
+        [[fallthrough]];
         case 5:
             copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_DTS"));
             copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_AC3"));
-        // no break
+        [[fallthrough]];
         case 6: {
             SubtitleRenderer subrenderer = SubtitleRenderer::INTERNAL;
             if (!pApp->GetProfileInt(IDS_R_SETTINGS, _T("AutoloadSubtitles"), TRUE)) {
@@ -3454,7 +3467,7 @@ void CAppSettings::UpdateSettings()
             }
             VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(subrenderer)));
         }
-        // no break
+        [[fallthrough]];
         case 7:
             // Update the settings after the removal of DirectX 7 renderers
             switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_DEFAULT)) {
@@ -3465,7 +3478,7 @@ void CAppSettings::UpdateSettings()
                     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9RENDERLESS));
                     break;
             }
-        // no break
+        [[fallthrough]];
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
     }

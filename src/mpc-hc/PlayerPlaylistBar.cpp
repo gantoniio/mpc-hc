@@ -33,6 +33,7 @@
 #include "WinAPIUtils.h"
 #include "CMPCTheme.h"
 #include "CoverArt.h"
+#include "FileHandle.h"
 #undef SubclassWindow
 
 
@@ -155,6 +156,20 @@ void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
         SetAutohidden(false);
     }
     m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
+}
+
+void CPlayerPlaylistBar::AddItem(CString fn)
+{
+    if (fn.IsEmpty()) {
+        return;
+    }
+
+    CPlaylistItem pli;
+    pli.m_fns.AddTail(fn);
+
+    pli.AutoLoadFiles();
+
+    m_pl.AddTail(pli);
 }
 
 void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
@@ -291,13 +306,13 @@ bool CPlayerPlaylistBar::AddItemNoDuplicate(CString fn)
     return true;
 }
 
-bool CPlayerPlaylistBar::AddFromFilemask(CString mask)
+bool CPlayerPlaylistBar::AddFromFilemask(CString mask, bool recurse_dirs)
 {
     ASSERT(ContainsWildcard(mask));
     bool added = false;
 
     std::set<CString, CStringUtils::LogicalLess> filelist;
-    if (m_pMainFrame->WildcardFileSearch(mask, filelist)) {
+    if (m_pMainFrame->WildcardFileSearch(mask, filelist, recurse_dirs)) {
         auto it = filelist.begin();
         while (it != filelist.end()) {
             if (AddItemNoDuplicate(*it)) {
@@ -313,7 +328,7 @@ bool CPlayerPlaylistBar::AddFromFilemask(CString mask)
 bool CPlayerPlaylistBar::AddItemsInFolder(CString pathname)
 {
     CString mask = CString(pathname).TrimRight(_T("\\/")) + _T("\\*.*");
-    return AddFromFilemask(mask);
+    return AddFromFilemask(mask, false);
 }
 
 void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
@@ -335,7 +350,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
             CString fname = fns.GetHead();
             if (!PathUtils::IsURL(fname)) {
                 if (ContainsWildcard(fname)) {
-                    AddFromFilemask(fname);
+                    AddFromFilemask(fname, true);
                     return;
                 } else if (PathUtils::IsDir(fname)) {
                     AddItemsInFolder(fname);
@@ -672,7 +687,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
         if (!isurl && !PathUtils::IsURL(str) && ContainsWildcard(str)) {
             // wildcard entry
             std::set<CString, CStringUtils::LogicalLess> filelist;
-            if (m_pMainFrame->WildcardFileSearch(str, filelist)) {
+            if (m_pMainFrame->WildcardFileSearch(str, filelist, true)) {
                 auto it = filelist.begin();
                 while (it != filelist.end()) {
                     pli = CPlaylistItem();
@@ -683,6 +698,22 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
                 }
             }
         } else {
+            // check for nested playlist
+            CString ext = GetFileExt(str);
+            if (ext == L".m3u" || ext == L".m3u8") {
+                if (ParseM3UPlayList(str)) {
+                    success = true;
+                    continue;
+                }
+            } else if (ext == L".pls") {
+                int count = m_pl.GetCount();
+                ParsePlayList(str, nullptr, 1);
+                if (m_pl.GetCount() > count) {
+                    success = true;
+                    continue;
+                }
+            }
+
             pli = CPlaylistItem();
             pli.m_fns.AddTail(str);
             if (PathUtils::IsURL(str) && CMainFrame::IsOnYDLWhitelist(str)) {
@@ -1129,19 +1160,25 @@ bool CPlayerPlaylistBar::IsAtEnd()
 
 bool CPlayerPlaylistBar::GetCur(CPlaylistItem& pli) const
 {
-    if (!m_pl.GetPos()) {
-        return false;
+    if (!m_pl.IsEmpty()) {
+        POSITION p = m_pl.GetPos();
+        if (p) {
+            pli = m_pl.GetAt(p);
+            return true;
+        }
     }
-    pli = m_pl.GetAt(m_pl.GetPos());
-    return true;
+    return false;
 }
 
 CPlaylistItem* CPlayerPlaylistBar::GetCur()
 {
-    if (!m_pl.GetPos()) {
-        return nullptr;
+    if (!m_pl.IsEmpty()) {
+        POSITION p = m_pl.GetPos();
+        if (p) {
+            return &m_pl.GetAt(p);
+        }
     }
-    return &m_pl.GetAt(m_pl.GetPos());
+    return nullptr;
 }
 
 CString CPlayerPlaylistBar::GetCurFileName(bool use_ydl_source)
@@ -1353,28 +1390,29 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
     }
 
     CString filename = m_pl.GetAt(pos).m_fns.GetHead();
+    int listPos = FindItem(pos);
 
     // Get position of next file
     POSITION nextpos = pos;
     if (isplaying) {
         m_pl.GetNext(nextpos);
     }
-    // remove selected from playlist
-    int listPos = FindItem(pos);
-    m_list.DeleteItem(listPos);
-    m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
-    m_pl.RemoveAt(pos);
-    SavePlaylist();
 
     // Delete file
-    FileDelete(filename, m_pMainFrame->m_hWnd, recycle);
-    // Continue with next file
-    if (isplaying) {
-        if (folderPlayNext) {
-            m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
-        } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
-            m_pl.SetPos(nextpos);
-            m_pMainFrame->OpenCurPlaylistItem();
+    if (SUCCEEDED(FileDelete(filename, m_pMainFrame->m_hWnd, recycle))) {
+        // remove selected from playlist
+        m_list.DeleteItem(listPos);
+        m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
+        m_pl.RemoveAt(pos);
+        SavePlaylist();
+        // Continue with next file
+        if (isplaying) {
+            if (folderPlayNext) {
+                m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
+            } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
+                m_pl.SetPos(nextpos);
+                m_pMainFrame->OpenCurPlaylistItem();
+            }
         }
     }
 

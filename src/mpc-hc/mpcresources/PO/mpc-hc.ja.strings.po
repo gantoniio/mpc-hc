@@ -4587,6 +4587,12 @@ msgid ""
 "Windows 8.1/10/11."
 msgstr "Windows 8.1 / 10 / 11 のシステム メディア トランスポート コントロールによるプレーヤーの制御を許可します。"
 
+msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
+msgid ""
+"Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
+"video."
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
 msgstr "画面ロック時は再生を一時停止しません。 "

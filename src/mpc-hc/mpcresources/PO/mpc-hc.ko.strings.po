@@ -4582,6 +4582,12 @@ msgid ""
 "Windows 8.1/10/11."
 msgstr "윈도 8.1/10/11에서 시스템 미디어 전송 제어를 통해 플레이어 제어를 허용합니다."
 
+msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
+msgid ""
+"Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
+"video."
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
 msgstr "화면 잠금 시 재생을 일시정지하지 마세요."

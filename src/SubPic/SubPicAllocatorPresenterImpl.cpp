@@ -231,14 +231,14 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProv
 
     m_pSubPicProvider = pSubPicProvider;
 
-    if (m_pAllocator) {
-        m_pAllocator->FreeStatic();
-        m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
-        m_pAllocator->SetCurSize(m_curSubtitleTextureSize);
-    }
-
     if (m_pSubPicQueue) {
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+    }
+
+    if (m_pAllocator) {
+        m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurVidRect(m_videoRect);
     }
 
     Paint(false);
@@ -277,7 +277,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDefaultVideoAngle(Vector v)
 
         // In theory it should be a multiple of 90°
         int zAnglePi2 = std::lround(v.z / pi_2);
-        ASSERT(zAnglePi2 * pi_2 == v.z);
+        //ASSERT(zAnglePi2 * pi_2 == v.z);
 
         // Normalize the Z angle
         zAnglePi2 %= 4;
@@ -508,6 +508,9 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
                         break;
                     case DXVA2_VideoTransferMatrix_SMPTE240M:
                         ret.Append(L"240M");
+                        break;
+                    case 4:
+                        ret.Append(L"2020");
                         break;
                     default:
                         ret = L"None";

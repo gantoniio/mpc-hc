@@ -124,6 +124,12 @@ typedef enum MPCAPI_COMMAND :
     // if no file is loaded, returns -2
     CMD_LISTAUDIOTRACKS     = 0x50000005,
 
+    // Send index of currently selected audio track
+    CMD_CURRENTAUDIOTRACK   = 0x5000000C,
+
+    // Send index of currently selected subtitle track
+    CMD_CURRENTSUBTITLETRACK   = 0x5000000D,
+
     // Send current playback position in response
     // of CMD_GETCURRENTPOSITION.
     // Parameter 1: current position in seconds
@@ -239,6 +245,14 @@ typedef enum MPCAPI_COMMAND :
     // return a CMD_PLAYLIST
     CMD_GETPLAYLIST         = 0xA0003003,
 
+    // Ask for the index of the currently selected audio track
+    // return a CMD_CURRENTAUDIOTRACK
+    CMD_GETCURRENTAUDIOTRACK      = 0xA0003007,
+
+    // Ask for the index of the currently selected subtitle track
+    // return a CMD_CURRENTSUBTITLETRACK
+    CMD_GETCURRENTSUBTITLETRACK   = 0xA0003008,
+
     // Toggle FullScreen
     CMD_TOGGLEFULLSCREEN    = 0xA0004000,
 
@@ -262,6 +276,9 @@ typedef enum MPCAPI_COMMAND :
 
     // Set playing rate
     CMD_SETSPEED            = 0xA0004008,
+
+    // Set Pan & Scan
+    CMD_SETPANSCAN          = 0xA0004009,
 
     // Show host defined OSD message string
     CMD_OSDSHOWMESSAGE      = 0xA0005000
