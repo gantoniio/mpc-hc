@@ -207,7 +207,6 @@ msgid "About"
 msgstr "Informazioni"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-<<<<<<< HEAD
 msgid "Copyright 2002-2023 clsid2 and others"
 msgstr "Copyright 2002-2023 clsid2 e altri"
 
