@@ -366,7 +366,11 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint point)
         GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
 
         point.x -= r_width / 2 - 2;
-        point.y = GetChannelRect().TopLeft().y - (r_height + 13);
+        if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_BELOW_SEEKBAR) {
+            point.y = GetChannelRect().BottomRight().y + 20;
+        } else {
+            point.y = GetChannelRect().TopLeft().y - (r_height + 13);
+        }
         ClientToScreen(&point);
         point.x = std::max(mi.rcWork.left + 5, std::min(point.x, mi.rcWork.right - r_width - 5));
 
