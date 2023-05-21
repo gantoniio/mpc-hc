@@ -13611,6 +13611,7 @@ void CMainFrame::OpenSetupVideo()
     if (m_fAudioOnly) {
         if (HasFullScreenWindow()) {
             m_pFullscreenWnd->DestroyWindow();
+            m_fFullScreen = false;
         }
     } else {
         m_statusbarVideoSize.Format(_T("%dx%d"), vs.cx, vs.cy);
