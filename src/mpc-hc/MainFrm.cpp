@@ -3826,7 +3826,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OpenSetupCaptureBar();
 
     // Load cover-art
-    if (m_fAudioOnly) {
+    if (m_fAudioOnly || HasDedicatedFSVideoWindow()) {
         UpdateControlState(CMainFrame::UPDATE_LOGO);
     }
 
@@ -19756,6 +19756,30 @@ void CMainFrame::UpdateAudioSwitcher()
     }
 }
 
+void CMainFrame::LoadArtToViews(const CString& imagePath)
+{
+    m_wndView.LoadImg(imagePath);
+    if (HasDedicatedFSVideoWindow()) {
+        m_pDedicatedFSVideoWnd->LoadImg(imagePath);
+    }
+}
+
+void CMainFrame::LoadArtToViews(std::vector<BYTE> buffer)
+{
+    m_wndView.LoadImg(buffer);
+    if (HasDedicatedFSVideoWindow()) {
+        m_pDedicatedFSVideoWnd->LoadImg(buffer);
+    }
+}
+
+void CMainFrame::ClearArtFromViews()
+{
+    m_wndView.LoadImg();
+    if (HasDedicatedFSVideoWindow()) {
+        m_pDedicatedFSVideoWnd->LoadImg();
+    }
+}
+
 void CMainFrame::UpdateControlState(UpdateControlTarget target)
 {
     const auto& s = AfxGetAppSettings();
@@ -19785,23 +19809,23 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
                 CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
                 std::vector<BYTE> internalCover;
                 if (CoverArt::FindEmbedded(pFilterGraph, internalCover)) {
-                    m_wndView.LoadImg(internalCover);
+                    LoadArtToViews(internalCover);
                     m_currentCoverPath = filename;
                     m_currentCoverAuthor = author;
                 } else if (pli && !pli->m_cover.IsEmpty() && CPath(pli->m_cover).FileExists()) {
-                    m_wndView.LoadImg(pli->m_cover);
+                    LoadArtToViews(pli->m_cover);
                 } else if (!filedir.IsEmpty() && (m_currentCoverPath != filedir || m_currentCoverAuthor != author || currentCoverIsFileArt)) {
                     CString img = CoverArt::FindExternal(filename_no_ext, filedir, author, currentCoverIsFileArt);
-                    m_wndView.LoadImg(img);
+                    LoadArtToViews(img);
                     m_currentCoverPath = filedir;
                     m_currentCoverAuthor = author;
                 } else if (!m_wndView.IsCustomImgLoaded()) {
-                    m_wndView.LoadImg();
+                    ClearArtFromViews();
                 }
             } else {
                 m_currentCoverPath.Empty();
                 m_currentCoverAuthor.Empty();
-                m_wndView.LoadImg();
+                ClearArtFromViews();
             }
             break;
         case UPDATE_SKYPE:

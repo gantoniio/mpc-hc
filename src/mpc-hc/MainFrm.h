@@ -242,6 +242,7 @@ private:
     friend class CMouse;
     friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked()
     friend class CChildView; // for accessing m_controls.DelayShowNotLoaded()
+    friend class CMouseWndWithArtView; // for accessing m_controls.DelayShowNotLoaded()
     friend class SubtitlesProvider;
 
     // TODO: wrap these graph objects into a class to make it look cleaner
@@ -1229,6 +1230,10 @@ protected:
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
+
+    void LoadArtToViews(const CString& imagePath);
+    void LoadArtToViews(std::vector<BYTE> buffer);
+    void ClearArtFromViews();
 
     void UpdateUILanguage();
 
