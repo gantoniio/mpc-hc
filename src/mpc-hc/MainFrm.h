@@ -523,7 +523,7 @@ public:
     bool IsInteractiveVideo() const;
     bool IsFullScreenMode() const;
     bool IsFullScreenMainFrame() const;
-    bool HasFullScreenWindow() const;
+    bool HasDedicatedFSVideoWindow() const;
     bool IsD3DFullScreenMode() const;
     bool IsSubresyncBarVisible() const;
 
@@ -1154,7 +1154,7 @@ public:
     HRESULT PreviewWindowShow(REFERENCE_TIME rtCur2);
     bool CanPreviewUse();
 
-    CFullscreenWnd* m_pFullscreenWnd;
+    CFullscreenWnd* m_pDedicatedFSVideoWnd;
     CVMROSD     m_OSD;
     bool        m_bOSDDisplayTime;
     int         m_nCurSubtitle;

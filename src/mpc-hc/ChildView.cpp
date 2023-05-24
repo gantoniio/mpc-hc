@@ -207,7 +207,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
     img.Attach(m_img);
 
     if ((m_pMainFrame->GetLoadState() != MLS::CLOSED || (!m_bFirstMedia && m_pMainFrame->m_controls.DelayShowNotLoaded())) &&
-            !m_pMainFrame->HasFullScreenWindow() && !m_pMainFrame->m_fAudioOnly) {
+            !m_pMainFrame->HasDedicatedFSVideoWindow() && !m_pMainFrame->m_fAudioOnly) {
         pDC->ExcludeClipRect(m_vrect);
     } else if (!img.IsNull()) {
         const double dImageAR = double(img.GetWidth()) / img.GetHeight();
