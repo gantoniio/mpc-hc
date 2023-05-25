@@ -512,7 +512,7 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
-    bool m_fStartInFullscreenMainFrame;
+    bool m_fStartInFullscreen;
     bool m_bFullScreenWindowIsD3D;
 
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
