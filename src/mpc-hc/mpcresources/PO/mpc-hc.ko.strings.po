@@ -2221,7 +2221,7 @@ msgstr "재생기 메뉴"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr "플레이어 메뉴(전체)"
+msgstr "재생기 메뉴(전체)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
