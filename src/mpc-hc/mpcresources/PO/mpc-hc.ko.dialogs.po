@@ -693,7 +693,7 @@ msgstr "로지텍 LCD 지원 활성화 (실험적)"
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
 "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "기본이 아닌 모니터에서 전체 화면일 때 플레이어 최소화 방지"
+msgstr "기본이 아닌 모니터에서 전체 화면일 때 재생기 최소화 방지"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
