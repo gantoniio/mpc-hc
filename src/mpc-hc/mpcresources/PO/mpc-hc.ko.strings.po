@@ -4198,7 +4198,7 @@ msgstr "/open\t\t파일을 열면 자동으로 재생 시작 안 함"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr "/play\t\t플레이어가 실행되는 즉시 파일 재생 시작"
+msgstr "/play\t\t재생기가 실행되는 즉시 파일 재생 시작"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid ""
