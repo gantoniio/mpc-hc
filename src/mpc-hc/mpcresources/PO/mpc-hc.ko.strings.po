@@ -2756,7 +2756,7 @@ msgstr "속성(&P)..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (핀) 등록 정보..."
+msgstr " (핀) 속성..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
