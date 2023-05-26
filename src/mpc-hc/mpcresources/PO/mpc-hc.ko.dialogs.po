@@ -164,7 +164,7 @@ msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid ""
 "Type the address of a movie or audio file (on the Internet or your computer)"
 " and the player will open it for you."
-msgstr "재생할 파일의 위치(인터넷 또는 로컬 컴퓨터)를 입력하세요."
+msgstr "재생할 파일의 경로(인터넷 또는 로컬 컴퓨터)를 입력하세요."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
