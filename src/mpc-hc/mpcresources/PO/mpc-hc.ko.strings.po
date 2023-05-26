@@ -4590,7 +4590,7 @@ msgstr "동영상을 클릭할 때 마우스 왼쪽 클릭 이벤트의 최대 �
 
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
-msgstr "화면 잠금 시 재생을 일시정지하지 마세요."
+msgstr "화면 잠금 시 재생을 일시 중지하지 마세요."
 
 msgctxt "IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE"
 msgid ""
