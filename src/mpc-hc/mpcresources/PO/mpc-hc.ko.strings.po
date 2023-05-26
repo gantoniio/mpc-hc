@@ -723,7 +723,7 @@ msgstr "비디오 믹싱 렌더러 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
-msgstr "플레이어::단축키"
+msgstr "재생기::단축키"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
