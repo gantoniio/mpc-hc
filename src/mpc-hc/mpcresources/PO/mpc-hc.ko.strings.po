@@ -567,7 +567,7 @@ msgstr "자막"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
-msgstr "플레이어::형식"
+msgstr "재생기::형식"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
