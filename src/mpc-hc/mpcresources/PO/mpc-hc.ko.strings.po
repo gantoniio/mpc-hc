@@ -4355,7 +4355,7 @@ msgstr "/minimized\t최소화 모드로 시작"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr "/new\t\t플레이어의 새 인스턴스 사용"
+msgstr "/new\t\t재생기의 새 인스턴스 사용"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
