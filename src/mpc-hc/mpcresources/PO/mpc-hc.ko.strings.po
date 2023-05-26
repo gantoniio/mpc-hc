@@ -2664,7 +2664,7 @@ msgstr "하위 폴더 포함"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
-msgstr "일시 정지"
+msgstr "일시 중지"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
