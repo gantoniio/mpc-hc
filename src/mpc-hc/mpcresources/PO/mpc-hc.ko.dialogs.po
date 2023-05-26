@@ -281,7 +281,7 @@ msgstr "아무것도 표시하지 않음"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "제목과 파일 이름 같이 보이기"
+msgstr "제목과 파일 이름 함께 보이기"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
