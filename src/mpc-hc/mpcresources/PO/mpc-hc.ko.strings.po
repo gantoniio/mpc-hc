@@ -1667,7 +1667,7 @@ msgstr "자막 저장하기..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
-msgstr "등록정보"
+msgstr "속성"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
