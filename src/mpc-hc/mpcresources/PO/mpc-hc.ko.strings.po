@@ -2752,7 +2752,7 @@ msgstr "취소됨"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
-msgstr "등록 정보(&P)..."
+msgstr "속성(&P)..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
