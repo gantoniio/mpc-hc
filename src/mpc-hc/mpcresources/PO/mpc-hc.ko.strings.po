@@ -743,7 +743,7 @@ msgstr "재생::출력"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "플레이어::웹 인터페이스"
+msgstr "재생기::웹 인터페이스"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
