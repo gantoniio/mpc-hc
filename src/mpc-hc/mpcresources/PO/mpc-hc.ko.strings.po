@@ -1418,7 +1418,7 @@ msgstr "녹화"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr "정지"
+msgstr "중지"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
