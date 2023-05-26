@@ -4580,7 +4580,7 @@ msgctxt "IDS_PPAGEADVANCED_USE_SMTC"
 msgid ""
 "Allow control of the player through System Media Transport Controls in "
 "Windows 8.1/10/11."
-msgstr "윈도 8.1/10/11에서 시스템 미디어 전송 제어를 통해 플레이어 제어를 허용합니다."
+msgstr "윈도 8.1/10/11에서 시스템 미디어 전송 제어를 통해 재생기 제어를 허용합니다."
 
 msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
