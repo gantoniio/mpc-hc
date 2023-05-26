@@ -4399,7 +4399,7 @@ msgstr "/fixedsize w,h\t고정 창 크기 설정"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr "/monitor N\t모니터 N에서 플레이어 시작. 여기서 N은 1부터 시작"
+msgstr "/monitor N\t모니터 N에서 재생기 시작. 여기서 N은 1부터 시작"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid ""
