@@ -555,7 +555,7 @@ msgstr "재생"
 
 msgctxt "IDD_PPAGEPLAYER"
 msgid "Player"
-msgstr "플레이어"
+msgstr "재생기"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
