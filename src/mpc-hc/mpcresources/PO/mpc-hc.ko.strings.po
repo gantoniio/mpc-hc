@@ -4536,7 +4536,7 @@ msgctxt "IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU"
 msgid ""
 "Player Menu shortcuts and right-click show compact menu -- even when main "
 "menu is hidden."
-msgstr "플레이어 메뉴 바로 가기 및 마우스 오른쪽 버튼을 클릭하면 기본 메뉴가 숨겨져 있어도 간단한 메뉴가 표시됩니다."
+msgstr "재생기 메뉴 바로 가기 및 마우스 오른쪽 버튼을 클릭하면 기본 메뉴가 숨겨져 있어도 간단한 메뉴가 표시됩니다."
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS"
 msgid ""
