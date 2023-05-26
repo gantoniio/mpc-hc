@@ -735,7 +735,7 @@ msgstr "내부 필터"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
-msgstr "플레이어::로고"
+msgstr "재생기::로고"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
