@@ -2217,7 +2217,7 @@ msgstr "Boss 키"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr "플레이어 메뉴"
+msgstr "재생기 메뉴"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
