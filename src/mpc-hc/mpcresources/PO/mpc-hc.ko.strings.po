@@ -1178,7 +1178,7 @@ msgstr "재생 중"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "일시 정지"
+msgstr "일시 중지"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -1675,7 +1675,7 @@ msgstr "종료"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "재생/일시 정지"
+msgstr "재생/일시 중지"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
