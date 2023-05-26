@@ -1097,8 +1097,8 @@ msgid ""
 "Stop\n"
 "Stop"
 msgstr ""
-"정지\n"
-"정지"
+"중지\n"
+"중지"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid ""
@@ -1254,7 +1254,7 @@ msgstr "전체 화면에서 숨기기(&H)"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
-msgstr "정지됨"
+msgstr "중지됨"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
@@ -1418,7 +1418,7 @@ msgstr "녹화"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr "정지"
+msgstr "중지"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
@@ -1675,7 +1675,7 @@ msgstr "종료"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "재생/일시 정지"
+msgstr "재생/일시 중지"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
@@ -1683,7 +1683,7 @@ msgstr "재생"
 
 msgctxt "IDS_AG_STOP"
 msgid "Stop"
-msgstr "정지"
+msgstr "중지"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
@@ -2325,7 +2325,7 @@ msgstr "시작"
 
 msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
 msgid "Stop"
-msgstr "정지"
+msgstr "중지"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
@@ -2664,7 +2664,7 @@ msgstr "하위 폴더 포함"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
-msgstr "일시 정지"
+msgstr "일시 중지"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
@@ -4590,7 +4590,7 @@ msgstr "동영상을 클릭할 때 마우스 왼쪽 클릭 이벤트의 최대 �
 
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
-msgstr "화면 잠금 시 재생을 일시정지하지 마세요."
+msgstr "화면 잠금 시, 재생을 일시 중지하지 마세요."
 
 msgctxt "IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE"
 msgid ""
