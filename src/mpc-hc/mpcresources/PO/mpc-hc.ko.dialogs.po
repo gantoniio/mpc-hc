@@ -257,7 +257,7 @@ msgstr "파일을 열 때 마다 같은 재생기창 사용"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "파일을 열 때 마다 새 플레이어창 사용"
+msgstr "파일을 열 때 마다 새 재생기창 사용"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
