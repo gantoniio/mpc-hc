@@ -2616,7 +2616,7 @@ msgstr "메모리 부족"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
-msgstr "오류 : 킬 스위치 패치가 있는 IE용 Adobe Flash Player가 필요합니다."
+msgstr "오류 : 킬 스위치 패치가 적용된 인터넷 익스플로러용 어도비 플래시 플레이어가 요구됩니다."
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
