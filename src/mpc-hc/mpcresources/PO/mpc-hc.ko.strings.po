@@ -60,7 +60,7 @@ msgstr "DVD 영화 재생"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
-msgstr "등록 정보"
+msgstr "속성"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
