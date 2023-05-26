@@ -4203,7 +4203,7 @@ msgstr "/play\t\t재생기가 실행되는 즉시 파일 재생 시작"
 msgctxt "IDS_CMD_CLOSE"
 msgid ""
 "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr "/close\t\t재생 후, 플레이어 닫기(/play와 함께 사용할 때만)"
+msgstr "/close\t\t재생 후, 재생기 닫기(/play와 함께 사용할 때만)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
