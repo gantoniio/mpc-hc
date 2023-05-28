@@ -1039,7 +1039,7 @@ msgstr "탐색 모음 전환"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "정확한 수직 동기화"
+msgstr "정밀 수직 동기화"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid ""
