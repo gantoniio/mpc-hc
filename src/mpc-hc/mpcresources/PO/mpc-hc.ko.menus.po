@@ -336,7 +336,7 @@ msgstr "정확한 수직 동기화(&A)"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "적응형 동기화(&L)"
+msgstr "대체 수직 동기화(&L)"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
