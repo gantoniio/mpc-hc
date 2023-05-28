@@ -332,7 +332,7 @@ msgstr "수직 동기화(&V)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "정확한 수직 동기화(&A)"
+msgstr "정밀 수직 동기화(&A)"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
