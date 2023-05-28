@@ -3328,7 +3328,7 @@ msgstr "수직 동기화 : 끔"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "정확한 수직 동기화 : 켬"
+msgstr "정밀 수직 동기화 : 켬"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
