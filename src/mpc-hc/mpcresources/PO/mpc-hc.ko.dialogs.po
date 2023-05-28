@@ -1467,7 +1467,7 @@ msgstr "세로"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "최근사값 수직 동기화 적용"
+msgstr "근사값 수직 동기화 적용"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
