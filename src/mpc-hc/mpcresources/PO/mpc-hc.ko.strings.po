@@ -379,7 +379,7 @@ msgstr "효과"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
-msgstr "재생목록"
+msgstr "재생 목록"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
@@ -2381,7 +2381,7 @@ msgstr "%s, %s %u Hz %d비트 %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "MPC-HC 재생목록에 추가"
+msgstr "MPC-HC 재생 목록에 추가"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
