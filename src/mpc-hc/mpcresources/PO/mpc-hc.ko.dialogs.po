@@ -1091,7 +1091,7 @@ msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
 "If you would like to use the stand-alone versions of these filters or "
 "another replacement, disable them here."
-msgstr "다음 필터들의 단독실행 버전을 사용하거나 대체하는 다른 필터들을 사용하려면 체크, 또는 체크해제하세요."
+msgstr "다음 필터의 독립 실행형 버전 또는 다른 대체 필터를 사용하려면 여기에서 해당 필터 체크를 해제하세요."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
