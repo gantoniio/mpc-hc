@@ -1643,7 +1643,7 @@ msgstr "크기 조정 전에 추가"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "크기 조정 후 추가"
+msgstr "크기 조정 후에 추가"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
