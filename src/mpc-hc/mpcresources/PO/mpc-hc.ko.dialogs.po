@@ -925,7 +925,7 @@ msgstr "닫기"
 
 msgctxt "IDD_SAVE_DLG_CAPTION"
 msgid "Saving..."
-msgstr "저장중..."
+msgstr "저장 중..."
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
