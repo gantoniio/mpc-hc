@@ -1639,7 +1639,7 @@ msgstr "제거"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "크기 조정 전에 추가"
+msgstr "크기 조정 전, 추가"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
