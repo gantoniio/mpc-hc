@@ -1231,7 +1231,7 @@ msgstr "디버그 정보 인쇄"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
-msgstr "다음을 서버의 루트로 사용:"
+msgstr "페이지 제공처 :"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
