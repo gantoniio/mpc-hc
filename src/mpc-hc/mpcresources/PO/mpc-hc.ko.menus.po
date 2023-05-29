@@ -444,7 +444,7 @@ msgstr "사각형 픽셀 추정 (&SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "모니터/바탕화면 종횡비 보정(&C)"
+msgstr "모니터/바탕 화면 종횡비 보정(&C)"
 
 msgctxt "POPUP"
 msgid "Pa&n && Scan"
