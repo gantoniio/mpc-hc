@@ -161,7 +161,7 @@ msgstr "반복 모드 : 파일"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "무한 반복 : 켜기"
+msgstr "무한 반복 : 켬"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
