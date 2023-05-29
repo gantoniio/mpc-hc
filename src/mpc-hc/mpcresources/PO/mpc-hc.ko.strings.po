@@ -2740,7 +2740,7 @@ msgstr "장치를 열 수 없음"
 
 msgctxt "IDS_AG_SOUND"
 msgid "Sound"
-msgstr "사운드"
+msgstr "음성"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
