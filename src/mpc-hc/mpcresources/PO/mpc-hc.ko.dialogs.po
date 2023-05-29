@@ -1339,7 +1339,7 @@ msgstr "키 내보내기"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
-msgstr "튜너스캔"
+msgstr "튜너 스캔"
 
 msgctxt "IDD_TUNER_SCAN_ID_START"
 msgid "Start"
