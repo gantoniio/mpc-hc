@@ -100,7 +100,7 @@ msgstr "보기(&V)"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "제목표시줄 && 메뉴"
+msgstr "제목 표시줄 && 메뉴"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
