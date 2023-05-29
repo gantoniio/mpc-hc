@@ -1923,7 +1923,7 @@ msgstr "다음 자막으로"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr "자막 조정 : -100밀리 초"
+msgstr "자막 100밀리 초 빠르게"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
