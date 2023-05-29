@@ -527,7 +527,7 @@ msgstr "자막 싱크 빠르게"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "자막 싱크 밀기"
+msgstr "자막 싱크 느리게"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
