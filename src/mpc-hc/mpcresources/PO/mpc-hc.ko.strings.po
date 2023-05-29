@@ -2458,7 +2458,7 @@ msgstr ""
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "자막 지연 : %ld밀리 초"
+msgstr "자막 지연 : %ld 밀리 초"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
