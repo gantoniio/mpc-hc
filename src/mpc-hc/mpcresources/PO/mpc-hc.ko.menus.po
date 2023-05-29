@@ -120,7 +120,7 @@ msgstr "통계(&T)"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr "상태표시줄(&A)"
+msgstr "상태  표시줄(&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
