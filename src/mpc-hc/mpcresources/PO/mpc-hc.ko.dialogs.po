@@ -301,7 +301,7 @@ msgstr "크기 변경 시, 창 비율 제한"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
-msgstr "바탕화면 자석효과 사용"
+msgstr "바탕 화면 자석효과 사용"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
