@@ -489,7 +489,7 @@ msgstr "오디오언어"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "외부 스플리터 선택 재정의 허용"
+msgstr "외부 분배기 선택 재정의 허용"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
