@@ -4030,7 +4030,7 @@ msgstr "자막 업로드에 실패했습니다."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr "자막 업로드가 중단되었습니다."
+msgstr "자막 업로드가 중단됐습니다."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
