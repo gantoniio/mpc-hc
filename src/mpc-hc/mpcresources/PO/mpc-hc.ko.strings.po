@@ -1859,7 +1859,7 @@ msgstr "오디오 10밀리 초 느리게"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "오디오 지연 -10밀리 초"
+msgstr "오디오 10밀리 초 빠르게"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
