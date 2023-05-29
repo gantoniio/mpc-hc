@@ -684,7 +684,7 @@ msgstr "스카이 무드 메세지에 \"재생 중\" 정보 표시"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "고도화된 작업 표시줄 기능 사용"
+msgstr "향상된 작업 표시줄 기능 사용"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
