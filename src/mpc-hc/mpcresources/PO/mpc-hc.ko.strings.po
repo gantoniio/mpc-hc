@@ -897,7 +897,7 @@ msgstr "3D 표면 (권장)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr "근접배열"
+msgstr "근접 배열"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
