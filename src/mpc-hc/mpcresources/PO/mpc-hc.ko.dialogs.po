@@ -1283,7 +1283,7 @@ msgstr "다른 이름으로 저장..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "컬러 컨트롤 (VMR-9 / EVR / madVR 전용)"
+msgstr "색 제어 (VMR-9 / EVR / madVR 전용)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
