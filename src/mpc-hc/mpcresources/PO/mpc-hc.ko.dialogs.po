@@ -1821,7 +1821,7 @@ msgstr "MPC-HC 종료"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
-msgstr "그룹박스"
+msgstr "그룹 박스"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
