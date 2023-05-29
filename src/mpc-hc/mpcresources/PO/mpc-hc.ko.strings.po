@@ -523,7 +523,7 @@ msgstr "셰이더 디버그(&D)..."
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "자막 싱크 당기기"
+msgstr "자막 싱크 빠르게"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
