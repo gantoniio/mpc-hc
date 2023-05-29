@@ -2856,7 +2856,7 @@ msgstr "자막 조정바 표시"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "재생목록바 표시"
+msgstr "재생 목록 바 표시"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
