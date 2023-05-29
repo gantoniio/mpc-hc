@@ -680,7 +680,7 @@ msgstr "창 모드에서 재생하는 동안 마우스 포인터 자동 숨기�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Skype의 무드 메시지에 \"지금 재생\" 정보 표시"
+msgstr "스카이 무드 메세지에 \"재생 중\" 정보 표시"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
