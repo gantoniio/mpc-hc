@@ -4014,7 +4014,7 @@ msgstr "URL 복사"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
-msgstr "구현 안됨."
+msgstr "구현 안 됨."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
