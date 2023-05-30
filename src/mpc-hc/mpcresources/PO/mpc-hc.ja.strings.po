@@ -4591,7 +4591,7 @@ msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
-msgstr "ビデオをクリックしたときのマウス の LeftUp イベントの最大遅延 (ミリ秒単位)。"
+msgstr "ビデオをクリックしたときのマウスの LeftUp イベントの最大遅延 (ミリ秒単位)。"
 
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
