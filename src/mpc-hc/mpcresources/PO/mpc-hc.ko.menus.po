@@ -580,7 +580,7 @@ msgstr "A-B 구간 반복 : 시작(&A) 지점 지정"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
 msgid "A-B (Mark &B)"
-msgstr "A-B 구간 반복 : 끝(&B) 구간 지정"
+msgstr "A-B 구간 반복 : 끝(&B) 지점 지정"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
