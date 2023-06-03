@@ -651,7 +651,7 @@ msgstr "비디오 믹싱 렌더러 9(윈도)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "비디오 믹싱 렌더러 9 (렌더리스)"
+msgstr "비디오 믹싱 렌더러 9(렌더리스)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
