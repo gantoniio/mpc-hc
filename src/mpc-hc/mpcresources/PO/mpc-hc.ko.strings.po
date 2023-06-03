@@ -893,7 +893,7 @@ msgstr "2D 표면"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr "3D 표면 (권장)"
+msgstr "3D 표면(권장)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
