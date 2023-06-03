@@ -576,7 +576,7 @@ msgstr "A-B 반복 : 초기화(&R)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"
-msgstr "A-B (&A 위치 지정)"
+msgstr "A-B 반복 : &A 위치 지정"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
 msgid "A-B (Mark &B)"
