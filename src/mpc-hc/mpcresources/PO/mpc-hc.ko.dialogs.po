@@ -140,7 +140,7 @@ msgstr "시간 :"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "이동"
+msgstr "이동!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
