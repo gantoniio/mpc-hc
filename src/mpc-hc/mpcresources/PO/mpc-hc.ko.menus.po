@@ -300,7 +300,7 @@ msgstr "조금 어둡게(2.35 감마)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "어둡게 (2.4 감마)"
+msgstr "어둡게(2.4 감마)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
