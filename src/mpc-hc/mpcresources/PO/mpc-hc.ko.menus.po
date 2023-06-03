@@ -576,7 +576,7 @@ msgstr "구간 : 초기화(&R)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"
-msgstr "A-B 구간 반복 : 시작(&A) 지점 지정"
+msgstr "구간 : 시작(&A) 지점 지정"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
 msgid "A-B (Mark &B)"
