@@ -652,7 +652,7 @@ msgstr "오디오 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "이동 간격 (최소/중간/최대 간격을 밀리 초 단위로 입력)"
+msgstr "이동 간격(최소/중간/최대 간격을 밀리 초 단위로)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
