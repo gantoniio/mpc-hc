@@ -2035,7 +2035,7 @@ msgstr "팬 & 스캔 뺀 크기"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "PnS Dec 가로"
+msgstr "팬 & 스캔 빠진 가로"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
