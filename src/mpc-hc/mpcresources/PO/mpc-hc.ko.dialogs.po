@@ -120,7 +120,7 @@ msgstr "입력 채널 :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Shift 키를 누른채로 설정을 변경시키면 즉시 설정이 반영됩니다."
+msgstr "Shift 키를 누른 채 설정 변경 시, 즉시 반영됩니다."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
