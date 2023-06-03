@@ -292,7 +292,7 @@ msgstr "주변광(&L)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "밝게 (2.2 감마)"
+msgstr "밝게(2.2 감마)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
