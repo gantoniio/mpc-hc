@@ -76,7 +76,7 @@ msgstr "기록"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "내장 오디오 스위칭 필터 사용 (재시작 필요)"
+msgstr "내장 오디오 스위처 필터 사용(다시 시작 필요)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
