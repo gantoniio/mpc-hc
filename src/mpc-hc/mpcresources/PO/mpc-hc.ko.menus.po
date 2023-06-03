@@ -572,7 +572,7 @@ msgstr "재생 목록(&P)"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
-msgstr "A-B 구간 반복 : 초기화(&R)"
+msgstr "구간 : 초기화(&R)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"
