@@ -659,7 +659,7 @@ msgstr "향상된 비디오 렌더러"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "향상된 비디오 렌더러 (맞춤 프레젠터)"
+msgstr "향상된 비디오 렌더러(맞춤 프레젠터)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
