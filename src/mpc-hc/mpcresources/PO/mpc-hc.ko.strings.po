@@ -2019,7 +2019,7 @@ msgstr "항상 위에"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
-msgstr "PnS Inc 크기"
+msgstr "팬 & 스캔 포함 크기"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
