@@ -104,7 +104,7 @@ msgstr "44100 Hz로 다운 샘플"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "오디오 시간 조절 (밀리 초) :"
+msgstr "오디오 시간 조절(밀리 초) :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
