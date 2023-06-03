@@ -1171,7 +1171,7 @@ msgstr "VMR-9(렌더리스) 및 EVR(CP) 설정"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
-msgstr "화면:"
+msgstr "표면 :"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
