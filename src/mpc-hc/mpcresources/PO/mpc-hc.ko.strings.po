@@ -96,7 +96,7 @@ msgstr "A-B 구간 반복 : A 지점 지정"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
 msgid "A-B Repeat: Mark B Position"
-msgstr "A-B 구간 반복 : B 지점 지정"
+msgstr "구간 반복 : 끝 지점 지정"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
