@@ -2137,7 +2137,7 @@ msgstr "팬 & 스캔 위로/왼쪽"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "PnS 위로/오른쪽"
+msgstr "팬 & 스캔 위로/오른쪽"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
