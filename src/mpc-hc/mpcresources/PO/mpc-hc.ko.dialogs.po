@@ -668,7 +668,7 @@ msgstr "미리 보기 폭(화면 폭의 비율)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "빠른 탐색 (키 프레임)"
+msgstr "빠른 탐색(키 프레임)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
