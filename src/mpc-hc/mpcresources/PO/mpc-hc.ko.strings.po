@@ -2113,11 +2113,11 @@ msgstr "1~365 사이의 숫자를 입력하세요."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
-msgstr "PnS 가운데"
+msgstr "팬 & 스캔 가운데"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "PnS 왼쪽"
+msgstr "팬 & 스캔 왼쪽"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
