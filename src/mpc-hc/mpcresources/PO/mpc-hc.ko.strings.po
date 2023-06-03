@@ -4521,7 +4521,7 @@ msgstr "최근 파일 목록의 제목을 사용합니다."
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
 msgid "Display current A-B repeat marks in status bar."
-msgstr "상태 표시줄에 현재 A-B 반복 표시를 표시합니다."
+msgstr "상태 표시줄에 현재 구간 반복 재생 표기합니다."
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
