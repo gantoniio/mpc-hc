@@ -1600,7 +1600,7 @@ msgstr "다음 단어가 포함된 파일 무시 :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
-msgstr "우선할 언어 선택 :"
+msgstr "선호 언어 선택 :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
