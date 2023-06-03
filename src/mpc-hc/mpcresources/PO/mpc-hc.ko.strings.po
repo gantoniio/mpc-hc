@@ -2039,7 +2039,7 @@ msgstr "팬 & 스캔 뺀 가로"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "PnS Dec 세로"
+msgstr "팬 & 스캔 뺀 세로"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
