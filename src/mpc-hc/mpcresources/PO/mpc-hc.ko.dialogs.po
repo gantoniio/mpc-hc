@@ -68,7 +68,7 @@ msgstr "V/A 버퍼 :"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "WAV"
+msgstr "오디오를 wav로 변환"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
