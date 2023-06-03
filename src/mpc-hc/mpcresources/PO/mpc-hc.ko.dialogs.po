@@ -1737,7 +1737,7 @@ msgstr "시스템 채널 혼합 무시(배타적 WASAPI 모드에서는 항상 �
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr "스테레오 크로스피드 활성화 (헤드폰용)"
+msgstr "스테레오 크로스 피드 활성화(헤드폰용)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
