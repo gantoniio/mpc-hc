@@ -2420,7 +2420,7 @@ msgstr "DVD : 예기치 않은 오류"
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
-msgstr "DVD : 복사 방지 에러"
+msgstr "DVD : 복사 방지 오류"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
