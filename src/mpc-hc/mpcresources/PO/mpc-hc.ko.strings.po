@@ -84,7 +84,7 @@ msgstr "DVD"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
-msgstr "A-B 구간 반복 : 지점 초기화"
+msgstr "구간 반복 : 지점 초기화"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
