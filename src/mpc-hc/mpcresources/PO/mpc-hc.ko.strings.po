@@ -2023,7 +2023,7 @@ msgstr "팬 & 스캔 포함 크기"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "PnS Inc 가로"
+msgstr "팬 & 스캔 포함 가로"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
