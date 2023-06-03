@@ -688,7 +688,7 @@ msgstr "향상된 작업 표시줄 기능 사용"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "로지텍 LCD 지원 활성화 (실험적)"
+msgstr "로지텍 LCD 지원 활성화(실험적)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
