@@ -416,7 +416,7 @@ msgstr "종횡비(&A)"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr "기본값 (&DAR)"
+msgstr "기본값(&DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
