@@ -154,7 +154,7 @@ msgstr "프레임 :"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "이동"
+msgstr "이동!"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
