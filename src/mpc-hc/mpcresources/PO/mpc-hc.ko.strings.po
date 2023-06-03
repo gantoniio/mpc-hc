@@ -1350,11 +1350,11 @@ msgstr "미디어 파일 (모든 형식)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
-msgstr "모든 파일 (*.*)|*.*|"
+msgstr "모든 파일(*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "오디오 파일 (모든 형식)"
+msgstr "오디오 파일(모든 형식)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
