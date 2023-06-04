@@ -14189,7 +14189,7 @@ int CMainFrame::SetupSubtitleStreams()
 
         int i = 0;
         int subcount = m_pSubStreams.GetSize();
-        int maxrating = 0;
+        int maxrating = -1;
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
             if (m_posFirstExtSub == pos) {
