@@ -150,7 +150,7 @@ msgstr "지정된 프레임으로 이동하려면 2개의 숫자를 입력하십
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
-msgstr "프레임 :"
+msgstr "프레임"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
