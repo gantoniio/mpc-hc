@@ -9249,6 +9249,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         if (CBDAChannel* pChannel = m_pDVBState->pChannel) {
             OnNavStreamSelectSubMenu(i, 2);
             pChannel->SetDefaultSubtitle(i);
+            SetSubtitle(i);
         }
     } else if (!m_pSubStreams.IsEmpty()) {
         // Currently the subtitles menu contains 5 items apart from the actual subtitles list when the ISR is used
@@ -14189,7 +14190,7 @@ int CMainFrame::SetupSubtitleStreams()
 
         int i = 0;
         int subcount = m_pSubStreams.GetSize();
-        int maxrating = -1;
+        int maxrating = 0;
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
             if (m_posFirstExtSub == pos) {
@@ -15382,7 +15383,10 @@ void CMainFrame::SetupAudioSubMenu()
         }
         VERIFY(subMenu.CheckMenuRadioItem(2, 2 + cStreams - 1, 2 + iSel, MF_BYPOSITION));
     } else if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        SetupNavStreamSelectSubMenu(subMenu, id, 1);
+        DWORD selected = SetupNavStreamSelectSubMenu(subMenu, id, 1);
+        if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+            SetSubtitle(selected);
+        }
     }
 }
 
@@ -15825,9 +15829,10 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
     }
 }
 
-void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup)
+DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup)
 {
     bool bAddSeparator = false;
+    DWORD selected = -1;
 
     auto addStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
         DWORD cStreams;
@@ -15860,6 +15865,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (dwFlags) {
                 flags |= MF_CHECKED;
+                selected = i;
             }
 
             if (bAddSeparator) {
@@ -15894,6 +15900,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
     if (pSS = m_pGB) {
         addStreamSelectFilter(pSS);
     }
+    return selected;
 }
 
 void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
