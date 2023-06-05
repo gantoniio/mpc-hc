@@ -611,7 +611,7 @@ msgstr "재생::전체 화면"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr "내부 필터::오디오 렌더러"
+msgstr "내장 필터::오디오 렌더러"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
