@@ -3064,7 +3064,7 @@ msgstr "위쪽 후면 우측"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
-msgstr "모든 필터 사용 안 함(&D)"
+msgstr "모든 필터 비활성화(&D)"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
