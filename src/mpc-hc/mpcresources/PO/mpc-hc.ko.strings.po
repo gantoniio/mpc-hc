@@ -667,7 +667,7 @@ msgstr "Haali 비디오 렌더러"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (전부)"
+msgstr "Null(전부)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
