@@ -516,7 +516,7 @@ msgstr "초기화(&S)"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "항상 위(&T)"
+msgstr "항상 위에 유지(&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
