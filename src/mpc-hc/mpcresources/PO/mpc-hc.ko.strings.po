@@ -3400,7 +3400,7 @@ msgstr "렌더링 의도 : 가시 범위"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "렌더링 의도 : 상대 컬러메트릭스"
+msgstr "렌더링 의도 : 상대 색상 행렬"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
