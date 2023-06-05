@@ -3280,7 +3280,7 @@ msgstr "OptimFROG"
 
 msgctxt "IDS_MFMT_OGG"
 msgid "Ogg Vorbis"
-msgstr "Ogg Vorbis"
+msgstr "오그 보비스"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
