@@ -795,7 +795,7 @@ msgstr "위치 :"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Description:"
-msgstr "설명:"
+msgstr "설명 :"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
