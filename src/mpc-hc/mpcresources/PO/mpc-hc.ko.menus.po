@@ -504,7 +504,7 @@ msgstr "반시계 방향으로 회전(&W)"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
-msgstr "상하반전(&F)"
+msgstr "상하 반전(&F)"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
