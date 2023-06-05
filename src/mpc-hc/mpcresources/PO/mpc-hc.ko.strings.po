@@ -2596,7 +2596,7 @@ msgstr "자막 파일"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "화면 비율: %ld:%ld"
+msgstr "종횡비 : %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
