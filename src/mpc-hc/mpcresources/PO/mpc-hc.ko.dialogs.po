@@ -309,7 +309,7 @@ msgstr "INI 파일에 설정 저장"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "'디스크 열기' 메뉴 사용 안 함"
+msgstr "\"디스크 열기\" 메뉴 사용 안 함"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
