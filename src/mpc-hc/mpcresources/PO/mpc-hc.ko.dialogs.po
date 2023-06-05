@@ -767,7 +767,7 @@ msgstr "미디어 길이 :"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
-msgstr "비디오 크기:"
+msgstr "비디오 크기 :"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
