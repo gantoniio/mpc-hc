@@ -15383,10 +15383,7 @@ void CMainFrame::SetupAudioSubMenu()
         }
         VERIFY(subMenu.CheckMenuRadioItem(2, 2 + cStreams - 1, 2 + iSel, MF_BYPOSITION));
     } else if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        DWORD selected = SetupNavStreamSelectSubMenu(subMenu, id, 1);
-        if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-            SetSubtitle(selected);
-        }
+        SetupNavStreamSelectSubMenu(subMenu, id, 1);
     }
 }
 
@@ -15487,7 +15484,8 @@ void CMainFrame::SetupSubtitlesSubMenu()
     POSITION pos = m_pSubStreams.GetHeadPosition();
 
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        SetupNavStreamSelectSubMenu(subMenu, id, 2);
+        DWORD selected = SetupNavStreamSelectSubMenu(subMenu, id, 2) - ID_SUBTITLES_SUBITEM_START;
+        SetSubtitle(selected);
     } else if (pos) { // Internal subtitles renderer
         int nItemsBeforeStart = id - ID_SUBTITLES_SUBITEM_START;
         if (nItemsBeforeStart > 0) {
@@ -15882,7 +15880,7 @@ DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwS
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (dwFlags) {
                 flags |= MF_CHECKED;
-                selected = i;
+                selected = id;
             }
 
             if (bAddSeparator) {
