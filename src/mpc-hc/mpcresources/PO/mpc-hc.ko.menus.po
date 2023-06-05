@@ -508,7 +508,7 @@ msgstr "상하반전(&F)"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
-msgstr "좌우반전(&M)"
+msgstr "좌우 반전(&M)"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
