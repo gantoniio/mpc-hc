@@ -2972,7 +2972,7 @@ msgstr "비디오폼 : 확대 전환"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "모든 필터 사용(&E)"
+msgstr "모든 필터 활성화(&E)"
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
