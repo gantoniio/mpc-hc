@@ -599,7 +599,7 @@ msgstr "미디어 정보"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
-msgstr "재생::캡쳐장치"
+msgstr "재생::캡쳐"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
