@@ -1635,7 +1635,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "내부 자막 렌더러"
+msgstr "내장 자막 렌더러"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
