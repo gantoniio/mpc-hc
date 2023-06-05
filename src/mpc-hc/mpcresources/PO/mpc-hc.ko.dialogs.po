@@ -811,7 +811,7 @@ msgstr "재생 위치 기억"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr "A-B 반복 표시 기억"
+msgstr "구간 반복 지정 기억"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
