@@ -1809,7 +1809,7 @@ msgstr "당신의 메일 주소 입력은 선택 사항이며 개발자가 추�
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr "문제 설명 (영어만 사용) :"
+msgstr "문제 설명(영어로만 작성) :"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
