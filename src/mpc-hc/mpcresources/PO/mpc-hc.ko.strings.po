@@ -2728,7 +2728,7 @@ msgstr "비디오 캡쳐 필터 생성 불가"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "캡쳐 필터가 없음"
+msgstr "캡쳐 필터 없음"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
