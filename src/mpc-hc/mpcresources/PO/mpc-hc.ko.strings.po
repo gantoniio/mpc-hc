@@ -731,7 +731,7 @@ msgstr "자막::스타일"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "내부 필터"
+msgstr "내장 필터"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
