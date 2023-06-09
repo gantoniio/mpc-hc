@@ -1647,7 +1647,7 @@ void CPlayerPlaylistBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasure
             m_itemHeight = lpMeasureItemStruct->itemHeight;
             m_itemHeightDPI = m_pMainFrame->m_dpi.SDPIY();
         }
-        lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToArbitraryY(m_itemHeight, m_itemHeightDPI);
+        lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleArbitraryToOverrideY(m_itemHeight, m_itemHeightDPI);
     } else { 
         //before creation, we must return a valid DPI scaled value, to prevent visual glitches when icon height has been tweaked.
         //we cannot cache this value as it may be different from that calculated after font has been set
