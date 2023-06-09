@@ -384,7 +384,7 @@ msgstr "절반 크기(&H)"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "원래 크기(&N)"
+msgstr "기본 크기(&N)"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
