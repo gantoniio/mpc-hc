@@ -1987,7 +1987,7 @@ msgstr "간단히 보기"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
-msgstr "표준 보기"
+msgstr "기본 보기"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
