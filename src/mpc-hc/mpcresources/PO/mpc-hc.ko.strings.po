@@ -4239,7 +4239,7 @@ msgid ""
 "\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
 msgstr ""
 "/viewpreset N\t특정 사전 설정으로 시작,\n"
-"\t\t여기서 N은 \"1\" 최소, \"2\" 간단히, \"3\" 표준"
+"\t\t여기서 N은 \"1\" 최소, \"2\" 간단히, \"3\" 기본"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
