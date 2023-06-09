@@ -152,7 +152,7 @@ msgstr "간단히(&C)"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "표준(&N)"
+msgstr "기본(&N)"
 
 msgctxt "ID_VIEW_MPCTHEME"
 msgid "Dark Theme (restart)"
