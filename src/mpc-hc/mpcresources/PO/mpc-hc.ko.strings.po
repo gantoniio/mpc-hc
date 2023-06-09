@@ -2007,7 +2007,7 @@ msgstr "비디오폼 : 1/2"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "VidFrm Normal"
-msgstr "비디오폼 : 표준"
+msgstr "비디오폼 : 기본"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "VidFrm Double"
