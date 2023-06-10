@@ -29,6 +29,7 @@ public:
     void Override(HWND hWindow);
     void Override(int dpix, int dpiy);
     int GetSystemMetricsDPI(int nIndex);
+    static UINT GetDPIForWindow(HWND wnd);
 
     inline double ScaleFactorX() const { return m_dpix / 96.0; }
     inline double ScaleFactorY() const { return m_dpiy / 96.0; }
@@ -42,7 +43,7 @@ public:
 
     inline int ScaleSystemToOverrideX(int x) const { return MulDiv(x, m_dpix, m_sdpix); }
     inline int ScaleSystemToOverrideY(int y) const { return MulDiv(y, m_dpiy, m_sdpiy); }
-    inline int ScaleArbitraryToOverrideY(int y, int dpi_y) const { return MulDiv(y, m_dpix, dpi_y); }
+    inline int ScaleArbitraryToOverrideY (int y, int dpi_y) const { return MulDiv(y, m_dpix, dpi_y); }
 
     inline int DPIX() { return m_dpix; }
     inline int DPIY() { return m_dpiy; }

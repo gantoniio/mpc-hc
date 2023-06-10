@@ -61,7 +61,7 @@ private:
     CMPCThemePlayerListCtrl m_list;
 
     int m_itemHeight = 0;
-    int m_itemHeightDPI = 0;
+    int m_initialWindowDPI = 0;
     bool createdWindow;
 
     EventClient m_eventc;
