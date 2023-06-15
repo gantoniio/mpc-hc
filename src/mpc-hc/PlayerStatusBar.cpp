@@ -98,7 +98,7 @@ CSize CPlayerStatusBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
     }
     CSize r2 = ret;
     ret.cy = m_pMainFrame->m_dpi.ScaleArbitraryToOverrideY(ret.cy, m_initialWindowDPI); //we must scale by initial DPI, NOT current DPI
-    ret.cy = std::max<long>(ret.cy, m_pMainFrame->m_dpi.ScaleY(24)); //at least 24point scaled to current dpi
+    ret.cy = std::max<long>(ret.cy, m_pMainFrame->m_dpi.ScaleY(24)); //at least 24px scaled to current dpi
     return ret;
 }
 
