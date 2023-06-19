@@ -507,9 +507,7 @@ public:
             if (bOverride) {
                 m_storageRes = m_playRes; // needed to get correct font scaling with default style
             }
-#if USE_LIBASS
-            ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
-#endif
+            m_SSAUtil.ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
         }
     }
 

@@ -3,6 +3,8 @@
 #include <string>
 #include <streambuf>
 #include "SubRendererSettings.h"
+#include "SubtitleHelpers.h"
+#include "../SubPic/SubPicProviderImpl.h"
 
 class STSStyle;
 
@@ -89,4 +91,40 @@ static const struct s_color_tag {
         { "violet",         "EE82EE" },
         { "white",          "FFFFFF" },
         { "yellow",         "FFFF00" },
+};
+
+class CSimpleTextSubtitle;
+
+class SSAUtil {
+public:
+    SSAUtil(CSimpleTextSubtitle* sts);
+    bool m_renderUsingLibass;
+    OpenTypeLang::HintStr m_openTypeLangHint;
+
+    SubRendererSettings subRendererSettings;
+    void SetSubRenderSettings(SubRendererSettings settings);
+
+
+    bool m_assloaded;
+    bool m_assfontloaded;
+
+    IFilterGraph* m_pGraph;
+    std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
+    std::unique_ptr<ASS_Renderer, ASS_RendererDeleter> m_renderer;
+    std::unique_ptr<ASS_Track, ASS_TrackDeleter> m_track;
+
+    void ResetASS();
+    bool LoadASSFile(Subtitle::SubType subType);
+    bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
+    void UnloadASS();
+    void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
+    void LoadASSFont();
+    bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
+    void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
+    void SetPin(IPin* i) { m_pPin = i; };
+    void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty);
+    void SetFrameSize(int w, int h);
+protected:
+    CSimpleTextSubtitle* m_STS;
+    IPin* m_pPin;
 };
