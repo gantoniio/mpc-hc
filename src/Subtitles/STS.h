@@ -26,10 +26,8 @@
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
 #include "../../include/mpc-hc_config.h"
-#if USE_LIBASS
 #include "SSASub.h"
 #include "SubRendererSettings.h"
-#endif
 #include "OpenTypeLangTags.h"
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
@@ -66,14 +64,12 @@ public:
 
     RelativeTo relativeTo;
 
-#if USE_LIBASS
     // libass stuff
     DWORD      SrtResX = 1920;
     DWORD      SrtResY = 1080;
     bool       Kerning = false;
     bool       ScaledBorderAndShadow = false;
     CString    customTags;
-#endif
 
     STSStyle();
 

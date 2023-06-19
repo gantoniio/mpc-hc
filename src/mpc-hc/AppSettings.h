@@ -1005,8 +1005,6 @@ public:
     bool            GetAllowMultiInst() const;
 
     static bool     IsVSFilterInstalled();
-#if USE_LIBASS
     SubRendererSettings	GetSubRendererSettings();
-#endif
 };
 

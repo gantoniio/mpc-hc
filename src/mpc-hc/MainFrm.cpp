@@ -16507,10 +16507,8 @@ bool CMainFrame::LoadSubtitle(CYoutubeDLInstance::YDLSubInfo& sub) {
 
     CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
     if (pRTS) {
-#if USE_LIBASS
         SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
         pRTS->m_SSAUtil.SetSubRenderSettings(srs);
-#endif
         bool opened = false;
         if (!sub.url.IsEmpty()) {
             SubtitlesProvidersUtils::stringMap strmap{};
@@ -16541,9 +16539,7 @@ bool CMainFrame::LoadSubtitle(CYoutubeDLInstance::YDLSubInfo& sub) {
             opened = pRTS->Open(sub.data, CTextFile::enc::UTF8, DEFAULT_CHARSET, _T("YoutubeDL"), langt, sub.ext);  // Do not modify charset, Now it wroks with Unicode char.
         }
         if (opened && pRTS->GetStreamCount() > 0) {
-#if USE_LIBASS
             pRTS->m_SSAUtil.SetFilterGraph(m_pGB);
-#endif
             pSubStream = pRTS.Detach();
         }
     }
