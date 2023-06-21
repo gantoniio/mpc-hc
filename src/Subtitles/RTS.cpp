@@ -3127,26 +3127,9 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         return S_FALSE;
     }
 
-    if (m_SSAUtil.m_assloaded) {
-        if (spd.bpp != 32) {
-            ASSERT(FALSE);
-            return E_INVALIDARG;
-        }
-
-        m_SSAUtil.LoadASSFont();
-
-        m_size = CSize(spd.w, spd.h);
-        m_vidrect = CRect(spd.vidrect.left, spd.vidrect.top, spd.vidrect.right, spd.vidrect.bottom);
-        m_SSAUtil.SetFrameSize(spd.w, spd.h);
-
-        CRect rcDirty;
-
-        if (!m_SSAUtil.RenderFrame(rt / 10000, spd, rcDirty)) {
-            return E_FAIL;
-        }
-
-        bbox = rcDirty;
-        return S_OK;
+    HRESULT libassResult = m_SSAUtil.Render(rt, spd, bbox, m_size, m_vidrect);
+    if (libassResult != E_POINTER) { //libass not initialized
+        return libassResult;
     }
 
     Init(CSize(spd.w, spd.h), spd.vidrect);

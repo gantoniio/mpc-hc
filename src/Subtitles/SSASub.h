@@ -119,6 +119,7 @@ public:
     void UnloadASS();
     void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
     void LoadASSFont();
+    STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
     bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
     void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
     void SetPin(IPin* i) { m_pPin = i; };

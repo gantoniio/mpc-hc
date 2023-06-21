@@ -621,6 +621,31 @@ void SSAUtil::LoadASSFont() {
     }
 }
 
+STDMETHODIMP SSAUtil::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect) {
+    if (m_assloaded) {
+        if (spd.bpp != 32) {
+            ASSERT(FALSE);
+            return E_INVALIDARG;
+        }
+
+        LoadASSFont();
+
+        size = CSize(spd.w, spd.h);
+        vidRect = CRect(spd.vidrect.left, spd.vidrect.top, spd.vidrect.right, spd.vidrect.bottom);
+        SetFrameSize(spd.w, spd.h);
+
+        CRect rcDirty;
+
+        if (!RenderFrame(rt / 10000, spd, rcDirty)) {
+            return E_FAIL;
+        }
+
+        bbox = rcDirty;
+        return S_OK;
+    }
+    return E_POINTER;
+}
+
 bool SSAUtil::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) {
     int changed = 1;
     ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), now, &changed);

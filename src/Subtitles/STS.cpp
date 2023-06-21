@@ -864,7 +864,7 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
 }
 
 
-static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
+bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     CStringW buff, start, end;
     while (file->ReadString(buff)) {
@@ -1761,7 +1761,7 @@ static bool LoadUUEFont(CTextFile* file)
     return true;
 }
 
-static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
+bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     bool fRet = false;
     int version = 3, sver = 3;
@@ -3203,6 +3203,34 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
         m_langname = ISOLang::LCIDToLanguage(m_lcid);
     }
 
+    auto initRes = [&]() {
+        if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
+            m_storageRes = m_layoutRes;
+        } else if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
+            if (m_playRes.cx > 0 && m_playRes.cy > 0) {
+                m_storageRes = m_playRes;
+            } else {
+                m_storageRes = CSize(384, 288);
+            }
+        }
+        if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
+            m_playRes = m_storageRes;
+        }
+    };
+
+    auto loadSSAStyle = [&]() {
+        CWebTextFile f2(CTextFile::UTF8);
+        if (f2.Open(f->GetFilePath() + _T(".style"))) {
+            OpenSubStationAlpha(&f2, *this, CharSet);
+        }
+    };
+
+    auto setVars = [&](auto name, auto encoding, auto mode) {
+        m_name = name;
+        m_encoding = encoding;
+        m_mode = mode;
+    };
+
     if (m_SSAUtil.m_renderUsingLibass) {
         if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ass") == 0 || lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ssa") == 0) {
             CreateDefaultStyle(CharSet);
@@ -3210,10 +3238,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
             m_SSAUtil.LoadASSFile(Subtitle::SubType::SSA);
             m_subtitleType = Subtitle::SubType::SSA;
             OpenSubStationAlpha(f, *this, CharSet);
-            CWebTextFile f2(CTextFile::UTF8);
-            if (f2.Open(f->GetFilePath() + _T(".style"))) {
-                OpenSubStationAlpha(&f2, *this, CharSet);
-            }
+            loadSSAStyle();
         } else if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".srt") == 0) {
             CreateDefaultStyle(CharSet);
             m_path = f->GetFilePath();
@@ -3223,24 +3248,9 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
         }
 
         if (m_SSAUtil.m_assloaded) {
-            m_name = name;
-            m_encoding = f->GetEncoding();
-            m_mode = TIME;
-
+            setVars(name, f->GetEncoding(), TIME);
             ChangeUnknownStylesToDefault();
-
-            if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
-                if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
-                    m_storageRes = m_layoutRes;
-                } else if (m_playRes.cx > 0 && m_playRes.cy > 0) {
-                    m_storageRes = m_playRes;
-                } else {
-                    m_storageRes = CSize(384, 288);
-                }
-            }
-            if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
-                m_playRes = m_storageRes;
-            }
+            initRes();
             return true;
         }
     }
@@ -3266,35 +3276,14 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
             continue;
         }
 
-        m_name = name;
-        m_subtitleType = OpenFuncts[i].type;
-        m_mode = OpenFuncts[i].mode;
-        m_encoding = f->GetEncoding();
         m_path = f->GetFilePath();
-
+        m_subtitleType = OpenFuncts[i].type;
+        setVars(name, f->GetEncoding(), OpenFuncts[i].mode);
         // No need to call Sort() or CreateSegments(), everything is done on the fly
-
-        CWebTextFile f2(CTextFile::UTF8);
-        if (f2.Open(f->GetFilePath() + _T(".style"))) {
-            OpenSubStationAlpha(&f2, *this, CharSet);
-        }
-
+        loadSSAStyle();
         CreateDefaultStyle(CharSet);
-
         ChangeUnknownStylesToDefault();
-
-        if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
-            m_storageRes = m_layoutRes;
-        } else if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
-            if (m_playRes.cx > 0 && m_playRes.cy > 0) {
-                m_storageRes = m_playRes;
-            } else {
-                m_storageRes = CSize(384, 288);
-            }
-        }
-        if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
-            m_playRes = m_storageRes;
-        }
+        initRes();
 
         return true;
     }
