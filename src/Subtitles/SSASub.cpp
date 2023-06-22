@@ -528,6 +528,49 @@ void SSAUtil::ResetASS() {
     }
 }
 
+char* utf_fname_read_file(CStringW fname, size_t* bufsize) {
+    int res;
+    long sz;
+    long bytes_read;
+    char* buf;
+
+    FILE* fp = _wfopen(fname, L"rb");
+    if (!fp) {
+        return 0;
+    }
+    res = fseek(fp, 0, SEEK_END);
+    if (res == -1) {
+        fclose(fp);
+        return 0;
+    }
+
+    sz = ftell(fp);
+    rewind(fp);
+
+    buf = sz < SIZE_MAX ? (char*)malloc(sz + 1) : NULL;
+    if (!buf) {
+        fclose(fp);
+        return NULL;
+    }
+    assert(buf);
+    bytes_read = 0;
+    do {
+        res = fread(buf + bytes_read, 1, sz - bytes_read, fp);
+        if (res <= 0) {
+            fclose(fp);
+            free(buf);
+            return 0;
+        }
+        bytes_read += res;
+    } while (sz - bytes_read > 0);
+    buf[sz] = '\0';
+    fclose(fp);
+
+    if (bufsize)
+        *bufsize = sz;
+    return buf;
+}
+
 bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
     if (m_STS->m_path.IsEmpty() || !PathUtils::Exists(m_STS->m_path) ) return false;
     Unload();
@@ -550,7 +593,20 @@ bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
             m_STS->m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }
     } else { //subType == Subtitle::SSA/ASS
-        m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_STS->m_path), "UTF-8"));
+        CStringA UTF8Path = UTF16To8(m_STS->m_path);
+        char* memBuf = nullptr;
+        size_t bufsize = 0;
+
+        if (UTF8Path.GetLength() != m_STS->m_path.GetLength()) {
+            memBuf = utf_fname_read_file(m_STS->m_path, &bufsize);  //libass will have trouble with using fopen ...
+        }
+
+        if (memBuf) {
+            m_track = decltype(m_track)(ass_read_memory(m_ass.get(), memBuf, bufsize, "UTF-8"));
+            delete memBuf;
+        } else {
+            m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_STS->m_path), "UTF-8"));
+        }
         if (m_STS->m_storageRes == CSize(0, 0)) { 
             m_STS->m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }

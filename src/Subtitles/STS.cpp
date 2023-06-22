@@ -3250,6 +3250,8 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
             ChangeUnknownStylesToDefault();
             initRes();
             return true;
+        } else {
+            Empty();
         }
     }
 
