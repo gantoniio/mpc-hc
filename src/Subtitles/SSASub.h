@@ -98,6 +98,7 @@ class CSimpleTextSubtitle;
 class SSAUtil {
 public:
     SSAUtil(CSimpleTextSubtitle* sts);
+    ~SSAUtil();
     bool m_renderUsingLibass;
     OpenTypeLang::HintStr m_openTypeLangHint;
 
@@ -116,8 +117,9 @@ public:
     void ResetASS();
     bool LoadASSFile(Subtitle::SubType subType);
     bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
-    void UnloadASS();
+    void Unload();
     void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
+    void DefaultStyleChanged();
     void LoadASSFont();
     STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
     bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);

@@ -489,7 +489,7 @@ namespace {
 
 SSAUtil::SSAUtil(CSimpleTextSubtitle* sts)
     : m_STS(sts)
-    , m_renderUsingLibass(true)
+    , m_renderUsingLibass(false)
     , m_openTypeLangHint()
     , m_assloaded(false)
     , m_assfontloaded(false)
@@ -500,6 +500,10 @@ SSAUtil::SSAUtil(CSimpleTextSubtitle* sts)
     , m_track(nullptr)
 {
 
+}
+
+SSAUtil::~SSAUtil() {
+    Unload();
 }
 
 void SSAUtil::SetSubRenderSettings(SubRendererSettings settings) {
@@ -518,7 +522,7 @@ void SSAUtil::ResetASS() {
         }
     } else {
         if (m_assloaded) {
-            UnloadASS();
+            Unload();
         }
         m_renderUsingLibass = false;
     }
@@ -526,7 +530,7 @@ void SSAUtil::ResetASS() {
 
 bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
     if (m_STS->m_path.IsEmpty() || !PathUtils::Exists(m_STS->m_path) ) return false;
-    UnloadASS();
+    Unload();
 
     m_assfontloaded = false;
 
@@ -564,7 +568,7 @@ bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
 }
 
 bool SSAUtil::LoadASSTrack(char* data, int size, Subtitle::SubType subType) {
-    UnloadASS();
+    Unload();
     m_assfontloaded = false;
 
     m_ass = decltype(m_ass)(ass_library_init());
@@ -694,7 +698,7 @@ void SSAUtil::SetFrameSize(int w, int h) {
     ass_set_frame_size(m_renderer.get(), w, h);
 }
 
-void SSAUtil::UnloadASS() {
+void SSAUtil::Unload() {
     m_assloaded = false;
     if (m_track) m_track.reset();
     if (m_renderer) m_renderer.reset();
@@ -705,7 +709,7 @@ void SSAUtil::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REF
     if (m_renderUsingLibass) {
         if (m_STS->m_subtitleType == Subtitle::SRT) { //received SRT sample, try to use libass to handle
             if (!m_assloaded) { //create ass header
-                UnloadASS();
+                Unload();
                 m_assfontloaded = false;
 
                 m_ass = decltype(m_ass)(ass_library_init());
@@ -750,5 +754,15 @@ void SSAUtil::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REF
                 ass_process_chunk(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))), tStart / 10000, (tStop - tStart) / 10000);
             }
         }
+    }
+}
+
+void SSAUtil::DefaultStyleChanged() {
+    Unload();
+    if (subRendererSettings.renderUsingLibass) { //styles may change the way the libass file was loaded, so we reload it here
+        m_renderUsingLibass = true;
+        LoadASSFile(m_STS->m_subtitleType);
+    } else {
+        m_renderUsingLibass = false;
     }
 }

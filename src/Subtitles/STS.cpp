@@ -2314,8 +2314,6 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
-    m_SSAUtil.UnloadASS();
-
     Empty();
 }
 /*
@@ -2686,7 +2684,7 @@ bool CSimpleTextSubtitle::SetDefaultStyle(const STSStyle& s)
         m_styles[L"Default"] = val;
         m_bUsingPlayerDefaultStyle = true;
     }
-
+    m_SSAUtil.DefaultStyleChanged();
     return true;
 }
 
