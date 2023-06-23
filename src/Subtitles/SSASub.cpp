@@ -372,6 +372,13 @@ ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &s
     return track;
 }
 
+ASS_Track* ass_read_fileW(ASS_Library* library, CStringW fname) {
+    std::ifstream t(fname, std::ios::in);
+    std::stringstream buffer;
+    buffer << t.rdbuf();
+    return ass_read_memory(library, (char*)buffer.str().c_str(), buffer.str().size(), "UTF-8");
+}
+
 void ConvertCPToUTF8(UINT CP, std::string& codepage_str) {
     int size = MultiByteToWideChar(CP, MB_PRECOMPOSED, codepage_str.c_str(),
         (int)codepage_str.length(), nullptr, 0);
@@ -526,13 +533,6 @@ void SSAUtil::ResetASS() {
         }
         m_renderUsingLibass = false;
     }
-}
-
-ASS_Track* ass_read_fileW(ASS_Library* library, CStringW fname) {
-    std::ifstream t(fname, std::ios::in);
-    std::stringstream buffer;
-    buffer << t.rdbuf();
-    return ass_read_memory(library, (char*)buffer.str().c_str(), buffer.str().size(), "UTF-8");
 }
 
 bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
