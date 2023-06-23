@@ -294,10 +294,10 @@ void srt_header(char (&outBuffer)[1024], const STSStyle& style, const SubRendere
         (int)std::round(style.marginRect.right * resx), (int)std::round(style.marginRect.top * resy));
 }
 
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings) {
+ASS_Track* srt_read_file(ASS_Library* library, CStringW fname, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings) {
     std::ifstream srtFile(fname, std::ios::in);
     ASS_Track* track = ass_new_track(library);
-    track->name = _strdup(fname);
+    track->name = _strdup(UTF16To8(fname));
     return srt_read_data(library, track, srtFile, codePage, style, subRendererSettings);
 }
 
@@ -528,47 +528,11 @@ void SSAUtil::ResetASS() {
     }
 }
 
-char* utf_fname_read_file(CStringW fname, size_t* bufsize) {
-    int res;
-    long sz;
-    long bytes_read;
-    char* buf;
-
-    FILE* fp = _wfopen(fname, L"rb");
-    if (!fp) {
-        return 0;
-    }
-    res = fseek(fp, 0, SEEK_END);
-    if (res == -1) {
-        fclose(fp);
-        return 0;
-    }
-
-    sz = ftell(fp);
-    rewind(fp);
-
-    buf = sz < SIZE_MAX ? (char*)malloc(sz + 1) : NULL;
-    if (!buf) {
-        fclose(fp);
-        return NULL;
-    }
-    assert(buf);
-    bytes_read = 0;
-    do {
-        res = fread(buf + bytes_read, 1, sz - bytes_read, fp);
-        if (res <= 0) {
-            fclose(fp);
-            free(buf);
-            return 0;
-        }
-        bytes_read += res;
-    } while (sz - bytes_read > 0);
-    buf[sz] = '\0';
-    fclose(fp);
-
-    if (bufsize)
-        *bufsize = sz;
-    return buf;
+ASS_Track* ass_read_fileW(ASS_Library* library, CStringW fname) {
+    std::ifstream t(fname, std::ios::in);
+    std::stringstream buffer;
+    buffer << t.rdbuf();
+    return ass_read_memory(library, (char*)buffer.str().c_str(), buffer.str().size(), "UTF-8");
 }
 
 bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
@@ -588,26 +552,13 @@ bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
     STSStyle defStyle;
     m_STS->GetDefaultStyle(defStyle);
     if (subType == Subtitle::SRT) {
-        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_STS->m_path), defStyle.charSet, defStyle, subRendererSettings));
+        m_track = decltype(m_track)(srt_read_file(m_ass.get(), m_STS->m_path, defStyle.charSet, defStyle, subRendererSettings));
         if (m_STS->m_storageRes == CSize(0, 0)) {
             m_STS->m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }
     } else { //subType == Subtitle::SSA/ASS
-        CStringA UTF8Path = UTF16To8(m_STS->m_path);
-        char* memBuf = nullptr;
-        size_t bufsize = 0;
-
-        if (UTF8Path.GetLength() != m_STS->m_path.GetLength()) {
-            memBuf = utf_fname_read_file(m_STS->m_path, &bufsize);  //libass will have trouble with using fopen ...
-        }
-
-        if (memBuf) {
-            m_track = decltype(m_track)(ass_read_memory(m_ass.get(), memBuf, bufsize, "UTF-8"));
-            delete memBuf;
-        } else {
-            m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_STS->m_path), "UTF-8"));
-        }
-        if (m_STS->m_storageRes == CSize(0, 0)) { 
+        m_track = decltype(m_track)(ass_read_fileW(m_ass.get(), m_STS->m_path));
+        if (m_STS->m_storageRes == CSize(0, 0)) {
             m_STS->m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }
     }
