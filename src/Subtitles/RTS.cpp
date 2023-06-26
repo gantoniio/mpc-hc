@@ -56,13 +56,13 @@ bool GetTextExtent(HDC hdc, LPCWSTR s, int c, LPSIZE lpsz, STSStyle style) {
     bool ret;
     if (style.fontSize > MAXGDIFONTSIZE) {
         double oldFontSize = style.fontSize;
-        style.fontSize = 39999;
+        style.fontSize = MAXGDIFONTSIZE;
         CMyFont font(style);
         HFONT hOldFont = SelectFont(g_hDC, font);
         ret = GetTextExtentPoint32W(hdc, s, c, lpsz);
         SelectFont(g_hDC, hOldFont);
-        lpsz->cx = MulDiv(lpsz->cx, oldFontSize, 39999);
-        lpsz->cy = MulDiv(lpsz->cy, oldFontSize, 39999);
+        lpsz->cx = MulDiv(lpsz->cx, oldFontSize, MAXGDIFONTSIZE);
+        lpsz->cy = MulDiv(lpsz->cy, oldFontSize, MAXGDIFONTSIZE);
     } else {
         ret = GetTextExtentPoint32W(hdc, s, c, lpsz);
     }
