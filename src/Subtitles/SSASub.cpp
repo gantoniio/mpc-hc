@@ -641,9 +641,9 @@ STDMETHODIMP SSAUtil::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSi
 
         LoadASSFont();
 
-        size = CSize(spd.w, spd.h);
-        vidRect = CRect(spd.vidrect.left, spd.vidrect.top, spd.vidrect.right, spd.vidrect.bottom);
-        SetFrameSize(spd.w, spd.h);
+        vidRect = CRect(spd.vidrect);
+        size = CSize(vidRect.Width(), vidRect.Height());
+        SetFrameSize(size.cx, size.cy);
 
         CRect rcDirty;
 
@@ -667,16 +667,14 @@ bool SSAUtil::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) {
 
 void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
     if (image) {
-        RECT pRect = { 0 };
+        CRect pRect;
         for (auto i = image; i != nullptr; i = i->next) {
-            RECT rect1 = pRect;
-            RECT rect2 = { i->dst_x, i->dst_y, i->dst_x + i->w, i->dst_y + i->h };
-            UnionRect(&pRect, &rect1, &rect2);
+            CRect rect2(i->dst_x, i->dst_y, i->dst_x + i->w, i->dst_y + i->h);
+            pRect.UnionRect(pRect, rect2);
         }
 
-        const POINT pixelsPoint = GetRectPos(pRect);
-        const SIZE pixelsSize = GetRectSize(pRect);
-        rcDirty.IntersectRect(CRect(pixelsPoint, pixelsSize), CRect(0, 0, spd.w, spd.h));
+        CRect vidRect = CRect(spd.vidrect);
+        rcDirty.IntersectRect(pRect + vidRect.TopLeft(), vidRect);
 
         BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
 
@@ -684,7 +682,7 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
             concurrency::parallel_for(0, i->h, [&](int y)
                 {
                     for (int x = 0; x < i->w; ++x) {
-                        BYTE* dst = &pixelBytes[((ptrdiff_t)i->dst_y + y - pixelsPoint.y) * spd.pitch + ((ptrdiff_t)i->dst_x + x - pixelsPoint.x) * 4];
+                        BYTE* dst = &pixelBytes[((ptrdiff_t)i->dst_y + y - pRect.top) * spd.pitch + ((ptrdiff_t)i->dst_x + x - pRect.left) * 4];
 
                         uint32_t srcA = (i->bitmap[y * i->stride + x] * (0xff - (i->color & 0x000000ff))) >> 8;
                         uint32_t compA = 0xff - srcA;
