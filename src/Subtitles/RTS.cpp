@@ -682,13 +682,8 @@ bool CText::CreatePath()
     if (m_style.fontSize > MAXGDIFONTSIZE) {
         double fact = m_style.fontSize / MAXGDIFONTSIZE;
         for (ptrdiff_t i = 0; i < mPathPoints; i++) {
-            double x, y, z, xx, yy, zz;
-
-            x = mpPathPoints[i].x;
-            y = mpPathPoints[i].y;
-
-            mpPathPoints[i].x = fact * x;
-            mpPathPoints[i].y = fact * y;
+            mpPathPoints[i].x *= fact;
+            mpPathPoints[i].y *= fact;
         }
     }
     return true;
