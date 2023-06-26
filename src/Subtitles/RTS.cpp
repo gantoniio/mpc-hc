@@ -31,6 +31,8 @@
 static HDC g_hDC;
 static int g_hDC_refcnt = 0;
 
+#define MAXGDIFONTSIZE 39999
+
 static long revcolor(long c)
 {
     return ((c & 0xff0000) >> 16) + (c & 0xff00) + ((c & 0xff) << 16);
@@ -47,6 +49,23 @@ void alpha_mask_deleter::operator()(CAlphaMask* ptr) const noexcept
     }
 }
 
+
+bool GetTextExtent(HDC hdc, LPCWSTR s, int c, LPSIZE lpsz, STSStyle style) {
+    bool ret;
+    if (style.fontSize > MAXGDIFONTSIZE) {
+        double oldFontSize = style.fontSize;
+        style.fontSize = MAXGDIFONTSIZE;
+        CMyFont font(style);
+        HFONT hOldFont = SelectFont(g_hDC, font);
+        ret = GetTextExtentPoint32W(hdc, s, c, lpsz);
+        SelectFont(g_hDC, hOldFont);
+        lpsz->cx = MulDiv(lpsz->cx, oldFontSize, MAXGDIFONTSIZE);
+        lpsz->cy = MulDiv(lpsz->cy, oldFontSize, MAXGDIFONTSIZE);
+    } else {
+        ret = GetTextExtentPoint32W(hdc, s, c, lpsz);
+    }
+    return ret;
+}
 // CMyFont
 
 CMyFont::CMyFont(const STSStyle& style)
@@ -501,7 +520,7 @@ CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
         if (m_style.fontSpacing) {
             for (LPCWSTR s = m_str; *s; s++) {
                 CSize extent;
-                if (!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {
+                if (!GetTextExtent(g_hDC, s, 1, &extent, m_style)) {
                     SelectFont(g_hDC, hOldFont);
                     ASSERT(0);
                     return;
@@ -511,7 +530,7 @@ CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
             // m_width -= (int)m_style.fontSpacing; // TODO: subtract only at the end of the line
         } else {
             CSize extent;
-            if (!GetTextExtentPoint32W(g_hDC, m_str, str.GetLength(), &extent)) {
+            if (!GetTextExtent(g_hDC, m_str, str.GetLength(), &extent, m_style)) {
                 SelectFont(g_hDC, hOldFont);
                 ASSERT(0);
                 return;
@@ -549,14 +568,19 @@ bool CText::Append(CWord* w)
 
 bool CText::CreatePath()
 {
-    CMyFont font(m_style);
+    STSStyle tStyle(m_style);
+    if (m_style.fontSize > MAXGDIFONTSIZE) {
+        tStyle.fontSize = MAXGDIFONTSIZE;
+    }
+
+    CMyFont font(tStyle);
 
     HFONT hOldFont = SelectFont(g_hDC, font);
 
     LONG cx = 0;
     auto getExtent = [&](LPCWSTR s, int len) {
         CSize extent;
-        if (!GetTextExtentPoint32W(g_hDC, s, len, &extent)) {
+        if (!GetTextExtent(g_hDC, s, len, &extent, m_style)) {
             SelectFont(g_hDC, hOldFont);
             ASSERT(0);
             return false;
@@ -565,39 +589,56 @@ bool CText::CreatePath()
         return true;
     };
 
+    std::wstring fontNameK;
+
+
+    bool useFreetypePath = false;
+    CStringA langHint = "";
+    if (m_RTS) {
+        langHint = m_RTS->openTypeLangHint;
+        useFreetypePath = m_RTS->GetUseFreeType();
+        if (useFreetypePath) {
+            fontNameK = CW2W(m_style.fontName);
+            fontNameK += std::to_wstring(m_style.fontSize);
+        }
+    }
+
     if (m_style.fontSpacing) {
         int width = 0;
         bool bFirstPath = true;
-        bool failedPath = false;
 
-        for (LPCWSTR s = m_str; *s; s++) {
-            if (!getExtent(s, 1)) {
-                return false;
-            }
-            if (cx == 0) {
-                // possible unhandled unprintable character
-                ASSERT(*s == L'\x202a' || *s == L'\x202b');
-                continue;
-            }
-            PartialBeginPath(g_hDC, bFirstPath);
-            bFirstPath = false;
-            TextOutW(g_hDC, 0, 0, s, 1);
-            int mp = mPathPoints;
-            PartialEndPath(g_hDC, width, 0);
-            if (mp == mPathPoints && !CStringW::StrTraits::IsSpace(s[0])) { //failed to add points, we will try again with FreeType as emulator
-                failedPath=true;
-                break;
-            }
+        if (!useFreetypePath) {
+            for (LPCWSTR s = m_str; *s; s++) {
+                if (!getExtent(s, 1)) {
+                    return false;
+                }
+                if (cx == 0) {
+                    // possible unhandled unprintable character
+                    ASSERT(*s == L'\x202a' || *s == L'\x202b');
+                    continue;
+                }
+                PartialBeginPath(g_hDC, bFirstPath);
+                bFirstPath = false;
+                TextOutW(g_hDC, 0, 0, s, 1);
+                int mp = mPathPoints;
+                PartialEndPath(g_hDC, width, 0);
+                if (mp == mPathPoints && !CStringW::StrTraits::IsSpace(s[0]) && m_RTS) { //failed to add points, we will try again with FreeType as emulator
+                    useFreetypePath=true;
+                    break;
+                }
 #if 0
-            GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width+ cx + (int)m_style.fontSpacing, 0);
-            GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width, m_style.fontSize*2);
+                GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width+ cx + (int)m_style.fontSpacing, 0);
+                GetPathFreeType(g_hDC, false, s[0], m_style.fontSize, width, m_style.fontSize*2);
 #endif
 
-            width += cx + (int)m_style.fontSpacing;
+                width += cx + (int)m_style.fontSpacing;
+            }
         }
-        if (failedPath) { //try freetype
+        if (useFreetypePath) { //try freetype
             int ftWidth = 0;
             bFirstPath = true;
+            m_RTS->m_ftLibrary.LoadCodeFaceData(g_hDC, fontNameK);
+            m_RTS->m_ftLibrary.LoadCodePoints(m_str, fontNameK, langHint);
             for (LPCWSTR s = m_str; *s; s++) {
                 if (!getExtent(s, 1)) {
                     return false;
@@ -607,7 +648,8 @@ bool CText::CreatePath()
                     ASSERT(false);
                     continue;
                 }
-                if (!GetPathFreeType(g_hDC, bFirstPath, m_style.fontName, s[0], m_style.fontSize, ftWidth, 0)) {
+
+                if (!GetPathFreeType(g_hDC, bFirstPath, fontNameK, s[0], ftWidth, 0, langHint, &m_RTS->m_ftLibrary)) {
                     break;
                 }
                 bFirstPath = false;
@@ -621,18 +663,22 @@ bool CText::CreatePath()
             return false;
         }
 
-        BeginPath(g_hDC);
-        TextOutW(g_hDC, 0, 0, m_str, m_str.GetLength());
-        EndPath(g_hDC);
+        if (!useFreetypePath) {
+            BeginPath(g_hDC);
+            TextOutW(g_hDC, 0, 0, m_str, m_str.GetLength());
+            EndPath(g_hDC);
+        }
 
-        if (mPathPoints == 0 && m_str.GetLength() > 0) { // try freetype
+        if ((useFreetypePath || mPathPoints == 0) && m_str.GetLength() > 0) { // try freetype
             int ftWidth = 0;
             bool bFirstPath = true;
+            m_RTS->m_ftLibrary.LoadCodeFaceData(g_hDC, fontNameK);
+            m_RTS->m_ftLibrary.LoadCodePoints(m_str, fontNameK, langHint);
             for (LPCWSTR s = m_str; *s; s++) {
                 if (!getExtent(s, 1)) {
                     return false;
                 }
-                if (!GetPathFreeType(g_hDC, bFirstPath, m_style.fontName, s[0], m_style.fontSize, ftWidth, 0)) {
+                if (!GetPathFreeType(g_hDC, bFirstPath, fontNameK, s[0], ftWidth, 0, langHint, &m_RTS->m_ftLibrary)) {
                     break;
                 }
                 bFirstPath = false;
@@ -640,9 +686,15 @@ bool CText::CreatePath()
             }
         }
     }
-
     SelectFont(g_hDC, hOldFont);
 
+    if (m_style.fontSize > MAXGDIFONTSIZE) {
+        double fact = m_style.fontSize / MAXGDIFONTSIZE;
+        for (ptrdiff_t i = 0; i < mPathPoints; i++) {
+            mpPathPoints[i].x *= fact;
+            mpPathPoints[i].y *= fact;
+        }
+    }
     return true;
 }
 
@@ -1695,6 +1747,7 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     , m_bOverridePlacement(false)
     , m_overridePlacement(50, 90)
     , m_webvtt_allow_clear(false)
+    , m_bUseFreeType(false)
 {
     m_size = CSize(0, 0);
 
@@ -1941,19 +1994,22 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
         }
 
         if (i < j) {
-            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_target_scale_x, sub->m_target_scale_y, m_renderingCaches)) {
+            if (CText* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_target_scale_x, sub->m_target_scale_y, m_renderingCaches)) {
+                w->SetRts(this);
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         }
 
         if (c == L'\n') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_target_scale_x, sub->m_target_scale_y, m_renderingCaches)) {
+            if (CText* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_target_scale_x, sub->m_target_scale_y, m_renderingCaches)) {
+                w->SetRts(this);
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         } else if (c == L' ') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_target_scale_x, sub->m_target_scale_y, m_renderingCaches)) {
+            if (CText* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_target_scale_x, sub->m_target_scale_y, m_renderingCaches)) {
+                w->SetRts(this);
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
