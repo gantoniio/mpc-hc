@@ -1846,6 +1846,18 @@ void CRenderedTextSubtitle::Empty()
     __super::Empty();
 }
 
+void CRenderedTextSubtitle::SetOverride(bool bOverride, const STSStyle& styleOverride) {
+    bool changed = (m_bOverrideStyle != bOverride) || (m_styleOverride != styleOverride);
+    if (changed) {
+        m_bOverrideStyle = bOverride;
+        m_styleOverride = styleOverride;
+        if (bOverride) {
+            m_storageRes = m_playRes; // needed to get correct font scaling with default style
+        }
+        m_SSAUtil.ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
+    }
+}
+
 void CRenderedTextSubtitle::OnChanged()
 {
     __super::OnChanged();

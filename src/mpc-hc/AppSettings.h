@@ -31,9 +31,7 @@
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "SettingsDefines.h"
 #include "Shaders.h"
-#if USE_LIBASS
 #include "../Subtitles/SubRendererSettings.h"
-#endif
 #include <afxadv.h>
 #include <afxsock.h>
 
