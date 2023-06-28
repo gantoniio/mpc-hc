@@ -27,7 +27,7 @@
     <ClInclude Include="libass\libass\ass_compat.h" />
     <ClInclude Include="libass\libass\ass_directwrite.h" />
     <ClInclude Include="libass\libass\ass_drawing.h" />
-    <ClCompile Include="libass\libass\ass_filesystem.h" />
+    <ClInclude Include="libass\libass\ass_filesystem.h" />
     <ClInclude Include="libass\libass\ass_font.h" />
     <ClInclude Include="libass\libass\ass_fontconfig.h" />
     <ClInclude Include="libass\libass\ass_fontselect.h" />
