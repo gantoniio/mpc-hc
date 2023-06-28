@@ -29,6 +29,8 @@
 #include <ppl.h>
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 
+#define MAXGDIFONTSIZE 39999
+
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
 static int g_hDC_refcnt = 0;
@@ -101,6 +103,13 @@ CWord::CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
     }
+    if (m_style.fontSize > MAXGDIFONTSIZE) {
+        double fact = m_style.fontSize / MAXGDIFONTSIZE;
+        m_style.fontSize = MAXGDIFONTSIZE;
+        m_style.fontScaleX *= fact;
+        m_style.fontScaleY *= fact;
+    }
+
 }
 
 CWord::~CWord()
