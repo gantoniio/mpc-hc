@@ -514,15 +514,15 @@ SSAUtil::~SSAUtil() {
 }
 
 void SSAUtil::SetSubRenderSettings(SubRendererSettings settings) {
-    bool wasUsingLibass = subRendererSettings.renderUsingLibass;
+    bool wasUsingLibass = subRendererSettings.LibassEnabled(m_STS);
     subRendererSettings = settings;
-    if (settings.renderUsingLibass || wasUsingLibass) {
+    if (settings.LibassEnabled(m_STS) || wasUsingLibass) {
         ResetASS();
     }
 }
 
 void SSAUtil::ResetASS() {
-    if (subRendererSettings.renderUsingLibass) { 
+    if (subRendererSettings.LibassEnabled(m_STS)) { 
         m_renderUsingLibass = true;
         if (!m_STS->m_path.IsEmpty()) {
             LoadASSFile(m_STS->m_subtitleType);
@@ -764,7 +764,7 @@ void SSAUtil::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REF
 
 void SSAUtil::DefaultStyleChanged() {
     Unload();
-    if (subRendererSettings.renderUsingLibass) { //styles may change the way the libass file was loaded, so we reload it here
+    if (subRendererSettings.LibassEnabled(m_STS)) { //styles may change the way the libass file was loaded, so we reload it here
         m_renderUsingLibass = true;
         LoadASSFile(m_STS->m_subtitleType);
     } else {

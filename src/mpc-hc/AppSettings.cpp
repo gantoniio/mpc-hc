@@ -240,7 +240,8 @@ CAppSettings::CAppSettings()
     , bShowFPSInStatusbar(false)
     , bShowABMarksInStatusbar(false)
     , bShowVideoInfoInStatusbar(false)
-    , bRenderSubtitlesUsingLibass(false)
+    , bRenderSSAUsingLibass(false)
+    , bRenderSRTUsingLibass(false)
     , bAddLangCodeWhenSaveSubtitles(false)
     , bUseTitleInRecentFileList(true)
     , sYDLSubsPreference()
@@ -926,7 +927,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_OPENTYPELANGHINT, CString(strOpenTypeLangHint));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_FREETYPE, bUseFreeType);
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RENDERSUBTITLESUSINGLIBASS, bRenderSubtitlesUsingLibass);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RENDERSSAUSINGLIBASS, bRenderSSAUsingLibass);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RENDERSRTUSINGLIBASS, bRenderSRTUsingLibass);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CLOSEDCAPTIONS, fClosedCaptions);
     CString style;
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SPSTYLE, style <<= subtitlesDefStyle);
@@ -1625,7 +1627,8 @@ void CAppSettings::LoadSettings()
     idMenuLang = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MENULANG, 0);
     idAudioLang = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOLANG, 0);
     idSubtitlesLang = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANG, 0);
-    bRenderSubtitlesUsingLibass = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RENDERSUBTITLESUSINGLIBASS, FALSE);
+    bRenderSSAUsingLibass = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RENDERSSAUSINGLIBASS, FALSE);
+    bRenderSRTUsingLibass = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RENDERSRTUSINGLIBASS, FALSE);
     CT2A tmpLangHint(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_OPENTYPELANGHINT, _T("")));
     strOpenTypeLangHint = tmpLangHint;
     bUseFreeType= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_FREETYPE, FALSE);
@@ -3487,7 +3490,8 @@ void CAppSettings::UpdateSettings()
 // ToDo: move these settings into CRendererSettings or make an implementation similar to CRendererSettings that holds old subtitle settings
 SubRendererSettings CAppSettings::GetSubRendererSettings() {
     SubRendererSettings s;
-    s.renderUsingLibass = this->bRenderSubtitlesUsingLibass;
+    s.renderSSAUsingLibass = this->bRenderSSAUsingLibass;
+    s.renderSRTUsingLibass = this->bRenderSRTUsingLibass;
     OpenTypeLang::CStringAtoHintStr(s.openTypeLangHint, this->strOpenTypeLangHint);
     return s;
 }

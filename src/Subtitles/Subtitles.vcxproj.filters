@@ -83,6 +83,9 @@
     <ClCompile Include="FreeTypePathTools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SubRendererSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCDecoder.h">

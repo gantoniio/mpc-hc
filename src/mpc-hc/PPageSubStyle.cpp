@@ -43,6 +43,8 @@ CPPageSubStyle::CPPageSubStyle()
     , m_margin(0, 0, 0, 0)
     , m_bLinkAlphaSliders(FALSE)
     , m_iRelativeTo(0)
+    , iRenderSRTUsingLibass(false)
+    , iRenderSSAUsingLibass(false)
 {
 }
 
@@ -111,7 +113,8 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SLIDER4, m_alphaSliders[3]);
     DDX_Check(pDX, IDC_CHECK1, m_bLinkAlphaSliders);
     DDX_Check(pDX, IDC_CHECK_RELATIVETO, m_iRelativeTo);
-    DDX_Check(pDX, IDC_CHECK2, iRenderUsingLibass);
+    DDX_Check(pDX, IDC_CHECK2, iRenderSSAUsingLibass);
+    DDX_Check(pDX, IDC_CHECK3, iRenderSRTUsingLibass);
 }
 
 
@@ -163,15 +166,8 @@ BOOL CPPageSubStyle::OnInitDialog()
         }
     }
 
-    iRenderUsingLibass = subRenderSettings.renderUsingLibass;
-    CButton* pLibassCB = (CButton*)GetDlgItem(IDC_CHECK2);
-    if (pLibassCB) {
-        //pLibassCB->ShowWindow(FALSE);
-    }
-    CStatic* pLibassGB = (CStatic*)GetDlgItem(IDC_STATIC_LIBASS);
-    if (pLibassGB) {
-        //pLibassGB->ShowWindow(FALSE);
-    }
+    iRenderSSAUsingLibass = subRenderSettings.renderSSAUsingLibass;
+    iRenderSRTUsingLibass = subRenderSettings.renderSRTUsingLibass;
     // TODO: allow floats in these edit boxes
     m_spacing.SetRange(-100.0f, 100.0f);
     m_spacing = m_stss.fontSpacing;
@@ -231,7 +227,8 @@ BOOL CPPageSubStyle::OnApply()
         s.strOpenTypeLangHint = OpenTypeLang::OpenTypeLangTags[i].lang;
     }
 
-    s.bRenderSubtitlesUsingLibass = iRenderUsingLibass;
+    s.bRenderSSAUsingLibass = iRenderSSAUsingLibass;
+    s.bRenderSRTUsingLibass = iRenderSRTUsingLibass;
     m_stss.fontSpacing = m_spacing;
     m_stss.fontAngleZ = m_angle;
     m_stss.fontScaleX = m_scalex;
