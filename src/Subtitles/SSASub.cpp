@@ -506,7 +506,7 @@ SSAUtil::SSAUtil(CSimpleTextSubtitle* sts)
     , m_renderer(nullptr)
     , m_track(nullptr)
 {
-
+    LoadDefStyle();
 }
 
 SSAUtil::~SSAUtil() {
@@ -549,8 +549,6 @@ bool SSAUtil::LoadASSFile(Subtitle::SubType subType) {
     ass_set_use_margins(m_renderer.get(), false);
     ass_set_font_scale(m_renderer.get(), 1.0);
 
-    STSStyle defStyle;
-    m_STS->GetDefaultStyle(defStyle);
     if (subType == Subtitle::SRT) {
         m_track = decltype(m_track)(srt_read_file(m_ass.get(), m_STS->m_path, defStyle.charSet, defStyle, subRendererSettings));
         if (m_STS->m_storageRes == CSize(0, 0)) {
@@ -584,8 +582,6 @@ bool SSAUtil::LoadASSTrack(char* data, int size, Subtitle::SubType subType) {
 
     if (!m_track) return false;
 
-    STSStyle defStyle;
-    m_STS->GetDefaultStyle(defStyle);
     if (subType == Subtitle::SRT) {
         std::stringstream srtData;
         srtData.write(data, size);
@@ -625,11 +621,19 @@ void SSAUtil::LoadASSFont() {
             }
         }
         m_assfontloaded = true;
-        STSStyle defStyle;
-        m_STS->GetDefaultStyle(defStyle);
         CT2CA tmpFontName(defStyle.fontName);
         ass_set_fonts(renderer, NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
     }
+}
+
+CRect SSAUtil::GetSPDRect(SubPicDesc& spd) {
+    CRect spdRect;
+    if (m_STS->m_subtitleType == Subtitle::SubType::SRT && defStyle.relativeTo != STSStyle::VIDEO) {
+        spdRect = CRect(0, 0, spd.w, spd.h);
+    } else {
+        spdRect = CRect(spd.vidrect);
+    }
+    return spdRect;
 }
 
 STDMETHODIMP SSAUtil::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect) {
@@ -641,9 +645,9 @@ STDMETHODIMP SSAUtil::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSi
 
         LoadASSFont();
 
-        vidRect = CRect(spd.vidrect);
+        vidRect = GetSPDRect(spd);
         size = CSize(vidRect.Width(), vidRect.Height());
-        SetFrameSize(size.cx, size.cy);
+        SetFrameSize(vidRect.Width(), vidRect.Height());
 
         CRect rcDirty;
 
@@ -672,9 +676,8 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
             CRect rect2(i->dst_x, i->dst_y, i->dst_x + i->w, i->dst_y + i->h);
             pRect.UnionRect(pRect, rect2);
         }
-
-        CRect vidRect = CRect(spd.vidrect);
-        rcDirty.IntersectRect(pRect + vidRect.TopLeft(), vidRect);
+        CRect spdRect = GetSPDRect(spd);
+        rcDirty.IntersectRect(pRect + spdRect.TopLeft(), spdRect);
 
         BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
 
@@ -722,8 +725,6 @@ void SSAUtil::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REF
                 m_track = decltype(m_track)(ass_new_track(m_ass.get()));
 
                 char outBuffer[1024];
-                STSStyle defStyle;
-                m_STS->GetDefaultStyle(defStyle);
                 srt_header(outBuffer, defStyle, subRendererSettings);
                 ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
                 m_assloaded = true;
@@ -740,8 +741,6 @@ void SSAUtil::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REF
                 REFERENCE_TIME m_iSubLineCount = tStart / 10000;
 
                 // Change srt tags to ass tags
-                STSStyle defStyle;
-                m_STS->GetDefaultStyle(defStyle);
                 ParseSrtLine(str, defStyle);
 
                 // Add the custom tags
@@ -762,8 +761,15 @@ void SSAUtil::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REF
     }
 }
 
+void SSAUtil::LoadDefStyle() {
+    if (m_STS) {
+        m_STS->GetDefaultStyle(defStyle);
+    }
+}
+
 void SSAUtil::DefaultStyleChanged() {
     Unload();
+    LoadDefStyle();
     if (subRendererSettings.LibassEnabled(m_STS)) { //styles may change the way the libass file was loaded, so we reload it here
         m_renderUsingLibass = true;
         LoadASSFile(m_STS->m_subtitleType);

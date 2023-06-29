@@ -29,66 +29,9 @@
 #include "SSASub.h"
 #include "SubRendererSettings.h"
 #include "OpenTypeLangTags.h"
+#include "STSStyle.h"
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
-
-class STSStyle
-{
-public:
-    enum RelativeTo {
-        WINDOW,
-        VIDEO,
-        AUTO // ~video for SSA/ASS, ~window for the rest
-    };
-
-    CRect      marginRect;             // measured from the sides
-    int        scrAlignment;           // 1 - 9: as on the numpad, 0: default
-    int        borderStyle;            // 0: outline, 1: opaque box
-    double     outlineWidthX, outlineWidthY;
-    double     shadowDepthX, shadowDepthY;
-    std::array<COLORREF, 4> colors;    // usually: {primary, secondary, outline/background, shadow}
-    std::array<BYTE, 4> alpha;
-    int        charSet;
-    CString    fontName;
-    double     fontSize;               // height
-    double     fontScaleX, fontScaleY; // percent
-    double     fontSpacing;            // +/- pixels
-    LONG       fontWeight;
-    int        fItalic;
-    int        fUnderline;
-    int        fStrikeOut;
-    int        fBlur;
-    double     fGaussianBlur;
-    double     fontAngleZ, fontAngleX, fontAngleY;
-    double     fontShiftX, fontShiftY;
-
-    RelativeTo relativeTo;
-
-    // libass stuff
-    DWORD      SrtResX = 1920;
-    DWORD      SrtResY = 1080;
-    bool       Kerning = false;
-    bool       ScaledBorderAndShadow = false;
-    CString    customTags;
-
-    STSStyle();
-
-    void SetDefault();
-
-    bool operator == (const STSStyle& s) const;
-    bool operator != (const STSStyle& s) const {
-        return !(*this == s);
-    };
-    bool IsFontStyleEqual(const STSStyle& s) const;
-
-    STSStyle& operator = (LOGFONT& lf);
-
-    friend LOGFONTA& operator <<= (LOGFONTA& lfa, const STSStyle& s);
-    friend LOGFONTW& operator <<= (LOGFONTW& lfw, const STSStyle& s);
-
-    friend CString& operator <<= (CString& style, const STSStyle& s);
-    friend STSStyle& operator <<= (STSStyle& s, const CString& style);
-};
 
 class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CString>>
 {

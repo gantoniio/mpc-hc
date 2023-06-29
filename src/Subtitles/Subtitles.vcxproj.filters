@@ -169,5 +169,8 @@
     <ClInclude Include="FreeTypePathTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="STSStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

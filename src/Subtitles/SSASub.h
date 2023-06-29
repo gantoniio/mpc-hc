@@ -5,8 +5,7 @@
 #include "SubRendererSettings.h"
 #include "SubtitleHelpers.h"
 #include "../SubPic/SubPicProviderImpl.h"
-
-class STSStyle;
+#include "STSStyle.h"
 
 struct ASS_LibraryDeleter {
     void operator()(ASS_Library* p) { if (p) ass_library_done(p); }
@@ -113,6 +112,7 @@ public:
     std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
     std::unique_ptr<ASS_Renderer, ASS_RendererDeleter> m_renderer;
     std::unique_ptr<ASS_Track, ASS_TrackDeleter> m_track;
+    STSStyle defStyle;
 
     void ResetASS();
     bool LoadASSFile(Subtitle::SubType subType);
@@ -120,7 +120,9 @@ public:
     void Unload();
     void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
     void DefaultStyleChanged();
+    void LoadDefStyle();
     void LoadASSFont();
+    CRect GetSPDRect(SubPicDesc& spd);
     STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
     bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
     void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
