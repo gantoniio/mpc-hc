@@ -628,7 +628,8 @@ void SSAUtil::LoadASSFont() {
 
 CRect SSAUtil::GetSPDRect(SubPicDesc& spd) {
     CRect spdRect;
-    if (m_STS->m_subtitleType == Subtitle::SubType::SRT && defStyle.relativeTo != STSStyle::VIDEO) {
+    if (m_STS->m_subtitleType == Subtitle::SubType::SRT && defStyle.relativeTo != STSStyle::VIDEO
+        || defStyle.relativeTo == STSStyle::WINDOW) {
         spdRect = CRect(0, 0, spd.w, spd.h);
     } else {
         spdRect = CRect(spd.vidrect);
