@@ -29,6 +29,7 @@
 #include <uuids.h>
 #include "moreuuids.h"
 #include "../DSUtil/ISOLang.h"
+#include "../mpc-hc/mplayerc.h"
 
 // our first format id
 #define __GAB1__ "GAB1"
@@ -136,6 +137,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 return E_FAIL;
             }
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+            pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
+            pRTS->m_SSAUtil.SetSubRenderSettings(AfxGetAppSettings().GetSubRendererSettings());
             if (pRTS->m_SSAUtil.m_renderUsingLibass) {
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
                 pRTS->m_SSAUtil.SetFilterGraph(fg);
