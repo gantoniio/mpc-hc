@@ -127,12 +127,11 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         name.Replace(_T(""), _T(""));
         name.Replace(_T(""), _T(""));
 
-        if (m_mt.subtype == MEDIASUBTYPE_UTF8
-                /*|| m_mt.subtype == MEDIASUBTYPE_USF*/
-                || m_mt.subtype == MEDIASUBTYPE_WEBVTT
-                || m_mt.subtype == MEDIASUBTYPE_SSA
-                || m_mt.subtype == MEDIASUBTYPE_ASS
-                || m_mt.subtype == MEDIASUBTYPE_ASS2) {
+        bool subtype_utf8 = m_mt.subtype == MEDIASUBTYPE_UTF8;
+        bool subtype_vtt  = m_mt.subtype == MEDIASUBTYPE_WEBVTT;
+        bool subtype_ass  = m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2;
+
+        if (subtype_utf8 || subtype_ass || subtype_vtt) {
             if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock))) {
                 return E_FAIL;
             }

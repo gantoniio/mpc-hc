@@ -28,7 +28,7 @@
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "moreuuids.h"
 
-#define MAXGDIFONTSIZE 39999
+#define MAXGDIFONTSIZE 36000
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
