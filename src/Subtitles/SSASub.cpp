@@ -720,7 +720,7 @@ void SSAUtil::Unload() {
     if (m_track) m_track.reset();
     if (m_renderer) m_renderer.reset();
     if (m_ass) {
-        ass_clear_fonts(m_ass.get());
+        ass_library_done(m_ass.get());
         m_ass.reset();
     }
 }
