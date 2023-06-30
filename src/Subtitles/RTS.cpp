@@ -3589,5 +3589,7 @@ void CRenderedTextSubtitle::SetSubtitleTypeFromGUID(GUID subtype) {
         m_subtitleType = Subtitle::SSA;
     } else if (subtype == MEDIASUBTYPE_ASS || subtype == MEDIASUBTYPE_ASS2) {
         m_subtitleType = Subtitle::ASS;
+    } else if (subtype == MEDIASUBTYPE_WEBVTT) {
+        m_subtitleType = Subtitle::VTT;
     }
 }

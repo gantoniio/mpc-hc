@@ -135,6 +135,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock))) {
                 return E_FAIL;
             }
+
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
             pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
             pRTS->m_SSAUtil.SetSubRenderSettings(AfxGetAppSettings().GetSubRendererSettings());
@@ -164,11 +165,12 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 bool succes = false;
                 if (pRTS->m_SSAUtil.m_renderUsingLibass) {
                     pRTS->m_SSAUtil.SetPin(pReceivePin);
-                    succes = pRTS->m_SSAUtil.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
-                        m_mt.subtype == MEDIASUBTYPE_UTF8 ? Subtitle::SRT : Subtitle::ASS);
+                    succes = pRTS->m_SSAUtil.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
                 }
-                if (!succes || !pRTS->m_SSAUtil.m_assloaded)
+                if (!succes || !pRTS->m_SSAUtil.m_assloaded) {
+                    pRTS->m_SSAUtil.m_renderUsingLibass = false;
                     succes = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
+                }
                 ASSERT(succes);
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
