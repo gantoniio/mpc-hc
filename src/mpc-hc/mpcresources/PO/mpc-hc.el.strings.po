@@ -4788,7 +4788,7 @@ msgstr "Αποκλειστική"
 
 msgctxt "IDS_ARS_SHARED"
 msgid "Shared"
-msgstr "Κοινή χρήση"
+msgstr "Κοινόχρηστο"
 
 msgctxt "IDS_ARS_BITEXACT_OUTPUT"
 msgid "Allow bit-exact output"
