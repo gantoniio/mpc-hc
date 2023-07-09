@@ -692,7 +692,6 @@ void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, BYTE* dst, i
 bool SSAUtil::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) {
     int changed = 1;
     ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), now, &changed);
-<<<<<<< HEAD
     if (changed) {
         if (!image) return false;
         AssFlattenSSE2(image, spd, rcDirty);
@@ -703,11 +702,6 @@ bool SSAUtil::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) {
 
     BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
     AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * rcDirty.Width(), pixelBytes, spd.pitch);
-=======
-    if (!image) return false;
-    if (changed)
-        AssFlattenSSE2(image, spd, rcDirty);
->>>>>>> f34706dc626c525ec3e8d6fd1475b57cdcf673cd
     return true;
 }
 
