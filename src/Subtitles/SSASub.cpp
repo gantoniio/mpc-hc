@@ -671,12 +671,36 @@ STDMETHODIMP SSAUtil::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSi
     return E_POINTER;
 }
 
+void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, BYTE* dst, int dst_pitch) {
+    for (int i = 0; i < h; i++, src += pitch, dst += dst_pitch) {
+        const BYTE* s2 = src;
+        const BYTE* s2end = s2 + w * 4;
+        DWORD* d2 = (DWORD*)dst;
+        for (; s2 < s2end; s2 += 4, d2++) {
+            if (s2[3] > 0) {
+                auto alpha = s2[3];
+                *d2 = (((((*d2 & 0x00ff00ff) * ~alpha) >> 8) + (*((DWORD*)s2) & 0x00ff00ff)) & 0x00ff00ff)
+                    | (((((*d2 & 0x0000ff00) * ~alpha) >> 8) + (*((DWORD*)s2) & 0x0000ff00)) & 0x0000ff00)
+                    | ((~(alpha + (((~((*d2 & 0xff000000) >> 24)) * ~alpha)))) << 24) //A.  this is inverted alpha, so we invert it before multiplying and then invert it again
+                    ;
+            }
+        }
+    }
+}
+
 bool SSAUtil::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) {
     int changed = 1;
     ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), now, &changed);
-    if (!image) return false;
-    if (changed)
+    if (changed) {
+        if (!image) return false;
         AssFlattenSSE2(image, spd, rcDirty);
+        lastDirty = rcDirty;
+    } else {
+        rcDirty = lastDirty;
+    }
+
+    BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
+    AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * rcDirty.Width(), pixelBytes, spd.pitch);
     return true;
 }
 
@@ -813,14 +837,15 @@ void SSAUtil::AssFlattenSSE2(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) 
         CRect spdRect = GetSPDRect(spd);
         rcDirty.IntersectRect(pRect + spdRect.TopLeft(), spdRect);
 
-        BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
+        m_pixels = std::make_unique<uint32_t[]>(pRect.Width() * pRect.Height());
 
         for (auto i = image; i != nullptr; i = i->next) {
-            concurrency::parallel_for(0, i->h, [&](int y) {
-                BYTE* dst = &pixelBytes[((ptrdiff_t)i->dst_y + y - pRect.top) * spd.pitch + ((ptrdiff_t)i->dst_x - pRect.left) * 4];
-                auto alpha = &i->bitmap[y * i->stride];
+            for (int y=0; y<i->h; y++) {
+                //BYTE* dst = &pixelBytes[((ptrdiff_t)i->dst_y + y - pRect.top) * spd.pitch + ((ptrdiff_t)i->dst_x - pRect.left) * 4];
+                auto dst = reinterpret_cast<uint8_t*>(m_pixels.get() + (i->dst_y + y - pRect.top) * pRect.Width() + (i->dst_x - pRect.left));
+                auto alpha = i->bitmap + y * i->stride;
                 packed_pix_mix_sse2(dst, alpha, i->w, (i->color >> 8) | (~(i->color) << 24));
-            }, concurrency::static_partitioner());
+            }
         }
     }
 }
@@ -844,7 +869,7 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
             uint32_t iB = (i->color & 0x0000ff00) >> 8;
 
             auto yOff1 = (ptrdiff_t)i->dst_y - pRect.top;
-            concurrency::parallel_for(0, i->h, [&](int y)
+            for (int y = 0; y < i->h; y++)
                 {
                     auto yOff = (yOff1 + y)*spd.pitch;
                     auto yOffStride = y * i->stride;
@@ -861,7 +886,7 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
                         dst[0] = (iB * srcA + dst[0] * compA) >> 8; //B
 
                     }
-                }, concurrency::static_partitioner());
+                }
         }
     }
 }
