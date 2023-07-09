@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "../../include/mpc-hc_config.h"
 
+#if USE_LIBASS
 #pragma comment( lib, "libass" )
 #include <ios>
 #include <algorithm>
@@ -867,6 +868,7 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
             uint32_t iR = (i->color & 0xff000000) >> 24;
             uint32_t iG = (i->color & 0x00ff0000) >> 16;
             uint32_t iB = (i->color & 0x0000ff00) >> 8;
+<<<<<<< HEAD
 
             auto yOff1 = (ptrdiff_t)i->dst_y - pRect.top;
             for (int y = 0; y < i->h; y++)
@@ -877,6 +879,18 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
                     for (int x = 0; x < i->w; ++x, ++yOffStride, xOff1+=4) {
                         BYTE* dst = &pixelBytes[yOff + xOff1];
 
+=======
+
+            auto yOff1 = (ptrdiff_t)i->dst_y - pRect.top;
+            concurrency::parallel_for(0, i->h, [&](int y)
+                {
+                    auto yOff = (yOff1 + y)*spd.pitch;
+                    auto yOffStride = y * i->stride;
+                    auto xOff1 = ((ptrdiff_t)i->dst_x - pRect.left) * 4;
+                    for (int x = 0; x < i->w; ++x, ++yOffStride, xOff1+=4) {
+                        BYTE* dst = &pixelBytes[yOff + xOff1];
+
+>>>>>>> upstream/develop
                         uint32_t srcA = (i->bitmap[yOffStride] * iA) >> 8;
                         uint32_t compA = 0xff - srcA;
 
@@ -957,3 +971,5 @@ void SSAUtil::LoadDefStyle() {
         m_STS->GetDefaultStyle(defStyle);
     }
 }
+
+#endif // USE_LIBASS
