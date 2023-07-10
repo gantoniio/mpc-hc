@@ -691,8 +691,8 @@ void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, BYTE* dst, i
 bool SSAUtil::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) {
     int changed = 1;
     ASS_Image* image = ass_render_frame(m_renderer.get(), m_track.get(), now, &changed);
+    if (!image) return false;
     if (changed) {
-        if (!image) return false;
         AssFlattenSSE2(image, spd, rcDirty);
         lastDirty = rcDirty;
     } else {
