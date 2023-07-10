@@ -893,6 +893,7 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
 }
 
 void SSAUtil::SetFrameSize(int w, int h) {
+    ass_set_storage_size(m_renderer.get(), m_STS->m_storageRes.cx, m_STS->m_storageRes.cy);
     ass_set_frame_size(m_renderer.get(), w, h);
 }
 
