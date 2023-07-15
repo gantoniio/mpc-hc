@@ -126,6 +126,9 @@ public:
     void LoadDefStyle();
     void LoadASSFont();
     CRect GetSPDRect(SubPicDesc& spd);
+    POSITION GetStartPosition(REFERENCE_TIME rt, double fps);
+    REFERENCE_TIME GetCurrent(POSITION pos, bool& valid);
+    POSITION GetNext(POSITION pos, bool& valid);
     STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
     bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
     void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
@@ -138,4 +141,6 @@ protected:
     IPin* m_pPin;
     std::unique_ptr<uint32_t[]> m_pixels;
     CRect lastDirty;
+    REFERENCE_TIME rtCurrent;
+    bool curTimeInitialized;
 };

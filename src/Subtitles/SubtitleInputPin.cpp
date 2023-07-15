@@ -480,44 +480,42 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
 #endif
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
-            FastTrim(str);
-            if (!str.IsEmpty()) {
-                STSEntry stse;
-
-                int fields = m_mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
-
-                CAtlList<CStringW> sl;
-                ExplodeNoTrim(str, sl, ',', fields);
-                if (sl.GetCount() == (size_t)fields) {
-                    stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.style = sl.RemoveHead(); // no trim, its value is a lookup key
-                    stse.actor = sl.RemoveHead().Trim();
-                    stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
-                    if (fields == 10) {
-                        stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
-                    }
-                    stse.effect = sl.RemoveHead().Trim();
-                    stse.str = sl.RemoveHead().Trim();
-                }
-
-                if (!stse.str.IsEmpty()) {
-                    pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
-                        stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
-                    bInvalidate = true;
-                }
-
 #if USE_LIBASS
-                if (pRTS->m_SSAUtil.m_assloaded) {
-                    // FIXME: The code above from ISR native subtitle parser is required because the subtitle data is needed in LookupSubPic()
-                    // Improve LookupSubPic so that it does not need this info or gets it from libass instead? 
-                    ass_process_chunk(pRTS->m_SSAUtil.m_track.get(), (char*)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
-                }
+            if (pRTS->m_SSAUtil.m_assloaded) {
+                ass_process_chunk(pRTS->m_SSAUtil.m_track.get(), (char*)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
+            } else
 #endif
+            {
+                CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
+                FastTrim(str);
+                if (!str.IsEmpty()) {
+                    STSEntry stse;
+
+                    int fields = m_mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
+
+                    CAtlList<CStringW> sl;
+                    ExplodeNoTrim(str, sl, ',', fields);
+                    if (sl.GetCount() == (size_t)fields) {
+                        stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.style = sl.RemoveHead(); // no trim, its value is a lookup key
+                        stse.actor = sl.RemoveHead().Trim();
+                        stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
+                        if (fields == 10) {
+                            stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
+                        }
+                        stse.effect = sl.RemoveHead().Trim();
+                        stse.str = sl.RemoveHead().Trim();
+                    }
+
+                    if (!stse.str.IsEmpty()) {
+                        pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
+                            stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
+                        bInvalidate = true;
+                    }
+                }
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;

@@ -1872,6 +1872,9 @@ bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
         Deinit();
         m_size = newSize;
         m_vidrect = newVidRect;
+#if USE_LIBASS
+        m_SSAUtil.ResetASS();
+#endif
     }
 
     return true;
@@ -3110,6 +3113,14 @@ STDMETHODIMP CRenderedTextSubtitle::NonDelegatingQueryInterface(REFIID riid, voi
 
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
+#if USE_LIBASS
+    POSITION p;
+    bool valid;
+    if (p = m_SSAUtil.GetStartPosition(rt, fps)) {
+        return p; 
+    }
+#endif
+
     int iSegment = -1;
     SearchSubs(rt, fps, &iSegment, nullptr);
 
@@ -3128,6 +3139,14 @@ CString CRenderedTextSubtitle::GetPath() {
 
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 {
+#if USE_LIBASS
+    bool valid;
+    POSITION p = m_SSAUtil.GetNext(pos, valid);
+    if (valid) {
+        return p;
+    }
+#endif
+
     __assume((INT_PTR)pos >= INT_MIN && (INT_PTR)pos <= INT_MAX);
     int iSegment = (int)(INT_PTR)pos;
 
@@ -3142,18 +3161,39 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, double fps)
 {
+#if USE_LIBASS
+    bool valid;
+    REFERENCE_TIME rt = m_SSAUtil.GetCurrent(pos, valid);
+    if (valid) {
+        return rt;
+    }
+#endif
     __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
     return TranslateSegmentStart((int)(INT_PTR)pos - 1, fps);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, double fps)
 {
+#if USE_LIBASS
+    bool valid;
+    REFERENCE_TIME rt = m_SSAUtil.GetCurrent(pos, valid);
+    if (valid) {
+        return rt+1;
+    }
+#endif
     __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
     return TranslateSegmentEnd((int)(INT_PTR)pos - 1, fps);
 }
 
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
+#if USE_LIBASS
+    bool valid;
+    m_SSAUtil.GetCurrent(pos, valid);
+    if (valid) {
+        return false;
+    }
+#endif
     __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
     int iSegment = (int)(INT_PTR)pos - 1;
 

@@ -506,6 +506,8 @@ SSAUtil::SSAUtil(CSimpleTextSubtitle* sts)
     , m_ass(nullptr)
     , m_renderer(nullptr)
     , m_track(nullptr)
+    , rtCurrent(0)
+    , curTimeInitialized(false)
 {
     LoadDefStyle();
 }
@@ -645,6 +647,31 @@ CRect SSAUtil::GetSPDRect(SubPicDesc& spd) {
         spdRect = CRect(spd.vidrect);
     }
     return spdRect;
+}
+
+POSITION SSAUtil::GetStartPosition(REFERENCE_TIME rt, double fps) {
+    if (m_assloaded) {
+        rtCurrent = rt;
+        curTimeInitialized = true;
+        return (POSITION)1;
+    }
+    return (POSITION)0;
+}
+
+POSITION SSAUtil::GetNext(POSITION pos, bool& valid) {
+    if (m_assloaded && curTimeInitialized && pos == (POSITION)1) {
+        valid = true;
+    } else {
+        valid = false;
+    }
+    return (POSITION)0;
+}
+
+REFERENCE_TIME SSAUtil::GetCurrent(POSITION pos, bool& valid) {
+    valid = curTimeInitialized;
+    if (m_assloaded && curTimeInitialized) {
+        return rtCurrent;
+    }
 }
 
 STDMETHODIMP SSAUtil::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect) {
@@ -893,7 +920,9 @@ void SSAUtil::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
 }
 
 void SSAUtil::SetFrameSize(int w, int h) {
-    ass_set_storage_size(m_renderer.get(), m_STS->m_storageRes.cx, m_STS->m_storageRes.cy);
+    if (m_STS->m_subtitleType != Subtitle::SRT) {
+        ass_set_storage_size(m_renderer.get(), m_STS->m_storageRes.cx, m_STS->m_storageRes.cy);
+    }
     ass_set_frame_size(m_renderer.get(), w, h);
 }
 
