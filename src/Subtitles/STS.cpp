@@ -33,7 +33,7 @@
 #include "../DSUtil/DSUtil.h"
 #include  <comutil.h>
 #include <regex>
-#include "SSASub.h"
+#include "LibassContext.h"
 #include "../mpc-hc/RegexUtil.h"
 #include "../mpc-hc/SubtitlesProvidersUtils.h"
 #include "../DSUtil/ISOLang.h"

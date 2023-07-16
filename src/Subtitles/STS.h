@@ -26,7 +26,7 @@
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
 #include "../../include/mpc-hc_config.h"
-#include "SSASub.h"
+#include "LibassContext.h"
 #include "SubRendererSettings.h"
 #include "OpenTypeLangTags.h"
 #include "STSStyle.h"
