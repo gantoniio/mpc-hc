@@ -139,10 +139,10 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
             pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
 #if USE_LIBASS
-            pRTS->m_SSAUtil.SetSubRenderSettings(AfxGetAppSettings().GetSubRendererSettings());
-            if (pRTS->m_SSAUtil.m_renderUsingLibass) {
+            pRTS->m_LibassContext.SetSubRenderSettings(AfxGetAppSettings().GetSubRendererSettings());
+            if (pRTS->m_LibassContext.m_renderUsingLibass) {
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->m_SSAUtil.SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetFilterGraph(fg);
             }
 #endif
             pRTS->m_name = name;
@@ -166,14 +166,14 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 
                 bool success = false;
 #if USE_LIBASS
-                if (pRTS->m_SSAUtil.m_renderUsingLibass) {
-                    pRTS->m_SSAUtil.SetPin(pReceivePin);
-                    success = pRTS->m_SSAUtil.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
+                if (pRTS->m_LibassContext.m_renderUsingLibass) {
+                    pRTS->m_LibassContext.SetPin(pReceivePin);
+                    success = pRTS->m_LibassContext.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
                 }
 #endif
 #if USE_LIBASS
-                if (!success || !pRTS->m_SSAUtil.m_assloaded) {
-                    pRTS->m_SSAUtil.m_renderUsingLibass = false;
+                if (!success || !pRTS->m_LibassContext.m_assloaded) {
+                    pRTS->m_LibassContext.m_renderUsingLibass = false;
 #endif
                     success = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
 #if USE_LIBASS
@@ -469,20 +469,20 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 }
             }
 #if USE_LIBASS
-            if (pRTS->m_SSAUtil.m_assloaded) {
+            if (pRTS->m_LibassContext.m_assloaded) {
                 LPCSTR data = (LPCSTR)pSample->data.data();
                 int dataSize = (int)pSample->data.size();
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->m_SSAUtil.SetFilterGraph(fg);
-                pRTS->m_SSAUtil.SetPin(this);
-                pRTS->m_SSAUtil.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
+                pRTS->m_LibassContext.SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetPin(this);
+                pRTS->m_LibassContext.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
             }
 #endif
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 #if USE_LIBASS
-            if (pRTS->m_SSAUtil.m_assloaded) {
-                ass_process_chunk(pRTS->m_SSAUtil.m_track.get(), (char*)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
+            if (pRTS->m_LibassContext.m_assloaded) {
+                ass_process_chunk(pRTS->m_LibassContext.m_track.get(), (char*)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
             } else
 #endif
             {

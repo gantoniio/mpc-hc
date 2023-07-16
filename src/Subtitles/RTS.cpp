@@ -1835,7 +1835,7 @@ void CRenderedTextSubtitle::SetOverride(bool bOverride, const STSStyle& styleOve
             m_storageRes = m_playRes; // needed to get correct font scaling with default style
         }
 #if USE_LIBASS
-        m_SSAUtil.ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
+        m_LibassContext.ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
 #endif
     }
 }
@@ -1873,7 +1873,7 @@ bool CRenderedTextSubtitle::Init(CSize size, const CRect& vidrect)
         m_size = newSize;
         m_vidrect = newVidRect;
 #if USE_LIBASS
-        m_SSAUtil.ResetASS();
+        m_LibassContext.ResetASS();
 #endif
     }
 
@@ -3116,7 +3116,7 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME r
 #if USE_LIBASS
     POSITION p;
     bool valid;
-    if (p = m_SSAUtil.GetStartPosition(rt, fps)) {
+    if (p = m_LibassContext.GetStartPosition(rt, fps)) {
         return p; 
     }
 #endif
@@ -3141,7 +3141,7 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 {
 #if USE_LIBASS
     bool valid;
-    POSITION p = m_SSAUtil.GetNext(pos, valid);
+    POSITION p = m_LibassContext.GetNext(pos, valid);
     if (valid) {
         return p;
     }
@@ -3163,7 +3163,7 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, doub
 {
 #if USE_LIBASS
     bool valid;
-    REFERENCE_TIME rt = m_SSAUtil.GetCurrent(pos, valid);
+    REFERENCE_TIME rt = m_LibassContext.GetCurrent(pos, valid);
     if (valid) {
         return rt;
     }
@@ -3176,7 +3176,7 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, doubl
 {
 #if USE_LIBASS
     bool valid;
-    REFERENCE_TIME rt = m_SSAUtil.GetCurrent(pos, valid);
+    REFERENCE_TIME rt = m_LibassContext.GetCurrent(pos, valid);
     if (valid) {
         return rt+1;
     }
@@ -3189,7 +3189,7 @@ STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
 #if USE_LIBASS
     bool valid;
-    m_SSAUtil.GetCurrent(pos, valid);
+    m_LibassContext.GetCurrent(pos, valid);
     if (valid) {
         return false;
     }
@@ -3229,7 +3229,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     }
 
 #if USE_LIBASS
-    HRESULT libassResult = m_SSAUtil.Render(rt, spd, bbox, m_size, m_vidrect);
+    HRESULT libassResult = m_LibassContext.Render(rt, spd, bbox, m_size, m_vidrect);
     if (libassResult != E_POINTER) { //libass not initialized
         return libassResult;
     }

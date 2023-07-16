@@ -94,10 +94,10 @@ static const struct s_color_tag {
 
 class CSimpleTextSubtitle;
 
-class SSAUtil {
+class LibassContext {
 public:
-    SSAUtil(CSimpleTextSubtitle* sts);
-    ~SSAUtil();
+    LibassContext(CSimpleTextSubtitle* sts);
+    ~LibassContext();
     bool m_renderUsingLibass;
     OpenTypeLang::HintStr m_openTypeLangHint;
 
