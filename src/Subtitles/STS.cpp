@@ -2357,7 +2357,7 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
         m_segments.Copy(sts.m_segments);
         __super::Copy(sts);
 #if USE_LIBASS
-        if (m_LibassContext.m_assloaded) {
+        if (m_LibassContext.IsLibassActive()) {
             m_LibassContext.LoadASSFile(m_subtitleType);
         }
 #endif
@@ -3253,7 +3253,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
             OpenSubRipper(f, *this, CharSet);
         }
 
-        if (m_LibassContext.m_assloaded) {
+        if (m_LibassContext.IsLibassActive()) {
             setVars(name, f->GetEncoding(), TIME);
             ChangeUnknownStylesToDefault();
             initRes();

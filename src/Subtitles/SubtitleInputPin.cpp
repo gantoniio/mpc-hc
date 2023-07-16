@@ -172,7 +172,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 }
 #endif
 #if USE_LIBASS
-                if (!success || !pRTS->m_LibassContext.m_assloaded) {
+                if (!success || !pRTS->m_LibassContext.IsLibassActive()) {
                     pRTS->m_LibassContext.m_renderUsingLibass = false;
 #endif
                     success = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
@@ -458,30 +458,31 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
     } else if (m_mt.majortype == MEDIATYPE_Subtitle) {
         if (m_mt.subtype == MEDIASUBTYPE_UTF8 || m_mt.subtype == MEDIASUBTYPE_WEBVTT) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
-            FastTrim(str);
-            if (!str.IsEmpty()) {
-                pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
-                bInvalidate = true;
-                if (pRTS->m_subtitleType == Subtitle::VTT) {
-                    pRTS->m_webvtt_allow_clear = true;
-                }
-            }
 #if USE_LIBASS
-            if (pRTS->m_LibassContext.m_assloaded) {
+            if (pRTS->m_LibassContext.IsLibassActive()) {
                 LPCSTR data = (LPCSTR)pSample->data.data();
                 int dataSize = (int)pSample->data.size();
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
                 pRTS->m_LibassContext.SetFilterGraph(fg);
                 pRTS->m_LibassContext.SetPin(this);
                 pRTS->m_LibassContext.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
-            }
+            } else
 #endif
+            {
+                CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
+                FastTrim(str);
+                if (!str.IsEmpty()) {
+                    pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
+                    bInvalidate = true;
+                    if (pRTS->m_subtitleType == Subtitle::VTT) {
+                        pRTS->m_webvtt_allow_clear = true;
+                    }
+                }
+            }
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 #if USE_LIBASS
-            if (pRTS->m_LibassContext.m_assloaded) {
+            if (pRTS->m_LibassContext.IsLibassActive()) {
                 ass_process_chunk(pRTS->m_LibassContext.m_track.get(), (char*)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
             } else
 #endif
