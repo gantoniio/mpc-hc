@@ -3114,10 +3114,9 @@ STDMETHODIMP CRenderedTextSubtitle::NonDelegatingQueryInterface(REFIID riid, voi
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
 #if USE_LIBASS
-    POSITION p;
-    bool valid;
-    if (p = m_LibassContext.GetStartPosition(rt, fps)) {
-        return p; 
+    if (m_LibassContext.IsLibassActive()) {
+        POSITION p;
+        return m_LibassContext.GetStartPosition(rt, fps);
     }
 #endif
 
@@ -3140,10 +3139,8 @@ CString CRenderedTextSubtitle::GetPath() {
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 {
 #if USE_LIBASS
-    bool valid;
-    POSITION p = m_LibassContext.GetNext(pos, valid);
-    if (valid) {
-        return p;
+    if (m_LibassContext.IsLibassActive()) {
+        return m_LibassContext.GetNext(pos);
     }
 #endif
 
@@ -3162,10 +3159,8 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, double fps)
 {
 #if USE_LIBASS
-    bool valid;
-    REFERENCE_TIME rt = m_LibassContext.GetCurrent(pos, valid);
-    if (valid) {
-        return rt;
+    if (m_LibassContext.IsLibassActive()) {
+        return m_LibassContext.GetCurrent(pos);
     }
 #endif
     __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
@@ -3175,10 +3170,8 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, doub
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, double fps)
 {
 #if USE_LIBASS
-    bool valid;
-    REFERENCE_TIME rt = m_LibassContext.GetCurrent(pos, valid);
-    if (valid) {
-        return rt+1;
+    if (m_LibassContext.IsLibassActive()) {
+        return m_LibassContext.GetCurrent(pos) + 1;
     }
 #endif
     __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
@@ -3188,9 +3181,7 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, doubl
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
 #if USE_LIBASS
-    bool valid;
-    m_LibassContext.GetCurrent(pos, valid);
-    if (valid) {
+    if (m_LibassContext.IsLibassActive()) {
         return false;
     }
 #endif
