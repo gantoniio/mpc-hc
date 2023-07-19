@@ -537,8 +537,7 @@ void LibassContext::ResetASS() {
         m_renderUsingLibass = true;
         if (!m_STS->m_path.IsEmpty()) {
             LoadASSFile(m_STS->m_subtitleType);
-        } else if (!m_trackData.empty()) {
-            LoadASSTrack((char*)m_trackData.c_str(), m_trackData.length(), m_STS->m_subtitleType);
+        } else if (loadedSamples.size() > 0) {
             for(LibassSample s: loadedSamples) {
                 ProcessChunk(s);
             }
@@ -991,7 +990,6 @@ void LibassContext::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStar
 }
 
 void LibassContext::LoadTrackData(ASS_Track* track, char* data, int size) {
-    m_trackData = data;
     ass_process_codec_private(m_track.get(), data, size);
 }
 

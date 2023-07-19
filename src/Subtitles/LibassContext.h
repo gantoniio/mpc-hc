@@ -114,7 +114,6 @@ public:
 
     bool m_assloaded;
     bool m_assfontloaded;
-    std::string m_trackData;
     std::vector<LibassSample> loadedSamples;
 
     IFilterGraph* m_pGraph;
