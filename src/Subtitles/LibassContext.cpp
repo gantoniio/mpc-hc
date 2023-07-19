@@ -539,6 +539,9 @@ void LibassContext::ResetASS() {
             LoadASSFile(m_STS->m_subtitleType);
         } else if (!m_trackData.empty()) {
             LoadASSTrack((char*)m_trackData.c_str(), m_trackData.length(), m_STS->m_subtitleType);
+            for(LibassSample s: loadedSamples) {
+                ProcessChunk(s);
+            }
         }
     } else {
         if (m_assloaded) {
@@ -932,6 +935,16 @@ void LibassContext::Unload() {
     }
 }
 
+void LibassContext::ProcessChunk(std::string data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop) {
+    LibassSample s ({ data, dataSize, tStart, tStop });
+    loadedSamples.push_back(s);
+    ProcessChunk(s);
+}
+
+void LibassContext::ProcessChunk(LibassSample s) {
+    ass_process_chunk(m_track.get(), (char*)s.data.c_str(), s.dataSize, s.tStart / 10000, (s.tStop - s.tStart) / 10000);
+}
+
 void LibassContext::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop) {
     if (m_renderUsingLibass) {
         if (m_STS->m_subtitleType == Subtitle::SRT) { //received SRT sample, try to use libass to handle
@@ -969,8 +982,10 @@ void LibassContext::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStar
                 // ASS in MKV: ReadOrder, Layer, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                 char outBuffer[1024]{};
                 _snprintf_s(outBuffer, _TRUNCATE, "%lld,0,Default,Main,0,0,0,,%s", m_iSubLineCount, str.c_str());
-                ass_process_chunk(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))), tStart / 10000, (tStop - tStart) / 10000);
+                ProcessChunk(outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))), tStart, tStop);
             }
+        } else {
+            ProcessChunk(data, dataSize, tStart, tStop);
         }
     }
 }

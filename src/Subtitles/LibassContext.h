@@ -94,6 +94,13 @@ static const struct s_color_tag {
 
 class CSimpleTextSubtitle;
 
+struct LibassSample {
+    std::string data;
+    int dataSize;
+    REFERENCE_TIME tStart;
+    REFERENCE_TIME tStop;
+};
+
 class LibassContext {
 public:
     LibassContext(CSimpleTextSubtitle* sts);
@@ -108,6 +115,7 @@ public:
     bool m_assloaded;
     bool m_assfontloaded;
     std::string m_trackData;
+    std::vector<LibassSample> loadedSamples;
 
     IFilterGraph* m_pGraph;
     std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
@@ -120,6 +128,8 @@ public:
     bool LoadASSFile(Subtitle::SubType subType);
     bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
     void Unload();
+    void ProcessChunk(std::string data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
+    void ProcessChunk(LibassSample s);
     void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
     void LoadTrackData(ASS_Track* track, char* data, int size);
     void DefaultStyleChanged();
