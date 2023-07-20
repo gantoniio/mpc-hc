@@ -132,14 +132,13 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         bool subtype_ass  = m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2;
 
         if (subtype_utf8 || subtype_ass || subtype_vtt) {
-            if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock))) {
+            if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock, AfxGetAppSettings().GetSubRendererSettings()))) {
                 return E_FAIL;
             }
 
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
             pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
 #if USE_LIBASS
-            pRTS->m_LibassContext.SetSubRenderSettings(AfxGetAppSettings().GetSubRendererSettings());
             if (pRTS->m_LibassContext.m_renderUsingLibass) {
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
                 pRTS->m_LibassContext.SetFilterGraph(fg);

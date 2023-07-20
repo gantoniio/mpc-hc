@@ -16405,12 +16405,8 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
     }
 
     if (!pSubStream && ext != _T(".idx") && ext != _T(".sup")) {
-        CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
+        CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, AfxGetAppSettings().GetSubRendererSettings()));
         if (pRTS) {
-#if USE_LIBASS
-            SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
-            pRTS->m_LibassContext.SetSubRenderSettings(srs);
-#endif
             if (pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
 #if USE_LIBASS
                 pRTS->m_LibassContext.SetFilterGraph(m_pGB);
@@ -16509,12 +16505,8 @@ bool CMainFrame::LoadSubtitle(CYoutubeDLInstance::YDLSubInfo& sub) {
         AddTextPassThruFilter();
     }
 
-    CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
+    CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, AfxGetAppSettings().GetSubRendererSettings()));
     if (pRTS) {
-#if USE_LIBASS
-        SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
-        pRTS->m_LibassContext.SetSubRenderSettings(srs);
-#endif
         bool opened = false;
         if (!sub.url.IsEmpty()) {
             SubtitlesProvidersUtils::stringMap strmap{};
@@ -20384,12 +20376,8 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
 {
     SubtitlesData& data = *(SubtitlesData*)lParam;
 
-    CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
+    CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, AfxGetAppSettings().GetSubRendererSettings()));
     if (pRTS) {
-#if USE_LIBASS
-        SubRendererSettings srs = AfxGetAppSettings().GetSubRendererSettings();
-        pRTS->m_LibassContext.SetSubRenderSettings(srs);
-#endif
         if (pRTS->Open(CString(data.pSubtitlesInfo->Provider()->Name().c_str()),
             (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET,
             UTF8To16(data.fileName.c_str()), Subtitle::HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),

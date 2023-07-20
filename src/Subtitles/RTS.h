@@ -496,6 +496,7 @@ protected:
 
 public:
     CRenderedTextSubtitle(CCritSec* pLock);
+    CRenderedTextSubtitle(CCritSec* pLock, SubRendererSettings s);
     virtual ~CRenderedTextSubtitle();
 
     virtual void Copy(CSimpleTextSubtitle& sts);

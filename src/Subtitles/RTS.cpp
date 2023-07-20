@@ -1798,6 +1798,13 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     }
 }
 
+CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, SubRendererSettings s)
+    :CRenderedTextSubtitle(pLock){
+#if USE_LIBASS
+    m_LibassContext.SetSubRenderSettings(s);
+#endif
+}
+
 CRenderedTextSubtitle::~CRenderedTextSubtitle()
 {
     Deinit();
