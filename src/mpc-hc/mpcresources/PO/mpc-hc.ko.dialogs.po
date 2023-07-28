@@ -1447,7 +1447,7 @@ msgstr "비디오에서 디스플레이로 싱크"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
-msgstr "주파수 조정 :"
+msgstr "주사율 조정 :"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
