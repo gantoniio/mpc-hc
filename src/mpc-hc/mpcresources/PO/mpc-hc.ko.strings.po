@@ -3004,7 +3004,7 @@ msgstr "전면 센터"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
-msgstr "저주파"
+msgstr "저주사율"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
