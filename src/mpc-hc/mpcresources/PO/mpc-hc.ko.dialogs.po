@@ -1455,7 +1455,7 @@ msgstr "디스클레이에서 비디오로 싱크"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
-msgstr "주파수 조정 :"
+msgstr "주사율 조정 :"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
 msgid "lines"
