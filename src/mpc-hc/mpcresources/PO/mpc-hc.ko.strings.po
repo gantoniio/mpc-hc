@@ -2305,7 +2305,7 @@ msgstr "이름"
 
 msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
 msgid "Frequency"
-msgstr "주파수"
+msgstr "주사율"
 
 msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
