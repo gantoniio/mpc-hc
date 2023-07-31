@@ -2869,7 +2869,7 @@ msgstr "셰이더 디버그 표시"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "50% 축소"
+msgstr "확대/축소 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
