@@ -2661,7 +2661,7 @@ msgstr "폴더 선택"
 
 msgctxt "IDS_MAINFRM_DIR_CHECK"
 msgid "Include subdirectories"
-msgstr "하위 폴더 포함"
+msgstr "하위 디렉터리 포함"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
