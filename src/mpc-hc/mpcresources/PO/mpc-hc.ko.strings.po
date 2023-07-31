@@ -1191,7 +1191,7 @@ msgstr "목록 비우기(&C)"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "최근 파일 목록을 지우시겠습니까?"
+msgstr "최근 파일 목록을 삭제하시겠습니까?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
