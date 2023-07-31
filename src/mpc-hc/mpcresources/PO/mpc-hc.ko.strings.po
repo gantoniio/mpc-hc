@@ -435,7 +435,7 @@ msgstr "제거(&R)"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "모두 삭제(&L)"
+msgstr "지우기(&L)"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
