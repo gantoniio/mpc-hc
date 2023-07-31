@@ -743,7 +743,7 @@ msgstr "미디어 형식 추가..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "서브 형식 추가..."
+msgstr "하위 유형 추가..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
