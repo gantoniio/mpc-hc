@@ -2294,7 +2294,7 @@ msgstr "디렉터리 선택"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
-msgstr "즐겨찾기에 빠른 추가"
+msgstr "빠른 즐겨찾기 추가"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
