@@ -1932,7 +1932,7 @@ msgstr "자막 100밀리 초 느리게"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
-msgstr "시작 부분으로 이동"
+msgstr "처음으로 이동"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
