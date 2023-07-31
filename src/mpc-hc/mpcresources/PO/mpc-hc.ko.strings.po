@@ -499,7 +499,7 @@ msgstr "예(&Y)"
 
 msgctxt "IDS_SUBRESYNC_NO"
 msgid "&No"
-msgstr "취소(&N)"
+msgstr "아니오(&N)"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
