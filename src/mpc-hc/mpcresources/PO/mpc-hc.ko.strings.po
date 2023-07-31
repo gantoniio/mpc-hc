@@ -2535,7 +2535,7 @@ msgstr "모든 파일(*.*)|*.*||"
 
 msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
-msgstr "DIB 얻기 실패, hr = %08x"
+msgstr "GetDIB 실패, 시간 =%08x"
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
