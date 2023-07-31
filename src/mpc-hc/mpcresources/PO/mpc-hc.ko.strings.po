@@ -2483,7 +2483,7 @@ msgstr "이미지 너비"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "화면 비율"
+msgstr "종횡비비"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
