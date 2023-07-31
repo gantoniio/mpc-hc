@@ -2531,7 +2531,7 @@ msgstr " 성공적으로 불러옴"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
-msgstr "모든 파일 (*.*)|*.*||"
+msgstr "모든 파일(*.*)|*.*||"
 
 msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
