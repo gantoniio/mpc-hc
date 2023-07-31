@@ -3317,7 +3317,7 @@ msgstr "해상도"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "화면비율"
+msgstr "종횡비"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
