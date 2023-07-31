@@ -2629,7 +2629,7 @@ msgstr "잘못된 인수"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
-msgstr "열기 중단"
+msgstr "열기 중단됨"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
