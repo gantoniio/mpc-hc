@@ -463,7 +463,7 @@ msgstr "무작위(&A)"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "복구(&E)"
+msgstr "되돌리기(&E)"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
