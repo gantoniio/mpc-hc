@@ -4140,7 +4140,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"경로명\"\t불러올 기본 파일 또는 디렉토리\n"
+"\"경로명\"\t불러올 기본 파일 또는 디렉터리\n"
 "\t\t(와일드카드 허용, \"-\"는 표준 입력을 나타냄)"
 
 msgctxt "IDS_CMD_DUB"
