@@ -317,7 +317,7 @@ msgstr "프로세스 우선 순위 높이기"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr "커버 아트 지원시 활성화"
+msgstr "커버 아트 지원 활성화"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
