@@ -2262,7 +2262,7 @@ msgstr "다음 앵글(DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
-msgstr "이전 앵글 (DVD)"
+msgstr "이전 앵글(DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
