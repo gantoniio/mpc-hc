@@ -1868,7 +1868,7 @@ msgstr "앞으로 이동(조금)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
-msgstr "뒤로 이동 (조금)"
+msgstr "뒤로 이동(조금)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
