@@ -3713,7 +3713,7 @@ msgstr "EDL 편집기를 활성화하시겠습니까?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr "캡쳐 에러"
+msgstr "캡쳐 오류"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
