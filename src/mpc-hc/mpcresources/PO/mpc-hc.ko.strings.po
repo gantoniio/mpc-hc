@@ -1872,7 +1872,7 @@ msgstr "뒤로 이동(조금)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
-msgstr "앞으로 이동 (중간)"
+msgstr "앞으로 이동(중간)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
