@@ -3663,7 +3663,7 @@ msgstr "리시버를 생성하지 못했습니다."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr "네트워크와 튜너에 연결할 수 없습니다."
+msgstr "네트워크 및 튜너를 연결할 수 없습니다."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
