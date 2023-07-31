@@ -3045,7 +3045,7 @@ msgstr "상단 전면 좌측"
 
 msgctxt "IDS_TOP_FRONT_CENTER"
 msgid "Top Front Center"
-msgstr "위쪽 전면 센터"
+msgstr "상단 전면 중앙"
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
