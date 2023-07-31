@@ -1560,7 +1560,7 @@ msgstr "보기"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr "위로"
+msgstr "위로 이동"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
