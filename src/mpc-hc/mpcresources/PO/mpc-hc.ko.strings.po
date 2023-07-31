@@ -1793,7 +1793,7 @@ msgstr "속도 : %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr "썸네일이 성공적으로 저장되었습니다."
+msgstr "썸네일 저장 성공"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
