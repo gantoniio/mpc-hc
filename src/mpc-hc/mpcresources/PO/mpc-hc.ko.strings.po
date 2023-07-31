@@ -1972,7 +1972,7 @@ msgstr "제목 표시줄과 메뉴 보이기"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "메뉴 숨기기"
+msgstr "메뉴 숨기기(&M)"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
