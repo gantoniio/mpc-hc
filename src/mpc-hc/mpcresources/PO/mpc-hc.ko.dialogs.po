@@ -620,7 +620,7 @@ msgstr "기본 프로그램으로 설정(&D)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "탐색기 메뉴"
+msgstr "탐색기 컨텍스트 메뉴"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
