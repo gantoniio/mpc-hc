@@ -2052,7 +2052,7 @@ msgstr "구문 분석 목록..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "자막 파일이 없습니다."
+msgstr "자막을 찾을 수 없습니다."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
