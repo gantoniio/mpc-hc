@@ -112,7 +112,7 @@ msgstr "사용자 정의 채널/스피커 배치 기능 사용"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
-msgstr "스피커 채널 설정"
+msgstr "스피커 구성"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
