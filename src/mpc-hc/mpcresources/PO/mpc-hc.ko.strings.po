@@ -359,7 +359,7 @@ msgstr "타이틀"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
-msgstr "문자셋"
+msgstr "문자 세트"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
