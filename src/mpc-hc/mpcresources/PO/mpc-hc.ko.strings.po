@@ -1892,7 +1892,7 @@ msgstr "앞으로 이동 (키 프레임)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "뒤로 이동 (키프레임)"
+msgstr "뒤로 이동(키프레임)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
