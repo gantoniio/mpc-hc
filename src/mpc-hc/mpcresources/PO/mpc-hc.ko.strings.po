@@ -2048,7 +2048,7 @@ msgstr "[%s] \"%s\" 다운로드 중"
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "목록을 읽고 있습니다..."
+msgstr "구문 분석 목록..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
