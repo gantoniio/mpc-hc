@@ -4055,7 +4055,7 @@ msgstr "업로드에 실패했습니다."
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
-msgstr "다운로드 && 열기"
+msgstr "내려받고 열기"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
