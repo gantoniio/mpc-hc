@@ -3001,7 +3001,7 @@ msgstr "전면 우측"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
-msgstr "전면 센터"
+msgstr "전면 중앙"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
