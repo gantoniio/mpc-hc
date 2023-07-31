@@ -612,7 +612,7 @@ msgstr "형식별 아이콘 사용"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr "관리자 권한으로 실행"
+msgstr "관리자 권한으로 실행(&A)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
