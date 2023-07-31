@@ -1712,7 +1712,7 @@ msgstr "스포츠"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr "어린이/청소년 프로그램들"
+msgstr "아동/청소년 프로그램"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
