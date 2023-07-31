@@ -1920,7 +1920,7 @@ msgstr "이전 자막으로 이동"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "다음 자막으로"
+msgstr "다음 자막으로 이동"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
