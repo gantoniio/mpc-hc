@@ -2551,7 +2551,7 @@ msgstr "기간이 없는 파일의 섬네일을 만들 수 없음"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "비디오 프레임 사이즈 얻기 실패"
+msgstr "동영상 프레임 크기 가져오기 실패"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
