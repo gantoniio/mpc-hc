@@ -3105,7 +3105,7 @@ msgstr "바깥쪽 창에서"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
-msgstr "오디오: %s"
+msgstr "오디오 : %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
