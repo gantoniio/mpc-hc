@@ -615,7 +615,7 @@ msgstr "내장 필터::오디오 렌더러"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "오디오 스위처"
+msgstr "오디오 전환기"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
