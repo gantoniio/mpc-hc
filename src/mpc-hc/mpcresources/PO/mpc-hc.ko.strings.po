@@ -2555,7 +2555,7 @@ msgstr "동영상 프레임 크기 가져오기 실패"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "메모리 없음!"
+msgstr "메모리가 부족하면 더 사러 가세요!"
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
