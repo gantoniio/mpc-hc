@@ -1299,7 +1299,7 @@ msgstr "제목"
 
 msgctxt "IDS_INFOBAR_AUTHOR"
 msgid "Author"
-msgstr "만든이"
+msgstr "저작자"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
