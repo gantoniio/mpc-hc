@@ -2290,7 +2290,7 @@ msgstr "OSD : 현재 시간 표시"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
-msgstr "디렉토리 선택"
+msgstr "디렉터리 선택"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
