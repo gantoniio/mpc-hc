@@ -727,7 +727,7 @@ msgstr "재생기::단축키"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "자막::스타일"
+msgstr "자막::기본 스타일"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
