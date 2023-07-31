@@ -1916,7 +1916,7 @@ msgstr "Direct3D 전체 화면 토글"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "이전 자막으로"
+msgstr "이전 자막으로 이동"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
