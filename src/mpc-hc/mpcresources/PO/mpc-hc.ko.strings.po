@@ -3061,7 +3061,7 @@ msgstr "상단 후면 센터"
 
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
-msgstr "위쪽 후면 우측"
+msgstr "상단 후면 우측"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
