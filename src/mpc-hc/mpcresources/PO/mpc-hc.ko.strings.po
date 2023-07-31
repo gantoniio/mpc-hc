@@ -878,7 +878,7 @@ msgstr "고품질 렌더러에는 D3D9 이상을 지원하는 GPU가 요구됩�
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "싱크 렌더러"
+msgstr "동기화 렌더러"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
