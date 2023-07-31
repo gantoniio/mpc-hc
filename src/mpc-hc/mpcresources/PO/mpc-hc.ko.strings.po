@@ -2713,7 +2713,7 @@ msgstr "지원되지 않는 스트림"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
-msgstr "DVD 디렉토리를 찾을 수 없음"
+msgstr "DVD 디렉터리를 찾을 수 없음"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
