@@ -405,7 +405,7 @@ msgstr "최대"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
 msgid "Balance"
-msgstr "음균형"
+msgstr "균형"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "L"
