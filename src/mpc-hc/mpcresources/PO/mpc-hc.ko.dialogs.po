@@ -616,7 +616,7 @@ msgstr "관리자 권한으로 실행(&A)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr "기본 프로그램으로 설정"
+msgstr "기본 프로그램으로 설정(&D)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
