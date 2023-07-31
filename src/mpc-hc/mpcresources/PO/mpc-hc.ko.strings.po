@@ -1564,7 +1564,7 @@ msgstr "위로 이동"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr "아래로"
+msgstr "아래로 이동"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
