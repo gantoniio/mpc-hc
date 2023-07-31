@@ -2873,7 +2873,7 @@ msgstr "50% 축소"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "100% 확대"
+msgstr "확대/축소 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
