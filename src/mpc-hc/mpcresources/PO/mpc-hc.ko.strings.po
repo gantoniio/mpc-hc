@@ -3025,7 +3025,7 @@ msgstr "센터의 전면 우측"
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
-msgstr "후면 센터"
+msgstr "후면 상단"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
