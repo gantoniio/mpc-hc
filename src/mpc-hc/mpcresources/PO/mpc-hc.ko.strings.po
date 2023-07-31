@@ -2539,7 +2539,7 @@ msgstr "GetDIB 실패, 시간 =%08x"
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
-msgstr "현재 이미지 얻기 실패, hr = %08x"
+msgstr "현재 이미지 가져오기 실패, 시간=%08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
