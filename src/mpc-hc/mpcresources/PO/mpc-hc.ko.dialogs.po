@@ -345,7 +345,7 @@ msgstr "마지막 창 위치 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "최근 창 크기 기억"
+msgstr "마지막 창 크기 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
