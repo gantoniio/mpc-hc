@@ -1215,7 +1215,7 @@ msgstr "웹 브라우저로 실행..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "압축기능 사용"
+msgstr "압축기능 활성화"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
