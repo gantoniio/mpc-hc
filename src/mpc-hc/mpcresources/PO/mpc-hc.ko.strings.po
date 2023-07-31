@@ -1736,7 +1736,7 @@ msgstr "휴지통으로 이동"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr "다른 이름으로 저장"
+msgstr "사본 저장"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
