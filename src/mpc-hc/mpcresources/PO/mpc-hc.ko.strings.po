@@ -2258,7 +2258,7 @@ msgstr "자막 다시 불러오기"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
-msgstr "다음 앵글 (DVD)"
+msgstr "다음 앵글(DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
