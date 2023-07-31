@@ -124,7 +124,7 @@ msgstr "지터"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "비트레이트"
+msgstr "비트 전송률"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
