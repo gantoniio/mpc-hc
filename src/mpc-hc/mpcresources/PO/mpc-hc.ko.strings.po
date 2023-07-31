@@ -1423,7 +1423,7 @@ msgstr "중지"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr "L = R"
+msgstr "L=R"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
