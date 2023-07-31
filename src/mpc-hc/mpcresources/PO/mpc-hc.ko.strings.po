@@ -707,7 +707,7 @@ msgstr "챕터(&C)"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr "타이틀(&T)"
+msgstr "제목(&T)"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
