@@ -3667,7 +3667,7 @@ msgstr "네트워크 및 튜너를 연결할 수 없습니다."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr "튜너와 리시버에 연결할 수 없습니다."
+msgstr "튜너 및 수신기를 연결할 수 없습니다."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
