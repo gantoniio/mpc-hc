@@ -3093,7 +3093,7 @@ msgstr "안쪽 윈도 창에서"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "줌 1"
+msgstr "확대/축소 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
