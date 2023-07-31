@@ -3049,7 +3049,7 @@ msgstr "상단 전면 중앙"
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
-msgstr "위쪽 전면 우측"
+msgstr "상단 전면 우측"
 
 msgctxt "IDS_TOP_BACK_LEFT"
 msgid "Top Back Left"
