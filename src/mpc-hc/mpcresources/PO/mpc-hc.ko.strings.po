@@ -571,7 +571,7 @@ msgstr "재생기::형식"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
-msgstr "시스템 설정"
+msgstr "조정정"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
