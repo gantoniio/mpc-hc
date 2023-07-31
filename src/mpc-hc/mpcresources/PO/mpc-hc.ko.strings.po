@@ -2773,7 +2773,7 @@ msgstr "수직 동기화"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr " (음성 해설 1)"
+msgstr " (디렉터 코멘트 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
