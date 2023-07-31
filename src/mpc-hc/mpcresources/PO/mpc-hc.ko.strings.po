@@ -2749,7 +2749,7 @@ msgstr "%s이(가) 없습니다. 이 파일이 포함된 미디어를 삽입하�
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
-msgstr "취소됨"
+msgstr "중단됨"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
