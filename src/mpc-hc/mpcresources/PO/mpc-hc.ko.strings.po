@@ -2547,7 +2547,7 @@ msgstr "파일을 만들수 없음"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
-msgstr "썸네일을 만들수 없음"
+msgstr "기간이 없는 파일의 섬네일을 만들 수 없음"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
