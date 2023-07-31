@@ -1271,7 +1271,7 @@ msgstr "여는 중..."
 
 msgctxt "IDS_CONTROLS_CLOSED"
 msgid "Closed"
-msgstr "닫음"
+msgstr "닫힘"
 
 msgctxt "IDS_SUBTITLES_OPTIONS"
 msgid "&Options..."
