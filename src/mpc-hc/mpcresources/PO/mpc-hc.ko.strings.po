@@ -249,7 +249,7 @@ msgstr "캡쳐 설정"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr "내비게이션 바"
+msgstr "탐색 표시줄"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
