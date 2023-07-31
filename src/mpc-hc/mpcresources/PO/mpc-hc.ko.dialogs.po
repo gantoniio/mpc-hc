@@ -329,7 +329,7 @@ msgstr "최근에 열었던 파일 목록 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "마지막 재생 목록 기억하기"
+msgstr "마지막 재생 목록 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
