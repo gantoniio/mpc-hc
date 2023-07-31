@@ -2809,7 +2809,7 @@ msgstr "알 수 없는 형식"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "자막 작업 : %ld"
+msgstr "하위 작업 : %ld"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
