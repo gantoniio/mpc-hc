@@ -1819,7 +1819,7 @@ msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid ""
 "Please close all instances of MPC-HC so that the default settings can be "
 "restored."
-msgstr "초기 설정이 복원될 수 있도록 모든 MPC-HC 플레이어를 종료해주십시오."
+msgstr "기본 설정을 복원할 수 있도록 MPC-HC의 모든 인스턴스를 닫으십시오."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
