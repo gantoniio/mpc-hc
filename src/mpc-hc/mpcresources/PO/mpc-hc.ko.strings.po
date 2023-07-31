@@ -495,7 +495,7 @@ msgstr "편집(&E)"
 
 msgctxt "IDS_SUBRESYNC_YES"
 msgid "&Yes"
-msgstr "확인(&Y)"
+msgstr "예(&Y)"
 
 msgctxt "IDS_SUBRESYNC_NO"
 msgid "&No"
