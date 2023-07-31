@@ -509,7 +509,7 @@ msgstr "오디오 파일을 자동으로 열기"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "자막 표시 위치"
+msgstr "배치 재정의"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
