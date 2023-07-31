@@ -3037,7 +3037,7 @@ msgstr "사이드 우측"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
-msgstr "위쪽 센터"
+msgstr "상단 중앙"
 
 msgctxt "IDS_TOP_FRONT_LEFT"
 msgid "Top Front Left"
