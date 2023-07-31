@@ -341,7 +341,7 @@ msgstr "DVD 위치 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "최근 창 위치 기억"
+msgstr "마지막 창 위치 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
