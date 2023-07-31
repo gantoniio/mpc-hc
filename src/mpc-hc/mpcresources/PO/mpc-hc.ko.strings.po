@@ -4067,7 +4067,7 @@ msgstr "초기화"
 
 msgctxt "IDS_SUBMENU_MOVEUP"
 msgid "Move Up"
-msgstr "위로"
+msgstr "위로 이동"
 
 msgctxt "IDS_SUBMENU_MOVEDOWN"
 msgid "Move Down"
