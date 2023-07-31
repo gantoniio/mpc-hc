@@ -477,7 +477,7 @@ msgstr "수직 정렬 :"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "기본 선호 트랙"
+msgstr "기본 트랙 환경 설정"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
