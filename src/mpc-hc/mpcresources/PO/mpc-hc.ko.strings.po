@@ -2214,7 +2214,7 @@ msgstr "DVD 메뉴 끝내기"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Boss 키"
+msgstr "엄마 왔다!(감추기)"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
