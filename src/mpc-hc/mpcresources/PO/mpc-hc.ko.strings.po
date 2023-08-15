@@ -2286,7 +2286,7 @@ msgstr "자막 켬/끔(DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD : 현재 시간 표시"
+msgstr "화면 표시 : 현재 시간 표시"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
