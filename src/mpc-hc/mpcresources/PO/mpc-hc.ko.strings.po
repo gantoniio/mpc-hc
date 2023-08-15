@@ -3953,7 +3953,7 @@ msgstr "/webport N\t지정된 포트에서 웹 인터페이스 시작"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tOSD에 디버그 정보 표시"
+msgstr "/debug\t\t화면 표시에 디버그 정보 표시"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
