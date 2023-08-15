@@ -293,7 +293,7 @@ msgstr "트레이 아이콘 표시"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "OSD 보이기 (다시 시작 필요)"
+msgstr "화면 표시 보이기 (다시 시작 필요)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
