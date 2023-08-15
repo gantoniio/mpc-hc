@@ -707,7 +707,7 @@ msgstr "시간 툴팁 사용 :"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "OSD 글꼴 :"
+msgstr "화면 표시 글꼴 :"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
