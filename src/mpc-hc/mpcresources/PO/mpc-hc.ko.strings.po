@@ -1936,7 +1936,7 @@ msgstr "처음으로 이동"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr "OSD : 파일 이름 표시"
+msgstr "화면 표시 : 파일 이름 표시"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
