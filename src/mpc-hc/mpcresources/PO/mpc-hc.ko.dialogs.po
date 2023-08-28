@@ -209,7 +209,7 @@ msgstr "이 프로그램은 프리웨어이며 GNU GPL 라이센스로 릴리즈
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "한글화 : Hack茶ん (https://blog.naver.com/jhacker)"
+msgstr "한글화 : Hack茶ん <https://blog.naver.com/jhacker>"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
