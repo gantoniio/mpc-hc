@@ -57,7 +57,7 @@ msgstr "&Kapat"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Kopya Kaydet..."
+msgstr "K&opya Kaydet..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
