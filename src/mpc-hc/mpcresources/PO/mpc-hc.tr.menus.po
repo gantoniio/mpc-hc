@@ -133,7 +133,7 @@ msgstr "Oyna&tma Listesi"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "Ekran Yakala&ma"
+msgstr "Ekran &Yakalama"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
