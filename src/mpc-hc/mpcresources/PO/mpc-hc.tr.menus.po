@@ -93,7 +93,7 @@ msgstr "Dosya Ko&numunu Aç"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "Ç&ıkış"
+msgstr "&Çıkış"
 
 msgctxt "POPUP"
 msgid "&View"
