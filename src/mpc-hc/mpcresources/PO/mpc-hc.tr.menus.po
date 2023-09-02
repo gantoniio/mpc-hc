@@ -41,7 +41,7 @@ msgstr "A&ygıt Aç..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Diz&in aç..."
+msgstr "Diz&in Aç..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
