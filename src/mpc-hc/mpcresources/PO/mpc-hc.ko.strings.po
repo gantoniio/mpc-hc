@@ -4275,7 +4275,7 @@ msgid ""
 "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal "
 "whitelist/blacklist for URLs that are always/never processed."
 msgstr ""
-"Youtube-DL로 HTTP(s) URL을 처리합니다(사용 가능한 경우). 항상 처리되거나 전혀 처리되지 않는 URL에 대한 내부 "
+"Youtube-DL로 HTTP URL을 처리합니다(사용 가능한 경우). 항상 처리되거나 전혀 처리되지 않는 URL에 대한 내부 "
 "화이트리스트/블랙리스트가 있습니다."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
