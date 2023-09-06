@@ -4187,7 +4187,7 @@ msgid ""
 "\t\t\"pathname\" means the drive path (optional)"
 msgstr ""
 "/cd\t\t오디오 CD 또는 (S)VCD의 모든 트랙 불러오기,\n"
-"\t\t\"경로명\"은 드라이브 경로를 뜻함(선택 사항)."
+"\t\t\"경로명\"은 드라이브 경로를 의미(선택 사항)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
