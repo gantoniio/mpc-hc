@@ -917,7 +917,7 @@ msgstr "MPC-HC가 파일 렌더링에 실패했습니다. 필요한 코덱이나
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "다음 핀(들)이 연결 가능한 필터 찾기 실패 :"
+msgstr "다음 핀이 연결 가능한 필터 찾기 실패 :"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
