@@ -16472,7 +16472,7 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
             WIN32_FIND_DATA fd = {0};
             HANDLE hFind;
             
-            hFind = FindFirstFile(path + L"*.*", &fd);
+            hFind = FindFirstFile(path + L"*.?t?", &fd);
             if (hFind != INVALID_HANDLE_VALUE) {
                 do {
                     CStringW ext = GetFileExt(fd.cFileName);
