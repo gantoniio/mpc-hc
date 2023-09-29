@@ -560,7 +560,13 @@ void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point)
             messageId = ID_FILE_CLOSE_AND_RESTORE;
             break;
 
+        case ID_NAVIGATE_SKIPFORWARD:
+            messageId = ID_NAVIGATE_SKIPFORWARDFILE;
+            break;
 
+        case ID_NAVIGATE_SKIPBACK:
+            messageId = ID_NAVIGATE_SKIPBACKFILE;
+            break;
         }
 
         m_pMainFrame->PostMessage(WM_COMMAND, messageId);
