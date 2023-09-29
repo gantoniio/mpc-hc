@@ -313,6 +313,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_WM_SETCURSOR()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_WM_LBUTTONUP()
+    ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -539,4 +540,24 @@ void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
     mouseDown = false;
     CToolBar::OnLButtonUp(nFlags, point);
+}
+
+void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point)
+{
+    int buttonId = getHitButtonIdx(point);
+
+    if (buttonId >= 0 && !(GetButtonStyle(buttonId) & (TBBS_SEPARATOR | TBBS_DISABLED))){
+        int itemId = GetItemID(buttonId);
+
+        UINT messageId = 0;
+        switch (itemId)
+        {
+        case ID_PLAY_FRAMESTEP:
+            messageId = ID_PLAY_FRAMESTEP_BACK;
+            break;
+        }
+
+        m_pMainFrame->PostMessage(WM_COMMAND, messageId);
+        CToolBar::OnRButtonUp(nFlags, point);
+    }
 }
