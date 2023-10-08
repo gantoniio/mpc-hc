@@ -22,7 +22,7 @@
 
 #include "SubtitlesProviders.h"
 #include "VersionInfo.h"
-
+#include "rapidjson/include/rapidjson/document.h"
 #include "XmlRpc4Win/TimXmlRpc.h"
 
  // Uncomment defines to include the disabled subtitles providers.
@@ -66,6 +66,23 @@ SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
 std::unique_ptr<XmlRpcClient> xmlrpc;
 XmlRpcValue token;
+DEFINE_SUBTITLESPROVIDER_END
+
+DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles2, "https://api.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH)
+void Initialize() override;
+bool NeedLogin() override;
+SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
+SRESULT LogOut() override;
+SRESULT Hash(SubtitlesInfo& pFileInfo) override;
+
+bool CallAPI(CHttpFile* httpFile, CString& headers, std::string& body, std::string& response);
+bool GetOptionalValue(const rapidjson::Value& node, const char* path, std::string& result);
+bool GetOptionalValue(const rapidjson::Value& node, const char* path, int& result);
+bool GetOptionalValue(const rapidjson::Value& node, const char* path, double& result);
+CString token;
+static constexpr TCHAR* APIKEY = _T("p1dbxBrtMjPJ1ruW4thhi1XnVKOVmwa2");
+
+
 DEFINE_SUBTITLESPROVIDER_END
 
 #ifdef INCLUDE_SUBDB
