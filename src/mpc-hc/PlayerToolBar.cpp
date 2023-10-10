@@ -558,18 +558,38 @@ void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 }
 
 void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
+    CToolBar::OnRButtonUp(nFlags, point);
     mouseDownR = false;
-    UINT nID;
-    UINT nStyle;
-    int iImage;
 
-    int i = getHitButtonIdx(point);
-    if (i >= 0 && rightButtonIndex==i) {
-        GetButtonInfo(i, nID, nStyle, iImage);
-        if (nID == ID_PLAY_PLAY) {
-            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+    int buttonId = getHitButtonIdx(point);
+    if (buttonId >= 0 && rightButtonIndex==buttonId) {
+        int itemId = GetItemID(buttonId);
+
+        UINT messageId = 0;
+
+        switch (itemId) {
+        case ID_PLAY_PLAY:
+            messageId = ID_FILE_OPENMEDIA;
+            break;
+        case ID_PLAY_FRAMESTEP:
+            messageId = ID_PLAY_FRAMESTEP_BACK;
+            break;
+        case ID_PLAY_STOP:
+            messageId = ID_FILE_CLOSE_AND_RESTORE;
+            break;
+        case ID_NAVIGATE_SKIPFORWARD:
+            messageId = ID_NAVIGATE_SKIPFORWARDFILE;
+            break;
+        case ID_NAVIGATE_SKIPBACK:
+            messageId = ID_NAVIGATE_SKIPBACKFILE;
+            break;
+        case ID_VOLUME_MUTE:
+            messageId = ID_STREAM_AUDIO_NEXT;
+            break;
+        }
+
+        if (messageId > 0) {
+            m_pMainFrame->PostMessage(WM_COMMAND, messageId);
         }
     }
-
-    CToolBar::OnRButtonUp(nFlags, point);
 }
