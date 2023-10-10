@@ -40,6 +40,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     , m_nButtonHeight(16)
     , m_volumeMinSizeInc(0)
     , mouseDownL(false)
+    , mouseDownR(false)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
