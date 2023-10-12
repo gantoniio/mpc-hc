@@ -548,6 +548,10 @@ SRESULT OpenSubtitles2::Login(const std::string& sUserName, const std::string& s
 {
     SRESULT result = SR_FAILED;
 
+    if (sUserName.empty() || sPassword.empty()) {
+        return SR_UNDEFINED;
+    }
+
     CString userAgent(UserAgent().c_str());
     CInternetSession session(userAgent);
     CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
@@ -556,24 +560,27 @@ SRESULT OpenSubtitles2::Login(const std::string& sUserName, const std::string& s
 
     //Headers will be converted to UTF-8 but the body will be sent as-is
     //That's why everything uses CString except for the body
-    CString headers(_T("Api-Key: "));
-    headers.Append(APIKEY);
-    headers.Append(_T("\r\n"));
-    headers.Append(_T("Content-Type: application/json\r\n"));
+    CString headers(_T("Content-Type: application/json\r\n"));
+    headers.AppendFormat(_T("Api-Key: %s\r\n"), APIKEY);
     headers.Append(_T("Accept: application/json\r\n"));
+
     std::string body(R"({ "username": ")");
     body = body + sUserName + R"(", "password": ")" + sPassword + R"(" })";
 
 
-    std::string response;
+    Response response;
     if (CallAPI(httpFile, headers, body, response))
     {
         rapidjson::Document doc;
-        doc.Parse(response.c_str());
+        doc.Parse(response.text.c_str());
         if (doc.IsObject() && doc.HasMember("token") && doc["token"].IsString()) {
             token = doc["token"].GetString();
             result = SR_SUCCEEDED;
         }
+    } else if (response.code == 401) {
+        CString msg;
+        msg.FormatMessage(IDS_SUB_CREDENTIALS_ERROR, static_cast<LPCWSTR>(UTF8To16(Name().c_str())), static_cast<LPCWSTR>(UTF8To16(sUserName.c_str())));
+        AfxMessageBox(msg, MB_ICONERROR | MB_OK);
     }
 
     httpFile->Close();
@@ -594,29 +601,23 @@ SRESULT OpenSubtitles2::Search(const SubtitlesInfo& pFileInfo)
     CString url(_T("/api/v1/subtitles?"));
     const auto languages = LanguagesISO6391();
     if (!languages.empty()) {
-        url.Append(_T("languages="));
-        url.Append(JoinContainer(languages, _T(",")).c_str());
+        url.AppendFormat(_T("languages=%s"), JoinContainer(languages, _T(",")).c_str());
     }
     if (!pFileInfo.fileHash.empty()) {
-        url.Append(_T("&"));
-        url.Append(_T("moviehash="));
-        url.Append(CString(pFileInfo.fileHash.c_str()));
+        url.AppendFormat(_T("&moviehash=%s"), (LPCTSTR) CString(pFileInfo.fileHash.c_str()));
     }
 
-    url.Append(_T("&"));
-    url.Append(_T("query="));
-    url.Append(CString(pFileInfo.fileName.c_str()));
+    url.AppendFormat(_T("&query=%s"), (LPCTSTR)CString(pFileInfo.fileName.c_str()));
 
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_GET, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
 
     CString headers(_T("Api-Key: "));
     headers.Append(APIKEY);
     headers.Append(_T("\r\n"));
-    std::string body;
-    std::string response;
-    if (CallAPI(httpFile, headers, body, response)) {
+    Response response;
+    if (CallAPI(httpFile, headers, response)) {
         rapidjson::Document doc;
-        doc.Parse(response.c_str());
+        doc.Parse(response.text.c_str());
         if (doc.IsObject() && doc.HasMember("data") && doc["data"].IsArray()) {
             result = SR_SUCCEEDED;
             const auto& data = doc["data"];
@@ -650,38 +651,32 @@ SRESULT OpenSubtitles2::Download(SubtitlesInfo& pSubtitlesInfo)
 {
     SRESULT result = SR_FAILED;
 
-    if (token.IsEmpty() || pSubtitlesInfo.id.empty())
-    {
-        return SR_FAILED;
-    }
-
     CString userAgent(UserAgent().c_str());
     CInternetSession session(userAgent);
     CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
     CString url(_T("/api/v1/download"));
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_POST, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
 
-    CString headers(_T("Api-Key: "));
-    headers.Append(APIKEY);
-    headers.Append(_T("\r\n"));
-    headers.Append(_T("Accept: application/json\r\n"));
+    CString headers(_T("Accept: application/json\r\n")); 
+    headers.AppendFormat(_T("Api-Key: %s\r\n "), APIKEY);
 	headers.Append(_T("Content-Type: application/json\r\n"));
-	headers.Append(_T("Authorization: Bearer "));
-	headers.Append(token);
-	headers.Append(_T("\r\n"));
+    if (!token.IsEmpty()) {
+        headers.AppendFormat(_T("Authorization: Bearer %s\r\n"), (LPCTSTR)token);
+    }
 
     std::string body(R"({ "file_id": )");
     body += pSubtitlesInfo.id;
     body += " }";
 
-    std::string response;
+    Response response;
     if (CallAPI(httpFile, headers, body, response)) {
         rapidjson::Document doc;
-        doc.Parse(response.c_str());
+        doc.Parse(response.text.c_str());
         if (!doc.HasParseError()) {
             if (doc.HasMember("file_name") && doc["file_name"].IsString())
             {
                 std::string downloadLink = doc["link"].GetString();
+                LOG(LOG_INPUT, downloadLink.c_str());
                 result = DownloadInternal(downloadLink, "", pSubtitlesInfo.fileContents);
             }
         }
@@ -693,7 +688,27 @@ SRESULT OpenSubtitles2::Download(SubtitlesInfo& pSubtitlesInfo)
 
 SRESULT OpenSubtitles2::LogOut()
 {
-    return SR_FAILED;
+    SRESULT result = SR_FAILED;
+
+    if (!token.IsEmpty()) {
+        CString userAgent(UserAgent().c_str());
+        CInternetSession session(userAgent);
+        CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
+        CString url(_T("/api/v1/logout"));
+        CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_DELETE, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
+
+        CString headers(_T("Accept: application/json\r\n"));
+        headers.AppendFormat(_T("Api-Key: %s \r\n"), (LPCTSTR)APIKEY);
+        headers.AppendFormat(_T("Authorization: Bearer %s\r\n"), (LPCTSTR)token);
+        Response response;
+        if (CallAPI(httpFile, headers, response)) {
+            result = SR_SUCCEEDED;
+        }
+    }
+
+    token.Empty();
+
+    return result;
 }
 
 SRESULT OpenSubtitles2::Hash(SubtitlesInfo& pFileInfo)
@@ -747,18 +762,22 @@ bool OpenSubtitles2::GetOptionalValue(const rapidjson::Value& node, const char* 
     }
     return success;
 }
-
-bool OpenSubtitles2::CallAPI(CHttpFile* httpFile, CString& headers, std::string& body, std::string& response)
+bool OpenSubtitles2::CallAPI(CHttpFile* httpFile, CString& headers, Response& response)
 {
-    //TODO: Enclose it in a try-catch and try to get an error msg or let it fall through to generic handler
-    if (body.size()) {
-        httpFile->SendRequest(headers, body.data(), static_cast<DWORD>(body.size()));
-    } else {
-        httpFile->SendRequest(headers);
-    }
+    httpFile->SendRequest(headers);
+    return CallAPIResponse(httpFile, response);
+}
 
-    DWORD csCode;
-    httpFile->QueryInfoStatusCode(csCode);
+
+bool OpenSubtitles2::CallAPI(CHttpFile* httpFile, CString& headers, std::string& body, Response& response)
+{
+    httpFile->SendRequest(headers, body.data(), static_cast<DWORD>(body.size()));
+    return CallAPIResponse(httpFile, response);
+}
+
+bool OpenSubtitles2::CallAPIResponse(CHttpFile* httpFile, Response& response)
+{
+    httpFile->QueryInfoStatusCode(response.code);
 
     auto size = httpFile->GetLength();
     while (size > 0)
@@ -766,12 +785,12 @@ bool OpenSubtitles2::CallAPI(CHttpFile* httpFile, CString& headers, std::string&
         std::string temp;
         temp.resize(size);
         httpFile->Read(temp.data(), size);
-        response += temp;
+        response.text += temp;
         size = httpFile->GetLength();
     }
-    if (csCode != 200)
+    if (response.code != 200)
     {
-        //TODO: Log error
+        LOG(LOG_ERROR, (std::string("Server returned: ") + std::to_string(response.code) + " with message: " + response.text).c_str());
         return false;
     }
     return true;
