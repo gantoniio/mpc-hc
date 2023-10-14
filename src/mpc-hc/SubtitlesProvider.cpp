@@ -601,13 +601,13 @@ SRESULT OpenSubtitles2::Search(const SubtitlesInfo& pFileInfo)
     CString url(_T("/api/v1/subtitles?"));
     const auto languages = LanguagesISO6391();
     if (!languages.empty()) {
-        url.AppendFormat(_T("languages=%s"), JoinContainer(languages, _T(",")).c_str());
+        url.AppendFormat(_T("languages=%s&"), JoinContainer(languages, _T(",")).c_str());
     }
     if (!pFileInfo.fileHash.empty()) {
-        url.AppendFormat(_T("&moviehash=%s"), (LPCTSTR) CString(pFileInfo.fileHash.c_str()));
+        url.AppendFormat(_T("moviehash=%s&"), (LPCTSTR) CString(pFileInfo.fileHash.c_str()));
     }
 
-    url.AppendFormat(_T("&query=%s"), (LPCTSTR)CString(pFileInfo.fileName.c_str()));
+    url.AppendFormat(_T("query=%s"), (LPCTSTR)CString(pFileInfo.fileName.c_str()));
 
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_GET, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
 

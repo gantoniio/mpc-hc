@@ -46,7 +46,8 @@ public:                                                                         
         return std::make_shared<P>(pOwner);                                            \
     }                                                                                  \
 private:                                                                               \
-    virtual std::string Name() const override { return N; }                           \
+    virtual std::string Name() const override { return #P; }                           \
+    virtual std::string DisplayName() const override { return N; }                     \
     virtual std::string Url() const override { return U; }                             \
     virtual const std::set<std::string>& Languages() const override;                   \
     virtual bool Flags(DWORD dwFlags) const override { return (dwFlags & (F)) == dwFlags; }  \
@@ -88,7 +89,7 @@ bool GetOptionalValue(const rapidjson::Value& node, const char* path, int& resul
 bool GetOptionalValue(const rapidjson::Value& node, const char* path, double& result);
 
 CString token;
-static constexpr TCHAR* APIKEY = _T("p1dbxBrtMjPJ1ruW4thhi1XnVKOVmwa2");
+static constexpr TCHAR* APIKEY = _T("s2GJfwwPNA74kkeXudFAdiHIqTDjgrmq");
 
 
 DEFINE_SUBTITLESPROVIDER_END
@@ -105,7 +106,7 @@ std::string UserAgent() const override
 DEFINE_SUBTITLESPROVIDER_END
 #endif
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "padnapisi", "https://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "podnapisi", "https://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END

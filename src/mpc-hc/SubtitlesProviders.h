@@ -315,6 +315,7 @@ public:
 
 public: // implemented
     virtual std::string Name() const PURE;
+    virtual std::string DisplayName() const PURE;
     virtual std::string Url() const PURE;
     virtual const std::set<std::string>& Languages() const PURE;
     virtual bool Flags(DWORD dwFlags) const PURE;
