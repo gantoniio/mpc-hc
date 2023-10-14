@@ -1705,7 +1705,7 @@ msgstr "고급 설정, 당신이 무엇을 하는지 모르시면 편집하지 �
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "참"
+msgstr "적용"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
