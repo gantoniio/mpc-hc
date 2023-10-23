@@ -600,6 +600,9 @@
     <ClCompile Include="MouseWndWithArtView.cpp">
       <Filter>Main View</Filter>
     </ClCompile>
+    <ClCompile Include="PPageTheme.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1140,6 +1143,9 @@
       <Filter>Main View</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\mpc-hc_config.h" />
+    <ClInclude Include="PPageTheme.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">
