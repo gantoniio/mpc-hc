@@ -703,6 +703,10 @@
 #define IDC_CLEAR_ALL_ASSOCIATIONS      22085
 #define IDC_SEEK_PREVIEW                22086
 #define IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE 22087
+#define IDC_STATIC21                    22088
+#define IDC_STATIC22                    22089
+#define IDC_STATIC23                    22090
+#define IDC_STATIC_LIBASS               22091
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1672,27 +1676,6 @@
 #define IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST 57571
 #define IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR 57572
 #define IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR 57573
-#define IDS_ARS_WASAPI_MODE             57600
-#define IDS_ARS_EXCLUSIVE               57601
-#define IDS_ARS_SHARED                  57602
-#define IDS_ARS_BITEXACT_OUTPUT         57603
-#define IDS_ARS_SYSTEM_LAYOUT_CHANNELS  57604
-#define IDS_ARS_SOUND_DEVICE            57605
-#define IDS_ARS_RELEASE_DEVICE_IDLE     57606
-#define IDS_ARS_CROSSFEED               57607
-#define IDS_ARS_DEVICE_PERIOD           57608
-#define IDS_ARS_CHECK_FORMAT            57609
-#define IDS_ARS_STATUS                  57610
-#define IDS_ARS_DEVICE                  57611
-#define IDS_ARS_MODE                    57612
-#define IDS_ARS_INPUT                   57613
-#define IDS_ARS_OUTPUT                  57614
-#define IDS_ARS_FORMAT                  57615
-#define IDS_ARS_SAMPLERATE              57616
-#define IDS_ARS_CHANNELS                57617
-#define IDS_ARS_WASAPI_METHOD           57618
-#define IDS_ARS_DUMMY_CHANNELS          57619
-#define IDS_AG_DEFAULT                  57620
 #define IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE 57621
 #define IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU 57622
 #define IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS 57623
@@ -1706,6 +1689,32 @@
 #define IDS_PPAGEADVANCED_REDIRECT_OPEN_TO_APPEND_THRESHOLD 57631
 #define IDS_SUBTITLE_RENDERER_NONE 57632
 #define IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY 57633
+#define IDS_PPAGEADVANCED_USE_FREETYPE 57634
+
+#define IDS_ARS_WASAPI_MODE             57700
+#define IDS_ARS_EXCLUSIVE               57701
+#define IDS_ARS_SHARED                  57702
+#define IDS_ARS_BITEXACT_OUTPUT         57703
+#define IDS_ARS_SYSTEM_LAYOUT_CHANNELS  57704
+#define IDS_ARS_SOUND_DEVICE            57705
+#define IDS_ARS_RELEASE_DEVICE_IDLE     57706
+#define IDS_ARS_CROSSFEED               57707
+#define IDS_ARS_DEVICE_PERIOD           57708
+#define IDS_ARS_ALT_CHECK_FORMAT        57709
+#define IDS_ARS_STATUS                  57710
+#define IDS_ARS_DEVICE                  57711
+#define IDS_ARS_MODE                    57712
+#define IDS_ARS_INPUT                   57713
+#define IDS_ARS_OUTPUT                  57714
+#define IDS_ARS_FORMAT                  57715
+#define IDS_ARS_SAMPLERATE              57716
+#define IDS_ARS_CHANNELS                57717
+#define IDS_ARS_WASAPI_METHOD           57718
+#define IDS_ARS_DUMMY_CHANNELS          57719
+#define IDS_ARS_TIP_BITEXACT_OUTPUT     57720
+#define IDS_ARS_TIP_ALT_CHECK_FORMAT    57721
+#define IDS_FILTER_RESET_SETTINGS       57722
+#define IDS_AG_DEFAULT                  57723
 
 // Next default values for new objects
 // 
@@ -1713,7 +1722,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20070
 #define _APS_NEXT_COMMAND_VALUE         33460
-#define _APS_NEXT_CONTROL_VALUE         22088
+#define _APS_NEXT_CONTROL_VALUE         22092
 #define _APS_NEXT_SYMED_VALUE           24052
 #endif
 #endif
