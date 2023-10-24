@@ -27,7 +27,8 @@
 
 IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CMPCThemePlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar(CMainFrame* pMainFrame)
-    : m_pParent(nullptr)
+    : CMPCThemePlayerBar(pMainFrame)
+    , m_pParent(nullptr)
     , m_navdlg(pMainFrame)
 {
 }

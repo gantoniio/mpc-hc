@@ -40,7 +40,8 @@
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CMPCThemePlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
-    : m_pMainFrame(pMainFrame)
+    : CMPCThemePlayerBar(pMainFrame)
+    , m_pMainFrame(pMainFrame)
     , m_list(0)
     , m_nTimeColWidth(0)
     , m_pDragImage(nullptr)

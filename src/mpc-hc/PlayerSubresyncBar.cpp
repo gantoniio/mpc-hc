@@ -32,7 +32,8 @@
 
 IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CMPCThemePlayerBar)
 CPlayerSubresyncBar::CPlayerSubresyncBar(CMainFrame* pMainFrame)
-    : m_pSubLock(nullptr)
+    : CMPCThemePlayerBar(pMainFrame)
+    , m_pSubLock(nullptr)
     , m_pMainFrame(pMainFrame)
     , m_fps(0.0)
     , m_lastSegment(-1)
