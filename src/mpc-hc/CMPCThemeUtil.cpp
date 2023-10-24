@@ -860,7 +860,7 @@ void CMPCThemeUtil::drawCheckBox(CWnd* window, UINT checkState, bool isHover, bo
 
 bool CMPCThemeUtil::canUseWin10DarkTheme()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         //        return false; //FIXME.  return false to test behavior for OS < Win10 1809
         RTL_OSVERSIONINFOW osvi = GetRealOSVersion();
         bool ret = (osvi.dwMajorVersion = 10 && osvi.dwMajorVersion >= 0 && osvi.dwBuildNumber >= 17763); //dark theme first available in win 10 1809

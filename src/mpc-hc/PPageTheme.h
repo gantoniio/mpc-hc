@@ -35,6 +35,8 @@ private:
     BOOL m_bUseModernSeekbar;
     int m_iModernSeekbarHeight;
     CMPCThemeSpinButtonCtrl m_ModernSeekbarHeightCtrl;
+    CMPCThemeComboBox m_ThemeMode;
+    int m_iThemeMode;
 public:
     CPPageTheme();
     virtual ~CPPageTheme();

@@ -595,6 +595,9 @@
 #define IDS_PLAYLOOPMODE_AB_MARK_A      14210
 #define IDS_PLAYLOOPMODE_AB_MARK_B      14211
 #define IDS_SNAPSHOT_SUBTITLES          14212
+#define IDS_THEMEMODE_DARK              14213
+#define IDS_THEMEMODE_LIGHT             14214
+#define IDS_THEMEMODE_WINDOWS           14215
 #define IDD_TUNER_SCAN                  20002
 #define IDS_OSD_DISPLAY_RENDERER_STATS  20003
 #define IDD_PPAGELOGO2                  20003
