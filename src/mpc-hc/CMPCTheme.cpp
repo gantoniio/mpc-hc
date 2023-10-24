@@ -54,7 +54,7 @@ COLORREF CMPCTheme::SubmenuColor;
 COLORREF CMPCTheme::WindowBorderColorLight;
 COLORREF CMPCTheme::WindowBorderColorDim;
 COLORREF CMPCTheme::NoBorderColor;
-COLORREF CMPCTheme::GripperPatternColor; //visual studio dark, since explorer has no grippers
+COLORREF CMPCTheme::GripperPatternColor; //visual studio, since explorer has no grippers
 
 COLORREF CMPCTheme::ScrollBGColor;
 COLORREF CMPCTheme::ScrollProgressColor;
@@ -537,7 +537,7 @@ void CMPCTheme::InitializeColors(ModernThemeMode themeMode) {
         WindowBorderColorLight = RGB(130, 135, 144);
         WindowBorderColorDim = RGB(48, 56, 62);
         NoBorderColor = RGBGS(0);
-        GripperPatternColor = RGB(89, 168, 222); //visual studio dark, since explorer has no grippers
+        GripperPatternColor = RGB(153, 153, 153); //visual studio light, since explorer has no grippers
 
         ScrollBGColor = RGBGS(240);
         ScrollProgressColor = RGB(130, 215, 146);
