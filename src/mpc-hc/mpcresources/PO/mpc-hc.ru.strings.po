@@ -4824,4 +4824,4 @@ msgstr ""
 
 msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
 msgid "The renderer will try to initialize the device skipping some checks."
-msgstr "Рендерер пропустит часть проверок во время инициализации устро"
+msgstr "Рендерер пропустит часть проверок во время инициализации устройства."
