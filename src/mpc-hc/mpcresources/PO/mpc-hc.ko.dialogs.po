@@ -1093,7 +1093,7 @@ msgstr "8비트 문자 집합"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC22"
 msgid "OpenType Language"
-msgstr "오픈타입 언어"
+msgstr "OpenType 언어"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC_LIBASS"
 msgid "Libass Options"
