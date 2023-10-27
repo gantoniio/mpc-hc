@@ -2403,6 +2403,16 @@ IDB_DT_RADIO_192        PNG                     "res\\darktheme\\radios-192.png"
 
 IDB_NOIMAGE             PNG                     "res\\noimage.png"
 
+IDB_GRIPPER_168         PNG                     "res\\darktheme\\gripper-168.png"
+
+IDB_GRIPPER_144         PNG                     "res\\darktheme\\gripper-144.png"
+
+IDB_GRIPPER_192         PNG                     "res\\darktheme\\gripper-192.png"
+
+IDB_GRIPPER_96          PNG                     "res\\darktheme\\gripper-96.png"
+
+IDB_GRIPPER_120         PNG                     "res\\darktheme\\gripper-120.png"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2527,6 +2537,9 @@ BEGIN
     IDS_PLAYLOOPMODE_AB_MARK_A "A-B Repeat: Mark A Position"
     IDS_PLAYLOOPMODE_AB_MARK_B "A-B Repeat: Mark B Position"
     IDS_SNAPSHOT_SUBTITLES  "Include Subtitles"
+    IDS_THEMEMODE_DARK      "Dark"
+    IDS_THEMEMODE_LIGHT     "Light"
+    IDS_THEMEMODE_WINDOWS   "Windows Default"
 END
 
 STRINGTABLE
@@ -4105,13 +4118,6 @@ BEGIN
     IDS_FILTER_RESET_SETTINGS "Reset"
     IDS_AG_DEFAULT          "Default"
 END
-
-STRINGTABLE
-BEGIN
-    IDS_THEMEMODE_DARK      "Dark"
-    IDS_THEMEMODE_LIGHT     "Light"
-    IDS_THEMEMODE_WINDOWS   "Windows Default"
-END 
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

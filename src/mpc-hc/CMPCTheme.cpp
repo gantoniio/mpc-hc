@@ -148,6 +148,7 @@ wchar_t* const CMPCTheme::uiSymbolFont = L"MS UI Gothic";
 const int CMPCTheme::gripPatternLong = 5;
 const int CMPCTheme::gripPatternShort = 4;
 
+
 const BYTE CMPCTheme::GripperBitsH[10] = {
     0x80, 0x00,
     0x00, 0x00,
@@ -197,6 +198,14 @@ const UINT CMPCTheme::ThemeRadios[5] = {
     IDB_DT_RADIO_144,
     IDB_DT_RADIO_144,
     IDB_DT_RADIO_192,
+};
+
+const UINT CMPCTheme::ThemeGrippers[5] = {
+    IDB_GRIPPER_96,
+    IDB_GRIPPER_120,
+    IDB_GRIPPER_144,
+    IDB_GRIPPER_168,
+    IDB_GRIPPER_192,
 };
 
 const std::vector<CMPCTheme::pathPoint> CMPCTheme::minimizeIcon96({
@@ -385,6 +394,66 @@ const int CMPCTheme::W10TitlebarButtonSpacing[5] = {
     1, //makes no sense, but spacing goes back to 1
     2,
 };
+
+const int CMPCTheme::ToolbarIconPathDimension[5] = {
+    7,
+    9,
+    11,
+    12,
+    14,
+};
+
+const int CMPCTheme::ToolbarHideButtonDimensions[5] = {
+    11,
+    14,
+    17,
+    20,
+    22,
+};
+
+const int CMPCTheme::ToolbarGripperHeight[5] = {
+    5,
+    6,
+    8,
+    9,
+    10,
+};
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::hideIcon96({
+    {0, 0, newPath},
+    {6, 6, linePath},
+    {0, 6, newPath},
+    {6, 0, linePath}
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::hideIcon120({
+    {0, 0, newPath},
+    {8, 8, linePath},
+    {0, 8, newPath},
+    {8, 0, linePath},
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::hideIcon144({
+    {0, 0, newPath},
+    {10, 10, linePath},
+    {0, 10, newPath},
+    {10, 0, linePath},
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::hideIcon168({
+    {0, 0, newPath},
+    {11, 11, linePath},
+    {0, 11, newPath},
+    {11, 0, linePath},
+});
+
+const std::vector<CMPCTheme::pathPoint> CMPCTheme::hideIcon192({
+    {0, 0, newPath},
+    {13, 13, linePath},
+    {0, 13, newPath},
+    {13, 0, linePath},
+});
+
 
 void CMPCTheme::InitializeColors(ModernThemeMode themeMode) {
     if (themeMode == ModernThemeMode::WINDOWSDEFAULT) {

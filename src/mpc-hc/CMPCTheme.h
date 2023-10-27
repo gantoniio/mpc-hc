@@ -138,6 +138,7 @@ public:
 
     static const int GroupBoxTextIndent;
 
+
     static const BYTE GripperBitsH[10];
     static const BYTE GripperBitsV[8];
     static const int gripPatternShort;
@@ -159,6 +160,7 @@ public:
 
     const static UINT ThemeCheckBoxes[5];
     const static UINT ThemeRadios[5];
+    const static UINT ThemeGrippers[5];
 
     enum pathState {
         linePath,
@@ -175,11 +177,16 @@ public:
     static const std::vector<pathPoint> maximizeIcon96, maximizeIcon120, maximizeIcon144, maximizeIcon168, maximizeIcon192;
     static const std::vector<pathPoint> restoreIcon96, restoreIcon120, restoreIcon144, restoreIcon168, restoreIcon192;
     static const std::vector<pathPoint> closeIcon96, closeIcon120, closeIcon144, closeIcon168, closeIcon192;
+    static const std::vector<pathPoint> hideIcon96, hideIcon120, hideIcon144, hideIcon168, hideIcon192;
     static const int CMPCTheme::W10TitlebarIconPathHeight[5];
     static const int CMPCTheme::W10TitlebarIconPathWidth[5];
     static const float CMPCTheme::W10TitlebarIconPathThickness[5];
     static const int CMPCTheme::W10TitlebarButtonWidth[5];
     static const int CMPCTheme::W10TitlebarButtonSpacing[5];
+    static const int CMPCTheme::ToolbarIconPathDimension[5];
+    static const int CMPCTheme::ToolbarGripperHeight[5];
+    static const int CMPCTheme::ToolbarHideButtonDimensions[5];
+
 
     static bool drawThemedControls;
 
