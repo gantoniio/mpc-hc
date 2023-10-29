@@ -13,6 +13,7 @@ public:
     void mpc_fillNcBG(CDC* mdc, CRect rcDraw);
     DECLARE_MESSAGE_MAP()
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    void InitializeSize();
     void paintHideButton(CDC* pDC, CSCBButton b);
     virtual void NcCalcClient(LPRECT pRc, UINT nDockBarID);
 protected:

@@ -7,10 +7,7 @@
 CMPCThemePlayerBar::CMPCThemePlayerBar(CMainFrame* pMainFrame)
     :m_pMainFrame(pMainFrame)
 {
-    auto& dpi = pMainFrame->m_dpi;
-    int buttonDim = CMPCThemeUtil::getConstantByDPI(this, CMPCTheme::ToolbarHideButtonDimensions);
-    m_cyGripper = buttonDim + dpi.ScaleX(2);
-    m_biHide.SetDpiSize(CSize(buttonDim, buttonDim));
+    InitializeSize();
 }
 
 CMPCThemePlayerBar::~CMPCThemePlayerBar()
@@ -23,6 +20,12 @@ BEGIN_MESSAGE_MAP(CMPCThemePlayerBar, CPlayerBar)
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
+void CMPCThemePlayerBar::InitializeSize() {
+    auto& dpi = m_pMainFrame->m_dpi;
+    int buttonDim = CMPCThemeUtil::getConstantByDPI(m_pMainFrame, CMPCTheme::ToolbarHideButtonDimensions);
+    m_cyGripper = buttonDim + dpi.ScaleX(2);
+    m_biHide.SetDpiSize(CSize(buttonDim, buttonDim));
+}
 
 BOOL CMPCThemePlayerBar::OnEraseBkgnd(CDC* pDC)
 {
@@ -49,7 +52,7 @@ void CMPCThemePlayerBar::paintHideButton(CDC* pDC, CSCBButton b) //derived from 
 
     auto& dpi = m_pMainFrame->m_dpi;
 
-    CMPCThemeUtil::drawToolbarHideButton(pDC, this, rc, CMPCThemeUtil::getIconPathByDPI(this, TOOLBAR_HIDE_ICON), dpi.ScaleFactorX(), true);
+    CMPCThemeUtil::drawToolbarHideButton(pDC, this, rc, CMPCThemeUtil::getIconPathByDPI(m_pMainFrame, TOOLBAR_HIDE_ICON), dpi.ScaleFactorX(), true);
 }
 
 void CMPCThemePlayerBar::NcCalcClient(LPRECT pRc, UINT nDockBarID) { //derived from CSizingControlBarG::NcCalcClient to support DPI changes
@@ -94,28 +97,6 @@ void CMPCThemePlayerBar::NcCalcClient(LPRECT pRc, UINT nDockBarID) { //derived f
 
 }
 
-void ResizeBitmap(CBitmap& srcBMP, int dstW, int dstH) {
-    CBitmap destBMP;
-
-    BITMAP bm = { 0 };
-    srcBMP.GetBitmap(&bm);
-    auto size = CSize(bm.bmWidth, bm.bmHeight);
-    CWindowDC wndDC(NULL);
-    CDC srcDC;
-    srcDC.CreateCompatibleDC(&wndDC);
-    auto oldSrcBmp = srcDC.SelectObject(&srcBMP);
-
-    CDC destDC;
-    destDC.CreateCompatibleDC(&wndDC);
-    destBMP.CreateCompatibleBitmap(&wndDC, dstW, dstH);
-    auto oldDestBmp = destDC.SelectObject(&destBMP);
-
-    destDC.StretchBlt(0, 0, dstW, dstH, &srcDC, 0, 0, size.cx, size.cy, SRCCOPY);
-
-    srcBMP.DeleteObject();
-    srcBMP.Attach(destBMP.Detach());
-}
-
 void CMPCThemePlayerBar::NcPaintGripper(CDC* pDC, CRect rcClient)   //derived from CSizingControlBarG base implementation
 {
     if (!AppIsThemeLoaded()) {
@@ -133,7 +114,7 @@ void CMPCThemePlayerBar::NcPaintGripper(CDC* pDC, CRect rcClient)   //derived fr
     CBitmap patternBMP;
 
     gripper.DeflateRect(1, 1);
-    int gripperHeight = CMPCThemeUtil::getConstantByDPI(this, CMPCTheme::ToolbarGripperHeight);
+    int gripperHeight = CMPCThemeUtil::getConstantByDPI(m_pMainFrame, CMPCTheme::ToolbarGripperHeight);
 
     if (bHorz) {   // gripper at left
         gripper.left = rcbtn.left + (rcbtn.Width() - gripperHeight) / 2;
@@ -142,7 +123,7 @@ void CMPCThemePlayerBar::NcPaintGripper(CDC* pDC, CRect rcClient)   //derived fr
         gripper.top = rcbtn.top + (rcbtn.Height() - gripperHeight) / 2;
         gripper.right = rcbtn.left - 3;
     }
-    CMPCThemeUtil::drawGripper(this, gripper, pDC, bHorz);
+    CMPCThemeUtil::drawGripper(this, m_pMainFrame, gripper, pDC, bHorz);
 
     paintHideButton(pDC, m_biHide);
 }

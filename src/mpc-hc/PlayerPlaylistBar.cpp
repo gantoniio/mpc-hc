@@ -1528,6 +1528,7 @@ void CPlayerPlaylistBar::EventCallback(MpcEvent ev)
 {
     switch (ev) {
         case MpcEvent::DPI_CHANGED:
+            InitializeSize();
             ScaleFont();
             ResizeListColumn();
             break;

@@ -832,9 +832,9 @@ void CMPCThemeUtil::drawToolbarHideButton(CDC* pDC, CWnd* window, CRect iconRect
     }
 }
 
-void CMPCThemeUtil::drawGripper(CWnd* window, CRect rectGripper, CDC* pDC, bool rot90) {
+void CMPCThemeUtil::drawGripper(CWnd* window, CWnd* dpiRefWnd, CRect rectGripper, CDC* pDC, bool rot90) {
     CPngImage image;
-    image.Load(getResourceByDPI(window, pDC, CMPCTheme::ThemeGrippers), AfxGetInstanceHandle());
+    image.Load(getResourceByDPI(dpiRefWnd, pDC, CMPCTheme::ThemeGrippers), AfxGetInstanceHandle());
     CImage gripperTemplate, gripperColorized;
     gripperTemplate.Attach((HBITMAP)image.Detach());
     ImageGrayer::Colorize(gripperTemplate, gripperColorized, CMPCTheme::GripperPatternColor, CMPCTheme::WindowBGColor, rot90);

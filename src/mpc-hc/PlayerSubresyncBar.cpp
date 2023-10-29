@@ -400,6 +400,7 @@ void CPlayerSubresyncBar::EventCallback(MpcEvent ev)
 {
     switch (ev) {
         case MpcEvent::DPI_CHANGED:
+            InitializeSize();
             ScaleFont();
             m_list.SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
             break;
