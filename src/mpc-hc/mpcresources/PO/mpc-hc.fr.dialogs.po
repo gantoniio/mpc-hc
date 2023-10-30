@@ -725,7 +725,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip (and preview):"
-msgstr "Afficher l'info-bulle de position temporelle (et l'aperçu)"
+msgstr "Afficher l'info-bulle de temps (et l'aperçu)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
