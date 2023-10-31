@@ -774,7 +774,7 @@ void LibassContext::LoadASSFont() {
                     || wcscmp(mime.GetBSTR(), L"font/ttf") == 0
                     || wcscmp(mime.GetBSTR(), L"font/sfnt") == 0
                     || wcscmp(mime.GetBSTR(), L"font/collection") == 0
-                    )
+                )
                 {
                     ass_add_font(ass, (char*)name, (char*)pData, len);
                     // TODO: clear these fonts somewhere?
