@@ -515,7 +515,7 @@ msgstr "Mostra i pin che falliscono il rendering"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Auto-carica i file audio"
+msgstr "Carica automaticamente i file audio"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
