@@ -63,7 +63,7 @@ CVMROSD::CVMROSD(CMainFrame* pMainFrame)
 
         for (int a = OSD_TRANSPARENT + 1; a < std::size(m_colors); a++) {
             if (m_colors[a] == 0) { //we cannot permit any standard color to be transparent=RGB(0,0,0)
-                m_colors[a] ^= 1;
+                m_colors[a] = RGB(1,1,1);
             }
         }
     } else {
