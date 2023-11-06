@@ -1323,7 +1323,7 @@ msgstr "채도"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "리셋"
+msgstr "초기화"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
