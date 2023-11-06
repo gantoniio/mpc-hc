@@ -347,18 +347,29 @@ ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &s
 
             if (!streamIsUTF8) {
                 // Convert to UTF-8 only if UTF-8 not detected
-                if (style.charSet != 0)
-                    ConvertCPToUTF8(style.charSet, lineOut);
+                if (style.charSet != 0) {
+                    auto saveLineOut = lineOut;
+                    UINT CP = CharSetToCodePage(style.charSet);
+                    ConvertCPToUTF8(CP, lineOut);
+                    if (lineOut.empty()) { //don't allow convert to destroy our text in case it's not encoded
+                        lineOut = saveLineOut;
+                    }
+                }
+                  
             }
 
-            ParseSrtLine(lineOut, style);
+            if (lineOut.empty()) {
+                ASSERT(false);
+            } else {
+                ParseSrtLine(lineOut, style);
 
-            CT2CA tmpCustomTags(style.customTags);
-            _snprintf_s(outBuffer, _TRUNCATE, "Dialogue: 0,%d:%02d:%02d.%02d,%d:%02d:%02d.%02d,Default,,0,0,0,,{\\blur%u}%s%s",
-                start[0], start[1], start[2],
-                (int)floor((double)start[3] / 10.0), end[0], end[1],
-                end[2], (int)floor((double)end[3] / 10.0), style.fBlur, std::string(tmpCustomTags).c_str(), lineOut.c_str());
-            ass_process_data(track, outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
+                CT2CA tmpCustomTags(style.customTags);
+                _snprintf_s(outBuffer, _TRUNCATE, "Dialogue: 0,%d:%02d:%02d.%02d,%d:%02d:%02d.%02d,Default,,0,0,0,,{\\blur%u}%s%s",
+                    start[0], start[1], start[2],
+                    (int)floor((double)start[3] / 10.0), end[0], end[1],
+                    end[2], (int)floor((double)end[3] / 10.0), style.fBlur, std::string(tmpCustomTags).c_str(), lineOut.c_str());
+                ass_process_data(track, outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
+            }
         }
     }
     ass_process_force_style(track);
@@ -766,8 +777,15 @@ void LibassContext::LoadASSFont() {
             BYTE* pData = nullptr;
             DWORD len = 0;
             if (SUCCEEDED(bag->ResGet(i, &name.GetBSTR(), &desc.GetBSTR(), &mime.GetBSTR(), &pData, &len, nullptr))) {
-                if (wcscmp(mime.GetBSTR(), L"application/x-truetype-font") == 0 ||
-                    wcscmp(mime.GetBSTR(), L"application/vnd.ms-opentype") == 0) // TODO: more mimes?
+                if (wcscmp(mime.GetBSTR(), L"application/x-truetype-font") == 0 // see https://gitlab.com/mbunkus/mkvtoolnix/-/issues/3137
+                    || wcscmp(mime.GetBSTR(), L"application/vnd.ms-opentype") == 0
+                    || wcscmp(mime.GetBSTR(), L"application/x-font-ttf") == 0
+                    || wcscmp(mime.GetBSTR(), L"application/font-sfnt") == 0
+                    || wcscmp(mime.GetBSTR(), L"font/otf") == 0
+                    || wcscmp(mime.GetBSTR(), L"font/ttf") == 0
+                    || wcscmp(mime.GetBSTR(), L"font/sfnt") == 0
+                    || wcscmp(mime.GetBSTR(), L"font/collection") == 0
+                )
                 {
                     ass_add_font(ass, (char*)name, (char*)pData, len);
                     // TODO: clear these fonts somewhere?
