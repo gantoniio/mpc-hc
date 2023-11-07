@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-10-03 19:44:53+0000\n"
+"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Hack茶ん, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/mpchc/teams/106126/ko/)\n"
@@ -104,15 +104,15 @@ msgstr "자막 포함"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "다크"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "라이트"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "윈도 기본값"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -751,7 +751,7 @@ msgstr "재생기::로고"
 
 msgctxt "IDD_PPAGETHEME"
 msgid "Player::Theme"
-msgstr ""
+msgstr "재생기::테마"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
