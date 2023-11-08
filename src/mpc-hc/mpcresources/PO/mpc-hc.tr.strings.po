@@ -279,7 +279,7 @@ msgstr "Süre"
 
 msgctxt "IDS_SUBRESYNC_CLN_END"
 msgid "End"
-msgstr "Son"
+msgstr "Bitiş"
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
