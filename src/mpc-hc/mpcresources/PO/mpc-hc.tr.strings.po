@@ -275,7 +275,7 @@ msgstr "Altyazı Eşzamanlama"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
-msgstr "Süre"
+msgstr "Başlangıç"
 
 msgctxt "IDS_SUBRESYNC_CLN_END"
 msgid "End"
