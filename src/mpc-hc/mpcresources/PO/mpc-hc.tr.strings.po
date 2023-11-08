@@ -377,7 +377,7 @@ msgstr "Film"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
-msgstr "Karakter"
+msgstr "Karakter kümesi"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
