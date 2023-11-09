@@ -111,7 +111,7 @@ msgstr "Scuro"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr "Chiara"
+msgstr "Chiaro"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
