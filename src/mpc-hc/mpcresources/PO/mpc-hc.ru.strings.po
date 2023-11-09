@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-10-03 19:44:53+0000\n"
+"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: CoolCmd, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/mpchc/teams/106126/ru/)\n"
@@ -105,15 +105,15 @@ msgstr "Добавить субтитры"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "Тёмный"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "Светлый"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "Как в Windows"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -758,7 +758,7 @@ msgstr "Проигрыватель::Логотип"
 
 msgctxt "IDD_PPAGETHEME"
 msgid "Player::Theme"
-msgstr ""
+msgstr "Проигрыватель::Тема"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
