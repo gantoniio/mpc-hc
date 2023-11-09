@@ -4,19 +4,20 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Cyril Provence <ywa78408@eveav.com>, 2020
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
-"PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2020\n"
+"PO-Revision-Date: 2023-11-09 08:48+0100\n"
+"Last-Translator: Corentin Bacqué-Cazenave <corentin@progaccess.net>\n"
 "Language-Team: French (https://app.transifex.com/mpchc/teams/106126/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Poedit 3.4.1\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -188,7 +189,7 @@ msgstr "Automatique (si trop &grand)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Options de &rendu"
+msgstr "Paramètres de &rendu"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
