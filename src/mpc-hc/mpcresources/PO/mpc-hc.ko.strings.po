@@ -4528,7 +4528,7 @@ msgstr "크기 조정 후, 픽셀 셰이더 활성화"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
-msgstr "상태 표시줄의 새로 고침 간격(밀리 초)"
+msgstr "상태 표시줄의 새로 고침 간격(밀리초)"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
