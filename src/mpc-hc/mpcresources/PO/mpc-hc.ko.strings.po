@@ -4033,7 +4033,7 @@ msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
-msgstr "동영상을 클릭할 때 마우스 왼쪽 클릭 이벤트의 최대 지연 시간(밀리 초)."
+msgstr "동영상을 클릭할 때 마우스 왼쪽 클릭 이벤트의 최대 지연 시간(밀리초)."
 
 msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
