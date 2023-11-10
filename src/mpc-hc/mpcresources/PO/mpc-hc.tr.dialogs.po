@@ -585,7 +585,7 @@ msgstr "İşleyici yerleşimi"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Sıkıştırılmış dosyalar için taraf oranı dengelemesini kullan"
+msgstr "Anamorfik videolar için en boy oranı telafisi uygula"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
