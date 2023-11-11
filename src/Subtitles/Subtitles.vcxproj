@@ -48,7 +48,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\mpc-hc\RegexUtil.cpp" />
     <ClCompile Include="Ellipse.cpp" />
     <ClCompile Include="FreeTypePathTools.cpp" />
     <ClCompile Include="OpenTypeLangTags.cpp" />
@@ -79,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Utf8.h" />
-    <ClInclude Include="..\mpc-hc\RegexUtil.h" />
     <ClInclude Include="Ellipse.h" />
     <ClInclude Include="ColorConvTable.h" />
     <ClInclude Include="FreeTypePathTools.h" />

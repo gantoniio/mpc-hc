@@ -34,7 +34,7 @@
 #include  <comutil.h>
 #include <regex>
 #include "LibassContext.h"
-#include "../mpc-hc/RegexUtil.h"
+#include "../DSUtil/RegexUtil.h"
 #include "../mpc-hc/SubtitlesProvidersUtils.h"
 #include "../DSUtil/ISOLang.h"
 
