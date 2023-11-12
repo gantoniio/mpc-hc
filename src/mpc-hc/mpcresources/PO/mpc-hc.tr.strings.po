@@ -331,7 +331,7 @@ msgstr "Ses yakalama filtresi grafiğe eklenemiyor"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Yakalama aygıtı açılamıyor."
+msgstr "Yakalama aygıtı açılamadı."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
