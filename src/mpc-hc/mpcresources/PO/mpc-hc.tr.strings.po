@@ -2291,7 +2291,7 @@ msgstr "DVD Menüsü Kapat"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Ana Tuş"
+msgstr "Acil durum"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
