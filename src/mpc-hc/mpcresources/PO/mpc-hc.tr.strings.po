@@ -2049,7 +2049,7 @@ msgstr "Başlık && Menü'yü göster"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Menüyü &Gizle"
+msgstr "Menüyü gizle"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
