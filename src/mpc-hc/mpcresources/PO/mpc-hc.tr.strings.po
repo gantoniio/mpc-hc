@@ -1650,7 +1650,7 @@ msgstr "Listeden tüm kanalları kaldırmak istediğinizden emin misiniz?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr "Bir bilgi bulunmuyor"
+msgstr "Bilgi mevcut değil"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
