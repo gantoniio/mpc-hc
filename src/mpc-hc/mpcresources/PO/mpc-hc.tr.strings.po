@@ -621,7 +621,7 @@ msgstr "Yürütme::Yakalama"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Yürütme::Eşzamanlılık Ayarları"
+msgstr "Yürütme::Eşzamanlama İşl. Seçenekleri"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
