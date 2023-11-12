@@ -1486,7 +1486,7 @@ msgstr "Durdur"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr "Sl = Sğ"
+msgstr "Sol = Sağ"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
