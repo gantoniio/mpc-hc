@@ -2061,7 +2061,7 @@ msgstr "Minimal"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
-msgstr "Az Ayrıntı"
+msgstr "Kompakt"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
