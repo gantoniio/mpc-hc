@@ -1398,7 +1398,7 @@ msgstr "Pencere kipinde fare"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "Tam ekran Fare"
+msgstr "Tam ekran kipinde fare"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
