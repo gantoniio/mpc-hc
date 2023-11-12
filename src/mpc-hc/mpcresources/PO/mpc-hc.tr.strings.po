@@ -1426,7 +1426,7 @@ msgstr "Hızlı Dosya Aç"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File/URL"
-msgstr "Dosya Aç"
+msgstr "Dosya/URL Aç..."
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
