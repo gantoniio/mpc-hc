@@ -2061,7 +2061,7 @@ msgstr "Minimal"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
-msgstr "Kompakt"
+msgstr "Kompakt arayüz"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
