@@ -1905,7 +1905,7 @@ msgid ""
 "Some changes have not been saved yet.\n"
 "Do you want to save them before exporting?"
 msgstr ""
-"Bazı ayarlar kaydedilmemiş.\n"
+"Bazı seçenek değişiklikleri henüz kaydedilmemiştir.\n"
 "Dışarı aktarmadan önce kaydetmek istiyor musunuz?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
