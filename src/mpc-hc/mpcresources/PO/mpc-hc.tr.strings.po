@@ -1910,7 +1910,7 @@ msgstr ""
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Ayarlar başarıyla dışarı verildi."
+msgstr "Ayarlar başarıyla dışa aktarıldı."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid ""
