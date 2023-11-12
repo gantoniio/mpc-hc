@@ -1692,7 +1692,9 @@ msgstr "Ses erken geliyorsa artı, geç geliyorsa eksi bir değer giriniz."
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr "Önizleme kapalı durumda. MPC-HC ayarları içinden açabilirsiniz."
+msgstr ""
+"Önizleme şu anda devre dışıdır. MPC-HC'nin seçeneklerinden "
+"etkinleştirebilirsiniz."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid ""
