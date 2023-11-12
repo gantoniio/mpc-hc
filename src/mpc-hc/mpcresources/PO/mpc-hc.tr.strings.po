@@ -501,7 +501,7 @@ msgstr "&Sıfırla"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
-msgstr "&Varsayılan"
+msgstr "Orijinal"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
