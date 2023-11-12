@@ -1724,7 +1724,7 @@ msgstr "Resim Kaydet"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "Görüntü Kaydet (otomatik)"
+msgstr "Resim Kaydet (otomatik)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
