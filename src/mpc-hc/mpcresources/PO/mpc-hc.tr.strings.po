@@ -4530,7 +4530,7 @@ msgid ""
 "\"Output\" settings)"
 msgstr ""
 "/audiorenderer N\tN nolu Ses işleyicisini kullanmaya başla\n"
-"(N \"Çıkış\" ayarlarındaki listeden 1 sayısı ile başlanarak ifade edilir)"
+"(N \"Çıkış\" seçeneklerindeki listeden 1 sayısı ile başlanarak ifade edilir)"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
