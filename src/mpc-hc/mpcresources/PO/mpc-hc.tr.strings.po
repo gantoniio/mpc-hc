@@ -231,7 +231,7 @@ msgstr "Ebeveyn denetimi"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr "%d+"
+msgstr "+%d"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
