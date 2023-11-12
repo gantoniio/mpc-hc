@@ -2037,7 +2037,7 @@ msgstr "Altyazılar::Diğer"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "Kenarları gizle"
+msgstr "Kenarlıkları gizle"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
