@@ -1662,7 +1662,7 @@ msgstr "En-Boy oranı%d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr "Dosya kaydı oluşturur (yeniden başlatma gerektirir)"
+msgstr "Günlük kayıtları dosyaya yazılır (yeniden başlatma gerektirir)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
