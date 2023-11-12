@@ -2125,7 +2125,7 @@ msgstr "[%s] \"%s\" indiriliyor"
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "Liste inceleniyor..."
+msgstr "Liste ayrıştırılıyor..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
