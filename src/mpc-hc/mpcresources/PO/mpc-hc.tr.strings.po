@@ -2419,7 +2419,7 @@ msgstr "Biçim"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
-msgstr "Orantı bozuldu: %s - %s"
+msgstr "Focus lost to: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
