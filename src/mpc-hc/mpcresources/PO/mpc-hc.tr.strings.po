@@ -235,7 +235,7 @@ msgstr "+%d"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr "Denetlenmemiş"
+msgstr "Derecelendirilmedi"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
