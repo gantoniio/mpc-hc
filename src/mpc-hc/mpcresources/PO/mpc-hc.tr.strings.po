@@ -1366,7 +1366,7 @@ msgstr "Telif Hakkı"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
-msgstr "Beğenilme"
+msgstr "Değerlendirme"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
