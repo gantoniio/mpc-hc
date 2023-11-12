@@ -1658,7 +1658,7 @@ msgstr "Lütfen bekleyiniz, inceleme devam ediyor..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr "AR %d:%d"
+msgstr "En-Boy oranı%d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
