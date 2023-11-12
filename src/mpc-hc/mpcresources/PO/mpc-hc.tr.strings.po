@@ -2471,7 +2471,7 @@ msgid ""
 "Please click on the \"Run as administrator\" button."
 msgstr ""
 "MPC-HC, dosya biçimi ilişkilendirmelerini ayarlayabilmek için gerekli "
-"izinlere sahip değil. Lütfen \"Yönetici olarak çalıştır\" tuşuna basınız."
+"izinlere sahip değil. Lütfen \"Yönetici olarak çalıştır\" tuşuna tıklayınız."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid ""
