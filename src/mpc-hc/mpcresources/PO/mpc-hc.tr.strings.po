@@ -3793,7 +3793,7 @@ msgid ""
 "Change the video renderer in MPC's output options and reopen the file."
 msgstr ""
 "'Resim Kaydet' ve 'Küçük Resim Kaydet' özellikleri, Ters Süzme Karıştırıcısı video işleyicisi ile çalışmaz.\n"
-"MPC-HC nin Çıktı ayarlarından başka bir işleyici seçip, dosyayı yeniden açınız."
+"MPC-HC'nin Çıkış seçeneklerinden başka bir işleyici seçip, dosyayı yeniden açınız."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
