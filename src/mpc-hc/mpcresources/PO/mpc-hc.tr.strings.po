@@ -1526,7 +1526,7 @@ msgstr "&Filtre listesini panoya kopyala"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr "Sunucu kimlik bilgilerini giriniz"
+msgstr "Sağlayıcı üyelik bilgilerinizi giriniz"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
