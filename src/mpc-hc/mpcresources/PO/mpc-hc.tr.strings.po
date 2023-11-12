@@ -2013,7 +2013,7 @@ msgstr "Başa dön"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr "OSD: Dosya Adını Göster"
+msgstr "OSD: Dosya adını göster"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
