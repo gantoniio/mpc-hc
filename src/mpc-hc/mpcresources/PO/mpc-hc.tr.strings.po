@@ -1334,7 +1334,7 @@ msgstr "Bitti"
 
 msgctxt "IDS_SUBTITLES_OPTIONS"
 msgid "&Options..."
-msgstr "&Ayarlar..."
+msgstr "Seçenekler..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
