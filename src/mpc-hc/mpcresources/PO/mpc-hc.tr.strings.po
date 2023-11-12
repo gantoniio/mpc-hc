@@ -1646,7 +1646,7 @@ msgstr "Tümünü sil"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Tüm kanal listesini temizlemek istediğinizden emin misiniz?"
+msgstr "Listeden tüm kanalları kaldırmak istediğinizden emin misiniz?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
