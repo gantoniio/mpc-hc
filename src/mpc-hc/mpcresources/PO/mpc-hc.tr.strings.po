@@ -2307,7 +2307,7 @@ msgstr "Filtre Menüsü"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
-msgstr "Ayarlar"
+msgstr "Seçenekler"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
