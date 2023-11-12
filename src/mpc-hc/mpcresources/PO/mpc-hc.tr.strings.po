@@ -1394,7 +1394,7 @@ msgstr "Tuş"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr "Fare Penceresi"
+msgstr "Pencere kipinde fare"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
