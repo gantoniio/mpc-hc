@@ -529,7 +529,7 @@ msgstr "&Arttır"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
-msgstr "Ayarlar"
+msgstr "Seçenekler"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
