@@ -1390,7 +1390,7 @@ msgstr "Komut"
 
 msgctxt "IDS_AG_KEY"
 msgid "Key"
-msgstr "Anahtar"
+msgstr "Tuş"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
