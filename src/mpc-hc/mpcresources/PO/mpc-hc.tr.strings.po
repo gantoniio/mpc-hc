@@ -1338,7 +1338,7 @@ msgstr "&Ayarlar..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "&Biçimler..."
+msgstr "Stiller..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
