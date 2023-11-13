@@ -485,7 +485,7 @@ msgstr "Dikey hizalama:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Varsayılan parça seçimi"
+msgstr "Varsayılan parça tercihi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
