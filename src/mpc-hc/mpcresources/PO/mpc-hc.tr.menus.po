@@ -701,7 +701,7 @@ msgstr "Hiçbir şey yapma"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "Klasördeki &Sıradaki Dosyayı Yürüt"
+msgstr "Klasördeki sonraki dosyayı yürüt"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
