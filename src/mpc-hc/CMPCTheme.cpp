@@ -673,12 +673,11 @@ void CMPCTheme::InitializeColors(ModernThemeMode themeMode) {
         TabCtrlBorderColor = RGBGS(227);
         TabCtrlInactiveColor = RGBGS(246);
 
-
         StatusBarBGColor = RGBGS(240);
         StatusBarSeparatorColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
 
-        ProgressBarBGColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
-        ProgressBarColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
+        ProgressBarBGColor = RGBGS(255);
+        ProgressBarColor = RGB(130, 215, 146);
 
         SubresyncFadeText1 = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
         SubresyncFadeText2 = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
