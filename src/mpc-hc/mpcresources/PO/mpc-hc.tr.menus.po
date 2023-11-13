@@ -149,7 +149,7 @@ msgstr "Minimal"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "&Az"
+msgstr "Kompakt"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
