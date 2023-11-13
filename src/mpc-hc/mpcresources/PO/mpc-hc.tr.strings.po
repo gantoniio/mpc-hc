@@ -2688,7 +2688,7 @@ msgstr "En Boy Oranı: Varsayılan (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "Ses Gecikmesi: %I64d ms"
+msgstr "Ses gecikmesi: %I64d ms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
