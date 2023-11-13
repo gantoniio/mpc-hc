@@ -1867,7 +1867,7 @@ msgstr "Sorun açıklaması (lütfen sadece İngilizce bildiriniz):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr "MPC-HC 'yi yeniden başlat"
+msgstr "MPC-HC'yi yeniden başlat"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
