@@ -697,7 +697,7 @@ msgstr "Oy&natmadan Sonra"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr "Bir &İşlem Yapma"
+msgstr "Hiçbir şey yapma"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
