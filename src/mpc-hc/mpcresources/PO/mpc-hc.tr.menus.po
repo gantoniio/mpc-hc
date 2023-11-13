@@ -145,7 +145,7 @@ msgstr "&Oynatıcı Ayrıntıları..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&En Az"
+msgstr "Minimal"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
