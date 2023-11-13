@@ -1578,7 +1578,7 @@ msgstr "Aşağı"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Varsayılan monitör kipini tam ekrandan çıkışta uygula"
+msgstr "Tam ekran çıkışında varsayılan monitör kipini uygula"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
