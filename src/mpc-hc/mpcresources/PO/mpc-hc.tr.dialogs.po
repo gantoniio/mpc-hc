@@ -545,7 +545,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Kaplama ayarları (değişiklikleri görmek için video'yu tekrar açınız)"
+msgstr "Doku ayarları (değişiklikleri görmek için videoyu tekrar açın)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
