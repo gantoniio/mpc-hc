@@ -670,8 +670,8 @@ void CMPCTheme::InitializeColors(ModernThemeMode themeMode) {
         HeaderCtrlGridColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
         AudioSwitcherGridColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
 
-        TabCtrlBorderColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
-        TabCtrlInactiveColor = RGB(255, 0, 0); //not implemented for light theme, default windows controls used
+        TabCtrlBorderColor = RGBGS(227);
+        TabCtrlInactiveColor = RGBGS(246);
 
 
         StatusBarBGColor = RGBGS(240);
