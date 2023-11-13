@@ -1480,7 +1480,7 @@ msgstr "Filtre grafiği durdur"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Video'yu görüntüye eşzamanla"
+msgstr "Videoyu ekranla senkronize et"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
