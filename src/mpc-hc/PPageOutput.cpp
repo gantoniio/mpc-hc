@@ -171,9 +171,9 @@ BOOL CPPageOutput::OnInitDialog()
     // MPC AR
     m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
     m_iAudioRendererTypeCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_AUD_MPC_REND).GetString());
-    m_iMPCRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+    m_iMPCAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
     if (s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
-        m_iAudioRendererType = m_iMPCRendererType;
+        m_iAudioRendererType = m_iMPCAudioRendererType;
     }
 
     // List of available renderers
@@ -514,11 +514,11 @@ void CPPageOutput::OpenVideoRendererSettings() {
 }
 
 void CPPageOutput::OnUpdateAudioRendererSettings(CCmdUI* pCmdUI) {
-    pCmdUI->Enable(m_iAudioRendererType == m_iMPCRendererType);
+    pCmdUI->Enable(m_iAudioRendererType == m_iMPCAudioRendererType);
 }
 
 void CPPageOutput::OpenAudioRendererSettings() {
-    if (m_iAudioRendererType == m_iMPCRendererType) {
+    if (m_iAudioRendererType == m_iMPCAudioRendererType) {
         ShowPPage(CFGManager::GetMpcAudioRendererInstance);
     }
 }

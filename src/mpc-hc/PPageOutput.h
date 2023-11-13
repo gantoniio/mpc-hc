@@ -68,7 +68,7 @@ public:
     int m_iDSVideoRendererType;
     int m_iAPSurfaceUsage;
     int m_iAudioRendererType;
-    int m_iMPCRendererType;
+    int m_iMPCAudioRendererType;
     CAppSettings::SubtitleRenderer m_lastSubrenderer;
     int m_iDX9Resizer;
     BOOL m_fVMR9MixerMode;
