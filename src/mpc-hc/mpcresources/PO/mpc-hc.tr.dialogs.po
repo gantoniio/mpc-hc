@@ -1582,7 +1582,7 @@ msgstr "Tam ekran çıkışında varsayılan monitör kipini uygula"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Çözünürlüğü çıkışta geri al"
+msgstr "Program çıkışında çözünürlüğü eski haline getir"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
