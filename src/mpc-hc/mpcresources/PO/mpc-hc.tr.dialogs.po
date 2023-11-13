@@ -369,7 +369,7 @@ msgstr "Konum bilgisi iste"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Varsayılan konumu aç:"
+msgstr "Her zaman varsayılan konumu aç:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
