@@ -1550,7 +1550,7 @@ msgstr "Yerleşik panelleri gizle"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Oynatmadan sonra tam ekrandan çık"
+msgstr "Oynatmanın sonunda tam ekrandan çık"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
