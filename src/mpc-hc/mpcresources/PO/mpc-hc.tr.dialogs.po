@@ -800,7 +800,7 @@ msgstr "Telif hakkı:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Beğenilme:"
+msgstr "Değerlendirme:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
