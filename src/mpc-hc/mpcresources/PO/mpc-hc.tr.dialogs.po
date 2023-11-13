@@ -1488,7 +1488,7 @@ msgstr "Frekans düzeltmesi:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Görüntüyü video'ya eşzamanla"
+msgstr "Ekranı video ile senkronize et"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
