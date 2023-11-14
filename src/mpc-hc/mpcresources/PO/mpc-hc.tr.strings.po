@@ -3679,7 +3679,7 @@ msgstr "Yakınlaştırma: Otomatik"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr "Özel kanal adreslemesine geç"
+msgstr "Özel kanal adreslemesini Aç/Kapat"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
