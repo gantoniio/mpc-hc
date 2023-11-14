@@ -1262,7 +1262,7 @@ msgstr "Görüntü Süresi Düzeltmesini Aç"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "EDL penceresine geç"
+msgstr "EDL penceresini Aç/Kapat"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
