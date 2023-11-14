@@ -1096,7 +1096,7 @@ msgstr "İkincil"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Outline"
-msgstr "Çizgi"
+msgstr "Dış çizgi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
