@@ -1082,7 +1082,7 @@ msgstr ""
 
 msgctxt "IDS_AG_OPEN_FILE_LOCATION"
 msgid "Open File Location"
-msgstr "Dosya Konumunu Aç"
+msgstr "Dosya konumunu aç"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
