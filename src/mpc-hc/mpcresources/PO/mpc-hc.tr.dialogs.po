@@ -1036,7 +1036,7 @@ msgstr "Kenarlık Biçimi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
-msgstr "Çizgisel"
+msgstr "Dış çizgi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
