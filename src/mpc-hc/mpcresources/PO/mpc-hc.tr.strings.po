@@ -2752,7 +2752,7 @@ msgstr "Duraklat"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Başlık & Menü'ye Geç"
+msgstr "Başlık & Menüyü Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
