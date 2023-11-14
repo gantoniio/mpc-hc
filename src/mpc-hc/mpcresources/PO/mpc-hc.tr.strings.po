@@ -2908,7 +2908,7 @@ msgstr "Ses yükseltmesi en az"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Ses yüksekliği en fazla"
+msgstr "Ses yükseltmesi en fazla"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
