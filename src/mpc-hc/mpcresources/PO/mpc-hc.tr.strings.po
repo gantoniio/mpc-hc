@@ -2463,7 +2463,7 @@ msgstr "MPC-HC Oynatma Listesine Ekle"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
-msgstr "MPC-HC ile Oynat"
+msgstr "MPC-HC ile oynat"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid ""
