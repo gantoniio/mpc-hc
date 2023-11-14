@@ -106,7 +106,7 @@ msgstr "44100 Hz örneklemesine dönüştür"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Ses süresi değişimi (ms):"
+msgstr "Ses zaman kaydırması (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
