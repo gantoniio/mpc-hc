@@ -1086,7 +1086,7 @@ msgstr "Dosya konumunu aç"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "Gezinti Çubuğuna Geç"
+msgstr "Gezinti çubuğunu Aç/Kapat"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
