@@ -45,7 +45,7 @@ msgstr "Ses"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Output"
-msgstr "Çıktı"
+msgstr "Çıkış"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
