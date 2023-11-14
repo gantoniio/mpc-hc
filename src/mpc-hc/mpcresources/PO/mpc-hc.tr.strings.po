@@ -2900,7 +2900,7 @@ msgstr "Ses yükseltmeyi arttır"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "Ses yüksekliğini azalt"
+msgstr "Ses yükseltmeyi azalt"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
