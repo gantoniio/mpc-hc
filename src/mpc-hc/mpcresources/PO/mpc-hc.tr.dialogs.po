@@ -581,7 +581,7 @@ msgstr "Uzun hareketlendirmeleri videoyla uyumlu olacak şekilde eşzamanla"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "İşleyici yerleşimi"
+msgstr "İşleyici düzeni"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
