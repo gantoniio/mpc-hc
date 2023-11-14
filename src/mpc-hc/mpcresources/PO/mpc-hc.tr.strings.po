@@ -737,7 +737,7 @@ msgstr "MPC Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7"
 msgid "Video Mixing Renderer 7"
-msgstr "Video Mixing Renderer 7"
+msgstr "Video Karıştırma İşleyicisi 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
