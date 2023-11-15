@@ -3864,23 +3864,23 @@ msgstr "Önce yeni ayarları uygulamanız gerekmektedir."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Oynatmadan Sonra: Çık"
+msgstr "Oynatmadan sonra: Çık"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Oynatmadan Sonra: Hazırda Beklet"
+msgstr "Oynatmadan sonra: Hazırda Beklet"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Oynatmadan Sonra: Askıya Al"
+msgstr "Oynatmadan sonra: Askıya Al"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Oynatmadan Sonra: Bilgisayarı Kapat"
+msgstr "Oynatmadan sonra: Bilgisayarı Kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Oynatmadan Sonra: Oturumu Kapat"
+msgstr "Oynatmadan sonra: Oturumu Kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
