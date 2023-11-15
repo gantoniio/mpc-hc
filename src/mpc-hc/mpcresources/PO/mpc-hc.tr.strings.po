@@ -4828,7 +4828,7 @@ msgstr "Channels:"
 
 msgctxt "IDS_ARS_WASAPI_METHOD"
 msgid "WASAPI method:"
-msgstr "WASAPI kipi:"
+msgstr "WASAPI yöntemi:"
 
 msgctxt "IDS_ARS_DUMMY_CHANNELS"
 msgid "Don't fill channels when upmixing"
