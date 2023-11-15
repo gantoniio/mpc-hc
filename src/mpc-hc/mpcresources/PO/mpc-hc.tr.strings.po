@@ -4780,7 +4780,7 @@ msgstr "Ses Aygıtı:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
-msgstr "Release device when idle"
+msgstr "Boştayken cihazı serbest bırak"
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
