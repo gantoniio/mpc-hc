@@ -1368,7 +1368,7 @@ msgstr "Sıfırla"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
-msgstr "Dışa aktar"
+msgstr "Ayarları dışa aktar"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
