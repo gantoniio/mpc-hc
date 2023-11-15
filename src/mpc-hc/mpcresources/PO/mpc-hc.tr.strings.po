@@ -4848,7 +4848,7 @@ msgstr "The renderer will try to initialize the device skipping some checks."
 
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Reset"
+msgstr "Sıfırla"
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
