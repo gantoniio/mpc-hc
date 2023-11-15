@@ -4788,7 +4788,7 @@ msgstr "Stereo çapraz beslemeyi etkinleştir (kulaklık için)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
-msgstr "Device buffer:"
+msgstr "Cihaz arabelleği:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
