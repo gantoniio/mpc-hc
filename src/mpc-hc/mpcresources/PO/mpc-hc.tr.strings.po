@@ -1674,7 +1674,7 @@ msgstr "Yüksek hassasiyet"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "Oynatmadan Sonra: Geçerli dosyayı tekrar oynat"
+msgstr "Oynatmadan sonra: Geçerli dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
