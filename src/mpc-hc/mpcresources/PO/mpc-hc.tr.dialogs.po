@@ -1116,7 +1116,7 @@ msgstr "Libass Seçenekleri"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
 msgid "Use libass for SSA/ASS"
-msgstr "SSA/ASS için libass kullan"
+msgstr "SSA/ASS uzantıları için libass kullan"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK3"
 msgid "Use libass for SRT"
