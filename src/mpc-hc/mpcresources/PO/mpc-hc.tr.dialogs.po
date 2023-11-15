@@ -461,7 +461,7 @@ msgstr "Tekrar kipi:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr "Oynatmadan Sonra"
+msgstr "Oynatmadan sonra"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
