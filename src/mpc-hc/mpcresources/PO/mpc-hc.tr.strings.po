@@ -3884,19 +3884,19 @@ msgstr "Oynatmadan sonra: Oturumu Kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Oynatmadan Sonra: Kilitle"
+msgstr "Oynatmadan sonra: Kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Oynatmadan Sonra: Ekranı Kapat"
+msgstr "Oynatmadan sonra: Ekranı Kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "Oynatmadan Sonra: Sıradaki Dosyayı Oynat"
+msgstr "Oynatmadan sonra: Sıradaki Dosyayı Oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Oynatmadan Sonra: Bir İşlem Yapma"
+msgstr "Oynatmadan sonra: Bir İşlem Yapma"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
