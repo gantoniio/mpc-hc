@@ -1678,7 +1678,7 @@ msgstr "Oynatmadan sonra: Geçerli dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr "Oynatmadan Sonra: Kapat"
+msgstr "Oynatmadan sonra: Kapat"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization."
