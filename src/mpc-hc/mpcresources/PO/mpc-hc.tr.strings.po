@@ -4792,7 +4792,7 @@ msgstr "Device buffer:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr "Do not check format support"
+msgstr "Format desteğini kontrol etme"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
