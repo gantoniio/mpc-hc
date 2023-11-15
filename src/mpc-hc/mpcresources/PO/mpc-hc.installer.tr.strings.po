@@ -51,7 +51,7 @@ msgid ""
 msgstr ""
 "MPC-HC ayarlarını da silmek istiyor musunuz?\n"
 "\n"
-"MPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz."
+"MPC-HC'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid ""
