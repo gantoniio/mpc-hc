@@ -1044,7 +1044,7 @@ msgstr "Saydam kutu"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Kenar genişliği"
+msgstr "Dış çizgi genişliği"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
