@@ -4569,7 +4569,7 @@ msgstr "Koyu Temayı Aç/Kapat"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
-msgstr "Son dosyayı çaldıktan sonra klasördeki ilk dosyaya geri döner."
+msgstr "Son dosyayı oynattıktan sonra klasördeki ilk dosyaya geri dön."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
 msgid ""
