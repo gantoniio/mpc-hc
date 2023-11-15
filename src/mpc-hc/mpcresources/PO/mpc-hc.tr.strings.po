@@ -4768,7 +4768,7 @@ msgstr "Paylaşımlı"
 
 msgctxt "IDS_ARS_BITEXACT_OUTPUT"
 msgid "Allow bit-exact output"
-msgstr "Allow bit-exact output"
+msgstr "Bit-exact çıktıya izin ver"
 
 msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
 msgid "Use system layout channels"
