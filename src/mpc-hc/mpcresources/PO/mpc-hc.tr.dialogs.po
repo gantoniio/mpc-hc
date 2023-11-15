@@ -1372,7 +1372,7 @@ msgstr "Ayarları dışa aktar"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Tuş Ayarlarını Aktar"
+msgstr "Kısayolları dışa aktar"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
