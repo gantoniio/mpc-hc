@@ -1568,7 +1568,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Dosya yerleşimini sadece N dakikadan büyük dosyalar için hatırla."
+msgstr "Dosya yerleşimini sadece şu dakikadan büyük dosyalar için hatırla."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
