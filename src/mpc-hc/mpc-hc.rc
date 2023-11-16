@@ -1660,7 +1660,7 @@ BEGIN
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
-        POPUP "Video Frame Adjustme&nts"
+        POPUP "P&nS Frame Adjust"
         BEGIN
             MENUITEM "&Increase Size",              ID_VIEW_INCSIZE
             MENUITEM "&Decrease Size",              ID_VIEW_DECSIZE
@@ -1865,7 +1865,7 @@ BEGIN
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
-        POPUP "Video Frame Adjustme&nts"
+        POPUP "P&nS Frame Adjust"
         BEGIN
             MENUITEM "&Increase Size",              ID_VIEW_INCSIZE
             MENUITEM "&Decrease Size",              ID_VIEW_DECSIZE
@@ -2183,7 +2183,7 @@ BEGIN
                 END
                 MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
             END
-            POPUP "Video Frame Adjustme&nts"
+            POPUP "P&nS Frame Adjust"
             BEGIN
                 MENUITEM "&Increase Size",              ID_VIEW_INCSIZE
                 MENUITEM "&Decrease Size",              ID_VIEW_DECSIZE
