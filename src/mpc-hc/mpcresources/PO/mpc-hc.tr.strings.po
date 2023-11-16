@@ -1580,7 +1580,7 @@ msgstr "Bir işlem yapma"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr "Klasördeki sonraki dosyayı yürüt"
+msgstr "Klasördeki sonraki dosyayı oynat"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
