@@ -789,7 +789,7 @@ msgstr "Güncelleştirmeleri &kontrol et"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Komut Satırı Anahtarları"
+msgstr "&Komut satırı anahtarları"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
