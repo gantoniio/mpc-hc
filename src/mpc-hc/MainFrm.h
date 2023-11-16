@@ -544,8 +544,11 @@ protected:
     CString m_LastOpenBDPath;
     CAutoPtr<OpenMediaData> m_lastOMD;
 
-    DVD_DOMAIN m_iDVDDomain;
-    DWORD m_iDVDTitle;
+    DVD_DOMAIN  m_iDVDDomain;
+    DWORD       m_iDVDTitle;
+    int         m_loadedAudioTrackIndex = -1;
+    int         m_loadedSubtitleTrackIndex = -1;
+
     double m_dSpeedRate;
     double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
     int m_AngleX, m_AngleY, m_AngleZ;
