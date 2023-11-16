@@ -297,7 +297,7 @@ msgstr "Diğer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Simge durumunda göster"
+msgstr "Görev çubuğunda göster"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
