@@ -1542,7 +1542,7 @@ msgstr "Eğitim/Bilim/Gerçekçi konular"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Kontroller ve düğmeler pencere kipinde de gizlenir."
+msgstr "Pencere kipinde de kontrolleri ve panelleri gizler."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid ""
