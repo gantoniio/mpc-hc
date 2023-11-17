@@ -4192,7 +4192,7 @@ msgstr "Diller"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
-msgstr "HATA: İnternet bağlantısı sağlanamadı."
+msgstr "HATA: İnternet bağlantısı kurulamadı."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
