@@ -1038,7 +1038,7 @@ msgstr "Tüm arşiv parçaları bulunamadı"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Kopuklukları engeller, ancak araç çubuğu gösterimine izin vermez."
+msgstr "Yırtılmayı azaltır ancak araç çubuğunun gösterilmesini engeller."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
