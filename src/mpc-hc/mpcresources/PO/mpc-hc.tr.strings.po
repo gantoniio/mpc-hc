@@ -2001,7 +2001,7 @@ msgstr "Sonraki Altyazıya Git"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr "Altyazı senkron: -100ms"
+msgstr "Altyazı eşzamanlama: -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
