@@ -2865,7 +2865,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentAudioTrack(int audi
     if (GetCurrentIndex(idx)) {
         if (rfe_array[idx].AudioTrackIndex != audioIndex) {
             rfe_array[idx].AudioTrackIndex = audioIndex;
-            WriteMediaHistoryEntry(rfe_array[idx]);
+            WriteMediaHistoryAudioIndex(rfe_array[idx]);
         }
     }
 }
@@ -2883,7 +2883,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentSubtitleTrack(int a
     if (GetCurrentIndex(idx)) {
         if (rfe_array[idx].SubtitleTrackIndex != audioIndex) {
             rfe_array[idx].SubtitleTrackIndex = audioIndex;
-            WriteMediaHistoryEntry(rfe_array[idx]);
+            WriteMediaHistorySubtitleIndex(rfe_array[idx]);
         }
     }
 }
@@ -3185,6 +3185,40 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
     rfe_array.FreeExtra();
 }
 
+void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryAudioIndex(RecentFileEntry& r) {
+    auto pApp = AfxGetMyApp();
+
+    if (r.hash.IsEmpty()) {
+        r.hash = getRFEHash(r.fns.GetHead());
+    }
+
+    CStringW subSection, t;
+    subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(r.hash));
+
+    if (r.AudioTrackIndex != -1) {
+        pApp->WriteProfileInt(subSection, L"AudioTrackIndex", int(r.AudioTrackIndex));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"AudioTrackIndex", nullptr);
+    }
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistorySubtitleIndex(RecentFileEntry& r) {
+    auto pApp = AfxGetMyApp();
+
+    if (r.hash.IsEmpty()) {
+        r.hash = getRFEHash(r.fns.GetHead());
+    }
+
+    CStringW subSection, t;
+    subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(r.hash));
+
+    if (r.SubtitleTrackIndex != -1) {
+        pApp->WriteProfileInt(subSection, L"SubtitleTrackIndex", int(r.SubtitleTrackIndex));
+    } else {
+        pApp->WriteProfileStringW(subSection, L"SubtitleTrackIndex", nullptr);
+    }
+}
+
 void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened /* = false */) {
     auto pApp = AfxGetMyApp();
 
@@ -3192,7 +3226,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
         r.hash = getRFEHash(r.fns.GetHead());
     }
 
-    CStringW hashName, subSection, t;
+    CStringW subSection, t;
     subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(r.hash));
     pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
 

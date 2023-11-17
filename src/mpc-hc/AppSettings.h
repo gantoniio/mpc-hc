@@ -536,6 +536,8 @@ class CAppSettings
         void UpdateCurrentABRepeat(ABRepeat abRepeat);
         void WriteCurrentEntry();
         void ReadMediaHistory();
+        void WriteMediaHistoryAudioIndex(RecentFileEntry& r);
+        void WriteMediaHistorySubtitleIndex(RecentFileEntry& r);
         void WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened = false);
         void SaveMediaHistory();
         void ReadLegacyMediaHistory(std::map<CStringW, size_t> &filenameToIndex);
