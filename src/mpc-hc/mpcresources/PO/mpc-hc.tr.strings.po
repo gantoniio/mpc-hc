@@ -4184,7 +4184,7 @@ msgstr "Aşağı Taşı"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr "Adres Aç"
+msgstr "Bağlantıyı tarayıcıda aç"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
