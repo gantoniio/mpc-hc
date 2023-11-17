@@ -631,7 +631,7 @@ msgstr "V&arsayılan uygulama olarak ayarla"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "Sağ tuş menüsü"
+msgstr "Windows sağ tık menüsü"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
