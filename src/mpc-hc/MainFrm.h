@@ -338,6 +338,8 @@ private:
     CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
+    bool IsValidAudioStream(int i);
+    bool IsValidSubtitleStream(int i);
 
     friend class CTextPassThruFilter;
 

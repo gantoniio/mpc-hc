@@ -9219,6 +9219,31 @@ void CMainFrame::OnPlayShadersPresets(UINT nID)
     }
 }
 
+bool CMainFrame::IsValidAudioStream(int i) {
+    if (GetPlaybackMode() == PM_DVD) {
+        ULONG numLangs;
+        m_pDVDI->GetDVDTextNumberOfLanguages(&numLangs);
+        if (i < numLangs) {
+            return true;
+        }
+    } else {
+        CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
+        DWORD cStreams = 0;
+        if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0 && cStreams > i) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CMainFrame::IsValidSubtitleStream(int i) {
+    if (GetSubtitleInput(i) != nullptr) {
+        return true;
+    }
+
+    return false;
+}
+
 // Called from GraphThread
 void CMainFrame::OnPlayAudio(UINT nID)
 {
@@ -9237,7 +9262,6 @@ void CMainFrame::OnPlayAudio(UINT nID)
         if (SUCCEEDED(m_pDVDI->GetAudioLanguage(i, &lcid)) && lcid != 0) {
             GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
         }
-
     } else if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
         if (i == 0) {
             ShowOptions(CPPageAudioSwitcher::IDD);
@@ -9249,13 +9273,16 @@ void CMainFrame::OnPlayAudio(UINT nID)
                 }
                 m_iReloadAudioIdx = -1;                
             }
-            pSS->Enable(sidx, AMSTREAMSELECTENABLE_ENABLE);
-
-            LCID lcid = 0;
-            if (SUCCEEDED(pSS->Info(sidx, nullptr, nullptr, &lcid, nullptr, nullptr, nullptr, nullptr)) && lcid != 0) {
-                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+            if (sidx >= cStreams) { //invalid stream?
+                return;
             }
-            AfxGetAppSettings().MRU.UpdateCurrentAudioTrack(sidx);
+            if (SUCCEEDED(pSS->Enable(sidx, AMSTREAMSELECTENABLE_ENABLE))) {
+                LCID lcid = 0;
+                if (SUCCEEDED(pSS->Info(sidx, nullptr, nullptr, &lcid, nullptr, nullptr, nullptr, nullptr)) && lcid != 0) {
+                    GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                }
+                AfxGetAppSettings().MRU.UpdateCurrentAudioTrack(sidx);
+            }
         }
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 1);
@@ -14688,7 +14715,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         int audstm;
 
-        if (m_loadedAudioTrackIndex != -1) {
+        if (m_loadedAudioTrackIndex >= 0 && IsValidAudioStream(m_loadedAudioTrackIndex)) {
             audstm = m_loadedAudioTrackIndex + 1;
         } else {
             audstm = SetupAudioStreams();
@@ -14699,7 +14726,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         checkAborted();
 
         int substm;
-        if (m_loadedSubtitleTrackIndex != -1) {
+        if (m_loadedSubtitleTrackIndex >= 0 && IsValidSubtitleStream(m_loadedSubtitleTrackIndex)) {
             substm = m_loadedSubtitleTrackIndex;
         } else {
             substm = SetupSubtitleStreams();
