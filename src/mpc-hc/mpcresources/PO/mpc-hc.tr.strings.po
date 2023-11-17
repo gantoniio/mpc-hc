@@ -4100,7 +4100,7 @@ msgstr "AssFilter"
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr "Bağlantıyı Kopyala"
+msgstr "Bağlantıyı kopyala"
 
 msgctxt "IDS_SUBTITLE_RENDERER_NONE"
 msgid "None"
