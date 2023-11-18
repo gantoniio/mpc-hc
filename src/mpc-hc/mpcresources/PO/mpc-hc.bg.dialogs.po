@@ -1896,4 +1896,4 @@ msgstr "Височина на модерната лента за време"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
-msgstr "Цвят на модерната тема"
+msgstr "Цвят на модерната тема:"
