@@ -1892,7 +1892,7 @@ msgstr "Ползване на модерна тема"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
-msgstr "Височина на модерната лента за време"
+msgstr "Височина на модерната лента за време:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
