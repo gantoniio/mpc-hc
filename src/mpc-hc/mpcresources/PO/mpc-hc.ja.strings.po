@@ -1885,7 +1885,7 @@ msgstr "音声の遅延 -10 ミリ秒"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
-msgstr "順方向にジャンプ (小)"
+msgstr "ジャンプ送り (小)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
