@@ -1913,7 +1913,7 @@ msgstr "ジャンプ送り (キーフレーム)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "逆方向にジャンプ (キーフレーム)"
+msgstr "ジャンプ戻し (キーフレーム)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
