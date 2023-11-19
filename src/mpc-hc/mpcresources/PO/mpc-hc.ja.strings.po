@@ -1889,7 +1889,7 @@ msgstr "ジャンプ送り (小)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
-msgstr "逆方向にジャンプ (小)"
+msgstr "ジャンプ戻し (小)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
