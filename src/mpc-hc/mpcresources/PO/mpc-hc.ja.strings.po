@@ -1905,7 +1905,7 @@ msgstr "ジャンプ送り (大)"
 
 msgctxt "IDS_MPLAYERC_28"
 msgid "Jump Backward (large)"
-msgstr "逆方向にジャンプ (大)"
+msgstr "ジャンプ戻し (大)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
