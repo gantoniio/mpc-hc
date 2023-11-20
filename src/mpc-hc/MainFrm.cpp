@@ -9325,8 +9325,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         }
     }
 
-    switch (AfxGetAppSettings().GetSubtitleRenderer())
-    {
+    switch (AfxGetAppSettings().GetSubtitleRenderer()) {
         case CAppSettings::SubtitleRenderer::INTERNAL:
             if (!m_pSubStreams.IsEmpty()) {
                 // Currently the subtitles menu contains 5 items apart from the actual subtitles list when the ISR is used
@@ -9401,51 +9400,51 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                 }
             }
             break;
-        case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
-            {
-                auto id = i;
-                auto processStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
-                    bool bSelected = false;
+        case CAppSettings::SubtitleRenderer::VS_FILTER:
+        case CAppSettings::SubtitleRenderer::XY_SUB_FILTER: {
+            auto id = i;
+            auto processStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
+                bool bSelected = false;
 
-                    DWORD cStreams;
-                    if (SUCCEEDED(pSS->Count(&cStreams))) {
-                        for (int i = 0, j = cStreams; i < j; i++) {
-                            DWORD dwFlags, dwGroup;
-                            LCID lcid;
-                            CComHeapPtr<WCHAR> pszName;
+                DWORD cStreams;
+                if (SUCCEEDED(pSS->Count(&cStreams))) {
+                    for (int i = 0, j = cStreams; i < j; i++) {
+                        DWORD dwFlags, dwGroup;
+                        LCID lcid;
+                        CComHeapPtr<WCHAR> pszName;
 
-                            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
-                                || !pszName) {
-                                continue;
-                            }
-
-                            if (id == 0) {
-                                pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
-                                bSelected = true;
-                                break;
-                            }
-
-                            id--;
+                        if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                            || !pszName) {
+                            continue;
                         }
-                    }
 
-                    return bSelected;
-                };
-
-                CComQIPtr<IAMStreamSelect> pSS;
-
-                BeginEnumFilters(m_pGB, pEF, pBF) {
-                    if (GetCLSID(pBF) == CLSID_XySubFilter_AutoLoader || GetCLSID(pBF) == CLSID_XySubFilter) {
-                        if (pSS = pBF) {
-                            processStreamSelectFilter(pSS);
+                        if (id == 0) {
+                            pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
+                            bSelected = true;
                             break;
                         }
+
+                        id--;
                     }
                 }
-                EndEnumFilters
 
+                return bSelected;
+            };
+
+            CComQIPtr<IAMStreamSelect> pSS;
+
+            BeginEnumFilters(m_pGB, pEF, pBF) {
+                if (GetCLSID(pBF) == CLSID_XySubFilter_AutoLoader || GetCLSID(pBF) == CLSID_XySubFilter 
+                    || GetCLSID(pBF) == CLSID_VSFilter || GetCLSID(pBF) == CLSID_VSFilter2) {
+                    if (pSS = pBF) {
+                        processStreamSelectFilter(pSS);
+                        break;
+                    }
+                }
             }
+            EndEnumFilters
             break;
+        }
         default:
             if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
                 if (CDVBChannel* pChannel = m_pDVBState->pChannel) {
@@ -15645,239 +15644,243 @@ void CMainFrame::SetupSubtitlesSubMenu()
         }
     }
 
-    switch (AfxGetAppSettings().GetSubtitleRenderer())
-    {
-        case CAppSettings::SubtitleRenderer::INTERNAL:
-            {
-                POSITION pos = m_pSubStreams.GetHeadPosition();
-                int nItemsBeforeStart = id - ID_SUBTITLES_SUBITEM_START;
-                if (nItemsBeforeStart > 0) {
-                    VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
-                    nItemsBeforeStart += 2; // Separators
-                }
+    switch (AfxGetAppSettings().GetSubtitleRenderer()) {
+        case CAppSettings::SubtitleRenderer::INTERNAL: {
+            POSITION pos = m_pSubStreams.GetHeadPosition();
 
-                // Build the static menu's items
-                bool bTextSubtitles = false;
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS)));
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES)));
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD)));
-                VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
-
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE)));
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE)));
-                VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
-
-                // Build the dynamic menu's items
-                int i = 0, iSelected = -1;
-                while (pos) {
-                    SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
-
-                    if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
-                        DWORD cStreams;
-                        if (FAILED(pSSF->Count(&cStreams))) {
-                            continue;
-                        }
-
-                        for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
-                            DWORD dwFlags, dwGroup;
-                            LCID lcid;
-                            WCHAR* pszName = nullptr;
-
-                            if (FAILED(pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
-                                || !pszName) {
-                                continue;
-                            }
-
-                            CString name(pszName);
-                            CString lcname = CString(name).MakeLower();
-                            CoTaskMemFree(pszName);
-
-                            if (dwGroup != 2) {
-                                continue;
-                            }
-
-                            if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
-                                && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
-                                iSelected = i;
-                            }
-
-                            CString str;
-
-                            if (lcname.Find(_T(" off")) >= 0) {
-                                str.LoadString(IDS_AG_DISABLED);
-                            }
-                            else {
-                                if (lcid != 0) {
-                                    int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                                    str.ReleaseBufferSetLength(std::max(len - 1, 0));
-                                }
-
-                                CString lcstr = CString(str).MakeLower();
-
-                                if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
-                                    str = name;
-                                }
-                                else if (!name.IsEmpty()) {
-                                    str = name + _T(" (") + str + _T(")");
-                                }
-                            }
-
-                            str.Replace(_T("&"), _T("&&"));
-                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, str));
-                            i++;
-                        }
-                    }
-                    else {
-                        CComPtr<ISubStream> pSubStream = subInput.pSubStream;
-                        if (!pSubStream) {
-                            continue;
-                        }
-
-                        if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
-                            iSelected = i + pSubStream->GetStream();
-                        }
-
-                        for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
-                            CComHeapPtr<WCHAR> pName;
-                            if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
-                                CString name(pName);
-                                name.Replace(_T("&"), _T("&&"));
-
-                                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, name));
-                            }
-                            else {
-                                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN_STREAM)));
-                            }
-                            i++;
-                        }
-                    }
-
-                    if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
-                        CLSID clsid;
-                        if (SUCCEEDED(subInput.pSubStream->GetClassID(&clsid))
-                            && clsid == __uuidof(CRenderedTextSubtitle)) {
-                            bTextSubtitles = true;
-                        }
-                    }
-
-                    // TODO: find a better way to group these entries
-                    /*if (pos && m_pSubStreams.GetAt(pos).subStream) {
-                        CLSID cur, next;
-                        pSubStream->GetClassID(&cur);
-                        m_pSubStreams.GetAt(pos).subStream->GetClassID(&next);
-
-                        if (cur != next) {
-                            VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
-                        }
-                    }*/
-                }
-
-                // Set the menu's items' state
-                const CAppSettings& s = AfxGetAppSettings();
-                // Style
-                if (!bTextSubtitles) {
-                    subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
-                }
-                // Enabled
-                if (s.fEnableSubtitles) {
-                    subMenu.CheckMenuItem(nItemsBeforeStart + 4, MF_BYPOSITION | MF_CHECKED);
-                }
-                // Default style
-                // TODO: foxX - default subtitles style toggle here; still wip
-                if (!bTextSubtitles) {
-                    subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
-                }
-                if (s.fUseDefaultSubtitlesStyle) {
-                    subMenu.CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
-                }
-                VERIFY(subMenu.CheckMenuRadioItem(nItemsBeforeStart + 7, nItemsBeforeStart + 7 + i - 1, nItemsBeforeStart + 7 + iSelected, MF_BYPOSITION));
+            if (!pos) {
+                break;
             }
-            break;
-        case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
-            {
-                //xy_sub_filter.cpp:1093
-                const int FLAG_CMD = 1;
-                const int FLAG_EXTERNAL_SUB = 2;
-                const int FLAG_PICTURE_CMD = 4;
-                const int FLAG_VISIBILITY_CMD = 8;
-                const int GROUP_NUM_BASE = 0x648E40;//random number
 
-                auto addStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
+            int nItemsBeforeStart = id - ID_SUBTITLES_SUBITEM_START;
+            if (nItemsBeforeStart > 0) {
+                VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+                nItemsBeforeStart += 2; // Separators
+            }
+
+            // Build the static menu's items
+            bool bTextSubtitles = false;
+            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS)));
+            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES)));
+            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD)));
+            VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+
+            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE)));
+            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE)));
+            VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+
+            // Build the dynamic menu's items
+            int i = 0, iSelected = -1;
+            while (pos) {
+                SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
+
+                if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
                     DWORD cStreams;
-                    if (!pSS || FAILED(pSS->Count(&cStreams))) {
-                        return;
+                    if (FAILED(pSSF->Count(&cStreams))) {
+                        continue;
                     }
 
-                    bool bAdded = false;
-                    for (DWORD i = 0; i < cStreams; i++) {
+                    for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
                         DWORD dwFlags, dwGroup;
                         LCID lcid;
-                        CComHeapPtr<WCHAR> pszName;
+                        WCHAR* pszName = nullptr;
 
-                        if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                        if (FAILED(pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
                             || !pszName) {
                             continue;
                         }
 
-                        CString suffix;
-                        if (dwGroup == (GROUP_NUM_BASE & ~(FLAG_CMD | FLAG_EXTERNAL_SUB)))
-                        {
-                            suffix = "[Embedded] ";
+                        CString name(pszName);
+                        CString lcname = CString(name).MakeLower();
+                        CoTaskMemFree(pszName);
+
+                        if (dwGroup != 2) {
+                            continue;
                         }
-                        else if(dwGroup == ((GROUP_NUM_BASE & ~FLAG_CMD) | FLAG_EXTERNAL_SUB))
-                        {
-                            suffix = "[External] ";
+
+                        if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
+                            && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
+                            iSelected = i;
                         }
 
                         CString str;
-                        CString lcname(pszName);
-                        lcname.MakeLower();
 
                         if (lcname.Find(_T(" off")) >= 0) {
                             str.LoadString(IDS_AG_DISABLED);
                         }
                         else {
-                            if (lcid && lcid != LCID(-1)) {
+                            if (lcid != 0) {
                                 int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
                                 str.ReleaseBufferSetLength(std::max(len - 1, 0));
                             }
 
-                            CString lcstr(str);
-                            lcstr.MakeLower();
+                            CString lcstr = CString(str).MakeLower();
 
                             if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
-                                str = pszName;
+                                str = name;
                             }
-                            else if (wcslen(pszName)) {
-                                str = CString(pszName) + _T(" (") + str + _T(")");
+                            else if (!name.IsEmpty()) {
+                                str = name + _T(" (") + str + _T(")");
                             }
-                        }
-
-                        UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-                        if (dwFlags) {
-                            flags |= MF_CHECKED;
                         }
 
                         str.Replace(_T("&"), _T("&&"));
-                        if(!suffix.IsEmpty()) str = suffix + str;
-                        VERIFY(subMenu.AppendMenu(flags, id++, str));
-                    }
-
-                };
-
-                CComQIPtr<IAMStreamSelect> pSS;
-
-                BeginEnumFilters(m_pGB, pEF, pBF) {
-                    if (GetCLSID(pBF) == CLSID_XySubFilter_AutoLoader || GetCLSID(pBF) == CLSID_XySubFilter) {
-                        if (pSS = pBF) {
-                            addStreamSelectFilter(pSS);
-                            break;
-                        }
+                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, str));
+                        i++;
                     }
                 }
-                EndEnumFilters
+                else {
+                    CComPtr<ISubStream> pSubStream = subInput.pSubStream;
+                    if (!pSubStream) {
+                        continue;
+                    }
+
+                    if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+                        iSelected = i + pSubStream->GetStream();
+                    }
+
+                    for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
+                        CComHeapPtr<WCHAR> pName;
+                        if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
+                            CString name(pName);
+                            name.Replace(_T("&"), _T("&&"));
+
+                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, name));
+                        }
+                        else {
+                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN_STREAM)));
+                        }
+                        i++;
+                    }
+                }
+
+                if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+                    CLSID clsid;
+                    if (SUCCEEDED(subInput.pSubStream->GetClassID(&clsid))
+                        && clsid == __uuidof(CRenderedTextSubtitle)) {
+                        bTextSubtitles = true;
+                    }
+                }
+
+                // TODO: find a better way to group these entries
+                /*if (pos && m_pSubStreams.GetAt(pos).subStream) {
+                    CLSID cur, next;
+                    pSubStream->GetClassID(&cur);
+                    m_pSubStreams.GetAt(pos).subStream->GetClassID(&next);
+
+                    if (cur != next) {
+                        VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+                    }
+                }*/
             }
+
+            // Set the menu's items' state
+            const CAppSettings& s = AfxGetAppSettings();
+            // Style
+            if (!bTextSubtitles) {
+                subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+            }
+            // Enabled
+            if (s.fEnableSubtitles) {
+                subMenu.CheckMenuItem(nItemsBeforeStart + 4, MF_BYPOSITION | MF_CHECKED);
+            }
+            // Default style
+            // TODO: foxX - default subtitles style toggle here; still wip
+            if (!bTextSubtitles) {
+                subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);
+            }
+            if (s.fUseDefaultSubtitlesStyle) {
+                subMenu.CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
+            }
+            VERIFY(subMenu.CheckMenuRadioItem(nItemsBeforeStart + 7, nItemsBeforeStart + 7 + i - 1, nItemsBeforeStart + 7 + iSelected, MF_BYPOSITION));
             break;
+        }
+        case CAppSettings::SubtitleRenderer::VS_FILTER:
+        case CAppSettings::SubtitleRenderer::XY_SUB_FILTER: {
+            //xy_sub_filter.cpp:1093
+            const int FLAG_CMD = 1;
+            const int FLAG_EXTERNAL_SUB = 2;
+            const int FLAG_PICTURE_CMD = 4;
+            const int FLAG_VISIBILITY_CMD = 8;
+            const int GROUP_NUM_BASE = 0x648E40;//random number
+
+            auto addStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
+                DWORD cStreams;
+                if (!pSS || FAILED(pSS->Count(&cStreams))) {
+                    return;
+                }
+
+                bool bAdded = false;
+                for (DWORD i = 0; i < cStreams; i++) {
+                    DWORD dwFlags, dwGroup;
+                    LCID lcid;
+                    CComHeapPtr<WCHAR> pszName;
+
+                    if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                        || !pszName) {
+                        continue;
+                    }
+
+                    CString suffix;
+                    if (dwGroup == (GROUP_NUM_BASE & ~(FLAG_CMD | FLAG_EXTERNAL_SUB)))
+                    {
+                        suffix = "[Embedded] ";
+                    }
+                    else if(dwGroup == ((GROUP_NUM_BASE & ~FLAG_CMD) | FLAG_EXTERNAL_SUB))
+                    {
+                        suffix = "[External] ";
+                    }
+
+                    CString str;
+                    CString lcname(pszName);
+                    lcname.MakeLower();
+
+                    if (lcname.Find(_T(" off")) >= 0) {
+                        str.LoadString(IDS_AG_DISABLED);
+                    }
+                    else {
+                        if (lcid && lcid != LCID(-1)) {
+                            int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
+                            str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                        }
+
+                        CString lcstr(str);
+                        lcstr.MakeLower();
+
+                        if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
+                            str = pszName;
+                        }
+                        else if (wcslen(pszName)) {
+                            str = CString(pszName) + _T(" (") + str + _T(")");
+                        }
+                    }
+
+                    UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+                    if (dwFlags) {
+                        flags |= MF_CHECKED;
+                    }
+
+                    str.Replace(_T("&"), _T("&&"));
+                    if(!suffix.IsEmpty()) str = suffix + str;
+                    VERIFY(subMenu.AppendMenu(flags, id++, str));
+                }
+
+            };
+
+            CComQIPtr<IAMStreamSelect> pSS;
+
+            BeginEnumFilters(m_pGB, pEF, pBF) {
+                if (GetCLSID(pBF) == CLSID_XySubFilter_AutoLoader || GetCLSID(pBF) == CLSID_XySubFilter
+                    || GetCLSID(pBF) == CLSID_VSFilter || GetCLSID(pBF) == CLSID_VSFilter2) {
+                    if (pSS = pBF) {
+                        addStreamSelectFilter(pSS);
+                        break;
+                    }
+                }
+            }
+            EndEnumFilters
+            break;
+        }
         default:
             if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
                 SetupNavStreamSelectSubMenu(subMenu, id, 2);
@@ -15886,6 +15889,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 SetupNavStreamSelectSubMenu(subMenu, id, 2);
             }
             break;
+    }
 }
 
 void CMainFrame::SetupVideoStreamsSubMenu()
