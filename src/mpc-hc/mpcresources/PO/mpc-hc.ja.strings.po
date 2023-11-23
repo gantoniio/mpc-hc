@@ -2974,7 +2974,7 @@ msgstr "マウス 全画面 修飾キー"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "ウィンドウを拡大 +"
+msgstr "ズーム ウィンドウ +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
