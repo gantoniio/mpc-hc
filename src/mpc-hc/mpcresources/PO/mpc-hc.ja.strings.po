@@ -2978,7 +2978,7 @@ msgstr "ズーム ウィンドウ +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "ウィンドウを縮小 -"
+msgstr "ズーム ウィンドウ -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
