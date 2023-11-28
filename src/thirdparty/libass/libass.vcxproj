@@ -26,29 +26,30 @@
     <ClInclude Include="libass\libass\ass_cache_template.h" />
     <ClInclude Include="libass\libass\ass_compat.h" />
     <ClInclude Include="libass\libass\ass_directwrite.h" />
+    <ClInclude Include="libass\libass\ass_directwrite_info_template.h" />
     <ClInclude Include="libass\libass\ass_drawing.h" />
     <ClInclude Include="libass\libass\ass_filesystem.h" />
     <ClInclude Include="libass\libass\ass_font.h" />
     <ClInclude Include="libass\libass\ass_fontconfig.h" />
     <ClInclude Include="libass\libass\ass_fontselect.h" />
     <ClInclude Include="libass\libass\ass_func_template.h" />
+    <ClInclude Include="libass\libass\ass_library.h" />
     <ClInclude Include="libass\libass\ass_outline.h" />
     <ClInclude Include="libass\libass\ass_parse.h" />
     <ClInclude Include="libass\libass\ass_rasterizer.h" />
-    <ClInclude Include="libass\libass\c\rasterizer_template.h" />
     <ClInclude Include="libass\libass\ass_render.h" />
     <ClInclude Include="libass\libass\ass_shaper.h" />
     <ClInclude Include="libass\libass\ass_string.h" />
     <ClInclude Include="libass\libass\ass_types.h" />
     <ClInclude Include="libass\libass\ass_utils.h" />
     <ClInclude Include="libass\libass\dwrite_c.h" />
+    <ClInclude Include="libass\libass\wyhash.h" />
     <ClInclude Include="libass\libass\x86\cpuid.h" />
     <ClInclude Include="config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libass\libass\ass.c" />
     <ClCompile Include="libass\libass\ass_bitmap.c" />
-    <ClCompile Include="libass\libass\ass_bitmap_engine.c" />
     <ClCompile Include="libass\libass\ass_blur.c" />
     <ClCompile Include="libass\libass\ass_cache.c" />
     <ClCompile Include="libass\libass\ass_directwrite.c" />
@@ -61,10 +62,7 @@
     <ClCompile Include="libass\libass\ass_outline.c" />
     <ClCompile Include="libass\libass\ass_parse.c" />
     <ClCompile Include="libass\libass\ass_rasterizer.c" />
-    <ClCompile Include="libass\libass\c\c_rasterizer.c" />
-    <ClCompile Include="libass\libass\c\c_blend_bitmaps.c" />
-    <ClCompile Include="libass\libass\c\c_blur.c" />
-    <ClCompile Include="libass\libass\c\c_be_blur.c" />
+    <ClCompile Include="libass\libass\ass_rasterizer_c.c" />
     <ClCompile Include="libass\libass\ass_render.c" />
     <ClCompile Include="libass\libass\ass_render_api.c" />
     <ClCompile Include="libass\libass\ass_shaper.c" />
@@ -108,7 +106,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>CONFIG_ASM;ARCH_X86;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;libass\libass;..\fribidi\generated;..\libiconv\libiconv-for-Windows\include;..\dirent;..\freetype2\freetype2\include\freetype;..\fontconfig\fontconfig;..\freetype2\freetype2\include;..\harfbuzz\harfbuzz\src;..\fribidi\fribidi\lib;..\fribidi\fribidi\charset;..\fribidi;..\fribidi\fribidi\SMP\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level2</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
