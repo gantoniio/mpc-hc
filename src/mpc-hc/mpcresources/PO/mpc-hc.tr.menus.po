@@ -333,7 +333,7 @@ msgstr "&Tam Eşzamanla"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "F&arklı Eşzamanla"
+msgstr "Alternatif VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
