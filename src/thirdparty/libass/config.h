@@ -30,6 +30,8 @@
 /* use iconv */
 #define CONFIG_ICONV 1
 
+#define CONFIG_UNIBREAK 1
+
 /* use small tiles */
 /* #undef CONFIG_LARGE_TILES */
 
