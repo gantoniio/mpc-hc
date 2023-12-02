@@ -4473,7 +4473,7 @@ msgstr "既定の字幕スタイルに切り替え"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
-msgstr "ダーク テーマに切り替え"
+msgstr "暗いテーマに切り替え"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
