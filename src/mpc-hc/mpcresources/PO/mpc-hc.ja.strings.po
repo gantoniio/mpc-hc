@@ -109,7 +109,7 @@ msgstr "暗い"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr "ライト"
+msgstr "明るい"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
