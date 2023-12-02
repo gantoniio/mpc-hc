@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# O SA, 2020
 # Sonozaki Shion <mskt01a@gmail.com>, 2021
 # ever_green, 2023
 # 
@@ -86,7 +85,7 @@ msgstr "DVD"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
-msgstr "A-B リピート: 区間をリセット"
+msgstr "A-B リピート: 区間を解除"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
