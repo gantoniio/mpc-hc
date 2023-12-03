@@ -235,15 +235,16 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
     CAutoLock cAutoLock(&m_csReceive);
 
     InvalidateSamples();
-  
+
     if (m_mt.majortype == MEDIATYPE_Text || m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_UTF8
-            || m_mt.subtype == MEDIASUBTYPE_WEBVTT || m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS
-            || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
+        || m_mt.subtype == MEDIASUBTYPE_WEBVTT || m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS
+        || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
         CAutoLock cAutoLock2(m_pSubLock);
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
         if (pRTS->m_webvtt_allow_clear || pRTS->m_subtitleType != Subtitle::VTT) {
             pRTS->RemoveAll();
             pRTS->CreateSegments();
+            pRTS->FlushEventsLibass();
         }
         // WebVTT can be read as one big blob of data during pin connection, instead of as samples during playback.
         // This depends on how it is being demuxed. So clear only if we previously got data through samples.

@@ -266,6 +266,11 @@ BOOL CMPCThemePlayerListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 void CMPCThemePlayerListCtrl::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 {
     __super::OnNcCalcSize(bCalcValidRects, lpncsp);
+    if (AppNeedsThemedControls()) {
+        if (GetStyle() & WS_HSCROLL && nullptr == themedSBHelper) {
+            themedSBHelper = DEBUG_NEW CMPCThemeScrollBarHelper(this);
+        }
+    }
 }
 
 void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
@@ -597,7 +602,7 @@ BOOL CMPCThemePlayerListCtrl::OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
     //LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
     if (AppNeedsThemedControls()) {
-        ::PostMessage(m_hWnd, PLAYER_PLAYLIST_LVN_ITEMCHANGED, 0, 0);
+        ::PostMessage(m_hWnd, PLAYER_PLAYLIST_LVN_ITEMCHANGED, (WPARAM)0, (LPARAM)0);
     }
     *pResult = 0;
     return FALSE;

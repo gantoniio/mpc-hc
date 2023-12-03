@@ -1159,7 +1159,7 @@ void CMainFrame::OnDestroy()
 
     if (m_pGraphThread) {
         CAMMsgEvent e;
-        m_pGraphThread->PostThreadMessage(CGraphThread::TM_EXIT, 0, (LPARAM)&e);
+        m_pGraphThread->PostThreadMessage(CGraphThread::TM_EXIT, (WPARAM)0, (LPARAM)&e);
         if (!e.Wait(5000)) {
             TRACE(_T("ERROR: Must call TerminateThread() on CMainFrame::m_pGraphThread->m_hThread\n"));
             TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR);
@@ -1739,7 +1739,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
     if (GetLoadState() == MLS::LOADED) {
         if (m_pGraphThread) {
             CAMMsgEvent e;
-            m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, 0, (LPARAM)&e);
+            m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, (WPARAM)0, (LPARAM)&e);
             e.WaitMsg();
         } else {
             DisplayChange();
@@ -1991,8 +1991,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                 return;
                             }
 
+                            auto* pMRU = &AfxGetAppSettings().MRU;
                             if (m_bRememberFilePos && !m_fEndOfStream) {
-                                auto* pMRU = &AfxGetAppSettings().MRU;
                                 pMRU->UpdateCurrentFilePosition(rtNow);
                             }
 
@@ -2212,6 +2212,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 EndEnumFilters;
             }
 
+            const CAppSettings& s = AfxGetAppSettings();
+
             if (GetPlaybackMode() == PM_DVD) { // we also use this timer to update the info panel for DVD playback
                 ULONG ulAvailable, ulCurrent;
 
@@ -2391,7 +2393,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 }
             } else if (GetPlaybackMode() == PM_FILE) {
                 OpenSetupInfoBar(false);
-                const CAppSettings& s = AfxGetAppSettings();
                 if (s.iTitleBarTextStyle == 1 && s.fTitleBarTextTitle) {
                     OpenSetupWindowTitle();
                 }
@@ -2400,14 +2401,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
 
             if (m_CachedFilterState == State_Running && !m_fAudioOnly) {
-                BOOL fActive = FALSE;
-                if (SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, &fActive, 0) && fActive) {
-                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE,   nullptr, SPIF_SENDWININICHANGE);
-                    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fActive, nullptr, SPIF_SENDWININICHANGE);
-                }
+                if (s.bPreventDisplaySleep) {
+                    BOOL fActive = FALSE;
+                    if (SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, &fActive, 0) && fActive) {
+                        SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE, nullptr, SPIF_SENDWININICHANGE);
+                        SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fActive, nullptr, SPIF_SENDWININICHANGE);
+                    }
 
-                // prevent screensaver activate, monitor sleep/turn off after playback
-                SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
+                    // prevent screensaver activate, monitor sleep/turn off after playback
+                    SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
+                }
 
                 UpdateDXVAStatus();
             }
@@ -2565,12 +2568,10 @@ void CMainFrame::OnUpdateABRepeat(CCmdUI* pCmdUI) {
 
 
 void CMainFrame::OnABRepeat(UINT nID) {
-    CAppSettings& s = AfxGetAppSettings();
     switch (nID) {
     case ID_PLAY_REPEAT_AB:
         if (abRepeat) { //only support disabling from the menu
-            abRepeat = ABRepeat();
-            m_wndSeekBar.Invalidate();
+            DisableABRepeat();
         }
         break;
     case ID_PLAY_REPEAT_AB_MARK_A:
@@ -2632,8 +2633,7 @@ void CMainFrame::OnABRepeat(UINT nID) {
             }
         }
 
-
-        auto* pMRU = &s.MRU;
+        auto pMRU = &AfxGetAppSettings().MRU;
         pMRU->UpdateCurrentABRepeat(abRepeat);
 
         m_wndSeekBar.Invalidate();
@@ -2683,8 +2683,10 @@ void CMainFrame::GraphEventComplete()
 {
     CAppSettings& s = AfxGetAppSettings();
 
+    auto* pMRU = &s.MRU;
+
+
     if (m_bRememberFilePos) {
-        auto* pMRU = &s.MRU;
         pMRU->UpdateCurrentFilePosition(0, true);
     }
 
@@ -3119,7 +3121,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 
     if (m_bOpenedThroughThread) {
         CAMMsgEvent e;
-        m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, 0, (LPARAM)&e);
+        m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, (WPARAM)0, (LPARAM)&e);
         e.WaitMsg();
     } else {
         ResetDevice();
@@ -3754,6 +3756,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // from this on
     m_bOpenMediaActive = false;
     m_bSettingUpMenus = true;
+
     SetLoadState(MLS::LOADED);
     ASSERT(GetMediaStateDirect() == State_Stopped);
 
@@ -4906,7 +4909,7 @@ BOOL IsAudioFilename(CString filename)
     return mf.FindExt(ext, true);
 }
 
-void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
+void CMainFrame::OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect)
 {
     SetForegroundWindow();
 
@@ -9089,13 +9092,24 @@ void CMainFrame::OnPlayFiltersCopyToClipboard()
     VERIFY(clipboard.SetText(filtersList));
 }
 
-void CMainFrame::OnPlayFilters(UINT nID)
+bool CMainFrame::FilterSettingsByClassID(CLSID clsid, CWnd* parent)
 {
-    //ShowPPage(m_spparray[nID - ID_FILTERS_SUBITEM_START], m_hWnd);
+    for (int a = 0; a < m_pparray.GetCount(); a++) {
+        CComQIPtr<IBaseFilter> pBF2 = m_pparray[a];
+        if (pBF2) {
+            CLSID tclsid;
+            pBF2->GetClassID(&tclsid);
+            if (tclsid == clsid) {
+                FilterSettings(m_pparray[a], parent);
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
-    CComPtr<IUnknown> pUnk = m_pparray[nID - ID_FILTERS_SUBITEM_START];
-
-    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES, GetModalParent());
+void CMainFrame::FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent) {
+    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES);
 
     // Find out if we are opening the property page for an internal filter
     CComQIPtr<IBaseFilter> pBF = pUnk;
@@ -9143,6 +9157,15 @@ void CMainFrame::OnPlayFilters(UINT nID)
             }
         }
     }
+}
+
+void CMainFrame::OnPlayFilters(UINT nID)
+{
+    //ShowPPage(m_spparray[nID - ID_FILTERS_SUBITEM_START], m_hWnd);
+
+    CComPtr<IUnknown> pUnk = m_pparray[nID - ID_FILTERS_SUBITEM_START];
+
+    FilterSettings(pUnk, GetModalParent());
 }
 
 void CMainFrame::OnUpdatePlayFilters(CCmdUI* pCmdUI)
@@ -9196,6 +9219,31 @@ void CMainFrame::OnPlayShadersPresets(UINT nID)
     }
 }
 
+bool CMainFrame::IsValidAudioStream(int i) {
+    if (GetPlaybackMode() == PM_DVD) {
+        ULONG numLangs;
+        m_pDVDI->GetDVDTextNumberOfLanguages(&numLangs);
+        if (i < numLangs) {
+            return true;
+        }
+    } else {
+        CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
+        DWORD cStreams = 0;
+        if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0 && cStreams > i) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CMainFrame::IsValidSubtitleStream(int i) {
+    if (GetSubtitleInput(i) != nullptr) {
+        return true;
+    }
+
+    return false;
+}
+
 // Called from GraphThread
 void CMainFrame::OnPlayAudio(UINT nID)
 {
@@ -9214,7 +9262,6 @@ void CMainFrame::OnPlayAudio(UINT nID)
         if (SUCCEEDED(m_pDVDI->GetAudioLanguage(i, &lcid)) && lcid != 0) {
             GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
         }
-
     } else if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
         if (i == 0) {
             ShowOptions(CPPageAudioSwitcher::IDD);
@@ -9226,15 +9273,20 @@ void CMainFrame::OnPlayAudio(UINT nID)
                 }
                 m_iReloadAudioIdx = -1;                
             }
-            pSS->Enable(sidx, AMSTREAMSELECTENABLE_ENABLE);
-
-            LCID lcid = 0;
-            if (SUCCEEDED(pSS->Info(sidx, nullptr, nullptr, &lcid, nullptr, nullptr, nullptr, nullptr)) && lcid != 0) {
-                GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+            if (sidx >= cStreams) { //invalid stream?
+                return;
+            }
+            if (SUCCEEDED(pSS->Enable(sidx, AMSTREAMSELECTENABLE_ENABLE))) {
+                LCID lcid = 0;
+                if (SUCCEEDED(pSS->Info(sidx, nullptr, nullptr, &lcid, nullptr, nullptr, nullptr, nullptr)) && lcid != 0) {
+                    GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, currentAudioLang);
+                }
+                AfxGetAppSettings().MRU.UpdateCurrentAudioTrack(sidx);
             }
         }
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 1);
+        AfxGetAppSettings().MRU.UpdateCurrentAudioTrack(i);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
         if (CBDAChannel* pChannel = m_pDVBState->pChannel) {
             OnNavStreamSelectSubMenu(i, 1);
@@ -13986,6 +14038,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
 // Called from GraphThread
 int CMainFrame::SetupAudioStreams()
 {
+
     bool bIsSplitter = false;
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
 
@@ -14537,6 +14590,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             // Don't try to save file position if source isn't seekable
             REFERENCE_TIME rtPos = 0;
             REFERENCE_TIME rtDur = 0;
+            m_loadedAudioTrackIndex = -1;
+            m_loadedSubtitleTrackIndex = -1;
+
             if (m_pMS) {
                 m_pMS->GetDuration(&rtDur);
             }
@@ -14550,6 +14606,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             if (pFileData->abRepeat) { // Check if an explicit a/b repeat time was given
                 abRepeat = pFileData->abRepeat;
             }
+
             if (m_dwReloadPos > 0) {
                 if (m_dwReloadPos < rtDur) {
                     rtPos = m_dwReloadPos;
@@ -14560,8 +14617,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 abRepeat = reloadABRepeat;
                 reloadABRepeat = ABRepeat();
             }
+            auto* pMRU = &AfxGetAppSettings().MRU;
             if (m_bRememberFilePos) { // Check if we want to remember the position
-                auto* pMRU = &AfxGetAppSettings().MRU;
                 // Always update the file positions list so that the position
                 // is correctly saved but only restore the remembered position
                 // if no explicit start time was already set.
@@ -14577,6 +14634,15 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                     }
                 }
             }
+            if (pMRU->rfe_array.GetCount()) {
+                if (m_loadedAudioTrackIndex == -1) {
+                    m_loadedAudioTrackIndex = pMRU->GetCurrentAudioTrack();
+                }
+                if (m_loadedSubtitleTrackIndex == -1) {
+                    m_loadedSubtitleTrackIndex = pMRU->GetCurrentSubtitleTrack();
+                }
+            }
+
             if (abRepeat && abRepeat.positionB > 0) {
                 // validate
                 if (abRepeat.positionB > rtDur || abRepeat.positionA >= abRepeat.positionB) {
@@ -14647,13 +14713,24 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         OpenSetupWindowTitle();
         checkAborted();
 
-        int audstm = SetupAudioStreams();
+        int audstm;
+
+        if (m_loadedAudioTrackIndex >= 0 && IsValidAudioStream(m_loadedAudioTrackIndex)) {
+            audstm = m_loadedAudioTrackIndex + 1;
+        } else {
+            audstm = SetupAudioStreams();
+        }
         if (audstm >= 0) {
             OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
         }
         checkAborted();
 
-        int substm = SetupSubtitleStreams();
+        int substm;
+        if (m_loadedSubtitleTrackIndex >= 0 && IsValidSubtitleStream(m_loadedSubtitleTrackIndex)) {
+            substm = m_loadedSubtitleTrackIndex;
+        } else {
+            substm = SetupSubtitleStreams();
+        }
         if (substm >= 0) {
             SetSubtitle(substm);
         }
@@ -16608,6 +16685,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
         }
         m_iReloadSubIdx = -1;
     }
+    int subIndex = i;
     if (!pSubInput) {
         pSubInput = GetSubtitleInput(i, bIsOffset);
     }
@@ -16657,6 +16735,9 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
         success = true;
     }
 
+    if (success) {
+        AfxGetAppSettings().MRU.UpdateCurrentSubtitleTrack(subIndex);
+    }
     return success;
 }
 
@@ -16865,10 +16946,11 @@ void CMainFrame::SetAudioTrackIdx(int index)
 
         DWORD cStreams = 0;
         DWORD dwFlags = AMSTREAMSELECTENABLE_ENABLE;
-        if (pSS && SUCCEEDED(pSS->Count(&cStreams)))
+        if (pSS && SUCCEEDED(pSS->Count(&cStreams))) {
             if ((index >= 0) && (index < ((int)cStreams))) {
                 pSS->Enable(index, dwFlags);
             }
+        }
     }
 }
 
@@ -17894,7 +17976,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
     if (bUseThread) {
         VERIFY(m_evOpenPrivateFinished.Reset());
-        VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, 0, (LPARAM)pOMD.Detach()));
+        VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, (WPARAM)0, (LPARAM)pOMD.Detach()));
         m_bOpenedThroughThread = true;
     } else {
         OpenMediaPrivate(pOMD);
@@ -17962,8 +18044,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
     if (GetLoadState() == MLS::LOADED) {
         // save playback position
+        auto& s = AfxGetAppSettings();
         if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
-            auto& s = AfxGetAppSettings();
             REFERENCE_TIME rtNow = 0;
             m_pMS->GetCurrentPosition(&rtNow);
             if (rtNow > 0) {
@@ -18037,8 +18119,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
             ENSURE(TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR));
             // then we recreate graph thread
             bGraphTerminated = true;
-            m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
-            m_pGraphThread->SetMainFrame(this);
+            CWinThread* newthread = AfxBeginThread(RUNTIME_CLASS(CGraphThread));
+            if (newthread) {
+                m_pGraphThread = (CGraphThread*)newthread;
+                m_pGraphThread->SetMainFrame(this);
+            } else {
+                m_pGraphThread = nullptr;
+            }
         }
         EndWaitCursor();
 
@@ -18083,7 +18170,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     if (m_pGraphThread && m_bOpenedThroughThread && !bGraphTerminated) {
         // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
         VERIFY(m_evClosePrivateFinished.Reset());
-        VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, 0));
+        VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, (WPARAM)0, (LPARAM)0));
 
         HANDLE handle = m_evClosePrivateFinished;
         DWORD dwWait;
@@ -18120,7 +18207,7 @@ void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
     SendNowPlayingToSkype();
 
     if (m_pGraphThread) {
-        m_pGraphThread->PostThreadMessage(CGraphThread::TM_TUNER_SCAN, 0, (LPARAM)pTSD.Detach());
+        m_pGraphThread->PostThreadMessage(CGraphThread::TM_TUNER_SCAN, (WPARAM)0, (LPARAM)pTSD.Detach());
     } else {
         DoTunerScan(pTSD);
     }
@@ -18338,12 +18425,17 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
         SendAPICommand(CMD_NOTIFYENDOFSTREAM, L"\0");     // do not pass NULL here!
     }
 
-    // Prevent sleep when playing audio and/or video, but allow screensaver when only audio
-    if (!m_fAudioOnly) {
-        SetThreadExecutionState(iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
+    if (iState == PS_PLAY) {
+        // Prevent sleep when playing audio and/or video, but allow screensaver when only audio
+        if (!m_fAudioOnly && AfxGetAppSettings().bPreventDisplaySleep) {
+            SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED);
+        } else {
+            SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED);
+        }
     } else {
-        SetThreadExecutionState(iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
+        SetThreadExecutionState(ES_CONTINUOUS);
     }
+
 
     UpdateThumbarButton(iState);
 }

@@ -2011,6 +2011,10 @@ again:
 		TRACE(L"CMpcAudioRenderer::CheckAudioClient() - Format changed, re-initialize the audio client\n");
 
 		CopyWaveFormat(m_pWaveFormatExInput, &m_pWaveFormatExOutput);
+        if (!m_pWaveFormatExOutput) {
+            ASSERT(false);
+            return E_FAIL;
+        }
 
 		if (IsExclusive(pWaveFormatEx)) { // EXCLUSIVE/BITSTREAM
 			WAVEFORMATEX *pFormat = nullptr;
@@ -2804,7 +2808,7 @@ HRESULT CMpcAudioRenderer::RenderWasapiBuffer()
 
 	UINT32 numFramesPadding = 0;
 	if ((m_DeviceModeCurrent == MODE_WASAPI_SHARED && !m_bIsBitstream) || m_WasapiMethod == WASAPI_METHOD::PUSH) {
-		m_pAudioClient->GetCurrentPadding(&numFramesPadding);
+		hr = m_pAudioClient->GetCurrentPadding(&numFramesPadding);
 		if (FAILED(hr)) {
 #if defined(DEBUG_OR_LOG) && DBGLOG_LEVEL > 1
 			TRACE(L"CMpcAudioRenderer::RenderWasapiBuffer() - GetCurrentPadding() failed (0x%08x)\n", hr);
@@ -2989,11 +2993,12 @@ void CMpcAudioRenderer::WaitFinish()
 	if (!m_bIsBitstream && m_input_params.samplerate != m_output_params.samplerate) {
 		int out_samples = m_Resampler.CalcOutSamples(0);
 		if (out_samples) {
+            ASSERT(m_pWaveFormatExOutput);
 			REFERENCE_TIME rtStart = m_rtNextRenderedSampleTime;
 			for (;;) {
 				BYTE* buff = DNew BYTE[out_samples * m_output_params.channels * get_bytes_per_sample(m_output_params.sf)];
 				out_samples = m_Resampler.Receive(buff, out_samples);
-				if (out_samples) {
+				if (out_samples && m_pWaveFormatExOutput) {
 					std::unique_ptr<CPacket> p(DNew CPacket());
 					p->rtStart = rtStart;
 					p->rtStop  = rtStart + SamplesToTime(out_samples, m_pWaveFormatExOutput);

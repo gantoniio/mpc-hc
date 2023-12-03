@@ -338,6 +338,8 @@ private:
     CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
+    bool IsValidAudioStream(int i);
+    bool IsValidSubtitleStream(int i);
 
     friend class CTextPassThruFilter;
 
@@ -482,7 +484,7 @@ private:
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
 
     CDropTarget m_dropTarget;
-    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;
+    void OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect) override;
     DROPEFFECT OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
 
 public:
@@ -544,8 +546,11 @@ protected:
     CString m_LastOpenBDPath;
     CAutoPtr<OpenMediaData> m_lastOMD;
 
-    DVD_DOMAIN m_iDVDDomain;
-    DWORD m_iDVDTitle;
+    DVD_DOMAIN  m_iDVDDomain;
+    DWORD       m_iDVDTitle;
+    int         m_loadedAudioTrackIndex = -1;
+    int         m_loadedSubtitleTrackIndex = -1;
+
     double m_dSpeedRate;
     double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
     int m_AngleX, m_AngleY, m_AngleZ;
@@ -1146,6 +1151,9 @@ public:
     afx_msg void OnHelpDonate();
 
     afx_msg void OnClose();
+    bool FilterSettingsByClassID(CLSID clsid, CWnd* parent);
+    void FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent);
+
 
     CMPC_Lcd m_Lcd;
 

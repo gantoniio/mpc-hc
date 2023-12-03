@@ -34,6 +34,8 @@
 #include "CMPCTheme.h"
 #include "CoverArt.h"
 #include "FileHandle.h"
+#include "MediaInfo/MediaInfoDLL.h"
+
 #undef SubclassWindow
 
 
@@ -160,6 +162,37 @@ void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
     m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
 }
 
+void CPlayerPlaylistBar::LoadDuration(POSITION pos) {
+    if (AfxGetAppSettings().bUseMediainfoLoadFileDuration) {
+
+        CPlaylistItem& pli = m_pl.GetAt(pos);
+
+        MediaInfoDLL::MediaInfo mi;
+        if (mi.IsReady()) {
+            auto fn = pli.m_fns.GetHead();
+            if (!PathUtils::IsURL(fn)) {
+                auto fnString = fn.GetBuffer();
+                size_t fp = mi.Open(fnString);
+                fn.ReleaseBuffer();
+                if (fp > 0) {
+                    MediaInfoDLL::String info = mi.Get(MediaInfoDLL::Stream_General, 0, L"Duration");
+                    if (!info.empty()) {
+                        try {
+                            int duration = std::stoi(info);
+                            if (duration > 0) {
+                                pli.m_duration = duration * 10000LL;
+                                m_list.SetItemText(FindItem(pos), COL_TIME, pli.GetLabel(1));
+                            }
+                        } catch (...) {
+                        }
+                    }
+                }
+            }
+            mi.Close();
+        }
+    }
+}
+
 void CPlayerPlaylistBar::AddItem(CString fn, bool insertAtCurrent /*= false*/)
 {
     if (fn.IsEmpty()) {
@@ -170,11 +203,13 @@ void CPlayerPlaylistBar::AddItem(CString fn, bool insertAtCurrent /*= false*/)
     pli.m_fns.AddTail(fn);
     pli.AutoLoadFiles();
 
+    POSITION pos;
     if (insertAtCurrent && m_insertingPos != nullptr) {
-        m_insertingPos = m_pl.InsertAfter(m_insertingPos, pli);
+        pos = m_insertingPos = m_pl.InsertAfter(m_insertingPos, pli);
     } else {
-        m_pl.AddTail(pli);
+        pos = m_pl.AddTail(pli);
     }
+    LoadDuration(pos);
 }
 
 void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
@@ -226,7 +261,11 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
         pli.m_ydl_subs.AddTailList(ydl_subs);
     }
 
-    m_pl.AddTail(pli);
+    POSITION ipos = m_pl.AddTail(pli);
+
+    if (m_pl.GetCount() > 1) {
+        LoadDuration(ipos);
+    }
 }
 
 void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
@@ -1181,7 +1220,14 @@ CPlaylistItem* CPlayerPlaylistBar::GetCur()
     if (!m_pl.IsEmpty()) {
         POSITION p = m_pl.GetPos();
         if (p) {
-            return &m_pl.GetAt(p);
+            CPlaylistItem* result = &m_pl.GetAt(p);
+            // validate
+            if (result->m_type >= 0 && result->m_type <= 1 && !result->m_fns.IsEmpty()) {
+                return result;
+            } else {
+                ASSERT(false);
+                return nullptr;
+            }
         }
     }
     return nullptr;

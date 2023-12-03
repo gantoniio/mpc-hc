@@ -34,7 +34,7 @@
 #include  <comutil.h>
 #include <regex>
 #include "LibassContext.h"
-#include "../mpc-hc/RegexUtil.h"
+#include "../DSUtil/RegexUtil.h"
 #include "../mpc-hc/SubtitlesProvidersUtils.h"
 #include "../DSUtil/ISOLang.h"
 
@@ -3128,6 +3128,13 @@ void CSimpleTextSubtitle::CreateSegments()
     */
 }
 
+void CSimpleTextSubtitle::FlushEventsLibass()
+{
+    if (m_LibassContext.IsLibassActive()) {
+        ass_flush_events(m_LibassContext.m_track.get());
+    }
+}
+
 bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString videoName)
 {
     Empty();
@@ -3797,4 +3804,27 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     }
 
     return !ret.IsEmpty();
+}
+
+// RenderersSettings.h
+
+CRenderersData* GetRenderersData() {
+    return &AfxGetMyApp()->m_Renderers;
+}
+
+CRenderersSettings& GetRenderersSettings() {
+    return AfxGetAppSettings().m_RenderersSettings;
+}
+
+// ToDo: move these settings into CRendererSettings or make an implementation similar to CRendererSettings that holds old subtitle settings
+SubRendererSettings CAppSettings::GetSubRendererSettings() {
+    SubRendererSettings s;
+    s.defaultStyle = this->subtitlesDefStyle;
+    s.overrideDefaultStyle = this->fUseDefaultSubtitlesStyle;
+#if USE_LIBASS
+    s.renderSSAUsingLibass = this->bRenderSSAUsingLibass;
+    s.renderSRTUsingLibass = this->bRenderSRTUsingLibass;
+#endif
+    OpenTypeLang::CStringAtoHintStr(s.openTypeLangHint, this->strOpenTypeLangHint);
+    return s;
 }
