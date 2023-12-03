@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-23 01:08:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2023\n"
 "Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
@@ -1274,23 +1274,23 @@ msgstr "EDL dışarı ver"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "Video karesi döndür X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "Video karesi döndür Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "Video karesi döndür Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "Video karesi döndür Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "Video karesi döndür Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1674,7 +1674,7 @@ msgstr "Yüksek hassasiyet"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "Yüzdeyi göster"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -2085,15 +2085,15 @@ msgstr "Yakınlaştır Otomatik Sığdır"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "Video karesi yarım boyut"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "Video karesi normal boyut"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "Video karesi iki kat boyut"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2101,27 +2101,27 @@ msgstr "Daima Üstte"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "Video karesi boyutunu arttır"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "Video karesi genişliği arttır"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "Video karesi yüksekliği arttır"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "Video karesi boyutunu azalt"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "Video karesi genişliği azalt"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "Video karesi yüksekliği azalt"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2195,39 +2195,39 @@ msgstr "Lütfen 1 ve 365 arasında bir sayı giriniz."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "Video karesi merkeze al"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "Video karesi sola kaydır"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "Video karesi sağa kaydır"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "Video karesi yukarı kaydır"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "Video karesi aşağı kaydır"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "Video karesi yukarı sola kaydır"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "Video karesi yukarı sağa kaydır"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "Video karesi aşağı sola kaydır"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "Video karesi aşağı sağa kaydır"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2972,23 +2972,23 @@ msgstr "Sonraki AR"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "Video karesi uzat"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "Video karesi içeriden uyarla"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "Video karesi dışarıdan uyarla"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "Video karesi sıfırla"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "Video karesi döndür X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
@@ -3048,15 +3048,15 @@ msgstr "Pencere Yakınlaştırma -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr "VidÇer Yakınlaştırma 1"
+msgstr "Video karesi yakınlaştırma 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr "VidÇer Yakınlaştırma 2"
+msgstr "Video karesi yakınlaştırma 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr "VidÇer Yakınlaştırma değiştir"
+msgstr "Video karesi yerleşim modunu değiştir"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -4027,8 +4027,9 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
-"/pns \"name or values\"\tSpecify Pan & Scan preset name to use or direct "
-"position and zoom values in format \"px,py,zx,zy\""
+"/pns \"isim veya değer\"\tKullanılacak video karesi ön ayar adını veya "
+"\"px,py,zx,zy\" biçiminde doğrudan konum ve yakınlaştırma değerlerini "
+"belirtin"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4696,15 +4697,9 @@ msgid ""
 "Just the filename is enough in case it is located in same folder as MPC-HC.\n"
 "Leave empty to use default filename: youtube-dl.exe"
 msgstr ""
-<<<<<<< HEAD
 "Youtube-DL.exe dosyasının tam yolu.\n"
 "MPC-HC ile aynı klasörde bulunması durumunda sadece dosya adı yeterlidir.\n"
 "Varsayılan dosya adını kullanmak için boş bırakın: youtube-dl.exe"
-=======
-"Full path of the Youtube-DL executable.\n"
-"Just the filename is enough in case it is located in same folder as MPC-HC.\n"
-"Leave empty to use default filename: youtube-dl.exe"
->>>>>>> upstream/develop
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
 msgid ""
@@ -4713,17 +4708,10 @@ msgid ""
 "Use ISO639-1 two letter language code(s).\n"
 "Example: en de es pl zh ja nl"
 msgstr ""
-<<<<<<< HEAD
 "Youtube-DL tarafından çıkarılan altyazı akışlarının yüklenmesine ilişkin dil tercihi.\n"
 "Boş bırakılırsa altyazı yüklenmez.\n"
 "ISO 639-1 iki harfli dil kodlarını kullanın.\n"
 "Örnek: tr en de ru fr ar ja es pt"
-=======
-"The language preference for loading subtitle streams extracted by Youtube-DL.\n"
-"If empty, no subtitles are loaded.\n"
-"Use ISO639-1 two letter language code(s).\n"
-"Example: en de es pl zh ja nl"
->>>>>>> upstream/develop
 
 msgctxt "IDS_PPAGEADVANCED_USE_AUTOMATIC_CAPTIONS"
 msgid ""
@@ -4738,21 +4726,12 @@ msgid ""
 "Allow control of the player through System Media Transport Controls in "
 "Windows 8.1/10/11."
 msgstr ""
-<<<<<<< HEAD
 "Windows 8.1/10/11'de oynatıcının kontrolüne Sistem Medya Aktarım Kontrolleri"
 " aracılığıyla izin verin."
 
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
 msgstr "Ekranı kilitlerken oynatmayı duraklatmayın."
-=======
-"Allow control of the player through System Media Transport Controls in "
-"Windows 8.1/10/11."
-
-msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
-msgid "Do not pause playback when locking the screen."
-msgstr "Do not pause playback when locking the screen."
->>>>>>> upstream/develop
 
 msgctxt "IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE"
 msgid ""
@@ -4760,17 +4739,11 @@ msgid ""
 "minutes. Use 0 to disable automatic file reload after pause. Use -1 to also "
 "disable reload after hibernate/sleep."
 msgstr ""
-<<<<<<< HEAD
 "Belirttiğiniz dakikadan daha uzun süre duraklatılmışsa oynatmaya devam "
 "etmeden önce video dosyasını yeniden açar. Duraklatmadan sonra otomatik "
 "dosya yeniden açmayı devre dışı bırakmak için 0 kullanın. Hazırda "
 "bekletme/uyku modundan sonra yeniden açmayı da devre dışı bırakmak için -1 "
 "kullanın."
-=======
-"Reload video file before resuming playback if it was paused for more than X "
-"minutes. Use 0 to disable automatic file reload after pause. Use -1 to also "
-"disable reload after hibernate/sleep."
->>>>>>> upstream/develop
 
 msgctxt "IDS_PPAGEADVANCED_REDIRECT_OPEN_TO_APPEND_THRESHOLD"
 msgid ""
@@ -4796,7 +4769,6 @@ msgstr "Ayrıcalıklı"
 
 msgctxt "IDS_ARS_SHARED"
 msgid "Shared"
-<<<<<<< HEAD
 msgstr "Paylaşımlı"
 
 msgctxt "IDS_ARS_BITEXACT_OUTPUT"
@@ -4806,17 +4778,6 @@ msgstr "Bit-exact çıktıya izin ver"
 msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
 msgid "Use system layout channels"
 msgstr "Sistem hoparlör düzenini kullan"
-=======
-msgstr "Shared"
-
-msgctxt "IDS_ARS_BITEXACT_OUTPUT"
-msgid "Allow bit-exact output"
-msgstr "Allow bit-exact output"
-
-msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
-msgid "Use system layout channels"
-msgstr "Use system layout channels"
->>>>>>> upstream/develop
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -4824,11 +4785,7 @@ msgstr "Ses Aygıtı:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
-<<<<<<< HEAD
 msgstr "Boştayken cihazı serbest bırak"
-=======
-msgstr "Release device when idle"
->>>>>>> upstream/develop
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -4836,19 +4793,11 @@ msgstr "Stereo çapraz beslemeyi etkinleştir (kulaklık için)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
-<<<<<<< HEAD
 msgstr "Cihaz arabelleği:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
 msgstr "Format desteğini kontrol etme"
-=======
-msgstr "Device buffer:"
-
-msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
-msgid "Do not check format support"
-msgstr "Do not check format support"
->>>>>>> upstream/develop
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
@@ -4860,11 +4809,7 @@ msgstr "Aygıt:"
 
 msgctxt "IDS_ARS_MODE"
 msgid "Mode:"
-<<<<<<< HEAD
 msgstr "Mod:"
-=======
-msgstr "Mode:"
->>>>>>> upstream/develop
 
 msgctxt "IDS_ARS_INPUT"
 msgid "Input"
@@ -4899,7 +4844,6 @@ msgid ""
 "If possible, the audio will be sent out in its original format.\n"
 "Otherwise, the format specified in the system settings will be used."
 msgstr ""
-<<<<<<< HEAD
 "Mümkünse ses orijinal formatında gönderilecektir.\n"
 "Aksi halde sistem ayarlarında belirtilen format kullanılacaktır."
 
@@ -4910,18 +4854,6 @@ msgstr "İşleyici bazı kontrolleri atlayarak cihazı başlatmaya çalışacakt
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
 msgstr "Sıfırla"
-=======
-"If possible, the audio will be sent out in its original format.\n"
-"Otherwise, the format specified in the system settings will be used."
-
-msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
-msgid "The renderer will try to initialize the device skipping some checks."
-msgstr "The renderer will try to initialize the device skipping some checks."
-
-msgctxt "IDS_FILTER_RESET_SETTINGS"
-msgid "Reset"
-msgstr "Reset"
->>>>>>> upstream/develop
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
@@ -4932,3 +4864,5 @@ msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
 msgstr ""
+"Oynatma listesine öğe eklerken dosya sürelerini öğren (MediaInfo kullanılır "
+"ve sonuçlar farklılık gösterebilir)"
