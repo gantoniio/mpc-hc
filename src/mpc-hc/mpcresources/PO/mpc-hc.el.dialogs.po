@@ -1909,7 +1909,7 @@ msgstr "Χρησιμοποιήστε Μοντέρνο Θέμα"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
-msgstr "Ύψος μοντέρνου Seekbar:"
+msgstr "Ύψος μοντέρνας μπάρας αναζήτησης:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
