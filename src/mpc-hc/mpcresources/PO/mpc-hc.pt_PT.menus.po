@@ -252,7 +252,7 @@ msgstr "Desativar comp. Ambiente de Trabalho (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Ativar &correção encaixe de tempo"
+msgstr "Ativar correção do tempo de fotogramas"
 
 msgctxt "POPUP"
 msgid "&Color Management"
