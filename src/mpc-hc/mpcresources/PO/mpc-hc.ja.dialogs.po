@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: ever_green, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/mpchc/teams/106126/ja/)\n"
@@ -856,7 +856,7 @@ msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "PnS Frame Adjust Presets"
-msgstr ""
+msgstr "PnS フレーム調整プリセット"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -1165,7 +1165,7 @@ msgstr "DirectShow ビデオ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1193,7 +1193,7 @@ msgstr "オーディオ レンダラ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
