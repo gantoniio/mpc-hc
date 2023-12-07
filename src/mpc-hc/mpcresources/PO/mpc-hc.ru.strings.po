@@ -1279,11 +1279,11 @@ msgstr "Повернуть видеокадр Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr "Поворот видеокадра Z+"
+msgstr "Повернуть видеокадр Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr "Поворот видеокадра Z-"
+msgstr "Повернуть видеокадр Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
