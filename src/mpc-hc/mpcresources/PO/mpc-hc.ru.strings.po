@@ -1267,7 +1267,7 @@ msgstr "Установить EDL наружу"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr "Повернуть видеокадр X-"
+msgstr "Повернуть кадр X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
