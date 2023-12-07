@@ -1271,11 +1271,11 @@ msgstr "Повернуть кадр X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr "Повернуть видеокадр Y+"
+msgstr "Повернуть кадр Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr "Повернуть видеокадр Y-"
+msgstr "Повернуть кадр Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
