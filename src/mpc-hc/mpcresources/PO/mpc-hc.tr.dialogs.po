@@ -155,7 +155,7 @@ msgstr ""
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
-msgstr "Görüntü"
+msgstr "Kare"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
