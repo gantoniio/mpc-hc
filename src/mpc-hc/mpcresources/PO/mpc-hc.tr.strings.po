@@ -3868,7 +3868,7 @@ msgstr "Önce yeni ayarları uygulamanız gerekmektedir."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Oynatmadan sonra: Çık"
+msgstr "Oynatmadan sonra: Uygulamadan çık"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
