@@ -765,7 +765,7 @@ msgstr "Yürütme::Çıkış"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "Oynatıcı::İnternet Arabirimi"
+msgstr "Oynatıcı::Ağ Arayüzü"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
