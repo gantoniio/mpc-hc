@@ -1330,7 +1330,7 @@ msgstr "Açılıyor..."
 
 msgctxt "IDS_CONTROLS_CLOSED"
 msgid "Closed"
-msgstr "Bitti"
+msgstr "Kapatıldı"
 
 msgctxt "IDS_SUBTITLES_OPTIONS"
 msgid "&Options..."
