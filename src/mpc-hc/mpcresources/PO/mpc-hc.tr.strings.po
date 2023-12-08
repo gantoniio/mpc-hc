@@ -2375,7 +2375,7 @@ msgstr "Klasör seçiniz"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
-msgstr "Favorilere ekle"
+msgstr "Favorilere hızlı ekle"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
