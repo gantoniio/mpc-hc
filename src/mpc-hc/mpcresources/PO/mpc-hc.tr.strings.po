@@ -745,7 +745,7 @@ msgstr "Oynatıcı::Tuşlar"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Altyazılar::Görünüm"
+msgstr "Altyazılar::Varsayılan biçim"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
