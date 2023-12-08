@@ -709,7 +709,7 @@ msgstr "E&kranı Kapat"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "&Çık"
+msgstr "Uygulamadan &çık"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
