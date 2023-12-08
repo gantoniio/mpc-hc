@@ -1588,7 +1588,7 @@ msgstr "Geçerli dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr "Kapat"
+msgstr "Dosyayı kapat"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
