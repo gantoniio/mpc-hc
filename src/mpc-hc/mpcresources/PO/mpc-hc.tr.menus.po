@@ -209,7 +209,7 @@ msgstr "Dosya &Adını Göster"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "&Çıktı Aralığı"
+msgstr "&Çıkış Aralığı"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
