@@ -1592,7 +1592,7 @@ msgstr "Dosyayı kapat"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr "Çık"
+msgstr "Uygulamadan çık"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
