@@ -1748,7 +1748,7 @@ msgstr "Özellikler"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
-msgstr "Çık"
+msgstr "Uygulamadan çık"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
