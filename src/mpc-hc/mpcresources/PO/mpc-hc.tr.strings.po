@@ -1642,7 +1642,7 @@ msgstr "LCN'ye göre sırala - Mantıksal kanal sayısı"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr "Tümünü sil"
+msgstr "Tümünü kaldır"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
