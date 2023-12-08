@@ -3501,7 +3501,7 @@ msgstr "Tarama Amacı: Mutlak renkli"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr "Çıktı Alanı: %s"
+msgstr "Çıkış aralığı: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
