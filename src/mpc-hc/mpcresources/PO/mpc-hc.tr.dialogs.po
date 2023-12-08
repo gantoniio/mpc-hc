@@ -516,7 +516,7 @@ msgstr "Ses dosyalarını otomatik olarak yükle"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "Özel yerleşim oranları"
+msgstr "Özel yerleşim ayarları"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
