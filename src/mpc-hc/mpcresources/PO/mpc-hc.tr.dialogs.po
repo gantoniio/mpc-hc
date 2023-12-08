@@ -428,7 +428,7 @@ msgstr "Kontrol"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "Ses oranı:"
+msgstr "Ses değişim oranı:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
