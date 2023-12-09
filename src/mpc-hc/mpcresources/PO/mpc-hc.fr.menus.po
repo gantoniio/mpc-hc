@@ -444,7 +444,7 @@ msgstr "&Corriger le différentiel de proportion bureau/écran"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "Ajustement de recadrage"
+msgstr "Ajustement de &recadrage"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
