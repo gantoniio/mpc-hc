@@ -2756,7 +2756,7 @@ msgstr "Incluir subpastas"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
-msgstr "Pausar"
+msgstr "Pausa"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
