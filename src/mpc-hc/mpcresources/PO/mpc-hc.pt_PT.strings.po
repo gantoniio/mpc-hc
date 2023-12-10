@@ -1755,7 +1755,7 @@ msgstr "Sair"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Reproduzir/pausar"
+msgstr "Reproduzir/pausa"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
