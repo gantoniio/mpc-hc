@@ -1203,7 +1203,7 @@ msgstr "一時停止"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
-msgstr "EDL 新しいクリップ"
+msgstr "EDL 新規クリップ"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
