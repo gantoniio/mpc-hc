@@ -1495,7 +1495,7 @@ msgstr "カスタム スタイルを保存する"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "教育/科学/事実に基づく話題"
+msgstr "教育/科学/事実に関する話題"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
