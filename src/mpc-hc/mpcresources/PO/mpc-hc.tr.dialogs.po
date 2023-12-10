@@ -316,7 +316,7 @@ msgstr "Ayarları .ini dosyasında sakla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "\"CD-ROM aç\" menüsünü kapat"
+msgstr "\"Diski Aç\" menüsünü devre dışı bırak"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
