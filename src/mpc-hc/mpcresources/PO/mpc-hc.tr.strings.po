@@ -4488,7 +4488,7 @@ msgstr "/add\t\tBirleştirmek ve/veya yürütmek /play için \"dosya yolu\" ekle
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr "/randomize\tYürütme listesini karışık olarak yürüt"
+msgstr "/randomize\tOynatma listesini karışık olarak yürüt"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
