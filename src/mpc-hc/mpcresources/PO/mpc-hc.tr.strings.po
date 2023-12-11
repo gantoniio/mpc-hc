@@ -4293,7 +4293,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr "/dvdpos T#C\tİsimden başlat T, bölüm C"
+msgstr "/dvdpos T#C\tYürütmeyi T başlığı, C bölümünden başlat"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
