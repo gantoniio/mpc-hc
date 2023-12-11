@@ -4259,7 +4259,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr "/dub \"dub dosya adı\"\tİlave ses dosyası yükle"
+msgstr "/dub \"dosya adı\"\tİlave ses dosyası yükle"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid ""
