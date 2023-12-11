@@ -488,7 +488,7 @@ msgstr "Varsayılan parça tercihi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
-msgstr "Altyazılar:"
+msgstr "Altyazı:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
