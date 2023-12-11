@@ -4275,7 +4275,7 @@ msgstr "/d3dfs\t\tD3D tam ekran modunda görüntülemeye başla"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr "/sub \"sub dosya adı\"\tİlave altyazı dosyası ekle"
+msgstr "/sub \"dosya adı\"\tİlave altyazı dosyası yükle"
 
 msgctxt "IDS_CMD_FILTER"
 msgid ""
