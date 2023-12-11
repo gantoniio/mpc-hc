@@ -4297,7 +4297,7 @@ msgstr "/dvdpos T#C\tİsimden başlat T, bölüm C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr "/dvdpos T#P\tYürütmeyi T bölümü ile P konumundan başlat (sa:dk:sn)"
+msgstr "/dvdpos T#P\tYürütmeyi T başlığı ve P yerleşiminden başlat (sa:dk:sn)"
 
 msgctxt "IDS_CMD_CD"
 msgid ""
