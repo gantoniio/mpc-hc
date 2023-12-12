@@ -125,8 +125,7 @@ public:
     POSITION GetNext(POSITION pos);
     STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
     bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
-    void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
-    void SetPin(IPin* i) { m_pPin = i; };
+    void SetFilterGraph(IFilterGraph* g);
     void AssFlattenSSE2(ASS_Image* imagee, SubPicDesc& spd, CRect& rcDirty);
     void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty);
     void SetFrameSize(int w, int h);

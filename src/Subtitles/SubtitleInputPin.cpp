@@ -165,7 +165,6 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 bool success = false;
 #if USE_LIBASS
                 if (pRTS->m_LibassContext.m_renderUsingLibass) {
-                    pRTS->m_LibassContext.SetPin(pReceivePin);
                     success = pRTS->m_LibassContext.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
                 }
 #endif
@@ -463,7 +462,6 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 int dataSize = (int)pSample->data.size();
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
                 pRTS->m_LibassContext.SetFilterGraph(fg);
-                pRTS->m_LibassContext.SetPin(this);
                 pRTS->m_LibassContext.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
             } else
 #endif
