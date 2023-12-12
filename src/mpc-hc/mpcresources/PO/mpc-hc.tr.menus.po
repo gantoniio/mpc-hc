@@ -45,7 +45,7 @@ msgstr "Diz&in Aç..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "CD-RO&M Aç"
+msgstr "Diski aç"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
