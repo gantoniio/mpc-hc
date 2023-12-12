@@ -533,7 +533,7 @@ msgstr "Video &oynatılırken"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Ayarlar..."
+msgstr "&Seçenekler..."
 
 msgctxt "POPUP"
 msgid "&Play"
