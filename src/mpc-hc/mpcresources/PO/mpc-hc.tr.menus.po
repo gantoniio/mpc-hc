@@ -445,7 +445,7 @@ msgstr "Monitör/Masaüstü AR Farkını &Düzelt"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "P&nS Kare uyarlama"
+msgstr "Kare uyarlama P&nS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
