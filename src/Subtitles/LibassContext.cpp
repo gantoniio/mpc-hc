@@ -764,9 +764,11 @@ bool LibassContext::LoadASSTrack(char* data, int size, Subtitle::SubType subType
 }
 
 void LibassContext::SetFilterGraph(IFilterGraph* g) {
-    m_pGraph = g;
-    IBaseFilter* f = FindFirstFilter(m_pGraph);
-    m_pPin = GetFirstPin(f);
+    if (m_pGraph != g) {
+        m_pGraph = g;
+        IBaseFilter* f = FindFirstFilter(m_pGraph);
+        m_pPin = GetFirstPin(f);
+    }
 }
 
 void LibassContext::LoadASSFont() {
