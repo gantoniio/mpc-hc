@@ -125,6 +125,7 @@ public:
     POSITION GetNext(POSITION pos);
     STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
     bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
+    void SetFilterGraphFromFilter(IBaseFilter* f);
     void SetFilterGraph(IFilterGraph* g);
     void AssFlattenSSE2(ASS_Image* imagee, SubPicDesc& spd, CRect& rcDirty);
     void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty);

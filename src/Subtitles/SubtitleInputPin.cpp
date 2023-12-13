@@ -139,8 +139,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
 #if USE_LIBASS
             if (pRTS->m_LibassContext.CheckSubType()) {
-                IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->m_LibassContext.SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetFilterGraphFromFilter(m_pFilter);
             }
 #endif
             pRTS->m_name = name;
@@ -460,8 +459,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             if (pRTS->m_LibassContext.IsLibassActive()) {
                 LPCSTR data = (LPCSTR)pSample->data.data();
                 int dataSize = (int)pSample->data.size();
-                IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->m_LibassContext.SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetFilterGraphFromFilter(m_pFilter);
                 pRTS->m_LibassContext.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
             } else
 #endif
