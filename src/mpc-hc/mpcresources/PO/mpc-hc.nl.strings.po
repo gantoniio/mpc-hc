@@ -628,7 +628,7 @@ msgstr "Afspelen::Synchronisatie"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Weergave::Volledig scherm"
+msgstr "Afspelen::Volledig scherm"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
@@ -764,7 +764,7 @@ msgstr "Speler::Thema"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
-msgstr "Weergave::Uitvoer"
+msgstr "Afspelen::Uitvoer"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
