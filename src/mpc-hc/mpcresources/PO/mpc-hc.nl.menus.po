@@ -121,7 +121,7 @@ msgstr "Statistieken"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr "St&atus"
+msgstr "St&atusbalk"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
