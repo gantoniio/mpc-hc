@@ -533,7 +533,7 @@ msgstr "Tijdens afspelen video"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Opties..."
+msgstr "&Opties"
 
 msgctxt "POPUP"
 msgid "&Play"
