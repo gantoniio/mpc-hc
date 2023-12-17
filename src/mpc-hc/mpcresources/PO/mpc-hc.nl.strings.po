@@ -580,7 +580,7 @@ msgstr "Speler"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
-msgstr "Weergave::DVD"
+msgstr "Afspelen::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -604,7 +604,7 @@ msgstr "Externe filters"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Weergave::Shader-effecten"
+msgstr "Afspelen::Shader-effecten"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
