@@ -1905,4 +1905,4 @@ msgstr "Tinggi Seekbar Modern:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
-msgstr "Tema Warna Modern."
+msgstr "Tema Warna Modern:"
