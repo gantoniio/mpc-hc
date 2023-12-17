@@ -1757,7 +1757,7 @@ msgstr "Geavanceerde instellingen, pas niet aan tenzij je weet wat je doet."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "Waar"
+msgstr "Aan"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
