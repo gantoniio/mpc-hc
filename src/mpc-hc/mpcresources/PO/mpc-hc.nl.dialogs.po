@@ -829,7 +829,7 @@ msgstr "A-B-herhalingsmarkeringen onthouden"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
-msgstr "Relatieve schijf"
+msgstr "Relatieve stationsletter"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
