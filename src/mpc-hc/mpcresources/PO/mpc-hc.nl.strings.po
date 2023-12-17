@@ -2055,7 +2055,7 @@ msgstr "Toon titelbalk en menu's"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Verberg menu"
+msgstr "Menubalk verbergen..."
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
