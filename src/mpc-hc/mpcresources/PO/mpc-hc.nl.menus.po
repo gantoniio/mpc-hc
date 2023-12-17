@@ -513,7 +513,7 @@ msgstr "Resetten"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "Op voorgrond"
+msgstr "Altijd op voorgrond"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
