@@ -2051,7 +2051,7 @@ msgstr "Verberg vensterrand..."
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Toon titelbalk en menu's"
+msgstr "Titelbalken en menu's weergeven..."
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
