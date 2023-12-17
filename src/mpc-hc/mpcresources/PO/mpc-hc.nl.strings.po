@@ -126,7 +126,7 @@ msgstr "Tijd"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr "Sync-afwijking"
+msgstr "Sync-compensatie"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
