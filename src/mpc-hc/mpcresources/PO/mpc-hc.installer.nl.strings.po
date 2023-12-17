@@ -82,11 +82,11 @@ msgstr "Instellingen resetten"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "Standaard installatie"
+msgstr "Standaard"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
-msgstr "Aangepaste installatie"
+msgstr "Aangepast"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
