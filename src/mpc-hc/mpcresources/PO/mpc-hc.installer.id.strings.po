@@ -57,7 +57,7 @@ msgid ""
 "\n"
 "Your CPU does not have those capabilities."
 msgstr ""
-"Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.\n"
+"Versi MPC-HC ini membutuhkan CPU dengan dukungan SSE2.\n"
 "\n"
 "CPU Anda tidak memiliki kemampuan tersebut."
 
