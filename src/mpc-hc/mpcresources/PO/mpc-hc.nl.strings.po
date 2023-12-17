@@ -572,7 +572,7 @@ msgstr "Tekstgrootte ondertitel vergroten"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
-msgstr "Weergave"
+msgstr "Afspelen"
 
 msgctxt "IDD_PPAGEPLAYER"
 msgid "Player"
