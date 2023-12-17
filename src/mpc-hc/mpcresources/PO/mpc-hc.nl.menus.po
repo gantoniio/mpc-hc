@@ -33,7 +33,7 @@ msgstr "Bestand &openen..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "&DVD/BD openen..."
+msgstr "&DVD of Blu-ray openen..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
