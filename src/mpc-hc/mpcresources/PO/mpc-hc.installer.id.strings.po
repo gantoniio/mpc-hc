@@ -87,7 +87,7 @@ msgstr "Pemasangan bawaan"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
-msgstr "Pemasangan ubahsuai"
+msgstr "Pemasangan Bebas"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
