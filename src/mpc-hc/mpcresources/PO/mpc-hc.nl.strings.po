@@ -604,7 +604,7 @@ msgstr "Externe filters"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Afspelen::Shader-effecten"
+msgstr "Afspelen::Shaders"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -624,7 +624,7 @@ msgstr "Afspelen::Opnemen"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Weergave::Monitorsynchronisatie"
+msgstr "Afspelen::Monitorsynchronisatie"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
