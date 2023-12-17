@@ -130,7 +130,7 @@ msgstr "Sync-afwijking"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "gem.: %d ms, afw.: %d ms"
+msgstr "gemiddels: %d ms, afwijking: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
