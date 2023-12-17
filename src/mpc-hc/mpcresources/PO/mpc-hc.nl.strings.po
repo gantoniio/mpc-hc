@@ -748,7 +748,7 @@ msgstr "Speler::Toetsen"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Ondertiteling::Standaard stijl"
+msgstr "Ondertiteling::Vormgeving"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
