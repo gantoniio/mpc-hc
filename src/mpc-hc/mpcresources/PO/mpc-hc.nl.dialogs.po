@@ -817,7 +817,7 @@ msgstr "Toevoegen aan favorieten"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Kies naam voor je snelkoppeling:"
+msgstr "Naam:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
