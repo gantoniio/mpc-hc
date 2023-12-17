@@ -53,7 +53,7 @@ msgstr "&Recente bestanden"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "Sl&uiten"
+msgstr "Sl&uit"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
