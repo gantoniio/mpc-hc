@@ -253,7 +253,7 @@ msgstr "Aero uitschakelen tijdens afspelen"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Beeldtijd correctie inschakelen"
+msgstr "Framerate-correctie inschakelen"
 
 msgctxt "POPUP"
 msgid "&Color Management"
