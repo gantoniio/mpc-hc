@@ -66,7 +66,7 @@ msgstr "Bezoek onze wiki om de werkbalkskins te downloaden"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
-msgstr "Voor iedereen"
+msgstr "Voor alle gebruikers"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
