@@ -74,29 +74,29 @@ bool FTLibraryData::CheckValidFamilyName(HDC hdc, std::wstring fontNameK, std::w
         GetFontData(hdc, 0, 0, fontData, fontSize);
         error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
 
-        FT_UInt nc = FT_Get_Sfnt_Name_Count(face);
-        for (FT_UInt i = 0; i < nc; i++) {
-            FT_SfntName fn;
-            error = FT_Get_Sfnt_Name(face, i, &fn);
-            if (fn.name_id == 1) { //Font Family
-                if (fn.platform_id == 3) { //Microsoft encoding
-                    std::wstring familyName = UTF16BE2LE(fn.string, fn.string_len);
-                    names.insert(familyName);
-                } else if (fn.platform_id == 1) { //Macintosh encoding
-                    int nBufLen = MultiByteToWideChar(CP_MACCP, 0, (LPCCH)fn.string, fn.string_len, NULL, 0);
-                    if (nBufLen > 0) {
-                        std::wstring familyName;
-                        familyName.resize(nBufLen);
-                        nBufLen = MultiByteToWideChar(CP_MACCP, 0, (LPCCH)fn.string, fn.string_len, &familyName[0], nBufLen);
+        if (!error) {
+            FT_UInt nc = FT_Get_Sfnt_Name_Count(face);
+            for (FT_UInt i = 0; i < nc; i++) {
+                FT_SfntName fn;
+                error = FT_Get_Sfnt_Name(face, i, &fn);
+                if (!error && fn.name_id == 1) { //Font Family
+                    if (fn.platform_id == 3) { //Microsoft encoding
+                        std::wstring familyName = UTF16BE2LE(fn.string, fn.string_len);
+                        names.insert(familyName);
+                    } else if (fn.platform_id == 1) { //Macintosh encoding
+                        int nBufLen = MultiByteToWideChar(CP_MACCP, 0, (LPCCH)fn.string, fn.string_len, NULL, 0);
                         if (nBufLen > 0) {
-                            names.insert(familyName);
+                            std::wstring familyName;
+                            familyName.resize(nBufLen);
+                            nBufLen = MultiByteToWideChar(CP_MACCP, 0, (LPCCH)fn.string, fn.string_len, &familyName[0], nBufLen);
+                            if (nBufLen > 0) {
+                                names.insert(familyName);
+                            }
                         }
                     }
                 }
             }
         }
-        int c = names.size();
-
         FT_Done_Face(face);
 
         delete[] fontData;
