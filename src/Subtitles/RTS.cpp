@@ -52,7 +52,7 @@ void alpha_mask_deleter::operator()(CAlphaMask* ptr) const noexcept
 
 // CMyFont
 
-CMyFont::CMyFont(const STSStyle& style)
+CMyFont::CMyFont(const STSStyle& style, CRenderedTextSubtitle* m_RTS /* = nullptr */)
 {
     LOGFONT lf;
     ZeroMemory(&lf, sizeof(lf));
@@ -83,6 +83,18 @@ CMyFont::CMyFont(const STSStyle& style)
         HFONT hOldFont = SelectFont(g_hDC, *this);
     }
 #endif
+
+    if (m_RTS) {
+        WCHAR selectedFontName[LF_FACESIZE];
+        GetTextFaceW(g_hDC, LF_FACESIZE, selectedFontName);
+        if (!m_RTS->m_ftLibrary.CheckValidFamilyName(g_hDC, lf.lfFaceName, selectedFontName)) {
+            SelectFont(g_hDC, hOldFont);
+            DeleteObject();
+            _tcscpy_s(lf.lfFaceName, _T("Calibri"));
+            VERIFY(CreateFontIndirect(&lf));
+            HFONT hOldFont = SelectFont(g_hDC, *this);
+        }
+    }
 
     TEXTMETRIC tm;
     GetTextMetrics(g_hDC, &tm);
@@ -496,6 +508,7 @@ void CWord::Transform_SSE2(const CPoint& org)
 CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
     : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
+    , m_RTS(nullptr)
 {
     if (m_str == L" ") {
         m_fWhiteSpaceChar = true;
@@ -504,7 +517,7 @@ CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
     CTextDimsKey textDimsKey(m_str, m_style);
     CTextDims textDims;
     if (!renderingCaches.textDimsCache.Lookup(textDimsKey, textDims)) {
-        CMyFont font(m_style);
+        CMyFont font(m_style, m_RTS);
         m_ascent  = font.m_ascent;
         m_descent = font.m_descent;
 
@@ -561,7 +574,7 @@ bool CText::Append(CWord* w)
 
 bool CText::CreatePath()
 {
-    CMyFont font(m_style);
+    CMyFont font(m_style, m_RTS);
 
     HFONT hOldFont = SelectFont(g_hDC, font);
 
