@@ -865,7 +865,7 @@ public:
     bool            bHidePlaylistFullScreen;
 
     // OTHER STATES
-    CStringW        strLastOpenDir;
+    //CStringW        strLastOpenDir;
     UINT            nLastWindowType;
     WORD            nLastUsedPage;
     bool            fRemainingTime;
@@ -960,6 +960,8 @@ public:
     int iStillVideoDuration;
     int iMouseLeftUpDelay;
 
+    bool bCaptureDeinterlace;
+
 private:
     struct FilterKey {
         CString name;
@@ -991,7 +993,6 @@ private:
     void            SaveSettingsAutoChangeFullScreenMode();
 
     void            UpdateRenderersData(bool fSave);
-    friend void     CRenderersSettings::UpdateData(bool bSave);
 
     SubtitleRenderer eSubtitleRenderer;
     CSize            sizeAspectRatio;
@@ -1025,6 +1026,5 @@ public:
     bool            GetAllowMultiInst() const;
 
     static bool     IsVSFilterInstalled();
-    SubRendererSettings	GetSubRendererSettings();
 };
 
