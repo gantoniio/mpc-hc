@@ -152,7 +152,7 @@ msgstr "簡潔(&C)"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "正常(&N)"
+msgstr "一般(&N)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
