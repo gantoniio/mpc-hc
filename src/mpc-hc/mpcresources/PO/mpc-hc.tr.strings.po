@@ -828,7 +828,7 @@ msgctxt "IDC_DSDXR"
 msgid ""
 "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
 msgstr ""
-"VKI-9 (işleyici gerektirmeyen) gibidir, ancak gerçek çift-geçişli kübik "
+"VKI-9 (işleyicisiz) gibidir, ancak gerçek iki geçişli çift kübik "
 "boyutlandırıcı kullanır."
 
 msgctxt "IDC_DSNULL_COMP"
