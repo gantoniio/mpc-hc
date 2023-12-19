@@ -2436,7 +2436,7 @@ msgstr "Altyazılar kaydedilemedi"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Görüntü hızı"
+msgstr "Kare hızı"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
