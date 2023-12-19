@@ -733,7 +733,7 @@ msgstr "&Bilgisayarı Kilitle"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "&Gezinti"
+msgstr "G&ezinti"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
