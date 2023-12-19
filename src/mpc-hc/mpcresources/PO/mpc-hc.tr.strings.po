@@ -2168,7 +2168,7 @@ msgstr "Oto. Sığdır"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr "Sığdır (Sadece büyütme)"
+msgstr "Otomatik uyum (Sadece büyük)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
