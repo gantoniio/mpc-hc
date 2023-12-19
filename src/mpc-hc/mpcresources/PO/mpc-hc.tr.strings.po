@@ -2172,7 +2172,7 @@ msgstr "Sığdır (Sadece büyütme)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Otomatik Sığdır (Sadece büyüt)"
+msgstr "Yakınlaştırma otomatik uyum (Sadece büyük)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
