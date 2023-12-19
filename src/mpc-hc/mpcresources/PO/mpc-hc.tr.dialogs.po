@@ -1111,7 +1111,7 @@ msgstr "OpenType Dili"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC_LIBASS"
 msgid "Libass Options"
-msgstr "Libass Seçenekleri"
+msgstr "Libass seçenekleri"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
 msgid "Use libass for SSA/ASS"
