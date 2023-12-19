@@ -773,7 +773,7 @@ msgstr "&Bölüm Menüsü"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "F&avoriler"
+msgstr "&Favoriler"
 
 msgctxt "POPUP"
 msgid "&Help"
