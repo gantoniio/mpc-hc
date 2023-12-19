@@ -853,7 +853,7 @@ msgid ""
 "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling "
 "and postprocessing. Recommended."
 msgstr ""
-"EVR ile aynı, ama altyazı ve son işleme için MPC-HC 'nin Allocator-"
+"GVİ ile aynı, ama altyazı ve son işleme için MPC-HC'nin Allocator-"
 "Presenter'ı ile birlikte. Tavsiye edilir."
 
 msgctxt "IDC_DSMADVR"
