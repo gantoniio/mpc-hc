@@ -4250,7 +4250,7 @@ msgid ""
 "\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
 msgstr ""
 "/viewpreset N\t以特定畫面初始設定啟動，\n"
-"\t\tN 的選項有：\"1\" 極簡、\"2\" 簡潔、\"3\" 正常"
+"\t\tN 的選項有：\"1\" 極簡、\"2\" 簡潔、\"3\" 一般"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
