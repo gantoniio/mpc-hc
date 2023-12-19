@@ -1431,7 +1431,7 @@ msgstr "Dosya/URL Aç..."
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
-msgstr "DVD/BD Aç"
+msgstr "DVD/Blu-ray aç"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
