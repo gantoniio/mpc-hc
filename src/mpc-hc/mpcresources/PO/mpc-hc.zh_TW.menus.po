@@ -380,7 +380,7 @@ msgstr "一半大小(&H)"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "正常大小(&N)"
+msgstr "一般大小(&N)"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
