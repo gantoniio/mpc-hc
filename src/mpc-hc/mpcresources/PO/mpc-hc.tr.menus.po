@@ -777,7 +777,7 @@ msgstr "F&avoriler"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "&Yardım"
+msgstr "Y&ardım"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
