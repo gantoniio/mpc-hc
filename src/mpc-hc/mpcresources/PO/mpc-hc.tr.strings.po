@@ -1423,7 +1423,7 @@ msgstr "Bilinmeyen"
 
 msgctxt "IDS_MPLAYERC_0"
 msgid "Quick Open File"
-msgstr "Hızlı Dosya Aç"
+msgstr "Hızlı dosya aç"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File/URL"
