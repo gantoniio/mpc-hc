@@ -109,13 +109,12 @@ struct RenderingCaches {
         , alphaMaskCache(128) {}
 };
 
-class CRenderedTextSubtitle;
 class CMyFont : public CFont
 {
 public:
     int m_ascent, m_descent;
 
-    CMyFont(const STSStyle& style, CRenderedTextSubtitle* m_RTS = nullptr);
+    CMyFont(const STSStyle& style);
 };
 
 struct CTextDims {
@@ -169,6 +168,7 @@ public:
     friend class COutlineKey;
 };
 
+class CRenderedTextSubtitle;
 class CText : public CWord
 {
 protected:
