@@ -4566,7 +4566,7 @@ msgstr "&Devam"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr "Varsayılan Altyazı Stilini Aç/Kapat"
+msgstr "Varsayılan altyazı biçimini Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
