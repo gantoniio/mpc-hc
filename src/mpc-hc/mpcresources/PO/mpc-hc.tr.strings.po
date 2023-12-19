@@ -2082,7 +2082,7 @@ msgstr "Tam Ekran (çöz.değişmeden)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Yakınlaştır Otomatik Sığdır"
+msgstr "Yakınlaştırma otomatik uyum"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
