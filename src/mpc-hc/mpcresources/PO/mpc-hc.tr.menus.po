@@ -781,7 +781,7 @@ msgstr "&Yardım"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Ana Sayfa"
+msgstr "&Ana sayfa"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
