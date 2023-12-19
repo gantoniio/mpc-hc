@@ -2176,7 +2176,7 @@ msgstr "Yakınlaştırma otomatik uyum (Sadece büyük)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Yakınlaştırma: Otomatik (Sadece sığdır)"
+msgstr "Yakınlaştırma: Otomatik (Sadece büyük)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
