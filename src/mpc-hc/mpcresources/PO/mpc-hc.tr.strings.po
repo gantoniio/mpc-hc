@@ -2610,7 +2610,7 @@ msgstr "Altyazı: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "DVD/BD için bir yol seçiniz:"
+msgstr "DVD/Blu-ray için bir yol seçiniz:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
