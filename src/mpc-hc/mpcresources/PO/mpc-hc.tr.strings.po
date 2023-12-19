@@ -2444,7 +2444,7 @@ msgstr "çizilen: %d, atlanan: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
-msgstr "Görüntüler"
+msgstr "Kareler"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
