@@ -3672,7 +3672,7 @@ msgstr ""
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr "Dosyayı &kapat"
+msgstr "&Kapat"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
