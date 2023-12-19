@@ -98,7 +98,7 @@ msgstr "Ses geri kazanımını kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
-msgstr "Yükseltme:"
+msgstr "Ses yükseltme:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
