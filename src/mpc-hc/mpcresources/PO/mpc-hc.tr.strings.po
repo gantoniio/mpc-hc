@@ -2164,7 +2164,7 @@ msgstr "%200"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Oto. Sığdır"
+msgstr "Otomatik uyum"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
