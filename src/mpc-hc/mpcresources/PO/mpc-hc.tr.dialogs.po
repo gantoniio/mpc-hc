@@ -1219,7 +1219,7 @@ msgstr "Yüzey:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "Yakınlaştırma:"
+msgstr "Boyutlandırıcı:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
