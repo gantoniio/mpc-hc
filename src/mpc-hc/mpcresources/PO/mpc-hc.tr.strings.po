@@ -913,7 +913,7 @@ msgid ""
 "renderer frames."
 msgstr ""
 "VMR-9'u (işleyicisiz) karıştırıcı moduna geçirir, bu özellik sayfasındaki "
-"kontrollerin çoğunun çalışacağı ve çerçeveleri işlemek için ayrı bir "
+"kontrollerin çoğunun çalışacağı ve video karelerini işlemek için ayrı bir "
 "üstlenici izlek kullanacağı anlamına gelir."
 
 msgctxt "IDC_DSMPCVR"
