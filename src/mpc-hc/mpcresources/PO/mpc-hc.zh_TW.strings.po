@@ -1991,7 +1991,7 @@ msgstr "輕巧視窗"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
-msgstr "正常視窗"
+msgstr "一般視窗"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
