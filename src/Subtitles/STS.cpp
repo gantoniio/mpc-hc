@@ -2301,6 +2301,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
     , m_SubRendererSettings(GetSubRendererSettings())
+    , m_path("")
 #if USE_LIBASS
     , m_LibassContext(this)
 #endif

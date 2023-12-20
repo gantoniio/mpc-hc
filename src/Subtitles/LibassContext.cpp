@@ -808,6 +808,12 @@ void LibassContext::LoadASSFont() {
                 CoTaskMemFree(pData);
             }
         }
+        if (!m_STS->m_path.IsEmpty() && PathUtils::Exists(m_STS->m_path)) {
+            CStringA fname(CW2A(PathUtils::DirName(m_STS->m_path) + L"\\fonts", CP_UTF8));
+            ass_set_fonts_dir(ass, fname.GetBuffer());
+            fname.ReleaseBuffer();
+        }
+
         m_assfontloaded = true;
         STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
         CT2CA tmpFontName(defStyle.fontName);
