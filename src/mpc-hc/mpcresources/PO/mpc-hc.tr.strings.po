@@ -449,7 +449,7 @@ msgstr "E&kle"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
-msgstr "&Sil"
+msgstr "Kaldır"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
