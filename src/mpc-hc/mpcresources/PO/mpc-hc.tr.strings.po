@@ -846,7 +846,7 @@ msgid ""
 "Same as the normal Null renderer, but this will only connect to uncompressed"
 " types."
 msgstr ""
-"Boş çözücü ile aynıdır, ancak sadece sıkıştırılmamış biçimleri destekler."
+"Boş işleyici ile aynıdır, ancak sadece sıkıştırılmamış biçimleri destekler."
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid ""
