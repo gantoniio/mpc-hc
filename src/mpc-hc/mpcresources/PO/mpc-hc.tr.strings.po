@@ -1343,7 +1343,7 @@ msgstr "Stiller..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
-msgstr "&Yeniden Yükle"
+msgstr "&Yeniden yükle"
 
 msgctxt "IDS_SUBTITLES_ENABLE"
 msgid "&Enable"
