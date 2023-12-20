@@ -1323,7 +1323,7 @@ msgstr "Ara"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Farklı Kaydet..."
+msgstr "Farklı kaydet..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
