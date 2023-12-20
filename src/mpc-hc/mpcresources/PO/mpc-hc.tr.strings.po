@@ -481,7 +481,7 @@ msgstr "Rastgele sırala"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "G&eri Al"
+msgstr "G&eri al"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
