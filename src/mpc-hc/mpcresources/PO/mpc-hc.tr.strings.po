@@ -3787,7 +3787,7 @@ msgid ""
 "The \"Save Image\" and \"Save Thumbnails\" functions do not work for "
 "Shockwave files."
 msgstr ""
-"'Resim Kaydet' ve 'Küçük Resim Kaydet' özellikleri, Shockwave dosyaları ile "
+"'Resim kaydet' ve 'Küçük resim kaydet' özellikleri, Shockwave dosyaları ile "
 "çalışmaz."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
