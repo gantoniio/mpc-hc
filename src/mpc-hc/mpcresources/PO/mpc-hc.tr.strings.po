@@ -465,7 +465,7 @@ msgstr "Kaydet"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Farklı Kaydet..."
+msgstr "&Farklı kaydet..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
