@@ -3025,7 +3025,7 @@ msgstr "Piksel:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
-msgstr "Kodlama:"
+msgstr "Karakter kodlaması:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
