@@ -2969,7 +2969,7 @@ msgstr "%200 Yakınlaştır"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
-msgstr "Sonraki AR"
+msgstr "Sonraki en boy oranı ön ayarı"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
