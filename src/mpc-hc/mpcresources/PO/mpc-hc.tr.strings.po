@@ -150,7 +150,7 @@ msgstr "Sinyal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %ld%%"
-msgstr "Etki: %d dB, Kalite: %ld%%"
+msgstr "Kuvvet: %d dB, Kalite: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
