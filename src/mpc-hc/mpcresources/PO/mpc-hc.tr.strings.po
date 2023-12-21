@@ -46,7 +46,7 @@ msgstr "Tamamlanıyor..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Video Oynat"
+msgstr "Video oynat"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
