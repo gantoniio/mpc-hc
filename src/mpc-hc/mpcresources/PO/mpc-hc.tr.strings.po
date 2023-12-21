@@ -733,7 +733,7 @@ msgstr "&Kanallar"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr "MPC Video İşleyici"
+msgstr "MPC Video İşleyicisi"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7"
 msgid "Video Mixing Renderer 7"
