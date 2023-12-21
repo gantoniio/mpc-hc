@@ -859,7 +859,7 @@ msgstr ""
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr ""
-"Yüksek kaliteli bir çözücüdür, ancak D3D9 veya daha sonrasını destekleyen "
+"Yüksek kaliteli bir işleyicidir, ancak D3D9 veya daha sonrasını destekleyen "
 "bir ekran kartı gerektirir."
 
 msgctxt "IDC_DSSYNC"
