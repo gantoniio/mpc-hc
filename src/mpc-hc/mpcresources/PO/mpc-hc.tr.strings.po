@@ -50,7 +50,7 @@ msgstr "Video Oynat"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
-msgstr "Müzik Çal"
+msgstr "Müzik çal"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
