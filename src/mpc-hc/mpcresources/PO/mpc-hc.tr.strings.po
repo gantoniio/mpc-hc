@@ -114,7 +114,7 @@ msgstr "Açık"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr "Windows temasına uy"
+msgstr "Sistem varsayılanı"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
