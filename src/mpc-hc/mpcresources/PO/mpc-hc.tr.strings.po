@@ -1379,7 +1379,7 @@ msgstr "Konum"
 
 msgctxt "IDS_AG_CLOSE"
 msgid "Close"
-msgstr "Dosyayı kapat"
+msgstr "Kapat"
 
 msgctxt "IDS_AG_NONE"
 msgid "None"
