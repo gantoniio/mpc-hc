@@ -1359,7 +1359,7 @@ msgstr "Başlık"
 
 msgctxt "IDS_INFOBAR_AUTHOR"
 msgid "Author"
-msgstr "Eser sahibi:"
+msgstr "Eser sahibi"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
