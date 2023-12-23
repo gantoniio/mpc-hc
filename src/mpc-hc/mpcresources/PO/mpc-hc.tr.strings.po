@@ -2316,7 +2316,7 @@ msgstr "Seçenekler"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr "Sonraki Ses Parçası"
+msgstr "Sonraki ses parçası"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
