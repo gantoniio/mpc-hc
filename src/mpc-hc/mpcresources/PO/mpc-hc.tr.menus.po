@@ -669,7 +669,7 @@ msgstr "&Ses Parçası"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "Al&tyazı Parçası"
+msgstr "&Altyazı Parçası"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
