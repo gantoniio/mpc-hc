@@ -4071,7 +4071,7 @@ msgstr "/reset\t\tVarsayılan ayarlara dön"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?\tKomut satırı parametleri için yardımı görüntüle"
+msgstr "/help /h /?\tKomut satırı parametreleri için yardımı görüntüle"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid ""
