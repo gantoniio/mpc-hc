@@ -513,7 +513,7 @@ msgstr "Sı&fırla"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "Pencereyi &Üstte Tut"
+msgstr "&Üstte kal"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
