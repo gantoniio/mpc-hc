@@ -4485,7 +4485,9 @@ msgstr "/new\t\tUygulamanın yeni bir kopyasını kullan"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr "/add\t\tBirleştirmek ve/veya yürütmek /play için \"dosya yolu\" ekle"
+msgstr ""
+"/add\t\tOynatma listesine \"yol adı\" ekle, /open ve /play ile "
+"birleştirilebilir"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
