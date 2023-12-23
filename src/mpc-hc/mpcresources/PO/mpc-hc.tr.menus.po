@@ -373,7 +373,7 @@ msgstr "Tavsiye &edilen işleyici ayarlarına dön"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "&Video Boyutu"
+msgstr "&Video karesi"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
