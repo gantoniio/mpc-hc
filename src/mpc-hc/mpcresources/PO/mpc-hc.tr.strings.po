@@ -1259,7 +1259,7 @@ msgstr "EDL kayıt"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Görüntü Süresi Düzeltmesini Aç"
+msgstr "Kare süresi düzeltmesini etkinleştir"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
