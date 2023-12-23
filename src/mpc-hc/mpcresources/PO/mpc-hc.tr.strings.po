@@ -1875,7 +1875,7 @@ msgstr "Küçük resim başarıyla kaydedildi"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
-msgstr "Vide&o Parçası"
+msgstr "&Video Parçası"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
