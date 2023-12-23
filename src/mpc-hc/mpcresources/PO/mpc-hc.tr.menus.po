@@ -653,7 +653,7 @@ msgstr "Hızı a&rttır"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Hızı Sıfırla"
+msgstr "Hızı s&ıfırla"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
