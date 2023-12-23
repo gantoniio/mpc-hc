@@ -4816,7 +4816,7 @@ msgstr "Mod:"
 
 msgctxt "IDS_ARS_INPUT"
 msgid "Input"
-msgstr "Input"
+msgstr "Giriş"
 
 msgctxt "IDS_ARS_OUTPUT"
 msgid "Output"
