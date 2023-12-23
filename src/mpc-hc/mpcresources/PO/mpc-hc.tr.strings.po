@@ -1821,7 +1821,7 @@ msgstr "Son çerçeve"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "En yakın çerçeve"
+msgstr "En yakın kare"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid ""
