@@ -4271,7 +4271,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr "/d3dfs\t\tD3D tam ekran modunda görüntülemeye başla"
+msgstr "/d3dfs\t\tİşlemeyi D3D tam ekran modunda başlat"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
