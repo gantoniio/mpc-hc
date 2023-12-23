@@ -3780,7 +3780,7 @@ msgstr "Girilen kare hızı ayrıştırılırken hata oluştu!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
-msgstr "Görüntü atlanamıyor, lütfen başka bir video işleyicisini deneyiniz."
+msgstr "Kare atlanamıyor, lütfen başka bir video işleyicisini deneyiniz."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid ""
