@@ -1817,7 +1817,7 @@ msgstr "Kopya Kaydet"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Son çerçeve"
+msgstr "En son kare"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
