@@ -4599,7 +4599,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
 msgid "Render subtitles onto screenshots"
-msgstr "Altyazıları ekran görüntülerine işleyin"
+msgstr "Altyazıları ekran görüntülerine işle"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid ""
