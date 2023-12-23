@@ -581,7 +581,7 @@ msgstr "A-B (&B yi işaretle)"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
-msgstr "Oynatma hızı"
+msgstr "Oynatma &hızı"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
