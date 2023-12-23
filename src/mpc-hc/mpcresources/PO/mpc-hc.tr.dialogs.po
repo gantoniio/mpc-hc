@@ -839,7 +839,7 @@ msgstr "İptal"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Favorileri Düzenle"
+msgstr "Favorileri düzenle"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
