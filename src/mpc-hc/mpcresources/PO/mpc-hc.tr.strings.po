@@ -4387,7 +4387,7 @@ msgstr "Yukarıya Hizala"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
-msgstr "Ortaya Hizala"
+msgstr "Ortaya hizala"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
