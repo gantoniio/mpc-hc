@@ -1974,7 +1974,7 @@ msgstr "İleri atla (kare)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "Geri Atla (çerçeve)"
+msgstr "Geri atla (kare)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
