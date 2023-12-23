@@ -1970,7 +1970,7 @@ msgstr "Geri Atla (uzun)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
-msgstr "İleri Atla (çerçeve)"
+msgstr "İleri atla (kare)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
