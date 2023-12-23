@@ -1753,7 +1753,7 @@ msgstr "Uygulamadan çık"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Yürüt/Duraklat"
+msgstr "Oynat/Duraklat"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
