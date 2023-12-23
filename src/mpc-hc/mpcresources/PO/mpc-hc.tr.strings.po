@@ -1934,7 +1934,7 @@ msgstr "Hızı a&zalt"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Hızı Sıfırla"
+msgstr "Hızı s&ıfırla"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
