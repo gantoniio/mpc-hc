@@ -3837,7 +3837,7 @@ msgstr "%s kodlayıcı filtresindeki sıkıştırma biçimi ayarlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Çoklama çözücüsüne %s akış verisi bağlanamıyor."
+msgstr "%s akışı multiplexer filtresine bağlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
