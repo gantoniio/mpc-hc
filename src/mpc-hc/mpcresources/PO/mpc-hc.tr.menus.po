@@ -649,7 +649,7 @@ msgstr "Hızı Azalt"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "Hızı Arttır"
+msgstr "Hızı a&rttır"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
