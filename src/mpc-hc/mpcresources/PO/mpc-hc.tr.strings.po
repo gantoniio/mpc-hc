@@ -4852,7 +4852,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
 msgid "The renderer will try to initialize the device skipping some checks."
-msgstr "İşleyici bazı kontrolleri atlayarak cihazı başlatmaya çalışacaktır."
+msgstr "İşleyici bazı kontrolleri atlayarak aygıtı başlatmaya çalışacaktır."
 
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
