@@ -1769,7 +1769,7 @@ msgstr "Kare atla"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
-msgstr "Görüntü atlama (geriye)"
+msgstr "Kare atla (geri)"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
