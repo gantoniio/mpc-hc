@@ -1930,11 +1930,11 @@ msgstr "BDA Hatası"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
-msgstr "Hızı a&zalt"
+msgstr "Hızı azalt"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Hızı s&ıfırla"
+msgstr "Hızı sıfırla"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
