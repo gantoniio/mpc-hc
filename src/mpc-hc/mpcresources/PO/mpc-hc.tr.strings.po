@@ -1765,7 +1765,7 @@ msgstr "Durdur"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
-msgstr "Görüntü atlama"
+msgstr "Kare atla"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
