@@ -189,7 +189,7 @@ msgstr "Oto. uyum (Sadece &büyük)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "İşleyici Ayarları"
+msgstr "İşleyici ayarları"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
