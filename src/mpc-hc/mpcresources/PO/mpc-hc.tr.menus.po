@@ -645,7 +645,7 @@ msgstr "25 Fps"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Hızı Azalt"
+msgstr "Hızı a&zalt"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
