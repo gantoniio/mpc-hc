@@ -2352,7 +2352,7 @@ msgstr "Sonraki ses parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr "Önceki Ses Parçası (DVD)"
+msgstr "Önceki ses parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
