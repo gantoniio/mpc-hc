@@ -3199,7 +3199,7 @@ msgstr "Ses: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
-msgstr "Dosyayı Tekrar Aç"
+msgstr "Dosyayı yeniden aç"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
