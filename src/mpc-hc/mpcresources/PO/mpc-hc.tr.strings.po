@@ -2866,7 +2866,7 @@ msgstr " (Yönetmen Yorumları 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr " (Yönetici Komutları 2)"
+msgstr " (Yönetmen Yorumları 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
