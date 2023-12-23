@@ -2638,7 +2638,7 @@ msgstr "Süresi olmayan dosyalar için küçük resimler oluşturulamıyor"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Video boyutu alınamadı"
+msgstr "Video kare boyutu alınamadı"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
