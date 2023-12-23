@@ -253,7 +253,7 @@ msgstr "Masaüstü düzeltmesini kapat (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Görüntü süresi &düzeltmesini aç"
+msgstr "Kare süresi &düzeltmesini etkinleştir"
 
 msgctxt "POPUP"
 msgid "&Color Management"
