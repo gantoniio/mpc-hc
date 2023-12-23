@@ -4828,7 +4828,7 @@ msgstr "Format:"
 
 msgctxt "IDS_ARS_SAMPLERATE"
 msgid "Sample rate:"
-msgstr "Sample rate:"
+msgstr "Örnek hızı:"
 
 msgctxt "IDS_ARS_CHANNELS"
 msgid "Channels:"
