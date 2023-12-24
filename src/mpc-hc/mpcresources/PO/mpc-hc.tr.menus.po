@@ -345,7 +345,7 @@ msgstr "&Eşzamanlılık dengesini arttır"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "&GPU Denetimi"
+msgstr "&GPU kontrolü"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
