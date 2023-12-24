@@ -241,7 +241,7 @@ msgstr "10-bit RGB &Girişini zorla"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "&Tam Hareketli Hedef İşleme"
+msgstr "&Tam kayan nokta işlemi"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
