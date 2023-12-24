@@ -465,7 +465,7 @@ msgstr "Ge&nişliği Azalt"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "Yüks&ekliği Arttır"
+msgstr "Yüksekliği arttır"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
