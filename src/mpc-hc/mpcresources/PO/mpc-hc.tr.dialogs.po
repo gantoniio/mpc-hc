@@ -1046,7 +1046,7 @@ msgstr "Mat kutu"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Dış çizgi genişliği"
+msgstr "Genişlik"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
