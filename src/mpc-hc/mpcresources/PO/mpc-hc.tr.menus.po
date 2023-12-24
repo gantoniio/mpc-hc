@@ -493,7 +493,7 @@ msgstr "Ort&ala"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
-msgstr "Saat &Yönünde Döndür"
+msgstr "Saat &yönünde döndür"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
