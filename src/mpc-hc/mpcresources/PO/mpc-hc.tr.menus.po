@@ -265,7 +265,7 @@ msgstr "&Açık"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "&Giriş Biçimi"
+msgstr "&Giriş türü"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
