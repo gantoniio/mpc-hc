@@ -497,7 +497,7 @@ msgstr "Saat &yönünde döndür"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
-msgstr "Saat Yö&nünün Tersine Döndür"
+msgstr "Saat yönünün tersine döndür"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
