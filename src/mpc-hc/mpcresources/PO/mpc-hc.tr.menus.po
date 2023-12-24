@@ -389,7 +389,7 @@ msgstr "&İki Kat Boyut"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Pencereye Uzat"
+msgstr "&Pencereye uzat"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
