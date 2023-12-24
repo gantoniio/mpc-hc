@@ -229,7 +229,7 @@ msgstr "Tam ekran D3D &kipi"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Tam ekran D3D &arabirim desteği"
+msgstr "Tam ekran D3D &grafiksel arayüz desteği"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
