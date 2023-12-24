@@ -469,7 +469,7 @@ msgstr "Yüksekliği arttır"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "Yüksek&liği Azalt"
+msgstr "Yüksekliği azalt"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
