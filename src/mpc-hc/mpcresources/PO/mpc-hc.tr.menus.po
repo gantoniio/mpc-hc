@@ -501,7 +501,7 @@ msgstr "Saat Yö&nünün Tersine Döndür"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
-msgstr "Dikey dönd&ür"
+msgstr "Baş aşağı dönd&ür"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
