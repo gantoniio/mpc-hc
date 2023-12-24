@@ -301,7 +301,7 @@ msgstr "&Karanlık (2.4 Gama)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&İşleyici Yöntemi"
+msgstr "&İşleme maksadı"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
