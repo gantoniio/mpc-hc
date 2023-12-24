@@ -297,7 +297,7 @@ msgstr "&Sönük (2.35 Gama)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "K&aranlık (2.4 Karşıtlık)"
+msgstr "&Karanlık (2.4 Gama)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
