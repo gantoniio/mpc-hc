@@ -245,7 +245,7 @@ msgstr "&Tam kayan nokta işlemi"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "&Yarım Hareketli Hedef İşleme"
+msgstr "&Yarım kayan nokta işlemi"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
