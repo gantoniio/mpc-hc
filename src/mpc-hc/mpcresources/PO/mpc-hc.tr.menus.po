@@ -257,7 +257,7 @@ msgstr "Kare süresi &düzeltmesini etkinleştir"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "&Renk Yönetimi"
+msgstr "&Renk yönetimi"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
