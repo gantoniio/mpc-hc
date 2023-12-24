@@ -4637,7 +4637,7 @@ msgstr "Son Piksel Tonlayıcılarını Etkinleştir"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
-msgstr "Durum çubuğunun (milisaniye cinsinden) yenilenme sıklığı"
+msgstr "Durum çubuğunun yenilenme sıklığı (milisaniye cinsinden)"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
