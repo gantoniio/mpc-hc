@@ -576,7 +576,8 @@ msgstr "oranında video kare hızına uygula"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Uzun hareketlendirmeleri videoyla uyumlu olacak şekilde eşzamanla"
+msgstr ""
+"Sıra gecikiyorsa altyazı alt resimlerinden bazılarının atlanmasına izin ver"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
