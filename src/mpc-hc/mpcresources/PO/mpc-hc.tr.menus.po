@@ -237,7 +237,7 @@ msgstr "10-bit &RGB çıkışı"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "10-bit RGB &Girişini zorla"
+msgstr "10-bit RGB girişine zorla"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
