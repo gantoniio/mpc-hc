@@ -485,7 +485,7 @@ msgstr "Yukarı taşı"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Aşağı &Taşı"
+msgstr "Aşağı taşı"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
