@@ -233,7 +233,7 @@ msgstr "Tam ekran D3D &arabirim desteği"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10-bit &RGB Çıktısı"
+msgstr "10-bit &RGB çıkışı"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
