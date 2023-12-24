@@ -205,7 +205,7 @@ msgstr "Güncel Süreyi G&öster"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr "Dosya &Adını Göster"
+msgstr "Dosya &adını göster"
 
 msgctxt "POPUP"
 msgid "&Output Range"
