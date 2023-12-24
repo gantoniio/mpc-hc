@@ -4800,7 +4800,7 @@ msgstr "Cihaz arabelleği:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr "Format desteğini kontrol etme"
+msgstr "Format desteğini kontrol edilmesin"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
