@@ -477,7 +477,7 @@ msgstr "Sağa &Taşı"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "Sola &Taşı"
+msgstr "Sola &taşı"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
