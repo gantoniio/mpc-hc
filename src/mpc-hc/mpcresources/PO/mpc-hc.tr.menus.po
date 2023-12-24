@@ -453,7 +453,7 @@ msgstr "&Boyutu Arttır"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "&Boyutu Azalt"
+msgstr "&Boyutu azalt"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
