@@ -293,7 +293,7 @@ msgstr "&Parlak (2.2 Karşıtlık)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "&Donuk (2.35 Karşıtlık)"
+msgstr "&Sönük (2.35 Gama)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
