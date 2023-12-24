@@ -49,7 +49,7 @@ msgstr "Çıkış"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Video Kaydet"
+msgstr "Video kaydı al"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
