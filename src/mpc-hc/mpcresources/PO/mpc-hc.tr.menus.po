@@ -473,7 +473,7 @@ msgstr "Yüksek&liği Azalt"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "Sağa &Taşı"
+msgstr "Sağa taşı"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
