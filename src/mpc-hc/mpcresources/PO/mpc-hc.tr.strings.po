@@ -1995,7 +1995,7 @@ msgstr "Önceki dosya"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Direct3D Tam Ekranda Göster"
+msgstr "Direct3D Tam ekranı Aç/Kapat"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
