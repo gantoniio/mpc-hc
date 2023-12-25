@@ -3554,7 +3554,7 @@ msgstr "Alternatif VSync: Kapalı"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "İşleyici ayarları varsayılan ayarlara döndürüldü"
+msgstr "İşleyici ayarları varsayılana getirildi"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
