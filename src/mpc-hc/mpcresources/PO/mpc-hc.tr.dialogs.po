@@ -1701,7 +1701,7 @@ msgstr "Arka tonlayıcı ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Önayarlı Tonlayıcılar"
+msgstr "Tonlayıcı önayarları"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
