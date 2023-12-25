@@ -4480,7 +4480,7 @@ msgstr "/minimized\tSimge durumuna küçültülmüş şekilde başlat"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr "/new\t\tUygulamanın yeni bir kopyasını kullan"
+msgstr "/new\t\tUygulamanın yeni bir oluşumunu kullan"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
