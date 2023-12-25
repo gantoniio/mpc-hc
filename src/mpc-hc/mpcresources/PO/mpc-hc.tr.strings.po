@@ -2690,7 +2690,7 @@ msgstr "En boy oranı: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr "En Boy Oranı: Varsayılan (DAR)"
+msgstr "En boy oranı: Varsayılan (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
