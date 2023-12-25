@@ -228,7 +228,7 @@ msgstr "Her zaman (bazı aygıtlar için gerekebilir)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Ebeveyn denetimi"
+msgstr "Ebeveyn derecelendirmesi"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
