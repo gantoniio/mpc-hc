@@ -405,7 +405,7 @@ msgstr "Yakınlaştırma &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Pencereye Dışarıdan U&yarla"
+msgstr "Pencereye dışarıdan u&yarla"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
