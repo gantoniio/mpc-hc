@@ -2998,7 +2998,7 @@ msgstr "İlerleme çubuğu üzerinde"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
-msgstr "İlerleme Çubuğu altında"
+msgstr "İlerleme çubuğu altında"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
