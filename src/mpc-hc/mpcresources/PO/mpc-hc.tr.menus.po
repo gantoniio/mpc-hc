@@ -409,7 +409,7 @@ msgstr "Pencereye Dışarıdan U&yarla"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr "En Boy Oranı"
+msgstr "&En boy oranı"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
