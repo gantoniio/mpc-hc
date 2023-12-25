@@ -2762,7 +2762,7 @@ msgstr "Başlık & Menüyü Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
-msgstr "İlerleme Çubuğunu Aç/Kapat"
+msgstr "İlerleme çubuğunu Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
