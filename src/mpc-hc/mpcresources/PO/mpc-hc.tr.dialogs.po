@@ -1737,7 +1737,7 @@ msgstr "Tonlama hata ayıklayıcı"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Hata Ayıklama Bilgisi"
+msgstr "Hata ayıklama bilgileri"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
