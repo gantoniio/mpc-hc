@@ -2566,7 +2566,7 @@ msgstr "Sütun:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
-msgstr "Görüntü genişliği"
+msgstr "Resim genişliği"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
