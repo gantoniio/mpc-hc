@@ -2838,7 +2838,7 @@ msgstr "%s bulunamadı, lütfen bu dosyayı içeren medyayı takınız."
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
-msgstr "Durduruldu"
+msgstr "İptal edildi"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
