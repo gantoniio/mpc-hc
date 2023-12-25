@@ -3042,7 +3042,7 @@ msgstr "Mouse FS Modifier"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "Pencere Yakınlaştırma +"
+msgstr "Pencere yakınlaştırma +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
