@@ -1636,7 +1636,7 @@ msgstr "Yukarı taşı"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr "Aşağı Taşı"
+msgstr "Aşağı taşı"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
