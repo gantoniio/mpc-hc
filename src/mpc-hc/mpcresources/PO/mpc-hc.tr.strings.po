@@ -1071,7 +1071,7 @@ msgstr "RARFileSource tabanlıdır, sıkıştırılmış dosyaları desteklemez"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "LAV Filters kullanılıyor"
+msgstr "LAV Filters kullanılır"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid ""
