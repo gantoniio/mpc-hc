@@ -3594,7 +3594,7 @@ msgstr "Tam kayan nokta işleme: Kapalı"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Yarım Hareketli Hedef İşleme: Açık"
+msgstr "Yarım kayan nokta işleme: Açık"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
