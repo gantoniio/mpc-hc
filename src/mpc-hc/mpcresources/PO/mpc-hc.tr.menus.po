@@ -261,7 +261,7 @@ msgstr "&Renk yönetimi"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "&Açık"
+msgstr "&Etkinleştir"
 
 msgctxt "POPUP"
 msgid "&Input Type"
