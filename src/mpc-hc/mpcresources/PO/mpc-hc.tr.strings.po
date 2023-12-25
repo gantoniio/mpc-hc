@@ -2942,7 +2942,7 @@ msgstr "Durum çubuğunu Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Altyazı Eşzamanlama çubuğunu Aç/Kapat"
+msgstr "Altyazı eşzamanlama çubuğunu Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
