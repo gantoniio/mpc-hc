@@ -2571,7 +2571,7 @@ msgstr "Görüntü genişliği"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "En Boy Oranı"
+msgstr "En boy oranı"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
