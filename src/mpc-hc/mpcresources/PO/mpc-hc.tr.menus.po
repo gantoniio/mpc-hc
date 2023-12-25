@@ -677,7 +677,7 @@ msgstr "Vide&o Parçası"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "Se&s"
+msgstr "S&es düzeyi"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
