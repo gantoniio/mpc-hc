@@ -3716,7 +3716,7 @@ msgstr "Ses geri kazanımı: Açık"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Ses yükseltmesi: Kapalı"
+msgstr "Ses geri kazanımı: Kapalı"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
