@@ -3900,7 +3900,7 @@ msgstr "Oynatmadan sonra: Klasördeki sonraki dosyayı oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Oynatmadan sonra: Bir İşlem Yapma"
+msgstr "Oynatmadan sonra: Bir işlem yapma"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
