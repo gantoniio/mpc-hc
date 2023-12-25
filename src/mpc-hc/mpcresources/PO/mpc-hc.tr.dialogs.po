@@ -1234,7 +1234,7 @@ msgstr "Ekranı değiştirirken yeniden başlat"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Tam Ekran Direct3D (kopuklukları sil)"
+msgstr "D3D Tam ekran"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
