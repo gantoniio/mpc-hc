@@ -369,7 +369,7 @@ msgstr "&Varsayılan işleyici ayarlarına dön"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Tavsiye &edilen işleyici ayarlarına dön"
+msgstr "&Tavsiye edilen işleyici ayarlarına dön"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
