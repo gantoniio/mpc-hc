@@ -3712,7 +3712,7 @@ msgstr "Ses yükseltmesini Aç/Kapat"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr "Ses yükseltmesi: Açık"
+msgstr "Ses geri kazanımı: Açık"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
