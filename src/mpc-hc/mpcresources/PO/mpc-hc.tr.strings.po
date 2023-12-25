@@ -3407,7 +3407,7 @@ msgstr "Çözünürlük"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "En Boy Oranı"
+msgstr "En boy oranı"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
