@@ -2878,7 +2878,7 @@ msgstr "Açı %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Eşzamanlılık dengesini arttır"
+msgstr "VSync kaydırmasını arttır"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
