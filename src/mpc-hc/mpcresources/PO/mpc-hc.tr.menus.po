@@ -77,7 +77,7 @@ msgstr "&Altyazı Aç..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr "Altyazı K&aydet.."
+msgstr "Altyazı &kaydet..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
