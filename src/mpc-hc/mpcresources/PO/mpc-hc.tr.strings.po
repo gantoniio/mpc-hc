@@ -1858,7 +1858,7 @@ msgstr "Kare süresi düzeltmesi: Kapalı"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Hedef VSync: %.1f"
+msgstr "Hedef VSync kaydırması: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
