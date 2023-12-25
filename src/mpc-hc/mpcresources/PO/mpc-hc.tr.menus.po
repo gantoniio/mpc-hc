@@ -385,7 +385,7 @@ msgstr "&Normal boyut"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "&İki Kat Boyut"
+msgstr "&İki kat boyut"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
