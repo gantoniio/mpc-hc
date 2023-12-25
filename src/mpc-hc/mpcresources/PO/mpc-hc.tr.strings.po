@@ -4734,7 +4734,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
-msgstr "Ekranı kilitlerken oynatmayı duraklatmayın."
+msgstr "Ekranı kilitlerken yürütme duraklatılmasın."
 
 msgctxt "IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE"
 msgid ""
