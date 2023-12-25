@@ -2236,7 +2236,7 @@ msgstr "Ses düzeyini arttır"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
-msgstr "Sesi Azalt"
+msgstr "Ses düzeyini azalt"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
