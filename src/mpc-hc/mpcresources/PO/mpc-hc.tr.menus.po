@@ -61,7 +61,7 @@ msgstr "K&opya kaydet..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Re&sim Kaydet..."
+msgstr "&Resim kaydet..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
