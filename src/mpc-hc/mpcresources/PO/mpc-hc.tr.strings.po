@@ -1471,7 +1471,7 @@ msgstr "Sonraki Önayarlı Tonlayıcı"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Önceki Önayarlı Tonlayıcı"
+msgstr "Önceki ön ayarlı tonlayıcı"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
