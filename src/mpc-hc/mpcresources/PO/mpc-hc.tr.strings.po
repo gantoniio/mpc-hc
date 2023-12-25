@@ -2098,7 +2098,7 @@ msgstr "Video karesi iki kat boyut"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
-msgstr "Daima Üstte"
+msgstr "Daima üstte kal"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
