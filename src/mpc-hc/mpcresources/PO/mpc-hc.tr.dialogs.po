@@ -1733,7 +1733,7 @@ msgstr ""
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Tonlama hata ayıklayıcı"
+msgstr "Tonlayıcı hata ayıklayıcısı"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
