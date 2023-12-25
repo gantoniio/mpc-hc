@@ -325,7 +325,7 @@ msgstr "&Eşzamanlılık"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&Eşzamanla"
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
