@@ -381,7 +381,7 @@ msgstr "&Yarım Boyut"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "&Normal Boyut"
+msgstr "&Normal boyut"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
