@@ -338,7 +338,7 @@ msgstr "編集リスト エディタ"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "入力された時間がファイルの再生時間よりも大きくなっています。"
+msgstr "入力された時間がファイルの再生時間よりも長くなっています。"
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid ""
