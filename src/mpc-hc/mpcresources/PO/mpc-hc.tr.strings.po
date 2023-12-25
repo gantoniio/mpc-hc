@@ -2367,7 +2367,7 @@ msgstr "Altyazıyı Aç/Kapat (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD: Güncel Süreyi Göster"
+msgstr "OSD: Güncel süreyi göster"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
