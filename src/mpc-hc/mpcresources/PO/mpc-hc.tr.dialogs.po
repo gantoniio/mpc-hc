@@ -1434,7 +1434,7 @@ msgstr "Symbol Rate"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
-msgstr "Varsayılan Aygıt"
+msgstr "Varsayılan aygıt"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
