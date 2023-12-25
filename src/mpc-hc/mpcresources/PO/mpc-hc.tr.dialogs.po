@@ -1226,7 +1226,7 @@ msgstr "Boyutlandırıcı:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "D3D9 İşleyici aygıtı seçimi"
+msgstr "D3D9 işleme aygıtı seçimi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
