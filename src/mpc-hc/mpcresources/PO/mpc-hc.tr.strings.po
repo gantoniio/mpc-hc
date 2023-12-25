@@ -2232,7 +2232,7 @@ msgstr "Video karesi aşağı sağa kaydır"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
-msgstr "Sesi Yükselt"
+msgstr "Ses düzeyini arttır"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
