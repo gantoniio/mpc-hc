@@ -2324,7 +2324,7 @@ msgstr "Önceki ses parçası"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr "Sonraki Altyazı"
+msgstr "Sonraki altyazı parçası"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
