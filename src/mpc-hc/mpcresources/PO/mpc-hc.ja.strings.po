@@ -222,7 +222,7 @@ msgstr "常に (デバイスによっては必要な場合あり)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "保護者による評価"
+msgstr "保護者の評価"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
