@@ -826,7 +826,7 @@ msgstr "Yerleşimi hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr "A-B tekrarlama noktalarını hatırla"
+msgstr "A-B tekrar noktalarını hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
