@@ -2994,7 +2994,7 @@ msgstr "Video karesi döndür X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
-msgstr "İlerleme Çubuğu üzerinde"
+msgstr "İlerleme çubuğu üzerinde"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
