@@ -129,7 +129,7 @@ msgstr "Altyazı Eşzamanla"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Oyna&tma Listesi"
+msgstr "Oynatma &listesi"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
