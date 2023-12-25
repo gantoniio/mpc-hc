@@ -1717,11 +1717,11 @@ msgstr "Dahili Altyazı İşleyicisi"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
-msgstr "Aygıt Aç"
+msgstr "Aygıt aç"
 
 msgctxt "IDS_AG_SAVE_AS"
 msgid "Save As"
-msgstr "Farklı Kaydet"
+msgstr "Farklı kaydet"
 
 msgctxt "IDS_AG_SAVE_IMAGE"
 msgid "Save Image"
