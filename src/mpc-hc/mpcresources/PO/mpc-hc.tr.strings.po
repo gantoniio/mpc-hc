@@ -3167,7 +3167,7 @@ msgstr "Tüm ses çözücülerini devre dışı bırak"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "Tüm video çözücülerini aç"
+msgstr "Tüm video çözücülerini etkinleştir"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
