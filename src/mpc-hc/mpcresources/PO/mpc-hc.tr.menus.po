@@ -393,7 +393,7 @@ msgstr "&Pencereye uzat"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "Pencereye İçeriden &Uyarla"
+msgstr "Pencereye içeriden &uyarla"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
