@@ -267,7 +267,7 @@ msgstr "Yakalayıcı Ayarları"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr "Gezinti Çubuğu"
+msgstr "Gezinti çubuğu"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
