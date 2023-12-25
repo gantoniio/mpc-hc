@@ -1295,7 +1295,7 @@ msgstr "Video karesi döndür Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Yırtılma Testi"
+msgstr "Yırtılma testi"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
