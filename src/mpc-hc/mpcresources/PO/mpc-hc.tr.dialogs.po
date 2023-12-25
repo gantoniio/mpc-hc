@@ -384,7 +384,7 @@ msgstr "Ses"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
 msgid "Subtitles"
-msgstr "Altyazılar"
+msgstr "Altyazı"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Additional settings"
