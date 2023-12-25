@@ -2029,7 +2029,7 @@ msgstr "BD Oynat"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr "OSD: İşleyici İstatistiklerini Göster"
+msgstr "OSD: İşleyici istatistiklerini göster"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
