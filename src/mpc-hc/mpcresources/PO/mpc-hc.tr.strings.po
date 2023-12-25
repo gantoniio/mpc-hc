@@ -1725,7 +1725,7 @@ msgstr "Farklı Kaydet"
 
 msgctxt "IDS_AG_SAVE_IMAGE"
 msgid "Save Image"
-msgstr "Resim Kaydet"
+msgstr "Resim kaydet"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
