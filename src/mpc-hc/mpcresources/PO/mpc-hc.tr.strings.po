@@ -2897,7 +2897,7 @@ msgstr "Bilinmeyen biçim"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Altyazı atlaması : %ld ms"
+msgstr "Altyazı kaydırma: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
