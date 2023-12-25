@@ -918,7 +918,7 @@ msgstr "Tümünü seç"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Seçimi Sıfırla"
+msgstr "Seçimi sıfırla"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
