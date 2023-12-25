@@ -3163,7 +3163,7 @@ msgstr "Tüm ses çözücülerini aç"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "Tüm ses çözücülerini kapat"
+msgstr "Tüm ses çözücülerini devre dışı bırak"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
