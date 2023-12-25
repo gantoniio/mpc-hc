@@ -37,7 +37,7 @@ msgstr "&DVD/Blu-ray aç..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "A&ygıt Aç..."
+msgstr "A&ygıt aç..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
