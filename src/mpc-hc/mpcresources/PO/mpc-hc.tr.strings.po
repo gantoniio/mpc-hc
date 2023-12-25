@@ -1741,7 +1741,7 @@ msgstr "Altyazı Aç..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr "Altyazı Kaydet..."
+msgstr "Altyazı kaydet..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
