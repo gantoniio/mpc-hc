@@ -89,7 +89,7 @@ msgstr "&Özellikler"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr "Dosya konumunu aç"
+msgstr "Dosya kon&umunu aç"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
