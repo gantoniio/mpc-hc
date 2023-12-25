@@ -377,7 +377,7 @@ msgstr "&Video karesi"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "&Yarım Boyut"
+msgstr "&Yarım boyut"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
