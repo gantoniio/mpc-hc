@@ -1737,7 +1737,7 @@ msgstr "Görüntü başarıyla kaydedildi"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr "Altyazı Aç..."
+msgstr "Altyazı aç..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
