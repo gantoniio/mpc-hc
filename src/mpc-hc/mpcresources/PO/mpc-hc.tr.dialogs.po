@@ -726,7 +726,7 @@ msgstr "OSD yazı tipi:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Filtre Ekle..."
+msgstr "Filtre ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
