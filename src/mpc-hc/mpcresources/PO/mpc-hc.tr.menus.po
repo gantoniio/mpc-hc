@@ -73,7 +73,7 @@ msgstr "A&ltyazılar"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr "&Altyazı Aç..."
+msgstr "&Altyazı aç..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
