@@ -1403,7 +1403,7 @@ msgstr "Tam ekran kipinde fare"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
-msgstr "Uygulama Komutu"
+msgstr "Uygulama komutu"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
