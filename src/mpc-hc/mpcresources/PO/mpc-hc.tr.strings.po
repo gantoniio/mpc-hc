@@ -3558,7 +3558,7 @@ msgstr "İşleyici ayarları varsayılana getirildi"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "İşleyici ayarları ideal ayarlara döndürüldü"
+msgstr "İşleyici ayarları ideal duruma getirildi"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
