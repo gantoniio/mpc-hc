@@ -4185,7 +4185,7 @@ msgstr "Yukarı taşı"
 
 msgctxt "IDS_SUBMENU_MOVEDOWN"
 msgid "Move Down"
-msgstr "Aşağı Taşı"
+msgstr "Aşağı taşı"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
