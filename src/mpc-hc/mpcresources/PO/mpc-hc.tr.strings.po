@@ -2009,7 +2009,7 @@ msgstr "Altyazı eşzamanlama: -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr "Altyazı eşzamanlama: +100ms "
+msgstr "Altyazı eşzamanlama: +100ms kaydırma"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
