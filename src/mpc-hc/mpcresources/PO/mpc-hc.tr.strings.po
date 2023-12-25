@@ -3498,7 +3498,7 @@ msgstr "İşleme maksadı: Doygunluk"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Tarama Amacı: Mutlak renkli"
+msgstr "İşleme maksadı: Mutlak renkli"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
