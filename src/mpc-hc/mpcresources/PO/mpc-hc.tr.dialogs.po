@@ -456,7 +456,7 @@ msgstr "kez oynat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr "Tekrar kipi:"
+msgstr "Tekrar modu:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
