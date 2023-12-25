@@ -4497,7 +4497,7 @@ msgstr "モダン シークバーの高さ (96dpi、それ以外の場合はス�
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
-msgstr "視覚的な不具合を防ぐために、ビデオを全画面表示する前の遅延です。"
+msgstr "ビデオを全画面表示するまでの遅延です。表示の不具合を回避します。"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
 msgid "Render subtitles onto screenshots"
