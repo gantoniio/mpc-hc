@@ -770,7 +770,7 @@ msgstr "Listeyi sıfırla"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
-msgstr "Biçim:"
+msgstr "Tür:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Size:"
