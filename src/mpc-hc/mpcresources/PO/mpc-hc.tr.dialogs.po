@@ -627,7 +627,7 @@ msgstr "&Yönetici olarak çalıştır"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr "V&arsayılan uygulama olarak ayarla"
+msgstr "&Varsayılan uygulama olarak ayarla"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
