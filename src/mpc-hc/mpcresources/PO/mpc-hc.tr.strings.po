@@ -3419,7 +3419,7 @@ msgstr "VSync: Kapalı"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Net VSync: Açık"
+msgstr "Kesin VSync: Açık"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
