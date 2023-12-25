@@ -85,7 +85,7 @@ msgstr "Altyazı &indir..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "Ö&zellikler"
+msgstr "&Özellikler"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
