@@ -2335,7 +2335,7 @@ msgstr "Altyazıyı Aç/Kapat"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Altyazıları Tekrar Yükle"
+msgstr "Altyazıları yeniden yükle"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
