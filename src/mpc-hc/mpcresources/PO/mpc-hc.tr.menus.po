@@ -225,7 +225,7 @@ msgstr "&Sunum"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Tam ekran D3D &kipi"
+msgstr "Tam ekran D3D &modu"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
