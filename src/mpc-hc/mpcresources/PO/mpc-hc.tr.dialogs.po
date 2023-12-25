@@ -699,7 +699,7 @@ msgstr "Geliştirilmiş görev çubuğu özelliklerini kullan"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Logitech LCD desteğini kullan (deneysel)"
+msgstr "Logitech LCD desteğini etkinleştir (deneysel)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
