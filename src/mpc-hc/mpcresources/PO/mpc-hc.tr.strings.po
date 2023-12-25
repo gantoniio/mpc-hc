@@ -4,7 +4,6 @@
 # Translators:
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
 # MPC HC <adiposegithub@gmail.com>, 2022
-# cumhur <cmhrky@gmail.com>, 2022
 # Mücahid Aksel <mucahidaksel@gmail.com>, 2023
 # 
 msgid ""
@@ -3046,7 +3045,7 @@ msgstr "Pencere yakınlaştırma +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "Pencere Yakınlaştırma -"
+msgstr "Pencere yakınlaştırma -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
