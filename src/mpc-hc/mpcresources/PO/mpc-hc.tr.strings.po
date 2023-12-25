@@ -3430,7 +3430,7 @@ msgstr "Video zamanlaması: Açık"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Video zamanlaması: Kapalı"
+msgstr "Videoyu ekranla senkronize et: Kapalı"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
