@@ -1901,7 +1901,7 @@ msgstr "Modern Tema kullan"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
-msgstr "Modern İlerleme çubuğu yüksekliği:"
+msgstr "İlerleme çubuğu yüksekliği:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
