@@ -321,7 +321,7 @@ msgstr "&Koşulsuz Renk Ölçümü"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&Eşzamanlılık"
+msgstr "&Dikey eşitleme"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
