@@ -2686,7 +2686,7 @@ msgstr "Altyazı dosyaları"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "En Boy Oranı: %ld:%ld"
+msgstr "En boy oranı: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
