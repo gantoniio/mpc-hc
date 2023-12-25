@@ -550,7 +550,7 @@ msgstr "Altyazı Gecikmesi +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
-msgstr "Küçük Resim Kaydet"
+msgstr "Küçük resim kaydet"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
