@@ -3171,7 +3171,7 @@ msgstr "Tüm video çözücülerini etkinleştir"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "Tüm video çözücülerini kapat"
+msgstr "Tüm video çözücülerini devre dışı bırak"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
