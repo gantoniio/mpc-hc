@@ -218,7 +218,7 @@ msgstr "異なるビデオ タイプに切り替える場合のみ"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "常に (一部のデバイスで必要となる場合あり)"
+msgstr "常に (デバイスによっては必要な場合あり)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
