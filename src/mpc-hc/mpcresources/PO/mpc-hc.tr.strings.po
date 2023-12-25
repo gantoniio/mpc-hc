@@ -3426,7 +3426,7 @@ msgstr "Kesin VSync: Kapalı"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr "Video zamanlaması: Açık"
+msgstr "Videoyu ekranla senkronize et: Açık"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
