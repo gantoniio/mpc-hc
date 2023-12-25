@@ -1986,11 +1986,11 @@ msgstr "Önceki"
 
 msgctxt "IDS_AG_NEXT_FILE"
 msgid "Next File"
-msgstr "Sonraki Dosya"
+msgstr "Sonraki dosya"
 
 msgctxt "IDS_AG_PREVIOUS_FILE"
 msgid "Previous File"
-msgstr "Önceki Dosya"
+msgstr "Önceki dosya"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
