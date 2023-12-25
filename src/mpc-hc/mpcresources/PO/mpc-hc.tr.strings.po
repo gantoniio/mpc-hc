@@ -2033,7 +2033,7 @@ msgstr "OSD: İşleyici İstatistiklerini Göster"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr "OSD: İşleyici İstatistiklerini Sıfırla"
+msgstr "OSD: İşleyici istatistiklerini sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
