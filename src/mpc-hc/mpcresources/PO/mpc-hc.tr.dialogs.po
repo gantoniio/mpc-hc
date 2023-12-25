@@ -21,7 +21,7 @@ msgstr ""
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "Medya Biçimi Seçimi"
+msgstr "Medya türü seçimi"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
