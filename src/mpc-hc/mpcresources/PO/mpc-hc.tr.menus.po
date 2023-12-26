@@ -661,7 +661,7 @@ msgstr "&Filtreler"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "T&onlamalar"
+msgstr "T&onlayıcılar"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
