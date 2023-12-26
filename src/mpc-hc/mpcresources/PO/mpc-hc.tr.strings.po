@@ -3460,7 +3460,7 @@ msgstr "Renk Yönetimi: Kapalı"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr "Giriş Biçimi: Otomatik"
+msgstr "Giriş türü: Otomatik"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
