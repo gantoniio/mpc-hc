@@ -2521,7 +2521,7 @@ msgstr "DVD: Geçersiz Sürücü Ülke Kodu"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
-msgstr "DVD: Düşük Koruma Seviyesi"
+msgstr "DVD: Düşük Ebeveyn Seviyesi"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
