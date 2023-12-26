@@ -3472,7 +3472,7 @@ msgstr "Giriş türü: SDTV NTSC"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
 msgid "Input Type: SDTV PAL"
-msgstr "Giriş Biçimi: SDTV PAL"
+msgstr "Giriş türü: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
