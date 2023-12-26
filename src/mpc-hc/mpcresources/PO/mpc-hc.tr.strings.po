@@ -2827,7 +2827,7 @@ msgstr "Grafik yakalama oluşturucusu yüklenemedi"
 
 msgctxt "IDS_MAINFRM_108"
 msgid "Couldn't open any device"
-msgstr "Hiçbir aygıt açılamadı"
+msgstr "Herhangi bir aygıt açılamadı"
 
 msgctxt "IDS_AG_SOUND"
 msgid "Sound"
