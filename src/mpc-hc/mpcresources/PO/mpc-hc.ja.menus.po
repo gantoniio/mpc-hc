@@ -125,7 +125,7 @@ msgstr "ステータス(&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "字幕の再同期(&B)"
+msgstr "字幕調整(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
