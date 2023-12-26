@@ -3464,7 +3464,7 @@ msgstr "Giriş Biçimi: Otomatik"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
-msgstr "Giriş Biçimi: HDTV"
+msgstr "Giriş türü: HDTV"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
 msgid "Input Type: SDTV NTSC"
