@@ -1674,7 +1674,7 @@ msgstr "Daha sonra &hatırlat"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "&Bu güncelleştirmeyi gizle"
+msgstr "Bu güncellemeyi &yoksay"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid ""
