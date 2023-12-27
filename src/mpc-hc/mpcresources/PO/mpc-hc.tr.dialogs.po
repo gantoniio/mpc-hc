@@ -1681,7 +1681,7 @@ msgid ""
 "Shaders contain special effects which can be added to the video rendering "
 "process."
 msgstr ""
-"Tonlayıcılar, video çözücü işlemine eklenebilecek özel efektleri içerirler."
+"Tonlayıcılar, video işleme sürecine eklenebilecek özel efektleri içerirler."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
