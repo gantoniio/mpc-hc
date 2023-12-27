@@ -23,9 +23,6 @@
 #include <algorithm>
 #include "StreamSwitcher.h"
 #include "../../../DSUtil/DSUtil.h"
-#include "AudioTools/SampleFormat.h"
-#include "AudioTools/AudioHelper.h"
-#include "sanear/src/Factory.h"
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
