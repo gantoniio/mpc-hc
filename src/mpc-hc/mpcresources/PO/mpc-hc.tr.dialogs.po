@@ -934,7 +934,7 @@ msgstr ""
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Aşağıdaki işlem(ler) uygun bir filtre bulmakta başarısız oldu:"
+msgstr "Aşağıdaki bağlantı noktaları bağlanabilecek bir filtre bulamadı:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
