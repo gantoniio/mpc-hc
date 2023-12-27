@@ -57,7 +57,7 @@ msgstr "Önizleme"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
-msgstr "Ses Kaydet"
+msgstr "Sesi kaydet"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
