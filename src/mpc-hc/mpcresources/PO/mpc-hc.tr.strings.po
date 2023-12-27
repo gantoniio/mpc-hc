@@ -3484,7 +3484,7 @@ msgstr "Ortam ışığı: Sönük (2.35 Gama)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr "Ortam Işığı: Karanlık (2.4 Karşıtlık)"
+msgstr "Ortam ışığı: Karanlık (2.4 Gama)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
