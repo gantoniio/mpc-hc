@@ -945,7 +945,7 @@ msgstr "3D doku (önerilir)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr "En yakın seçenek"
+msgstr "En yakın komşu"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
