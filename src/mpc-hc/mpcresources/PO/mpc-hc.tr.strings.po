@@ -3842,7 +3842,7 @@ msgstr "%s akışı multiplexer filtresine bağlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "Bir video yakalama ilişkilendirmesi bulunamadı."
+msgstr "Hiçbir video yakalama bağlantı noktası bulunamadı."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
