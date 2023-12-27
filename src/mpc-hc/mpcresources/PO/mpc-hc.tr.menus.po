@@ -125,7 +125,7 @@ msgstr "Du&rum"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Altyazı Eşzamanla"
+msgstr "Altyazı eşzamanla"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
