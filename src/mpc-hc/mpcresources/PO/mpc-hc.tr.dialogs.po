@@ -1250,7 +1250,7 @@ msgstr "GVI Tamponları:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "Derlenmiş Tonlayıcıları önbellekle"
+msgstr "Derlenmiş tonlayıcıları önbelleğe al"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
