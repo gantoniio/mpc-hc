@@ -3480,7 +3480,7 @@ msgstr "Ortam ışığı: Parlak (2.2 Gama)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr "Ortam Işığı: Donuk (2.35 Karşıtlık)"
+msgstr "Ortam ışığı: Sönük (2.35 Gama)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
