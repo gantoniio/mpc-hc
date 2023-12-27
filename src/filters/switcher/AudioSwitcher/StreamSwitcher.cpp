@@ -23,6 +23,9 @@
 #include <algorithm>
 #include "StreamSwitcher.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "AudioTools/SampleFormat.h"
+#include "AudioTools/AudioHelper.h"
+#include "sanear/src/Factory.h"
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
@@ -381,6 +384,7 @@ CStreamSwitcherInputPin::CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter,
     , m_evBlock(TRUE)
     , m_fCanBlock(false)
     , m_hNotifyEvent(nullptr)
+    , m_bFirstSampleReceived(false)
 {
     m_bCanReconnectWhenActive = true;
 }
@@ -781,6 +785,9 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
         return S_OK;
     }
 
+    if (!m_bFirstSampleReceived) {
+        pSSF->Stop();
+    }
     return IsActive() ? pSSF->DeliverEndOfStream() : S_OK;
 }
 
@@ -788,6 +795,7 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
 
 STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 {
+    m_bFirstSampleReceived = true;
     AM_MEDIA_TYPE* pmt = nullptr;
     if (SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt) {
         const CMediaType mt(*pmt);
