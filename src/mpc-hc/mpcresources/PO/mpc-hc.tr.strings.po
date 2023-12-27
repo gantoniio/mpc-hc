@@ -3846,7 +3846,7 @@ msgstr "Bir video yakalama ilişkilendirmesi bulunamadı."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "Bir ses yakalama ilişkilendirmesi bulunamadı."
+msgstr "Hiçbir ses yakalama bağlantı noktası bulunamadı."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
