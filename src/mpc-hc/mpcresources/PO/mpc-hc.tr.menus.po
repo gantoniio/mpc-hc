@@ -157,7 +157,7 @@ msgstr "&Normal"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "Ta&m Ekran"
+msgstr "Ta&m ekran"
 
 msgctxt "POPUP"
 msgid "&Zoom"
