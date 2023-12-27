@@ -2723,7 +2723,7 @@ msgstr "Açma işlemi iptal edildi"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Dosya çözülemedi"
+msgstr "Dosya işlenemedi"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
