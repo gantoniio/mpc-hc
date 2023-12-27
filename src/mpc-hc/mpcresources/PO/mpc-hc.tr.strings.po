@@ -2783,7 +2783,7 @@ msgstr "Herhangi bir kaynak filtresi yüklenemedi"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
-msgstr "Dosya çözülemiyor"
+msgstr "Dosya işlenemiyor"
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
