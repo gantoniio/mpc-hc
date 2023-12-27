@@ -953,7 +953,7 @@ msgstr "Çift doğrusal"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Basit çizgisellik (PT 2.0)"
+msgstr "Çift doğrusal (PT 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
