@@ -508,7 +508,7 @@ msgstr "Filtre grafiğini oluşturmak için üstlenici izlek özelliğini kullan
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Video işleyicisinin başarısız olduğu işlemleri rapor et"
+msgstr "İşlenemeyen bağlantı noktalarını bildir"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
