@@ -1043,7 +1043,7 @@ msgstr "影"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "画面の配置と余白"
+msgstr "表示位置と余白"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
