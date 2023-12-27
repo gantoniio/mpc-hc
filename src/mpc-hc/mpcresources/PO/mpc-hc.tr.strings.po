@@ -3248,7 +3248,7 @@ msgstr "Flash Videosu"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr "Ogg Media'sı"
+msgstr "Ogg Medyası"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
