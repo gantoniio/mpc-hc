@@ -993,7 +993,7 @@ msgstr "Ad"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
-msgstr "MIME Biçimi"
+msgstr "MIME türü"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid ""
