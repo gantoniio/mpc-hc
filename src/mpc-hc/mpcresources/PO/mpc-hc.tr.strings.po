@@ -2891,7 +2891,7 @@ msgstr "VSync kaydırmasını azalt"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "MPC-HC Tam Ekran D3D"
+msgstr "MPC-HC Tam ekran D3D"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
