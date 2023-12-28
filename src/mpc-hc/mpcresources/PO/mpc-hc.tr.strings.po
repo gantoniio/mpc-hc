@@ -1364,7 +1364,7 @@ msgstr "Eser sahibi"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Telif Hakkı"
+msgstr "Telif hakkı"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
