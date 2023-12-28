@@ -33,7 +33,7 @@ msgstr "Ses"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
-msgstr "Altyazılar"
+msgstr "Altyazı"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
