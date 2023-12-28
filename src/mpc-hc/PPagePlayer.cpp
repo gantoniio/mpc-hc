@@ -24,7 +24,6 @@
 #include "MainFrm.h"
 #include "FileAssoc.h"
 #include "PPagePlayer.h"
-#include "Translations.h"
 
 
 // CPPagePlayer dialog
@@ -51,11 +50,7 @@ CPPagePlayer::CPPagePlayer()
     , m_bRememberPlaylistItems(TRUE)
     , m_bEnableCoverArt(TRUE)
     , m_dwCheckIniLastTick(0)
-    , m_nPosLangEnglish(0)
 {
-    EventRouter::EventSelection fires;
-    fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
-    GetEventd().Connect(m_eventc, fires);
 }
 
 CPPagePlayer::~CPPagePlayer()
@@ -85,7 +80,6 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
     DDX_Check(pDX, IDC_CHECK2, m_bRememberPlaylistItems);
     DDX_Check(pDX, IDC_CHECK14, m_bEnableCoverArt);
-    DDX_Control(pDX, IDC_COMBO1, m_langsComboBox);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CMPCThemePPageBase)
@@ -125,20 +119,6 @@ BOOL CPPagePlayer::OnInitDialog()
     m_bRememberPlaylistItems = s.bRememberPlaylistItems;
     m_bEnableCoverArt = s.bEnableCoverArt;
 
-    for (auto& lr : Translations::GetAvailableLanguageResources()) {
-        int pos = m_langsComboBox.AddString(lr.name);
-        if (pos != CB_ERR) {
-            m_langsComboBox.SetItemData(pos, lr.localeID);
-            if (lr.localeID == s.language) {
-                m_langsComboBox.SetCurSel(pos);
-            }
-            if (lr.localeID == 0) {
-                m_nPosLangEnglish = pos;
-            }
-        } else {
-            ASSERT(FALSE);
-        }
-    }
 
     UpdateData(FALSE);
 
@@ -172,30 +152,6 @@ BOOL CPPagePlayer::OnApply()
     s.fRememberFilePos = !!m_fRememberFilePos;
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
     s.bEnableCoverArt = !!m_bEnableCoverArt;
-
-    int iLangSel = m_langsComboBox.GetCurSel();
-    if (iLangSel != CB_ERR) {
-        LANGID language = (LANGID)m_langsComboBox.GetItemData(iLangSel);
-        if (s.language != language) {
-            // Show a warning when switching to Arabic or Hebrew (must not be translated)
-            if (PRIMARYLANGID(language) == LANG_ARABIC || PRIMARYLANGID(language) == LANG_HEBREW) {
-                AfxMessageBox(_T("The Arabic and Hebrew translations will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
-                              MB_ICONINFORMATION | MB_OK);
-            }
-
-            if (!Translations::SetLanguage(language)) {
-                // In case of error, reset the language to English
-                language = 0;
-                m_langsComboBox.SetCurSel(m_nPosLangEnglish);
-            }
-            s.language = language;
-
-            // Inform all interested listeners that the UI language changed
-            m_eventc.FireEvent(MpcEvent::CHANGING_UI_LANGUAGE);
-        }
-    } else {
-        ASSERT(FALSE);
-    }
 
     if (!m_fKeepHistory) {
         // Empty MPC-HC's recent menu (iterating reverse because the indexes change)

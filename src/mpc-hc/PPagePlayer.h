@@ -58,16 +58,12 @@ public:
 
     ULONGLONG m_dwCheckIniLastTick;
 
-    EventClient m_eventc;
-
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYER };
 
 protected:
     CStatic m_iconSingle;
     CStatic m_iconMulti;
-    CMPCThemeComboBox m_langsComboBox;
-    int m_nPosLangEnglish;
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();

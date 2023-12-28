@@ -241,8 +241,6 @@ private:
         COL_VALUE
     };
 
-    EventClient m_eventc;
-
     CFont m_fontBold;
     CMPCThemeComboBox m_comboBox;
     CMPCThemeSpinButtonCtrl m_spinButtonCtrl;

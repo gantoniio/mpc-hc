@@ -34,13 +34,18 @@ private:
     BOOL m_bUseModernTheme;
     int m_iModernSeekbarHeight;
     CMPCThemeSpinButtonCtrl m_ModernSeekbarHeightCtrl;
+    CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
     CMPCThemeComboBox m_ThemeMode;
     int m_iThemeMode;
+    CMPCThemeComboBox m_langsComboBox;
+    int m_nPosLangEnglish;
+    int m_iDefaultToolbarSize;
 public:
     CPPageTheme();
     virtual ~CPPageTheme();
 
     // Dialog Data
+    EventClient m_eventc;
     enum { IDD = IDD_PPAGETHEME };
 
 protected:
