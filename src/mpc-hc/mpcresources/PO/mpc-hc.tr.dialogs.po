@@ -500,7 +500,7 @@ msgstr "Harici ayırıcı tercihlerini geçersiz kıl"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Açılış ayarları"
+msgstr "Başlangıç ayarları"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
