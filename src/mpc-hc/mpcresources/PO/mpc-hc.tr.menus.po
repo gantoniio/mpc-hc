@@ -141,7 +141,7 @@ msgstr "Gezinti"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Oynatıcı Ayrıntıları..."
+msgstr "Arayüz ayrıntısı..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
