@@ -1330,7 +1330,7 @@ msgstr "Farklı kaydet..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "Renk kontrolleri (VKI-9, GVİ ve madVR için)"
+msgstr "Renk kontrolleri (VKİ-9, GVİ ve madVR için)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
