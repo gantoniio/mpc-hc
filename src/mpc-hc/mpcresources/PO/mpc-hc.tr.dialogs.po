@@ -1066,7 +1066,7 @@ msgstr "Sağda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Top"
-msgstr "Yukarı"
+msgstr "Yukarıda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Bottom"
