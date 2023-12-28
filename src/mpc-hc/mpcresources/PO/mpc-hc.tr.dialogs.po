@@ -1062,7 +1062,7 @@ msgstr "Solda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Right"
-msgstr "Sağa"
+msgstr "Sağda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Top"
