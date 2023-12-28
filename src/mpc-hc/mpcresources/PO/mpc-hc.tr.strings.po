@@ -4502,7 +4502,7 @@ msgstr "/regaud\t\tSes dosyaları için dosya ilişkilendirmeleri oluştur"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr "/regpl\t\tYürütme listeleri için dosya ilişkilendirmeleri oluştur"
+msgstr "/regpl\t\tOynatma listeleri için dosya ilişkilendirmeleri oluştur"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
