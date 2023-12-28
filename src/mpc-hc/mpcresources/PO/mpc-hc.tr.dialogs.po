@@ -1058,7 +1058,7 @@ msgstr "Ekranda yerleşim && Kenar boşlukları"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
-msgstr "Sola"
+msgstr "Solda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Right"
