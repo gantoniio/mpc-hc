@@ -59,7 +59,7 @@ private:
     BOOL m_bShowABMarksInStatusbar;
     BOOL m_fSnapToDesktopEdges;
     BOOL m_fLimitWindowProportions;
-
+    BOOL m_bHideWindowedControls;
 public:
     CPPageTheme();
     virtual ~CPPageTheme();

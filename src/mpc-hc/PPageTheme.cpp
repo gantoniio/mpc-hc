@@ -50,6 +50,7 @@ CPPageTheme::CPPageTheme()
     , m_bShowABMarksInStatusbar(FALSE)
     , m_fSnapToDesktopEdges(FALSE)
     , m_fLimitWindowProportions(TRUE)
+    , m_bHideWindowedControls(FALSE)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
@@ -97,6 +98,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
 
     DDX_Check(pDX, IDC_CHECK7, m_fLimitWindowProportions);
     DDX_Check(pDX, IDC_CHECK9, m_fSnapToDesktopEdges);
+    DDX_Check(pDX, IDC_CHECK10, m_bHideWindowedControls);
 }
 
 
@@ -209,7 +211,7 @@ BOOL CPPageTheme::OnInitDialog()
     m_bShowABMarksInStatusbar = s.bShowABMarksInStatusbar;
     m_fSnapToDesktopEdges = s.fSnapToDesktopEdges;
     m_fLimitWindowProportions = s.fLimitWindowProportions;
-
+    m_bHideWindowedControls = s.bHideWindowedControls;
 
     CreateToolTip();
     EnableThemedDialogTooltips(this);
@@ -291,6 +293,7 @@ BOOL CPPageTheme::OnApply()
     s.bShowABMarksInStatusbar = !!m_bShowABMarksInStatusbar;
     s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
     s.fLimitWindowProportions = !!m_fLimitWindowProportions;
+    s.bHideWindowedControls = !!m_bHideWindowedControls;
 
     return __super::OnApply();
 }
