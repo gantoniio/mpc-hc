@@ -405,17 +405,17 @@ BEGIN
     EDITTEXT        IDC_EDIT3,118,20,48,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     PUSHBUTTON      "Default",IDC_BUTTON1,203,20,65,14
     CONTROL         "Auto-hide the mouse pointer during playback in windowed mode",IDC_CHECK3,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,108,343,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,47,343,16
     CONTROL         "Display ""Now Playing"" information in Skype's mood message",IDC_CHECK4,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,123,343,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,67,343,16
     CONTROL         "Enable Logitech LCD support (experimental)",IDC_CHECK_LCD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,153,343,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,87,343,16
     CONTROL         "Prevent minimizing the player when in fullscreen on a non default monitor",IDC_CHECK6,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,6,168,343,16
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,6,107,343,16
     CONTROL         "Open previous/next file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,6,184,343,16
-    CONTROL         "Fast seek (on keyframe)",IDC_FASTSEEK_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,78,194,8
-    COMBOBOX        IDC_COMBO4,203,76,146,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,6,127,343,16
+    CONTROL         "Fast seek (on keyframe)",IDC_FASTSEEK_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,151,194,8
+    COMBOBOX        IDC_COMBO4,203,151,146,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_PPAGEEXTERNALFILTERS DIALOGEX 0, 0, 355, 289
