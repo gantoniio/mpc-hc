@@ -48,6 +48,8 @@ CPPageTheme::CPPageTheme()
     , m_bShowLangInStatusbar(FALSE)
     , m_bShowFPSInStatusbar(FALSE)
     , m_bShowABMarksInStatusbar(FALSE)
+    , m_fSnapToDesktopEdges(FALSE)
+    , m_fLimitWindowProportions(TRUE)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
@@ -92,6 +94,9 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK3, m_bShowLangInStatusbar);
     DDX_Check(pDX, IDC_CHECK5, m_bShowFPSInStatusbar);
     DDX_Check(pDX, IDC_CHECK6, m_bShowABMarksInStatusbar);
+
+    DDX_Check(pDX, IDC_CHECK7, m_fLimitWindowProportions);
+    DDX_Check(pDX, IDC_CHECK9, m_fSnapToDesktopEdges);
 }
 
 
@@ -202,6 +207,8 @@ BOOL CPPageTheme::OnInitDialog()
     m_bShowLangInStatusbar = s.bShowLangInStatusbar;
     m_bShowFPSInStatusbar = s.bShowFPSInStatusbar;
     m_bShowABMarksInStatusbar = s.bShowABMarksInStatusbar;
+    m_fSnapToDesktopEdges = s.fSnapToDesktopEdges;
+    m_fLimitWindowProportions = s.fLimitWindowProportions;
 
 
     CreateToolTip();
@@ -282,6 +289,8 @@ BOOL CPPageTheme::OnApply()
     s.bShowLangInStatusbar = !!m_bShowLangInStatusbar;
     s.bShowFPSInStatusbar = !!m_bShowFPSInStatusbar;
     s.bShowABMarksInStatusbar = !!m_bShowABMarksInStatusbar;
+    s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
+    s.fLimitWindowProportions = !!m_fLimitWindowProportions;
 
     return __super::OnApply();
 }

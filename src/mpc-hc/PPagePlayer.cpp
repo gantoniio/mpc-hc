@@ -37,13 +37,11 @@ CPPagePlayer::CPPagePlayer()
     , m_fRememberWindowPos(FALSE)
     , m_fRememberWindowSize(FALSE)
     , m_fSavePnSZoom(FALSE)
-    , m_fSnapToDesktopEdges(FALSE)
     , m_fUseIni(FALSE)
     , m_fTrayIcon(FALSE)
     , m_fKeepHistory(FALSE)
     , m_fHideCDROMsSubMenu(FALSE)
     , m_priority(FALSE)
-    , m_fLimitWindowProportions(TRUE)
     , m_fRememberDVDPos(FALSE)
     , m_fRememberFilePos(FALSE)
     , m_bRememberPlaylistItems(TRUE)
@@ -68,12 +66,10 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK6, m_fRememberWindowPos);
     DDX_Check(pDX, IDC_CHECK7, m_fRememberWindowSize);
     DDX_Check(pDX, IDC_CHECK11, m_fSavePnSZoom);
-    DDX_Check(pDX, IDC_CHECK12, m_fSnapToDesktopEdges);
     DDX_Check(pDX, IDC_CHECK8, m_fUseIni);
     DDX_Check(pDX, IDC_CHECK1, m_fKeepHistory);
     DDX_Check(pDX, IDC_CHECK10, m_fHideCDROMsSubMenu);
     DDX_Check(pDX, IDC_CHECK9, m_priority);
-    DDX_Check(pDX, IDC_CHECK4, m_fLimitWindowProportions);
     DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
     DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
     DDX_Check(pDX, IDC_CHECK2, m_bRememberPlaylistItems);
@@ -105,14 +101,12 @@ BOOL CPPagePlayer::OnInitDialog()
     m_fRememberWindowPos = s.fRememberWindowPos;
     m_fRememberWindowSize = s.fRememberWindowSize;
     m_fSavePnSZoom = s.fSavePnSZoom;
-    m_fSnapToDesktopEdges = s.fSnapToDesktopEdges;
     m_fUseIni = AfxGetMyApp()->IsIniValid();
     m_fKeepHistory = s.fKeepHistory;
     m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
     m_priority = s.dwPriority != NORMAL_PRIORITY_CLASS;
     m_fRememberDVDPos = s.fRememberDVDPos;
     m_fRememberFilePos = s.fRememberFilePos;
-    m_fLimitWindowProportions = s.fLimitWindowProportions;
     m_bRememberPlaylistItems = s.bRememberPlaylistItems;
     m_bEnableCoverArt = s.bEnableCoverArt;
 
@@ -139,11 +133,9 @@ BOOL CPPagePlayer::OnApply()
     s.fRememberWindowPos = !!m_fRememberWindowPos;
     s.fRememberWindowSize = !!m_fRememberWindowSize;
     s.fSavePnSZoom = !!m_fSavePnSZoom;
-    s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
     s.fKeepHistory = !!m_fKeepHistory;
     s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
     s.dwPriority = m_priority ? ABOVE_NORMAL_PRIORITY_CLASS : NORMAL_PRIORITY_CLASS;
-    s.fLimitWindowProportions = !!m_fLimitWindowProportions;
     s.fRememberDVDPos = !!m_fRememberDVDPos;
     s.fRememberFilePos = !!m_fRememberFilePos;
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;

@@ -57,6 +57,8 @@ private:
     BOOL m_bShowLangInStatusbar;
     BOOL m_bShowFPSInStatusbar;
     BOOL m_bShowABMarksInStatusbar;
+    BOOL m_fSnapToDesktopEdges;
+    BOOL m_fLimitWindowProportions;
 
 public:
     CPPageTheme();
