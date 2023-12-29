@@ -679,7 +679,7 @@ msgstr "Önizleme boyutu (ekran genişliğinin yüzdesi)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "Hızlı izlem (karede)"
+msgstr "Hızlı izlem (anahtar kare üzerinde)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
