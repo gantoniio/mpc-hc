@@ -53,6 +53,10 @@ private:
     int m_iSeekPreviewSize;
     CMPCThemeSpinButtonCtrl m_SeekPreviewSizeCtrl;
     BOOL m_fShowOSD;
+    BOOL m_bShowVideoInfoInStatusbar;
+    BOOL m_bShowLangInStatusbar;
+    BOOL m_bShowFPSInStatusbar;
+    BOOL m_bShowABMarksInStatusbar;
 
 public:
     CPPageTheme();
