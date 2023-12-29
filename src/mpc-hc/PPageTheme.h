@@ -38,8 +38,21 @@ private:
     CMPCThemeComboBox m_ThemeMode;
     int m_iThemeMode;
     CMPCThemeComboBox m_langsComboBox;
+    CMPCThemeComboBox m_TimeTooltipPosition;
     int m_nPosLangEnglish;
     int m_iDefaultToolbarSize;
+    CMPCThemeComboBox m_FontSize;
+    CMPCThemeComboBox m_FontType;
+    int m_nOSDSize;
+
+    BOOL m_fUseSeekbarHover;
+    CString m_strOSDFont;
+
+    BOOL m_fShowChapters;
+    CMPCThemeComboBox m_HoverType;
+    int m_iSeekPreviewSize;
+    CMPCThemeSpinButtonCtrl m_SeekPreviewSizeCtrl;
+
 public:
     CPPageTheme();
     virtual ~CPPageTheme();
@@ -54,6 +67,8 @@ protected:
     virtual BOOL OnApply();
 
     DECLARE_MESSAGE_MAP()
-
 public:
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
+    afx_msg void OnUseTimeTooltipClicked();
+    afx_msg void OnChngOSDCombo();
 };

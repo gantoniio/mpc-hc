@@ -819,7 +819,7 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 
     bool usepreview = m_bHasDuration && m_pMainFrame->CanPreviewUse();
 
-    if (usepreview || AfxGetAppSettings().fUseTimeTooltip) {
+    if (usepreview || AfxGetAppSettings().fUseSeekbarHover) {
         UpdateTooltip(point);
     }
 

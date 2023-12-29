@@ -39,6 +39,10 @@ CPPageTheme::CPPageTheme()
     , m_iThemeMode(0)
     , m_nPosLangEnglish(0)
     , m_iDefaultToolbarSize(DEF_TOOLBAR_HEIGHT)
+    , m_fUseSeekbarHover(TRUE)
+    , m_nOSDSize(0)
+    , m_fShowChapters(TRUE)
+    , m_iSeekPreviewSize(15)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
@@ -63,16 +67,36 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_COMBO1, m_iThemeMode);
     DDX_Control(pDX, IDC_COMBO2, m_langsComboBox);
 
+    DDX_Control(pDX, IDC_COMBO5, m_FontType);
+    DDX_Control(pDX, IDC_COMBO6, m_FontSize);
+
+    DDX_Check(pDX, IDC_CHECK8, m_fUseSeekbarHover);
+    DDX_Control(pDX, IDC_SEEK_PREVIEW, m_HoverType);
+    DDX_Text(pDX, IDC_EDIT4, m_iSeekPreviewSize);
+    DDX_Control(pDX, IDC_SPIN2, m_SeekPreviewSizeCtrl);
+    DDX_Check(pDX, IDC_CHECK2, m_fShowChapters);
+
+
     DDX_Text(pDX, IDC_EDIT1, m_iDefaultToolbarSize);
     DDV_MinMaxInt(pDX, m_iDefaultToolbarSize, MIN_TOOLBAR_HEIGHT, MAX_TOOLBAR_HEIGHT);
     DDX_Control(pDX, IDC_SPIN1, m_DefaultToolbarSizeCtrl);
+
+    DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
 }
 
 
 BEGIN_MESSAGE_MAP(CPPageTheme, CMPCThemePPageBase)
+    ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
-
+int CALLBACK EnumFontProc(ENUMLOGFONT FAR* lf, NEWTEXTMETRIC FAR* tm, int FontType, LPARAM dwData) {
+    CAtlArray<CString>* fntl = (CAtlArray<CString>*)dwData;
+    if (FontType == TRUETYPE_FONTTYPE) {
+        fntl->Add(lf->elfFullName);
+    }
+    return 1; /* Continue the enumeration */
+}
 // CPPageTheme message handlers
 
 BOOL CPPageTheme::OnInitDialog()
@@ -110,6 +134,61 @@ BOOL CPPageTheme::OnInitDialog()
         }
     }
 
+    m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
+    m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
+    m_TimeTooltipPosition.SetCurSel(s.nTimeTooltipPosition);
+    m_TimeTooltipPosition.EnableWindow(m_fUseSeekbarHover);
+
+    m_fUseSeekbarHover = s.fUseSeekbarHover;
+
+    m_nOSDSize = s.nOSDSize;
+    m_strOSDFont = s.strOSDFont;
+
+    //m_fSeekPreview = s.fSeekPreview;
+    m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_TOOLTIP));
+    m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_PREVIEW));
+    m_HoverType.SetCurSel(s.fSeekPreview ? 1 : 0);
+    m_HoverType.EnableWindow(m_fUseSeekbarHover);
+
+    m_iSeekPreviewSize = s.iSeekPreviewSize;
+    m_SeekPreviewSizeCtrl.SetRange32(5, 40);
+
+    m_fShowChapters = s.fShowChapters;
+
+    m_FontType.Clear();
+    m_FontSize.Clear();
+    HDC dc = CreateDC(_T("DISPLAY"), nullptr, nullptr, nullptr);
+    CAtlArray<CString> fntl;
+    EnumFontFamilies(dc, nullptr, (FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
+    DeleteDC(dc);
+    for (size_t i = 0; i < fntl.GetCount(); ++i) {
+        if (i > 0 && fntl[i - 1] == fntl[i]) {
+            continue;
+        }
+        m_FontType.AddString(fntl[i]);
+    }
+    CorrectComboListWidth(m_FontType);
+    int iSel = m_FontType.FindStringExact(0, m_strOSDFont);
+    if (iSel == CB_ERR) {
+        iSel = m_FontType.FindString(0, m_strOSDFont);
+        if (iSel == CB_ERR) {
+            iSel = 0;
+        }
+    }
+    m_FontType.SetCurSel(iSel);
+
+    CString str;
+    for (int i = 10; i < 26; ++i) {
+        str.Format(_T("%d"), i);
+        m_FontSize.AddString(str);
+        if (m_nOSDSize == i) {
+            iSel = i;
+        }
+    }
+    m_FontSize.SetCurSel(iSel - 10);
+
+    CreateToolTip();
+    EnableThemedDialogTooltips(this);
 
     UpdateData(FALSE);
 
@@ -159,6 +238,69 @@ BOOL CPPageTheme::OnApply()
             pMainFrame->RecalcLayout();
         }
     }
+    s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
 
+    s.fUseSeekbarHover = !!m_fUseSeekbarHover;
+    s.nOSDSize = m_nOSDSize;
+    m_FontType.GetLBText(m_FontType.GetCurSel(), s.strOSDFont);
+    s.fShowChapters = !!m_fShowChapters;
+
+    s.fSeekPreview = m_HoverType.GetCurSel() == 1;
+    if (m_iSeekPreviewSize < 5) m_iSeekPreviewSize = 5;
+    if (m_iSeekPreviewSize > 40) m_iSeekPreviewSize = 40;
+    if (s.iSeekPreviewSize != m_iSeekPreviewSize) {
+        CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+        s.iSeekPreviewSize = m_iSeekPreviewSize;
+        pFrame->m_wndPreView.SetRelativeSize(m_iSeekPreviewSize);
+    }
+
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_SKYPE);
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
+    }
     return __super::OnApply();
+}
+
+void CPPageTheme::OnUseTimeTooltipClicked() {
+    m_TimeTooltipPosition.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
+
+    SetModified();
+}
+
+
+BOOL CPPageTheme::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult) {
+    LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
+
+    UINT_PTR nID = pNMH->idFrom;
+    if (pTTT->uFlags & TTF_IDISHWND) {
+        nID = ::GetDlgCtrlID((HWND)nID);
+    }
+
+    BOOL bRet = FALSE;
+
+    switch (nID) {
+    case IDC_COMBO5:
+        bRet = FillComboToolTip(m_FontType, pTTT);
+        break;
+    case IDC_COMBO3:
+        bRet = FillComboToolTip(m_TimeTooltipPosition, pTTT);
+        break;
+    }
+
+    if (bRet) {
+        PlaceThemedDialogTooltip(nID);
+    }
+
+    return bRet;
+}
+
+void CPPageTheme::OnChngOSDCombo() {
+    CString str;
+    m_nOSDSize = m_FontSize.GetCurSel() + 10;
+    m_FontType.GetLBText(m_FontType.GetCurSel(), str);
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_nOSDSize, str);
+    }
+    SetModified();
 }

@@ -808,7 +808,7 @@ public:
     bool            fSeekPreview;
     int             iSeekPreviewSize;
     bool            fUseSearchInFolder;
-    bool            fUseTimeTooltip;
+    bool            fUseSeekbarHover;
     int             nTimeTooltipPosition;
     CString         strOSDFont;
     int             nOSDSize;
