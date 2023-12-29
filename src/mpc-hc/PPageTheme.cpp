@@ -43,6 +43,7 @@ CPPageTheme::CPPageTheme()
     , m_nOSDSize(0)
     , m_fShowChapters(TRUE)
     , m_iSeekPreviewSize(15)
+    , m_fShowOSD(FALSE)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
@@ -82,6 +83,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SPIN1, m_DefaultToolbarSizeCtrl);
 
     DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
+    DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
 }
 
 
@@ -187,6 +189,8 @@ BOOL CPPageTheme::OnInitDialog()
     }
     m_FontSize.SetCurSel(iSel - 10);
 
+    m_fShowOSD = s.fShowOSD;
+
     CreateToolTip();
     EnableThemedDialogTooltips(this);
 
@@ -259,6 +263,9 @@ BOOL CPPageTheme::OnApply()
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_SKYPE);
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
     }
+
+    s.fShowOSD = !!m_fShowOSD;
+
     return __super::OnApply();
 }
 

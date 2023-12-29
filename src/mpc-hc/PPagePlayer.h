@@ -49,7 +49,6 @@ public:
     BOOL m_fKeepHistory;
     BOOL m_fHideCDROMsSubMenu;
     BOOL m_priority;
-    BOOL m_fShowOSD;
     BOOL m_fLimitWindowProportions;
     BOOL m_fRememberDVDPos;
     BOOL m_fRememberFilePos;

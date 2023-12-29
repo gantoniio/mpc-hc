@@ -52,6 +52,7 @@ private:
     CMPCThemeComboBox m_HoverType;
     int m_iSeekPreviewSize;
     CMPCThemeSpinButtonCtrl m_SeekPreviewSizeCtrl;
+    BOOL m_fShowOSD;
 
 public:
     CPPageTheme();
