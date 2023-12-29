@@ -43,7 +43,6 @@ public:
     BOOL m_fNotifySkype;
 
     BOOL m_fPreventMinimize;
-    BOOL m_bUseEnhancedTaskBar;
     BOOL m_fUseSearchInFolder;
     BOOL m_bHideWindowedMousePointer;
     CMPCThemeComboBox m_FastSeekMethod;

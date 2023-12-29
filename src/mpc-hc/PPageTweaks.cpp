@@ -36,7 +36,6 @@ CPPageTweaks::CPPageTweaks()
     , m_nJumpDistL(0)
     , m_fNotifySkype(TRUE)
     , m_fPreventMinimize(FALSE)
-    , m_bUseEnhancedTaskBar(TRUE)
     , m_fUseSearchInFolder(FALSE)
     , m_bHideWindowedMousePointer(TRUE)
     , m_fFastSeek(FALSE)
@@ -56,7 +55,6 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT3, m_nJumpDistL);
     DDX_Check(pDX, IDC_CHECK4, m_fNotifySkype);
     DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
-    DDX_Check(pDX, IDC_CHECK_ENHANCED_TASKBAR, m_bUseEnhancedTaskBar);
     DDX_Check(pDX, IDC_CHECK7, m_fUseSearchInFolder);
     DDX_Control(pDX, IDC_COMBO4, m_FastSeekMethod);
     DDX_Check(pDX, IDC_FASTSEEK_CHECK, m_fFastSeek);
@@ -78,8 +76,6 @@ BOOL CPPageTweaks::OnInitDialog()
     m_fNotifySkype = s.bNotifySkype;
 
     m_fPreventMinimize = s.fPreventMinimize;
-
-    m_bUseEnhancedTaskBar = s.bUseEnhancedTaskBar;
 
     m_fUseSearchInFolder = s.fUseSearchInFolder;
 
@@ -110,19 +106,12 @@ BOOL CPPageTweaks::OnApply()
     s.bNotifySkype = !!m_fNotifySkype;
 
     s.fPreventMinimize = !!m_fPreventMinimize;
-    s.bUseEnhancedTaskBar = !!m_bUseEnhancedTaskBar;
     s.fUseSearchInFolder = !!m_fUseSearchInFolder;
 
     s.bHideWindowedMousePointer = !!m_bHideWindowedMousePointer;
 
 
     s.fLCDSupport = !!m_fLCDSupport;
-
-    CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-    if (m_bUseEnhancedTaskBar) {
-        pFrame->CreateThumbnailToolbar();
-    }
-    pFrame->UpdateThumbarButton();
 
     s.bFastSeek = !!m_fFastSeek;
     s.eFastSeekMethod = static_cast<decltype(s.eFastSeekMethod)>(m_FastSeekMethod.GetCurSel());

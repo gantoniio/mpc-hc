@@ -60,6 +60,8 @@ private:
     BOOL m_fSnapToDesktopEdges;
     BOOL m_fLimitWindowProportions;
     BOOL m_bHideWindowedControls;
+    BOOL m_bUseEnhancedTaskBar;
+    BOOL m_bUseSMTC;
 public:
     CPPageTheme();
     virtual ~CPPageTheme();
