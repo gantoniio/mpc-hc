@@ -1822,7 +1822,7 @@ msgstr "En son anahtar kare"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "En yakın kare"
+msgstr "En yakın anahtar kare"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid ""
