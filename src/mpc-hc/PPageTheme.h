@@ -38,7 +38,7 @@ private:
     CMPCThemeComboBox m_ThemeMode;
     int m_iThemeMode;
     CMPCThemeComboBox m_langsComboBox;
-    CMPCThemeComboBox m_TimeTooltipPosition;
+    CMPCThemeComboBox m_HoverPosition;
     int m_nPosLangEnglish;
     int m_iDefaultToolbarSize;
     CMPCThemeComboBox m_FontSize;
@@ -78,6 +78,6 @@ protected:
     DECLARE_MESSAGE_MAP()
 public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
-    afx_msg void OnUseTimeTooltipClicked();
+    afx_msg void OnHoverClicked();
     afx_msg void OnChngOSDCombo();
 };

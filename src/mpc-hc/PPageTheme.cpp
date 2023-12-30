@@ -91,7 +91,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDV_MinMaxInt(pDX, m_iDefaultToolbarSize, MIN_TOOLBAR_HEIGHT, MAX_TOOLBAR_HEIGHT);
     DDX_Control(pDX, IDC_SPIN1, m_DefaultToolbarSizeCtrl);
 
-    DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
+    DDX_Control(pDX, IDC_COMBO3, m_HoverPosition);
     DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
     DDX_Check(pDX, IDC_CHECK4, m_bShowVideoInfoInStatusbar);
     DDX_Check(pDX, IDC_CHECK3, m_bShowLangInStatusbar);
@@ -107,8 +107,10 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CPPageTheme, CMPCThemePPageBase)
-    ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
+    ON_BN_CLICKED(IDC_CHECK8, OnHoverClicked)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
+    ON_CBN_SELCHANGE(IDC_COMBO5, OnChngOSDCombo)
+    ON_CBN_SELCHANGE(IDC_COMBO6, OnChngOSDCombo)
 END_MESSAGE_MAP()
 
 int CALLBACK EnumFontProc(ENUMLOGFONT FAR* lf, NEWTEXTMETRIC FAR* tm, int FontType, LPARAM dwData) {
@@ -155,12 +157,12 @@ BOOL CPPageTheme::OnInitDialog()
         }
     }
 
-    m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
-    m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
-    m_TimeTooltipPosition.SetCurSel(s.nTimeTooltipPosition);
-    m_TimeTooltipPosition.EnableWindow(m_fUseSeekbarHover);
-
     m_fUseSeekbarHover = s.fUseSeekbarHover;
+
+    m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
+    m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
+    m_HoverPosition.SetCurSel(s.nHoverPosition);
+    m_HoverPosition.EnableWindow(m_fUseSeekbarHover);
 
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
@@ -270,7 +272,7 @@ BOOL CPPageTheme::OnApply()
             pMainFrame->RecalcLayout();
         }
     }
-    s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
+    s.nHoverPosition = m_HoverPosition.GetCurSel();
 
     s.fUseSeekbarHover = !!m_fUseSeekbarHover;
     s.nOSDSize = m_nOSDSize;
@@ -312,8 +314,9 @@ BOOL CPPageTheme::OnApply()
     return __super::OnApply();
 }
 
-void CPPageTheme::OnUseTimeTooltipClicked() {
-    m_TimeTooltipPosition.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
+void CPPageTheme::OnHoverClicked() {
+    m_HoverPosition.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
+    m_HoverType.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
 
     SetModified();
 }
@@ -334,7 +337,7 @@ BOOL CPPageTheme::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult) {
         bRet = FillComboToolTip(m_FontType, pTTT);
         break;
     case IDC_COMBO3:
-        bRet = FillComboToolTip(m_TimeTooltipPosition, pTTT);
+        bRet = FillComboToolTip(m_HoverPosition, pTTT);
         break;
     }
 

@@ -368,7 +368,7 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint point)
         CRect cRect = GetChannelRect();
         CPoint bottomRight = cRect.BottomRight();
         ClientToScreen(&bottomRight);
-        if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_BELOW_SEEKBAR && mi.rcWork.bottom > bottomRight.y + 8 + rc.Height()) {
+        if (AfxGetAppSettings().nHoverPosition == TIME_TOOLTIP_BELOW_SEEKBAR && mi.rcWork.bottom > bottomRight.y + 8 + rc.Height()) {
             point.y = cRect.BottomRight().y + 8;
         } else {
             point.y = cRect.TopLeft().y - (r_height + 13);
@@ -393,7 +393,7 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint point)
         CRect windowRect;
         GetWindowRect(windowRect);
 
-        if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
+        if (AfxGetAppSettings().nHoverPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
             point.x -= bubbleSize.cx / 2 - 2;
             point.y = GetChannelRect().TopLeft().y - (bubbleSize.cy + m_pMainFrame->m_dpi.ScaleY(13));
         } else {

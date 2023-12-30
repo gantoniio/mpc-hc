@@ -809,7 +809,7 @@ public:
     int             iSeekPreviewSize;
     bool            fUseSearchInFolder;
     bool            fUseSeekbarHover;
-    int             nTimeTooltipPosition;
+    int             nHoverPosition;
     CString         strOSDFont;
     int             nOSDSize;
     bool            bHideWindowedMousePointer;
