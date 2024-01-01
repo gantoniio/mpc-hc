@@ -25,6 +25,7 @@
 
 #include "CMPCThemePPageBase.h"
 #include "CMPCThemeSpinButtonCtrl.h"
+#include "CMPCThemeEdit.h"
 
 class CPPageTheme : public CMPCThemePPageBase
 {
@@ -34,6 +35,7 @@ private:
     BOOL m_bUseModernTheme;
     int m_iModernSeekbarHeight;
     CMPCThemeSpinButtonCtrl m_ModernSeekbarHeightCtrl;
+    CMPCThemeEdit m_ModernSeekbarHeightEdit;
     CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
     CMPCThemeComboBox m_ThemeMode;
     int m_iThemeMode;
@@ -52,6 +54,7 @@ private:
     CMPCThemeComboBox m_HoverType;
     int m_iSeekPreviewSize;
     CMPCThemeSpinButtonCtrl m_SeekPreviewSizeCtrl;
+    CMPCThemeEdit m_SeekPreviewSizeEdit;
     BOOL m_fShowOSD;
     BOOL m_bShowVideoInfoInStatusbar;
     BOOL m_bShowLangInStatusbar;
@@ -75,9 +78,13 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
+    void HoverEnableSubControls(bool hoverEnabled);
+    void ThemeEnableSubControls(bool themeEnabled);
+
     DECLARE_MESSAGE_MAP()
 public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
     afx_msg void OnHoverClicked();
+    afx_msg void OnThemeClicked();
     afx_msg void OnChngOSDCombo();
 };

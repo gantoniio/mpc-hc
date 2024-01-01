@@ -125,7 +125,7 @@ CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme) {
+    if (AppIsThemeLoaded()) {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iModernSeekbarHeight); //expand the toolbar if using "fill" mode
     } else {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
@@ -274,7 +274,7 @@ CRect CPlayerSeekBar::GetChannelRect() const
     }
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme) { //no thumb so we can use all the space
+    if (AppIsThemeLoaded()) { //no thumb so we can use all the space
         r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(2), m_pMainFrame->m_dpi.ScaleFloorX(2));
     } else {
         CSize sz(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
@@ -594,7 +594,7 @@ void CPlayerSeekBar::OnPaint()
     };
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme) {
+    if (AppIsThemeLoaded()) {
         // Thumb
         CRect r(GetThumbRect());
         m_lastThumbRect = r;

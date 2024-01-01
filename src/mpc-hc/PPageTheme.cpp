@@ -70,6 +70,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_bUseModernTheme);
 
     DDX_Text(pDX, IDC_MODERNSEEKBARHEIGHT, m_iModernSeekbarHeight);
+    DDX_Control(pDX, IDC_MODERNSEEKBARHEIGHT, m_ModernSeekbarHeightEdit);
     DDV_MinMaxInt(pDX, m_iModernSeekbarHeight, MIN_MODERN_SEEKBAR_HEIGHT, MAX_MODERN_SEEKBAR_HEIGHT);
     DDX_Control(pDX, IDC_MODERNSEEKBARHEIGHT_SPIN, m_ModernSeekbarHeightCtrl);
 
@@ -83,6 +84,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK8, m_fUseSeekbarHover);
     DDX_Control(pDX, IDC_SEEK_PREVIEW, m_HoverType);
     DDX_Text(pDX, IDC_EDIT4, m_iSeekPreviewSize);
+    DDX_Control(pDX, IDC_EDIT4, m_SeekPreviewSizeEdit);
     DDX_Control(pDX, IDC_SPIN2, m_SeekPreviewSizeCtrl);
     DDX_Check(pDX, IDC_CHECK2, m_fShowChapters);
 
@@ -108,6 +110,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageTheme, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_CHECK8, OnHoverClicked)
+    ON_BN_CLICKED(IDC_CHECK1, OnThemeClicked)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_CBN_SELCHANGE(IDC_COMBO5, OnChngOSDCombo)
     ON_CBN_SELCHANGE(IDC_COMBO6, OnChngOSDCombo)
@@ -128,6 +131,8 @@ BOOL CPPageTheme::OnInitDialog()
 
     const CAppSettings& s = AfxGetAppSettings();
     m_bUseModernTheme = s.bMPCTheme;
+
+    ThemeEnableSubControls(m_bUseModernTheme);
 
     m_ModernSeekbarHeightCtrl.SetRange32(MIN_MODERN_SEEKBAR_HEIGHT, MAX_MODERN_SEEKBAR_HEIGHT);
     m_iModernSeekbarHeight = s.iModernSeekbarHeight;
@@ -162,7 +167,6 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
     m_HoverPosition.SetCurSel(s.nHoverPosition);
-    m_HoverPosition.EnableWindow(m_fUseSeekbarHover);
 
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
@@ -171,7 +175,7 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_TOOLTIP));
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_PREVIEW));
     m_HoverType.SetCurSel(s.fSeekPreview ? 1 : 0);
-    m_HoverType.EnableWindow(m_fUseSeekbarHover);
+    HoverEnableSubControls(m_fUseSeekbarHover);
 
     m_iSeekPreviewSize = s.iSeekPreviewSize;
     m_SeekPreviewSizeCtrl.SetRange32(5, 40);
@@ -314,13 +318,28 @@ BOOL CPPageTheme::OnApply()
     return __super::OnApply();
 }
 
-void CPPageTheme::OnHoverClicked() {
-    m_HoverPosition.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
-    m_HoverType.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
+void CPPageTheme::HoverEnableSubControls(bool hoverEnabled) {
+    m_HoverPosition.EnableWindow(hoverEnabled);
+    m_HoverType.EnableWindow(hoverEnabled);
+    m_SeekPreviewSizeEdit.EnableWindow(hoverEnabled);
+    m_SeekPreviewSizeCtrl.EnableWindow(hoverEnabled);
+}
 
+void CPPageTheme::OnHoverClicked() {
+    HoverEnableSubControls(IsDlgButtonChecked(IDC_CHECK8));
     SetModified();
 }
 
+void CPPageTheme::ThemeEnableSubControls(bool themeEnabled) {
+    m_ThemeMode.EnableWindow(themeEnabled);
+    m_ModernSeekbarHeightCtrl.EnableWindow(themeEnabled);
+    m_ModernSeekbarHeightEdit.EnableWindow(themeEnabled);
+}
+
+void CPPageTheme::OnThemeClicked() {
+    ThemeEnableSubControls(IsDlgButtonChecked(IDC_CHECK1));
+    SetModified();
+}
 
 BOOL CPPageTheme::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult) {
     LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
