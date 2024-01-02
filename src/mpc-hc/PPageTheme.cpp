@@ -161,12 +161,14 @@ BOOL CPPageTheme::OnInitDialog()
             ASSERT(FALSE);
         }
     }
+    CorrectComboListWidth(m_langsComboBox);
 
     m_fUseSeekbarHover = s.fUseSeekbarHover;
 
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
     m_HoverPosition.SetCurSel(s.nHoverPosition);
+    CorrectComboListWidth(m_HoverPosition);
 
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
@@ -175,6 +177,8 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_TOOLTIP));
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_PREVIEW));
     m_HoverType.SetCurSel(s.fSeekPreview ? 1 : 0);
+    CorrectComboListWidth(m_HoverType);
+
     HoverEnableSubControls(m_fUseSeekbarHover);
 
     m_iSeekPreviewSize = s.iSeekPreviewSize;
