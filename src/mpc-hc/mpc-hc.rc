@@ -3443,7 +3443,7 @@ BEGIN
     IDS_MAINFRM_DIR_CHECK   "Include subdirectories"
     IDS_AG_PAUSE            "Pause"
     IDS_AG_TOGGLE_CAPTION   "Toggle Caption&Menu"
-    IDS_AG_TOGGLE_SEEKER    "Toggle Seek Bar"
+    IDS_AG_TOGGLE_SEEKER    "Toggle Seekbar"
     IDS_AG_TOGGLE_CONTROLS  "Toggle Controls"
 END
 
