@@ -1197,15 +1197,15 @@ BEGIN
     CONTROL         "Show OSD (requires restart)",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,20,130,8
     LTEXT           "Font:",IDC_STATIC6,187,34,80,8
     COMBOBOX        IDC_COMBO5,217,34,128,61,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Font size:",IDC_STATIC6,187,48,80,8
+    LTEXT           "Font size:",IDC_STATIC23,187,48,80,8
     COMBOBOX        IDC_COMBO6,315,48,30,61,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-    GROUPBOX        "Window Behavior",IDC_STATIC22,181,67,168,57
+    GROUPBOX        "Window Behavior",IDC_STATIC,181,67,168,57
     CONTROL         "Limit window proportions on resize",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,81,160,8
     CONTROL         "Snap to desktop edges",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,95,160,8
     CONTROL         "Hide Windowed Controls",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,109,160,8
 
-    GROUPBOX        "Windows Integration",IDC_STATIC23,181,128,168,43
+    GROUPBOX        "Windows Integration",IDC_STATIC,181,128,168,43
     CONTROL         "Use enhanced taskbar features",IDC_CHECK_ENHANCED_TASKBAR, "Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,142,130,8
     CONTROL         "Control via Windows UI (SMTC)",IDC_CHECK11, "Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,156,130,8
 END
