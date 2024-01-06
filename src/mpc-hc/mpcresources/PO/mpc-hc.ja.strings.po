@@ -2933,7 +2933,7 @@ msgstr "シークバーの上に"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
-msgstr "シーク バーの下に"
+msgstr "シークバーの下に"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
