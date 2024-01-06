@@ -4,14 +4,14 @@
 # Translators:
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
 # MPC HC <adiposegithub@gmail.com>, 2022
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2023
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2023-11-23 01:08:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2023\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2024\n"
 "Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4290,8 +4290,8 @@ msgstr ""
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr ""
-"/dvd\t\tDVD modunda çalıştır, \"dosya yolu\" DVD klasörü anlamında(isteğe "
-"bağlı)"
+"/dvd\t\tDVD modunda çalıştır, \"dosya yolu\" DVD klasörü anlamına gelir "
+"(isteğe bağlı)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
