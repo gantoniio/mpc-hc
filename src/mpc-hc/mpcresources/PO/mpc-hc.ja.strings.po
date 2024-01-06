@@ -2929,7 +2929,7 @@ msgstr "ビデオ フレーム: 回転 X+ (上回転)"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
-msgstr "シーク バーの上に"
+msgstr "シークバーの上に"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
