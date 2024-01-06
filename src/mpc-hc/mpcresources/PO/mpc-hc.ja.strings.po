@@ -2697,7 +2697,7 @@ msgstr "タイトルとメニューの表示"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
-msgstr "シーク バーの表示"
+msgstr "シークバーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
