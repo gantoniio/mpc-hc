@@ -677,7 +677,7 @@ msgstr "高速シーク (キーフレームに)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "シーク バーにチャプター マークを表示する"
+msgstr "シークバーにチャプター マークを表示する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
