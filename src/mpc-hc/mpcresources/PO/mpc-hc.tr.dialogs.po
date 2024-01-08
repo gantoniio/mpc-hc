@@ -1874,7 +1874,7 @@ msgstr "İzlem çubuğu"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
-msgstr "İlerleme çubuğu yüksekliği:"
+msgstr "İzlem çubuğu yüksekliği:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
 msgid "Hover:"
