@@ -582,7 +582,7 @@ msgstr "Yürütme::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
-msgstr "Altyazılar"
+msgstr "Altyazı"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
