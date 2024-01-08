@@ -4490,7 +4490,7 @@ msgid ""
 "don't show a dragger at current position, but instead are filled from left "
 "to right."
 msgstr ""
-"다크 테마가 요구됩니다. 사용 설정하면 시간 검색바 및 볼륨 표시기가 현재 위치에 드래거를 표시하지 않고 대신 왼쪽에서 오른쪽으로 "
+"다크 테마가 요구됩니다. 사용 설정하면 시간 탐색 표시줄 및 볼륨 표시기가 현재 위치에 드래거를 표시하지 않고 대신 왼쪽에서 오른쪽으로 "
 "채워집니다."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
