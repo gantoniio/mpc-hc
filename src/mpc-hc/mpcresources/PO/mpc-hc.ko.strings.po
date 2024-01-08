@@ -4495,7 +4495,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr "현재 검색바 높이(96dpi, 다르면 크기 조정)"
+msgstr "현재 탐색 표시줄 높이(96dpi, 다르면 크기 조정)"
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
