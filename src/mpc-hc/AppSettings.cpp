@@ -180,8 +180,8 @@ CAppSettings::CAppSettings()
     , fSeekPreview(false)
     , iSeekPreviewSize(15)
     , fUseSearchInFolder(false)
-    , fUseTimeTooltip(true)
-    , nTimeTooltipPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
+    , fUseSeekbarHover(true)
+    , nHoverPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
     , nOSDSize(0)
     , bHideWindowedMousePointer(true)
     , iBrightness(0)
@@ -1006,8 +1006,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, fPreventMinimize);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENHANCED_TASKBAR, bUseEnhancedTaskBar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SEARCH_IN_FOLDER, fUseSearchInFolder);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, fUseTimeTooltip);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, nTimeTooltipPosition);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, fUseSeekbarHover);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, nHoverPosition);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_OSD_SIZE, nOSDSize);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_MPC_OSD_FONT, strOSDFont);
 
@@ -1519,8 +1519,8 @@ void CAppSettings::LoadSettings()
     fPreventMinimize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, FALSE);
     bUseEnhancedTaskBar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENHANCED_TASKBAR, TRUE);
     fUseSearchInFolder = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SEARCH_IN_FOLDER, TRUE);
-    fUseTimeTooltip = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, TRUE);
-    nTimeTooltipPosition = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, TIME_TOOLTIP_ABOVE_SEEKBAR);
+    fUseSeekbarHover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, TRUE);
+    nHoverPosition = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, TIME_TOOLTIP_ABOVE_SEEKBAR);
     nOSDSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_OSD_SIZE, 18);
     LOGFONT lf;
     GetMessageFont(&lf);
@@ -1688,7 +1688,7 @@ void CAppSettings::LoadSettings()
     }
     iVerticalAlignVideo = static_cast<verticalAlignVideoType>(tVertAlign);
 
-    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|OpenSubtitles|||0|0|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
+    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
     fUseDefaultSubtitlesStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
@@ -2776,14 +2776,12 @@ void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn, ULONGLONG llDVDG
 }
 
 bool CAppSettings::CRecentFileListWithMoreInfo::GetCurrentIndex(size_t& idx) {
-    ASSERT(rfe_array.IsEmpty() || !current_rfe_hash.IsEmpty());
     for (int i = 0; i < rfe_array.GetCount(); i++) {
         if (rfe_array[i].hash == current_rfe_hash) {
             idx = i;
             return true;
         }
     }
-    ASSERT(rfe_array.IsEmpty());
     return false;
 }
 
@@ -2859,11 +2857,11 @@ int CAppSettings::CRecentFileListWithMoreInfo::GetCurrentAudioTrack() {
     return -1;
 }
 
-void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentSubtitleTrack(int audioIndex) {
+void CAppSettings::CRecentFileListWithMoreInfo::UpdateCurrentSubtitleTrack(int subIndex) {
     size_t idx;
     if (GetCurrentIndex(idx)) {
-        if (rfe_array[idx].SubtitleTrackIndex != audioIndex) {
-            rfe_array[idx].SubtitleTrackIndex = audioIndex;
+        if (rfe_array[idx].SubtitleTrackIndex != subIndex) {
+            rfe_array[idx].SubtitleTrackIndex = subIndex;
             WriteMediaHistorySubtitleIndex(rfe_array[idx]);
         }
     }

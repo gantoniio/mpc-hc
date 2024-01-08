@@ -758,8 +758,8 @@ msgid "Player::Logo"
 msgstr "Lecteur::Logo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "Lecteur::Thème"
+msgid "Player::User Interface"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -2783,7 +2783,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Afficher le titre et le menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Afficher la barre de recherche"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -3016,11 +3016,11 @@ msgid "Video Frame Rotate X+"
 msgstr "Rotation X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Au-dessus de la barre de lecture"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Au-dessous de la barre de lecture"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -4013,6 +4013,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Échec de la recherche de sous-titres."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Abandon de la recherche de sous-titres."
@@ -4904,3 +4908,11 @@ msgid ""
 msgstr ""
 "Charger la durée du contenu lors de son ajout à la liste de lecture (utilise"
 " MediaInfo et le résultat peut s'écarter)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr ""

@@ -761,8 +761,8 @@ msgid "Player::Logo"
 msgstr "Αναπαραγωγός::Λογότυπο"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "Πρόγραμμα αναπαραγωγής::Θέμα"
+msgid "Player::User Interface"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -2783,7 +2783,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Εναλλαγή σε λεζάντα & μενού"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Εναλλαγή σε γραμμή αναζήτησης"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -3016,11 +3016,11 @@ msgid "Video Frame Rotate X+"
 msgstr "Περιστροφή Καρέ Βίντεο X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Πάνω από τη γραμμή αναζήτησης"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Κάτω από τη γραμμή αναζήτησης"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -4016,6 +4016,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Η αναζήτηση υποτίτλων σε άμεση σύνδεση απέτυχε."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Η αναζήτηση υποτίτλων σε άμεση σύνδεση ματαιώθηκε."
@@ -4916,3 +4920,11 @@ msgid ""
 msgstr ""
 "Φόρτωση διάρκειας αρχείου κατά την προσθήκη στοιχείων στη λίστα αναπαραγωγής"
 " (χρησιμοποιεί το MediaInfo και τα αποτελέσματα ενδέχεται να διαφέρουν)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr ""

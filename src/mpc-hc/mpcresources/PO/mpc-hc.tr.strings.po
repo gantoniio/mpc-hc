@@ -757,8 +757,8 @@ msgid "Player::Logo"
 msgstr "Oynatıcı::Logo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "Oynatıcı::Tema"
+msgid "Player::User Interface"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1382,7 +1382,7 @@ msgstr "Konum"
 
 msgctxt "IDS_AG_CLOSE"
 msgid "Close"
-msgstr "Kapat"
+msgstr "Dosyayı kapat"
 
 msgctxt "IDS_AG_NONE"
 msgid "None"
@@ -2764,7 +2764,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Başlık & Menüyü Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "İlerleme çubuğunu Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2996,11 +2996,11 @@ msgid "Video Frame Rotate X+"
 msgstr "Video karesi döndür X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "İlerleme çubuğu üzerinde"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "İlerleme çubuğu altında"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3676,7 +3676,7 @@ msgstr ""
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr "&Kapat"
+msgstr "Dosyayı &kapat"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
@@ -3989,6 +3989,10 @@ msgstr "Beğenilme"
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Çevrimiçi altyazı araması yapılamadı."
+
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
@@ -4870,3 +4874,11 @@ msgid ""
 msgstr ""
 "Oynatma listesine öğe eklerken dosya sürelerini öğren (MediaInfo kullanılır "
 "ve sonuçlar farklılık gösterebilir)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr ""

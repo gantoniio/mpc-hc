@@ -25,13 +25,6 @@
 #include "rapidjson/include/rapidjson/document.h"
 #include "XmlRpc4Win/TimXmlRpc.h"
 
- // Uncomment defines to include the disabled subtitles providers.
- // Subtitles providers are disabled in case their API ceases to work.
- // In case the API is not restored in due time, the provider will eventually
- // be removed from mpc-hc. Upon removal, also remove icon resources.
-
- //#define INCLUDE_SUBDB
-
 #define DEFINE_SUBTITLESPROVIDER_BEGIN(P, N, U, I, F)                                  \
 class P final : public SubtitlesProvider {                                             \
 public:                                                                                \
@@ -58,6 +51,7 @@ private:                                                                        
 #define DEFINE_SUBTITLESPROVIDER_END                                                   \
 };
 
+#if 0
 DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "OpenSubtitles.org", "https://api.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
 void Initialize() override;
 bool NeedLogin() override;
@@ -68,6 +62,7 @@ SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
 std::unique_ptr<XmlRpcClient> xmlrpc;
 XmlRpcValue token;
 DEFINE_SUBTITLESPROVIDER_END
+#endif
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles2, "OpenSubtitles.com", "https://www.opensubtitles.com", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH)
 void Initialize() override;
@@ -90,21 +85,7 @@ bool GetOptionalValue(const rapidjson::Value& node, const char* path, double& re
 
 CString token;
 static constexpr TCHAR* APIKEY = _T("s2GJfwwPNA74kkeXudFAdiHIqTDjgrmq");
-
-
 DEFINE_SUBTITLESPROVIDER_END
-
-#ifdef INCLUDE_SUBDB
-DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "SubDB", "http://api.thesubdb.com", IDI_SUBDB, SPF_HASH | SPF_UPLOAD)
-SRESULT Hash(SubtitlesInfo& pFileInfo) override;
-SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
-std::string UserAgent() const override
-{
-    return SubtitlesProvidersUtils::StringFormat("SubDB/1.0 (MPC-HC/%s; https://mpc-hc.org/)",
-                                                 VersionInfo::GetVersionString().GetString());
-}
-DEFINE_SUBTITLESPROVIDER_END
-#endif
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "Podnapisi", "https://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;

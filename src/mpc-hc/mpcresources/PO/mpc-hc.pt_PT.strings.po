@@ -757,8 +757,8 @@ msgid "Player::Logo"
 msgstr "Reprodutor::Logótipo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "Reprodutor::Tema"
+msgid "Player::User Interface"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -2763,7 +2763,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Alternar barra de título e menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Alternar barra de pesquisa"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2996,11 +2996,11 @@ msgid "Video Frame Rotate X+"
 msgstr "Rotação do fotograma do vídeo X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Acima da barra de pesquisa"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Abaixo da barra de pesquisa"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3989,6 +3989,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Falha na pesquisa de legendas online."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Pesquisa de legendas online abortada."
@@ -4879,3 +4883,11 @@ msgid ""
 msgstr ""
 "Carregar a duração do ficheiro ao adicionar itens à lista de reprodução "
 "(utiliza o MediaInfo e os resultados podem variar)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr ""

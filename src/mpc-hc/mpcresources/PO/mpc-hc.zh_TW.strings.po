@@ -746,8 +746,8 @@ msgid "Player::Logo"
 msgstr "播放器::標誌"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "播放器::佈景主題"
+msgid "Player::User Interface"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -2673,7 +2673,7 @@ msgid "Toggle Caption&Menu"
 msgstr "切換標題選單(&M)"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "切換搜尋列"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2905,11 +2905,11 @@ msgid "Video Frame Rotate X+"
 msgstr "畫框旋轉 X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "搜尋列之上"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "搜尋列之下"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3896,6 +3896,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "線上字幕搜尋失敗。"
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "線上字幕搜尋已中止。"
@@ -4711,3 +4715,11 @@ msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
 msgstr "新增項目至播放清單時載入檔案長度（使用 MediaInfo，結果可能不精準）"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr ""
