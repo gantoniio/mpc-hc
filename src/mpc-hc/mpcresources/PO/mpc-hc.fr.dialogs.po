@@ -1868,19 +1868,12 @@ msgid "Autoplay"
 msgstr "Lecture automatique"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
-<<<<<<< HEAD
-msgid "Modern Theme Settings (require restart)"
-msgstr "Réglages du thème moderne (redémarrage requis)"
-=======
 msgid "Theme"
 msgstr ""
->>>>>>> upstream/develop
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
-msgstr "Appliquer le thème moderne"
-<<<<<<< HEAD
-=======
+msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"

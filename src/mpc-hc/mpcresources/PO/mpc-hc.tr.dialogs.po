@@ -1963,4 +1963,3 @@ msgstr ""
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
 msgstr ""
->>>>>>> upstream/develop
