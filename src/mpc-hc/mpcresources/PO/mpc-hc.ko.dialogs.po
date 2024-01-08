@@ -1837,7 +1837,7 @@ msgstr "탐색 표시줄"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
-msgstr "모던 탐색바 높이 :"
+msgstr "모던 탐색 표시줄 높이 :"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
 msgid "Hover:"
