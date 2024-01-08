@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-23 01:08:04+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: ever_green, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/mpchc/teams/106126/ja/)\n"
@@ -752,7 +752,7 @@ msgstr "プレーヤー::ロゴ"
 
 msgctxt "IDD_PPAGETHEME"
 msgid "Player::User Interface"
-msgstr ""
+msgstr "プレーヤー::ユーザー インターフェイス"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1395,11 +1395,11 @@ msgstr "DVD/BD を開く"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "サイズ変更後のシェーダを設定できませんでした"
+msgstr "リサイズ後のシェーダを設定できませんでした"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "サイズ変更前とサイズ変更後のシェーダの両方を設定できませんでした"
+msgstr "リサイズ前と後の両方のシェーダを設定できませんでした"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
@@ -1793,7 +1793,7 @@ msgstr "コントロールをポイントしたときに表示する。　表示
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "サイズ変更前のシェーダを設定できませんでした"
+msgstr "リサイズ前のシェーダを設定できませんでした"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -3921,7 +3921,7 @@ msgstr "オンライン字幕検索に失敗しました。"
 
 msgctxt "IDS_SUBDL_DLG_FAILED_DL"
 msgid "Subtitle download failed."
-msgstr ""
+msgstr "字幕のダウンロードに失敗しました。"
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
@@ -4514,27 +4514,27 @@ msgstr "スナップショットのファイル名に動画ファイルの拡張
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
-msgstr "サイズ変更前のピクセル シェーダ: オン"
+msgstr "リサイズ前のピクセル シェーダ: オン"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "サイズ変更前のピクセル シェーダ: オフ"
+msgstr "リサイズ前のピクセル シェーダ: オフ"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
-msgstr "サイズ変更前のピクセル シェーダを有効にする"
+msgstr "リサイズ前のピクセル シェーダを有効にする"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
-msgstr "サイズ変更後のピクセル シェーダ: オン"
+msgstr "リサイズ後のピクセル シェーダ: オン"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
-msgstr "サイズ変更後のピクセル シェーダ: オフ"
+msgstr "リサイズ後のピクセル シェーダ: オフ"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
-msgstr "サイズ変更後のピクセル シェーダを有効にする"
+msgstr "リサイズ後のピクセル シェーダを有効にする"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
@@ -4754,8 +4754,8 @@ msgstr "再生リストに項目を追加するときにファイルの長さを
 
 msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
 msgid "Video Preview"
-msgstr ""
+msgstr "ビデオ プレビュー"
 
 msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
 msgid "Seek Time"
-msgstr ""
+msgstr "シーク タイム"
