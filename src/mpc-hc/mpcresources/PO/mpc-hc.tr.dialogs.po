@@ -1858,7 +1858,7 @@ msgstr "Tema"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
-msgstr "Modern Tema kullan"
+msgstr "Modern temayı kullan"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
