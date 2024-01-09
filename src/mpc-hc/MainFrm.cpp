@@ -20984,6 +20984,31 @@ CString CMainFrame::getBestTitle(bool fTitleBarTextTitle) {
             return title;
         }
     }
+
+    auto& s = AfxGetAppSettings();
+    if (fTitleBarTextTitle) {
+        CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+        if (pli) {
+            CString path(m_wndPlaylistBar.GetCurFileName(true));
+
+            CAtlList<CString> sl;
+            s.GetFav(FAV_FILE, sl);
+            POSITION pos = sl.GetHeadPosition();
+
+            while (pos) {
+                CString f_str = sl.GetNext(pos);
+
+                FileFavorite ff;
+                CAtlList<CString> parts;
+                VERIFY(FileFavorite::TryParse(f_str, ff, parts));
+
+                if (parts.Find(path)) {
+                    return ff.Name;
+                }
+            }
+        }
+    }
+
     return L"";
 }
 
