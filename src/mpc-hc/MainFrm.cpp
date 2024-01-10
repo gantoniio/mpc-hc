@@ -15379,8 +15379,8 @@ CStringW ShortenStreamName(CStringW name, AM_MEDIA_TYPE* pmt) {
     if (name.GetLength() < 30) {
         return name;
     }
-    if (name.Find(L"?")) {
-        name = name.Left(name.Find(L"?"));
+    if (int q = name.Find(L"?")) {
+        name = name.Left(q);
     } else {
         name = name.Left(30);
     }
