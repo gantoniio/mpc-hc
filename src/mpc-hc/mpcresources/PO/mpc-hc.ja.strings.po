@@ -105,7 +105,7 @@ msgstr "字幕を含める"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr "暗い"
+msgstr "ダーク"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
