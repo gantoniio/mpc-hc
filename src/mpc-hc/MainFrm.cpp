@@ -107,6 +107,7 @@
 #include "CMPCThemeMiniDockFrameWnd.h"
 
 #include "FileHandle.h"
+#include "MediaTypeEx.h"
 
 #include <dwmapi.h>
 #undef SubclassWindow
@@ -15374,6 +15375,25 @@ void CMainFrame::SetupFiltersSubMenu()
     }
 }
 
+CStringW ShortenStreamName(CStringW name, AM_MEDIA_TYPE* pmt) {
+    if (name.GetLength() < 30) {
+        return name;
+    }
+    if (name.Find(L"?")) {
+        name = name.Left(name.Find(L"?"));
+    } else {
+        name = name.Left(30);
+    }
+    if (pmt) {
+        CMediaTypeEx mtex(*pmt);
+        auto type = mtex.ToString();
+        if (type.GetLength() > 0) {
+            name += L" - " + type;
+        }
+    }
+    return name;
+}
+
 void CMainFrame::SetupAudioSubMenu()
 {
     currentAudioLang = _T("");
@@ -15475,7 +15495,9 @@ void CMainFrame::SetupAudioSubMenu()
             DWORD dwFlags;
             WCHAR* pName = nullptr;
             LCID lcid = 0;
-            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, nullptr, &pName, nullptr, nullptr))) {
+            AM_MEDIA_TYPE* pmt;
+            if (FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, nullptr, &pName, nullptr, nullptr))) {
+                DeleteMediaType(pmt);
                 break;
             }
             if (dwFlags) {
@@ -15485,8 +15507,11 @@ void CMainFrame::SetupAudioSubMenu()
                 }
             }
 
+
             CString name(pName);
             name.Replace(_T("&"), _T("&&"));
+            name = ShortenStreamName(name, pmt);
+            DeleteMediaType(pmt);
 
             VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, name));
 
