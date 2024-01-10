@@ -15507,7 +15507,6 @@ void CMainFrame::SetupAudioSubMenu()
                 }
             }
 
-
             CString name(pName);
             name.Replace(_T("&"), _T("&&"));
             name = ShortenStreamName(name, pmt);
