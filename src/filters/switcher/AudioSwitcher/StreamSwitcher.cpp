@@ -615,8 +615,10 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
                 fileName = pszName;
                 if (fileName.Find(L"googlevideo.com")) { //we don't like these URLs
                     fileName = pszNameSS;
+                    if (fileName.GetLength() <= 0) {
+                        fileName = L"YouTube Audio Stream";
+                    }
                 } else {
-
                     fileName.Replace('\\', '/');
                     CStringW fn = fileName.Mid(fileName.ReverseFind('/') + 1);
                     if (!fn.IsEmpty()) {
