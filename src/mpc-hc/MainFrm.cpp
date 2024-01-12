@@ -4904,10 +4904,14 @@ bool CMainFrame::IsPlaylistFileExt(CStringW ext) {
 }
 
 bool CMainFrame::IsAudioOrVideoFileExt(CStringW ext) {
-    return IsAudioFileExt(ext); //Video and Audio formats both contain audio
+    return IsPlayableFormatExt(ext);
 }
 
 bool CMainFrame::IsAudioFileExt(CStringW ext) {
+    return IsPlayableFormatExt(ext); //Video and Audio formats both contain audio
+}
+
+bool CMainFrame::IsPlayableFormatExt(CStringW ext) {
     const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
     ext.MakeLower();
     return mf.FindExt(ext, true);

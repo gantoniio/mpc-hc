@@ -1281,6 +1281,7 @@ protected:
     CString m_sydlLastProcessURL;
 
     bool IsImageFile(CStringW fn);
+    bool IsPlayableFormatExt(CStringW ext);
     bool IsAudioFileExt(CStringW ext);
     bool IsImageFileExt(CStringW ext);
     bool IsPlaylistFileExt(CStringW ext);
