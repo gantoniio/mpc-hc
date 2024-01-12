@@ -4909,6 +4909,7 @@ bool CMainFrame::IsAudioOrVideoFileExt(CStringW ext) {
 
 bool CMainFrame::IsAudioFileExt(CStringW ext) {
     const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+    ext.MakeLower();
     return mf.FindExt(ext, true);
 }
 
