@@ -4890,17 +4890,20 @@ DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyStat
 
 bool CMainFrame::IsImageFile(CStringW fn) {
     CPath path(fn);
-    CStringW ext(path.GetExtension().MakeLower());
+    CStringW ext(path.GetExtension());
     return IsImageFileExt(ext);
 }
 
 bool CMainFrame::IsImageFileExt(CStringW ext) {
     ext.MakeLower();
-    return (ext == _T(".jpg") || ext == _T(".jpeg") || ext == _T(".png") || ext == _T(".gif") || ext == _T(".bmp") || ext == _T(".tiff") || ext == _T(".jpe") || ext == _T(".tga"));
+    return (
+        ext == _T(".jpg") || ext == _T(".jpeg") || ext == _T(".png") || ext == _T(".gif") || ext == _T(".bmp")
+        || ext == _T(".tiff") || ext == _T(".jpe") || ext == _T(".tga") || ext == _T(".heic") || ext == _T(".avif")
+    );
 }
 
 bool CMainFrame::IsPlaylistFileExt(CStringW ext) {
-    return IsAudioOrVideoFileExt(ext); 
+    return (ext == _T(".m3u") || ext == _T(".m3u8") || ext == _T(".mpcpl") || ext == _T(".pls") || ext == _T(".cue") || ext == _T(".asx"));
 }
 
 bool CMainFrame::IsAudioOrVideoFileExt(CStringW ext) {
@@ -4908,18 +4911,24 @@ bool CMainFrame::IsAudioOrVideoFileExt(CStringW ext) {
 }
 
 bool CMainFrame::IsAudioFileExt(CStringW ext) {
-    return IsPlayableFormatExt(ext); //Video and Audio formats both contain audio
-}
-
-bool CMainFrame::IsPlayableFormatExt(CStringW ext) {
     const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
     ext.MakeLower();
     return mf.FindExt(ext, true);
 }
 
+bool CMainFrame::IsPlayableFormatExt(CStringW ext) {
+    const CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+    ext.MakeLower();
+    return mf.FindExt(ext);
+}
+
 bool CMainFrame::CanSkipToExt(CStringW ext, CStringW curExt)
 {
-    return IsPlaylistFileExt(ext) || (IsImageFileExt(ext) && IsImageFileExt(curExt));
+    if (IsImageFileExt(curExt)) {
+        return IsImageFileExt(ext);
+    } else {
+        return IsPlayableFormatExt(ext);
+    }
 }
 
 BOOL IsSubtitleExtension(CString ext)
@@ -4935,7 +4944,7 @@ BOOL IsSubtitleFilename(CString filename)
 
 bool CMainFrame::IsAudioFilename(CString filename)
 {
-    CString ext = CPath(filename).GetExtension().MakeLower();
+    CString ext = CPath(filename).GetExtension();
     return IsAudioFileExt(ext);
 }
 
@@ -14938,7 +14947,7 @@ bool CMainFrame::WildcardFileSearch(CString searchstr, std::set<CString, CString
 
             if (CanSkipToExt(ext, curExt)) {
                 /* playlist and cue files should be ignored when searching dir for playable files */
-                if (ext != _T(".m3u") && ext != _T(".m3u8") && ext != _T(".mpcpl") && ext != _T(".pls") && ext != _T(".cue") && ext != _T(".asx")) {
+                if (!IsPlaylistFileExt(ext)) {
                     results.insert(path + filename);
                 }
             } else if (other_ext && search_ext == ext) {
