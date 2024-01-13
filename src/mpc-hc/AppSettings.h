@@ -1006,6 +1006,8 @@ public:
     CAppSettings& operator = (const CAppSettings&) = delete;
 
     void            SaveSettings(bool write_full_history = false);
+    static std::multimap<CStringW, CStringW> LoadHistoryHashes(CStringW section, CStringW dateField);
+    static void PurgeExpiredHash(CStringW section, CStringW hash);
     void            LoadSettings();
     void            SaveExternalFilters() {
         if (bInitialized) {
