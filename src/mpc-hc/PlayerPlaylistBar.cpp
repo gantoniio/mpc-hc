@@ -442,7 +442,9 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         ParseCUESheet(fns.GetHead());
         return;
     } else if (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")) {
-        if (ParseM3UPlayList(fns.GetHead())) {
+        auto fn = fns.GetHead();
+        if (ParseM3UPlayList(fn)) {
+            ExternalPlayListLoaded(fn);
             /* We have handled this one. If parsing fails it should fall through to AddItem below.
                It returns false for HLS playlists, since we want those to be handled directly by LAV Splitter.
             */
