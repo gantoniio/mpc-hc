@@ -377,8 +377,13 @@ bool CPlayerPlaylistBar::AddItemsInFolder(CString pathname, bool insertAtCurrent
 }
 
 void CPlayerPlaylistBar::ExternalPlayListLoaded(CStringW fn) {
-    m_ExternalPlayListPath = fn;
-    m_ExternalPlayListFNCopy = m_pl.GetIDs();
+    if (!PathUtils::IsURL(fn)) {
+        m_ExternalPlayListPath = fn;
+        m_ExternalPlayListFNCopy = m_pl.GetIDs();
+    } else {
+        m_ExternalPlayListPath = L"";
+        m_ExternalPlayListFNCopy.clear();
+    }
 }
 
 bool CPlayerPlaylistBar::IsExternalPlayListActive(CStringW& playlistPath) {
