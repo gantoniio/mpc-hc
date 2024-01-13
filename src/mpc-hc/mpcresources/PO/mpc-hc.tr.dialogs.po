@@ -995,7 +995,7 @@ msgstr "Ölçek (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Kenarlık Biçimi"
+msgstr "Kenarlık biçimi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
