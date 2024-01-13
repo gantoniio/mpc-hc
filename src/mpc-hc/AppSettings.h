@@ -1014,6 +1014,10 @@ public:
     };
     void            UpdateSettings();
 
+    void SavePlayListPosition(CStringW playlistPath, UINT position);
+
+    UINT GetSavedPlayListPosition(CStringW playlistPath);
+
     void            SetAsUninitialized() {
         bInitialized = false;
     };

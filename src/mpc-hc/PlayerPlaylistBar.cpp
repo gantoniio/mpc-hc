@@ -376,6 +376,22 @@ bool CPlayerPlaylistBar::AddItemsInFolder(CString pathname, bool insertAtCurrent
     return AddFromFilemask(mask, false, insertAtCurrent);
 }
 
+void CPlayerPlaylistBar::ExternalPlayListLoaded(CStringW fn) {
+    m_ExternalPlayListPath = fn;
+    m_ExternalPlayListFNCopy = m_pl.GetIDs();
+}
+
+bool CPlayerPlaylistBar::IsExternalPlayListActive(CStringW& playlistPath) {
+    if (!m_ExternalPlayListPath.IsEmpty() && m_pl.GetIDs() == m_ExternalPlayListFNCopy) {
+        playlistPath = m_ExternalPlayListPath;
+        return true;
+    } else {
+        m_ExternalPlayListPath = L"";
+        m_ExternalPlayListFNCopy.clear();
+        return false;
+    }
+}
+
 void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
     if (fns.IsEmpty()) {
@@ -416,7 +432,11 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     }
 
     if (ct == _T("application/x-mpc-playlist")) {
-        ParseMPCPlayList(fns.GetHead());
+        auto fn = fns.GetHead();
+        if (ParseMPCPlayList(fn)) {
+            ExternalPlayListLoaded(fn);
+        }
+
         return;
     } else if (ct == _T("application/x-cue-sheet")) {
         ParseCUESheet(fns.GetHead());
@@ -858,7 +878,6 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
     for (int i : idx) {
         if (pli[i].m_fns.GetCount() > 0) m_pl.AddTail(pli[i]);
     }
-
     return !pli.IsEmpty();
 }
 
@@ -1017,11 +1036,16 @@ void CPlayerPlaylistBar::Refresh()
     ResizeListColumn();
 }
 
+void CPlayerPlaylistBar::PlayListChanged() {
+    m_ExternalPlayListPath = L"";
+}
+
 bool CPlayerPlaylistBar::Empty()
 {
     bool bWasPlaying = m_pl.RemoveAll();
     m_list.DeleteAllItems();
     m_SaveDelayed = true;
+    m_ExternalPlayListPath = L"";
 
     return bWasPlaying;
 }
@@ -1043,7 +1067,7 @@ void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CStr
 void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
     POSITION posFirstAdded = m_pl.GetTailPosition();
-    int iFirstAdded = (int)m_pl.GetCount();
+    int activateListItemIndex = (int)m_pl.GetCount();
 
     if (fMulti) {
         ASSERT(subs == nullptr || subs->IsEmpty());
@@ -1056,19 +1080,26 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
     }
 
     Refresh();
-    SavePlaylist(iFirstAdded != 0);
+    SavePlaylist(activateListItemIndex != 0);
 
     // Get the POSITION of the first item we just added
     if (posFirstAdded) {
         m_pl.GetNext(posFirstAdded);
     } else { // if the playlist was originally empty
         posFirstAdded = m_pl.GetHeadPosition();
+        if (fns.GetCount() == 1 && fns.GetHead() == m_ExternalPlayListPath) {
+            UINT idx = AfxGetAppSettings().GetSavedPlayListPosition(m_ExternalPlayListPath);
+            if (idx != 0) {
+                posFirstAdded = FindPos(idx);
+                activateListItemIndex = idx;
+            }
+        }
     }
     if (posFirstAdded) {
         EnsureVisible(m_pl.GetTailPosition()); // This ensures that we maximize the number of newly added items shown
         EnsureVisible(posFirstAdded);
-        if (iFirstAdded) { // Select the first added item only if some were already present
-            m_list.SetItemState(iFirstAdded, LVIS_SELECTED, LVIS_SELECTED);
+        if (activateListItemIndex) { // Select the first added item only if some were already present
+            m_list.SetItemState(activateListItemIndex, LVIS_SELECTED, LVIS_SELECTED);
         }
         m_list.updateSB();
     }

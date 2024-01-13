@@ -3572,6 +3572,32 @@ CRenderersSettings& GetRenderersSettings() {
     return AfxGetAppSettings().m_RenderersSettings;
 }
 
+void CAppSettings::SavePlayListPosition(CStringW playlistPath, UINT position) {
+    auto pApp = AfxGetMyApp();
+    ASSERT(pApp);
+
+    auto hash = getRFEHash(playlistPath);
+
+    CStringW subSection, t;
+    subSection.Format(L"%s\\%s", L"PlaylistHistory", static_cast<LPCWSTR>(hash));
+    pApp->WriteProfileInt(subSection, L"Position", position);
+}
+
+UINT CAppSettings::GetSavedPlayListPosition(CStringW playlistPath) {
+    auto pApp = AfxGetMyApp();
+    ASSERT(pApp);
+
+    auto hash = getRFEHash(playlistPath);
+
+    CStringW subSection, t;
+    subSection.Format(L"%s\\%s", L"PlaylistHistory", static_cast<LPCWSTR>(hash));
+    UINT position = pApp->GetProfileIntW(subSection, L"Position", -1);
+    if (position != (UINT)-1) {
+        return position;
+    }
+    return 0;
+}
+
 // SubRendererSettings.h
 
 // Todo: move individual members of AppSettings into SubRendererSettings struct and use this function to get a reference to it
