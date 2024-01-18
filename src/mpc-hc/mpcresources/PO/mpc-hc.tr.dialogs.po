@@ -1319,7 +1319,7 @@ msgstr "Güncelleştirme kontrolü"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Otomatik güncelleştirmeleri aç"
+msgstr "Otomatik güncelleme kontrolünü etkinleştir"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
