@@ -3642,7 +3642,7 @@ msgid ""
 "You are already using the latest stable version."
 msgstr ""
 "\n"
-"Tebrikler. Bilgisayarınızda en son kararlı sürümü kullanıyorsunuz."
+"Tebrikler. halihazırda en son kararlı sürümü kullanıyorsunuz."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid ""
