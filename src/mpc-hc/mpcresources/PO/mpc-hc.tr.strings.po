@@ -2455,7 +2455,7 @@ msgstr "Tamponlar"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
-msgstr "Ses: %02lu/%02lu, Başlık: %02lu/%02lu, Bölüm: %02lu/%02lu"
+msgstr "Disk: %02lu/%02lu, Başlık: %02lu/%02lu, Bölüm: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
