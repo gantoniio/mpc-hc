@@ -4465,7 +4465,7 @@ msgstr "Dosya adına video yerleşimini dahil et"
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
 msgid "Include current time in filename"
-msgstr "Dosya adına geçerli süreyi ekle"
+msgstr "Dosya adına şu anki zamanı ekle"
 
 msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
 msgid ""
