@@ -341,7 +341,7 @@ msgstr "VSync kaydırmasını a&zalt"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "VSync kaydırmasını a&rttır"
+msgstr "VSync kaydırmasını a&rtır"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
