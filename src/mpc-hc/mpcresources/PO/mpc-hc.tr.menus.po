@@ -681,7 +681,7 @@ msgstr "S&es düzeyi"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "&Arttır"
+msgstr "A&rtır"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
