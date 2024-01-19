@@ -3626,7 +3626,7 @@ msgstr "Rengi azalt"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "Doygunluğu arttır"
+msgstr "Doygunluğu artır"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
