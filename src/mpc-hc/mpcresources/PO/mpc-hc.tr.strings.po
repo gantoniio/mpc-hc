@@ -2113,7 +2113,7 @@ msgstr "Video karesi genişliği artır"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr "Video karesi yüksekliği arttır"
+msgstr "Video karesi yüksekliği artır"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
