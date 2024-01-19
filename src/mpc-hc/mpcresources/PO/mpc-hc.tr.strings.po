@@ -2109,7 +2109,7 @@ msgstr "Video karesi boyutunu artır"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr "Video karesi genişliği arttır"
+msgstr "Video karesi genişliği artır"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
