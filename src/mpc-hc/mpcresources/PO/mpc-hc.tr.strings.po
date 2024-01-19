@@ -2905,7 +2905,7 @@ msgstr "Altyazı ötele: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Ses yükseltmeyi arttır"
+msgstr "Ses yükseltmeyi artır"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
@@ -3610,7 +3610,7 @@ msgstr "Parlaklığı azalt"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr "Karşıtlığı arttır"
+msgstr "Karşıtlığı artır"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
