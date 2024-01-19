@@ -4374,7 +4374,8 @@ msgstr "/mute\t\tSesi kıs"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr "/volume N\tSesi ayarla, N 0 ile 100 arasında bir değer olmalıdır"
+msgstr ""
+"/volume N\tSes düzeyini ayarla, N 0 ila 100 arasında bir değer olmalıdır"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
