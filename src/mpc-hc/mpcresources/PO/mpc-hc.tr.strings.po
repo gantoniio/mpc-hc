@@ -3932,7 +3932,7 @@ msgstr "Renk kontrolü desteklenmiyor"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "Parlaklığı arttır"
+msgstr "Parlaklığı artır"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid ""
