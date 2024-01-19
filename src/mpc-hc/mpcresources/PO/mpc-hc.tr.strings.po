@@ -3618,7 +3618,7 @@ msgstr "Karşıtlığı azalt"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "Rengi arttır"
+msgstr "Rengi artır"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
