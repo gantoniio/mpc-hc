@@ -4461,7 +4461,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
 msgid "Include video position in filename"
-msgstr "Dosya adına video yerleşimini dahil et"
+msgstr "Dosya adına video yerleşimini ekle"
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
 msgid "Include current time in filename"
