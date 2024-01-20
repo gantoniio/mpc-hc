@@ -4260,7 +4260,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"dosya yolu\"\tAna dosya ya da klasör yüklenecek\n"
+"\"dosya yolu\"\tAçılacak ana dosya ya da klasör\n"
 "\t\t(joker karakterler kullanılabilir, \"-\" standart girdi belirtir)"
 
 msgctxt "IDS_CMD_DUB"
