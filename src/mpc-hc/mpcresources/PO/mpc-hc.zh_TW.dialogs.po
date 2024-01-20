@@ -1190,7 +1190,7 @@ msgstr "EVR 緩衝區："
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "快取已編譯的著色器"
+msgstr "快取編譯的著色器"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
