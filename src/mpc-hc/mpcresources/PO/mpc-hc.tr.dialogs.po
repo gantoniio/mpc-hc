@@ -65,7 +65,7 @@ msgstr "Önizleme"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
-msgstr "V/A Tamponu:"
+msgstr "V/S Tamponları:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
