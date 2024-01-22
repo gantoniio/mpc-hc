@@ -2598,7 +2598,7 @@ msgstr ", Boş: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ", Boş V/A Tamponları: %03d/%03d"
+msgstr ", Serbest V/S Tamponları: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
