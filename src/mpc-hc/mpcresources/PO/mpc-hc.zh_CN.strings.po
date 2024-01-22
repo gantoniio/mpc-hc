@@ -4028,7 +4028,7 @@ msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
-msgstr "当在视频中进行点击时，鼠标 LeftUp 事件的最大延迟（毫秒）。"
+msgstr "当在视频中进行点击时，鼠标 LeftUp 事件的最大延迟 (毫秒) 。"
 
 msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
