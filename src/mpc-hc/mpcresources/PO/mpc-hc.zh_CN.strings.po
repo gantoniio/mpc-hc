@@ -3965,7 +3965,7 @@ msgstr "/webport N\t在指定端口启动 web 界面"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\t在屏幕上（OSD）显示调试信息"
+msgstr "/debug\t\t在 OSD 中显示调试信息"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
