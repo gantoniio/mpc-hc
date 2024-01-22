@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Jindřich T, 2021
+# Jindřich T, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Jindřich T, 2021\n"
+"Last-Translator: Jindřich T, 2024\n"
 "Language-Team: Czech (https://app.transifex.com/mpchc/teams/106126/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,7 @@ msgstr "&Stáhnout titulky..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "&Vlastnosti"
+msgstr "V&lastnosti"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
@@ -444,7 +444,7 @@ msgstr "Opravit rozdíl poměru stran monitoru a plochy"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "Pan & Scan přizpůsobení rámečku"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
