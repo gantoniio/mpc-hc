@@ -4516,7 +4516,7 @@ msgstr "启用重绘尺寸后的像素着色器"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
-msgstr "状态栏的刷新间隔时间。（单位: 毫秒）"
+msgstr "状态栏的刷新间隔时间。(单位: 毫秒)"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
