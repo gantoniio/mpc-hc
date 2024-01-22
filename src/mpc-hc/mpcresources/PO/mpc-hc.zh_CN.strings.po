@@ -4475,7 +4475,7 @@ msgstr "该项需要黑暗主题。 当被启用时，时间进度条和音量�
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr "现代风格播放进度条高度（为96dpi，除非进行缩放）"
+msgstr "现代风格播放进度条高度 (为96dpi，除非进行缩放)"
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
