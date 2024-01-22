@@ -4488,7 +4488,7 @@ msgstr "在截图上渲染字幕"
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid ""
 "Keep video file extension as part of snapshot filenames (e.g., file.mkv.png)"
-msgstr "将视频的文件扩展名作为截图文件名的一部分。（例如，file.mkv.png）"
+msgstr "将视频的文件扩展名作为截图文件名的一部分。(例如，file.mkv.png)"
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
