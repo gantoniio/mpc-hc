@@ -4538,7 +4538,7 @@ msgstr "在最近播放列表中使用标题。"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
 msgid "Display current A-B repeat marks in status bar."
-msgstr "在状态栏中显示当前的 A-B 重播标记。"
+msgstr "在状态栏中显示当前的 A-B 循环标记点。"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
