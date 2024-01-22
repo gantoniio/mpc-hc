@@ -4530,7 +4530,7 @@ msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
 msgid ""
 "When save the subtitles file, the language code (if available) text will be "
 "added to suggested file name by default."
-msgstr "当保存字幕文件时，语言代码（如果有的话）会默认加到建议文件名中。"
+msgstr "当保存字幕文件时，语言代码 (如果有的话) 会默认加到建议文件名中。"
 
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
