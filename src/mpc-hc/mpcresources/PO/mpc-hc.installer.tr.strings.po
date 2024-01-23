@@ -90,7 +90,7 @@ msgstr "Varsayılan kurulum"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
-msgstr "Özel yükleme"
+msgstr "Özel kurulum"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
