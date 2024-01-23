@@ -747,7 +747,7 @@ msgstr "Video boyutu:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
-msgstr "Oluşturuldu:"
+msgstr "Oluşturma tarihi:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
