@@ -2681,7 +2681,7 @@ msgid ""
 "- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR"
 msgstr ""
 "Altyazıları yüklemek için video işleyicisini değiştirmeniz ve dosyayı yeniden açmanız gerekiyor.\n"
-"- DirectShow: GVİ (Özel Sunucu), Eşzamanlılık, VKİ-9 (işleyicisiz), madVR, MPC VR, veya Haali VR"
+"- DirectShow: GVİ (Özel Sunucu), Eşzamanlama İ., VKİ-9 (işleyicisiz), Haali Vİ, madVR, veya MPC Vİ"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
