@@ -1063,7 +1063,9 @@ msgstr ""
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
-msgstr "VTS_xx_x.vob dosyalarını açmak için VTS_xx_0.ifo dosyasını yükleyiniz"
+msgstr ""
+"VTS_xx_x.vob dosyalarını tek parça halinde getirmek için VTS_xx_0.ifo "
+"dosyasını açınız"
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
