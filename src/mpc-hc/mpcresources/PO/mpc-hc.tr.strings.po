@@ -875,7 +875,7 @@ msgstr ""
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
-msgstr "Video yüzeyi düzgün bir dış ekran olarak ayrılacaktır."
+msgstr "Video yüzeyi normal bir ekran dışı yüzey olarak tahsis edilecektir."
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid ""
