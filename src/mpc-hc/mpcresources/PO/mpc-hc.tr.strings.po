@@ -129,7 +129,7 @@ msgstr "Eşzamanlama kayması"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "ort: %d ms, ayg: %d ms"
+msgstr "ort: %d ms, sapma: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -829,7 +829,7 @@ msgctxt "IDC_DSDXR"
 msgid ""
 "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
 msgstr ""
-"VKI-9 (işleyicisiz) gibidir, ancak gerçek iki geçişli çift kübik "
+"VKİ-9 (işleyicisiz) gibidir, ancak gerçek iki geçişli çift kübik "
 "boyutlandırıcı kullanır."
 
 msgctxt "IDC_DSNULL_COMP"
