@@ -1176,7 +1176,7 @@ msgstr "Altyazı İşleyicisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VKI-9 (işleyicisiz) ve GVİ (ÖS) ayarları"
+msgstr "VKİ-9 (işleyicisiz) ve GVİ (ÖS) ayarları"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
