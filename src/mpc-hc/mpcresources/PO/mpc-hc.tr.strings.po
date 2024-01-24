@@ -1053,7 +1053,7 @@ msgstr "Kanal taraması"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Altyazılar yüklü değil veya işleyici desteklemiyor."
+msgstr "Altyazılar yüklenemedi ya da işleyici desteklemiyor."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
