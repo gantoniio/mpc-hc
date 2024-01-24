@@ -1208,7 +1208,7 @@ msgstr "VKİ-9 karıştırıcı modu"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
-msgstr "GVI Tamponları:"
+msgstr "GVİ Tamponları:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
