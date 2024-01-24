@@ -2287,7 +2287,7 @@ msgstr "DVD Menüsü Aşağı"
 
 msgctxt "IDS_MPLAYERC_73"
 msgid "DVD Menu Activate"
-msgstr "DVD Menüsü Açık"
+msgstr "DVD Menüsünü etkinleştir"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
