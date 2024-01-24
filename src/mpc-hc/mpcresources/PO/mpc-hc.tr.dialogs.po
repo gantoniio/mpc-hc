@@ -744,7 +744,7 @@ msgstr "Medya uzunluğu:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
-msgstr "Video boyutu:"
+msgstr "Çözünürlük:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
