@@ -1204,7 +1204,7 @@ msgstr "Alternatif VSync"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VKI-9 karıştırıcısı kipi"
+msgstr "VKİ-9 karıştırıcı modu"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
