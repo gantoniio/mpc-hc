@@ -941,7 +941,7 @@ msgstr "2B yüzeyler"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr "3D doku (önerilir)"
+msgstr "3B yüzeyler (önerilir)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
