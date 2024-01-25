@@ -2950,7 +2950,7 @@ msgstr "Přiblížení 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "Velikost 200%"
+msgstr "Přiblížení 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -3014,7 +3014,7 @@ msgstr "Kódování:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr "Velikost 25%"
+msgstr "Přiblížení 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
