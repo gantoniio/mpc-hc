@@ -2942,7 +2942,7 @@ msgstr "Zobrazit/Skrýt ladění shaderů"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Velikost 50%"
+msgstr "Přiblížení 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
