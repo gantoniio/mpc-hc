@@ -4015,7 +4015,7 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
-"/pns \"jméno hodnot\"\tZadej jméno video předvolby pro použití nebo přímé "
+"/pns \"jméno nebo hodnoty\"\tZadej jméno video předvolby pro použití nebo "
 "nastavení hodnot umístění a přiblížení ve tvaru \"px,py,zx,zy\""
 
 msgctxt "IDS_CMD_ICONASSOC"
