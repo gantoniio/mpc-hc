@@ -400,7 +400,7 @@ msgstr "Přiblížit &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Roztáhnout &2"
+msgstr "Přiblížit &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
