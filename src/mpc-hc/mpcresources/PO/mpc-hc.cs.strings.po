@@ -2067,7 +2067,7 @@ msgstr "Na celou obrazovku (bez změny velikosti)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Velikost: Automaticky přizpůsobit"
+msgstr "Přiblížení: Automaticky přizpůsobit"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
