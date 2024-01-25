@@ -1889,7 +1889,7 @@ msgstr "Barre de lecture"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
-msgstr "Hauteur de la barre de recherche moderne:"
+msgstr "Hauteur de la barre de lecture moderne:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
 msgid "Hover:"
