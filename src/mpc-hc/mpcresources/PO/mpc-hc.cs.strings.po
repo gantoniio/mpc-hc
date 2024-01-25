@@ -3382,7 +3382,7 @@ msgstr "RAR archív"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr "FPS"
+msgstr "Počet snímků za sekundu (FPS)"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
