@@ -2978,11 +2978,11 @@ msgstr "Zrcadli video svisle"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
-msgstr "Nad posuvníkem"
+msgstr "Nad panelem hledání"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "Pod posuvníkem"
+msgstr "Pod panelem hledání"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
