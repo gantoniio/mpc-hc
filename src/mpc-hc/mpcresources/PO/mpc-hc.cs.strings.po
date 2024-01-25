@@ -2982,7 +2982,7 @@ msgstr "Nad posuvníkem"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "Pod panelem hledání"
+msgstr "Pod posuvníkem"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
