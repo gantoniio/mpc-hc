@@ -1977,4 +1977,4 @@ msgstr "Affichage barre des tâches avancé"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr "Contrôler via l'interface Windows (SMTC)"
+msgstr "Contrôle via l'interface Windows SMTC"
