@@ -160,7 +160,7 @@ msgstr "&Na celou obrazovku"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "Velikost"
+msgstr "&Přiblížení"
 
 msgctxt "ID_VIEW_ZOOM_25"
 msgid "&25%"
