@@ -2157,7 +2157,7 @@ msgstr "Automaticky přizpůsobit (jen větší)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Velikost: Automaticky přizpůsobit (jen větší)"
+msgstr "Přiblížení: Automaticky přizpůsobit (jen větší)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
