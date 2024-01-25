@@ -2161,7 +2161,7 @@ msgstr "Velikost: Automaticky přizpůsobit (jen větší)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Velikost: Automaticky (jen větší)"
+msgstr "Přiblížení: Automaticky (jen větší)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
