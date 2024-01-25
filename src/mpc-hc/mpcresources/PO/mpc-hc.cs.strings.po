@@ -3030,7 +3030,7 @@ msgstr "Změna velikosti okna +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "Změna velikosti okna -"
+msgstr "Oddálení okna"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
