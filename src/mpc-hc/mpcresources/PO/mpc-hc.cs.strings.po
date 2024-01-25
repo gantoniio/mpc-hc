@@ -3026,7 +3026,7 @@ msgstr "Modifikátor myši ve FS"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "Změna velikosti okna +"
+msgstr "Přiblížení okna"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
