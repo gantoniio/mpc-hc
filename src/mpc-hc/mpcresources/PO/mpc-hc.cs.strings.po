@@ -3038,7 +3038,7 @@ msgstr "Přiblížit 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr "Roztáhnout 2"
+msgstr "Přiblížit 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
