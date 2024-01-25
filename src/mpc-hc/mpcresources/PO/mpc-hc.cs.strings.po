@@ -2946,7 +2946,7 @@ msgstr "Přiblížení 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "Velikost 100%"
+msgstr "Přiblížení 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
