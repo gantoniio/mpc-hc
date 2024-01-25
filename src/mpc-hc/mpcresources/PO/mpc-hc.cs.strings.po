@@ -3664,7 +3664,7 @@ msgstr "Velikost: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Velikost: Automaticky"
+msgstr "Přiblížení: Automaticky"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
