@@ -3170,7 +3170,7 @@ msgstr "Přiblížit 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr "Roztáhnout 2"
+msgstr "Přiblížit 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
