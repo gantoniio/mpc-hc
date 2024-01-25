@@ -2746,7 +2746,7 @@ msgstr "Zobrazit/Skrýt záhlaví a hlavní nabídku"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seekbar"
-msgstr "Zobrazit/Skrýt posuvník"
+msgstr "Zobrazit/Skrýt panel hledání"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
