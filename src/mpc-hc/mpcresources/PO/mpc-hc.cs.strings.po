@@ -3166,7 +3166,7 @@ msgstr "Dotknout se okna zevnitř"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "Roztáhnout 1"
+msgstr "Přiblížit 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
