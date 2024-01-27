@@ -505,7 +505,7 @@ msgstr "Baş aşağı dönd&ür"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
-msgstr "A&yna"
+msgstr "Ayna"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
