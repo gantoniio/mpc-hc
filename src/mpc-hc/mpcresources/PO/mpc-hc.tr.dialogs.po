@@ -1582,7 +1582,7 @@ msgstr "Dahili altyazılar yerine harici altyazıları tercih et"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Dahili altyazıları yoksay"
+msgstr "Dahili altyazıları yok say"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
