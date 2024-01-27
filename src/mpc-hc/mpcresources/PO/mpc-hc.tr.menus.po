@@ -525,7 +525,7 @@ msgstr "&Her zaman"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "Medya o&ynatılırken"
+msgstr "Medya &oynatılırken"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
