@@ -489,7 +489,7 @@ msgstr "Aşağı taşı"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "Ort&ala"
+msgstr "Ortala"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
