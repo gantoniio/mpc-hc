@@ -509,7 +509,7 @@ msgstr "Ayna"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "Sı&fırla"
+msgstr "Sıfırla"
 
 msgctxt "POPUP"
 msgid "On &Top"
