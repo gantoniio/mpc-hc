@@ -1753,7 +1753,7 @@ msgstr "Ayrıcalıklı mod"
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
-"Sistem kanal karıştırıcısını yok say (Ayrıcalıklı WASAPI kipinde her zaman "
+"Sistem kanal karıştırıcısını yok say (Ayrıcalıklı WASAPI modunda her zaman "
 "yok sayılır)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
