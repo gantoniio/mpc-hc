@@ -548,7 +548,7 @@ msgstr "サムネイルを保存"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr "字幕を下に移動"
+msgstr "字幕を下へ移動"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
