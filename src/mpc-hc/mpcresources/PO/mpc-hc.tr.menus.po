@@ -449,7 +449,7 @@ msgstr "Kare uyarlama P&nS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "&Boyutu artır"
+msgstr "Boyutu artır"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
