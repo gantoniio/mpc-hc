@@ -1372,7 +1372,7 @@ msgstr "Frek. Sonu"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
-msgstr "Şifreli kanalları kullanma"
+msgstr "Şifreli kanalları yok say"
 
 msgctxt "IDD_TUNER_SCAN_ID_SAVE"
 msgid "Save"
