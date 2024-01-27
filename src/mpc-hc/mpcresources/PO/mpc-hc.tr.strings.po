@@ -4563,7 +4563,7 @@ msgstr "&Yeniden dene"
 
 msgctxt "IDS_MESSAGEBOX_IGNORE"
 msgid "&Ignore"
-msgstr "&Yoksay"
+msgstr "&Yok say"
 
 msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
