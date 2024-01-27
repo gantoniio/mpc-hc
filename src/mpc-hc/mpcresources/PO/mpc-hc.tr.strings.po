@@ -2801,7 +2801,7 @@ msgstr "Bilinmeyen dosya biçimi"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Desteklenmeyen biçim"
+msgstr "Desteklenmeyen akış"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
