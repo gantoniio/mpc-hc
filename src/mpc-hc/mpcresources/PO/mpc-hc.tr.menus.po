@@ -705,7 +705,7 @@ msgstr "Klasördeki sonraki dosyayı oynat"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "E&kranı Kapat"
+msgstr "Ekranı kapat"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
