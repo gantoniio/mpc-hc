@@ -529,7 +529,7 @@ msgstr "Medya &oynatılırken"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "Video &oynatılırken"
+msgstr "&Video oynatılırken"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
