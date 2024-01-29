@@ -416,7 +416,7 @@ msgstr "Výchozí (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
