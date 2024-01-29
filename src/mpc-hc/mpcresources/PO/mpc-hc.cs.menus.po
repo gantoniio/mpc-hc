@@ -480,7 +480,7 @@ msgstr "Posunout do&leva"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "Posunout nahoru"
+msgstr "Posunout &nahoru"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
