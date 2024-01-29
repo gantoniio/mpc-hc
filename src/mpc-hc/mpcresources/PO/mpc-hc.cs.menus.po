@@ -488,7 +488,7 @@ msgstr "Posunout &dolů"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "Vycentrovat"
+msgstr "Vy&centrovat"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
