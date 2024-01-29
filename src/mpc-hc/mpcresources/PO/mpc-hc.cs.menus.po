@@ -444,7 +444,7 @@ msgstr "Opravit rozdíl poměru stran monitoru a plochy"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "Pan & Scan přizpůsobení rámečku"
+msgstr "Pan & Scan přizpůsobení obrazu"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
