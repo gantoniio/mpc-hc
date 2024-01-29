@@ -420,11 +420,11 @@ msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
