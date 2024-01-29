@@ -140,7 +140,7 @@ msgstr "Navigace"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "Pře&dvolby..."
+msgstr "O&kno přehrávače"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
