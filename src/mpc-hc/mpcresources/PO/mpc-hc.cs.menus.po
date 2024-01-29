@@ -656,7 +656,7 @@ msgstr "Výchozí rychlost"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "Filtry"
+msgstr "&Filtry"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
