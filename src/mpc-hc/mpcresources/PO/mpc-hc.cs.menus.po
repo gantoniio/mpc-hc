@@ -484,7 +484,7 @@ msgstr "Posunout &nahoru"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Posunout dolů"
+msgstr "Posunout &dolů"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
