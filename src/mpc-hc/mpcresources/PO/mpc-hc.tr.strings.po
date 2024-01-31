@@ -519,7 +519,7 @@ msgstr "&Evet"
 
 msgctxt "IDS_SUBRESYNC_NO"
 msgid "&No"
-msgstr "&Hayır"
+msgstr "Hayır"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
