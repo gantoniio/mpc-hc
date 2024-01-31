@@ -1392,7 +1392,7 @@ msgstr "Dengeli kullanım"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr "Symbol Rate"
+msgstr "Sembol veri hızı"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
