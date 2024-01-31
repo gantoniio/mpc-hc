@@ -1853,7 +1853,7 @@ msgstr "Kontrol vurgularının gizlenme süresi:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Ön tonlayıcılar ayarlanamadı"
+msgstr "Boyutlandırma öncesi tonlayıcıları ayarlanamadı"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
