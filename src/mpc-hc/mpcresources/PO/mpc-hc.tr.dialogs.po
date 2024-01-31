@@ -1506,7 +1506,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Dosyaları tam ekranda çalıştır"
+msgstr "Dosyaları tam ekranda başlat"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
