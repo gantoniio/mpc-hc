@@ -1946,7 +1946,7 @@ msgstr "Ses Gecikmesi +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "Ses Gecikmesi -10ms"
+msgstr "Ses gecikmesi -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
