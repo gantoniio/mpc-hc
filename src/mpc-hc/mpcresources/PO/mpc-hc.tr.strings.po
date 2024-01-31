@@ -345,7 +345,7 @@ msgstr "Liste Düzenleme Yöneticisi"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Girilen süre dosya uzunluğundan daha fazla."
+msgstr "Girilen süre dosyanın süresinden daha büyüktür."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid ""
