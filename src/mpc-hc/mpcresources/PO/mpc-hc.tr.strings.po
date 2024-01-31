@@ -515,7 +515,7 @@ msgstr "&Düzen"
 
 msgctxt "IDS_SUBRESYNC_YES"
 msgid "&Yes"
-msgstr "&Evet"
+msgstr "Evet"
 
 msgctxt "IDS_SUBRESYNC_NO"
 msgid "&No"
