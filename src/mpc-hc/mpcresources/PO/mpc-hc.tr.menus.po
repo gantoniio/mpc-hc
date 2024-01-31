@@ -309,7 +309,7 @@ msgstr "&Algısal"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "&Göreceli Renk Ölçümü"
+msgstr "&Göreli Renkölçer"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
