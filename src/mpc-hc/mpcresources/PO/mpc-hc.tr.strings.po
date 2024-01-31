@@ -4644,7 +4644,7 @@ msgstr "Boyutlandırma sonrası piksel tonlayıcıları: Kapalı"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
-msgstr "Son Piksel Tonlayıcılarını Etkinleştir"
+msgstr "Boyutlandırma sonrası piksel tonlayıcıları etkinleştir"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
