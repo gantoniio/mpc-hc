@@ -523,7 +523,7 @@ msgstr "&Hayır"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
-msgstr "&Azalt"
+msgstr "Azalt"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
