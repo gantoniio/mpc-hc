@@ -1628,7 +1628,7 @@ msgstr "Güncelleştirme denetleyicisi"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "&Şimdi indir"
+msgstr "Şim&di indir"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
