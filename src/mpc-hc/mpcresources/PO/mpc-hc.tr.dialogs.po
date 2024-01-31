@@ -1699,7 +1699,7 @@ msgstr "Tonlayıcı çözümleyici"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Hata ayıklama bilgileri"
+msgstr "Çözümleme bilgisi"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
