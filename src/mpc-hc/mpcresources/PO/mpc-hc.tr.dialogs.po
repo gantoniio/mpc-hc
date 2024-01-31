@@ -1683,7 +1683,7 @@ msgstr "Etkin boyutlandırma öncesi tonlayıcılar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Çalışan arka tonlayıcılar"
+msgstr "Etkin boyutlandırma sonrası tonlayıcılar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC5"
 msgid ""
