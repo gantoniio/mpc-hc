@@ -3893,7 +3893,7 @@ msgstr "Oynatmadan sonra: Oturumu Kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Oynatmadan sonra: Kilitle"
+msgstr "Oynatmadan sonra: Oturumu kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
