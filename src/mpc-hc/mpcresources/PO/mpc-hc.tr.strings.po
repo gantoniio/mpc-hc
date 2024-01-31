@@ -312,7 +312,8 @@ msgstr "Yazı tipi"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "DVD Yönetim filtresi için gerekli bazı iliştirmeler işlenemedi"
+msgstr ""
+"DVD Yönlendireç filtresinin bağlantı noktalarından bazıları işlenemedi"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
