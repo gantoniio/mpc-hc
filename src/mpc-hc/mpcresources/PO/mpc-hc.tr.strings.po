@@ -4558,7 +4558,7 @@ msgstr "İptal"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
-msgstr "&İptal et"
+msgstr "İptal et"
 
 msgctxt "IDS_MESSAGEBOX_RETRY"
 msgid "&Retry"
