@@ -4640,7 +4640,7 @@ msgstr "Boyutlandırma sonrası piksel tonlayıcıları: Açık"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
-msgstr "Son Piksel Tonlayıcıları: Kapalı"
+msgstr "Boyutlandırma sonrası piksel tonlayıcıları: Kapalı"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
