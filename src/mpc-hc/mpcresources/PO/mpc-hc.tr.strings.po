@@ -1962,7 +1962,7 @@ msgstr "İleri atla (orta)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
-msgstr "Geri Atla (orta)"
+msgstr "Geriye atla (orta)"
 
 msgctxt "IDS_MPLAYERC_27"
 msgid "Jump Forward (large)"
