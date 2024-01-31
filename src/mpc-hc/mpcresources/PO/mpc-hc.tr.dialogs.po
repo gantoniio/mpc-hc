@@ -1655,7 +1655,7 @@ msgstr "Sil"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "Ön tonlayıcı ekle"
+msgstr "Boyutlandırma öncesine ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
