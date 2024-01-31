@@ -4339,7 +4339,7 @@ msgstr "/shutdown\tYürütme işlemi sonrasında bilgisayarı kapat"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr "/standby\t\tYürütme işlemi sonrasında işletim sistemini bekleme moduna al"
+msgstr "/standby\t\tYürütme işlemi sonrasında işletim sistemini askıya al"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
