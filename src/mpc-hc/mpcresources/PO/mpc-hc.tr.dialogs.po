@@ -1679,7 +1679,7 @@ msgstr "Sil"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Çalışan ön tonlayıcılar"
+msgstr "Etkin boyutlandırma öncesi tonlayıcılar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
