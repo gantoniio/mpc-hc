@@ -2958,7 +2958,7 @@ msgstr "Kaydetme ayarları panelini Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Tonlayıcı hata ayıklayıcısını Aç/Kapat"
+msgstr "Tonlayıcı çözümleyicisini Aç/Kapat"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
