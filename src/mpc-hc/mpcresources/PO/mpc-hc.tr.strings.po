@@ -4628,7 +4628,7 @@ msgstr "Boyutlandırma öncesi piksel tonlayıcıları: Açık"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "Ön Piksel Tonlayıcıları: Kapalı"
+msgstr "Boyutlandırma öncesi piksel tonlayıcıları: Kapalı"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
