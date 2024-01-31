@@ -1954,7 +1954,7 @@ msgstr "İleri atla (kısa)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
-msgstr "Geri Atla (kısa)"
+msgstr "Geriye atla (kısa)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
