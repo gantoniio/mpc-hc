@@ -264,7 +264,7 @@ msgstr "DVD favorilere eklendi"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Yakalama ayarları"
+msgstr "Kaydetme ayarları"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
