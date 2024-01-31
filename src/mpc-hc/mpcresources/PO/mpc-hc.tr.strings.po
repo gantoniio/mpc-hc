@@ -1966,7 +1966,7 @@ msgstr "Geri Atla (orta)"
 
 msgctxt "IDS_MPLAYERC_27"
 msgid "Jump Forward (large)"
-msgstr "İleri Atla (uzun)"
+msgstr "İleri atla (uzun)"
 
 msgctxt "IDS_MPLAYERC_28"
 msgid "Jump Backward (large)"
