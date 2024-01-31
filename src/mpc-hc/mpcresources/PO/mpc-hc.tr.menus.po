@@ -133,7 +133,7 @@ msgstr "Oynatma &listesi"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "&Yakalama"
+msgstr "Kaydetme paneli"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
