@@ -2953,7 +2953,7 @@ msgstr "Oynatma listesini Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "Yakalayıcı çubuğunu Aç/Kapat"
+msgstr "Yakalama çubuğunu Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
