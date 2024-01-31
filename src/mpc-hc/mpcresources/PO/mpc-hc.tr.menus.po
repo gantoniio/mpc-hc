@@ -729,7 +729,7 @@ msgstr "Oturumu kapat"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Bilgisayarı Kilitle"
+msgstr "Oturumu kilitle"
 
 msgctxt "POPUP"
 msgid "&Navigate"
