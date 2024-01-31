@@ -1439,7 +1439,7 @@ msgstr "DVD/Blu-ray aç"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Arka tonlayıcılar ayarlanamadı"
+msgstr "Boyutlandırma sonrası tonlayıcıları ayarlanamadı"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
