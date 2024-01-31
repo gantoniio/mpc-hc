@@ -415,7 +415,7 @@ msgstr "Son (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Görüntüleme hızı (Hz)"
+msgstr "Görüntüleme modu (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
