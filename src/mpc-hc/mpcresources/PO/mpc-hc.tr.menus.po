@@ -717,7 +717,7 @@ msgstr "&Askıya Al"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "&Hazırda Beklet"
+msgstr "Hazırda beklet"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
