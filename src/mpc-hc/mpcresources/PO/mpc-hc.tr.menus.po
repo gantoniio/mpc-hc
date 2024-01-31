@@ -197,7 +197,7 @@ msgstr "&Yırtılma testi"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr "&İstatistikleri göster"
+msgstr "İ&statistikleri göster"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
