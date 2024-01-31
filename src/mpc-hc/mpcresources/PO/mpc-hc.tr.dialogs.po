@@ -852,7 +852,7 @@ msgstr "&Ayarla"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&İptal"
+msgstr "İptal"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
