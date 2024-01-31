@@ -4335,7 +4335,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr "/shutdown\tYürütme işlemi sonrasında işletim sistemini kapat"
+msgstr "/shutdown\tYürütme işlemi sonrasında bilgisayarı kapat"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
