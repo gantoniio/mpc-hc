@@ -1659,7 +1659,7 @@ msgstr "Boyutlandırma öncesine ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "Arka tonlayıcı ekle"
+msgstr "Boyutlandırma sonrasına ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
