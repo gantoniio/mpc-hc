@@ -725,7 +725,7 @@ msgstr "Bilgisayarı kapat"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Oturumu &Kapat"
+msgstr "Oturumu kapat"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
