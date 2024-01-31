@@ -721,7 +721,7 @@ msgstr "Hazırda beklet"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "B&ilgisayarı Kapat"
+msgstr "Bilgisayarı kapat"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
