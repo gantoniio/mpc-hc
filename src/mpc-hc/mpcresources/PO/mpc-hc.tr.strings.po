@@ -3497,7 +3497,7 @@ msgstr "İşleme maksadı: Algısal"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "İşleme maksadı: Göreceli renkli"
+msgstr "İşleme amacı: Göreli Renkölçer"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
