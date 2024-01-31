@@ -1443,7 +1443,9 @@ msgstr "Arka tonlayıcılar ayarlanamadı"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "Hem ön, hem arka tonlayıcılar ayarlanamadı"
+msgstr ""
+"Hem boyutlandırma öncesi hem de boyutlandırma sonrası tonlayıcıları "
+"ayarlanamadı"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
