@@ -1667,7 +1667,7 @@ msgstr "Tonlayıcı önayarları"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr "Yükle"
+msgstr "Getir"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
