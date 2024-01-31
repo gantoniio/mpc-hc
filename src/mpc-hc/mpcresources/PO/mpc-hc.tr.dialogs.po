@@ -740,7 +740,7 @@ msgstr "Boyut:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Media length:"
-msgstr "Medya uzunluğu:"
+msgstr "Medya süresi:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
