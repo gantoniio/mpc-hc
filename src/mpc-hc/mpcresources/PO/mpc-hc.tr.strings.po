@@ -539,7 +539,7 @@ msgstr "Tonlayıcı önayarları..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Tonlayıcı hata ayıklaması..."
+msgstr "&Tonlayıcı çözümleyici..."
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
