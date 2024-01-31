@@ -511,7 +511,7 @@ msgstr "Güncel"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
-msgstr "&Düzen"
+msgstr "Düzen"
 
 msgctxt "IDS_SUBRESYNC_YES"
 msgid "&Yes"
