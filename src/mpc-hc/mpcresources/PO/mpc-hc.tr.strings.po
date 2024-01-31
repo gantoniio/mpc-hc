@@ -4624,7 +4624,7 @@ msgstr ""
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
-msgstr "Ön Piksel Tonlayıcıları: Açık"
+msgstr "Boyutlandırma öncesi piksel tonlayıcıları: Açık"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
