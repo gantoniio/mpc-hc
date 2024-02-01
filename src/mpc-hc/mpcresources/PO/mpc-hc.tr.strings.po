@@ -2246,7 +2246,7 @@ msgstr "Ses düzeyini azalt"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Sesi Kıs"
+msgstr "Sesi kes"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
