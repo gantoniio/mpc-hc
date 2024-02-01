@@ -689,7 +689,7 @@ msgstr "&Azalt"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Sesi Kıs"
+msgstr "&Sesi kes"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
