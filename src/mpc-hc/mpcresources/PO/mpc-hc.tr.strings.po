@@ -1191,11 +1191,11 @@ msgstr ""
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "Sesi Kıs"
+msgstr "Sesi kes"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
-msgstr "Sesi Aç"
+msgstr "Sesi aç"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
