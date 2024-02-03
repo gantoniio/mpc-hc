@@ -182,7 +182,7 @@ msgstr "Sürekli Tekrar: Kapalı"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "Sürekli Tekrarla"
+msgstr "Sürekli tekrarla"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
