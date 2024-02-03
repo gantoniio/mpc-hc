@@ -649,7 +649,7 @@ msgstr "Ses CD'si"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Atlama mesafeleri (az, orta, çok - ms cinsinden)"
+msgstr "Atlama mesafeleri (kısa, orta, uzun - ms cinsinden)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
