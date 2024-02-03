@@ -170,7 +170,7 @@ msgstr "Tekrar modu: Oynatma listesi"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr "Tekrarlama Yöntemi: Dosya"
+msgstr "Tekrar modu: Dosya"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
