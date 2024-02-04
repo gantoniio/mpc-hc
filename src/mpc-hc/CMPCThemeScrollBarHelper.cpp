@@ -106,6 +106,8 @@ void CMPCThemeScrollBarHelper::setDrawingArea(CRect& cr, CRect& wr, bool clippin
             }
         }
         currentClipRegion = wr;
+    } else {
+        window->SetWindowRgn(NULL, false);
     }
 }
 
