@@ -6342,6 +6342,10 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
             CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), s.bSubSaveExternalStyleFile,
                                         _T("srt"), suggestedFileName, filter, types, GetModalParent());
 
+            if (pRTS->m_subtitleType >= 0 && size_t(pRTS->m_subtitleType) < types.size()) { //see Subtitle::GetSubtitleFileExt, but we have a limited set of extensions
+                fd.m_ofn.nFilterIndex = pRTS->m_subtitleType + 1; //nFilterIndex is 1-based
+            }
+
             if (fd.DoModal() == IDOK) {
                 CAutoLock cAutoLock(&m_csSubLock);
                 s.bSubSaveExternalStyleFile = fd.GetSaveExternalStyleFile();
