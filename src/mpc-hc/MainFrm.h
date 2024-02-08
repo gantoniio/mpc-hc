@@ -357,7 +357,7 @@ private:
     CSize GetZoomWindowSize(double dScale);
     CRect GetZoomWindowRect(const CSize& size);
     void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);
-    double GetZoomAutoFitScale();
+    double GetZoomAutoFitScale(bool bLargerOnly = false);
 
     void SetAlwaysOnTop(int iOnTop);
     bool WindowExpectedOnTop();
