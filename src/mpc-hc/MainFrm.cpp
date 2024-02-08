@@ -6331,19 +6331,19 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
             };
 
             CString filter;
-            filter += _T("SubRip (*.srt)|*.srt|");
-            filter += _T("MicroDVD (*.sub)|*.sub|");
-            filter += _T("SAMI (*.smi)|*.smi|");
-            filter += _T("PowerDivX (*.psb)|*.psb|");
-            filter += _T("SubStation Alpha (*.ssa)|*.ssa|");
-            filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|");
+            filter += _T("SubRip (*.srt)|*.srt|"); //1 = default
+            filter += _T("MicroDVD (*.sub)|*.sub|"); //2
+            filter += _T("SAMI (*.smi)|*.smi|"); //3
+            filter += _T("PowerDivX (*.psb)|*.psb|"); //4
+            filter += _T("SubStation Alpha (*.ssa)|*.ssa|"); //5
+            filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|"); //6
             filter += _T("|");
 
             CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), s.bSubSaveExternalStyleFile,
                                         _T("srt"), suggestedFileName, filter, types, GetModalParent());
 
-            if (pRTS->m_subtitleType >= 0 && size_t(pRTS->m_subtitleType) < types.size()) { //see Subtitle::GetSubtitleFileExt, but we have a limited set of extensions
-                fd.m_ofn.nFilterIndex = pRTS->m_subtitleType + 1; //nFilterIndex is 1-based
+            if (pRTS->m_subtitleType == 4 || pRTS->m_subtitleType == 5) {
+                fd.m_ofn.nFilterIndex = 6; //nFilterIndex is 1-based
             }
 
             if (fd.DoModal() == IDOK) {
