@@ -6342,7 +6342,7 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
             CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), s.bSubSaveExternalStyleFile,
                                         _T("srt"), suggestedFileName, filter, types, GetModalParent());
 
-            if (pRTS->m_subtitleType == 4 || pRTS->m_subtitleType == 5) {
+            if (pRTS->m_subtitleType == Subtitle::SSA || pRTS->m_subtitleType == Subtitle::ASS) {
                 fd.m_ofn.nFilterIndex = 6; //nFilterIndex is 1-based
             }
 
