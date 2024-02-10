@@ -1100,7 +1100,7 @@ msgstr "Transformační filtry"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Nastavení interního LAV Filters"
+msgstr "Interní nastavení LAV Filters"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
