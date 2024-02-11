@@ -2688,11 +2688,13 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 }
 
 void CSimpleTextSubtitle::ApplyANSICP(int CharSet) {
-    POSITION pos = m_styles.GetStartPosition();
-    while (pos) {
-        CStringW key = m_styles.GetNextKey(pos);
-        if (m_styles[key]->charSet == DEFAULT_CHARSET || m_styles[key]->charSet == ANSI_CHARSET) {
-            m_styles[key]->charSet = CharSet;
+    if (CharSet != DEFAULT_CHARSET && CharSet != ANSI_CHARSET) { //don't bother
+        POSITION pos = m_styles.GetStartPosition();
+        while (pos) {
+            CStringW key = m_styles.GetNextKey(pos);
+            if (m_styles[key]->charSet == DEFAULT_CHARSET || m_styles[key]->charSet == ANSI_CHARSET) {
+                m_styles[key]->charSet = CharSet;
+            }
         }
     }
 }
