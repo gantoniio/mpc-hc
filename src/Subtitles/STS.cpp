@@ -2687,6 +2687,16 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
     return ret;
 }
 
+void CSimpleTextSubtitle::ApplyANSICP(int CharSet) {
+    POSITION pos = m_styles.GetStartPosition();
+    while (pos) {
+        CStringW key = m_styles.GetNextKey(pos);
+        if (m_styles[key]->charSet == DEFAULT_CHARSET || m_styles[key]->charSet == ANSI_CHARSET) {
+            m_styles[key]->charSet = CharSet;
+        }
+    }
+}
+
 void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
 {
     CAtlMap<CString, STSStyle*, CStringElementTraits<CString>> unknown;
