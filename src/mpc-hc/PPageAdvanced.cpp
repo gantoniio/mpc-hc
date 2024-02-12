@@ -48,10 +48,11 @@ BOOL CPPageAdvanced::OnInitDialog()
     initBoldFont();
 
     SetRedraw(FALSE);
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ | LVS_EX_AUTOSIZECOLUMNS /*| LVS_EX_DOUBLEBUFFER */ | LVS_EX_INFOTIP);
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ /*| LVS_EX_DOUBLEBUFFER */ | LVS_EX_INFOTIP);
     m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT);
     m_list.InsertColumn(COL_NAME, ResStr(IDS_PPAGEADVANCED_COL_NAME), LVCFMT_LEFT);
     m_list.InsertColumn(COL_VALUE, ResStr(IDS_PPAGEADVANCED_COL_VALUE), LVCFMT_LEFT);
+    m_list.InsertColumn(COL_DUMMYCOL, L"", LVCFMT_FIXED_WIDTH);
 
     if (auto pToolTip = m_list.GetToolTips()) {
         // Set topmost for tooltip window. Workaround bug https://connect.microsoft.com/VisualStudio/feedback/details/272350
@@ -75,8 +76,9 @@ BOOL CPPageAdvanced::OnInitDialog()
 
     InitSettings();
 
-    m_list.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
-    m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+    m_list.SetColumnWidth(COL_VALUE, LVSCW_AUTOSIZE_USEHEADER);
+    m_list.SetColumnWidth(COL_NAME, LVSCW_AUTOSIZE_USEHEADER);
+    m_list.SetColumnWidth(COL_DUMMYCOL, 0);
 
     SetRedraw(TRUE);
     return TRUE;
@@ -137,6 +139,8 @@ void CPPageAdvanced::InitSettings()
     addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 100, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 5, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
+    addBoolItem(FILE_POS_PLAYLIST, IDS_RS_FILEPOS_PLAYLIST, true, s.bRememberExternalPlaylistPos, _T("Remember playback position in local M3U and MPCPL playlist files."));
+    addBoolItem(FILE_POS_TRACK_SELECTION, IDS_RS_FILEPOS_TRACK_SELECTION, true, s.bRememberTrackSelection, _T("Remember the selected audio and subtitle track (when file history is enabled)."));
     addBoolItem(FULLSCREEN_SEPARATE_CONTROLS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, false, s.bFullscreenSeparateControls, StrRes(IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
     addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, StrRes(IDS_PPAGEADVANCED_BLOCK_VSFILTER));

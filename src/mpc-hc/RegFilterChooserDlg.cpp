@@ -27,6 +27,7 @@
 #include "FakeFilterMapper2.h"
 #include <initguid.h>
 #include <dmo.h>
+#include "PPageExternalFilters.h"
 
 // CRegFilterChooserDlg dialog
 
@@ -56,6 +57,15 @@ void CRegFilterChooserDlg::AddToList(IMoniker* pMoniker)
     if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
         CComVariant var;
         if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
+            CComVariant var2;
+            if (SUCCEEDED(pPB->Read(_T("CLSID"), &var2, nullptr))) {
+                CString clsid_str = CString(var2.bstrVal);
+                if (!clsid_str.IsEmpty()) {
+                    if (IgnoreExternalFilter(GUIDFromCString(clsid_str))) {
+                        return;
+                    }
+                }
+            }
             m_list.SetItemData(
                 m_list.InsertItem(-1, CString(CStringW(var.bstrVal))),
                 (DWORD_PTR)m_monikers.AddTail(pMoniker));
@@ -137,6 +147,7 @@ void CRegFilterChooserDlg::OnBnClickedOk()
         f->type = FilterOverride::REGISTERED;
         f->name = fgf.GetName();
         f->dispname = fgf.GetDisplayName();
+        f->clsid = fgf.GetCLSID();
         f->guids.AddTailList(&fgf.GetTypes());
         f->backup.AddTailList(&fgf.GetTypes());
         f->dwMerit = fgf.GetMeritForDirectShow();

@@ -26,7 +26,6 @@
 #include "Monitors.h"
 #include "MultiMonitor.h"
 
-
 // CPPagePlayback dialog
 
 IMPLEMENT_DYNAMIC(CPPagePlayback, CMPCThemePPageBase)
@@ -44,11 +43,13 @@ CPPagePlayback::CPPagePlayback()
     , m_iZoomLevel(1)
     , verticalAlignVideo(0)
     , m_iRememberZoomLevel(FALSE)
-    , m_nAutoFitFactor(75)
+    , m_nAutoFitFactorMin(DEF_MIN_AUTOFIT_SCALE_FACTOR)
+    , m_nAutoFitFactorMax(DEF_MAX_AUTOFIT_SCALE_FACTOR)
     , m_fAutoloadAudio(FALSE)
     , m_fEnableWorkerThreadForOpening(FALSE)
     , m_fReportFailedPins(FALSE)
     , m_fAllowOverridingExternalSplitterChoice(FALSE)
+    , m_bInitDialogComplete(false)
 {
 }
 
@@ -79,10 +80,12 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT3, m_audiosLanguageOrder);
     DDX_Check(pDX, IDC_CHECK4, m_fAllowOverridingExternalSplitterChoice);
     DDX_Text(pDX, IDC_VOLUMESTEP, m_nVolumeStep);
-    DDX_Text(pDX, IDC_EDIT4, m_nAutoFitFactor);
+    DDX_Text(pDX, IDC_EDIT4, m_nAutoFitFactorMin);
+    DDX_Text(pDX, IDC_EDIT5, m_nAutoFitFactorMax);
     DDX_Control(pDX, IDC_VOLUMESTEP_SPIN, m_VolumeStepCtrl);
     DDX_Control(pDX, IDC_SPEEDSTEP_SPIN, m_SpeedStepCtrl);
-    DDX_Control(pDX, IDC_SPIN1, m_AutoFitFactorCtrl);
+    DDX_Control(pDX, IDC_SPIN1, m_AutoFitFactorMinCtrl);
+    DDX_Control(pDX, IDC_SPIN2, m_AutoFitFactorMaxCtrl);
     DDX_Control(pDX, IDC_COMBO3, m_LoopMode);
     DDX_CBIndex(pDX, IDC_COMBO3, m_iLoopMode);
 }
@@ -90,6 +93,8 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPagePlayback, CMPCThemePPageBase)
     ON_WM_HSCROLL()
     ON_CONTROL_RANGE(BN_CLICKED, IDC_RADIO1, IDC_RADIO2, OnBnClickedRadio12)
+    ON_EN_CHANGE(IDC_EDIT4, OnChangeFitFactorMin)
+    ON_EN_CHANGE(IDC_EDIT5, OnChangeFitFactorMax)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
@@ -128,9 +133,12 @@ BOOL CPPagePlayback::OnInitDialog()
     m_iZoomLevel = s.iZoomLevel + 1;
     verticalAlignVideo = static_cast<int>(s.iVerticalAlignVideo);
     m_iRememberZoomLevel = s.fRememberZoomLevel;
-    m_nAutoFitFactor = s.nAutoFitFactor;
-    m_AutoFitFactorCtrl.SetPos32(m_nAutoFitFactor);
-    m_AutoFitFactorCtrl.SetRange32(25, 100);
+    m_nAutoFitFactorMin = s.nAutoFitFactorMin;
+    m_AutoFitFactorMinCtrl.SetPos32(m_nAutoFitFactorMin);
+    m_AutoFitFactorMinCtrl.SetRange32(MIN_AUTOFIT_SCALE_FACTOR, m_nAutoFitFactorMax);
+    m_nAutoFitFactorMax = s.nAutoFitFactorMax;
+    m_AutoFitFactorMaxCtrl.SetPos32(m_nAutoFitFactorMax);
+    m_AutoFitFactorMaxCtrl.SetRange32(m_nAutoFitFactorMin, MAX_AUTOFIT_SCALE_FACTOR);
     m_fAutoloadAudio = s.fAutoloadAudio;
     m_fEnableWorkerThreadForOpening = s.fEnableWorkerThreadForOpening;
     m_fReportFailedPins = s.fReportFailedPins;
@@ -143,7 +151,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_100));
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_200));
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT));
-    m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT_LARGER));
+    //m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT_LARGER));
     CorrectComboListWidth(m_zoomlevelctrl);
 
     verticalAlignVideoCombo.AddString(ResStr(IDS_VERTICAL_ALIGN_VIDEO_MIDDLE));
@@ -175,7 +183,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_wndToolTip.AddTool(GetDlgItem(IDC_CHECK4), ResStr(IDS_OVERRIDE_EXT_SPLITTER_CHOICE));
 
     UpdateData(FALSE);
-
+    m_bInitDialogComplete = true; //UpdateData is dangerous to call before this, some events fire as soon as control is created (ON_EN_CHANGE)
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -197,7 +205,8 @@ BOOL CPPagePlayback::OnApply()
     s.iZoomLevel = m_iZoomLevel - 1;
     s.iVerticalAlignVideo = static_cast<CAppSettings::verticalAlignVideoType>(verticalAlignVideo);
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
-    s.nAutoFitFactor = m_nAutoFitFactor = std::min(std::max(m_nAutoFitFactor, 25), 100);
+    s.nAutoFitFactorMin = m_nAutoFitFactorMin = std::min(std::max(m_nAutoFitFactorMin, 25), 100);
+    s.nAutoFitFactorMax = m_nAutoFitFactorMax = std::min(std::max(m_nAutoFitFactorMax, 25), 100);
     s.fAutoloadAudio = !!m_fAutoloadAudio;
     s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
     s.fReportFailedPins = !!m_fReportFailedPins;
@@ -325,4 +334,24 @@ void CPPagePlayback::OnCancel()
     }
 
     __super::OnCancel();
+}
+
+void CPPagePlayback::OnChangeFitFactorMin() {
+    if (m_bInitDialogComplete) { //DO NOT REMOVE THIS! EN_CHANGE fired before all controls created
+        UpdateData(true);
+        if (m_AutoFitFactorMaxCtrl.m_hWnd) {
+            m_AutoFitFactorMaxCtrl.SetRange32(m_nAutoFitFactorMin, MAX_AUTOFIT_SCALE_FACTOR);
+        }
+        SetModified();
+    }
+}
+
+void CPPagePlayback::OnChangeFitFactorMax() {
+    if (m_bInitDialogComplete) { //DO NOT REMOVE THIS! EN_CHANGE fired before all controls created
+        UpdateData(true);
+        if (m_AutoFitFactorMinCtrl.m_hWnd) {
+            m_AutoFitFactorMinCtrl.SetRange32(MIN_AUTOFIT_SCALE_FACTOR, m_nAutoFitFactorMax);
+        }
+        SetModified();
+    }
 }

@@ -56,8 +56,8 @@ public:
     int m_iZoomLevel;
     int verticalAlignVideo;
     BOOL m_iRememberZoomLevel;
-    int m_nAutoFitFactor;
-    CMPCThemeSpinButtonCtrl m_AutoFitFactorCtrl;
+    int m_nAutoFitFactorMin, m_nAutoFitFactorMax;
+    CMPCThemeSpinButtonCtrl m_AutoFitFactorMinCtrl, m_AutoFitFactorMaxCtrl;
     BOOL m_fAutoloadAudio;
     BOOL m_fEnableWorkerThreadForOpening;
     BOOL m_fReportFailedPins;
@@ -68,6 +68,7 @@ public:
     CMPCThemeComboBox m_zoomlevelctrl;
     CMPCThemeComboBox verticalAlignVideoCombo;
     CMPCThemeComboBox m_afterPlayback;
+    bool m_bInitDialogComplete;
 
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYBACK };
@@ -89,4 +90,6 @@ public:
     afx_msg void OnBalanceTextDblClk();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     virtual void OnCancel();
+    afx_msg void OnChangeFitFactorMin();
+    afx_msg void OnChangeFitFactorMax();
 };

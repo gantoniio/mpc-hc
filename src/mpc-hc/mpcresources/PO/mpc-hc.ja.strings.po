@@ -2108,10 +2108,6 @@ msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
 msgstr "自動調整"
 
-msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
-msgid "Auto Fit (Larger Only)"
-msgstr "自動調整 (超過のみ)"
-
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
 msgstr "拡大 自動調整 (超過のみ)"

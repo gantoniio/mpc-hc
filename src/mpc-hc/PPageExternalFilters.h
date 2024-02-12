@@ -27,6 +27,8 @@
 #include "CMPCThemePlayerListCtrl.h"
 #include "CMPCThemeTreeCtrl.h"
 
+bool IsExternalVideoRenderer(CLSID clsid);
+bool IgnoreExternalFilter(CLSID clsid);
 
 class CPPageExternalFiltersListBox : public CMPCThemePlayerListCtrl
 {

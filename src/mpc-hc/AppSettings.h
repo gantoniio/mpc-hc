@@ -158,6 +158,10 @@ enum MCE_RAW_INPUT {
 #define DEFAULT_JUMPDISTANCE_2  5000
 #define DEFAULT_JUMPDISTANCE_3  20000
 
+#define MIN_AUTOFIT_SCALE_FACTOR 25
+#define MAX_AUTOFIT_SCALE_FACTOR 100
+#define DEF_MIN_AUTOFIT_SCALE_FACTOR 40
+#define DEF_MAX_AUTOFIT_SCALE_FACTOR 80
 
 enum dvstype {
     DVS_HALF,
@@ -595,6 +599,8 @@ public:
     bool            fRememberFilePos;
     int             iRememberPosForLongerThan;
     bool            bRememberPosForAudioFiles;
+    bool            bRememberExternalPlaylistPos;
+    bool            bRememberTrackSelection;
     bool            bRememberPlaylistItems;
     bool            fRememberWindowPos;
     CRect           rcLastWindowPos;
@@ -648,7 +654,8 @@ public:
     } eLoopMode;
 
     bool            fRememberZoomLevel;
-    int             nAutoFitFactor;
+    int             nAutoFitFactorMin;
+    int             nAutoFitFactorMax;
     int             iZoomLevel;
     CStringW        strAudiosLanguageOrder;
     CStringW        strSubtitlesLanguageOrder;
@@ -952,7 +959,8 @@ public:
     CStringA strOpenTypeLangHint;
 
     CStringW lastQuickOpenPath;
-    CStringW lastSaveImagePath;
+    CStringW lastFileSaveCopyPath;
+    CStringW lastFileOpenDirPath;
 
     int iRedirectOpenToAppendThreshold;
     bool bFullscreenSeparateControls;
@@ -1005,6 +1013,8 @@ public:
     CAppSettings& operator = (const CAppSettings&) = delete;
 
     void            SaveSettings(bool write_full_history = false);
+    static std::multimap<CStringW, CStringW> LoadHistoryHashes(CStringW section, CStringW dateField);
+    static void PurgeExpiredHash(CStringW section, CStringW hash);
     void            LoadSettings();
     void            SaveExternalFilters() {
         if (bInitialized) {
@@ -1012,6 +1022,10 @@ public:
         }
     };
     void            UpdateSettings();
+
+    void SavePlayListPosition(CStringW playlistPath, UINT position);
+
+    UINT GetSavedPlayListPosition(CStringW playlistPath);
 
     void            SetAsUninitialized() {
         bInitialized = false;

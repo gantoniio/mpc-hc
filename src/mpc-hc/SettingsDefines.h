@@ -46,6 +46,8 @@
 #define IDS_RS_FILEPOS                      _T("RememberFilePos")
 #define IDS_RS_FILEPOSLONGER                _T("RememberPosForLongerThan")
 #define IDS_RS_FILEPOSAUDIO                 _T("RememberPosForAudioFiles")
+#define IDS_RS_FILEPOS_PLAYLIST             _T("RememberExternalPlaylistPos")
+#define IDS_RS_FILEPOS_TRACK_SELECTION      _T("RememberTrackSelection")
 #define IDS_RS_LASTFULLSCREEN               _T("LastFullScreen")
 #define IDS_RS_EVR_BUFFERS                  _T("EVRBuffers")
 #define IDS_RS_SHOWOSD                      _T("ShowOSD")
@@ -156,6 +158,8 @@
 #define IDS_RS_ALWAYSONTOP                  _T("AlwaysOnTop")
 #define IDS_RS_AUTOZOOM                     _T("AutoZoom")
 #define IDS_RS_AUTOFITFACTOR                _T("AutoFitFactor")
+#define IDS_RS_AUTOFITFACTOR_MIN            _T("AutoFitFactorMin")
+#define IDS_RS_AUTOFITFACTOR_MAX            _T("AutoFitFactorMax")
 #define IDS_RS_AFTER_PLAYBACK               _T("AfterPlayback")
 #define IDS_RS_SPSTYLE                      _T("SPDefaultStyle")
 #define IDS_RS_SPOVERRIDEPLACEMENT          _T("SPOverridePlacement")
@@ -380,4 +384,6 @@
 #define IDS_RS_ENABLE_CRASH_REPORTER        _T("EnableCrashReporter")
 
 #define IDS_LAST_QUICKOPEN_PATH             _T("LastQuickOpenPath")
-#define IDS_LAST_SAVEIMAGE_PATH             _T("LastSaveImagePath")
+#define IDS_LAST_FILESAVECOPY_PATH          _T("LastFileSaveCopyPath")
+#define IDS_LAST_FILEOPENDIR_PATH          _T("LastFileOpenDirPath")
+

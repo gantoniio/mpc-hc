@@ -37,6 +37,7 @@
 #include <mvrInterfaces.h>
 #include <chrono>
 #include "date/date.h"
+#include "PPageExternalFilters.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
@@ -67,6 +68,8 @@ CAppSettings::CAppSettings()
     , fRememberFilePos(false)
     , iRememberPosForLongerThan(5)
     , bRememberPosForAudioFiles(true)
+    , bRememberExternalPlaylistPos(true)
+    , bRememberTrackSelection(true)
     , bRememberPlaylistItems(true)
     , fRememberWindowPos(false)
     , fRememberWindowSize(false)
@@ -96,7 +99,8 @@ CAppSettings::CAppSettings()
     , fLoopForever(false)
     , eLoopMode(LoopMode::PLAYLIST)
     , fRememberZoomLevel(true)
-    , nAutoFitFactor(75)
+    , nAutoFitFactorMin(75)
+    , nAutoFitFactorMax(75)
     , iZoomLevel(1)
     , fEnableWorkerThreadForOpening(true)
     , fReportFailedPins(true)
@@ -255,7 +259,8 @@ CAppSettings::CAppSettings()
     , iReloadAfterLongPause(0)
     , bOpenRecPanelWhenOpeningDevice(true)
     , lastQuickOpenPath(L"")
-    , lastSaveImagePath(L"")
+    , lastFileSaveCopyPath(L"")
+    , lastFileOpenDirPath(L"")
     , iRedirectOpenToAppendThreshold(1000)
     , bFullscreenSeparateControls(false)
     , bAlwaysUseShortMenu(false)
@@ -575,7 +580,6 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_VIEW_DEBUGSHADERS,                 0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEBUGSHADERS },
     { ID_PRESIZE_SHADERS_TOGGLE,          'P', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_PRESIZE_SHADERS_TOGGLE },
     { ID_POSTSIZE_SHADERS_TOGGLE,         'P', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_POSTSIZE_SHADERS_TOGGLE },
-    { ID_VIEW_MPCTHEME,                     0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_MPCTHEME },
     { ID_SUBTITLES_DEFAULT_STYLE,           0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE },
     { ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL },
     { ID_VIEW_PRESETS_COMPACT,            '2', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_COMPACT },
@@ -886,7 +890,9 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ONTOP, iOnTop);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TRAYICON, fTrayIcon);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOZOOM, fRememberZoomLevel);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR, nAutoFitFactor);
+    pApp->WriteProfileStringW(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR, NULL); //remove old form factor
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR_MIN, nAutoFitFactorMin);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR_MAX, nAutoFitFactorMax);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AFTER_PLAYBACK, static_cast<int>(eAfterPlayback));
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS, bHideFullscreenControls));
@@ -1072,6 +1078,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, fRememberFilePos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSLONGER, iRememberPosForLongerThan);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSAUDIO, bRememberPosForAudioFiles);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS_PLAYLIST, bRememberExternalPlaylistPos);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS_TRACK_SELECTION, bRememberTrackSelection);
 
     pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, nullptr, nullptr);
     for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
@@ -1253,7 +1261,9 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_AUTOMATIC_CAPTIONS, bUseAutomaticCaptions);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, lastQuickOpenPath);
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_SAVEIMAGE_PATH, lastSaveImagePath);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_FILESAVECOPY_PATH, lastFileSaveCopyPath);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_FILEOPENDIR_PATH, lastFileOpenDirPath);
+
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, iRedirectOpenToAppendThreshold);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, bFullscreenSeparateControls);
@@ -1270,7 +1280,42 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
         }
     }
 
+    size_t maxsize = AfxGetAppSettings().fKeepHistory ? iRecentFilesNumber : 0;
+    CStringW section = L"PlaylistHistory";
+    auto timeToHash = LoadHistoryHashes(section, L"LastUpdated");
+
+    int entries = 0;
+    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter, ++entries) {
+        CStringW hash = iter->second;
+        if (entries >= maxsize) {
+            PurgeExpiredHash(section, hash);
+        }
+    }
+
     pApp->FlushProfile();
+}
+
+std::multimap<CStringW, CStringW> CAppSettings::LoadHistoryHashes(CStringW section, CStringW dateField) {
+    auto pApp = AfxGetMyApp();
+    auto hashes = pApp->GetSectionSubKeys(section);
+
+    std::multimap<CStringW, CStringW> timeToHash;
+    for (auto const& hash : hashes) {
+        CStringW lastOpened, subSection;
+        subSection.Format(L"%s\\%s", section, static_cast<LPCWSTR>(hash));
+        lastOpened = pApp->GetProfileStringW(subSection, dateField, L"0000-00-00T00:00:00.0Z");
+        if (!lastOpened.IsEmpty()) {
+            timeToHash.insert(std::pair<CStringW, CStringW>(lastOpened, hash));
+        }
+    }
+    return timeToHash;
+}
+
+void CAppSettings::PurgeExpiredHash(CStringW section, CStringW hash) {
+    auto pApp = AfxGetMyApp();
+    CStringW subSection;
+    subSection.Format(L"%s\\%s", section, static_cast<LPCWSTR>(hash));
+    pApp->WriteProfileString(subSection, nullptr, nullptr);
 }
 
 void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LPCTSTR baseKey /*= IDS_R_EXTERNAL_FILTERS*/)
@@ -1291,6 +1336,13 @@ void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
             f->type = FilterOverride::REGISTERED;
             f->dispname = CStringW(pApp->GetProfileString(key, _T("DisplayName")));
             f->name = pApp->GetProfileString(key, _T("Name"));
+            CString clsid_str = pApp->GetProfileString(key, _T("CLSID"));
+            if (clsid_str.IsEmpty() && f->dispname.GetLength() == 88 && f->dispname.Left(1) == L"@") {
+                clsid_str = f->dispname.Right(38);
+            }
+            if (clsid_str.GetLength() == 38) {
+                f->clsid = GUIDFromCString(clsid_str);
+            }
         } else if (j == 1) {
             f->type = FilterOverride::EXTERNAL;
             f->path = pApp->GetProfileString(key, _T("Path"));
@@ -1299,6 +1351,10 @@ void CAppSettings::LoadExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
         } else {
             pApp->WriteProfileString(key, nullptr, 0);
             break;
+        }
+
+        if (IgnoreExternalFilter(f->clsid)) {
+            continue;
         }
 
         f->backup.RemoveAll();
@@ -1365,13 +1421,12 @@ void CAppSettings::SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
 
         pApp->WriteProfileInt(key, _T("SourceType"), (int)f->type);
         pApp->WriteProfileInt(key, _T("Enabled"), (int)!f->fDisabled);
+        pApp->WriteProfileString(key, _T("Name"), f->name);
+        pApp->WriteProfileString(key, _T("CLSID"), CStringFromGUID(f->clsid));
         if (f->type == FilterOverride::REGISTERED) {
             pApp->WriteProfileString(key, _T("DisplayName"), CString(f->dispname));
-            pApp->WriteProfileString(key, _T("Name"), f->name);
         } else if (f->type == FilterOverride::EXTERNAL) {
             pApp->WriteProfileString(key, _T("Path"), f->path);
-            pApp->WriteProfileString(key, _T("Name"), f->name);
-            pApp->WriteProfileString(key, _T("CLSID"), CStringFromGUID(f->clsid));
         }
         POSITION pos2 = f->backup.GetHeadPosition();
         for (unsigned int i = 0; pos2; i++) {
@@ -1499,7 +1554,12 @@ void CAppSettings::LoadSettings()
     iOnTop = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ONTOP, 0);
     fTrayIcon = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TRAYICON, FALSE);
     fRememberZoomLevel = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOZOOM, TRUE);
-    nAutoFitFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR, 75);
+    int tAutoFitFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR, 0); //if found, old fit factor will be default for min/max
+    nAutoFitFactorMin = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR_MIN, tAutoFitFactor ? tAutoFitFactor : DEF_MIN_AUTOFIT_SCALE_FACTOR); //otherwise default min to DEF_MIN_AUTOFIT_SCALE_FACTOR
+    nAutoFitFactorMax = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR_MAX, tAutoFitFactor ? tAutoFitFactor : DEF_MAX_AUTOFIT_SCALE_FACTOR); //otherwise default max to DEF_MAX_AUTOFIT_SCALE_FACTOR
+    nAutoFitFactorMin = std::max(std::min(nAutoFitFactorMin, nAutoFitFactorMax), MIN_AUTOFIT_SCALE_FACTOR);
+    nAutoFitFactorMax = std::min(std::max(nAutoFitFactorMin, nAutoFitFactorMax), MAX_AUTOFIT_SCALE_FACTOR);
+
     eAfterPlayback = static_cast<AfterPlayback>(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AFTER_PLAYBACK, 0));
 
     bHideFullscreenControls = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS, TRUE);
@@ -1977,6 +2037,8 @@ void CAppSettings::LoadSettings()
     if (iRememberPosForLongerThan < 0) {
         iRememberPosForLongerThan = 5;
     }
+    bRememberExternalPlaylistPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS_PLAYLIST, TRUE);
+    bRememberTrackSelection = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS_TRACK_SELECTION, TRUE);
 
     // playback positions for last played DVDs
     fRememberDVDPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, FALSE);
@@ -2060,7 +2122,9 @@ void CAppSettings::LoadSettings()
     bUseAutomaticCaptions = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_AUTOMATIC_CAPTIONS, FALSE);
 
     lastQuickOpenPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, L"");
-    lastSaveImagePath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_SAVEIMAGE_PATH, L"");
+    lastFileSaveCopyPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_FILESAVECOPY_PATH, L"");
+    lastFileOpenDirPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_FILEOPENDIR_PATH, L"");
+
 
     iRedirectOpenToAppendThreshold = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, 1000);
     bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, FALSE);
@@ -3131,15 +3195,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
         hashes = pApp->GetSectionSubKeys(m_section);
     }
 
-    std::multimap<CStringW, CStringW> timeToHash;
-    for (auto const& hash : hashes) {
-        CStringW lastOpened, subSection;
-        subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(hash));
-        lastOpened = pApp->GetProfileStringW(subSection, L"LastOpened");
-        if (!lastOpened.IsEmpty()) {
-            timeToHash.insert(std::pair<CStringW, CStringW>(lastOpened, hash));
-        }
-    }
+    auto timeToHash = CAppSettings::LoadHistoryHashes(m_section, L"LastOpened");
 
     rfe_array.RemoveAll();
     int entries = 0;
@@ -3156,9 +3212,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
             }
         }
         if (purge_rfe) { //purge entry
-            CStringW subSection;
-            subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(hash));
-            pApp->WriteProfileString(subSection, nullptr, nullptr);
+            CAppSettings::PurgeExpiredHash(m_section, hash);
         }
     }
     rfe_array.FreeExtra();
@@ -3564,7 +3618,45 @@ CRenderersData* GetRenderersData() {
 }
 
 CRenderersSettings& GetRenderersSettings() {
-    return AfxGetAppSettings().m_RenderersSettings;
+    auto& s = AfxGetAppSettings();
+    if (s.m_RenderersSettings.subPicQueueSettings.nSize > 0) {
+        // queue does not work properly with libass
+        if (s.bRenderSSAUsingLibass || s.bRenderSRTUsingLibass) {
+            s.m_RenderersSettings.subPicQueueSettings.nSize = 0;
+        }
+    }
+    return s.m_RenderersSettings;
+}
+
+void CAppSettings::SavePlayListPosition(CStringW playlistPath, UINT position) {
+    auto pApp = AfxGetMyApp();
+    ASSERT(pApp);
+
+    auto hash = getRFEHash(playlistPath);
+
+    CStringW subSection, t;
+    subSection.Format(L"%s\\%s", L"PlaylistHistory", static_cast<LPCWSTR>(hash));
+    pApp->WriteProfileInt(subSection, L"Position", position);
+
+    auto now = std::chrono::system_clock::now();
+    auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
+    CStringW lastUpdated = CStringW(nowISO.c_str());
+    pApp->WriteProfileStringW(subSection, L"LastUpdated", lastUpdated);
+}
+
+UINT CAppSettings::GetSavedPlayListPosition(CStringW playlistPath) {
+    auto pApp = AfxGetMyApp();
+    ASSERT(pApp);
+
+    auto hash = getRFEHash(playlistPath);
+
+    CStringW subSection, t;
+    subSection.Format(L"%s\\%s", L"PlaylistHistory", static_cast<LPCWSTR>(hash));
+    UINT position = pApp->GetProfileIntW(subSection, L"Position", -1);
+    if (position != (UINT)-1) {
+        return position;
+    }
+    return 0;
 }
 
 // SubRendererSettings.h

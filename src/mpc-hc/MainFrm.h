@@ -357,7 +357,7 @@ private:
     CSize GetZoomWindowSize(double dScale);
     CRect GetZoomWindowRect(const CSize& size);
     void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);
-    double GetZoomAutoFitScale(bool bLargerOnly = false);
+    double GetZoomAutoFitScale();
 
     void SetAlwaysOnTop(int iOnTop);
     bool WindowExpectedOnTop();
@@ -480,6 +480,7 @@ private:
 
     bool m_bSettingUpMenus;
     bool m_bOpenMediaActive;
+    int m_OpenMediaFailedCount;
 
     REFTIME GetAvgTimePerFrame() const;
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
@@ -624,7 +625,7 @@ public:
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
     void PlayFavoriteFile(const CString& fav);
     void PlayFavoriteDVD(CString fav);
-    void ParseFavoriteFile(const CString& fav, CAtlList<CString>& args, REFERENCE_TIME* prtStart = nullptr);
+    FileFavorite ParseFavoriteFile(const CString& fav, CAtlList<CString>& args, REFERENCE_TIME* prtStart = nullptr);
     bool ResetDevice();
     bool DisplayChange();
     void CloseMediaBeforeOpen();
@@ -890,6 +891,8 @@ public:
 
     // menu item handlers
 
+    INT_PTR DoFileDialogWithLastFolder(CFileDialog& fd, CStringW& lastPath);
+
     afx_msg void OnFileOpenQuick();
     afx_msg void OnFileOpenmedia();
     afx_msg void OnUpdateFileOpen(CCmdUI* pCmdUI);
@@ -946,8 +949,6 @@ public:
     afx_msg void OnUpdateViewCapture(CCmdUI* pCmdUI);
     afx_msg void OnViewDebugShaders();
     afx_msg void OnUpdateViewDebugShaders(CCmdUI* pCmdUI);
-    afx_msg void OnViewMPCTheme();
-    afx_msg void OnUpdateViewMPCTheme(CCmdUI* pCmdUI);
     afx_msg void OnViewMinimal();
     afx_msg void OnUpdateViewMinimal(CCmdUI* pCmdUI);
     afx_msg void OnViewCompact();
@@ -1278,7 +1279,16 @@ protected:
 
     CString m_sydlLastProcessURL;
 
-    bool IsImageFile(CString fn);
+    bool IsImageFile(CStringW fn);
+    bool IsPlayableFormatExt(CStringW ext);
+    bool IsAudioFileExt(CStringW ext);
+    bool IsImageFileExt(CStringW ext);
+    bool IsPlaylistFile(CStringW fn);
+    bool IsPlaylistFileExt(CStringW ext);
+    bool IsAudioOrVideoFileExt(CStringW ext);
+    bool CanSkipToExt(CStringW ext, CStringW curExt);
+    bool IsAudioFilename(CString filename);
+
 
     // Handles MF_DEFAULT and escapes '&'
     static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);

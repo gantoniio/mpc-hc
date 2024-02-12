@@ -412,6 +412,7 @@ namespace
         { "Mozambican Portuguese", "pom", "pm" }, // Custom codes compatible with OpenSubtitles database
         { "Prakrit languages", "pra", "" },
         { "Provençal, Old (to 1500)", "pro", "" },
+        { "Dari", "prs", "pr" },
         { "Pushto", "pus", "ps" },
         { "Quechua", "que", "qu",                MAKELCID(MAKELANGID(LANG_QUECHUA, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Raeto-Romance", "roh", "rm" },
@@ -432,7 +433,7 @@ namespace
         { "Sandawe", "sad", "" },
         { "Sango", "sag", "sg" },
         { "Sanskrit", "san", "sa",               MAKELCID(MAKELANGID(LANG_SANSKRIT, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Santali", "sat", "" },
+        { "Santali", "sat", "sx" },
         { "Sardinian", "srd", "sc" },
         { "Sasak", "sas", "" },
         { "Scots", "sco", "" },
@@ -470,6 +471,8 @@ namespace
         { "Southern Sami", "sma", "" },
         { "Spanish", "spa", "es",                MAKELCID(MAKELANGID(LANG_SPANISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Castilian", "spa", "es",              MAKELCID(MAKELANGID(LANG_SPANISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Selepet", "spl", "ea", },
+        { "Sanapana", "spn", "sp" },
         { "Sukuma", "suk", "" },
         { "Sumerian", "sux", "" },
         { "Sundanese", "sun", "su" },
@@ -499,6 +502,7 @@ namespace
         { "Tok Pisin", "tpi", "" },
         { "Tokelau", "tkl", "" },
         { "Tonga (Nyasa)", "tog", "" },
+        { "Toki Pona", "tok", "tp" },
         { "Tonga (Tonga Islands)", "ton", "to" },
         { "Tsimshian", "tsi", "" },
         { "Tsonga", "tso", "ts" },
@@ -623,7 +627,22 @@ CString ISOLang::ISO639XToLanguage(LPCSTR code)
                 lang.Empty();
             }
             break;
+        case 5:
+            lang = code;
+            if (_wcsicmp(lang, L"pt-BR") == 0) {
+                lang = L"Portuguese (Brazil)";
+            } else if (_wcsicmp(lang, L"pt-PT") == 0) {
+                lang = L"Portuguese";
+            } else if (_wcsicmp(lang, L"zh-CN") == 0) {
+                lang = L"Chinese (Simplified)";
+            } else if (_wcsicmp(lang, L"zh-TW") == 0) {
+                lang = L"Chinese (Traditional)";
+            } else {
+                ASSERT(FALSE);
+            }
+            break;
         default:
+            lang = code;
             ASSERT(FALSE);
     }
 
