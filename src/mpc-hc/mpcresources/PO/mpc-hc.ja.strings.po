@@ -1843,7 +1843,7 @@ msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid ""
 "Please close all instances of MPC-HC so that the default settings can be "
 "restored."
-msgstr "既定の設定を復元するために MPC-HC のすべてのインスタンスを閉じてください。"
+msgstr "既定の設定に戻すために MPC-HC のすべてのインスタンスを閉じてください。"
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
