@@ -510,6 +510,7 @@ class CAppSettings
         LPCTSTR m_section;
         REFERENCE_TIME persistedFilePosition = 0;
         CString current_rfe_hash;
+        std::chrono::system_clock::time_point lastEntryCreated;
 
         int GetSize() {
             return (int)rfe_array.GetCount();
