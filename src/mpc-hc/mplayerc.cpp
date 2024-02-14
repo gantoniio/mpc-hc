@@ -1094,6 +1094,40 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
     return res;
 }
 
+uint64_t CMPlayerCApp::GetProfileInt64(LPCTSTR lpszSection, LPCTSTR lpszEntry, uint64_t nDefault) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    uint64_t res = nDefault;
+    if (m_pszRegistryKey) {
+        DWORD dwSize = sizeof(uint64_t);
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            RegGetValue(hAppKey, lpszSection, lpszEntry, RRF_RT_QWORD, NULL, &res, &dwSize);
+        }
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return res;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return res;
+        }
+
+        InitProfile();
+        auto it1 = m_ProfileMap.find(sectionStr);
+        if (it1 != m_ProfileMap.end()) {
+            auto it2 = it1->second.find(keyStr);
+            if (it2 != it1->second.end()) {
+                res = _ttoi64(it2->second);
+            }
+        }
+    }
+    return res;
+}
+
+
 std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
 
@@ -1268,6 +1302,41 @@ BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int n
         }
         CString valueStr;
         valueStr.Format(_T("%d"), nValue);
+
+        InitProfile();
+        CString& old = m_ProfileMap[sectionStr][keyStr];
+        if (old != valueStr) {
+            old = valueStr;
+            m_bQueuedProfileFlush = true;
+        }
+        return TRUE;
+    }
+}
+BOOL CMPlayerCApp::WriteProfileInt64(LPCTSTR lpszSection, LPCTSTR lpszEntry, uint64_t nValue) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    if (m_pszRegistryKey) {
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_WRITE, &hSectionKey) == ERROR_SUCCESS) {
+                DWORD dwSize = sizeof(uint64_t);
+                return ERROR_SUCCESS == RegSetValueExW(hSectionKey, lpszEntry, 0, REG_QWORD, (BYTE*)&nValue, dwSize);
+            }
+        }
+        return false;
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return FALSE;
+        }
+        CString valueStr;
+        valueStr.Format(_T("%I64u"), nValue);
 
         InitProfile();
         CString& old = m_ProfileMap[sectionStr][keyStr];

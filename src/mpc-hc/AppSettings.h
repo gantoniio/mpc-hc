@@ -163,6 +163,8 @@ enum MCE_RAW_INPUT {
 #define DEF_MIN_AUTOFIT_SCALE_FACTOR 40
 #define DEF_MAX_AUTOFIT_SCALE_FACTOR 80
 
+#define MEDIAHISTORY_LASTADDEDBYPROCESSIDWITHSEQUENCE L"LastAddedByProcessIDWithSequence"
+
 enum dvstype {
     DVS_HALF,
     DVS_NORMAL,
@@ -503,6 +505,7 @@ class CAppSettings
         : m_section(lpszSection)
         , m_maxSize(nSize)
         , current_rfe_hash(L"")
+        , lastProcessIDCounter(0)
         {}
 
         CAtlArray<RecentFileEntry> rfe_array;
@@ -510,7 +513,8 @@ class CAppSettings
         LPCTSTR m_section;
         REFERENCE_TIME persistedFilePosition = 0;
         CString current_rfe_hash;
-        std::chrono::system_clock::time_point lastEntryCreated;
+        UINT lastProcessIDCounter;
+        uint64_t lastReadProcessIDWithSequence;
 
         int GetSize() {
             return (int)rfe_array.GetCount();
@@ -552,6 +556,8 @@ class CAppSettings
         bool LoadMediaHistoryEntry(CStringW hash, RecentFileEntry& r);
         void MigrateLegacyHistory();
         void SetSize(size_t nSize);
+        uint64_t GetProcessIDWithSequence(bool increment = false);
+        bool LastProcessIDMatchesCurrent(uint64_t id);
     };
 
 public:

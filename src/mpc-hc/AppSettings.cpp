@@ -3188,16 +3188,12 @@ bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntry(CStringW h
 void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
     auto pApp = AfxGetMyApp();
 
-    std::wstring lastEntryCreatedCS;
-    lastEntryCreatedCS = pApp->GetProfileStringW(m_section, L"LastEntryCreated", L"0000-00-00T00:00:00.0Z");
-    std::wistringstream ss{ lastEntryCreatedCS };
-    std::chrono::system_clock::time_point lastEntryCreatedGlobally;
-    ss >> date::parse(L"%FT%TZ", lastEntryCreatedGlobally);
-    if (lastEntryCreatedGlobally <= lastEntryCreated) {
+    uint64_t tempLastProcessIDWithSequence = pApp->GetProfileInt64(m_section, MEDIAHISTORY_LASTADDEDBYPROCESSIDWITHSEQUENCE, -1);
+    if (LastProcessIDMatchesCurrent(tempLastProcessIDWithSequence) || tempLastProcessIDWithSequence == lastReadProcessIDWithSequence) {
         return;
     }
+    lastReadProcessIDWithSequence = tempLastProcessIDWithSequence;
 
-    lastEntryCreated = lastEntryCreatedGlobally;
     std::list<CStringW> hashes = pApp->GetSectionSubKeys(m_section);
 
     size_t maxsize = AfxGetAppSettings().fKeepHistory ? m_maxSize : 0;
@@ -3265,9 +3261,6 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistorySubtitleIndex(R
 
 void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened /* = false */) {
     auto pApp = AfxGetMyApp();
-    auto now = std::chrono::system_clock::now();
-    auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
-    auto nowISOCS = CStringW(nowISO.c_str());
 
     if (r.hash.IsEmpty()) {
         r.hash = getRFEHash(r.fns.GetHead());
@@ -3275,7 +3268,8 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
 
     CStringW subSection, t;
     subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(r.hash));
-    bool exists = !pApp->GetProfileStringW(subSection, L"Filename", L"").IsEmpty();
+    bool needsNewProcID = pApp->GetProfileStringW(subSection, L"Filename", L"").IsEmpty()
+            || -1 == pApp->GetProfileInt64(m_section, MEDIAHISTORY_LASTADDEDBYPROCESSIDWITHSEQUENCE, -1);
 
     pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
 
@@ -3346,12 +3340,13 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
     }
 
     if (updateLastOpened || r.lastOpened.IsEmpty()) {
-        r.lastOpened = nowISOCS;
+        auto now = std::chrono::system_clock::now();
+        auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
+        r.lastOpened = CStringW(nowISO.c_str());
     }
     pApp->WriteProfileStringW(subSection, L"LastOpened", r.lastOpened);
-    if (!exists) {
-        pApp->WriteProfileStringW(m_section, L"LastEntryCreated", nowISOCS);
-        lastEntryCreated = now;
+    if (needsNewProcID) {
+        pApp->WriteProfileInt64(m_section, MEDIAHISTORY_LASTADDEDBYPROCESSIDWITHSEQUENCE, GetProcessIDWithSequence(true));
     }
 }
 
@@ -3381,6 +3376,17 @@ void CAppSettings::CRecentFileListWithMoreInfo::SetSize(size_t nSize) {
         rfe_array.SetCount(m_maxSize);
     }
     rfe_array.FreeExtra();
+}
+
+uint64_t CAppSettings::CRecentFileListWithMoreInfo::GetProcessIDWithSequence(bool increment) {
+    if (increment) {
+        lastProcessIDCounter++;
+    }
+    return (uint64_t)lastProcessIDCounter + ((uint64_t)GetCurrentProcessId() << 32);
+}
+
+bool CAppSettings::CRecentFileListWithMoreInfo::LastProcessIDMatchesCurrent(uint64_t id) {
+    return id >> 32 == GetCurrentProcessId();
 }
 
 bool CAppSettings::IsVSFilterInstalled()

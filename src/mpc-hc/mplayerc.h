@@ -167,12 +167,14 @@ public:
     void FlushProfile(bool bForce = true);
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes) override;
     virtual UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault) override;
+    uint64_t GetProfileInt64(LPCTSTR lpszSection, LPCTSTR lpszEntry, uint64_t nDefault);
 
     std::list<CStringW> GetSectionSubKeys(LPCWSTR lpszSection);
     virtual CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = nullptr) override;
     virtual BOOL WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes) override;
     virtual LONG RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry);
     virtual BOOL WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue) override;
+    virtual BOOL WriteProfileInt64(LPCTSTR lpszSection, LPCTSTR lpszEntry, uint64_t nValue);
     virtual BOOL WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue) override;
     bool HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry);
 
