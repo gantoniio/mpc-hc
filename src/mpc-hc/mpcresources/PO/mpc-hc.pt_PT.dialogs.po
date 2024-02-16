@@ -1444,7 +1444,7 @@ msgstr "Abordagem ao mudar o canal:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Reconstruir gráfico de filtros"
+msgstr "Recompilar gráfico de filtros"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
