@@ -1964,4 +1964,4 @@ msgstr "Usar funcionalidades melhoradas da barra de tarefas"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr "Controlar via Windows UI (SMTC)"
+msgstr "Controlar via interface Windows (SMTC)"
