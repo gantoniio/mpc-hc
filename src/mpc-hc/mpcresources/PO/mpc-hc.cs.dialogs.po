@@ -1868,7 +1868,7 @@ msgstr "Barva motivu:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
 msgid "Control buttons size:"
-msgstr "Velikost ovládacích tlačítek:"
+msgstr "Velikost tlačítek:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
 msgid "Seekbar"
