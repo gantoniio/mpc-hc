@@ -1964,4 +1964,4 @@ msgstr "Použít pokročilé funkce hlavního panelu"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr "Ovládání skrze rozhraní Windows (SMTC)"
+msgstr "Ovládání skrze UI Windows (SMTC)"
