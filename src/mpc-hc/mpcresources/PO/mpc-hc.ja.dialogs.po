@@ -457,7 +457,7 @@ msgstr "自動調整の倍率:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
-msgstr "最小 (%)"
+msgstr "最小 %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "max %"
