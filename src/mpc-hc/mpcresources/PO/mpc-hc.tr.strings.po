@@ -1032,7 +1032,7 @@ msgstr "Sıkıştırılmış dosyalar desteklenmez"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "Şifrelenmiş dosyalar desteklenmemektedir"
+msgstr "Şifrelenmiş dosyalar desteklenmez"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
