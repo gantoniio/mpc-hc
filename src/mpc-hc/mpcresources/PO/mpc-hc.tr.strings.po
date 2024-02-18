@@ -1024,7 +1024,7 @@ msgstr "Dışarı aktarılacak bir tuş özelleştirmesi bulunmuyor."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Arşivde bir medya dosyası bulunmuyor"
+msgstr "Arşivde medya dosyası bulunamadı"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
