@@ -1028,7 +1028,7 @@ msgstr "Arşivde medya dosyası bulunamadı"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "Sıkıştırılmış dosyalar desteklenmemektedir"
+msgstr "Sıkıştırılmış dosyalar desteklenmez"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
