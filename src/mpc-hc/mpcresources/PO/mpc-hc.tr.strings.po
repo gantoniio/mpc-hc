@@ -1952,7 +1952,7 @@ msgstr "Ses gecikmesi -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
-msgstr "İleri atla (kısa)"
+msgstr "İleriye atla (kısa)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
