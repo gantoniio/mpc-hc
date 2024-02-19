@@ -1411,7 +1411,7 @@ msgstr "Uygulama komutu"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
-msgstr "Medya dosyaları (tüm biçimler)"
+msgstr "Medya dosyaları (tüm türler)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
