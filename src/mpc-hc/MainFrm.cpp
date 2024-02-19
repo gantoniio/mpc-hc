@@ -9404,7 +9404,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         pRTS->m_styles.GetNextAssoc(pos, styleName, style);
 
                         CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
-                        if (!style->fromUnicode) {
+                        if (style->hasAnsiStyleName) {
                             styleName = ToUnicode(styleName, pRTS->GetCharSet(style->charSet));
                         }
                         page->InitStyle(styleName, *style);
