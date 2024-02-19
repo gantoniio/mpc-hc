@@ -1419,7 +1419,7 @@ msgstr "Tüm dosyalar (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Ses dosyaları (tüm biçimler)"
+msgstr "Ses dosyaları (tüm türler)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
