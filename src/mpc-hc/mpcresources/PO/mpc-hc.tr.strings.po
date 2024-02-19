@@ -2605,7 +2605,7 @@ msgstr "Hata"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Altyazı: kapalı"
+msgstr "Altyazı: Kapalı"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
