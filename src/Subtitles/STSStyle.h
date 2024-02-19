@@ -55,7 +55,7 @@ public:
     double     fontShiftX, fontShiftY;
 
     RelativeTo relativeTo;
-    bool fromUnicode;
+    bool hasAnsiStyleName;
 
 #if USE_LIBASS
     // libass stuff
