@@ -3659,7 +3659,7 @@ msgid ""
 "\n"
 "Do you want to visit MPC-HC's website to download it?"
 msgstr ""
-"MPC-HC v%s yayınlandı. Sizin kullandığınız ise v%s\n"
+"MPC-HC %s yayınlandı. Sizin kullandığınız ise %s\n"
 "\n"
 "İndirmek için MPC-HC'nin sitesine gitmek ister misiniz?"
 
