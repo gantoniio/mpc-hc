@@ -2796,7 +2796,7 @@ msgstr "Dosya bulunamadı"
 
 msgctxt "IDS_MAINFRM_91"
 msgid "Unknown file type"
-msgstr "Bilinmeyen dosya biçimi"
+msgstr "Bilinmeyen dosya türü"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
