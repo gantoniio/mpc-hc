@@ -1930,7 +1930,7 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
                 styleName.TrimLeft(_T('*'));
 
-                style->fromUnicode = file->IsUnicode();
+                style->hasAnsiStyleName = !file->IsUnicode();
                 ret.AddStyle(styleName, style);
             } catch (...) {
                 delete style;
@@ -3695,7 +3695,7 @@ void STSStyle::SetDefault()
     fGaussianBlur = 0;
     fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
     relativeTo = STSStyle::AUTO;
-    fromUnicode = false;
+    hasAnsiStyleName = false;
 }
 
 bool STSStyle::operator == (const STSStyle& s) const
