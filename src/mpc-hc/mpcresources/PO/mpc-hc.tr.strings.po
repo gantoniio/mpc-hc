@@ -3767,7 +3767,7 @@ msgstr "Kanala bağlanılamadı."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr "Demultiplexer oluşturulamadı."
+msgstr "Çoklama çözücüsü oluşturulamadı."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
