@@ -4011,7 +4011,7 @@ msgstr "Altyazı indir"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr "Çevrimiçi altyazı araması yapılıyor, lütfen bekleyiniz..."
+msgstr "Çevrimiçi altyazı aranıyor, lütfen bekleyiniz..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
