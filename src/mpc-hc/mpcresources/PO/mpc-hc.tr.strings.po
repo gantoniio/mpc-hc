@@ -1517,7 +1517,7 @@ msgstr "İçeren k&lasörü ekle"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
-msgstr "[H/W]"
+msgstr "[Donanım]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
