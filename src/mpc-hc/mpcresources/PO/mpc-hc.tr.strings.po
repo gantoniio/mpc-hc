@@ -4015,7 +4015,7 @@ msgstr "Çevrimiçi altyazı aranıyor, lütfen bekleyiniz..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr "Çevrimiçi altyazı araması iptal ediliyor..."
+msgstr "Çevrimiçi altyazı arama iptal ediliyor..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
