@@ -1199,7 +1199,7 @@ msgstr "Sesi aç"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
-msgstr "Ses Yok"
+msgstr "Ses yok"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid ""
