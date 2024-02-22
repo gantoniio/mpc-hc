@@ -609,6 +609,7 @@ public:
     bool            fSavePnSZoom;
     double          dZoomX;
     double          dZoomY;
+    bool            bAutoAddContainingFolder;
 
     // Formats
     CMediaFormats   m_Formats;

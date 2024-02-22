@@ -77,6 +77,7 @@ CAppSettings::CAppSettings()
     , fSavePnSZoom(false)
     , dZoomX(1.0)
     , dZoomY(1.0)
+    , bAutoAddContainingFolder(false)
     , fAssociatedWithIcons(true)
     , hAccel(nullptr)
     , fWinLirc(false)
@@ -894,6 +895,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR_MIN, nAutoFitFactorMin);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOFITFACTOR_MAX, nAutoFitFactorMax);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AFTER_PLAYBACK, static_cast<int>(eAfterPlayback));
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOADDFOLDER, bAutoAddContainingFolder);
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS, bHideFullscreenControls));
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_FULLSCREEN_CONTROLS_POLICY,
@@ -1641,6 +1643,7 @@ void CAppSettings::LoadSettings()
     fSnapToDesktopEdges = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, FALSE);
     sizeAspectRatio.cx = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_X, 0);
     sizeAspectRatio.cy = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_Y, 0);
+    bAutoAddContainingFolder = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOADDFOLDER, FALSE);
 
     fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, TRUE);
     fileAssoc.SetNoRecentDocs(!fKeepHistory);

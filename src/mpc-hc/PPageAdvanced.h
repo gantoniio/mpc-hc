@@ -230,6 +230,7 @@ private:
         USE_FREETYPE,
         USE_MEDIAINFO_LOAD_FILE_DURATION,
         CAPTURE_DEINTERLACE,
+        AUTO_ADD_CONTAINING_FOLDER,
     };
 
     enum {

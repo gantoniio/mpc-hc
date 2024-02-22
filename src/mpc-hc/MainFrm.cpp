@@ -17929,6 +17929,35 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen /* = fa
     if (p) {
         OpenMedia(p);
     }
+
+    // auto add containing folder of file to playlist
+    // when it's not a YT link
+    // when it's the only file opened
+    auto& s = AfxGetAppSettings();
+    if (s.bAutoAddContainingFolder && !pli.m_bYoutubeDL && m_wndPlaylistBar.GetCount() == 1) {
+        // last added playlist
+        static std::vector<CString> cachedPl;
+
+        auto unchanged = std::find(cachedPl.begin(), cachedPl.end(), pli.m_fns.GetHead());
+        if (unchanged != cachedPl.end() && m_wndPlaylistBar.GetCount() != 1) {
+            // skip re-adding folder if file is already in the same playlist
+            // unless it's the only file left
+            return;
+        }
+
+        if (m_wndPlaylistBar.AddContainingFolder()) {
+            m_wndPlaylistBar.m_pl.SortByName();
+            m_wndPlaylistBar.Refresh();
+            m_wndPlaylistBar.SavePlaylist();
+
+            // cache current playlist if changed
+            cachedPl.clear();
+            POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
+            while (pos) {
+                cachedPl.emplace_back(m_wndPlaylistBar.m_pl.GetNext(pos).m_fns.GetHead());
+            }
+        }
+    }
 }
 
 void CMainFrame::AddCurDevToPlaylist()

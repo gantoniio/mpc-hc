@@ -113,6 +113,7 @@
 #define IDS_RS_USE_FREETYPE                 _T("UseFreetype")
 #define IDS_RS_USE_MEDIAINFO_LOAD_FILE_DURATION _T("UseMediainfoLoadFileDuration")
 #define IDS_RS_CAPTURE_DEINTERLACE          _T("CaptureDeinterlace")
+#define IDS_RS_AUTOADDFOLDER                _T("AutoAddContainingFolder")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")

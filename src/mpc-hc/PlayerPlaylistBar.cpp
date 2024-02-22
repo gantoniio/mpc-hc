@@ -386,6 +386,22 @@ void CPlayerPlaylistBar::ExternalPlayListLoaded(CStringW fn) {
     }
 }
 
+bool CPlayerPlaylistBar::AddContainingFolder() {
+    if (GetCount() == 0) {
+        return false;
+    }
+
+    CPlaylistItem* currentItem = GetCur();
+    if (currentItem) {
+        const CString dirName = PathUtils::DirName(currentItem->m_fns.GetHead());
+        if (PathUtils::IsDir(dirName)) {
+            return AddItemsInFolder(dirName, false);
+        }
+    }
+
+    return false;
+}
+
 bool CPlayerPlaylistBar::IsExternalPlayListActive(CStringW& playlistPath) {
     if (!m_ExternalPlayListPath.IsEmpty() && m_pl.GetIDs() == m_ExternalPlayListFNCopy) {
         playlistPath = m_ExternalPlayListPath;
@@ -2313,13 +2329,9 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             break;
         case M_ADDFOLDER: {
             // add all media files in current playlist item folder that are not yet in the playlist
-            const CString dirName = PathUtils::DirName(m_pl.GetAt(pos).m_fns.GetHead());
-            if (PathUtils::IsDir(dirName)) {
-                m_insertingPos = pos;
-                if (AddItemsInFolder(dirName, true)) {
-                    Refresh();
-                    SavePlaylist();
-                }
+            if (AddContainingFolder()) {
+                Refresh();
+                SavePlaylist();
             }
             break;
         }

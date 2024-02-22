@@ -183,6 +183,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(USE_FREETYPE, IDS_RS_USE_FREETYPE, false, s.bUseFreeType, StrRes(IDS_PPAGEADVANCED_USE_FREETYPE));
     addBoolItem(USE_MEDIAINFO_LOAD_FILE_DURATION, IDS_RS_USE_MEDIAINFO_LOAD_FILE_DURATION, false, s.bUseMediainfoLoadFileDuration, StrRes(IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION));
     addBoolItem(CAPTURE_DEINTERLACE, IDS_RS_CAPTURE_DEINTERLACE, false, s.bCaptureDeinterlace, _T("Insert deinterlace filter (blend) in capture mode"));
+    addBoolItem(AUTO_ADD_CONTAINING_FOLDER, IDS_RS_AUTOADDFOLDER, false, s.bAutoAddContainingFolder, _T("Auto add containing folder to playlist on file open"));
 }
 
 BOOL CPPageAdvanced::OnApply()
