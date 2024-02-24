@@ -4705,7 +4705,7 @@ msgid ""
 msgstr ""
 "Youtube-DL.exe dosyasının tam yolu.\n"
 "MPC-HC ile aynı klasörde bulunması durumunda sadece dosya adı yeterlidir.\n"
-"Varsayılan dosya adını kullanmak için boş bırakın: youtube-dl.exe"
+"Varsayılan dosya adını kullanmak için boş bırakın: yt-dlp.exe/youtube-dl.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
 msgid ""
