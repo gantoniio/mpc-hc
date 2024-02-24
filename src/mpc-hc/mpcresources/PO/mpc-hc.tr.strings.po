@@ -4390,7 +4390,7 @@ msgstr "Youtube-dl çalıştırılıyor..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr "Yukarıya hizala"
+msgstr "Yukarıya daya"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
