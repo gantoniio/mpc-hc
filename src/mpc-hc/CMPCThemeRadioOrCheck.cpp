@@ -129,17 +129,17 @@ void CMPCThemeRadioOrCheck::OnPaint()
 
                 if ((buttonStyle & BS_CENTER) == BS_CENTER) {
                     uFormat |= DT_CENTER;
-                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);  //reviewed and does not need DT_NOPREFIX to match common controls
+                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);  // DT_NOPREFIX not needed
                     rectItem.OffsetRect((centerRect.Width() - rectItem.Width()) / 2,
                                         (centerRect.Height() - rectItem.Height()) / 2);
                 } else if ((buttonStyle & BS_RIGHT) == BS_RIGHT) {
                     uFormat |= DT_RIGHT;
-                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);  //reviewed and does not need DT_NOPREFIX to match common controls
+                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);  // DT_NOPREFIX not needed
                     rectItem.OffsetRect(centerRect.Width() - rectItem.Width(),
                                         (centerRect.Height() - rectItem.Height()) / 2);
                 } else { // if ((buttonStyle & BS_LEFT) == BS_LEFT) {
                     uFormat |= DT_LEFT;
-                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);  //reviewed and does not need DT_NOPREFIX to match common controls
+                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);  // DT_NOPREFIX not needed
                     rectItem.OffsetRect(0, (centerRect.Height() - rectItem.Height()) / 2);
                 }
 
@@ -161,10 +161,10 @@ void CMPCThemeRadioOrCheck::OnPaint()
 
                 if (isDisabled) {
                     dc.SetTextColor(CMPCTheme::ButtonDisabledFGColor);
-                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat); //reviewed and does not need DT_NOPREFIX to match common controls
+                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat); // DT_NOPREFIX not needed
                 } else {
                     dc.SetTextColor(CMPCTheme::TextFGColor);
-                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat); //reviewed and does not need DT_NOPREFIX to match common controls
+                    dc.DrawTextW(sTitle, -1, &rectItem, uFormat); // DT_NOPREFIX not needed
                 }
                 dc.SelectObject(pOldFont);
 
