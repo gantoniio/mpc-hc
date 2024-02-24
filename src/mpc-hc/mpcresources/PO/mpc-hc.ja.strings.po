@@ -4143,7 +4143,7 @@ msgstr "字幕をアップロード"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr "字幕ファイル \"%s\" をアップロードしてもよろしいですか？"
+msgstr "字幕ファイル \"%s\" をアップロードしますか？"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
