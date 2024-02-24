@@ -1211,7 +1211,7 @@ msgstr "一覧をクリア(&C)"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "最近使ったファイルの一覧を削除してもよろしいですか？"
+msgstr "最近使ったファイルの一覧を削除しますか？"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
