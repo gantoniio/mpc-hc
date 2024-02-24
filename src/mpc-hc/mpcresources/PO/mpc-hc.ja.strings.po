@@ -1836,7 +1836,7 @@ msgid ""
 "Are you sure you want to restore MPC-HC to its default settings?\n"
 "Be warned that ALL your current settings will be lost!"
 msgstr ""
-"MPC-HC を既定の設定に戻してもよろしいですか？\n"
+"MPC-HC を既定の設定に戻しますか？\n"
 "現在の設定がすべて失われることに注意してください！"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
