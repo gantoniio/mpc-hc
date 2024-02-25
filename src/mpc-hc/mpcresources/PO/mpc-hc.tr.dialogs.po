@@ -1667,7 +1667,7 @@ msgstr "Boyutlandırma sonrasına ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Tonlayıcı önayarları"
+msgstr "Tonlayıcı ön ayarları"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
