@@ -577,7 +577,11 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 afx_msg LRESULT CSubtitleDlDlg::OnSearching(WPARAM /*wParam*/, LPARAM lParam)
 {
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
-    CString title = ResStr(IDS_SUBDL_DLG_TITLE) + _T(" - ") + UTF8To16(_fileInfo.fileName.c_str());
+    CStringW search = UTF8To16(_fileInfo.fileName.c_str());
+    if (search.IsEmpty()) {
+        search = _fileInfo.manualSearchString;
+    }
+    CStringW title = ResStr(IDS_SUBDL_DLG_TITLE) + _T(" - ") + search;
     SetWindowText(title);
     return S_OK;
 }
