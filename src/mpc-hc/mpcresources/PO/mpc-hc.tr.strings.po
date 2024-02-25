@@ -2194,7 +2194,7 @@ msgstr "Hatalı gecikme"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Lütfen 1 ve 365 arasında bir sayı giriniz."
+msgstr "Lütfen 1 ile 365 arasında bir sayı giriniz."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
