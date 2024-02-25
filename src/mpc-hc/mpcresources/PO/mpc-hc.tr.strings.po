@@ -4548,7 +4548,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr "/shaderpreset \"Pr\"\tÖnayarlı tonlayıcı kullan"
+msgstr "/shaderpreset \"Pr\"\tÖn ayarlanmış tonlayıcı kullan"
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
