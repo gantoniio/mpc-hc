@@ -535,7 +535,7 @@ msgstr "Seçenekler"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "Tonlayıcı önayarları..."
+msgstr "Tonlayıcı ön ayarları..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
