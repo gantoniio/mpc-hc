@@ -223,6 +223,9 @@ double DoGetTextScaleFactor() {
 }
 
 double DpiHelper::GetTextScaleFactor() {
+    if (!IsWindows10OrGreater()) {
+        return 1.0;
+    }
     __try {
         return DoGetTextScaleFactor();
     } __except (EXCEPTION_EXECUTE_HANDLER) {
