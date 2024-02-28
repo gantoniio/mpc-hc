@@ -4600,7 +4600,7 @@ msgstr ""
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr ""
-"Görsel aksaklıkları önlemek için tam ekran video göstermeden önce gecikme "
+"Görsel aksaklıkları önlemek için tam ekran video gösteriminden önce gecikme "
 "ekler."
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
