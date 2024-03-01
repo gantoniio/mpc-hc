@@ -2912,11 +2912,11 @@ msgstr "Ses yükseltmeyi azalt"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Ses yükseltmesi en az"
+msgstr "Ses yükseltme: Asgari"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Ses yükseltmesi en fazla"
+msgstr "Ses yükseltme: Azami"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
