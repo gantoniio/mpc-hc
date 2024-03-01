@@ -2088,7 +2088,7 @@ msgstr "Tam ekran (çöz. değişmeden)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Yakınlaştırma otomatik uyum"
+msgstr "Yakınlaştırma: Otomatik uyum"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
@@ -2960,15 +2960,15 @@ msgstr "Tonlayıcı çözümleyicisini Aç/Kapat"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "%50 Yakınlaştır"
+msgstr "Yakınlaştırma: %50"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "%100 Yakınlaştır"
+msgstr "Yakınlaştırma: %100"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "%200 Yakınlaştır"
+msgstr "Yakınlaştırma: %200"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -3032,7 +3032,7 @@ msgstr "Karakter kodlaması:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr "%25 Yakınlaştır"
+msgstr "Yakınlaştırma: %25"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
