@@ -3193,7 +3193,7 @@ msgstr "Yakınlaştırma 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
-msgstr "Pencereye Dışarıdan Uyarla"
+msgstr "Pencereye dışarıdan uyarla"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
