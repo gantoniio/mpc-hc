@@ -3181,7 +3181,7 @@ msgstr "Pencereye Uzat"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
-msgstr "Pencereye İçeriden Uyarla"
+msgstr "Pencereye içeriden uyarla"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
