@@ -2589,11 +2589,11 @@ msgstr ", Boyut: %I64d MB"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64d KB"
-msgstr ", Boş: %I64d KB"
+msgstr ", Boş alan: %I64d KB"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
-msgstr ", Boş: %I64d MB"
+msgstr ", Boş alan: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
