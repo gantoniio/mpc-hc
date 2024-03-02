@@ -1616,7 +1616,7 @@ msgstr "남은 시간"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr "높은 정확도"
+msgstr "밀리초 표시"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
