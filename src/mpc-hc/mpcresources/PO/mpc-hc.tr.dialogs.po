@@ -1392,7 +1392,7 @@ msgstr "Kal."
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Dengeli kullanım"
+msgstr "Kaydırma kullan"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
