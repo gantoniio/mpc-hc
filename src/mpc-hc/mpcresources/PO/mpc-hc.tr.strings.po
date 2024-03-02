@@ -2358,11 +2358,11 @@ msgstr "Önceki ses parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr "Sonraki altyazı (DVD)"
+msgstr "Sonraki altyazı parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr "Önceki altyazı (DVD)"
+msgstr "Önceki altyazı parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -3177,7 +3177,7 @@ msgstr "Tüm video çözücülerini devre dışı bırak"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
-msgstr "Pencereye Uzat"
+msgstr "Pencereye uzat"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
