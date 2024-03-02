@@ -257,7 +257,7 @@ msgstr "DVD를 즐겨찾기에 추가"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "캡쳐 설정"
+msgstr "녹화 설정"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
