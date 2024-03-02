@@ -341,7 +341,7 @@ msgstr "VSync kaydırmasını a&rtır"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "&GPU kontrolü"
+msgstr "&GPU denetimi"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
