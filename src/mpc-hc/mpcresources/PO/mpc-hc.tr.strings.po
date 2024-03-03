@@ -3815,7 +3815,7 @@ msgstr "video"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr "ses"
+msgstr "Ses"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
