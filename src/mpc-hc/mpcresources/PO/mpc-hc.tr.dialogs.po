@@ -111,7 +111,7 @@ msgstr "Ses gecikmesi (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Özel kanal adreslemesini kullan"
+msgstr "Özel kanal adreslemesi kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
