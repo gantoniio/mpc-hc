@@ -1501,7 +1501,7 @@ msgstr "Sol %%+%d"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr "Sağ +%d%%"
+msgstr "Sağ %%+%d"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
