@@ -1655,7 +1655,7 @@ msgstr "Tonlayıcı dosyası ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
-msgstr "Sil"
+msgstr "Kaldır"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
@@ -1679,7 +1679,7 @@ msgstr "Kaydet"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr "Sil"
+msgstr "Kaldır"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
