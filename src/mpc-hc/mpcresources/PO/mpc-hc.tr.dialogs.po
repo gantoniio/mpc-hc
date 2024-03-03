@@ -824,7 +824,7 @@ msgstr "Aşağı taşı"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
-msgstr "Sil"
+msgstr "Kaldır"
 
 msgctxt "IDD_FAVORGANIZE_IDOK"
 msgid "OK"
