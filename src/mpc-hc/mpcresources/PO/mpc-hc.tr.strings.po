@@ -2736,7 +2736,7 @@ msgstr "Ses: %%%d"
 
 msgctxt "IDS_BOOST_OSD"
 msgid "Boost: +%u%%"
-msgstr "Ses yükseltme: +%u%%"
+msgstr "Ses yükseltme: %%%u"
 
 msgctxt "IDS_BALANCE_OSD"
 msgid "Balance: %s"
