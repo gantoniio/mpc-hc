@@ -1505,7 +1505,7 @@ msgstr "Sağ %%+%d"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
-msgstr "%d%%"
+msgstr "%%%d"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
