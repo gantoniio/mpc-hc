@@ -3679,7 +3679,7 @@ msgstr "&Kapat"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "Yakınlaştırma: %.0lf%%"
+msgstr "Yakınlaştırma: %%%.0lf"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
