@@ -3811,7 +3811,7 @@ msgstr "Yakalama hatası"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
-msgstr "video"
+msgstr "Video"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
