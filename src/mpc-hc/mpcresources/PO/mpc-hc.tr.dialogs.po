@@ -696,7 +696,7 @@ msgstr "Filtre ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
-msgstr "Sil"
+msgstr "Kaldır"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
 msgid "Prefer"
@@ -728,7 +728,7 @@ msgstr "Alt tür ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
-msgstr "Sil"
+msgstr "Kaldır"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
