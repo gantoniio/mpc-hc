@@ -1323,7 +1323,7 @@ msgstr "Durduruldu"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
-msgstr "Hafızaya Alınıyor... (%d%%)"
+msgstr "Hafızaya alınıyor... (%%%d)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
