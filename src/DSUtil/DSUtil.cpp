@@ -2095,5 +2095,10 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
         return L"OPUS";
     }
 
+    CStringW fourCC;
+    if (GetMediaTypeFourCC(pmt->subtype, fourCC)) {
+        return fourCC;
+    }
+
     return L"";
 }
