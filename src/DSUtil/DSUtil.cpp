@@ -2035,6 +2035,10 @@ CStringW ForceTrailingSlash(CStringW folder) {
 CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
     if (pmt->subtype == MEDIASUBTYPE_MPEG_ADTS_AAC) {
         return L"AAC";
+    } else if (pmt->subtype == MEDIASUBTYPE_AAC || pmt->subtype == MEDIASUBTYPE_LATM_AAC) {
+        return L"AAC";
+    } else if (pmt->subtype == MEDIASUBTYPE_MP4A || pmt->subtype == MEDIASUBTYPE_mp4a) {
+        return L"MP4A";
     } else if (pmt->subtype == MEDIASUBTYPE_DTS_HD) {
         return L"DTS-HD";
     } else if (pmt->subtype == MEDIASUBTYPE_MPEG_HEAAC) {
@@ -2043,11 +2047,12 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
         return L"LOAS";
     } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
         return L"DD+";
-    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF || pmt->subtype == MEDIASUBTYPE_DVM || pmt->subtype == MEDIASUBTYPE_RAW_SPORT || pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h) {
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF || pmt->subtype == MEDIASUBTYPE_DVM
+        || pmt->subtype == MEDIASUBTYPE_RAW_SPORT || pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h || pmt->subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) {
         return L"AC3";
     } else if (pmt->subtype == MEDIASUBTYPE_IEEE_FLOAT) {
         return L"PCM";
-    } else if (pmt->subtype == MEDIASUBTYPE_DTS || pmt->subtype == MEDIASUBTYPE_DTS2) {
+    } else if (pmt->subtype == MEDIASUBTYPE_DTS || pmt->subtype == MEDIASUBTYPE_DTS2 || pmt->subtype == MEDIASUBTYPE_WAVE_DTS) {
         return L"DTS";
     } else if (pmt->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
         return L"LPCM";
@@ -2055,6 +2060,20 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
         return L"MP1";
     } else if (pmt->subtype == MEDIASUBTYPE_MPEG2_AUDIO) {
         return L"MP2";
+    } else if (pmt->subtype == MEDIASUBTYPE_FLAC || pmt->subtype == MEDIASUBTYPE_FLAC_FRAMED) {
+        return L"FLAC";
+    } else if (pmt->subtype == MEDIASUBTYPE_MP3) {
+        return L"MP3";
+    } else if (pmt->subtype == MEDIASUBTYPE_TTA1) {
+        return L"TTA";
+    } else if (pmt->subtype == MEDIASUBTYPE_SAMR) {
+        return L"SAMR";
+    } else if (pmt->subtype == MEDIASUBTYPE_Ogg) {
+        return L"OGG";
+    } else if (pmt->subtype == MEDIASUBTYPE_Vorbis || pmt->subtype == MEDIASUBTYPE_Vorbis2) {
+        return L"Vorbis";
+    } else if (pmt->subtype == MEDIASUBTYPE_OPUS || pmt->subtype == MEDIASUBTYPE_OPUS_OLD) {
+        return L"OPUS";
     }
     return L"";
 }
