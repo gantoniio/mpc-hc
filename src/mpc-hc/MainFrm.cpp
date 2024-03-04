@@ -3673,6 +3673,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 
             CString videoinfo;
             CString fpsinfo;
+            CStringW audioinfo;
             if (s.bShowVideoInfoInStatusbar && (!m_statusbarVideoFourCC.IsEmpty() || !m_statusbarVideoSize.IsEmpty())) {                  
                 if(!m_statusbarVideoFourCC.IsEmpty()) {
                     videoinfo.Append(m_statusbarVideoFourCC);
@@ -3691,18 +3692,17 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                     fpsinfo.Format(_T("%.2lf fps"), m_pCAP->GetFPS());
                 }
             }
-            if (!videoinfo.IsEmpty() || !fpsinfo.IsEmpty()) {
-                msg.Append(_T("\u2001["));
-                if (!videoinfo.IsEmpty()) {
-                    msg.Append(videoinfo);
-                }
-                if (!fpsinfo.IsEmpty()) {
-                    if (!videoinfo.IsEmpty()) {
-                        msg.AppendChar(_T(' '));
-                    }
-                    msg.Append(fpsinfo);
-                }
-                msg.Append(_T("]"));
+
+            if (s.bShowAudioFormatInStatusbar && !m_statusbarAudioFormat.IsEmpty()) {
+                audioinfo = m_statusbarAudioFormat;
+            }
+
+            if (!videoinfo.IsEmpty() || !fpsinfo.IsEmpty() || !audioinfo.IsEmpty()) {
+                CStringW tinfo = L"";
+                AppendWithDelimiter(tinfo, videoinfo);
+                AppendWithDelimiter(tinfo, fpsinfo);
+                AppendWithDelimiter(tinfo, audioinfo);
+                msg.Append(L"\u2001[" + tinfo + L"]");
             }
 
             if (s.bShowLangInStatusbar) {
@@ -9264,7 +9264,7 @@ void CMainFrame::OnPlayShadersPresets(UINT nID)
     }
 }
 
-bool CMainFrame::IsValidAudioStream(int i) {
+bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioFormat) {
     if (GetPlaybackMode() == PM_DVD) {
         ULONG numLangs;
         m_pDVDI->GetDVDTextNumberOfLanguages(&numLangs);
@@ -9275,9 +9275,22 @@ bool CMainFrame::IsValidAudioStream(int i) {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
         DWORD cStreams = 0;
         if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0 && cStreams > i) {
+            if (loadFormat) {
+                AM_MEDIA_TYPE* pmt = nullptr;
+                if ( SUCCEEDED(pSS->Info(i, &pmt, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr)) ) {
+                    audioFormat = GetShortAudioNameFromMediaType(pmt);
+                    DeleteMediaType(pmt);
+                }
+            }
             return true;
         }
     }
+    return false;
+}
+
+bool CMainFrame::IsValidAudioStream(int i) {
+    CStringW discard;
+    return GetAudioStreamInfo(i, false, discard);
     return false;
 }
 
@@ -13991,6 +14004,11 @@ void CMainFrame::OpenSetupStatusBar()
 {
     m_wndStatusBar.ShowTimer(true);
 
+    CStringW audioFormat;
+    if (GetAudioStreamInfo(m_loadedAudioTrackIndex, true, audioFormat)) {
+        m_statusbarAudioFormat = audioFormat;
+    }
+
     if (!m_fCustomGraph) {
         // Find video output pin of the source filter or splitter
         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -14007,7 +14025,6 @@ void CMainFrame::OpenSetupStatusBar()
                             if (splitter) {
                                 break;
                             }
-                        }
                     } else {
                         input_pins++;
                         splitter = (mt.majortype == MEDIATYPE_Stream);

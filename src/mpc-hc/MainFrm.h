@@ -335,9 +335,11 @@ private:
     CString currentAudioLang;
     CString currentSubLang;
     CString m_statusbarVideoFourCC;
+    CString m_statusbarAudioFormat;
     CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
+    bool GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioFormat);
     bool IsValidAudioStream(int i);
     bool IsValidSubtitleStream(int i);
     int GetSelectedSubtitleTrackIndex();

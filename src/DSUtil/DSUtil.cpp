@@ -2031,3 +2031,30 @@ CStringW ForceTrailingSlash(CStringW folder) {
     }
     return folder;
 }
+
+CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
+    if (pmt->subtype == MEDIASUBTYPE_MPEG_ADTS_AAC) {
+        return L"ADTS";
+    } else if (pmt->subtype == MEDIASUBTYPE_DTS_HD) {
+        return L"DTS-HD";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG_HEAAC) {
+        return L"HE-AAC";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG_LOAS) {
+        return L"LOAS";
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
+        return L"DD+";
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF || pmt->subtype == MEDIASUBTYPE_DVM || pmt->subtype == MEDIASUBTYPE_RAW_SPORT || pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h) {
+        return L"AC3";
+    } else if (pmt->subtype == MEDIASUBTYPE_IEEE_FLOAT) {
+        return L"IEEE-FLOAT";
+    } else if (pmt->subtype == MEDIASUBTYPE_DTS || pmt->subtype == MEDIASUBTYPE_DTS2) {
+        return L"DTS";
+    } else if (pmt->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
+        return L"LPCM";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG1AudioPayload || pmt->subtype == MEDIASUBTYPE_MPEG1Packet || pmt->subtype == MEDIASUBTYPE_MPEG1Payload) { //are these all actually possible?
+        return L"MP1";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG2_AUDIO) {
+        return L"MP2";
+    }
+    return L"";
+}
