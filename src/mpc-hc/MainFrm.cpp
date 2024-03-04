@@ -9271,7 +9271,8 @@ bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioForma
         if (i < numLangs) {
             return true;
         }
-    } else {
+    }
+    else {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
         DWORD cStreams = 0;
         if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0 && cStreams > i) {
@@ -14025,6 +14026,7 @@ void CMainFrame::OpenSetupStatusBar()
                             if (splitter) {
                                 break;
                             }
+                        }
                     } else {
                         input_pins++;
                         splitter = (mt.majortype == MEDIATYPE_Stream);

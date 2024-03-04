@@ -339,7 +339,7 @@ private:
     CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
-    bool GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioFormat);
+    bool GetAudioStreamInfo(int i, bool extractFormatString, CStringW& audioFormat);
     bool IsValidAudioStream(int i);
     bool IsValidSubtitleStream(int i);
     int GetSelectedSubtitleTrackIndex();
