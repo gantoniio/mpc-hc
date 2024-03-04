@@ -9292,7 +9292,6 @@ bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioForma
 bool CMainFrame::IsValidAudioStream(int i) {
     CStringW discard;
     return GetAudioStreamInfo(i, false, discard);
-    return false;
 }
 
 int CMainFrame::GetSelectedSubtitleTrackIndex() {
