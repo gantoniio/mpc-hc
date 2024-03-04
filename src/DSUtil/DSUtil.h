@@ -134,6 +134,7 @@ extern CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid);
 extern bool FindStringInList(const CAtlList<CString>& list, CString& value);
 extern CStringW ForceTrailingSlash(CStringW folder);
 extern CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt);
+extern CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt, int& channels);
 extern CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt);
 
 extern inline const LONGLONG GetPerfCounter();

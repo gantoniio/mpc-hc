@@ -9264,7 +9264,12 @@ void CMainFrame::OnPlayShadersPresets(UINT nID)
     }
 }
 
-bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioFormat) {
+bool CMainFrame::GetAudioStreamInfo(int i, bool extractFormatInfo, CStringW& audioFormat, int& channels) {
+    if (extractFormatInfo) {
+        audioFormat = L"";
+        channels = 0;
+    }
+
     if (GetPlaybackMode() == PM_DVD) {
         ULONG numLangs;
         m_pDVDI->GetDVDTextNumberOfLanguages(&numLangs);
@@ -9276,7 +9281,7 @@ bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioForma
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
         DWORD cStreams = 0;
         if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0 && cStreams > i) {
-            if (loadFormat) {
+            if (extractFormatInfo) {
                 AM_MEDIA_TYPE* pmt = nullptr;
                 if ( SUCCEEDED(pSS->Info(i, &pmt, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr)) ) {
                     audioFormat = GetShortAudioNameFromMediaType(pmt);
@@ -9292,7 +9297,8 @@ bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioForma
 
 bool CMainFrame::IsValidAudioStream(int i) {
     CStringW discard;
-    return GetAudioStreamInfo(i, false, discard);
+    int discardc;
+    return GetAudioStreamInfo(i, false, discard, discardc);
 }
 
 int CMainFrame::GetSelectedSubtitleTrackIndex() {
@@ -14005,10 +14011,9 @@ void CMainFrame::OpenSetupStatusBar()
 {
     m_wndStatusBar.ShowTimer(true);
 
-    CStringW audioFormat;
-    if (GetAudioStreamInfo(m_loadedAudioTrackIndex, true, audioFormat)) {
-        m_statusbarAudioFormat = audioFormat;
-    }
+    int nChannels;
+    bool loadedAudioInfo;
+    loadedAudioInfo = GetAudioStreamInfo(m_loadedAudioTrackIndex, true, m_statusbarAudioFormat, nChannels);
 
     if (!m_fCustomGraph) {
         // Find video output pin of the source filter or splitter
@@ -14050,42 +14055,13 @@ void CMainFrame::OpenSetupStatusBar()
         // ToDo: merge the two filter enumeration loops
 
         UINT id = IDB_AUDIOTYPE_NOAUDIO;
-
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            CComQIPtr<IBasicAudio> pBA = pBF;
-            if (!pBA) {
-                continue;
-            }
-
-            BeginEnumPins(pBF, pEP, pPin) {
-                AM_MEDIA_TYPE mt;
-                if (S_OK == m_pGB->IsPinDirection(pPin, PINDIR_INPUT)
-                        && S_OK == m_pGB->IsPinConnected(pPin)
-                        && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-                    if (mt.majortype == MEDIATYPE_Audio && mt.formattype == FORMAT_WaveFormatEx) {
-                        switch (((WAVEFORMATEX*)mt.pbFormat)->nChannels) {
-                            case 1:
-                                id = IDB_AUDIOTYPE_MONO;
-                                break;
-                            case 2:
-                            default:
-                                id = IDB_AUDIOTYPE_STEREO;
-                                break;
-                        }
-                        break;
-                    } else if (mt.majortype == MEDIATYPE_Midi) {
-                        id = 0;
-                        break;
-                    }
-                }
-            }
-            EndEnumPins;
-
-            if (id != IDB_AUDIOTYPE_NOAUDIO) {
-                break;
+        if (loadedAudioInfo) {
+            if (nChannels >= 2) {
+                id = IDB_AUDIOTYPE_STEREO;
+            } else {
+                id = IDB_AUDIOTYPE_MONO;
             }
         }
-        EndEnumFilters;
 
         m_wndStatusBar.SetStatusBitmap(id);
     }
