@@ -2032,7 +2032,25 @@ CStringW ForceTrailingSlash(CStringW folder) {
     return folder;
 }
 
+CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt) {
+    if (pmt && pmt->majortype == MEDIATYPE_Audio && pmt->formattype == FORMAT_WaveFormatEx) {
+        CStringW ret;
+        switch (((WAVEFORMATEX*)pmt->pbFormat)->nChannels) {
+            case 6:
+                return L"5.1";
+            case 7:
+                return L"6.1";
+            case 8:
+                return L"7.1";
+            default:
+                ret.Format(L"%uch", ((WAVEFORMATEX*)pmt->pbFormat)->nChannels);
+                return ret;
+        }
+    }
+}
+
 CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
+    if (!pmt) return L"";
     if (pmt->subtype == MEDIASUBTYPE_MPEG_ADTS_AAC) {
         return L"AAC";
     } else if (pmt->subtype == MEDIASUBTYPE_AAC || pmt->subtype == MEDIASUBTYPE_LATM_AAC) {
@@ -2075,5 +2093,6 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
     } else if (pmt->subtype == MEDIASUBTYPE_OPUS || pmt->subtype == MEDIASUBTYPE_OPUS_OLD) {
         return L"OPUS";
     }
+
     return L"";
 }
