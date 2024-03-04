@@ -2034,11 +2034,11 @@ CStringW ForceTrailingSlash(CStringW folder) {
 
 CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
     if (pmt->subtype == MEDIASUBTYPE_MPEG_ADTS_AAC) {
-        return L"ADTS";
+        return L"AAC";
     } else if (pmt->subtype == MEDIASUBTYPE_DTS_HD) {
         return L"DTS-HD";
     } else if (pmt->subtype == MEDIASUBTYPE_MPEG_HEAAC) {
-        return L"HE-AAC";
+        return L"AAC";
     } else if (pmt->subtype == MEDIASUBTYPE_MPEG_LOAS) {
         return L"LOAS";
     } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
@@ -2046,7 +2046,7 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
     } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF || pmt->subtype == MEDIASUBTYPE_DVM || pmt->subtype == MEDIASUBTYPE_RAW_SPORT || pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h) {
         return L"AC3";
     } else if (pmt->subtype == MEDIASUBTYPE_IEEE_FLOAT) {
-        return L"IEEE-FLOAT";
+        return L"PCM";
     } else if (pmt->subtype == MEDIASUBTYPE_DTS || pmt->subtype == MEDIASUBTYPE_DTS2) {
         return L"DTS";
     } else if (pmt->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
