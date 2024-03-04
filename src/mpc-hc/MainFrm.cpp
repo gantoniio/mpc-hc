@@ -9279,7 +9279,7 @@ bool CMainFrame::GetAudioStreamInfo(int i, bool loadFormat, CStringW& audioForma
             if (loadFormat) {
                 AM_MEDIA_TYPE* pmt = nullptr;
                 if ( SUCCEEDED(pSS->Info(i, &pmt, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr)) ) {
-                    audioFormat = GetShortAudioNameFromMediaType(pmt)+L" "+ GetChannelStrFromMediaType(pmt);
+                    audioFormat = GetShortAudioNameFromMediaType(pmt) + L" " + GetChannelStrFromMediaType(pmt);
                     DeleteMediaType(pmt);
                 }
             }

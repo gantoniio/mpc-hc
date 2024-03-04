@@ -2035,7 +2035,8 @@ CStringW ForceTrailingSlash(CStringW folder) {
 CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt) {
     if (pmt && pmt->majortype == MEDIATYPE_Audio && pmt->formattype == FORMAT_WaveFormatEx) {
         CStringW ret;
-        switch (((WAVEFORMATEX*)pmt->pbFormat)->nChannels) {
+        int nChannels = ((WAVEFORMATEX*)pmt->pbFormat)->nChannels;
+        switch (nChannels) {
             case 6:
                 return L"5.1";
             case 7:
@@ -2043,7 +2044,7 @@ CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt) {
             case 8:
                 return L"7.1";
             default:
-                ret.Format(L"%uch", ((WAVEFORMATEX*)pmt->pbFormat)->nChannels);
+                ret.Format(L"%uch", nChannels);
                 return ret;
         }
     }
