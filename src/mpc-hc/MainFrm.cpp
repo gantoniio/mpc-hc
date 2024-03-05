@@ -2303,6 +2303,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     }
 
                     CString format = GetDVDAudioFormatName(AATR);
+                    m_statusbarAudioFormat.Format(L"%s %dch", format, AATR.bNumberOfChannels);
 
                     Audio.Format(IDS_MAINFRM_11,
                                  lang.GetString(),
@@ -9265,12 +9266,10 @@ void CMainFrame::OnPlayShadersPresets(UINT nID)
 }
 
 bool CMainFrame::GetAudioStreamInfo(int i, bool extractFormatInfo, CStringW& audioFormat, int& channels) {
-    if (extractFormatInfo) {
-        audioFormat = L"";
-        channels = 0;
-    }
-
     if (GetPlaybackMode() == PM_DVD) {
+        if (extractFormatInfo) {
+            return false; //not implemented, since we load it when it's ready
+        }
         ULONG numLangs;
         m_pDVDI->GetDVDTextNumberOfLanguages(&numLangs);
         if (i < numLangs) {
@@ -9278,6 +9277,11 @@ bool CMainFrame::GetAudioStreamInfo(int i, bool extractFormatInfo, CStringW& aud
         }
     }
     else {
+        if (extractFormatInfo) {
+            audioFormat = L"";
+            channels = 0;
+        }
+
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
         DWORD cStreams = 0;
         if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0 && cStreams > i) {
