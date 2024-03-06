@@ -462,7 +462,7 @@ msgstr "Συντελεστής αυτόμ. προσαρμογής:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
-msgstr "ελάχ. %"
+msgstr "ελάχιστο %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "max %"
