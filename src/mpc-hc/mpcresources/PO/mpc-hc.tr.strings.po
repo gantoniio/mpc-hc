@@ -775,7 +775,7 @@ msgstr "Ayrıntılar"
 
 msgctxt "IDD_FILEPROPCLIP"
 msgid "Clip"
-msgstr "Klip"
+msgstr "Medya"
 
 msgctxt "IDC_DSSYSDEF"
 msgid ""
@@ -2422,7 +2422,7 @@ msgstr "TV istasyonları"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
-msgstr "Biçim"
+msgstr "Format"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
@@ -4309,7 +4309,7 @@ msgid ""
 "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n"
 "\t\t\"pathname\" means the drive path (optional)"
 msgstr ""
-"/cd\t\tSes CD'si ya da (S)VCD içerisindeki tüm ses izlerini yükle,\n"
+"/cd\t\tSes CD'si ve (S)VCD içerisindeki tüm parçaları yükle,\n"
 "\t\t\"dosya yolu\" sürücü yolunu ifade eder (isteğe bağlı)"
 
 msgctxt "IDS_CMD_DEVICE"
