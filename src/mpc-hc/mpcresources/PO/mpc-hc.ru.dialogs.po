@@ -1879,7 +1879,7 @@ msgstr "Высота ползунка:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
 msgid "Hover:"
-msgstr "Подсказка"
+msgstr "Подсказка:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Hover type:"
