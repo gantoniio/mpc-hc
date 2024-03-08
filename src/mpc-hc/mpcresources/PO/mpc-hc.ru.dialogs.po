@@ -1943,7 +1943,7 @@ msgstr "Поведение окна"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
-msgstr "Ограничивать пропорции при изменении размера окна"
+msgstr "Соотнош. сторон окна как у видеокадра"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
 msgid "Snap to desktop edges"
