@@ -1677,7 +1677,7 @@ msgstr "Kalan süre"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr "Yüksek hassasiyet"
+msgstr "Milisaniyeyi göster"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
