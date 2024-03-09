@@ -2004,11 +2004,11 @@ msgstr "Direct3D Tam ekranı Aç/Kapat"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Önceki Altyazıya Git"
+msgstr "Önceki altyazı dizesine git"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Sonraki Altyazıya Git"
+msgstr "Sonraki altyazı dizesine git"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
