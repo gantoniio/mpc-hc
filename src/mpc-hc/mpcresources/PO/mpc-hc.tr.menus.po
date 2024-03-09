@@ -689,7 +689,7 @@ msgstr "&Sesi kes"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Oy&natmadan Sonra"
+msgstr "Oy&natımdan sonra"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
