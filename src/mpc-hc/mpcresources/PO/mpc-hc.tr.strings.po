@@ -3875,7 +3875,7 @@ msgstr "Oynatmadan sonra: Uygulamadan çık"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Oynatmadan sonra: Hazırda Beklet"
+msgstr "Oynatmadan sonra: Hazırda beklet"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
