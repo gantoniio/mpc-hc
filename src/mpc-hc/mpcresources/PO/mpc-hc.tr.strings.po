@@ -431,7 +431,7 @@ msgstr "Sistem varsayılanı"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Oynatma için gerekli arabirimler sorgulanamadı"
+msgstr "Oynatım için gerekli arabirimler sorgulanamadı"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
@@ -1685,11 +1685,11 @@ msgstr "Yüzdeyi göster"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "Oynatmadan sonra: Geçerli dosyayı tekrar oynat"
+msgstr "Oynatımdan sonra: Mevcut dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr "Oynatmadan sonra: Kapat"
+msgstr "Oynatımdan sonra: Kapat"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization."
@@ -3895,15 +3895,15 @@ msgstr "Oynatmadan sonra: Oturumu kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Oynatmadan sonra: Ekranı Kapat"
+msgstr "Oynatımdan sonra: Ekranı kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "Oynatmadan sonra: Klasördeki sonraki dosyayı oynat"
+msgstr "Oynatımdan sonra: Klasördeki sonraki dosyayı oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Oynatmadan sonra: Bir işlem yapma"
+msgstr "Oynatımdan sonra: Bir işlem yapma"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
