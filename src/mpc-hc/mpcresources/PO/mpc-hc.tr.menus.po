@@ -285,15 +285,15 @@ msgstr "Ortam &ışığı"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "&Parlak (2.2 Gama)"
+msgstr "&Parlak (2,2 Gama)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "&Sönük (2.35 Gama)"
+msgstr "&Sönük (2,35 Gama)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "&Karanlık (2.4 Gama)"
+msgstr "&Karanlık (2,4 Gama)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
