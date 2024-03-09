@@ -709,7 +709,7 @@ msgstr "Uygulamadan &çık"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "&Askıya Al"
+msgstr "Hazırda beklet"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
