@@ -3875,23 +3875,23 @@ msgstr "Oynatımdan sonra: Uygulamadan çık"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Oynatmadan sonra: Hazırda beklet"
+msgstr "Oynatımdan sonra: Hazırda beklet"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Oynatmadan sonra: Derin uyku"
+msgstr "Oynatımdan sonra: Derin uyku"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Oynatmadan sonra: Bilgisayarı Kapat"
+msgstr "Oynatımdan sonra: Bilgisayarı kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Oynatmadan sonra: Oturumu Kapat"
+msgstr "Oynatımdan sonra: Oturumu kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Oynatmadan sonra: Oturumu kilitle"
+msgstr "Oynatımdan sonra: Oturumu kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
