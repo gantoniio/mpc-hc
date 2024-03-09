@@ -445,7 +445,7 @@ msgstr "Tekrar modu:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr "Oynatmadan sonra"
+msgstr "Oynatımdan sonra"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
@@ -1526,7 +1526,7 @@ msgstr "Yapıştırılmış panelleri gizle"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Oynatmanın sonunda tam ekrandan çık"
+msgstr "Oynatım sonunda tam ekrandan çık"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
