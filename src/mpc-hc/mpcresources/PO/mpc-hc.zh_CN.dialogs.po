@@ -1923,7 +1923,7 @@ msgstr "隐藏窗口控件"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
-msgstr "Windows 整合"
+msgstr "Windows 集成"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
