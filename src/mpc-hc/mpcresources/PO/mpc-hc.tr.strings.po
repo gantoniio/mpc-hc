@@ -3477,15 +3477,15 @@ msgstr "Giriş türü: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr "Ortam ışığı: Parlak (2.2 Gama)"
+msgstr "Ortam ışığı: Parlak (2,2 Gama)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr "Ortam ışığı: Sönük (2.35 Gama)"
+msgstr "Ortam ışığı: Sönük (2,35 Gama)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr "Ortam ışığı: Karanlık (2.4 Gama)"
+msgstr "Ortam ışığı: Karanlık (2,4 Gama)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
