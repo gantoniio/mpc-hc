@@ -349,7 +349,7 @@ msgstr "VSync'den önce GPU'yu sıfırla"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "GPU'yu seçimden &sonra sıfırla"
+msgstr "Sunumdan sonra GPU'yu sıfırla"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
