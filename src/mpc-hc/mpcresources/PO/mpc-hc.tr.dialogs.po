@@ -103,7 +103,7 @@ msgstr "Ses yükseltme:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
-msgstr "44100 Hz örneklemesine dönüştür"
+msgstr "44100 Hz örneklemesine indirge"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
