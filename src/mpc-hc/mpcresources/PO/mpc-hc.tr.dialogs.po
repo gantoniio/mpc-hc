@@ -87,7 +87,7 @@ msgstr "Normalleştirme"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Maksimum ses güçlendirme:"
+msgstr "Azami ses güçlendirme:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -1480,7 +1480,7 @@ msgstr "sütun"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "En yakın eşzamanlılık örneğini kullan"
+msgstr "En yakın VSync'de sunum yap"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
