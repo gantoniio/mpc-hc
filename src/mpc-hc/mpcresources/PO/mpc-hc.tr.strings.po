@@ -3445,11 +3445,11 @@ msgstr "Ekranı video ile senkronize et: Kapalı"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "En yakın eşzamanlılık seçimi: Açık"
+msgstr "En yakın VSync'de sunum: Açık"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "En yakın eşzamanlılık seçimi: Kapalı"
+msgstr "En yakın VSync'de sunum: Kapalı"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3509,11 +3509,11 @@ msgstr "Çıkış aralığı: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "GPU'yu VSync'den önce sıfırla: Açık"
+msgstr "VSync'den önce GPU'yu sıfırla: Açık"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "GPU'yu VSync'den önce sıfırla: Kapalı"
+msgstr "VSync'den önce GPU'yu sıfırla: Kapalı"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
