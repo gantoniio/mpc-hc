@@ -3521,7 +3521,7 @@ msgstr "Sunum sonrası GPU'yu sıfırla: Açık"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "GPU'yu seçimden sonra sıfırlama: Kapalı"
+msgstr "Sunum sonrası GPU'yu sıfırla: Kapalı"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
