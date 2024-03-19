@@ -3502,7 +3502,7 @@ msgstr "Tarama Amacı: Algısal"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "İşleme amacı: Mutlak Renkölçer"
+msgstr "Tarama Amacı: Mutlak renkli"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
