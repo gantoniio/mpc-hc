@@ -177,6 +177,11 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     }
 
     AddAnchor(IDC_EDIT1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_EDIT2, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_EDIT3, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_EDIT4, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_EDIT5, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_EDIT6, TOP_LEFT, TOP_RIGHT);
     AddAnchor(IDC_EDIT7, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_STATIC1, TOP_LEFT, TOP_RIGHT);
     AddAnchor(IDC_STATIC2, TOP_LEFT, TOP_RIGHT);
