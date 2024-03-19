@@ -282,7 +282,7 @@ ScrollBarHelperInfo::ScrollBarHelperInfo(CWnd* w):
         sbThickness = GetSystemMetrics(SM_CXVSCROLL);
         clientOffset = CMPCThemeUtil::GetRegionOffset(w);
         borderThickness = clientOffset.x;
-        bool visible = w->IsWindowVisible();
+
         auto style = w->GetStyle();
         //we have to draw vertical scrollbar because ncpaint is overridden to handle horizontal scrollbar
         //windows dark theme horizontal scrollbar is broken
