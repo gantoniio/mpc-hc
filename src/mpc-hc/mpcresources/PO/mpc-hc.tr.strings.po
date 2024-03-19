@@ -4763,7 +4763,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
-msgstr "WASAPI modu:"
+msgstr "WASAPI kipi:"
 
 msgctxt "IDS_ARS_EXCLUSIVE"
 msgid "Exclusive"
