@@ -4049,7 +4049,7 @@ msgstr "/nofocus\t\tMPC-HC'yi arkaplanda başlat"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\tBelirtilen port üzerinden web arayüzünü başlat"
+msgstr "/webport N\tBelirtilen soket üzerinden web arayüzünü başlat"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
