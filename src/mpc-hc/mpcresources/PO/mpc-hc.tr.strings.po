@@ -4107,7 +4107,7 @@ msgstr "Vektörize edilmiş yeni araç çubuğu yerine eski araç çubuğunu kul
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr "AssFilter"
+msgstr "AssFiltresi"
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
