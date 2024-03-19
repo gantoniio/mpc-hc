@@ -1139,7 +1139,7 @@ msgid ""
 "cause the video renderer to skip some video frames."
 msgstr ""
 "Bu seçeneğin devre dışı bırakılması altyazıların yanıp sönmesini engeller "
-"ancak video işleyicisinin bazı video karelerini atlamasına neden olabilir."
+"ancak video işleyicinin bazı video karelerini atlamasına neden olabilir."
 
 msgctxt "ID_PLAY_PLAY"
 msgid ""
@@ -1719,7 +1719,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Dahili Altyazı İşleyicisi"
+msgstr "Dahili Altyazı İşleyici"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2956,7 +2956,7 @@ msgstr "Kaydetme ayarları panelini Aç/Kapat"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Tonlayıcı çözümleyicisini Aç/Kapat"
+msgstr "Tonlayıcı çözümleyiciyi Aç/Kapat"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -3783,7 +3783,7 @@ msgstr "Girilen kare hızı ayrıştırılırken hata oluştu!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
-msgstr "Kare atlanamıyor, lütfen başka bir video işleyicisini deneyiniz."
+msgstr "Kare atlanamıyor, lütfen başka bir video işleyici deneyiniz."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid ""
