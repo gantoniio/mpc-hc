@@ -897,7 +897,7 @@ msgid ""
 "3d. Antialiasing turned on at the display settings may have a bad effect on "
 "the rendering speed."
 msgstr ""
-"Video yüzeyi bir doku olarak tahsis edilecek ve 3B'da iki üçgen olarak "
+"Video yüzeyi bir doku olarak tahsis edilecek ve 3d'de iki üçgen olarak "
 "çizilecektir. Kenar yumuşatmanın (antialiasing) grafik kartı ayarlarında "
 "açık olması işleme hızını kötü etkileyebilir."
 
