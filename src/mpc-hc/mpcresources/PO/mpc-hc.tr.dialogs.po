@@ -552,7 +552,7 @@ msgstr "Altyazıları asla hareketlendirme"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr "Hareketlendirmeyi %"
+msgstr "Hareketlendirmeyi"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
