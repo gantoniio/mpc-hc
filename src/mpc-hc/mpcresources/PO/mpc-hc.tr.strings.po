@@ -4692,7 +4692,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_BLOCKRDP"
 msgid "Block use of RDP Redirection Filter"
-msgstr "Block use of RDP Redirection Filter"
+msgstr "RDP Yeniden yönlendirme filtresi kullanımını engelle"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_EXEPATH"
 msgid ""
