@@ -2077,7 +2077,7 @@ msgstr "Az Ayrıntı"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
-msgstr "Normal arayüz"
+msgstr "Normal Ayrıntı"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
