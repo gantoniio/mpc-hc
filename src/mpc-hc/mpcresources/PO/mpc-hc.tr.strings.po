@@ -1522,7 +1522,7 @@ msgstr "[Donanım]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr "Yazılımsal kod çözümü"
+msgstr "Yazılımsal Çözücü"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
