@@ -440,7 +440,7 @@ msgstr "Grafiksel bilgi için hedef pencere oluşturulamadı"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "DVD Yönetim süzgeci için gerekli bütün iliştirmeler çevrilemedi"
+msgstr "DVD Yönetim süzgeci için gerekli bütün iliştirmeler işlenemedi"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
