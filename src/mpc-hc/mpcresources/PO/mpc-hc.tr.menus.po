@@ -150,7 +150,7 @@ msgstr "&En Az"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "Kompakt"
+msgstr "&Az"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
