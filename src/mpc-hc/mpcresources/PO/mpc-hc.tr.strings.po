@@ -4823,7 +4823,7 @@ msgstr "Çıkış"
 
 msgctxt "IDS_ARS_FORMAT"
 msgid "Format:"
-msgstr "Format:"
+msgstr "Biçim:"
 
 msgctxt "IDS_ARS_SAMPLERATE"
 msgid "Sample rate:"
