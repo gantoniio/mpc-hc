@@ -528,7 +528,7 @@ msgstr "Azalt"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
-msgstr "Artır"
+msgstr "&Arttır"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
