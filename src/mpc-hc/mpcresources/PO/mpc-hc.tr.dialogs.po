@@ -1023,7 +1023,7 @@ msgstr "Gölge"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Ekranda yerleşim && Kenar boşlukları"
+msgstr "Ekran Yerleşimi && Kenarlar"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
