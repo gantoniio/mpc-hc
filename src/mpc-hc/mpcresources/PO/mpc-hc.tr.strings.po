@@ -384,7 +384,7 @@ msgstr "Karakter kümesi"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "Evrensel kod"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
