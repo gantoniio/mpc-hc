@@ -590,7 +590,7 @@ msgid ""
 "surely eat your CPU."
 msgstr ""
 "Ekran kartınızın ayarlarından kenar yumuşatma (antialiasing) seçeneğini "
-"uygulama kontrolünü geçersiz kılarak etkinleştirirseniz, bu, altyazıların "
+"uygulama kontrolünü geçersiz kılarak etkinleştirirseniz bu; altyazıların "
 "görünümünde iyileşme sağlamayacak ve aynı zamanda işlemci gücünün israf "
 "edilmesine yol açacaktır."
 
