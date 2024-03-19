@@ -3037,7 +3037,7 @@ msgstr "Yakınlaştırma: %25"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
-msgstr "Mouse Modifier"
+msgstr "Fare Düzenleyicisi"
 
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
