@@ -496,7 +496,7 @@ msgstr "Başlangıç ayarları"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Filtre grafiğini oluşturmak için üstlenici izlek özelliğini kullan"
+msgstr "Süzgeç grafiği kurulumu için oynatıcı önceliğini kullan"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
