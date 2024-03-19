@@ -4665,7 +4665,7 @@ msgstr "Mevcut A-B tekrar işaretlerini durum çubuğunda göster."
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
-msgstr "Video bilgilerini (kodek ismi, çözünürlük) durum çubuğunda göster."
+msgstr "Video bilgilerini (kodlayıcı adı, çözünürlük) durum çubuğunda göster."
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
