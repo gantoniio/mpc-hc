@@ -464,7 +464,7 @@ msgstr "Otomatik uyum faktörü:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
-msgstr "min %"
+msgstr "asgari %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "max %"
