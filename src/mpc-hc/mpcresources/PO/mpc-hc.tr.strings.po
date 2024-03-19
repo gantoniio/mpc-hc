@@ -2889,7 +2889,7 @@ msgstr "Devre dışı"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "VSync kaydırmasını azalt"
+msgstr "Eşzamanlılık dengesini azalt"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
