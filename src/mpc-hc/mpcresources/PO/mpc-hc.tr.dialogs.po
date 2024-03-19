@@ -556,7 +556,7 @@ msgstr "Hareketlendirmeyi"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr "oranında kullan"
+msgstr "% oranında kullan"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
