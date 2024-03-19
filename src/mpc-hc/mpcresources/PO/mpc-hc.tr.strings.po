@@ -4799,7 +4799,7 @@ msgstr "Aygıt arabelleği:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr "Format desteği kontrol edilmesin"
+msgstr "Biçim desteği kontrol edilmesin"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
