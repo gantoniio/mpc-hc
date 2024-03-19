@@ -679,11 +679,11 @@ msgstr "Geliştirilmiş Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "Geliştirilmiş Video İşleyicisi (özel sunucu)"
+msgstr "Geliştirilmiş Video İşleyici (özel sunucu)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr "Haali Video İşleyicisi"
+msgstr "Haali Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -735,11 +735,11 @@ msgstr "&Kanallar"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr "MPC Video İşleyicisi"
+msgstr "MPC Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7"
 msgid "Video Mixing Renderer 7"
-msgstr "Video Karıştırma İşleyicisi 7"
+msgstr "Video Karıştırma İşleyici 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -926,7 +926,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "Eşzamanlama İşleyicisi"
+msgstr "Eşzamanlama İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
