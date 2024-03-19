@@ -4811,7 +4811,7 @@ msgstr "Aygıt:"
 
 msgctxt "IDS_ARS_MODE"
 msgid "Mode:"
-msgstr "Mod:"
+msgstr "Kip:"
 
 msgctxt "IDS_ARS_INPUT"
 msgid "Input"
