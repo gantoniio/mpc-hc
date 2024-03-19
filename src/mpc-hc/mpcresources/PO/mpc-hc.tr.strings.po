@@ -595,7 +595,7 @@ msgstr "İnce Ayarlar"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Dahili Filtreler::Ses Değiştiricisi"
+msgstr "Dahili Filtreler::Ses Değiştirici"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -631,11 +631,11 @@ msgstr "Yürütme::Tam Ekran"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr "Dahili Filtreler::Ses İşleyicisi"
+msgstr "Dahili Filtreler::Ses İşleyici"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Ses Değiştiricisi"
+msgstr "Ses Değiştirici"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -655,11 +655,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Eski Video İşleyicisi"
+msgstr "Eski Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Ters Süzme İşleyicisi"
+msgstr "Ters Süzme İşleyici"
 
 msgctxt "IDS_ZOOM_25"
 msgid "25%"
@@ -667,11 +667,11 @@ msgstr "%25"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Video Karıştırma İşleyicisi 9 (pencerede)"
+msgstr "Video Karıştırma İşleyici 9 (pencerede)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Video Karıştırma İşleyicisi 9 (işleyicisiz)"
+msgstr "Video Karıştırma İşleyici 9 (işleyicisiz)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
