@@ -1859,7 +1859,7 @@ msgstr "Grup kutusu"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
-msgstr "Autoplay"
+msgstr "Oto Yürütme"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
 msgid "Theme"
