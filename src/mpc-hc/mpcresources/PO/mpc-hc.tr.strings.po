@@ -675,7 +675,7 @@ msgstr "Video Karıştırma İşleyici 9 (işleyicisiz)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Geliştirilmiş Video İşleyicisi"
+msgstr "Geliştirilmiş Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
