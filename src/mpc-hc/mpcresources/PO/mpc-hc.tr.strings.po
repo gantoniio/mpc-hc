@@ -134,7 +134,7 @@ msgstr "ort: %d ms, sapma: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr "Seğirme"
+msgstr "Dalgalanma"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
