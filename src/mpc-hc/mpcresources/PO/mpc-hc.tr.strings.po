@@ -2073,7 +2073,7 @@ msgstr "En Az Ayrıntı"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
-msgstr "Kompakt arayüz"
+msgstr "Az Ayrıntı"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
