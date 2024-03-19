@@ -930,7 +930,7 @@ msgstr "Eşzamanlama İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
-msgstr "MPC Ses İşleyicisi"
+msgstr "MPC Ses İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -986,7 +986,7 @@ msgstr "Boş (sıkıştırılmadan)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "SaneAR Audio Renderer"
-msgstr "SaneAR Ses İşleyicisi"
+msgstr "SaneAR Ses İşleyici"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
