@@ -1855,7 +1855,7 @@ msgstr "MPC-HC'den çık"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
-msgstr "Groupbox"
+msgstr "Grup kutusu"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
