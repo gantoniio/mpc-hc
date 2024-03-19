@@ -1082,7 +1082,7 @@ msgid ""
 "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\n"
 "If you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr ""
-"LAV Filters kullanılır. Microsoft filtreleri bu biçimler için daha kararlı olduğundan varsayılan olarak kapalı durumdadır.\n"
+"LAV Filtreleri kullanılır. Microsoft filtreleri bu biçimler için daha kararlı olduğundan varsayılan olarak kapalı durumdadır.\n"
 "Dahili Filtreleri kullanmayı seçerseniz, daha iyi bir yürütme deneyimi bakımından onları hem kaynak hem de kod çözme için etkinleştirin."
 
 msgctxt "IDS_AG_OPEN_FILE_LOCATION"
