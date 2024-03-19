@@ -899,7 +899,7 @@ msgid ""
 "needed codecs or filters installed on the system."
 msgstr ""
 "MPC-HC grafikteki bazı bağlantı noktalarını işleyemedi, sisteminizde gerekli"
-" kodek veya filtreler yüklü olmayabilir."
+" süzgeç veya filtreler yüklü olmayabilir."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
