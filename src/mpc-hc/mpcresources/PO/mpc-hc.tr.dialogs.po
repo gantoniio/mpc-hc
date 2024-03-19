@@ -1099,7 +1099,7 @@ msgid ""
 "another replacement, disable them here."
 msgstr ""
 "Bu filtrelerin bağımsız sürümlerini veya başka bir ikame kullanmak "
-"isterseniz, onları burada devre dışı bırakın."
+"isterseniz, onları burada devre dışı bırakabilirsiniz."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
