@@ -660,7 +660,7 @@ msgstr "&Filtry"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "Cieniowanie (&Shadery)"
+msgstr "&Shadery"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
