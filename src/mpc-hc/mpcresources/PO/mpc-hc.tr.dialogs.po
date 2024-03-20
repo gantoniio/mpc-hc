@@ -1111,7 +1111,7 @@ msgstr "Dönüştürme Filtreleri"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Dahili LAV Filtre ayarları"
+msgstr "Dahili LAV Filters ayarları"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
