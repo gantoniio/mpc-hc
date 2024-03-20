@@ -2921,7 +2921,7 @@ msgstr "Ses yükseltme: Azami"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr "Kullanım: mpc-hc.exe \"dosya yolu\" [anahtarlar]"
+msgstr "Kullanım: mpc-hc.exe \"yol adı\" [anahtarlar]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid ""
