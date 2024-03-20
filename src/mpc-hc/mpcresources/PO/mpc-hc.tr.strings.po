@@ -2861,7 +2861,7 @@ msgstr "Bilinmeyen %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "Eşzamanlılık"
+msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
