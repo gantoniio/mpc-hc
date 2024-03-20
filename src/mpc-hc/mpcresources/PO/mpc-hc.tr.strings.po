@@ -2809,7 +2809,7 @@ msgstr "DVD klasörü bulunamadı"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "DVD Yönetici süzgeci oluşturulamadı"
+msgstr "DVD Yönlendireç filtresi oluşturulamadı"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
