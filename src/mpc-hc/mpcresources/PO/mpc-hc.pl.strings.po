@@ -864,7 +864,7 @@ msgid ""
 "and postprocessing. Recommended."
 msgstr ""
 "Działa tak samo jak „EVR”, ponadto z modyfikacjami umożliwiającymi obsługę "
-"napisów oraz postprocessing (shadery). Zalecany."
+"napisów oraz postprocessing. Zalecany."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
