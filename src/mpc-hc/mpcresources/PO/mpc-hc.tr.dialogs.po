@@ -1487,7 +1487,7 @@ msgstr "En yakın VSync'de sunum yap"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Hedef uyum dengesi:"
+msgstr "Hedef eşitleme kayması:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
