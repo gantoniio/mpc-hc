@@ -1716,7 +1716,7 @@ msgid ""
 msgstr ""
 "Bu ayar, medya dosyalarını uzak noktadan önizlemek için kullanılabilir. Herkes erişebileceği için yalnızca güvenli bir özel ağda kullanın.\n"
 "\n"
-"Bu özelliği kullanmak istediğinizden emin misiniz?"
+"Bu özelliği kullanmak istediğinize emin misiniz?"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
