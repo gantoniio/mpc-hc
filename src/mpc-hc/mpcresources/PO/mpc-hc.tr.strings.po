@@ -3318,7 +3318,7 @@ msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr "Opus Ses Çözücüsü"
+msgstr "Opus Ses Kodeği"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
