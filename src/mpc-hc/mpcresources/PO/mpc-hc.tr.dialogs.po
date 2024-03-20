@@ -544,7 +544,7 @@ msgstr "Arabelleğe alınacak alt resim sayısı:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
-msgstr "En fazla doku çözünürlüğü:"
+msgstr "Azami doku çözünürlüğü:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
