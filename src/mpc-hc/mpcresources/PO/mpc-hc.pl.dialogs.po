@@ -1623,7 +1623,7 @@ msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Spraw. aktualizacji"
+msgstr "Sprawdzanie aktualizacji"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
