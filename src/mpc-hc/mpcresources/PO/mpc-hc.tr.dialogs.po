@@ -1947,7 +1947,7 @@ msgstr "Yazı boyutu:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
-msgstr "Pencere Davranışı"
+msgstr "Pencere davranışı"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
