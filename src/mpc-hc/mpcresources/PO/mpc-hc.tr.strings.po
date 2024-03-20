@@ -1592,7 +1592,7 @@ msgstr "Klasördeki sonraki dosyayı oynat"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr "Geçerli dosyayı tekrar oynat"
+msgstr "Mevcut dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
