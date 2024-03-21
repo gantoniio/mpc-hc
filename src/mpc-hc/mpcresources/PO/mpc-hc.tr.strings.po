@@ -175,7 +175,7 @@ msgstr "Tekrar modu: Dosya"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "Sürekli Tekrar: Açık"
+msgstr "Sürekli tekrar: Açık"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
