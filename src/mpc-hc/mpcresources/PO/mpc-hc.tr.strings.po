@@ -2191,7 +2191,7 @@ msgstr "Geçen ve kalan süre arasında geçiş yap"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr "Hatalı gecikme"
+msgstr "Geçersiz zaman aralığı"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
