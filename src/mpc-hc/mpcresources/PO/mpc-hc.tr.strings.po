@@ -179,7 +179,7 @@ msgstr "Sürekli tekrar: Açık"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "Sürekli Tekrar: Kapalı"
+msgstr "Sürekli tekrar: Kapalı"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
