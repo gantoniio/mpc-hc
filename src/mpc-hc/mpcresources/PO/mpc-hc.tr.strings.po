@@ -4211,7 +4211,9 @@ msgstr "Sağlayıcıdaki hesap bilgileriniz"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
-msgstr "Bağlanmak için kimlik bilgilerinizi giriniz:"
+msgstr ""
+"Hesabınıza bağlanmak için üyelik bilgilerinizi giriniz:\n"
+" "
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
