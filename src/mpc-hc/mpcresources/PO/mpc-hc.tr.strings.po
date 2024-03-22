@@ -1784,7 +1784,7 @@ msgstr "Git"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
-msgstr "Hızı arttır"
+msgstr "Hızı artır"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
