@@ -4,7 +4,6 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# Sinan H., 2024
 # Mücahid Aksel <mucahidaksel@gmail.com>, 2024
 # 
 msgid ""
@@ -678,7 +677,7 @@ msgstr "S&es düzeyi"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "&Arttır"
+msgstr "A&rtır"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
