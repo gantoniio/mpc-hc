@@ -1498,11 +1498,11 @@ msgstr "Sol = Sağ"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr "Sol %%+%d"
+msgstr "Sol +%%%d"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr "Sağ %%+%d"
+msgstr "Sağ +%%%d"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
@@ -1510,7 +1510,7 @@ msgstr "%%%d"
 
 msgctxt "IDS_BOOST"
 msgid "+%d%%"
-msgstr "%%+%d"
+msgstr "+%%%d"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
