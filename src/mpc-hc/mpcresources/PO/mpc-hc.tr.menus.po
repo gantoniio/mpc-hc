@@ -313,7 +313,7 @@ msgstr "&Doygunluk"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "&Mutlak Renkölçer"
+msgstr "&Mutlak kolorimetrik"
 
 msgctxt "POPUP"
 msgid "&VSync"
