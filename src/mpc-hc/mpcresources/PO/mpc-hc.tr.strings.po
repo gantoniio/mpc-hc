@@ -703,7 +703,7 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Bu alana tercih ettiğiniz dilleri giriniz.\n"
+"Tercih ettiğiniz dilleri burada sırasıyla giriniz.\n"
 "Örnek: \"eng jpn tur\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
