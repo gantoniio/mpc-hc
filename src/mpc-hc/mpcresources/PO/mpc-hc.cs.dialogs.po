@@ -338,7 +338,7 @@ msgstr "Pamatovat si poslední velikost okna"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Pamatovat si zvětšení Pan && Scan"
+msgstr "Pamatovat si zvětšení Pan a Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -828,7 +828,7 @@ msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "PnS Frame Adjust Presets"
-msgstr "Předvolby Pan && Scan"
+msgstr "Předvolby Pan a Scan"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
