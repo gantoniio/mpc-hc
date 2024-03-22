@@ -879,7 +879,7 @@ msgstr "Kısayol Tuşları"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Genel Medya Kısayolları"
+msgstr "Kapsamlı Medya Kısayolları"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
