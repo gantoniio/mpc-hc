@@ -4035,7 +4035,7 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
-"/pns \"isim veya değer\"\tKullanılacak video karesi ön ayar adını veya "
+"/pns \"girdi\"\tKullanılacak video karesi ön ayar adını ya da "
 "\"px,py,zx,zy\" biçiminde doğrudan konum ve yakınlaştırma değerlerini "
 "belirtin"
 
