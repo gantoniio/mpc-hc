@@ -3498,7 +3498,7 @@ msgstr "Tarama Amacı: Göreceli Renkli"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Tarama Amacı: Algısal"
+msgstr "İşleme amacı: Doygunluk"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
