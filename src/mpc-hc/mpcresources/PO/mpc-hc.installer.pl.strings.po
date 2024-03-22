@@ -47,6 +47,7 @@ msgid ""
 "If you plan on installing MPC-HC again then you do not have to delete them."
 msgstr ""
 "Czy chcesz usunąć ustawienia MPC-HC?\n"
+"\n"
 "Jeśli planujesz ponownie zainstalować MPC-HC, nie musisz ich usuwać."
 
 msgctxt "CustomMessages_msg_simd_sse2"
