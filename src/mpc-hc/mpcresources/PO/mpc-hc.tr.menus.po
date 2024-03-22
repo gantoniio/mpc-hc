@@ -145,7 +145,7 @@ msgstr "Arayüz ayrıntısı..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "Minimal"
+msgstr "Yalın"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
