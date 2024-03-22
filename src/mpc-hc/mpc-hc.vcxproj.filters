@@ -608,6 +608,9 @@
     <ClCompile Include="STB_Image.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="RarEntrySelectorDialog.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1151,6 +1154,9 @@
       <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
     <ClInclude Include="CMPCThemePropPageButton.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="RarEntrySelectorDialog.h">
       <Filter>MPCTheme</Filter>
     </ClInclude>
   </ItemGroup>
