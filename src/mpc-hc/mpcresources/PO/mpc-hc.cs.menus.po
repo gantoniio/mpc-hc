@@ -28,7 +28,7 @@ msgstr "&Rychle otevřít soubor..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File/URL..."
-msgstr "Otevřít &soubor..."
+msgstr "Otevřít &soubor / URL..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
