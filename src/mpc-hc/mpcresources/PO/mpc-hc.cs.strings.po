@@ -1417,7 +1417,7 @@ msgstr "Rychle otevřít soubor"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File/URL"
-msgstr "Otevřít soubor"
+msgstr "Otevřít soubor / URL"
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
