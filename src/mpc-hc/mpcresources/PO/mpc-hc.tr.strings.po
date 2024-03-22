@@ -2069,7 +2069,7 @@ msgstr "Gelişmiş"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
-msgstr "Minimal arayüz"
+msgstr "Yalın arayüz"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
