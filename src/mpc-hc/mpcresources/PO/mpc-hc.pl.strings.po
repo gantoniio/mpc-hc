@@ -1953,7 +1953,7 @@ msgstr "Zwykłe tempo odtwarzania"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr "Zwiększ przesunięcie dźwięku o 10 ms"
+msgstr "Przesunięcie dźwięku +10 ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
