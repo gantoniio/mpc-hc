@@ -3047,7 +3047,7 @@ msgstr "Rozmiar okna 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
-msgstr "Mysz (modyfikator)"
+msgstr "Modyfikator myszy"
 
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
