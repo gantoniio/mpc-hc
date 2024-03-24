@@ -30,7 +30,7 @@ msgstr "Lokalizcja"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
-msgstr "Obraz"
+msgstr "Wideo"
 
 msgctxt "IDS_INFOBAR_AUDIO"
 msgid "Audio"
