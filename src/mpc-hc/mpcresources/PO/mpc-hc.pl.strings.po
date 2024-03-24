@@ -1746,7 +1746,7 @@ msgstr "Zapisz obraz"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "Zapisz obraz automatycznie"
+msgstr "Zapisz obraz (autom.)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
