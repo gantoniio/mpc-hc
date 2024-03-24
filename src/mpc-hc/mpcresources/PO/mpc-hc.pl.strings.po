@@ -26,7 +26,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Położenie"
+msgstr "Lokalizcja"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
