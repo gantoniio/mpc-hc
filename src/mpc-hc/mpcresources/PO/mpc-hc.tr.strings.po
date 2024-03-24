@@ -4355,11 +4355,11 @@ msgstr "/lock\t\tOynatımdan sonra oturumu kilitle"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr "/monitoroff\tYürütme işlemi sonrasında ekranı kapat"
+msgstr "/monitoroff\tOynatımdan sonra ekranı kapat"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr "/playnext\t\tYürütme işlemi sonrasında klasördeki sonraki dosyayı oynat"
+msgstr "/playnext\t\tOynatımdan sonra klasördeki sonraki dosyayı oynat"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid ""
@@ -4489,7 +4489,7 @@ msgstr "/minimized\tSimge durumuna küçültülmüş şekilde başlat"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr "/new\t\tUygulamanın yeni bir oluşumunu kullan"
+msgstr "/new\t\tUygulamanın yeni bir örneğini kullan"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
