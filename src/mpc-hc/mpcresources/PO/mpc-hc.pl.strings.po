@@ -1969,7 +1969,7 @@ msgstr "Przeskocz wstecz (mało)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
-msgstr "Przeskocz w przód (średnio)"
+msgstr "Przeskocz naprzód (średnio)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
