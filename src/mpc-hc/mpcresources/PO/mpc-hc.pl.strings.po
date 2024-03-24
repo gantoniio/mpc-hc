@@ -2566,9 +2566,7 @@ msgstr "Tytuł: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
-msgstr ""
-"Nazwa pliku zawiera niewłaściwe znaki. Proszę zmienić nazwę pliku, używając "
-"znaków z zakresu A-Z, 0-9."
+msgstr "Nazwa pliku zawiera nieobsługiwane znaki (używaj tylko A-Z, 0-9)"
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
