@@ -3993,7 +3993,7 @@ msgstr "Çevrimiçi altyazı araması yapılamadı."
 
 msgctxt "IDS_SUBDL_DLG_FAILED_DL"
 msgid "Subtitle download failed."
-msgstr "Altyazı indirmesi başarısız oldu."
+msgstr "Altyazı indirilemedi."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
