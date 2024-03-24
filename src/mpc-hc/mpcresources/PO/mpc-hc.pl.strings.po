@@ -2367,7 +2367,7 @@ msgstr "Poprzednia ścieżka audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr "DVD: Następna ścieżka napisów"
+msgstr "Następna ścieżka napisów (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
