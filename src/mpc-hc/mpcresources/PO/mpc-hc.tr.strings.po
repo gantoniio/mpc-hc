@@ -468,15 +468,15 @@ msgstr "Kaydet"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Farklı kaydet..."
+msgstr "&Listeyi farklı kaydet..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "&Ada göre sırala"
+msgstr "Ada göre sırala"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "&Konuma göre sırala"
+msgstr "Yola göre sırala"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -484,7 +484,7 @@ msgstr "Rastgele sırala"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "G&eri al"
+msgstr "Eski haline getir"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
