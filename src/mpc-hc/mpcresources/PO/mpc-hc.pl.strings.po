@@ -1973,7 +1973,7 @@ msgstr "Przeskocz naprzód (średnio)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
-msgstr "Przejdź średnią odległość wstecz"
+msgstr "Przeskocz wstecz (średnio)"
 
 msgctxt "IDS_MPLAYERC_27"
 msgid "Jump Forward (large)"
