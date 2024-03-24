@@ -381,7 +381,7 @@ msgstr "Płyta"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr "Tytuły"
+msgstr "Tytuł(y)"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
