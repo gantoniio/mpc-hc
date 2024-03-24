@@ -1989,7 +1989,7 @@ msgstr "Przeskocz naprzód (kl. klucz.)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "Przejdź do poprzedniej klatki kluczowej"
+msgstr "Przeskocz wstecz (kl. klucz.)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
