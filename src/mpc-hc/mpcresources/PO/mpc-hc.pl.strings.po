@@ -1961,7 +1961,7 @@ msgstr "Przesunięcie dźwięku -10 ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
-msgstr "Przeskocz w przód (mało)"
+msgstr "Przeskocz naprzód (mało)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
