@@ -4622,7 +4622,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
 msgid "Render subtitles onto screenshots"
-msgstr " Renderuj napisy do zrzutów ekranu"
+msgstr "Renderuj napisy do zrzutów ekranu"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid ""
