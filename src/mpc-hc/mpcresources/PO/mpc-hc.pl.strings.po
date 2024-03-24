@@ -1981,7 +1981,7 @@ msgstr "Przeskocz naprzód (dużo)"
 
 msgctxt "IDS_MPLAYERC_28"
 msgid "Jump Backward (large)"
-msgstr "Przejdź dużą odległość wstecz"
+msgstr "Przeskocz wstecz (dużo)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
