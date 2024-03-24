@@ -2383,7 +2383,7 @@ msgstr "OSD: Wyświetlaj aktualny czas"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
-msgstr "Proszę wybrać folder"
+msgstr "Wybierz folder"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
