@@ -2938,7 +2938,7 @@ msgid ""
 "Unrecognized switch(es) found in command line string: \n"
 "\n"
 msgstr ""
-"Znaleziono nierozpoznane parametry w wierszu poleceń: \n"
+"Znaleziono nierozpoznane/-ny parametr(y) w wierszu poleceń: \n"
 "\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
