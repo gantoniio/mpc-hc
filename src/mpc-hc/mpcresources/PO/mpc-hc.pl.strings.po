@@ -2355,7 +2355,7 @@ msgstr "Następny kąt (DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
-msgstr "DVD: Poprzednia kamera"
+msgstr "Poprzedni kąt (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
