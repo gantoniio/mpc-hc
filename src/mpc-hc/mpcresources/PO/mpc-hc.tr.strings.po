@@ -484,7 +484,7 @@ msgstr "Rastgele sırala"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "Eski haline getir"
+msgstr "Önceki haline getir"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
@@ -971,7 +971,7 @@ msgstr "Çift kübik A=-1.00 (PT 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
-msgstr "**mevcut değil**"
+msgstr "**kullanılabilir değil**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
@@ -1021,7 +1021,7 @@ msgstr "Oto."
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "Dışarı aktarılacak bir tuş özelleştirmesi bulunmuyor."
+msgstr "Dışa aktarılacak bir tuş özelleştirmesi bulunmuyor."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
@@ -1055,7 +1055,7 @@ msgstr "Kanal taraması"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Altyazılar yüklenemedi ya da işleyici desteklemiyor."
+msgstr "Altyazılar yükletilmedi ya da işleyici desteklemiyor."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
