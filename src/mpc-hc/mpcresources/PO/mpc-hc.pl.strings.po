@@ -956,7 +956,7 @@ msgstr "Płaszczyzny 3D (zalecane)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr "Nearest neighbor"
+msgstr "Najbliższe sąsiedztwo"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
