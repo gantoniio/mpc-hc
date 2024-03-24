@@ -1594,7 +1594,7 @@ msgstr "Dahili altyazılara ilgisiz kal ve onları kullanma"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Altyazı konumları"
+msgstr "Yükletme (açma) yerleri"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1606,7 +1606,7 @@ msgstr "Çevrimiçi altyazı arama"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "Geçerli konumda bulunmuyorsa altyazıları otomatik olarak ara ve indir"
+msgstr "Yerelde altyazı bulunmadıysa kendiliğinden ara ve indir"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
@@ -1627,8 +1627,7 @@ msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
 msgstr ""
-"İndirilen altyazıları otomatik olarak altyazı konumlarındaki ilk klasöre "
-"kaydet"
+"İndirilen altyazıları \"Yükletme yerleri\"ndeki ilk yoldaki klasöre kaydet"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
