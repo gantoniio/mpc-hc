@@ -1670,7 +1670,8 @@ msgstr "EBO %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr "Günlük kayıtları dosyaya yazılır (yeniden başlatma gerektirir)"
+msgstr ""
+"Dosyaya günlük kaydı tutmayı etkinleştir (yeniden başlatma gerektirir)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
