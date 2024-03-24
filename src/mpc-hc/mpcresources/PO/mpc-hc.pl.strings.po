@@ -331,7 +331,7 @@ msgstr "Na żywo"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "Nie można dodać filtra przechwytującego obraz do grafu."
+msgstr "Nie można dodać filtra przechwytującego obraz do wykresu."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
