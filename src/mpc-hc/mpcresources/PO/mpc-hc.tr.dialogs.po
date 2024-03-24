@@ -461,7 +461,7 @@ msgstr "Otomatik yakınlaştır:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Otomatik uyum faktörü:"
+msgstr "Otomatik uyma faktörü:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
