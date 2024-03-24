@@ -181,7 +181,7 @@ msgstr "%&200"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "&Otomatik uyum"
+msgstr "Otomatik &uy"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
