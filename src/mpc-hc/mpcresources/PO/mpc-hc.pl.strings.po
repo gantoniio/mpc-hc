@@ -1411,7 +1411,7 @@ msgstr "Klawisz"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr "Mysz (okno)"
+msgstr "Mysz w oknie"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
