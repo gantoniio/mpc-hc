@@ -2089,7 +2089,7 @@ msgstr "Tam ekran (çöz. değişmeden)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Yakınlaştırma: Otomatik uyum"
+msgstr "Yakınlaştırma: Otomatik uy"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
@@ -2171,7 +2171,7 @@ msgstr "%200"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Otomatik uyum"
+msgstr "Otomatik uy"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
