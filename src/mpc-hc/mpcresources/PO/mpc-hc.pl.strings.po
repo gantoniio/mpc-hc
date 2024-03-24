@@ -417,7 +417,7 @@ msgstr "Od (kl./s)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To (FPS)"
-msgstr "Do kl./s"
+msgstr "Do (kl./s)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
