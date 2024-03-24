@@ -1590,7 +1590,7 @@ msgstr "Dahili altyazılar yerine harici altyazıları tercih et"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Dahili altyazıları yok say"
+msgstr "Dahili altyazılara ilgisiz kal ve onları kullanma"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1617,11 +1617,11 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr "Belirtilen kelimeleri içeren dosyaları göz ardı et:"
+msgstr "Belirtilen sözcükleri içeren dosyalara karşı ilgisiz kal:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
-msgstr "Tercih edilen dil sıralaması:"
+msgstr "Tercih edilen dil sırası:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
