@@ -2391,7 +2391,7 @@ msgstr "Szybkie dodanie do ulubionych"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
-msgstr "Nr"
+msgstr "N"
 
 msgctxt "IDS_DVB_CHANNEL_NAME"
 msgid "Name"
