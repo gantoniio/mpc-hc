@@ -134,7 +134,7 @@ msgstr "Przes. synchr."
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "średnie: %d ms, odchylenie std.: %d ms"
+msgstr "śr.: %d ms, odch. std.: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
