@@ -505,7 +505,7 @@ msgstr "İşlenemeyen bağlantı noktalarını bildir"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Ses dosyalarını otomatik olarak yükle"
+msgstr "Ses dosyalarını otomatik olarak yüklet"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -1272,7 +1272,7 @@ msgstr "Altyazı indir"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Geçerli altyazıyı değiştir"
+msgstr "Halihazırda yükletilmiş olan altyazıyı değiştir"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
@@ -1627,7 +1627,8 @@ msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
 msgstr ""
-"İndirilen altyazıları \"Yükletme yerleri\"ndeki ilk yoldaki klasöre kaydet"
+"İndirilen altyazıları \"Yükletme yerleri\"ndeki ilk yolda bulunan klasöre "
+"kaydet"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1674,7 +1675,7 @@ msgstr "Tonlayıcı ön ayarları"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr "Getir"
+msgstr "Yüklet"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
