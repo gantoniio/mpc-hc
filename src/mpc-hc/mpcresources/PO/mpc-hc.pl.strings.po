@@ -216,7 +216,7 @@ msgid ""
 "decoder present in the filter graph."
 msgstr ""
 "Szybkie z wyjątkiem przełączania pomiędzy kanałami z wideo innych typów. "
-"Tylko jeden dekoder obrazu obecny w grafie."
+"Tylko jeden dekoder obrazu obecny na wykresie filtra."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
