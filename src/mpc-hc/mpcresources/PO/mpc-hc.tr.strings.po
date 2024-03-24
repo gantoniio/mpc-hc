@@ -3989,7 +3989,7 @@ msgstr "Skor"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr "Çevrimiçi altyazı araması yapılamadı."
+msgstr "Çevrimiçi altyazı aranması başarısız."
 
 msgctxt "IDS_SUBDL_DLG_FAILED_DL"
 msgid "Subtitle download failed."
@@ -3997,7 +3997,7 @@ msgstr "Altyazı indirilemedi."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr "Çevrimiçi altyazı araması iptal edildi."
+msgstr "Arama iptal edildi."
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
@@ -4017,7 +4017,7 @@ msgstr "Çevrimiçi altyazı aranıyor, lütfen bekleyiniz..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr "Çevrimiçi altyazı arama iptal ediliyor..."
+msgstr "Arama iptal ediliyor..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
