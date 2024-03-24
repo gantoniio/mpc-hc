@@ -2351,7 +2351,7 @@ msgstr "Wczytaj ponownie napisy"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
-msgstr "DVD: Następna kamera"
+msgstr "Następny kąt (DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
