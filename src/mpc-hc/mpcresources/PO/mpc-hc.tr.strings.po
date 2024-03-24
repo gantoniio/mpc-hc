@@ -70,7 +70,7 @@ msgstr "Dosya"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "Varsayılan biçim"
+msgstr "Varsayılan biçem"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -154,7 +154,7 @@ msgstr "Kuvvet: %d dB, Kalite: %%%ld"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr "Biçimler"
+msgstr "Biçemler"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid ""
@@ -305,7 +305,7 @@ msgstr "Metin"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
-msgstr "Biçim"
+msgstr "Biçem"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
@@ -748,7 +748,7 @@ msgstr "Oynatıcı::Tuşlar"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Altyazı::Varsayılan biçim"
+msgstr "Altyazı::Varsayılan biçem"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -1102,7 +1102,7 @@ msgid ""
 "If the rendering target is left undefined, it will be inherited from the "
 "default style."
 msgstr ""
-"Oluşturma hedefi tanımsız bırakılırsa varsayılan biçimdeki yöntem "
+"Oluşturma hedefi tanımsız bırakılırsa varsayılan biçemdeki yol "
 "kullanılacaktır."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
@@ -1344,7 +1344,7 @@ msgstr "Seçenekler..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "Biçimler..."
+msgstr "Biçemler..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1542,7 +1542,7 @@ msgstr "Bağlanmak için üyelik bilgilerinizi giriniz"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr "Özel biçimleri kaydet"
+msgstr "Özel biçemleri kaydet"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -4578,7 +4578,7 @@ msgstr "&Devam"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr "Varsayılan altyazı biçimini Aç/Kapat"
+msgstr "Varsayılan altyazı biçemini Aç/Kapat"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
