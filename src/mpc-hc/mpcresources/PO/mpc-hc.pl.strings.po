@@ -1423,7 +1423,7 @@ msgstr "Polecenie programu"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
-msgstr "Wszystkie pliki multimedialne"
+msgstr "Pliki multimedialne (wszystkie)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
