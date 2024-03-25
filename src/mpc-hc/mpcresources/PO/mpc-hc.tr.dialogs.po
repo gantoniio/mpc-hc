@@ -1272,7 +1272,7 @@ msgstr "Altyazı indir"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Halihazırda yükletilmiş olan altyazıyı değiştir"
+msgstr "Yükletilmiş şimdiki altyazıların yerine geç"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
