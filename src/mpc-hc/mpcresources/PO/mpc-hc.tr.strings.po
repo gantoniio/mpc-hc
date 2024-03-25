@@ -1228,7 +1228,7 @@ msgstr "Gözdeleri düzenle..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "Rastgele oynat"
+msgstr "Karışık oynat"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
