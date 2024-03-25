@@ -1200,7 +1200,7 @@ msgstr "D3D9 işleme aygıtı seçimi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Ekranı değiştirirken yeniden başlat"
+msgstr "Ekranı değiştirirken sıfırla"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
