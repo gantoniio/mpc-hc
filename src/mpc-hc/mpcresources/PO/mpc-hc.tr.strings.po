@@ -2200,7 +2200,7 @@ msgstr "Lütfen 1 ile 365 arasında bir sayı giriniz."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr "Video karesi: Merkeze al"
+msgstr "Video karesi: Ortala"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
