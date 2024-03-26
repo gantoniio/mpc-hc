@@ -1538,7 +1538,7 @@ msgstr "Tam ekran monitör"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Otomatik tam ekran monitör kipini kullan"
+msgstr "Kendiliğinden değişen tam ekran monitör durumunu kullan"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
