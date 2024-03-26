@@ -1586,7 +1586,7 @@ msgstr "Zorlanmış veya varsayılan altyazıları tercih et"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Gömülü altyazılar yerine dışsal altyazıları yeğle"
+msgstr "Dışsal altyazıları gömülü altyazılara yeğle"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
