@@ -116,11 +116,11 @@ msgstr "Özel kanal adreslemesi kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
-msgstr "Hoparlör sayısını ve çıkışını:"
+msgstr "Hoparlör yapılandırması"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
-msgstr "kanal olarak ayarla"
+msgstr "giriş kanalı için:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
