@@ -1112,7 +1112,7 @@ msgstr "Dönüştürme Filtreleri"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Dahili LAV Filters ayarları"
+msgstr "İçsel \"LAV Filters\" ayarları"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1128,7 +1128,7 @@ msgstr "Ses çözücüsü"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
-msgstr "Dahili:"
+msgstr "İçsel:"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
