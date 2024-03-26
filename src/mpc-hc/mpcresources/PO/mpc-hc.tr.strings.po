@@ -1103,7 +1103,7 @@ msgid ""
 "If the rendering target is left undefined, it will be inherited from the "
 "default style."
 msgstr ""
-"Oluşturma hedefi tanımsız bırakılırsa varsayılan biçemdeki yol "
+"Oluşturma hedefi bellisiz bırakılırsa varsayılan biçemdeki yol "
 "kullanılacaktır."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
