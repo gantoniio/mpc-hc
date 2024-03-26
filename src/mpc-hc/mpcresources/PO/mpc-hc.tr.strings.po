@@ -167,11 +167,11 @@ msgstr ""
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr "Tekrar modu: Oynatma listesi"
+msgstr "Tekrar tipi: Oynatma listesi"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr "Tekrar modu: Dosya"
+msgstr "Tekrar tipi: Dosya"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
@@ -416,7 +416,7 @@ msgstr "Son (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Görüntüleme modu (Hz)"
+msgstr "Görüntü biçemi (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -915,7 +915,7 @@ msgid ""
 "its property page will work and it will use a separate worker thread to "
 "renderer frames."
 msgstr ""
-"VKİ-9 (işleyicisiz)'i karıştırıcı moduna geçirir, bu, ayarlar sayfasındaki "
+"VKİ-9 (işleyicisiz)'i karıştırıcı tipine geçirir. Bu, ayarlar sayfasındaki "
 "birçok seçeneğin çalışacağı ve video karelerini işlemek için ayrı bir "
 "üstlenici izlek kullanılacağı anlamına gelir."
 
@@ -1616,8 +1616,8 @@ msgstr "Kalite (%):"
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
-"Ses dosyası oynatımı kipindeyken kullanılabilecek en büyük albüm kapağı "
-"boyutu (NxNpx)"
+"Yalnızca ses oynatımı durumundayken kapak resminin oynatıcıya "
+"yükletilebilecek en fazla boyutu (=piksel)"
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid ""
@@ -4278,7 +4278,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr "/d3dfs\t\tİşlemeyi D3D tam ekran modunda başlat"
+msgstr "/d3dfs\t\tİşlemeyi D3D tam ekran tipinde başlat"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
@@ -4481,7 +4481,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
-msgstr "/fullscreen\tTam ekran modunda başlat"
+msgstr "/fullscreen\tTam ekran durumunda başlat"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -4769,7 +4769,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
-msgstr "WASAPI modu:"
+msgstr "WASAPI durumu:"
 
 msgctxt "IDS_ARS_EXCLUSIVE"
 msgid "Exclusive"
@@ -4817,7 +4817,7 @@ msgstr "Aygıt:"
 
 msgctxt "IDS_ARS_MODE"
 msgid "Mode:"
-msgstr "Mod:"
+msgstr "Durum:"
 
 msgctxt "IDS_ARS_INPUT"
 msgid "Input"
