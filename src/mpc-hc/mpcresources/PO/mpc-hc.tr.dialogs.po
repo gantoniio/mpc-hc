@@ -445,7 +445,7 @@ msgstr "kez oynat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr "Tekrar modu:"
+msgstr "Tekrar tipi:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -665,7 +665,7 @@ msgstr "Varsayılan"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Pencere kipinde oynatırken fare imlecini otomatik gizle"
+msgstr "Pencere durumunda oynatım süresince fare imlecini kendiliğinden gizle"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
@@ -1212,7 +1212,7 @@ msgstr "Alternatif VSync"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VKİ-9 karıştırıcı modu"
+msgstr "VKİ-9 karıştırıcı tipi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
@@ -1558,7 +1558,7 @@ msgstr "Aşağı"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Tam ekran çıkışında varsayılan monitör kipini uygula"
+msgstr "Tam ekrandan çıkışta varsayılan monitör durumunu uygula"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1757,13 +1757,13 @@ msgstr "Seçenekler"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr "Ayrıcalıklı mod"
+msgstr "Ayrıcalıklı durum"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
-"Sistem kanal karıştırıcısını yok say (Ayrıcalıklı WASAPI modunda her zaman "
-"yok sayılır)"
+"Sistem kanal karıştırıcısını yok say (Ayrıcalıklı WASAPI durumunda her zaman"
+" yok sayılır)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
