@@ -3700,15 +3700,15 @@ msgstr "Özel kanal adreslemesi: Kapalı"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
-msgstr "Normalleştirmeyi Aç/Kapat"
+msgstr "Düzgeleme kullanmayı Aç/Kapat"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr "Normalleştirme: Açık"
+msgstr "Düzgeleme kullan: Açık"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr "Normalleştirme: Kapalı"
+msgstr "Düzgeleme kullan: Kapalı"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
