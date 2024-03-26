@@ -3506,7 +3506,7 @@ msgstr "İşleme amacı: Mutlak kolorimetrik"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr "Çıkış aralığı: %s"
+msgstr "Çıkış erimi: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
