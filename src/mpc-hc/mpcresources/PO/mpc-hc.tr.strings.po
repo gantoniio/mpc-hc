@@ -596,7 +596,7 @@ msgstr "İnce Ayarlar"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Dahili Filtreler::Ses Değiştirici"
+msgstr "İçsel Filtreler::Ses Değiştirici"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -632,7 +632,7 @@ msgstr "Yürütme::Tam Ekran"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr "Dahili Filtreler::Ses İşleyici"
+msgstr "İçsel Filtreler::Ses İşleyici"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -752,7 +752,7 @@ msgstr "Altyazı::Varsayılan biçem"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "Dahili Filtreler"
+msgstr "İçsel Filtreler"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
@@ -1555,7 +1555,8 @@ msgstr "Pencere kipinde de kontrolleri ve panelleri gizler."
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid ""
 "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Dahili altyazı işleyici kullanılırken, haricinin yükletilmesini önle."
+msgstr ""
+"İçsel altyazı işleyici kullanılırken, dışsal olanın yükletilmesini önle."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1720,7 +1721,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Dahili Altyazı İşleyici"
+msgstr "İçsel Altyazı İşleyici"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
