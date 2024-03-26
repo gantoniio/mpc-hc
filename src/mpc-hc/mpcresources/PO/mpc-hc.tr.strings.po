@@ -4180,7 +4180,7 @@ msgstr "İndir && Aç"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
-msgstr "Ayarlar"
+msgstr "Ayarla"
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
