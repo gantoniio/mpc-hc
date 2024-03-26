@@ -4833,7 +4833,7 @@ msgstr "Biçim:"
 
 msgctxt "IDS_ARS_SAMPLERATE"
 msgid "Sample rate:"
-msgstr "Örnekleme hızı:"
+msgstr "Örneklem hızı:"
 
 msgctxt "IDS_ARS_CHANNELS"
 msgid "Channels:"
