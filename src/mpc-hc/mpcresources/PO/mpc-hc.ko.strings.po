@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-02-10 16:52:19+0000\n"
+"POT-Creation-Date: 2024-03-02 14:37:43+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Hack茶ん, 2024\n"
 "Language-Team: Korean (https://app.transifex.com/mpchc/teams/106126/ko/)\n"
@@ -1351,7 +1351,7 @@ msgstr "키"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse"
-msgstr ""
+msgstr "마우스"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
