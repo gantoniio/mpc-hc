@@ -182,7 +182,7 @@ msgstr "Aç:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Gözat..."
+msgstr "Göz at..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
@@ -190,7 +190,7 @@ msgstr "Dublaj:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Gözat..."
+msgstr "Göz at..."
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
@@ -968,7 +968,7 @@ msgstr "Filtre Seçimi"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Gözat..."
+msgstr "Göz at..."
 
 msgctxt "IDD_ADDREGFILTER_IDOK"
 msgid "OK"
@@ -1136,7 +1136,7 @@ msgstr "Dışsal:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Gözat..."
+msgstr "Göz at..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
@@ -1252,7 +1252,7 @@ msgstr "Sunulacak sayfalar:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Gözat..."
+msgstr "Göz at..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
