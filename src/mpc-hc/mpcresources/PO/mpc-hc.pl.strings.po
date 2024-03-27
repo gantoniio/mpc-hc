@@ -1410,12 +1410,8 @@ msgid "Key"
 msgstr "Klawisz"
 
 msgctxt "IDS_AG_MOUSE"
-msgid "Mouse Windowed"
-msgstr "Mysz w oknie"
-
-msgctxt "IDS_AG_MOUSE_FS"
-msgid "Mouse Fullscreen"
-msgstr "Mysz w pełnym ekranie"
+msgid "Mouse"
+msgstr ""
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -3048,10 +3044,6 @@ msgstr "Rozmiar okna 25%"
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
 msgstr "Modyfikator myszy"
-
-msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
-msgid "Mouse FS Modifier"
-msgstr "Modyfikator myszy FS"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"

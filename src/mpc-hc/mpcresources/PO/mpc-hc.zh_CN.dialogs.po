@@ -1869,6 +1869,10 @@ msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
 msgstr "视频信息"
 
+msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
+msgid "Audio Info"
+msgstr ""
+
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
 msgstr "每秒帧数 (FPS)"
@@ -1928,3 +1932,15 @@ msgstr "使用增强型任务栏功能"
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
 msgstr "通过 Windows UI 来控制 (SMTC)"
+
+msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
+msgid "Select Media from RAR"
+msgstr ""
+
+msgctxt "IDD_RAR_ENTRY_SELECTOR_IDOK"
+msgid "Select"
+msgstr ""
+
+msgctxt "IDD_RAR_ENTRY_SELECTOR_IDCANCEL"
+msgid "Cancel"
+msgstr ""

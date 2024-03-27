@@ -3037,10 +3037,6 @@ msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
 msgstr "Fare Düzenleyicisi"
 
-msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
-msgid "Mouse FS Modifier"
-msgstr "Fare (FS) Düzenleyicisi"
-
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
 msgstr "Pencere boyutu +"
