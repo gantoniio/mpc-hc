@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-02-10 16:52:19+0000\n"
+"POT-Creation-Date: 2024-03-27 16:45:29+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Hack茶ん, 2024\n"
 "Language-Team: Korean (https://app.transifex.com/mpchc/teams/106126/ko/)\n"
@@ -1869,7 +1869,7 @@ msgstr "영상 정보"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
 msgid "Audio Info"
-msgstr ""
+msgstr "음향 정보"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
@@ -1933,12 +1933,12 @@ msgstr "윈도 사용자 인터페이스를 통한 제어(SMTC)"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"
-msgstr ""
+msgstr "RAR에서 미디어 선택"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDOK"
 msgid "Select"
-msgstr ""
+msgstr "선택"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDCANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
