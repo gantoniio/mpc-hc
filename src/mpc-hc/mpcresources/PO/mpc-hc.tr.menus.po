@@ -533,7 +533,7 @@ msgstr "&Seçenekler..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "&Yürütme"
+msgstr "&Oynatım"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
