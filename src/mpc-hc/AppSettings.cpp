@@ -81,7 +81,7 @@ CAppSettings::CAppSettings()
     , hAccel(nullptr)
     , fWinLirc(false)
     , fUIce(false)
-    , fGlobalMedia(false)
+    , fGlobalMedia(true)
     , nLogoId(-1)
     , fLogoExternal(false)
     , fLogoColorProfileEnabled(false)
@@ -245,6 +245,7 @@ CAppSettings::CAppSettings()
     , bShowFPSInStatusbar(false)
     , bShowABMarksInStatusbar(false)
     , bShowVideoInfoInStatusbar(false)
+    , bShowAudioFormatInStatusbar(false)
 #if USE_LIBASS
     , bRenderSSAUsingLibass(false)
     , bRenderSRTUsingLibass(false)
@@ -262,7 +263,7 @@ CAppSettings::CAppSettings()
     , lastFileSaveCopyPath(L"")
     , lastFileOpenDirPath(L"")
     , iRedirectOpenToAppendThreshold(1000)
-    , bFullscreenSeparateControls(false)
+    , bFullscreenSeparateControls(true)
     , bAlwaysUseShortMenu(false)
     , iStillVideoDuration(10)
     , iMouseLeftUpDelay(0)
@@ -533,7 +534,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES },
     { ID_FILE_OPEN_LOCATION,           VK_F10, FVIRTKEY | FCONTROL | FSHIFT | FNOINVERT,IDS_AG_OPEN_FILE_LOCATION },
     { ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT },
-    { ID_PLAY_PLAYPAUSE,             VK_SPACE, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAYPAUSE,   APPCOMMAND_MEDIA_PLAY_PAUSE, wmcmd::LUP, wmcmd::LUP },
+    { ID_PLAY_PLAYPAUSE,             VK_SPACE, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAYPAUSE,   APPCOMMAND_MEDIA_PLAY_PAUSE, wmcmd::LUP },
     { ID_PLAY_PLAY,                         0, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAY,        APPCOMMAND_MEDIA_PLAY },
     { ID_PLAY_PAUSE,                        0, FVIRTKEY | FNOINVERT,                    IDS_AG_PAUSE,       APPCOMMAND_MEDIA_PAUSE },
     { ID_PLAY_STOP,             VK_OEM_PERIOD, FVIRTKEY | FNOINVERT,                    IDS_AG_STOP,        APPCOMMAND_MEDIA_STOP },
@@ -549,8 +550,8 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_PLAY_SEEKBACKWARDSMALL,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_24 },
     { ID_PLAY_SEEKFORWARDMED,        VK_RIGHT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_25 },
     { ID_PLAY_SEEKBACKWARDMED,        VK_LEFT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_26 },
-    { ID_PLAY_SEEKFORWARDLARGE,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_27, 0, wmcmd::WUP,   wmcmd::WUP,   FVIRTKEY | FCONTROL, FVIRTKEY | FCONTROL },
-    { ID_PLAY_SEEKBACKWARDLARGE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_28, 0, wmcmd::WDOWN, wmcmd::WDOWN, FVIRTKEY | FCONTROL, FVIRTKEY | FCONTROL },
+    { ID_PLAY_SEEKFORWARDLARGE,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_27, 0, wmcmd::WUP,   FVIRTKEY | FCONTROL },
+    { ID_PLAY_SEEKBACKWARDLARGE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_28, 0, wmcmd::WDOWN, FVIRTKEY | FCONTROL },
     { ID_PLAY_SEEKKEYFORWARD,        VK_RIGHT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_29 },
     { ID_PLAY_SEEKKEYBACKWARD,        VK_LEFT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_30 },
     { ID_PLAY_SEEKSET,                VK_HOME, FVIRTKEY | FNOINVERT,                    IDS_AG_SEEKSET },
@@ -560,8 +561,8 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_PLAY_REPEAT_AB,                    0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_AB },
     { ID_PLAY_REPEAT_AB_MARK_A,      VK_OEM_4, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_AB_MARK_A },
     { ID_PLAY_REPEAT_AB_MARK_B,      VK_OEM_6, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_AB_MARK_B },
-    { ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN, wmcmd::X2DOWN },
-    { ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN, wmcmd::X1DOWN },
+    { ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN },
+    { ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN },
     { ID_NAVIGATE_SKIPFORWARDFILE,    VK_NEXT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_NEXT_FILE },
     { ID_NAVIGATE_SKIPBACKFILE,      VK_PRIOR, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PREVIOUS_FILE },
     { ID_NAVIGATE_TUNERSCAN,              'T', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_NAVIGATE_TUNERSCAN },
@@ -584,7 +585,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL },
     { ID_VIEW_PRESETS_COMPACT,            '2', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_COMPACT },
     { ID_VIEW_PRESETS_NORMAL,             '3', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_NORMAL },
-    { ID_VIEW_FULLSCREEN,           VK_RETURN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_FULLSCREEN, 0, wmcmd::LDBLCLK, wmcmd::LDBLCLK },
+    { ID_VIEW_FULLSCREEN,           VK_RETURN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_FULLSCREEN, 0, wmcmd::LDBLCLK },
     { ID_VIEW_FULLSCREEN_SECONDARY,    VK_F11, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_39 },
     { ID_VIEW_ZOOM_25,               VK_OEM_3, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_25 }, /* VK_OEM_3 is `~ on US keyboards*/
     { ID_VIEW_ZOOM_50,                    '1', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_50 },
@@ -627,8 +628,8 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_PANSCAN_ROTATEYM,         VK_NUMPAD6, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEY_M },
     { ID_PANSCAN_ROTATEZP,         VK_NUMPAD1, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEZ_P },
     { ID_PANSCAN_ROTATEZM,         VK_NUMPAD3, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEZ_M },
-    { ID_VOLUME_UP,                     VK_UP, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_UP,   0, wmcmd::WUP, wmcmd::WUP },
-    { ID_VOLUME_DOWN,                 VK_DOWN, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_DOWN, 0, wmcmd::WDOWN, wmcmd::WDOWN },
+    { ID_VOLUME_UP,                     VK_UP, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_UP,   0, wmcmd::WUP },
+    { ID_VOLUME_DOWN,                 VK_DOWN, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_DOWN, 0, wmcmd::WDOWN },
     { ID_VOLUME_MUTE,                     'M', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_VOLUME_MUTE, 0 },
     { ID_VOLUME_BOOST_INC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_INC },
     { ID_VOLUME_BOOST_DEC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_DEC },
@@ -660,7 +661,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_NAVIGATE_MENU_BACK,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_DVD_MENU_BACK },
     { ID_NAVIGATE_MENU_LEAVE,               0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_75 },
     { ID_BOSS,                            'B', FVIRTKEY | FNOINVERT,                    IDS_AG_BOSS_KEY },
-    { ID_MENU_PLAYER_SHORT,           VK_APPS, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_77, 0, wmcmd::RUP, wmcmd::RUP },
+    { ID_MENU_PLAYER_SHORT,           VK_APPS, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_77, 0, wmcmd::RUP },
     { ID_MENU_PLAYER_LONG,                  0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_78 },
     { ID_MENU_FILTERS,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_FILTERS_MENU },
     { ID_VIEW_OPTIONS,                    'O', FVIRTKEY | FNOINVERT,                    IDS_AG_OPTIONS },
@@ -723,6 +724,7 @@ void CAppSettings::CreateCommands()
     for (const auto& wc : default_wmcmds) {
         wmcmds.AddTail(wmcmd(wc));
     }
+    ASSERT(wmcmds.GetCount() <= ACCEL_LIST_SIZE);
 }
 
 CAppSettings::~CAppSettings()
@@ -858,6 +860,22 @@ CString CAppSettings::SelectedAudioRenderer() const
     }
 
     return strResult;
+}
+
+void CAppSettings::ClearRecentFiles() {
+    MRU.RemoveAll();
+
+    for (int i = MRUDub.GetSize() - 1; i >= 0; i--) {
+        MRUDub.Remove(i);
+    }
+    MRUDub.WriteList();
+
+    // Empty the Windows "Recent" jump list
+    CComPtr<IApplicationDestinations> pDests;
+    HRESULT hr = pDests.CoCreateInstance(CLSID_ApplicationDestinations, nullptr, CLSCTX_INPROC_SERVER);
+    if (SUCCEEDED(hr)) {
+        pDests->RemoveAllDestinations();
+    }
 }
 
 void CAppSettings::SaveSettings(bool write_full_history /* = false */)
@@ -1095,10 +1113,11 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
         if (wc.IsModified()) {
             CString str;
             str.Format(_T("CommandMod%d"), i);
+            // mouse and mouseVirt are written twice for backwards compatibility with old versions
             CString str2;
             str2.Format(_T("%hu %hx %hx \"%S\" %d %hhu %u %hhu %hhu %hhu"),
                         wc.cmd, (WORD)wc.fVirt, wc.key, wc.rmcmd.GetString(),
-                        wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouseFS, wc.mouseVirt, wc.mouseFSVirt);
+                        wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouse, wc.mouseVirt, wc.mouseVirt);
             pApp->WriteProfileString(IDS_R_COMMANDS, str, str2);
             i++;
         }
@@ -1255,6 +1274,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, bShowFPSInStatusbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_ABMARKS_STATUSBAR, bShowABMarksInStatusbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_VIDEOINFO_STATUSBAR, bShowVideoInfoInStatusbar);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_AUDIOFORMAT_STATUSBAR, bShowAudioFormatInStatusbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, bAddLangCodeWhenSaveSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, bUseTitleInRecentFileList);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_SUBS_PREFERENCE, sYDLSubsPreference);
@@ -1272,27 +1292,43 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, iMouseLeftUpDelay);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CAPTURE_DEINTERLACE, bCaptureDeinterlace);
 
-    if (fKeepHistory) {
-        if (write_full_history) {
-            MRU.SaveMediaHistory();
-        } else {
-            MRU.WriteCurrentEntry();
-        }
-    }
-
-    size_t maxsize = AfxGetAppSettings().fKeepHistory ? iRecentFilesNumber : 0;
-    CStringW section = L"PlaylistHistory";
-    auto timeToHash = LoadHistoryHashes(section, L"LastUpdated");
-
-    int entries = 0;
-    for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter, ++entries) {
-        CStringW hash = iter->second;
-        if (entries >= maxsize) {
-            PurgeExpiredHash(section, hash);
-        }
+    if (fKeepHistory && write_full_history) {
+        MRU.SaveMediaHistory();
     }
 
     pApp->FlushProfile();
+}
+
+void CAppSettings::PurgeMediaHistory(size_t maxsize) {
+    CStringW section = L"MediaHistory";
+    auto timeToHash = LoadHistoryHashes(section, L"LastUpdated");
+    size_t entries = timeToHash.size();
+    if (entries > maxsize) {
+        for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter) {
+            if (entries > maxsize) {
+                PurgeExpiredHash(section, iter->second);
+                entries--;
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+void CAppSettings::PurgePlaylistHistory(size_t maxsize) {
+    CStringW section = L"PlaylistHistory";
+    auto timeToHash = LoadHistoryHashes(section, L"LastUpdated");
+    size_t entries = timeToHash.size();
+    if (entries > maxsize) {
+        for (auto iter = timeToHash.rbegin(); iter != timeToHash.rend(); ++iter) {
+            if (entries > maxsize) {
+                PurgeExpiredHash(section, iter->second);
+                entries--;
+            } else {
+                break;
+            }
+        }
+    }
 }
 
 std::multimap<CStringW, CStringW> CAppSettings::LoadHistoryHashes(CStringW section, CStringW dateField) {
@@ -1596,7 +1632,7 @@ void CAppSettings::LoadSettings()
 
     // Auto-change fullscreen mode
     autoChangeFSMode.bEnabled = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_ENABLE, FALSE);
-    autoChangeFSMode.bApplyDefaultModeAtFSExit = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_APPLYDEFMODEATFSEXIT, TRUE);
+    autoChangeFSMode.bApplyDefaultModeAtFSExit = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_APPLYDEFMODEATFSEXIT, FALSE);
     autoChangeFSMode.bRestoreResAfterProgExit  = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_RESTORERESAFTEREXIT, TRUE);
     autoChangeFSMode.uDelay = pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_DELAY, 0);
 
@@ -1836,10 +1872,11 @@ void CAppSettings::LoadSettings()
         wmcmd tmp;
         int n;
         int fVirt = 0;
+        BYTE ignore;
         if (5 > (n = _stscanf_s(str2, _T("%hu %x %hx %S %d %hhu %u %hhu %hhu %hhu"),
                                 &tmp.cmd, &fVirt, &tmp.key, tmp.rmcmd.GetBuffer(128), 128,
-                                &tmp.rmrepcnt, &tmp.mouse, &tmp.appcmd, &tmp.mouseFS,
-                                &tmp.mouseVirt, &tmp.mouseFSVirt))) {
+                                &tmp.rmrepcnt, &tmp.mouse, &tmp.appcmd, &ignore,
+                                &tmp.mouseVirt, &ignore))) {
             break;
         }
         tmp.rmcmd.ReleaseBuffer();
@@ -1857,14 +1894,8 @@ void CAppSettings::LoadSettings()
             if (n >= 7) {
                 wc.appcmd = tmp.appcmd;
             }
-            // If there is no distinct bindings for windowed and
-            // fullscreen modes we use the same for both.
-            wc.mouseFS = (n >= 8) ? tmp.mouseFS : wc.mouse;
-            if (n > 8) {
+            if (n >= 9) {
                 wc.mouseVirt = tmp.mouseVirt;
-            }
-            if (n > 9) {
-                wc.mouseFSVirt = tmp.mouseFSVirt;
             }
             wc.rmcmd = tmp.rmcmd.Trim('\"');
             wc.rmrepcnt = tmp.rmrepcnt;
@@ -1872,18 +1903,23 @@ void CAppSettings::LoadSettings()
     }
 
     CAtlArray<ACCEL> pAccel;
-    pAccel.SetCount(wmcmds.GetCount());
+    pAccel.SetCount(ACCEL_LIST_SIZE);
+    int accel_count = 0;
     POSITION pos = wmcmds.GetHeadPosition();
     for (int i = 0; pos; i++) {
-        pAccel[i] = wmcmds.GetNext(pos);
+        ACCEL x = wmcmds.GetNext(pos);
+        if (x.key > 0) {
+            pAccel[accel_count] = x;
+            accel_count++;
+        }
     }
-    hAccel = CreateAcceleratorTable(pAccel.GetData(), (int)pAccel.GetCount());
+    hAccel = CreateAcceleratorTable(pAccel.GetData(), accel_count);
 
     strWinLircAddr = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WINLIRCADDR, _T("127.0.0.1:8765"));
     fWinLirc = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WINLIRC, FALSE);
     strUIceAddr = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_UICEADDR, _T("127.0.0.1:1234"));
     fUIce = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UICE, FALSE);
-    fGlobalMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_GLOBALMEDIA, !IsWindows10OrGreater());
+    fGlobalMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_GLOBALMEDIA, TRUE);
 
     nJumpDistS = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_JUMPDISTS, DEFAULT_JUMPDISTANCE_1);
     nJumpDistM = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_JUMPDISTM, DEFAULT_JUMPDISTANCE_2);
@@ -2115,7 +2151,8 @@ void CAppSettings::LoadSettings()
     bShowFPSInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, FALSE);
     bShowABMarksInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_ABMARKS_STATUSBAR, FALSE);
     bShowVideoInfoInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_VIDEOINFO_STATUSBAR, FALSE);
-
+    bShowAudioFormatInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_AUDIOFORMAT_STATUSBAR, FALSE);
+    
     bAddLangCodeWhenSaveSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, FALSE);
     bUseTitleInRecentFileList = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, TRUE);
     sYDLSubsPreference = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_SUBS_PREFERENCE, _T(""));
@@ -2127,7 +2164,7 @@ void CAppSettings::LoadSettings()
 
 
     iRedirectOpenToAppendThreshold = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, 1000);
-    bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, FALSE);
+    bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, TRUE);
     bAlwaysUseShortMenu = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, FALSE);
     iStillVideoDuration = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, 10);
     iMouseLeftUpDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, 0);
@@ -2811,6 +2848,7 @@ CStringW getRFEHash(RecentFileEntry &r) {
     }
 }
 
+/*
 void CAppSettings::CRecentFileListWithMoreInfo::Remove(size_t nIndex) {
     if (nIndex >= 0 && nIndex < rfe_array.GetCount()) {
         auto pApp = AfxGetMyApp();
@@ -2826,6 +2864,7 @@ void CAppSettings::CRecentFileListWithMoreInfo::Remove(size_t nIndex) {
         current_rfe_hash.Empty();
     }
 }
+*/
 
 void CAppSettings::CRecentFileListWithMoreInfo::Add(LPCTSTR fn) {
     RecentFileEntry r;
@@ -3187,12 +3226,26 @@ bool CAppSettings::CRecentFileListWithMoreInfo::LoadMediaHistoryEntry(CStringW h
 
 void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
     auto pApp = AfxGetMyApp();
-    std::list<CStringW> hashes = pApp->GetSectionSubKeys(m_section);
+
+    int lastAddedStored = pApp->GetProfileIntW(m_section, L"LastAdded", 0);
+    if (lastAddedStored != 0 && lastAddedStored == rfe_last_added || rfe_last_added == 1) {
+        return;
+    }
+    listModifySequence++;
 
     size_t maxsize = AfxGetAppSettings().fKeepHistory ? m_maxSize : 0;
-    if (hashes.empty() && maxsize > 0) {
-        MigrateLegacyHistory();
-        hashes = pApp->GetSectionSubKeys(m_section);
+
+    std::list<CStringW> hashes = pApp->GetSectionSubKeys(m_section);
+
+    if (hashes.empty()) {
+        if (maxsize > 0) {
+            MigrateLegacyHistory();
+            hashes = pApp->GetSectionSubKeys(m_section);
+        } else {
+            rfe_last_added = 1;
+            rfe_array.RemoveAll();
+            return;
+        }
     }
 
     auto timeToHash = CAppSettings::LoadHistoryHashes(m_section, L"LastOpened");
@@ -3216,6 +3269,16 @@ void CAppSettings::CRecentFileListWithMoreInfo::ReadMediaHistory() {
         }
     }
     rfe_array.FreeExtra();
+
+    if (lastAddedStored == 0 && m_maxSize > 0) {
+        rfe_last_added = 1; // history read, but nothing new added yet
+        pApp->WriteProfileInt(m_section, L"LastAdded", rfe_last_added);
+    } else {
+        rfe_last_added = lastAddedStored;
+    }
+
+    // The playlist history size is not managed elsewhere
+    CAppSettings::PurgePlaylistHistory(maxsize);
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryAudioIndex(RecentFileEntry& r) {
@@ -3261,7 +3324,12 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
 
     CStringW subSection, t;
     subSection.Format(L"%s\\%s", m_section, static_cast<LPCWSTR>(r.hash));
-    pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
+
+    CString storedFilename = pApp->GetProfileStringW(subSection, L"Filename", L"");
+    bool isNewEntry = storedFilename.IsEmpty();
+    if (isNewEntry || storedFilename != r.fns.GetHead()) {
+        pApp->WriteProfileStringW(subSection, L"Filename", r.fns.GetHead());
+    }
 
     if (r.fns.GetCount() > 1) {
         int k = 2;
@@ -3329,12 +3397,17 @@ void CAppSettings::CRecentFileListWithMoreInfo::WriteMediaHistoryEntry(RecentFil
         pApp->WriteProfileStringW(subSection, L"SubtitleTrackIndex", nullptr);
     }
 
-    if (updateLastOpened || r.lastOpened.IsEmpty()) {
+    if (updateLastOpened || isNewEntry || r.lastOpened.IsEmpty()) {
         auto now = std::chrono::system_clock::now();
-        auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::microseconds>(now));
+        auto nowISO = date::format<wchar_t>(L"%FT%TZ", date::floor<std::chrono::milliseconds>(now));
         r.lastOpened = CStringW(nowISO.c_str());
+        pApp->WriteProfileStringW(subSection, L"LastOpened", r.lastOpened);
+        if (isNewEntry) {
+            rfe_last_added = (int)std::chrono::time_point_cast<std::chrono::seconds>(now).time_since_epoch().count();
+            pApp->WriteProfileInt(m_section, L"LastAdded", rfe_last_added);
+        }
     }
-    pApp->WriteProfileStringW(subSection, L"LastOpened", r.lastOpened);
+    listModifySequence++;
 }
 
 void CAppSettings::CRecentFileListWithMoreInfo::SaveMediaHistory() {
@@ -3361,8 +3434,18 @@ void CAppSettings::CRecentFileListWithMoreInfo::SetSize(size_t nSize) {
     m_maxSize = nSize;
     if (rfe_array.GetCount() > m_maxSize) {
         rfe_array.SetCount(m_maxSize);
+        PurgeMediaHistory(m_maxSize);
+        PurgePlaylistHistory(m_maxSize);
     }
     rfe_array.FreeExtra();
+
+    if (nSize == 0) {
+        current_rfe_hash.Empty();
+    }
+}
+
+void CAppSettings::CRecentFileListWithMoreInfo::RemoveAll() {
+    SetSize(0);
 }
 
 bool CAppSettings::IsVSFilterInstalled()
@@ -3560,7 +3643,7 @@ void CAppSettings::UpdateSettings()
 
             if (bSetDefault) {
                 autoChangeFSMode.bEnabled = false;
-                autoChangeFSMode.bApplyDefaultModeAtFSExit = true;
+                autoChangeFSMode.bApplyDefaultModeAtFSExit = false;
                 autoChangeFSMode.modes.clear();
             }
             autoChangeFSMode.bRestoreResAfterProgExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("RestoreResAfterExit"), TRUE);

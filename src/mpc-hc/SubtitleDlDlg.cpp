@@ -134,39 +134,86 @@ void CSubtitleDlDlg::SetListViewSortColumn()
     }
 }
 
+int SortScoreFile(SubtitlesInfo* si_left, SubtitlesInfo* si_right, bool sortup) {
+    // high bits are language score
+    // low bits are file score
+    SHORT left = (SHORT)LOWORD(si_left->Score());
+    SHORT right = (SHORT)LOWORD(si_right->Score());
+    return left == right ? 0 : sortup ? (left > right ? 1 : -1) : (left < right ? 1 : -1);
+}
+
+int SortScore(SubtitlesInfo* si_left, SubtitlesInfo* si_right, bool sortup) {
+    DWORD left  = si_left->Score();
+    DWORD right = si_right->Score();
+    return left == right ? 0 : sortup ? (left > right ? 1 : -1) : (left < right ? 1 : -1);
+}
+
+int SortFramerate(SubtitlesInfo* si_left, SubtitlesInfo* si_right, bool sortup) {
+    double left = si_left->frameRate;
+    double right = si_right->frameRate;
+    return (abs(left-right) < 0.001) ? 0 : sortup ? (left > right ? 1 : -1) : (left < right ? 1 : -1);
+}
+
+int SortDownloads(SubtitlesInfo* si_left, SubtitlesInfo* si_right, bool sortup) {
+    int left = si_left->downloadCount;
+    int right = si_right->downloadCount;
+    if (left == -1 && right != -1) {
+        return 1;
+    }
+    if (left != -1 && right == -1) {
+        return -1;
+    }
+    return left == right ? 0 : sortup ? (left > right ? 1 : -1) : (left < right ? 1 : -1);
+}
+
 int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PPARAMSORT ps = (PPARAMSORT)(lParamSort);
     CListCtrl* list = (CListCtrl*)CListCtrl::FromHandle(ps->m_hWnd);
 
+    SubtitlesInfo* si_left  = (SubtitlesInfo*)(list->GetItemData((int)lParam1));
+    SubtitlesInfo* si_right = (SubtitlesInfo*)(list->GetItemData((int)lParam2));
+    bool sortup = (ps->m_fSortOrder == 1);
+
     if (ps->m_fSortOrder == 0) {
-        DWORD left = (*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score();
-        DWORD right = (*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score();
-        return left == right ? 0 : left < right ? 1 : -1;
+        int x = SortScore(si_left, si_right, false);
+        if (x == 0) {
+            return SortDownloads(si_left, si_right, false);
+        } else {
+            return x;
+        }
     }
 
     if (ps->m_nSortColumn == COL_DOWNLOADS) {
-        int left = (*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).downloadCount;
-        int right = (*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).downloadCount;
-        if (left == -1 && right != -1) {
-            return 1;
+        int x = SortDownloads(si_left, si_right, sortup);
+        if (x == 0) {
+            return SortScore(si_left, si_right, false);
+        } else {
+            return x;
         }
+    }
 
-        if (left != -1 && right == -1) {
-            return -1;
+    if (ps->m_nSortColumn == COL_FRAMERATE) {
+        int x = SortFramerate(si_left, si_right, sortup);
+        if (x == 0) {
+            return SortScore(si_left, si_right, false);
+        } else {
+            return x;
         }
-
-        return left == right ? 0 : (ps->m_fSortOrder == 1)
-               ? (left > right ? 1 : -1)
-               : (left < right ? 1 : -1);
     }
 
     if (ps->m_nSortColumn == COL_SCORE) {
-        SHORT left = (SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score());
-        SHORT right = (SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score());
-        return left == right ? 0 : (ps->m_fSortOrder == 1)
-               ? (left > right ? 1 : -1)
-               : (left < right ? 1 : -1);
+        int x = SortScoreFile(si_left, si_right, sortup);
+        if (x == 0) {
+            x = SortScore(si_left, si_right, sortup);
+            if (x == 0) {
+                return SortDownloads(si_left, si_right, false);
+            } else {
+                return x;
+            }
+        } else {
+            return x;
+        }
     }
 
     CString left(list->GetItemText((int)lParam1, ps->m_nSortColumn));
@@ -174,12 +221,19 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
     if (left == _T("-") && right != _T("-")) {
         return 1;
     }
-
     if (left != _T("-") && right == _T("-")) {
         return -1;
     }
-
-    return (ps->m_fSortOrder == 1) ? StrCmpLogicalW(left, right) : StrCmpLogicalW(right, left);
+    int x = sortup ? StrCmpLogicalW(left, right) : StrCmpLogicalW(right, left);
+    if (x == 0) {
+        int x = (ps->m_nSortColumn == COL_LANGUAGE) ? SortScoreFile(si_left, si_right, false) : SortScore(si_left, si_right, false);
+        if (x == 0) {
+            return SortDownloads(si_left, si_right, false);
+        } else {
+            return x;
+        }
+    }
+    return x;
 }
 
 BOOL CSubtitleDlDlg::OnInitDialog()
@@ -221,24 +275,26 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     if (columnWidth.GetCount() != COL_TOTAL_COLUMNS) {
         // default sizes
         columnWidth.RemoveAll();
-        columnWidth.Add(100);
+        columnWidth.Add(150);
         columnWidth.Add(300);
-        columnWidth.Add(80);
+        columnWidth.Add(100);
         columnWidth.Add(40);
-        columnWidth.Add(50);
         columnWidth.Add(40);
+        columnWidth.Add(70);
         columnWidth.Add(250);
+        columnWidth.Add(40);
         columnWidth.Add(40);
     }
 
     m_list.InsertColumn(COL_PROVIDER, ResStr(IDS_SUBDL_DLG_PROVIDER_COL), LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
     m_list.InsertColumn(COL_FILENAME, ResStr(IDS_SUBDL_DLG_FILENAME_COL), LVCFMT_LEFT, columnWidth[COL_FILENAME]);
-    m_list.InsertColumn(COL_LANGUAGE, ResStr(IDS_SUBDL_DLG_LANGUAGE_COL), LVCFMT_CENTER, columnWidth[COL_LANGUAGE]);
-    m_list.InsertColumn(COL_DISC, ResStr(IDS_SUBDL_DLG_DISC_COL), LVCFMT_CENTER, columnWidth[COL_DISC]);
-    m_list.InsertColumn(COL_HEARINGIMPAIRED, ResStr(IDS_SUBDL_DLG_HI_COL), LVCFMT_CENTER, columnWidth[COL_HEARINGIMPAIRED]);
+    m_list.InsertColumn(COL_LANGUAGE, ResStr(IDS_SUBDL_DLG_LANGUAGE_COL), LVCFMT_LEFT, columnWidth[COL_LANGUAGE]);
+    m_list.InsertColumn(COL_FRAMERATE, L"FPS", LVCFMT_RIGHT, columnWidth[COL_FRAMERATE]);
+    m_list.InsertColumn(COL_HEARINGIMPAIRED, ResStr(IDS_SUBDL_DLG_HI_COL), LVCFMT_RIGHT, columnWidth[COL_HEARINGIMPAIRED]);
     m_list.InsertColumn(COL_DOWNLOADS, ResStr(IDS_SUBDL_DLG_DOWNLOADS_COL), LVCFMT_RIGHT, columnWidth[COL_DOWNLOADS]);
     m_list.InsertColumn(COL_TITLES, ResStr(IDS_SUBDL_DLG_TITLES_COL), LVCFMT_LEFT, columnWidth[COL_TITLES]);
     m_list.InsertColumn(COL_SCORE, ResStr(IDS_SUBDL_DLG_SCORE_COL), LVCFMT_RIGHT, columnWidth[COL_SCORE]);
+    m_list.InsertColumn(COL_DISC, ResStr(IDS_SUBDL_DLG_DISC_COL), LVCFMT_RIGHT, columnWidth[COL_DISC]);
     SetListViewSortColumn();
 
     AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
@@ -262,12 +318,16 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 
 BOOL CSubtitleDlDlg::PreTranslateMessage(MSG* pMsg)
 {
-    // Inhibit default handling for the Enter key when the list has the focus and an item is selected.
-    if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
-            && pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
-        return FALSE;
+    if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN) {
+        // Inhibit default handling for the Enter key when the list has the focus and an item is selected.
+        if (pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
+            return FALSE;
+        }
+        if (pMsg->hwnd == GetDlgItem(IDC_EDIT1)->GetSafeHwnd()) { //we want <enter> in the search field to initiate search
+            SendMessage(WM_COMMAND, (WPARAM)IDC_BUTTON4, LPARAM(0)); //press search button
+            return FALSE;
+        }
     }
-
     return __super::PreTranslateMessage(pMsg);
 }
 
@@ -573,7 +633,11 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 afx_msg LRESULT CSubtitleDlDlg::OnSearching(WPARAM /*wParam*/, LPARAM lParam)
 {
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
-    CString title = ResStr(IDS_SUBDL_DLG_TITLE) + _T(" - ") + UTF8To16(_fileInfo.fileName.c_str());
+    CStringW search = UTF8To16(_fileInfo.fileName.c_str());
+    if (search.IsEmpty()) {
+        search = _fileInfo.manualSearchString;
+    }
+    CStringW title = ResStr(IDS_SUBDL_DLG_TITLE) + _T(" - ") + search;
     SetWindowText(title);
     return S_OK;
 }
@@ -624,8 +688,14 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
             int iItem = m_list.InsertItem(0, UTF8To16(subInfo.Provider()->DisplayName().c_str()), subInfo.Provider()->GetIconIndex());
             m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(subInfo.fileName.c_str()));
             m_list.SetItemText(iItem, COL_LANGUAGE, ISOLang::ISO639XToLanguage(subInfo.languageCode.c_str()));
-            CString disc;
-            disc.Format(_T("%d/%d"), subInfo.discNumber, subInfo.discCount);
+            CStringW disc = L"";
+            if (subInfo.discNumber > 0) {
+                if (subInfo.discCount > 0) {
+                    disc.Format(L"%d/%d", subInfo.discNumber, subInfo.discCount);
+                } else {
+                    disc.Format(L"%d", subInfo.discNumber);
+                }
+            }
             m_list.SetItemText(iItem, COL_DISC, disc);
             m_list.SetItemText(iItem, COL_HEARINGIMPAIRED, subInfo.hearingImpaired == -1 ? _T("-") : subInfo.hearingImpaired > 0 ? ResStr(IDS_YES).GetString() : ResStr(IDS_NO).GetString());
             CString downloads(_T("-"));
@@ -635,6 +705,12 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
             }
             m_list.SetItemText(iItem, COL_DOWNLOADS, downloads);
             m_list.SetItemText(iItem, COL_TITLES, UTF8To16(subInfo.DisplayTitle().c_str()));
+
+            CString fps;
+            if (subInfo.frameRate > 0.1) {
+                fps.Format(_T("%.3f"), subInfo.frameRate);
+            }
+            m_list.SetItemText(iItem, COL_FRAMERATE, fps);
 
             CString score;
             score.Format(_T("%d"), (SHORT)LOWORD(subInfo.Score()));

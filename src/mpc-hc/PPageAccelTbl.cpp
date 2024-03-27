@@ -38,6 +38,22 @@ struct APP_COMMAND {
 
 static constexpr APP_COMMAND g_CommandList[] = {
     {0,                                 _T("")},
+    {APPCOMMAND_MEDIA_PLAY_PAUSE,       _T("MEDIA_PLAY_PAUSE")},
+    {APPCOMMAND_MEDIA_PLAY,             _T("MEDIA_PLAY")},
+    {APPCOMMAND_MEDIA_PAUSE,            _T("MEDIA_PAUSE")},
+    {APPCOMMAND_MEDIA_STOP,             _T("MEDIA_STOP")},
+    {APPCOMMAND_MEDIA_NEXTTRACK,        _T("MEDIA_NEXTTRACK")},
+    {APPCOMMAND_MEDIA_PREVIOUSTRACK,    _T("MEDIA_PREVIOUSTRACK")},
+    {APPCOMMAND_MEDIA_FAST_FORWARD,     _T("MEDIA_FAST_FORWARD")},
+    {APPCOMMAND_MEDIA_REWIND,           _T("MEDIA_REWIND")},
+    {APPCOMMAND_MEDIA_CHANNEL_UP,       _T("MEDIA_CHANNEL_UP")},
+    {APPCOMMAND_MEDIA_CHANNEL_DOWN,     _T("MEDIA_CHANNEL_DOWN")},
+    {APPCOMMAND_MEDIA_RECORD,           _T("MEDIA_RECORD")},
+    {APPCOMMAND_VOLUME_DOWN,            _T("VOLUME_DOWN")},
+    {APPCOMMAND_VOLUME_UP,              _T("VOLUME_UP")},
+    {APPCOMMAND_VOLUME_MUTE,            _T("VOLUME_MUTE")},
+    {APPCOMMAND_LAUNCH_MEDIA_SELECT,    _T("LAUNCH_MEDIA_SELECT")},
+    /*
     {APPCOMMAND_BROWSER_BACKWARD,       _T("BROWSER_BACKWARD")},
     {APPCOMMAND_BROWSER_FORWARD,        _T("BROWSER_FORWARD")},
     {APPCOMMAND_BROWSER_REFRESH,        _T("BROWSER_REFRESH")},
@@ -45,53 +61,12 @@ static constexpr APP_COMMAND g_CommandList[] = {
     {APPCOMMAND_BROWSER_SEARCH,         _T("BROWSER_SEARCH")},
     {APPCOMMAND_BROWSER_FAVORITES,      _T("BROWSER_FAVORITES")},
     {APPCOMMAND_BROWSER_HOME,           _T("BROWSER_HOME")},
-    {APPCOMMAND_VOLUME_MUTE,            _T("VOLUME_MUTE")},
-    {APPCOMMAND_VOLUME_DOWN,            _T("VOLUME_DOWN")},
-    {APPCOMMAND_VOLUME_UP,              _T("VOLUME_UP")},
-    {APPCOMMAND_MEDIA_NEXTTRACK,        _T("MEDIA_NEXTTRACK")},
-    {APPCOMMAND_MEDIA_PREVIOUSTRACK,    _T("MEDIA_PREVIOUSTRACK")},
-    {APPCOMMAND_MEDIA_STOP,             _T("MEDIA_STOP")},
-    {APPCOMMAND_MEDIA_PLAY_PAUSE,       _T("MEDIA_PLAY_PAUSE")},
-    {APPCOMMAND_LAUNCH_MAIL,            _T("LAUNCH_MAIL")},
-    {APPCOMMAND_LAUNCH_MEDIA_SELECT,    _T("LAUNCH_MEDIA_SELECT")},
+    */
     {APPCOMMAND_LAUNCH_APP1,            _T("LAUNCH_APP1")},
     {APPCOMMAND_LAUNCH_APP2,            _T("LAUNCH_APP2")},
-    {APPCOMMAND_BASS_DOWN,              _T("BASS_DOWN")},
-    {APPCOMMAND_BASS_BOOST,             _T("BASS_BOOST")},
-    {APPCOMMAND_BASS_UP,                _T("BASS_UP")},
-    {APPCOMMAND_TREBLE_DOWN,            _T("TREBLE_DOWN")},
-    {APPCOMMAND_TREBLE_UP,              _T("TREBLE_UP")},
-    {APPCOMMAND_MICROPHONE_VOLUME_MUTE, _T("MICROPHONE_VOLUME_MUTE")},
-    {APPCOMMAND_MICROPHONE_VOLUME_DOWN, _T("MICROPHONE_VOLUME_DOWN")},
-    {APPCOMMAND_MICROPHONE_VOLUME_UP,   _T("MICROPHONE_VOLUME_UP")},
-    {APPCOMMAND_HELP,                   _T("HELP")},
-    {APPCOMMAND_FIND,                   _T("FIND")},
-    {APPCOMMAND_NEW,                    _T("NEW")},
     {APPCOMMAND_OPEN,                   _T("OPEN")},
     {APPCOMMAND_CLOSE,                  _T("CLOSE")},
-    {APPCOMMAND_SAVE,                   _T("SAVE")},
-    {APPCOMMAND_PRINT,                  _T("PRINT")},
-    {APPCOMMAND_UNDO,                   _T("UNDO")},
-    {APPCOMMAND_REDO,                   _T("REDO")},
-    {APPCOMMAND_COPY,                   _T("COPY")},
-    {APPCOMMAND_CUT,                    _T("CUT")},
-    {APPCOMMAND_PASTE,                  _T("PASTE")},
-    {APPCOMMAND_REPLY_TO_MAIL,          _T("REPLY_TO_MAIL")},
-    {APPCOMMAND_FORWARD_MAIL,           _T("FORWARD_MAIL")},
-    {APPCOMMAND_SEND_MAIL,              _T("SEND_MAIL")},
-    {APPCOMMAND_SPELL_CHECK,            _T("SPELL_CHECK")},
-    {APPCOMMAND_DICTATE_OR_COMMAND_CONTROL_TOGGLE, _T("DICTATE_OR_COMMAND_CONTROL_TOGGLE")},
-    {APPCOMMAND_MIC_ON_OFF_TOGGLE,      _T("MIC_ON_OFF_TOGGLE")},
-    {APPCOMMAND_CORRECTION_LIST,        _T("CORRECTION_LIST")},
-    {APPCOMMAND_MEDIA_PLAY,             _T("MEDIA_PLAY")},
-    {APPCOMMAND_MEDIA_PAUSE,            _T("MEDIA_PAUSE")},
-    {APPCOMMAND_MEDIA_RECORD,           _T("MEDIA_RECORD")},
-    {APPCOMMAND_MEDIA_FAST_FORWARD,     _T("MEDIA_FAST_FORWARD")},
-    {APPCOMMAND_MEDIA_REWIND,           _T("MEDIA_REWIND")},
-    {APPCOMMAND_MEDIA_CHANNEL_UP,       _T("MEDIA_CHANNEL_UP")},
-    {APPCOMMAND_MEDIA_CHANNEL_DOWN,     _T("MEDIA_CHANNEL_DOWN")},
     {APPCOMMAND_DELETE,                 _T("DELETE")},
-    {APPCOMMAND_DWM_FLIP3D,             _T("DWM_FLIP3D")},
     {MCE_DETAILS,                       _T("MCE_DETAILS")},
     {MCE_GUIDE,                         _T("MCE_GUIDE")},
     {MCE_TVJUMP,                        _T("MCE_TVJUMP")},
@@ -127,6 +102,8 @@ CPPageAccelTbl::CPPageAccelTbl()
     , m_fUIce(FALSE)
     , m_UIceLink(L"https://web.archive.org/web/20160609195532/http://www.mediatexx.com/") // home site no longer works
     , m_nStatusTimerID(0)
+    , filterTimerID(0)
+    , sortDirection(HDF_SORTUP)
     , m_fGlobalMedia(FALSE)
 {
 }
@@ -190,28 +167,6 @@ void CPPageAccelTbl::UpdateMouseDupFlags()
     }
 }
 
-void CPPageAccelTbl::UpdateMouseFSDupFlags()
-{
-    for (int row = 0; row < m_list.GetItemCount(); row++) {
-        auto itemData = (ITEMDATA*)m_list.GetItemData(row);
-        const wmcmd& wc = m_wmcmds.GetAt(itemData->index);
-
-        itemData->flag &= ~DUP_MOUSE_FS;
-
-        if (wc.mouseFS) {
-            POSITION pos = m_wmcmds.GetHeadPosition();
-            for (; pos; m_wmcmds.GetNext(pos)) {
-                if (itemData->index == pos) { continue; }
-
-                if (wc.mouseFS == m_wmcmds.GetAt(pos).mouseFS && wc.mouseFSVirt == m_wmcmds.GetAt(pos).mouseFSVirt) {
-                    itemData->flag |= DUP_MOUSE_FS;
-                    break;
-                }
-            }
-        }
-    }
-}
-
 void CPPageAccelTbl::UpdateAppcmdDupFlags()
 {
     for (int row = 0; row < m_list.GetItemCount(); row++) {
@@ -260,7 +215,6 @@ void CPPageAccelTbl::UpdateAllDupFlags()
 {
     UpdateKeyDupFlags();
     UpdateMouseDupFlags();
-    UpdateMouseFSDupFlags();
     UpdateAppcmdDupFlags();
     UpdateRmcmdDupFlags();
 }
@@ -282,11 +236,6 @@ void CPPageAccelTbl::SetupList(bool allowResize)
         m_list.SetItemText(row, COL_MOUSE_MODIFIER, hotkey);
 
         m_list.SetItemText(row, COL_MOUSE, MakeMouseButtonLabel(wc.mouse));
-
-        HotkeyModToString(0, wc.mouseFSVirt, hotkey);
-        m_list.SetItemText(row, COL_MOUSE_FS_MODIFIER, hotkey);
-
-        m_list.SetItemText(row, COL_MOUSE_FS, MakeMouseButtonLabel(wc.mouseFS));
 
         m_list.SetItemText(row, COL_APPCMD, MakeAppCommandLabel(wc.appcmd));
 
@@ -999,7 +948,7 @@ CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
             return CString(g_CommandList[i].cmdname);
         }
     }
-    return _T("");
+    return id == 0 ? _T("") : _T("Invalid");
 }
 
 void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
@@ -1101,8 +1050,6 @@ BOOL CPPageAccelTbl::OnInitDialog()
     m_list.InsertColumn(COL_ID, _T("ID"), LVCFMT_LEFT, 40);
     m_list.InsertColumn(COL_MOUSE_MODIFIER, ResStr(IDS_AG_MOUSE_MODIFIER), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_MOUSE, ResStr(IDS_AG_MOUSE), LVCFMT_LEFT, 80);
-    m_list.InsertColumn(COL_MOUSE_FS_MODIFIER, ResStr(IDS_AG_MOUSE_FS_MODIFIER), LVCFMT_LEFT, 80);
-    m_list.InsertColumn(COL_MOUSE_FS, ResStr(IDS_AG_MOUSE_FS), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_APPCMD, ResStr(IDS_AG_APP_COMMAND), LVCFMT_LEFT, 120);
     m_list.InsertColumn(COL_RMCMD, _T("RemoteCmd"), LVCFMT_LEFT, 80);
     m_list.InsertColumn(COL_RMREPCNT, _T("RepCnt"), LVCFMT_CENTER, 60);
@@ -1121,7 +1068,6 @@ BOOL CPPageAccelTbl::OnInitDialog()
     m_list.SetColumnWidth(COL_CMD, LVSCW_AUTOSIZE);
     m_list.SetColumnWidth(COL_KEY, LVSCW_AUTOSIZE);
     m_list.SetColumnWidth(COL_MOUSE_MODIFIER, LVSCW_AUTOSIZE_USEHEADER);
-    m_list.SetColumnWidth(COL_MOUSE_FS_MODIFIER, LVSCW_AUTOSIZE_USEHEADER);
     m_list.SetColumnWidth(COL_KEY, LVSCW_AUTOSIZE);
     m_list.SetColumnWidth(COL_ID, LVSCW_AUTOSIZE_USEHEADER);
 
@@ -1142,16 +1088,22 @@ BOOL CPPageAccelTbl::OnApply()
     s.wmcmds.RemoveAll();
     s.wmcmds.AddTail(&m_wmcmds);
 
-    CAtlArray<ACCEL> pAccel;
-    pAccel.SetCount(m_wmcmds.GetCount());
-    POSITION pos = m_wmcmds.GetHeadPosition();
-    for (int i = 0; pos; i++) {
-        pAccel[i] = m_wmcmds.GetNext(pos);
-    }
     if (s.hAccel) {
         DestroyAcceleratorTable(s.hAccel);
     }
-    s.hAccel = CreateAcceleratorTable(pAccel.GetData(), (int)pAccel.GetCount());
+
+    CAtlArray<ACCEL> pAccel;
+    pAccel.SetCount(ACCEL_LIST_SIZE);
+    int accel_count = 0;
+    POSITION pos = m_wmcmds.GetHeadPosition();
+    for (int i = 0; pos; i++) {
+        ACCEL x = m_wmcmds.GetNext(pos);
+        if (x.key > 0) {
+            pAccel[accel_count] = x;
+            accel_count++;
+        }
+    }
+    s.hAccel = CreateAcceleratorTable(pAccel.GetData(), accel_count);
 
     GetParentFrame()->m_hAccelTable = s.hAccel;
 
@@ -1253,7 +1205,6 @@ void CPPageAccelTbl::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& 
     if (iSubItem == COL_CMD && dup
         || iSubItem == COL_KEY && (dup & DUP_KEY)
         || iSubItem == COL_MOUSE && (dup & DUP_MOUSE)
-        || iSubItem == COL_MOUSE_FS && (dup & DUP_MOUSE_FS)
         || iSubItem == COL_APPCMD && (dup & DUP_APPCMD)
         || iSubItem == COL_RMCMD && (dup & DUP_RMCMD)) {
         if (AppIsThemeLoaded()) {
@@ -1304,7 +1255,6 @@ void CPPageAccelTbl::OnBeginListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_APPCMD
             || pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_MOUSE_MODIFIER
-            || pItem->iSubItem == COL_MOUSE_FS || pItem->iSubItem == COL_MOUSE_FS_MODIFIER
             || pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT) {
         *pResult = TRUE;
     }
@@ -1355,9 +1305,6 @@ void CPPageAccelTbl::OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
         case COL_MOUSE_MODIFIER:
             createHotkey(wc.mouseVirt, 0, true);
             break;
-        case COL_MOUSE_FS_MODIFIER:
-            createHotkey(wc.mouseFSVirt, 0, true);
-            break;
         case COL_KEY:
             createHotkey(wc.fVirt, wc.key);
             break;
@@ -1365,16 +1312,6 @@ void CPPageAccelTbl::OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
             for (UINT i = 0; i < wmcmd::LAST; i++) {
                 sl.AddTail(MakeMouseButtonLabel(i));
                 if (wc.mouse == i) {
-                    nSel = i;
-                }
-            }
-
-            m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
-            break;
-        case COL_MOUSE_FS:
-            for (UINT i = 0; i < wmcmd::LAST; i++) {
-                sl.AddTail(MakeMouseButtonLabel(i));
-                if (wc.mouseFS == i) {
                     nSel = i;
                 }
             }
@@ -1522,10 +1459,6 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
             updateHotkey(wc.mouseVirt, discard, true);
             UpdateMouseDupFlags();
             break;
-        case COL_MOUSE_FS_MODIFIER:
-            updateHotkey(wc.mouseFSVirt, discard, true);
-            UpdateMouseFSDupFlags();
-            break;
         case COL_KEY:
             updateHotkey(wc.fVirt, wc.key);
             break;
@@ -1544,12 +1477,6 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
             m_list.SetItemText(pItem->iItem, COL_MOUSE, pItem->pszText);
             *pResult = TRUE;
             UpdateMouseDupFlags();
-            break;
-        case COL_MOUSE_FS:
-            wc.mouseFS = BYTE(pItem->lParam);
-            m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
-            *pResult = TRUE;
-            UpdateMouseFSDupFlags();
             break;
         case COL_RMCMD: {
             CString cmd = pItem->pszText;

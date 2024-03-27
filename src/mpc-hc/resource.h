@@ -616,6 +616,7 @@
 #define IDD_CMD_LINE_HELP               20016
 #define IDD_CRASH_REPORTER              20017
 #define IDD_PPAGEDPICALC                20018
+#define IDD_RAR_ENTRY_SELECTOR          20019
 #define IDB_DT_CB_96                    20050
 #define IDB_DT_CB_120                   20051
 #define IDB_DT_CB_144                   20052
@@ -652,7 +653,6 @@
 #define IDC_VERSION                     22011
 #define IDC_SHOW_OSD                    22013
 #define IDC_EVR_BUFFERS_TXT             22014
-#define IDC_MPC_COMPILER                22015
 #define IDC_LAVFILTERS_VERSION          22016
 #define IDC_DSVMR9ALTERNATIVEVSYNC      22017
 #define IDC_HOMEPAGE_LINK               22018
@@ -767,7 +767,6 @@
 #define IDS_AG_COMMAND                  32833
 #define IDS_AG_KEY                      32834
 #define IDS_AG_MOUSE                    32836
-#define IDS_AG_MOUSE_FS                 32837
 #define IDS_AG_APP_COMMAND              32838
 #define IDS_AG_MEDIAFILES               32871
 #define IDS_AG_ALLFILES                 32872
@@ -1094,7 +1093,6 @@
 #define ID_PLAY_REPEAT_AB               33453
 #define IDS_AG_MOUSE_MODIFIER           33453
 #define ID_PLAY_REPEAT_AB_MARK_A        33454
-#define IDS_AG_MOUSE_FS_MODIFIER        33454
 #define ID_PLAY_REPEAT_AB_MARK_B        33455
 #define ID_VIEW_ZOOM_SUB                33456
 #define ID_VIEW_ZOOM_ADD                33457

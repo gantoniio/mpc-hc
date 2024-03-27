@@ -230,16 +230,12 @@ msgid "Version:"
 msgstr "Version :"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "Compiler:"
-msgstr "Compilateur :"
+msgid "Build date:"
+msgstr "Date de compilation :"
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
 msgid "Not used"
 msgstr "Non utilisé"
-
-msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "Build date:"
-msgstr "Date de compilation :"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -1922,6 +1918,10 @@ msgstr "Langue de la piste"
 msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
 msgstr "Infos vidéo"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
+msgid "Audio Info"
+msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"

@@ -19,8 +19,22 @@ BEGIN_MESSAGE_MAP(CMPCThemeStatic, CStatic)
     ON_WM_NCPAINT()
     ON_WM_ENABLE()
     ON_WM_ERASEBKGND()
+    ON_REGISTERED_MESSAGE(WMU_RESIZESUPPORT, ResizeSupport)
 END_MESSAGE_MAP()
 
+//this message is sent by resizablelib
+//we prevent clipping for statics as they don't get redrawn correctly after erasing
+LRESULT CMPCThemeStatic::ResizeSupport(WPARAM wParam, LPARAM lParam) {
+    if (AppNeedsThemedControls()) {
+        if (wParam == RSZSUP_QUERYPROPERTIES) {
+            LPRESIZEPROPERTIES props = (LPRESIZEPROPERTIES)lParam;
+            props->bAskClipping = false;
+            props->bCachedLikesClipping = false;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
 
 void CMPCThemeStatic::OnPaint()
 {
@@ -66,13 +80,17 @@ void CMPCThemeStatic::OnPaint()
                 uFormat |= DT_LEFT;
             }
 
+            if ((SendMessage(WM_QUERYUISTATE, 0, 0) & UISF_HIDEACCEL) != 0) {
+                uFormat |= DT_HIDEPREFIX;
+            }
+
             dc.SetBkColor(CMPCTheme::WindowBGColor);
             if (isDisabled) {
                 dc.SetTextColor(CMPCTheme::ButtonDisabledFGColor);
-                dc.DrawText(sTitle, -1, &rectItem, uFormat);
+                dc.DrawTextW(sTitle, -1, &rectItem, uFormat);
             } else {
                 dc.SetTextColor(CMPCTheme::TextFGColor);
-                dc.DrawText(sTitle, -1, &rectItem, uFormat);
+                dc.DrawTextW(sTitle, -1, &rectItem, uFormat);
             }
             dc.SelectObject(pOldFont);
             dc.SetBkColor(oldBkColor);

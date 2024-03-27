@@ -125,6 +125,7 @@ extern void UnRegisterSourceFilter(const GUID& subtype);
 extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
 extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
+extern CString ReftimeToString3(const REFERENCE_TIME& rtVal);
 extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
 extern REFERENCE_TIME StringToReftime(LPCTSTR strVal);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
@@ -132,6 +133,10 @@ extern CString FindCoverArt(const CString& path, const CString& author);
 extern CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid);
 extern bool FindStringInList(const CAtlList<CString>& list, CString& value);
 extern CStringW ForceTrailingSlash(CStringW folder);
+extern CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt);
+extern CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt, int& channels);
+extern CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt);
+extern bool GetVideoFormatNameFromMediaType(const GUID& guid, CString& name);
 
 extern inline const LONGLONG GetPerfCounter();
 

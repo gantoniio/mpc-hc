@@ -616,7 +616,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 
             if (SUCCEEDED(pFSF->GetCurFile(&fileName, &mt)) && fileName) {
                 streamName = fileName;
-                if (streamName.Find(L"googlevideo.com") || (PathUtils::IsURL(streamName) && streamName.GetLength() > 50)) { //we don't like these URLs
+                if (streamName.Find(L"googlevideo.com") > 0 || (PathUtils::IsURL(streamName) && streamName.GetLength() > 50)) { //we don't like these URLs
                     streamName = streamSSName;
                     if (streamName.GetLength() <= 0) {
                         streamName = L"Online Audio Stream";
@@ -1452,10 +1452,6 @@ STDMETHODIMP CStreamSwitcherFilter::Count(DWORD* pcStreams)
     return S_OK;
 }
 
-// pdwGroup value is set to:
-//  - 0 if the track isn't controlled by any underlying IAMStreamSelect interface
-//  - 1 if the track is controlled by an underlying IAMStreamSelect interface and is not selected at that level
-//  - 2 if the track is controlled by an underlying IAMStreamSelect interface and is selected at that level
 STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
     CAutoLock cAutoLock(&m_csPins);
@@ -1492,7 +1488,7 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                                 }
 
                                 if (pdwGroup) {
-                                    *pdwGroup = (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) ? 2 : 1;
+                                    *pdwGroup = 1;
                                 }
 
                                 if (ppszName) {
@@ -1514,7 +1510,8 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                 bFound = true;
 
                 if (ppmt) {
-                    *ppmt = CreateMediaType(&m_pOutput->CurrentMediaType());
+                    // ToDo: if upstream filter is a decoder, then use audio mediatype of input pin of decoder
+                    *ppmt = CreateMediaType(&m_pInput->CurrentMediaType());
                 }
 
                 if (pdwFlags) {
@@ -1526,7 +1523,7 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                 }
 
                 if (pdwGroup) {
-                    *pdwGroup = 0;
+                    *pdwGroup = 1;
                 }
 
                 if (ppszName) {

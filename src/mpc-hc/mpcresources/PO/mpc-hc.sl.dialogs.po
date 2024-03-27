@@ -224,16 +224,12 @@ msgid "Version:"
 msgstr "Verzija:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "Compiler:"
-msgstr "MPC-HC prevajalnik:"
+msgid "Build date:"
+msgstr "Datum različice:"
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
 msgid "Not used"
 msgstr "Neuporabljeno"
-
-msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "Build date:"
-msgstr "Datum različice:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -1897,6 +1893,10 @@ msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
+msgid "Audio Info"
 msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"

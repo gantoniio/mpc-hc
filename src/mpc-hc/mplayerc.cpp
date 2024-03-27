@@ -547,8 +547,13 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
     return content;
 }
 
-WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
+WORD AssignedToCmd(UINT keyOrMouseValue, bool bCheckMouse)
 {
+    if (keyOrMouseValue == 0) {
+        ASSERT(false);
+        return 0;
+    }
+
     WORD assignTo = 0;
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -570,11 +575,7 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
         const wmcmd& wc = s.wmcmds.GetNext(pos);
 
         if (bCheckMouse) {
-            if (bIsFullScreen) {
-                if (wc.mouseFS == keyOrMouseValue && (wc.mouseFSVirt & ~FVIRTKEY) == mouseVirt) {
-                    assignTo = wc.cmd;
-                }
-            } else if (wc.mouse == keyOrMouseValue && (wc.mouseVirt & ~FVIRTKEY) == mouseVirt) {
+            if (wc.mouse == keyOrMouseValue && (wc.mouseVirt & ~FVIRTKEY) == mouseVirt) {
                 assignTo = wc.cmd;
             }
         } else if (wc.key == keyOrMouseValue) {
@@ -585,30 +586,55 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
     return assignTo;
 }
 
-void SetAudioRenderer(int AudioDevNo)
-{
-    CStringArray m_AudioRendererDisplayNames;
-    AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
-    m_AudioRendererDisplayNames.Add(_T(""));
-    int i = 2;
-
+std::map<CStringW, CStringW> GetAudioDeviceList() {
+    std::map<CStringW, CStringW> devicelist;
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
         CComHeapPtr<OLECHAR> olestr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
-        CStringW str(olestr);
-        m_AudioRendererDisplayNames.Add(CString(str));
-        i++;
+        CStringW dispname(olestr);
+        CStringW friendlyname;
+        CComPtr<IPropertyBag> pPB;
+        if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
+            CComVariant var;
+            if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
+                CStringW frname(var.bstrVal);
+                var.Clear();
+                friendlyname = frname;
+            }
+        } else {
+            friendlyname = dispname;
+        }
+        devicelist.emplace(friendlyname, dispname);
     }
     EndEnumSysDev;
 
-    m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
-    m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
-    m_AudioRendererDisplayNames.Add(AUDRNDT_INTERNAL);
-    i += 3;
-    if (AudioDevNo >= 1 && AudioDevNo <= i) {
-        AfxGetMyApp()->m_AudioRendererDisplayName_CL = m_AudioRendererDisplayNames[AudioDevNo - 1];
+    return devicelist;
+}
+
+void SetAudioRenderer(int AudioDevNo)
+{
+    CStringArray dispnames;
+    AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
+    dispnames.Add(_T(""));
+    dispnames.Add(AUDRNDT_INTERNAL);
+    dispnames.Add(AUDRNDT_MPC);
+    int devcount = 3;
+
+    std::map<CStringW, CStringW> devicelist = GetAudioDeviceList();
+
+    for (auto it = devicelist.cbegin(); it != devicelist.cend(); it++) {
+        dispnames.Add((*it).second);
+        devcount++;
+    }
+
+    dispnames.Add(AUDRNDT_NULL_COMP);
+    dispnames.Add(AUDRNDT_NULL_UNCOMP);
+    devcount += 2;
+
+    if (AudioDevNo >= 1 && AudioDevNo <= devcount) {
+        AfxGetMyApp()->m_AudioRendererDisplayName_CL = dispnames[AudioDevNo - 1];
     }
 }
 
@@ -2162,11 +2188,13 @@ void CMPlayerCApp::RegisterHotkeys()
 
     if (m_s->fGlobalMedia) {
         POSITION pos = m_s->wmcmds.GetHeadPosition();
-
         while (pos) {
             const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
-                RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand(wc.appcmd));
+                UINT vkappcmd = GetVKFromAppCommand(wc.appcmd);
+                if (vkappcmd > 0) {
+                    RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, vkappcmd);
+                }
             }
         }
     }
@@ -2176,7 +2204,6 @@ void CMPlayerCApp::UnregisterHotkeys()
 {
     if (m_s->fGlobalMedia) {
         POSITION pos = m_s->wmcmds.GetHeadPosition();
-
         while (pos) {
             const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
@@ -2188,7 +2215,24 @@ void CMPlayerCApp::UnregisterHotkeys()
 
 UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 {
+    // Note: Only a subset of AppCommands have a VirtualKey
     switch (nAppCommand) {
+        case APPCOMMAND_MEDIA_PLAY_PAUSE:
+            return VK_MEDIA_PLAY_PAUSE;
+        case APPCOMMAND_MEDIA_STOP:
+            return VK_MEDIA_STOP;
+        case APPCOMMAND_MEDIA_NEXTTRACK:
+            return VK_MEDIA_NEXT_TRACK;
+        case APPCOMMAND_MEDIA_PREVIOUSTRACK:
+            return VK_MEDIA_PREV_TRACK;
+        case APPCOMMAND_VOLUME_DOWN:
+            return VK_VOLUME_DOWN;
+        case APPCOMMAND_VOLUME_UP:
+            return VK_VOLUME_UP;
+        case APPCOMMAND_VOLUME_MUTE:
+            return VK_VOLUME_MUTE;
+        case APPCOMMAND_LAUNCH_MEDIA_SELECT:
+            return VK_LAUNCH_MEDIA_SELECT;
         case APPCOMMAND_BROWSER_BACKWARD:
             return VK_BROWSER_BACK;
         case APPCOMMAND_BROWSER_FORWARD:
@@ -2203,24 +2247,6 @@ UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
             return VK_BROWSER_FAVORITES;
         case APPCOMMAND_BROWSER_HOME:
             return VK_BROWSER_HOME;
-        case APPCOMMAND_VOLUME_MUTE:
-            return VK_VOLUME_MUTE;
-        case APPCOMMAND_VOLUME_DOWN:
-            return VK_VOLUME_DOWN;
-        case APPCOMMAND_VOLUME_UP:
-            return VK_VOLUME_UP;
-        case APPCOMMAND_MEDIA_NEXTTRACK:
-            return VK_MEDIA_NEXT_TRACK;
-        case APPCOMMAND_MEDIA_PREVIOUSTRACK:
-            return VK_MEDIA_PREV_TRACK;
-        case APPCOMMAND_MEDIA_STOP:
-            return VK_MEDIA_STOP;
-        case APPCOMMAND_MEDIA_PLAY_PAUSE:
-            return VK_MEDIA_PLAY_PAUSE;
-        case APPCOMMAND_LAUNCH_MAIL:
-            return VK_LAUNCH_MAIL;
-        case APPCOMMAND_LAUNCH_MEDIA_SELECT:
-            return VK_LAUNCH_MEDIA_SELECT;
         case APPCOMMAND_LAUNCH_APP1:
             return VK_LAUNCH_APP1;
         case APPCOMMAND_LAUNCH_APP2:
@@ -2405,7 +2431,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
     while (pos) {
         const wmcmd& wc = s.wmcmds.GetNext(pos);
         if ((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt % wc.rmrepcnt) == 0)
-                && (!wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
+                && (wc.rmcmd.CompareNoCase(cmd) == 0 || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
             CAutoLock cAutoLock(&m_csLock);
             TRACE(_T("CRemoteCtrlClient (calling command): %s\n"), wc.GetName().GetString());
             m_pWnd->SendMessage(WM_COMMAND, wc.cmd);

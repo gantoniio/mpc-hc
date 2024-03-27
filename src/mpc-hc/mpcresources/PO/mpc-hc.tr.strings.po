@@ -529,7 +529,7 @@ msgstr "Azalt"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
-msgstr "&Arttır"
+msgstr "Artır"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
@@ -1400,12 +1400,8 @@ msgid "Key"
 msgstr "Tuş"
 
 msgctxt "IDS_AG_MOUSE"
-msgid "Mouse Windowed"
-msgstr "Pencere kipinde fare"
-
-msgctxt "IDS_AG_MOUSE_FS"
-msgid "Mouse Fullscreen"
-msgstr "Tam ekran kipinde fare"
+msgid "Mouse"
+msgstr ""
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"

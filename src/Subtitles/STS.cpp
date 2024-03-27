@@ -379,35 +379,6 @@ static CStringW UnicodeSSAToMBCS(CStringW str, DWORD CharSet)
     return ret;
 }
 
-static CStringW ToUnicode(CStringW str, DWORD CharSet)
-{
-    CStringW ret;
-    DWORD cp = CharSetToCodePage(CharSet);
-
-    for (int i = 0, j = str.GetLength(); i < j; i++) {
-        WCHAR wc = str.GetAt(i);
-        char c = wc & 0xff;
-
-        if (IsDBCSLeadByteEx(cp, (BYTE)wc)) {
-            i++;
-
-            if (i < j) {
-                char cc[2];
-                cc[0] = c;
-                cc[1] = (char)str.GetAt(i);
-
-                MultiByteToWideChar(cp, 0, cc, 2, &wc, 1);
-            }
-        } else {
-            MultiByteToWideChar(cp, 0, &c, 1, &wc, 1);
-        }
-
-        ret += wc;
-    }
-
-    return ret;
-}
-
 static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 {
     CStringW ret;
@@ -1770,22 +1741,25 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     CStringW buff;
     int ignore_count = 0;
     bool first_line = true;
+    bool below_script_info = false;
 
     // Order of bits: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, MarginB, AlphaLevel, Encoding, RelativeTo
-    uint32_t style_param_v3   = 0b11111111100000001111110110000000;
-    uint32_t style_param_v4   = 0b11111111100000011111110110000000;
-    uint32_t style_param_v4p  = 0b11111111111111111111110010000000;
-    uint32_t style_param_v4pp = 0b11111111111111111111111011000000;
-    uint32_t style_param_var1 = 0b11111111110000011111110110000000;
+    // 26 bits, RelativeTo is least significant
+    const uint32_t style_param_v3   = 0b11111111100000001111110110;
+    const uint32_t style_param_v4   = 0b11111111100000011111110110;
+    const uint32_t style_param_v4p  = 0b11111111111111111111110010;
+    const uint32_t style_param_v4pp = 0b11111111111111111111111011;
+    const uint32_t style_param_var1 = 0b11111111110000011111110110;
     uint32_t style_param = style_param_v3;
 
-    // Order of bits:  Marked, Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, MarginB, Effect, Text
-    uint32_t event_param_v3   = 0b1011111101100000000000000000000;
-    uint32_t event_param_v4   = 0b1011111101100000000000000000000;
-    uint32_t event_param_v4p  = 0b0111111101100000000000000000000;
-    uint32_t event_param_v4pp = 0b0111111111100000000000000000000;
-    uint32_t event_param_var1 = 0b0111100000100000000000000000000;
-    uint32_t event_param = event_param_v3;
+    // Order of bits:  Marked, Layer, Start, End, Style, Name/Actor, MarginL, MarginR, MarginV, MarginB, Effect, Text
+    // 12 bits, Text is least significant bit
+    const uint32_t event_param_v3   = 0b101111111011;
+    const uint32_t event_param_v4   = 0b101111111011;
+    const uint32_t event_param_v4p  = 0b011111111011;
+    const uint32_t event_param_v4pp = 0b011111111111;
+    const uint32_t event_param_var1 = 0b011111000001;
+    ret.event_param = event_param_v3;
 
     while (file->ReadString(buff)) {
         FastTrim(buff);
@@ -1810,15 +1784,16 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         entry.MakeLower();
 
         if (entry == L"dialogue") {
+            below_script_info = false;
             try {
                 int hh1, mm1, ss1, ms1_div10, hh2, mm2, ss2, ms2_div10, layer = 0;
                 CRect marginRect;
 
-                if (event_param & (1 << (32 - 1))) {
-                    GetStrW(pszBuff, nBuffLength, L'=');      /* Marked = */
+                if (ret.event_param & (1 << 11)) { // Marked
+                    GetStrW(pszBuff, nBuffLength, L'=');
                     GetInt(pszBuff, nBuffLength);
                 }
-                if (event_param & (1 << (32 - 2))) {
+                if (ret.event_param & (1 << 10)) { // Layer
                     layer = GetInt(pszBuff, nBuffLength);
                 }
                 hh1 = GetInt(pszBuff, nBuffLength, L':');
@@ -1833,25 +1808,25 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 CString style = WToT(GetStrW(pszBuff, nBuffLength));
 
                 CString actor;
-                if (event_param & (1 << (32 - 6))) {
+                if (ret.event_param & (1 << 6)) { // Actor/Name
                     actor = WToT(GetStrW(pszBuff, nBuffLength));
                 }
 
-                if (event_param & (1 << (32 - 7))) {
+                if (ret.event_param & (1 << 5)) {
                     marginRect.left = GetInt(pszBuff, nBuffLength);
                 }
-                if (event_param & (1 << (32 - 8))) {
+                if (ret.event_param & (1 << 4)) {
                     marginRect.right = GetInt(pszBuff, nBuffLength);
                 }
-                if (event_param & (1 << (32 - 9))) {
+                if (ret.event_param & (1 << 3)) {
                     marginRect.top = marginRect.bottom = GetInt(pszBuff, nBuffLength);
                 }
-                if (event_param & (1 << (32 - 10))) {
+                if (ret.event_param & (1 << 2)) {
                     marginRect.bottom = GetInt(pszBuff, nBuffLength);
                 }
 
                 CString effect;
-                if (event_param & (1 << (32 - 11))) {
+                if (ret.event_param & (1 << 1)) {
                     effect = WToT(GetStrW(pszBuff, nBuffLength));
                     int len = std::min(effect.GetLength(), nBuffLength);
                     if (effect.Left(len) == WToT(CStringW(pszBuff, len))) {
@@ -1875,6 +1850,7 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 return false;
             }
         } else if (entry == L"style") {
+            below_script_info = false;
             STSStyle* style = DEBUG_NEW STSStyle;
             if (!style) {
                 return false;
@@ -1889,25 +1865,25 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 }
                 style->fontWeight = GetInt(pszBuff, nBuffLength) ? FW_BOLD : FW_NORMAL;
                 style->fItalic = GetInt(pszBuff, nBuffLength);
-                if (style_param & (1 << (32 - 10))) {
+                if (style_param & (1 << 16)) {
                     style->fUnderline = GetInt(pszBuff, nBuffLength);
                 }
-                if (style_param & (1 << (32 - 11))) {
+                if (style_param & (1 << 15)) {
                     style->fStrikeOut = GetInt(pszBuff, nBuffLength);
                 }
-                if (style_param & (1 << (32 - 12))) {
+                if (style_param & (1 << 14)) {
                     style->fontScaleX = GetFloat(pszBuff, nBuffLength);
                 }
-                if (style_param & (1 << (32 - 13))) {
+                if (style_param & (1 << 13)) {
                     style->fontScaleY = GetFloat(pszBuff, nBuffLength);
                 }
-                if (style_param & (1 << (32 - 14))) {
+                if (style_param & (1 << 12)) {
                     style->fontSpacing = GetFloat(pszBuff, nBuffLength);
                 }
-                if (style_param & (1 << (32 - 15))) {
+                if (style_param & (1 << 11)) {
                     style->fontAngleZ = GetFloat(pszBuff, nBuffLength);
                 }
-                if (style_param & (1 << (32 - 16))) {
+                if (style_param & (1 << 10)) {
                     style->borderStyle = GetInt(pszBuff, nBuffLength);
                 }
                 style->outlineWidthX = style->outlineWidthY = GetFloat(pszBuff, nBuffLength);
@@ -1916,16 +1892,16 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 style->marginRect.left = GetInt(pszBuff, nBuffLength);
                 style->marginRect.right = GetInt(pszBuff, nBuffLength);
                 style->marginRect.top = style->marginRect.bottom = GetInt(pszBuff, nBuffLength);
-                if (style_param & (1 << (32 - 23))) {
+                if (style_param & (1 << 3)) {
                     style->marginRect.bottom = GetInt(pszBuff, nBuffLength);
                 }
 
                 int alpha = 0;
-                if (style_param & (1 << (32 - 24))) {
+                if (style_param & (1 << 2)) {
                     alpha = GetInt(pszBuff, nBuffLength);
                 }
                 style->charSet = GetInt(pszBuff, nBuffLength);
-                if (style_param & (1 << (32 - 26))) {
+                if (style_param & (1)) {
                     style->relativeTo = (STSStyle::RelativeTo)GetInt(pszBuff, nBuffLength);
                 }
 
@@ -1959,6 +1935,7 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
                 styleName.TrimLeft(_T('*'));
 
+                style->hasAnsiStyleName = !file->IsUnicode();
                 ret.AddStyle(styleName, style);
             } catch (...) {
                 delete style;
@@ -1967,6 +1944,7 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             }
         } else if (entry == L"[script info]") {
             fRet = true;
+            below_script_info = true;
         } else if (entry == L"playresx") {
             try {
                 ret.m_playRes.cx = GetInt(pszBuff, nBuffLength);
@@ -2018,15 +1996,15 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             if (buff.GetLength() >= 4 && !buff.Right(4).CompareNoCase(L"4.00")) {
                 style_version = 4;
                 style_param = style_param_v4;
-                event_param = event_param_v4;
+                ret.event_param = event_param_v4;
             } else if (buff.GetLength() >= 5 && !buff.Right(5).CompareNoCase(L"4.00+")) {
                 style_version = 5;
                 style_param = style_param_v4p;
-                event_param = event_param_v4p;
+                ret.event_param = event_param_v4p;
             } else if (buff.GetLength() >= 6 && !buff.Right(6).CompareNoCase(L"4.00++")) {
                 style_version = 6;
                 style_param = style_param_v4pp;
-                event_param = event_param_v4pp;
+                ret.event_param = event_param_v4pp;
             }
         } else if (entry == L"collisions") {
             if (nBuffLength) {
@@ -2043,14 +2021,18 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         } else if (entry == L"[v4 styles]") {
             fRet = true;
             style_param = style_param_v4;
+            below_script_info = false;
         } else if (entry == L"[v4+ styles]") {
             fRet = true;
             style_param = style_param_v4p;
+            below_script_info = false;
         } else if (entry == L"[v4++ styles]") {
             fRet = true;
             style_param = style_param_v4pp;
+            below_script_info = false;
         } else if (entry == L"[events]") {
             fRet = true;
+            below_script_info = false;
         } else if (entry == L"language") {
             ret.openTypeLangHint = WToA(GetStrW(pszBuff, nBuffLength));
         } else if (entry == L"fontname") {
@@ -2061,18 +2043,19 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 ret.m_sYCbCrMatrix.MakeUpper();
             }
         } else if (entry == L"format") {
-            CStringW formatstr = CStringW(pszBuff).TrimLeft();
-            if (formatstr.Left(4) == L"Name") {
+            CStringW formatstr = CStringW(pszBuff).TrimLeft().MakeLower();
+            formatstr.Remove(L' '); // remove spaces
+            if (formatstr.Left(4) == L"name") {
                 // Style formats
-                if (formatstr == L"Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding") {
+                if (       formatstr == L"name,fontname,fontsize,primarycolour,secondarycolour,outlinecolour,backcolour,bold,italic,underline,strikeout,scalex,scaley,spacing,angle,borderstyle,outline,shadow,alignment,marginl,marginr,marginv,encoding") {
                     style_param = style_param_v4p;
-                } else if (formatstr == L"Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding") {
+                } else if (formatstr == L"name,fontname,fontsize,primarycolour,secondarycolour,tertiarycolour,backcolour,bold,italic,borderstyle,outline,shadow,alignment,marginl,marginr,marginv,alphalevel,encoding") {
                     style_param = style_param_v4;
-                } else if (formatstr == L"Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, MarginB, Encoding, RelativeTo") {
+                } else if (formatstr == L"name,fontname,fontsize,primarycolour,secondarycolour,outlinecolour,backcolour,bold,italic,underline,strikeout,scalex,scaley,spacing,angle,borderstyle,outline,shadow,alignment,marginl,marginr,marginv,marginb,encoding,relativeto") {
                     style_param = style_param_v4pp;
-                } else if (formatstr == L"Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding") {
+                } else if (formatstr == L"name,fontname,fontsize,primarycolour,secondarycolour,tertiarycolour,backcolour,bold,italic,outline,shadow,alignment,marginl,marginr,marginv,alphalevel,encoding") {
                     style_param = style_param_v3;
-                } else if (formatstr == L"Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding") {
+                } else if (formatstr == L"name,fontname,fontsize,primarycolour,secondarycolour,outlinecolour,backcolour,bold,italic,underline,borderstyle,outline,shadow,alignment,marginl,marginr,marginv,alphalevel,encoding") {
                     style_param = style_param_var1;
                 } else {
                     TRACE(_T("Unknown SSA style format: %s\n"), static_cast<LPCWSTR>(formatstr));
@@ -2080,32 +2063,24 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 }
             } else {
                 // Event formats
-                if (       formatstr == L"Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text") {
-                    event_param = event_param_v4p;
-                } else if (formatstr == L"Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, MarginB, Effect, Text") {
-                    event_param = event_param_v4pp;
-                } else if (formatstr == L"Marked=0, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text") {
-                    event_param = event_param_v4;
-                } else if (formatstr == L"Marked=1, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text") {
-                    event_param = event_param_v4;
-                } else if (formatstr == L"Layer, Start, End, Style, Text") {
-                    event_param = event_param_var1;
+                if (       formatstr == L"layer,start,end,style,name,marginl,marginr,marginv,effect,text") {
+                    ret.event_param = event_param_v4p;
+                } else if (formatstr == L"layer,start,end,style,actor,marginl,marginr,marginv,effect,text") {
+                    ret.event_param = event_param_v4p;
+                } else if (formatstr == L"layer,start,end,style,name,marginl,marginr,marginv,marginb,effect,text") {
+                    ret.event_param = event_param_v4pp;
+                } else if (formatstr == L"marked,start,end,style,name,marginl,marginr,marginv,effect,text") {
+                    ret.event_param = event_param_v4;
+                } else if (formatstr == L"layer,start,end,style,text") {
+                    ret.event_param = event_param_var1;
                 } else {
                     TRACE(_T("Unknown SSA event format: %s\n"), static_cast<LPCWSTR>(formatstr));
                     ASSERT(false);
                 }
             }
-        } else if (entry == L"title") {
-            // ignored
-        } else if (entry == L"playdepth") {
-            // ignored
-        } else if (entry == L"[aegisub extradata]") {
-            // ignored
-        } else if (entry == L"data") {
-            // ignored
         } else {
-            TRACE(_T("Ignoring unknown SSA entry: %s\n"), static_cast<LPCWSTR>(entry));
-            if (!fRet) {
+            if (!fRet && !below_script_info) {
+                TRACE(_T("Ignoring unknown SSA entry: %s\n"), static_cast<LPCWSTR>(entry));
                 if (++ignore_count >= 10) {
                     return false;
                 }
@@ -2398,6 +2373,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
     , m_SubRendererSettings(GetSubRendererSettings())
+    , overrideANSICharset(0)
 #if USE_LIBASS
     , m_LibassContext(this)
 #endif
@@ -2685,18 +2661,6 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
     m_originalDefaultStyle = *ret;
 
     return ret;
-}
-
-void CSimpleTextSubtitle::ApplyANSICP(int CharSet) {
-    if (CharSet != DEFAULT_CHARSET && CharSet != ANSI_CHARSET) { //don't bother
-        POSITION pos = m_styles.GetStartPosition();
-        while (pos) {
-            CStringW key = m_styles.GetNextKey(pos);
-            if (m_styles[key]->charSet == DEFAULT_CHARSET || m_styles[key]->charSet == ANSI_CHARSET) {
-                m_styles[key]->charSet = CharSet;
-            }
-        }
-    }
 }
 
 void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
@@ -3063,10 +3027,18 @@ bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
     return true;
 }
 
-int CSimpleTextSubtitle::GetCharSet(int i)
+int CSimpleTextSubtitle::GetCharSet(int charSet)
+{
+    if (overrideANSICharset >= DEFAULT_CHARSET && (charSet == DEFAULT_CHARSET || charSet == ANSI_CHARSET)) {
+        return overrideANSICharset;
+    }
+    return charSet;
+}
+
+int CSimpleTextSubtitle::GetStyleCharSet(int i)
 {
     const STSStyle* stss = GetStyle(i);
-    return stss ? stss->charSet : DEFAULT_CHARSET;
+    return GetCharSet(stss ? stss->charSet : DEFAULT_CHARSET);
 }
 
 bool CSimpleTextSubtitle::IsEntryUnicode(int i)
@@ -3079,7 +3051,7 @@ void CSimpleTextSubtitle::ConvertUnicode(int i, bool fUnicode)
     STSEntry& stse = GetAt(i);
 
     if (stse.fUnicode ^ fUnicode) {
-        int CharSet = GetCharSet(i);
+        int CharSet = GetStyleCharSet(i);
 
         stse.str = fUnicode
                    ? MBCSSSAToUnicode(stse.str, CharSet)
@@ -3097,7 +3069,7 @@ CStringA CSimpleTextSubtitle::GetStrA(int i, bool fSSA)
 CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 {
     STSEntry const& stse = GetAt(i);
-    int CharSet = GetCharSet(i);
+    int CharSet = GetStyleCharSet(i);
 
     CStringW str = stse.str;
 
@@ -3115,7 +3087,7 @@ CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 CStringW CSimpleTextSubtitle::GetStrWA(int i, bool fSSA)
 {
     STSEntry const& stse = GetAt(i);
-    int CharSet = GetCharSet(i);
+    int CharSet = GetStyleCharSet(i);
 
     CStringW str = stse.str;
 
@@ -3142,9 +3114,9 @@ void CSimpleTextSubtitle::SetStr(int i, CStringW str, bool fUnicode)
     str.Replace(L"\n", L"\\N");
 
     if (stse.fUnicode && !fUnicode) {
-        stse.str = MBCSSSAToUnicode(str, GetCharSet(i));
+        stse.str = MBCSSSAToUnicode(str, GetStyleCharSet(i));
     } else if (!stse.fUnicode && fUnicode) {
-        stse.str = UnicodeSSAToMBCS(str, GetCharSet(i));
+        stse.str = UnicodeSSAToMBCS(str, GetStyleCharSet(i));
     } else {
         stse.str = str;
     }
@@ -3726,6 +3698,7 @@ void STSStyle::SetDefault()
     fGaussianBlur = 0;
     fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
     relativeTo = STSStyle::AUTO;
+    hasAnsiStyleName = false;
 }
 
 bool STSStyle::operator == (const STSStyle& s) const

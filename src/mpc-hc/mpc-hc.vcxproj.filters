@@ -605,6 +605,16 @@
     <ClCompile Include="CMPCThemePropPageButton.cpp">
       <Filter>MPCTheme</Filter>
     </ClCompile>
+    <ClCompile Include="STB_Image.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="CMPCThemeResizablePropertyPage.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
+    <ClCompile Include="CMPCThemeResizablePropertySheet.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
+    <ClCompile Include="RarEntrySelectorDialog.cpp">
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1150,6 +1160,13 @@
     <ClInclude Include="CMPCThemePropPageButton.h">
       <Filter>MPCTheme</Filter>
     </ClInclude>
+    <ClInclude Include="CMPCThemeResizablePropertyPage.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemeResizablePropertySheet.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="RarEntrySelectorDialog.h">
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">

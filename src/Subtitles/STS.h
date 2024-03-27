@@ -113,8 +113,10 @@ public:
 
     STSStyle m_originalDefaultStyle;
     bool m_bUsingPlayerDefaultStyle;
+    uint32_t event_param;
 
     CSTSStyleMap m_styles;
+    int overrideANSICharset;
 
     enum EPARCompensationType {
         EPCTDisabled,
@@ -150,7 +152,6 @@ public:
 
     void Add(CStringW str, bool fUnicode, REFERENCE_TIME start, REFERENCE_TIME end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), const CRect& marginRect = CRect(0, 0, 0, 0), int layer = 0, int readorder = -1);
     STSStyle* CreateDefaultStyle(int CharSet);
-    void ApplyANSICP(int CharSet);
     void ChangeUnknownStylesToDefault();
     void AddStyle(CString name, STSStyle* style); // style will be stored and freed in Empty() later
     bool CopyStyles(const CSTSStyleMap& styles, bool fAppend = false);
@@ -175,7 +176,8 @@ public:
     STSStyle* GetStyle(int i);
     bool GetStyle(int i, STSStyle& stss);
     bool GetStyle(CString styleName, STSStyle& stss);
-    int GetCharSet(int i);
+    int GetCharSet(int charSet);
+    int GetStyleCharSet(int i);
     bool IsEntryUnicode(int i);
     void ConvertUnicode(int i, bool fUnicode);
 

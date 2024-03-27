@@ -62,7 +62,18 @@ BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CListCtrl)
     ON_NOTIFY(HDN_ENDTRACKW, 0, &OnHdnEndtrack)
     ON_NOTIFY_REFLECT_EX(LVN_ITEMCHANGED, &OnLvnItemchanged)
     ON_MESSAGE(PLAYER_PLAYLIST_UPDATE_SCROLLBAR, OnDelayed_UpdateScrollbar)
+    ON_WM_WINDOWPOSCHANGED()
 END_MESSAGE_MAP()
+
+void CMPCThemePlayerListCtrl::OnWindowPosChanged(WINDOWPOS* lpwndpos) {
+    if (AppNeedsThemedControls()) {
+        if (themedSBHelper && 0 != (GetStyle() & (WS_VSCROLL | WS_HSCROLL))) {
+            themedSBHelper->OnWindowPosChanged();
+        }
+    }
+    return __super::OnWindowPosChanged(lpwndpos);
+}
+
 
 void CMPCThemePlayerListCtrl::subclassHeader()
 {
@@ -198,14 +209,14 @@ BOOL CMPCThemePlayerListCtrl::OnLvnEndScroll(NMHDR* pNMHDR, LRESULT* pResult)
 void CMPCThemePlayerListCtrl::updateSB()
 {
     if (nullptr != themedSBHelper) {
-        themedSBHelper->hideSB();
+        themedSBHelper->hideNativeScrollBars();
     }
 }
 
-void CMPCThemePlayerListCtrl::updateScrollInfo()
+void CMPCThemePlayerListCtrl::updateScrollInfo(bool invalidate /*=false*/)
 {
     if (nullptr != themedSBHelper) {
-        themedSBHelper->updateScrollInfo();
+        themedSBHelper->updateScrollInfo(invalidate);
     }
 }
 
@@ -270,7 +281,7 @@ void CMPCThemePlayerListCtrl::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARA
         if (GetStyle() & WS_HSCROLL && nullptr == themedSBHelper) {
             themedSBHelper = DEBUG_NEW CMPCThemeScrollBarHelper(this);
         }
-        ::PostMessage(m_hWnd, PLAYER_PLAYLIST_UPDATE_SCROLLBAR, (WPARAM)0, (LPARAM)0);
+        ::PostMessage(m_hWnd, PLAYER_PLAYLIST_UPDATE_SCROLLBAR, (WPARAM)0, (LPARAM)TRUE);
     }
 }
 
@@ -399,7 +410,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     bgColor = selectedBGColor;
                     if (LVS_REPORT != dwStyle) { //in list mode we don't fill the "whole" column
                         CRect tmp = rText;
-                        dcMem.DrawText(text, tmp, textFormat | DT_CALCRECT); //end of string
+                        dcMem.DrawTextW(text, tmp, textFormat | DT_CALCRECT); //end of string
                         rTextBG.right = tmp.right + (rText.left - rTextBG.left); //end of string plus same indent from the left side
                     }
                 } else if (hasCheckedColors) {
@@ -460,7 +471,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
 
                 dcMem.SelectObject(listMPCThemeFontBold);
             }
-            dcMem.DrawText(text, rText, textFormat);
+            dcMem.DrawTextW(text, rText, textFormat);
             CMPCThemeUtil::flushMemDC(pDC, dcMem, rectDC);
             pDC->SetTextColor(oldTextColor);
             pDC->SetBkColor(oldBkColor);
@@ -593,9 +604,9 @@ void CMPCThemePlayerListCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-LRESULT CMPCThemePlayerListCtrl::OnDelayed_UpdateScrollbar(WPARAM, LPARAM)
+LRESULT CMPCThemePlayerListCtrl::OnDelayed_UpdateScrollbar(WPARAM, LPARAM invalidate)
 {
-    updateScrollInfo();
+    updateScrollInfo((bool)invalidate);
     return 0;
 }
 

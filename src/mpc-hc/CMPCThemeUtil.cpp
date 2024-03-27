@@ -526,7 +526,7 @@ CSize CMPCThemeUtil::GetTextSize(CString str, CDC* pDC, CFont* font)
     CFont* pOldFont = pDC->SelectObject(font);
 
     CRect r = { 0, 0, 0, 0 };
-    pDC->DrawText(str, r, DT_SINGLELINE | DT_CALCRECT);
+    pDC->DrawTextW(str, r, DT_SINGLELINE | DT_CALCRECT);
     CSize cs = r.Size();
     pDC->SelectObject(pOldFont);
     return cs;
@@ -618,7 +618,7 @@ void CMPCThemeUtil::DrawBufferedText(CDC* pDC, CString text, CRect rect, UINT fo
 
     CRect tr = rect;
     tr.OffsetRect(-tr.left, -tr.top);
-    dcMem.DrawText(text, tr, format);
+    dcMem.DrawTextW(text, tr, format);
 
     pDC->BitBlt(rect.left, rect.top, rect.Width(), rect.Height(), &dcMem, 0, 0, SRCCOPY);
 }
@@ -1051,4 +1051,14 @@ void CMPCThemeUtil::PreDoModalRTL(LPPROPSHEETHEADERW m_psh) {
     //We handle here to avoid Windows 11 bug with SetWindowLongPtr
     m_psh->dwFlags |= PSH_USECALLBACK;
     m_psh->pfnCallback = PropSheetCallBackRTL;
+}
+
+//Regions are relative to upper left of WINDOW rect (not client)
+CPoint CMPCThemeUtil::GetRegionOffset(CWnd* window) {
+    CRect twr, tcr;
+    window->GetWindowRect(twr);
+    window->GetClientRect(tcr);
+    ::MapWindowPoints(window->GetSafeHwnd(), nullptr, (LPPOINT)&tcr, 2);
+    CPoint offset = tcr.TopLeft() - twr.TopLeft();
+    return offset;
 }
