@@ -1006,7 +1006,7 @@ msgid ""
 msgstr ""
 "Gömülü bir kaynağı tarayıcınızda görüntüleyebilmek için Ağ arayüzünü seçeneklerden etkinleştirmeniz gerekmektedir.\n"
 "\n"
-"Bilgileri yalnızca kaydetmek istiyorsanız \"Farklı kaydet\" düğmesini kullanın."
+"Yalnız bilgileri kaydetmek istiyorsanız \"Farklı kaydet\" düğmesini kullanın."
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
