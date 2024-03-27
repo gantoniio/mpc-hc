@@ -729,7 +729,7 @@ msgstr "Oturumu kilitle"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "G&ezinti"
+msgstr "G&ezinim"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
