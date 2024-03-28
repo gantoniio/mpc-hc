@@ -1587,7 +1587,7 @@ msgstr "Dışsal altyazıları gömülü altyazılara yeğle"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Dahili altyazılara ilgisiz kal ve onları kullanma"
+msgstr "Gömülü altyazılara ilgisiz kal ve onları kullanma"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
