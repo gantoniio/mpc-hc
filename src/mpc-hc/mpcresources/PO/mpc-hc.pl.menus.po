@@ -653,7 +653,7 @@ msgstr "&Zwiększ tempo"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Przywróć pierwotne &tempo"
+msgstr "Przy&wróć pierwotne tempo"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
