@@ -1890,7 +1890,7 @@ msgstr "Ścieżka w&ideo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr "Kąt& wideo"
+msgstr "Kąt wi&deo"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
