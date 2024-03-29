@@ -1987,7 +1987,7 @@ msgstr "Przeskocz wstecz (kl. klucz.)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
-msgstr "Przejdź naprzód"
+msgstr "Naprzód"
 
 msgctxt "IDS_AG_PREVIOUS"
 msgid "Previous"
