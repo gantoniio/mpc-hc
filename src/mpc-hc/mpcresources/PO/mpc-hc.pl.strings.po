@@ -1991,7 +1991,7 @@ msgstr "Naprzód"
 
 msgctxt "IDS_AG_PREVIOUS"
 msgid "Previous"
-msgstr "Przejdź wstecz"
+msgstr "Wstecz"
 
 msgctxt "IDS_AG_NEXT_FILE"
 msgid "Next File"
