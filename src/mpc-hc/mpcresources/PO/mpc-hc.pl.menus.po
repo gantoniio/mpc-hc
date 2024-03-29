@@ -297,7 +297,7 @@ msgstr "&Średnie (2.35 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "&Słabe (2.4 Gamma)"
+msgstr "&Ciemne (2.4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
