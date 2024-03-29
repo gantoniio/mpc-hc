@@ -3547,7 +3547,7 @@ msgstr "Wyłączenie kompozycji pulpitu: wył."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "Alternatywna synchronizacja pionowa: włączona"
+msgstr "Alternatywna synch. pion: wł."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
