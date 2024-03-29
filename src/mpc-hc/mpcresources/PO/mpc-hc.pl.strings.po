@@ -4603,7 +4603,7 @@ msgstr ""
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr ""
-"Opóźnij wyświetlanie filmu na pełnym ekranie, aby zapobiec usterkom "
+"Opóźnij przed wyświetleniem pełnoekranowego wideo, aby zapobiec usterkom "
 "wizualnym."
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
