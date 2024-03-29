@@ -793,7 +793,7 @@ msgstr "&Parametry wiersza poleceń..."
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Ściągnij o&brazy przycisków sterowania"
+msgstr "Ściągnij &obrazy przycisków sterowania"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
