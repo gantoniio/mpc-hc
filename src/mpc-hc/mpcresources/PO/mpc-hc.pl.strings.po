@@ -3657,7 +3657,7 @@ msgid ""
 "\n"
 "Do you want to visit MPC-HC's website to download it?"
 msgstr ""
-"MPC-HC v%s jest już dostępny. Używasz wersji v%s.\n"
+"MPC-HC v%s jest już dostępna. Używasz wersji v%s.\n"
 "\n"
 "Czy chcesz odwiedzić stronę MPC-HC, aby ją pobrać?"
 
