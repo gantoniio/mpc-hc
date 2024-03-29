@@ -627,7 +627,7 @@ msgstr "Playlista"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
-msgstr "Auto-odtwarzanie"
+msgstr "Autoodtwarzanie"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
