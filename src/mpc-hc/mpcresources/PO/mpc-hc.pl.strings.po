@@ -2646,7 +2646,7 @@ msgstr "Nie udało się pozyskać rozmiaru obrazu"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "Niewystarczająca ilość pamięci operacyjnej!"
+msgstr "Niewystarczająca ilość pamięci, kup jej więcej!"
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
