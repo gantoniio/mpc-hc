@@ -553,7 +553,7 @@ msgstr "&Następna klatka"
 
 msgctxt "POPUP"
 msgid "&Repeat"
-msgstr "Powtarzanie"
+msgstr "&Powtarzanie"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
