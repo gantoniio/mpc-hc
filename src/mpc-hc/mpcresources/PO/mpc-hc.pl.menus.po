@@ -757,7 +757,7 @@ msgstr "&Menu główne"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Menu na&pisów"
+msgstr "&Menu napisów"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
