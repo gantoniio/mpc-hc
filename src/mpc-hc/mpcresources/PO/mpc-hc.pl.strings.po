@@ -4583,7 +4583,7 @@ msgstr "Przełącz na domyślny styl napisów"
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
 msgstr ""
-" Powróć do pierwszego pliku w folderze po odtworzeniu ostatniego pliku."
+"Powróć do pierwszego pliku w folderze po odtworzeniu ostatniego pliku."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
 msgid ""
