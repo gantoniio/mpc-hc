@@ -2181,7 +2181,7 @@ msgstr "Dopasowanie automatyczne zoomu (tylko większe)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Rozmiar okna: dopasowany do rozdzielczości ekranu (tylko większe)"
+msgstr "Zoom: automatyczne (tylko większe)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
