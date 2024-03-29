@@ -1283,7 +1283,7 @@ msgstr "Przełącz widoczność listy EDL"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
-msgstr "Ustaw początek na liście montażowej"
+msgstr "Ustaw początek na liście EDL"
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
