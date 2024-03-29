@@ -3677,7 +3677,7 @@ msgstr "&Zamknij"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "Rozmiar okna: %.0lf%%"
+msgstr "Zoom: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
