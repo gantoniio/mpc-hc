@@ -3279,7 +3279,7 @@ msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr "Inny format"
+msgstr "Inny"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
