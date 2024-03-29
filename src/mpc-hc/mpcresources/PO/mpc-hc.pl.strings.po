@@ -829,7 +829,7 @@ msgid ""
 "MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" "
 "desktop color space recommended."
 msgstr ""
-"Renderuje przy użyciu tego samego filtra co „VMR-9 (windowed)”, lecz "
+"Renderuje przy użyciu tego samego filtra co VMR-9 (w oknie), lecz "
 "rozszerzono go o obsługę napisów. Powielanie obrazu w trybie nakładki może "
 "działać. Sugerowana jest 24-bitowa głębia kolorów pulpitu."
 
