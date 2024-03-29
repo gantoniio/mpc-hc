@@ -1531,7 +1531,7 @@ msgstr "Dekodowanie programowe"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr "Tempo"
+msgstr "Tempo odtwarzania"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
