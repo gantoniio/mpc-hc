@@ -269,7 +269,7 @@ msgstr "&Format wejściowy"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "&Automatyczne wykrywanie"
+msgstr "&Auto-detekcja"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
