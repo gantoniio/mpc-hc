@@ -1943,7 +1943,7 @@ msgstr "Zmniejsz tempo"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Zwykłe tempo odtwarzania"
+msgstr "Przywróć tempo"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
