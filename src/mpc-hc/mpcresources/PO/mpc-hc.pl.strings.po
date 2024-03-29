@@ -188,7 +188,7 @@ msgstr "Powtarzanie ciągłe: Wyłączone"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "Odtwarzanie ciągłe"
+msgstr "Powtarzanie ciągłe"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
