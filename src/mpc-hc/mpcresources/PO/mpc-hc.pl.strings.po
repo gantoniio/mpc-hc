@@ -2123,7 +2123,7 @@ msgstr "Przyrostowa wysokość klatki wideo"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr "Rozmiar dziesiętny klatki wideo"
+msgstr "Rozmiar dzies. klatki wideo"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
