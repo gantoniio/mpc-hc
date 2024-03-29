@@ -461,7 +461,7 @@ msgstr "&Usuń"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "Wyc&zyść"
+msgstr "W&yczyść"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
