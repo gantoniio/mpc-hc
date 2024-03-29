@@ -729,7 +729,7 @@ msgstr "Wy&loguj"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Za&blokuj komputer"
+msgstr "Za&blokuj"
 
 msgctxt "POPUP"
 msgid "&Navigate"
