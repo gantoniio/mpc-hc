@@ -1271,7 +1271,7 @@ msgstr "Wyczyścić listę ostatnio otwartych plików?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
-msgstr "Zapisz listę montażową"
+msgstr "Zapisz listę EDL"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
@@ -1279,7 +1279,7 @@ msgstr "Włącz korekcję czasu klatki"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "Przełącz widoczność listy montażowej"
+msgstr "Przełącz widoczność listy EDL"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
