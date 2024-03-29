@@ -481,7 +481,7 @@ msgstr "Audio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Zezwalaj na nadpisywanie wyboru zewnętrznego rozdzielacza"
+msgstr "Zezwalaj na nadpisywanie wyboru zewnętrznego splittera"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -1106,7 +1106,7 @@ msgstr "Ustawienia filtrów wewnętrznych \"LAV Filters\""
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Rozdzielacz"
+msgstr "Splitter"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
