@@ -4005,7 +4005,7 @@ msgstr ""
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
 msgstr ""
-"Wyszukiwanie napisów w internetowej bazie zakończone, nie znaleziono "
+"Wyszukiwanie napisów w Internetowej bazie zakończone, nie znaleziono "
 "napisów."
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
