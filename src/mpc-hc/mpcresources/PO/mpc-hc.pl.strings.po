@@ -3411,7 +3411,7 @@ msgstr "Proporcje"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "Synchronizacja pionowa: włączona"
+msgstr "Synch. pion.: włączona"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
