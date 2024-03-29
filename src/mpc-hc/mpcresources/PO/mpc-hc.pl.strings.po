@@ -1311,7 +1311,7 @@ msgstr "Obrót klatki wideo Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Przetestuj szarpanie obrazu"
+msgstr "Test rwania obrazu"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
