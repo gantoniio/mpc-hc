@@ -3519,7 +3519,7 @@ msgstr "Opróżnianie bufora po wyświetleniu: wł."
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Opróżnianie bufora po wyświetleniu: wyłączone"
+msgstr "Opróżnianie bufora po wyświetleniu: wył."
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
