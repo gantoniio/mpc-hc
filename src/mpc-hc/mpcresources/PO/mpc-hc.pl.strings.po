@@ -545,7 +545,7 @@ msgstr "&Wybierz shadery..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "Debu&guj shadery"
+msgstr "&Debuguj shadery"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
