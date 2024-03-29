@@ -745,7 +745,7 @@ msgstr "&Naprzód"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Przejdź do pozycji..."
+msgstr "&Przejdź do..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
