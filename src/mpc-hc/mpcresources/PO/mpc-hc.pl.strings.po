@@ -453,7 +453,7 @@ msgstr "&Otwórz"
 
 msgctxt "IDS_PLAYLIST_ADD"
 msgid "A&dd"
-msgstr "&Dodaj"
+msgstr "D&odaj"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
