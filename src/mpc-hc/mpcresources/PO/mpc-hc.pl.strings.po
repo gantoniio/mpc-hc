@@ -2508,11 +2508,11 @@ msgstr "Tytuł %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
-msgstr "DVD: nieoczekiwany błąd"
+msgstr "DVD: Nieoczekiwany błąd"
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
-msgstr "DVD: błąd zabezpieczenia kopiowania"
+msgstr "DVD: Błąd zabezpieczenia kopiowania"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
