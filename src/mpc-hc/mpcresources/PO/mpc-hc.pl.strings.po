@@ -2528,11 +2528,11 @@ msgstr "DVD: Niski poziom rodzicielski"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
-msgstr "DVD: błąd Macrovision"
+msgstr "DVD: Błąd Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: niezgodne regiony systemu i dekodera"
+msgstr "DVD: Niezgodne regiony systemu i dekodera"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
