@@ -3899,7 +3899,7 @@ msgstr "Po zakończeniu odtwarzania: Wyłącz monitor"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "Po zakończeniu odtwarzania: Odtworzenie następnego pliku z folderu"
+msgstr "Po zakończeniu odtwarzania: Odtwórz następny plik z folderu"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
