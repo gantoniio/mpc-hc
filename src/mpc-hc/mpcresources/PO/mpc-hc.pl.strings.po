@@ -3539,11 +3539,11 @@ msgstr "Pełny ekran Direct3D: wył."
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr "Wyłączenie kompozycji pulpitu: włączone"
+msgstr "Wyłączenie kompozycji pulpitu: wł."
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Wyłączenie kompozycji pulpitu: wyłączone"
+msgstr "Wyłączenie kompozycji pulpitu: wył."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
