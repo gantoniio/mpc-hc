@@ -2516,7 +2516,7 @@ msgstr "DVD: Błąd zabezpieczenia kopiowania"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
-msgstr "DVD: niewłaściwy nośnik DVD 1.x"
+msgstr "DVD: Niewłaściwy nośnik DVD 1.x"
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
