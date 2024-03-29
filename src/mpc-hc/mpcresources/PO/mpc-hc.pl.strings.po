@@ -1882,7 +1882,7 @@ msgstr "Prędkość: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr "Poprawnie zapisano miniaturki"
+msgstr "Miniaturki zapisano poprawnie"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
