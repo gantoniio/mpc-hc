@@ -481,7 +481,7 @@ msgstr "Posortuj według &nazwy"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Posortuj według ś&cieżki"
+msgstr "Posortuj według &ścieżki"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
