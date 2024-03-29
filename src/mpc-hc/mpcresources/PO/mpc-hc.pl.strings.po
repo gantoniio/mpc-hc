@@ -3995,12 +3995,12 @@ msgstr "Pobieranie napisów nie powiodło się."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr "Wyszukiwanie napisów w internetowej bazie przerwane."
+msgstr "Wyszukiwanie napisów w Internetowej bazie przerwane."
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
 msgstr ""
-"Wyszukiwanie napisów w internetowej bazie zakończone, znaleziono %d napisów."
+"Wyszukiwanie napisów w Internetowej bazie zakończone, znaleziono %d napisów."
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
