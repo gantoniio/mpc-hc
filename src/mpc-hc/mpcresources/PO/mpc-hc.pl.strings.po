@@ -3095,7 +3095,7 @@ msgstr "Przedni środkowy"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
-msgstr "LFE"
+msgstr "Niska częstotliwość"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
