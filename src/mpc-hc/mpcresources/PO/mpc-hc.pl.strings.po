@@ -3689,11 +3689,11 @@ msgstr "Przełącz własne mapowanie kanałów"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "Własne mapowanie kanałów: włączone"
+msgstr "Własne mapowanie kanałów: wł."
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "Własne mapowanie kanałów: wyłączone"
+msgstr "Własne mapowanie kanałów: wył."
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
