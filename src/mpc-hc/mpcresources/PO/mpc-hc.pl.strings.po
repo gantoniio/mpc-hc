@@ -1012,7 +1012,7 @@ msgid ""
 "\n"
 "Use the \"Save As\" button if you only want to save the information."
 msgstr ""
-"Aby wyświetlić zasoby w przeglądarce należy włączyć interfejs internetowy.\n"
+"Aby wyświetlić zasoby w przeglądarce należy włączyć interfejs sieciowy.\n"
 "\n"
 "Użyj opcji „Zapisz jako” jeżeli chcesz tylko zapisać te informacje."
 
