@@ -2321,11 +2321,11 @@ msgstr "Ustawienia"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr "Następna ścieżka Audio"
+msgstr "Następna ścieżka audio"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr "Poprzednia ścieżka Audio"
+msgstr "Poprzednia ścieżka audio"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
