@@ -3535,7 +3535,7 @@ msgstr "Pełny ekran Direct3D: wł."
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Pełny ekran Direct3D: wyłączony"
+msgstr "Pełny ekran Direct3D: wył."
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
