@@ -2903,7 +2903,7 @@ msgstr "Nieznany format"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Przesunięcie napisów: %ld ms"
+msgstr "Przesun. napisów: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
