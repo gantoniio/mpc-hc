@@ -3875,7 +3875,7 @@ msgstr "Po zakończeniu odtwarzania: Zamknij program"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Po zakończeniu odtwarzania: Przejdź w stan wstrzymania"
+msgstr "Po zakończeniu odtwarzania: Przejdź w stan uśpienia"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
