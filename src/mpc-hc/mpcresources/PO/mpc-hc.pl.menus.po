@@ -777,7 +777,7 @@ msgstr "&Zakładki"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "Pomo&c"
+msgstr "&Pomoc"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
