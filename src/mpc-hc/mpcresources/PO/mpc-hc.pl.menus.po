@@ -749,7 +749,7 @@ msgstr "&Przejdź do..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr "Menu &tytułów"
+msgstr "&Menu tytułów"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
