@@ -3475,7 +3475,7 @@ msgstr "Format wejściowy: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr "Oświetlenie otoczenia: Mocne (2.2 Gamma)"
+msgstr "Oświetlenie otoczenia: Jasne (2.2 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
