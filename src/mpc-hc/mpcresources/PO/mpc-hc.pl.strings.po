@@ -1243,7 +1243,7 @@ msgstr "&Losowe odtwarzanie"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
-msgstr "Otwórz lokalizację pliku"
+msgstr "&Otwórz lokalizację pliku"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
