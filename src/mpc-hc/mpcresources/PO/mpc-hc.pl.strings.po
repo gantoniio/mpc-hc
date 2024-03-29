@@ -485,7 +485,7 @@ msgstr "Posortuj według &ścieżki"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "P&rzetasuj"
+msgstr "L&osuj"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
