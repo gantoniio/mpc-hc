@@ -665,7 +665,7 @@ msgstr "&Shadery"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr "Ścieżka &audio"
+msgstr "&Ścieżka audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
