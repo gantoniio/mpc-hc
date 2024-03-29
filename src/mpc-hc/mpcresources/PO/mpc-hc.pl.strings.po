@@ -2520,11 +2520,11 @@ msgstr "DVD: Niewłaściwy nośnik DVD 1.x"
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
-msgstr "DVD: niewłaściwy region nośnika"
+msgstr "DVD: Niewłaściwy region nośnika"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
-msgstr "DVD: niski poziom rodzicielski"
+msgstr "DVD: Niski poziom rodzicielski"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
