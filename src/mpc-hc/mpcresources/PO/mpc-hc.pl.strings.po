@@ -3059,7 +3059,7 @@ msgstr "Zoom klatki wideo 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr "Przełącz przybliż. klatki"
+msgstr "Przełącz zoom klatki"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
