@@ -1886,7 +1886,7 @@ msgstr "Miniaturki zapisano poprawnie"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
-msgstr "Ścieżka w&ideo"
+msgstr "Ścieżka& wideo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
