@@ -2919,7 +2919,7 @@ msgstr "Minimalne wzmocnienie"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Maksymalne wzmocnienie głośności"
+msgstr "Maksymalne wzmocnienie"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
