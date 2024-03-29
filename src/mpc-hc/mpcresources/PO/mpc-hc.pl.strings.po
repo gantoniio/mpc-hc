@@ -2131,7 +2131,7 @@ msgstr "Szerokość dzies. klatki wideo"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr "Wysokość dziesiętna klatki wideo"
+msgstr "Wysokość dzies. klatki wideo"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
