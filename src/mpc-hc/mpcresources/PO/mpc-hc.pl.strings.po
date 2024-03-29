@@ -3563,8 +3563,7 @@ msgstr "Przywrócono optymalne ustawienia renderowania"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr ""
-"Wsparcie dla interfejsu graficznego na pełnym ekranie Direct3D: włączone"
+msgstr "Wsparcie dla interfejsu graficznego na pełnym ekranie Direct3D: wł."
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
