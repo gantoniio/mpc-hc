@@ -4814,7 +4814,7 @@ msgstr "Tryb WASAPI:"
 
 msgctxt "IDS_ARS_EXCLUSIVE"
 msgid "Exclusive"
-msgstr "Ekskluzywny"
+msgstr "Wyłączny"
 
 msgctxt "IDS_ARS_SHARED"
 msgid "Shared"
