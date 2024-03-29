@@ -529,7 +529,7 @@ msgstr "&Nie"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
-msgstr "Z&mniejsz"
+msgstr "&Zmniejsz"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
