@@ -1239,7 +1239,7 @@ msgstr "Organizuj ulubione..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "Losowe odtwarzanie"
+msgstr "&Losowe odtwarzanie"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
