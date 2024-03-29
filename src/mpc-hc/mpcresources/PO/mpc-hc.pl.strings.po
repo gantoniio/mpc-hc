@@ -629,7 +629,7 @@ msgstr "Odtwarzanie::Przechwytywanie"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Odtwarzanie::Ustawienia Sync"
+msgstr "Odtwarzanie::Ustawienia Sync Renderer"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
