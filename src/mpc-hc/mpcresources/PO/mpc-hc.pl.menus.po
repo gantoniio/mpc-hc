@@ -713,11 +713,11 @@ msgstr "&Zamknij program"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "Przejdź w stan &wstrzymania"
+msgstr "&Przejdź w stan uśpienia"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "Przejdź w stan &hibernacji"
+msgstr "&Przejdź w stan hibernacji"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
