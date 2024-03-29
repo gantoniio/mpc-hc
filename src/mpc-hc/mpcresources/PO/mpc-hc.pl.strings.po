@@ -533,7 +533,7 @@ msgstr "&Zmniejsz"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
-msgstr "Z&większ"
+msgstr "&Zwiększ"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
