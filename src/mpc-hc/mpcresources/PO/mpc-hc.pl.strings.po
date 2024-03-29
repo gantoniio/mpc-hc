@@ -2895,7 +2895,7 @@ msgstr "Zmniejsz przesunięcie synchronizacji pionowej"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "MPC-HC pełny ekran D3D"
+msgstr "Pełny ekran D3D MPC-HC"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
