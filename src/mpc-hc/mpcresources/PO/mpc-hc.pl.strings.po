@@ -3459,7 +3459,7 @@ msgstr "Zarządzanie kolorami: wył."
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr "Format wejściowy: Automatyczny"
+msgstr "Format wejściowy: Auto-detekcja"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
