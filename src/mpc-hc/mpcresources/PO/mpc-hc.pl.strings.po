@@ -2562,11 +2562,11 @@ msgstr "Nazwa pliku zawiera nieobsługiwane znaki (używaj tylko A-Z, 0-9)"
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
-msgstr "Liczba wierszy:"
+msgstr "Wiersze:"
 
 msgctxt "IDS_THUMB_COLNUMBER"
 msgid "Columns:"
-msgstr "Liczba kolumn:"
+msgstr "Kolumny:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
