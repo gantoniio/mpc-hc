@@ -289,7 +289,7 @@ msgstr "&Oświetlenie otoczenia"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "&Mocne (2.2 Gamma)"
+msgstr "&Jasne (2.2 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
