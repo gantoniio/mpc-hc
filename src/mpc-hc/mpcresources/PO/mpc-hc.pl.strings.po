@@ -3551,7 +3551,7 @@ msgstr "Alternatywna synch. pion: wł."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Alternatywna synchronizacja pionowa: wyłączona"
+msgstr "Alternatywna synch. pion: wył."
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
