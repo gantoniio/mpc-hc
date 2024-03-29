@@ -4782,7 +4782,8 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE"
 msgid "Insert deinterlace filter (blend) in capture mode"
-msgstr "Vložiť filter rozkladania (zmiešavania) do režimu zachytávania"
+msgstr ""
+"Vložiť filter pre odstránenie prekladania (miešanie) do režimu zachytávania"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
