@@ -729,7 +729,7 @@ msgstr "&Lista odtwarzania"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr "R&ozdziały"
+msgstr "&Rozdziały"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
