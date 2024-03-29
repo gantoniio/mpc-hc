@@ -1287,7 +1287,7 @@ msgstr "Ustaw początek na liście EDL"
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
-msgstr "Ustaw koniec na liście montażowej"
+msgstr "Ustaw koniec na liście EDL"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
