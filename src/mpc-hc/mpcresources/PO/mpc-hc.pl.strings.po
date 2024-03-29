@@ -489,7 +489,7 @@ msgstr "L&osuj"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "&Przywróć pierwotną kolejność"
+msgstr "P&rzywróć"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
