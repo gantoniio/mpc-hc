@@ -3415,11 +3415,11 @@ msgstr "Synch. pion.: wł."
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "Synch. pion.: wyłączona"
+msgstr "Synch. pion.: wył."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Dokł. synch. pion.: włączona"
+msgstr "Dokł. synch. pion.: wł."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
