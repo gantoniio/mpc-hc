@@ -3423,7 +3423,7 @@ msgstr "Dokł. synch. pion.: włączona"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "Dokładna synchronizacja pionowa: wyłączona"
+msgstr "Dokł. synch. pion.: wyłączona"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
