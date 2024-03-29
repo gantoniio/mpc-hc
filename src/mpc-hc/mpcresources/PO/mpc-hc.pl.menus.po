@@ -645,11 +645,11 @@ msgstr "25 fps"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Z&mniejsz tempo"
+msgstr "&Zmniejsz tempo"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "Z&większ tempo"
+msgstr "&Zwiększ tempo"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
