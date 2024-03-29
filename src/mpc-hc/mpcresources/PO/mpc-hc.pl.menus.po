@@ -753,7 +753,7 @@ msgstr "Menu &tytułów"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "Menu &główne"
+msgstr "&Menu główne"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
@@ -761,7 +761,7 @@ msgstr "Menu na&pisów"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Menu a&udio"
+msgstr "&Menu audio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
