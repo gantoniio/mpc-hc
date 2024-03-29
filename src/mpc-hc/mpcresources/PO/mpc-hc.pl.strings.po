@@ -2249,7 +2249,7 @@ msgstr "Wycisz"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "DVD: Menu tytułów"
+msgstr "DVD: Menu tytułu"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
