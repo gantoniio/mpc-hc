@@ -3575,11 +3575,11 @@ msgstr "Wyjście 10-bitowe RGB: wł."
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "Wyjście 10-bitowe RGB: wyłączone"
+msgstr "Wyjście 10-bitowe RGB: wył."
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "Wymuszenie 10-bitowego wejścia RGB: włączone"
+msgstr "Wymuszenie 10-bitowego wejścia RGB: wł."
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
