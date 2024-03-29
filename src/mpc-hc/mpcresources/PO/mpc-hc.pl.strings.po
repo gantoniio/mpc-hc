@@ -1555,9 +1555,7 @@ msgstr "Edukacja/Nauka/Fakty"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
-"Ukrywa zadokowane panele oraz przyciski sterowania także w trybie "
-"okienkowym."
+msgstr "Ukrywa elementy sterujące i panele również w trybie okienkowym."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid ""
