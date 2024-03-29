@@ -549,7 +549,7 @@ msgstr "&Debuguj shadery"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Zmniejsz opóźnienie napisów"
+msgstr "Opóźnienie napisów -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
