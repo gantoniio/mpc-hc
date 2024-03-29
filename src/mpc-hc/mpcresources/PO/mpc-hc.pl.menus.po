@@ -449,7 +449,7 @@ msgstr "Ust.& wstępne regulacji klatek PnS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "Z&większ rozmiar"
+msgstr "&Zwiększ rozmiar"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
