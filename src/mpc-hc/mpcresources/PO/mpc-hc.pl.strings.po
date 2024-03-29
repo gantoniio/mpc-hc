@@ -1451,7 +1451,7 @@ msgstr "Ustawienie shaderów po skalowaniu nie powiodło się"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "Ustawienie shaderów przed oraz po skalowaniu nie powiodło się"
+msgstr "Ustawienie shaderów przed i po skalowaniu nie powiodło się"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
