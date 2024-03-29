@@ -1211,7 +1211,7 @@ msgstr "Wyłącz wyciszenie"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
-msgstr "Brak audio"
+msgstr "Bez dźwięku"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid ""
