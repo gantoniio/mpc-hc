@@ -3595,7 +3595,7 @@ msgstr "Pełne przetwarzanie zmiennoprzecinkowe: wył."
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Niepełne przetwarzanie zmiennoprzecinkowe: włączone"
+msgstr "Niepełne przetwarzanie zmiennoprzecinkowe: wł."
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
