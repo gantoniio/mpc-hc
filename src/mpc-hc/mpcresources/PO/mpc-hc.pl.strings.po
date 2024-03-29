@@ -8,15 +8,15 @@
 # Rudolph RD, 2020
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
 # Mirosław Żylewicz, 2021
-# Krzysztof Marcinek, 2024
 # Łukasz Janik, 2024
+# Krzysztof Marcinek, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-03-02 14:37:43+0000\n"
+"POT-Creation-Date: 2024-03-28 16:29:05+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Łukasz Janik, 2024\n"
+"Last-Translator: Krzysztof Marcinek, 2024\n"
 "Language-Team: Polish (https://app.transifex.com/mpchc/teams/106126/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4774,13 +4774,15 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_PLAYLIST"
 msgid "Remember playback position in local M3U and MPCPL playlist files."
-msgstr ""
+msgstr "Zapamiętaj pozycję odtwarzania w plikach M3U i MPCPL."
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_TRACK_SELECTION"
 msgid ""
 "Remember the selected audio and subtitle track (when file history is "
 "enabled)."
 msgstr ""
+"Zapamiętaj wybraną ścieżkę audio i napisów (gdy włączona jest historia "
+"plików)."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_FORMAT"
 msgid ""
@@ -4789,20 +4791,28 @@ msgid ""
 "1: AAC\n"
 "2: OPUS"
 msgstr ""
+"Preferowany format audio dla strumienia wybranego z wyników Youtube-DL. Dotyczy tylko sytuacji, gdy strumień audio jest oddzielony od strumienia wideo.\n"
+"0: Automatyczny\n"
+"1: AAC\n"
+"2: OPUS"
 
 msgctxt "IDS_PPAGEADVANCED_PREVENT_DISPLAY_SLEEP"
 msgid "Disable screen saver and monitor sleep mode during video playback."
 msgstr ""
+"Wyłącz wygaszacz ekranu i wyłączanie monitora podczas odtwarzania wideo."
 
 msgctxt "IDS_PPAGEADVANCED_STILL_VIDEO_DURATION"
 msgid ""
 "Display duration in seconds for images rendered by \"Generate Still Video\" "
 "and \"MPC Image Source\" filters. Use 0 for infinite."
 msgstr ""
+"Czas wyświetlania w sekundach dla obrazów renderowanych przez filtry "
+"\"Generowanie nieruchomego wideo\" i \"Źródło obrazu MPC\". Użyj 0 dla "
+"nieskończoności."
 
 msgctxt "IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE"
 msgid "Insert deinterlace filter (blend) in capture mode"
-msgstr ""
+msgstr "Wstaw filtr usuwania przeplotu (blend) w trybie przechwytywania"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
