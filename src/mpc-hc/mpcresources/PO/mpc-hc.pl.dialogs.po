@@ -449,7 +449,7 @@ msgstr "Powiększenie i wyrównanie"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Auto-powiększenie:"
+msgstr "Auto-zoom:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
