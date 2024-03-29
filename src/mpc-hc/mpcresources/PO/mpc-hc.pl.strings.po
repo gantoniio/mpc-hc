@@ -501,7 +501,7 @@ msgstr "&Usuń"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "&Powiel"
+msgstr "P&owiel"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
