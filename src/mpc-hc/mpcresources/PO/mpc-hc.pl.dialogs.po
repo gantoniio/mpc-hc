@@ -305,7 +305,7 @@ msgstr "Priorytet procesu powyżej normalnego"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr "Włącz obsługę okładek plików audio"
+msgstr "Włącz wsparcie dla okładek"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
