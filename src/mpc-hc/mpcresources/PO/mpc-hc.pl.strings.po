@@ -3701,7 +3701,7 @@ msgstr "Przełącz normalizację dźwięku"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr "Normalizowanie: włączone"
+msgstr "Normalizowanie: wł."
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
