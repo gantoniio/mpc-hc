@@ -373,7 +373,7 @@ msgstr "&Optymalne"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "Rozmiar o&brazu"
+msgstr "Klatka &wideo"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
