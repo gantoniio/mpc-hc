@@ -2193,7 +2193,7 @@ msgstr "Kliknij, aby przełączyć pomiędzy czasem, który upłynął a pozosta
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr "Nieprawidłowy odstęp czasu"
+msgstr "Nieprawidłowe opóźnienie"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
