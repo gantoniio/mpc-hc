@@ -733,7 +733,7 @@ msgstr "&Rozdziały"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr "T&ytuły"
+msgstr "&Tytuły"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
