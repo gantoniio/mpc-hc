@@ -3571,7 +3571,7 @@ msgstr "Wsparcie dla interfejsu graficznego na pełnym ekranie Direct3D: wył."
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr "Wyjście 10-bitowe RGB: włączone"
+msgstr "Wyjście 10-bitowe RGB: wł."
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
