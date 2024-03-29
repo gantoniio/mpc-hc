@@ -505,7 +505,7 @@ msgstr "Obróć w pionie"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
-msgstr "Lustrzane odbicie"
+msgstr "&Odbij lustrzanie"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
