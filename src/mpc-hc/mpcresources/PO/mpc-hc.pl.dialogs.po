@@ -1327,7 +1327,7 @@ msgstr "Sprawdzaj co:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr "dzień(dni)"
+msgstr "dzień/dni"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
