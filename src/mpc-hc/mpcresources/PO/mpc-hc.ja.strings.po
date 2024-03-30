@@ -4662,7 +4662,7 @@ msgid ""
 "and \"MPC Image Source\" filters. Use 0 for infinite."
 msgstr ""
 "「Generate Still Video」フィルターと「MPC Image "
-"Source」フィルターによってレンダリングされた画像の表示時間を秒単位で指定します。無限の場合は 0 を使用します。"
+"Source」フィルターによって表示された画像の表示時間を秒単位で指定します。無限の場合は 0 を使用します。"
 
 msgctxt "IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE"
 msgid "Insert deinterlace filter (blend) in capture mode"
