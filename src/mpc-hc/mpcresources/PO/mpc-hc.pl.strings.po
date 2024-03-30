@@ -184,7 +184,7 @@ msgstr "Powtarzanie ciągłe: wł."
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "Powtarzanie ciągłe: Wyłączone"
+msgstr "Powtarzanie ciągłe: wył."
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
