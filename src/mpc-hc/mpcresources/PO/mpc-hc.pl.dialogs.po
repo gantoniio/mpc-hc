@@ -217,7 +217,8 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Tłumaczenie: kangurek_kao, Łukasz Janik"
+msgstr ""
+"Tłumaczenie: kangurek_kao, Łukasz Janik, Piotr Sokół, Kasper93, Haix, Lyceus"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
