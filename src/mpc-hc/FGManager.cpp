@@ -131,7 +131,44 @@ bool CFGManager::CStreamPath::Compare(const CStreamPath& path)
     return true;
 }
 
-//
+CStringW GetProtocol(CStringW fn) {
+    CStringW cfn = fn;
+    if (cfn.Left(4) == "\\\\?\\") {
+        cfn = cfn.Mid(4);
+    }
+    return cfn.Left(cfn.Find(':') + 1).TrimRight(':').MakeLower();
+}
+
+bool CFGManager::IsRarArchive(CStringW fn)
+{
+#if INTERNAL_SOURCEFILTER_RFS
+    const CAppSettings& s = AfxGetAppSettings();
+    const bool* src = s.SrcFilters;
+    if (src[SRC_RFS]) {
+        CStringW ext = CPathW(fn).GetExtension().MakeLower();
+        if (ext == L"rar") {
+            return true;
+        }
+
+        CStringW protocol = GetProtocol(fn);
+
+        HANDLE hFile = INVALID_HANDLE_VALUE;
+
+        if (protocol.GetLength() <= 1 || protocol == L"file") {
+            hFile = CreateFileW(CStringW(fn), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)nullptr);
+            bool foundRAR = false;
+            if (hFile != INVALID_HANDLE_VALUE) {
+                if (CheckBytes(hFile, RAR4_SIGNATURE_BYTES) || CheckBytes(hFile, RAR5_SIGNATURE_BYTES)) {
+                    foundRAR = true;
+                }
+                CloseHandle(hFile);
+            }
+            return foundRAR;
+        }
+    }
+#endif
+    return false;
+}
 
 bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 {
@@ -216,12 +253,8 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
     fl.RemoveAll();
 
     CStringW fn = CStringW(lpcwstrFileName).TrimLeft();
-    CStringW cfn = fn;
-    if (cfn.Left(4) == "\\\\?\\") {
-        cfn = cfn.Mid(4);
-    }
-    CStringW protocol = cfn.Left(cfn.Find(':') + 1).TrimRight(':').MakeLower();
     CStringW ext = CPathW(fn).GetExtension().MakeLower();
+    CStringW protocol = GetProtocol(fn);
 
     HANDLE hFile = INVALID_HANDLE_VALUE;
 
@@ -1903,8 +1936,8 @@ void CFGManagerCustom::InsertOtherInternalSourcefilters(bool IsPreview)
 #if INTERNAL_SOURCEFILTER_RFS
     if (src[SRC_RFS] || IsPreview) {
         pFGF = DEBUG_NEW CFGFilterInternal<CRARFileSource>();
-        pFGF->m_chkbytes.AddTail(_T("0,7,,526172211A0700"));   // rar4 signature
-        pFGF->m_chkbytes.AddTail(_T("0,8,,526172211A070100")); // rar5 signature
+        pFGF->m_chkbytes.AddTail(RAR4_SIGNATURE_BYTES);   // rar4 signature
+        pFGF->m_chkbytes.AddTail(RAR5_SIGNATURE_BYTES); // rar5 signature
         pFGF->m_extensions.AddTail(_T(".rar"));
         m_source.AddTail(pFGF);
     }

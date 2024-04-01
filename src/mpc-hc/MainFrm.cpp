@@ -12896,11 +12896,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         HRESULT hr;
         HRESULT rarHR = E_NOTIMPL;
 #if INTERNAL_SOURCEFILTER_RFS
-        if (s.SrcFilters[SRC_RFS] && !PathUtils::IsURL(fn)) {
-            CString ext = CPath(fn).GetExtension().MakeLower();
-            if (ext == L".rar") {
-                rarHR = HandleMultipleEntryRar(fn);
-            }
+        if (CFGManager::IsRarArchive(fn)) {
+            rarHR = HandleMultipleEntryRar(fn);
         }
 #endif
         if (E_NOTIMPL == rarHR) {

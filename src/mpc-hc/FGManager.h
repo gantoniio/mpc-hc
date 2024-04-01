@@ -25,6 +25,9 @@
 #include "FGFilterLAV.h"
 #include "IGraphBuilder2.h"
 
+#define RAR4_SIGNATURE_BYTES L"0,7,,526172211A0700"  // rar4 signature
+#define RAR5_SIGNATURE_BYTES L"0,8,,526172211A070100" // rar5 signature
+
 class CFGManager
     : public CUnknown
     , public IGraphBuilder2
@@ -126,6 +129,7 @@ public:
     HRESULT RenderRFSFileEntry(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList, CStringW entryRFS);
     bool PreviewSupportsRotation() { return m_bPreviewSupportsRotation; }
     static CUnknown* WINAPI GetMpcAudioRendererInstance(LPUNKNOWN lpunk, HRESULT* phr);
+    static bool IsRarArchive(CStringW fn);
 
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
