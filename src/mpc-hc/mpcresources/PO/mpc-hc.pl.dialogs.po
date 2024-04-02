@@ -498,7 +498,7 @@ msgstr "Zgłaszaj błędy w renderowaniu pinów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Autom. wczytuj pliki audio"
+msgstr "Automatycznie wczytuj dodatkowe ścieżki dźwiękowe"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
