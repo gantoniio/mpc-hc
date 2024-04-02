@@ -62,7 +62,7 @@ msgstr ""
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Odwiedź naszą stronę Wiki aby pobrać więcej skórek panelu sterowania."
+msgstr "Odwiedź naszą stronę Wiki, aby pobrać obrazy paska narzędzi"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
