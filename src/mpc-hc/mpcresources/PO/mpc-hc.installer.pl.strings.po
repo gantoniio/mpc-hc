@@ -56,7 +56,7 @@ msgid ""
 "\n"
 "Your CPU does not have those capabilities."
 msgstr ""
-"Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE2.\n"
+"Ta kompilacja MPC-HC wymaga procesora z obsługą rozszerzeń SSE2.\n"
 "\n"
 "Twój procesor ich nie obsługuje."
 
