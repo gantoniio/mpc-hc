@@ -54,7 +54,7 @@ CAppSettings::CAppSettings()
     , fAllowMultipleInst(false)
     , fTrayIcon(false)
     , fShowOSD(true)
-    , fShowCurrentTimeInOSD(true)
+    , fShowCurrentTimeInOSD(false)
     , fLimitWindowProportions(false)
     , fSnapToDesktopEdges(false)
     , fHideCDROMsSubMenu(false)
@@ -2014,7 +2014,7 @@ void CAppSettings::LoadSettings()
     iSaturation           = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
-    fShowCurrentTimeInOSD = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CURRENT_TIME_OSD, TRUE);
+    fShowCurrentTimeInOSD = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CURRENT_TIME_OSD, FALSE);
 
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
     bFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, TRUE);
