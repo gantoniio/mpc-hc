@@ -2004,29 +2004,16 @@ BOOL CMPlayerCApp::InitInstance()
 
     pFrame->ActivateFrame(m_nCmdShow);
 
-    if (AfxGetAppSettings().fixedWindowPosition != FWP_UNSET && IsWindows8OrGreater()) {//make adjustments for drop shadow frame
+    if (AfxGetAppSettings().HasFixedWindowSize() && IsWindows8OrGreater()) {//make adjustments for drop shadow frame
         CRect rect, frame;
         pFrame->GetWindowRect(&rect);
         DwmGetWindowAttribute(pFrame->GetSafeHwnd(), DWMWA_EXTENDED_FRAME_BOUNDS, &frame, sizeof(RECT));
 
-        switch (AfxGetAppSettings().fixedWindowPosition) {
-            case FWP_TOPLEFT:
-                rect += rect.TopLeft() - frame.TopLeft();
-                break;
-            case FWP_TOPRIGHT:
-                rect += CPoint(rect.right - frame.right, rect.top - frame.top);
-                break;
-            case FWP_BOTTOMLEFT:
-                rect += CPoint(rect.left - frame.left, rect.bottom - frame.bottom);
-                break;
-            case FWP_BOTTOMRIGHT:
-                rect += rect.BottomRight() - frame.BottomRight();
-                break;
-        }
+        CRect diff(CPoint(frame.TopLeft() - rect.TopLeft()), CPoint(rect.BottomRight() - frame.BottomRight()));
+        rect.InflateRect(diff);
 
-        pFrame->SetWindowPos(nullptr, rect.left, rect.top, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+        pFrame->SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER | SWP_NOACTIVATE);
     }
-
 
     /* adipose 2019-11-12:
         LoadPlayList this used to be performed inside OnCreate,

@@ -2425,7 +2425,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
     ZeroMemory(&DVDPosition, sizeof(DVDPosition));
     iAdminOption = 0;
     sizeFixedWindow.SetSize(0, 0);
-    fixedWindowPosition = FWP_UNSET;
+    fixedWindowPosition = NO_FIXED_POSITION;
     iMonitor = 0;
     strPnSPreset.Empty();
 
@@ -2529,24 +2529,13 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 hMasterWnd = (HWND)IntToPtr(_ttoi(cmdln.GetNext(pos)));
             } else if (sw == _T("fixedsize") && pos) {
                 CAtlList<CString> sl;
-                // Optional third argument for the main window's position
-                Explode(cmdln.GetNext(pos), sl, ',', 3);
-                if (sl.GetCount() == 3) {
-                    CString s = sl.RemoveTail().MakeLower();
-                    if (s == _T("topleft") || s == _T("tl")) {
-                        fixedWindowPosition = FWP_TOPLEFT;
-                    } else if (s == _T("topright") || s == _T("tr")) {
-                        fixedWindowPosition = FWP_TOPRIGHT;
-                    } else if (s == _T("bottomleft") || s == _T("bl")) {
-                        fixedWindowPosition = FWP_BOTTOMLEFT;
-                    } else if (s == _T("bottomright") || s == _T("br")) {
-                        fixedWindowPosition = FWP_BOTTOMRIGHT;
-                    } else if (s == _T("center") || s == _T("c")) {
-                        fixedWindowPosition = FWP_CENTER;
-                    }
+                // Optional arguments for the main window's position
+                Explode(cmdln.GetNext(pos), sl, ',', 4);
+                if (sl.GetCount() == 4) {
+                    fixedWindowPosition.SetPoint(_ttol(sl.GetAt(sl.FindIndex(2))), _ttol(sl.GetAt(sl.FindIndex(3))) );
                 }
                 if (sl.GetCount() >= 2) {
-                    sizeFixedWindow.SetSize(_ttol(sl.GetHead()), _ttol(sl.GetTail()));
+                    sizeFixedWindow.SetSize(_ttol(sl.GetAt(sl.FindIndex(0))), _ttol(sl.GetAt(sl.FindIndex(1))) );
                     if (sizeFixedWindow.cx > 0 && sizeFixedWindow.cy > 0) {
                         nCLSwitches |= CLSW_FIXEDSIZE;
                     }

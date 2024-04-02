@@ -10895,28 +10895,12 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
     if (s.HasFixedWindowSize()) {
         windowSize = CSize(std::max(s.sizeFixedWindow.cx, mmi.ptMinTrackSize.x), std::max(s.sizeFixedWindow.cy, mmi.ptMinTrackSize.y));
-        if (s.fixedWindowPosition != FWP_UNSET) {
+        if (s.fixedWindowPosition != NO_FIXED_POSITION) {
             tRememberPos = true;
             CRect monitorRect;
             monitor.GetWorkAreaRect(&monitorRect);
-            switch (s.fixedWindowPosition) {
-                case FWP_TOPLEFT:
-                    rcLastWindowPos.MoveToXY(monitorRect.left, monitorRect.top);
-                    break;
-                case FWP_TOPRIGHT:
-                    rcLastWindowPos.MoveToXY(monitorRect.left + monitorRect.Width() - windowSize.cx, monitorRect.top);
-                    break;
-                case FWP_BOTTOMLEFT:
-                    rcLastWindowPos.MoveToXY(monitorRect.left, monitorRect.top + monitorRect.Height() - windowSize.cy);
-                    break;
-                case FWP_BOTTOMRIGHT:
-                    rcLastWindowPos.MoveToXY(monitorRect.left + monitorRect.Width() - windowSize.cx, monitorRect.top + monitorRect.Height() - windowSize.cy);
-                    break;
-                case FWP_CENTER:
-                    rcLastWindowPos.SetRect(0, 0, windowSize.cx, windowSize.cy);
-                    monitor.CenterRectToMonitor(&rcLastWindowPos, TRUE);
-                    break;
-            }
+            monitorRect += s.fixedWindowPosition;
+            rcLastWindowPos.MoveToXY(monitorRect.left, monitorRect.top);
         }
     } else if (s.fRememberWindowSize) {
         windowSize = rcLastWindowPos.Size();
