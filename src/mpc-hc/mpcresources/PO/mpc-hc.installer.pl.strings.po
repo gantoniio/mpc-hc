@@ -90,4 +90,4 @@ msgstr "Instalacja niestandardowa"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Pokaż zmiany"
+msgstr "Zobacz listę zmian"
