@@ -10868,7 +10868,7 @@ static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT l
 void CMainFrame::SetDefaultWindowRect(int iMonitor)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    const CRect rcLastWindowPos = s.rcLastWindowPos;
+    CRect rcLastWindowPos = s.rcLastWindowPos;
 
     if (s.eCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
         if (s.eCaptionMenuMode == MODE_FRAMEONLY) {
@@ -10880,9 +10880,44 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
+    CMonitors monitors;
+    CMonitor monitor;
+    if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
+        monitor = monitors.GetMonitor(iMonitor - 1);
+    } else {
+        monitor = CMonitors::GetNearestMonitor(this);
+    }
+
     CSize windowSize;
+    bool tRememberPos = s.fRememberWindowPos;
+    MINMAXINFO mmi;
+    OnGetMinMaxInfo(&mmi);
+
     if (s.HasFixedWindowSize()) {
-        windowSize = s.sizeFixedWindow;
+        windowSize = CSize(std::max(s.sizeFixedWindow.cx, mmi.ptMinTrackSize.x), std::max(s.sizeFixedWindow.cy, mmi.ptMinTrackSize.y));
+        if (s.fixedWindowPosition != FWP_UNSET) {
+            tRememberPos = true;
+            CRect monitorRect;
+            monitor.GetWorkAreaRect(&monitorRect);
+            switch (s.fixedWindowPosition) {
+                case FWP_TOPLEFT:
+                    rcLastWindowPos.MoveToXY(monitorRect.left, monitorRect.top);
+                    break;
+                case FWP_TOPRIGHT:
+                    rcLastWindowPos.MoveToXY(monitorRect.left + monitorRect.Width() - windowSize.cx, monitorRect.top);
+                    break;
+                case FWP_BOTTOMLEFT:
+                    rcLastWindowPos.MoveToXY(monitorRect.left, monitorRect.top + monitorRect.Height() - windowSize.cy);
+                    break;
+                case FWP_BOTTOMRIGHT:
+                    rcLastWindowPos.MoveToXY(monitorRect.left + monitorRect.Width() - windowSize.cx, monitorRect.top + monitorRect.Height() - windowSize.cy);
+                    break;
+                case FWP_CENTER:
+                    rcLastWindowPos.SetRect(0, 0, windowSize.cx, windowSize.cy);
+                    monitor.CenterRectToMonitor(&rcLastWindowPos, TRUE);
+                    break;
+            }
+        }
     } else if (s.fRememberWindowSize) {
         windowSize = rcLastWindowPos.Size();
     } else {
@@ -10902,16 +10937,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         windowSize.cy = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
     }
 
-    CMonitors monitors;
-    CMonitor monitor;
-    if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
-        monitor = monitors.GetMonitor(iMonitor - 1);
-    } else {
-        monitor = CMonitors::GetNearestMonitor(this);
-    }
-
     bool bRestoredWindowPosition = false;
-    if (s.fRememberWindowPos) {
+    if (tRememberPos) {
         CRect windowRect(rcLastWindowPos.TopLeft(), windowSize);
         if ((!iMonitor && CMonitors::IsOnScreen(windowRect))
                 || (iMonitor && monitor.IsOnMonitor(windowRect))) {
@@ -10923,8 +10950,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     }
 
     if (!bRestoredWindowPosition) {
-        MINMAXINFO mmi;
-        OnGetMinMaxInfo(&mmi);
         CRect windowRect(0, 0, std::max(windowSize.cx, mmi.ptMinTrackSize.x), std::max(windowSize.cy, mmi.ptMinTrackSize.y));
         monitor.CenterRectToMonitor(windowRect, TRUE);
         SetWindowPos(nullptr, windowRect.left, windowRect.top, windowSize.cx, windowSize.cy, SWP_NOZORDER | SWP_NOACTIVATE);

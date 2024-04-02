@@ -105,6 +105,15 @@ enum MpcCaptionState {
     MODE_COUNT
 }; // flags for Caption & Menu Mode
 
+enum FixedWindowPosition {
+    FWP_UNSET,
+    FWP_TOPLEFT,
+    FWP_TOPRIGHT,
+    FWP_BOTTOMLEFT,
+    FWP_BOTTOMRIGHT,
+    FWP_CENTER
+};
+
 enum {
     VIDRNDT_DS_DEFAULT        = 0,
     VIDRNDT_DS_OVERLAYMIXER   = 2,
@@ -561,6 +570,7 @@ public:
     DVD_HMSF_TIMECODE   DVDPosition;
 
     CSize sizeFixedWindow;
+    FixedWindowPosition fixedWindowPosition;
     bool HasFixedWindowSize() const {
         return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0;
     }
