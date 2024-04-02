@@ -35,7 +35,7 @@ msgstr "[name] wymaga do działania systemu Windows Vista lub nowszego."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "Ikony plików multimedialnych"
+msgstr "Biblioteka ikon"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
