@@ -2008,9 +2008,10 @@ BOOL CMPlayerCApp::InitInstance()
         CRect rect, frame;
         pFrame->GetWindowRect(&rect);
         CRect diff = pFrame->GetInvisibleBorderSize();
-        rect.InflateRect(diff);
-
-        pFrame->SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER | SWP_NOACTIVATE);
+        if (!diff.IsRectNull()) {
+            rect.InflateRect(diff);
+            pFrame->SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER | SWP_NOACTIVATE);
+        }
     }
 
     /* adipose 2019-11-12:
