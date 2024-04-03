@@ -502,7 +502,7 @@ msgstr "Automatycznie wczytuj dodatkowe ścieżki dźwiękowe"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "Nadpisanie położenia"
+msgstr "Wymuś położenie"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
