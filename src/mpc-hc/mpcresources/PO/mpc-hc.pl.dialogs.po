@@ -570,7 +570,7 @@ msgstr "Układ renderera"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Dopasuj proporcje obrazu do filmów anamorficznych"
+msgstr "Dopasuj proporcję napisów do anamorficznych materiałów"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
