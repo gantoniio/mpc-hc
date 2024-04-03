@@ -1860,7 +1860,7 @@ msgstr "Użyj nowoczesnego motywu"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
-msgstr "Kolor nowoczesnego motywu:"
+msgstr "Kolor motywu:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
 msgid "Control buttons size:"
