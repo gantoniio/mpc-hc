@@ -466,7 +466,7 @@ msgstr "maks %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
-msgstr "Wyrównanie pionowe:"
+msgstr "Wyrównanie w pionie:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
