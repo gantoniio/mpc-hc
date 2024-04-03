@@ -410,7 +410,7 @@ msgstr "Kontrola"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "Krok głośności:"
+msgstr "Zm. głośności o:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
