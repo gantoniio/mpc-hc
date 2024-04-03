@@ -2007,9 +2007,7 @@ BOOL CMPlayerCApp::InitInstance()
     if (AfxGetAppSettings().HasFixedWindowSize() && IsWindows8OrGreater()) {//make adjustments for drop shadow frame
         CRect rect, frame;
         pFrame->GetWindowRect(&rect);
-        DwmGetWindowAttribute(pFrame->GetSafeHwnd(), DWMWA_EXTENDED_FRAME_BOUNDS, &frame, sizeof(RECT));
-
-        CRect diff(CPoint(frame.TopLeft() - rect.TopLeft()), CPoint(rect.BottomRight() - frame.BottomRight()));
+        CRect diff = pFrame->GetInvisibleBorderSize();
         rect.InflateRect(diff);
 
         pFrame->SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER | SWP_NOACTIVATE);
