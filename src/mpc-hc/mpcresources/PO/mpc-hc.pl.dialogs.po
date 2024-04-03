@@ -530,7 +530,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Ustawienia tekstur (otwórz wideo ponownie, aby zobaczyć zmiany)"
+msgstr "Ustawienia tekstur (wymaga ponownego otworzenia pliku)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
