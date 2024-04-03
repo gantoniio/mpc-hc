@@ -562,7 +562,7 @@ msgstr "% prędkości klatek obrazu"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Zezwalaj na porzucanie niektórych ramek, jeśli kolejka jest opóźniona"
+msgstr "Pozwól na omijanie klatek napisów, jeśli kolejka nie może nadążyć"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
