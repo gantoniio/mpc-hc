@@ -1907,7 +1907,7 @@ msgstr "字体大小: "
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "显示当前时间(&I)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
