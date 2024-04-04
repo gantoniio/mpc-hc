@@ -773,7 +773,7 @@ msgstr "Odtwarzanie::Strumień wyjściowy"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "Program::Interfejs sieciowy"
+msgstr "Program::Interfejs internetowy"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
