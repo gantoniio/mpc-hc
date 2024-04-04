@@ -1334,7 +1334,7 @@ msgstr "按键"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse"
-msgstr ""
+msgstr "鼠标"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -4437,7 +4437,7 @@ msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
-msgstr ""
+msgstr "/fixedsize w,h[,x,y]\t设置固定的窗口大小; 可选左上角特定窗口位置"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
