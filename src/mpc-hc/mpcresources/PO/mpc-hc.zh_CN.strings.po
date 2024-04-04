@@ -1689,7 +1689,7 @@ msgctxt "IDS_PPAGEADVANCED_STILL_VIDEO_DURATION"
 msgid ""
 "Display duration in seconds for images rendered by \"Generate Still Video\" "
 "and \"MPC Image Source\" filters. Use 0 for infinite."
-msgstr 以秒为单位显示 \"Generate Still Video\" 和 \"MPC Image Source \" 滤镜。0 表示无限。"
+msgstr "以秒为单位显示 \"Generate Still Video\" 和 \"MPC Image Source \" 滤镜。0 表示无限。"
 
 msgctxt "IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE"
 msgid "Insert deinterlace filter (blend) in capture mode"
