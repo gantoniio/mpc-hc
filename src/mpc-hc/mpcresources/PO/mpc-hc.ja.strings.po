@@ -802,7 +802,7 @@ msgid ""
 "never use Overlay rendering and because of this it may be a little slower "
 "than Overlay mixer."
 msgstr ""
-"DirectX 9 がインストールされている場合にのみ使用できます。とても安定していますが、オーバーレイで表示しないため、オーバーレイ "
+"DirectX 9 がインストールされている場合にのみ使用できます。とても安定していますが、オーバーレイでレンダリングしないため、オーバーレイ "
 "ミキサより少し遅くなる場合があります。"
 
 msgctxt "IDC_DSVMR9REN"
