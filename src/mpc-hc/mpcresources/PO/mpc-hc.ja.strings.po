@@ -1565,7 +1565,7 @@ msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid ""
 "The subtitle delay will be decreased/increased by this value each time the "
 "corresponding hotkeys are used (%s/%s)."
-msgstr "字幕の遅延は、対応するホットキー (%s/%s) が使用されるたびに、この値で減少/増加します。"
+msgstr "字幕の遅延は、対応するホットキー (%s/%s) が使用されるたびに、この値だけ増減します。"
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
