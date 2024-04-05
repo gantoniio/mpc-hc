@@ -782,7 +782,7 @@ msgid ""
 "visibility of the video window and your video card's abilities, it will "
 "switch between GDI, DirectDraw, Overlay rendering modes dynamically."
 msgstr ""
-"Windows 9x/me/2k の標準レンダラです。ビデオ ウィンドウの表示状態とビデオ カードの能力に応じて、表示モードを "
+"Windows 9x/me/2k の標準レンダラです。ビデオ ウィンドウの表示状態とビデオ カードの能力に応じて、レンダリング モードを "
 "GDI、DirectDraw、オーバーレイの間で動的に切り替えます。"
 
 msgctxt "IDC_DSOVERLAYMIXER"
