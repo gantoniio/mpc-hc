@@ -1067,12 +1067,13 @@ void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWi
     if (window && IsWindow(window->m_hWnd)) {
         DpiHelper dpiWindow;
         dpiWindow.Override(window->GetSafeHwnd());
+        LONG dynamicSpace = dpiWindow.ScaleX(5);
 
         CWnd* leftW = window->GetDlgItem(leftWidget);
         CWnd* rightW = window->GetDlgItem(rightWidget);
         if (leftW && rightW && IsWindow(leftW->m_hWnd) && IsWindow(rightW->m_hWnd)) {
             CRect l, r;
-            int leftWantsRight, rightWantsLeft;
+            LONG leftWantsRight, rightWantsLeft;
 
             leftW->GetWindowRect(l);
             leftW->GetOwner()->ScreenToClient(l);
@@ -1113,13 +1114,16 @@ void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWi
                     }
                 }
             }
-            if (leftWantsRight > rightWantsLeft - dpiWindow.ScaleX(5) //overlaps; we will assume defaults are best
+            if (leftWantsRight > rightWantsLeft - dynamicSpace //overlaps; we will assume defaults are best
                 || (leftWantsRight < l.right && rightWantsLeft > r.left)) { // there is no need to resize
                 return;
             } else {
                 l.right = leftWantsRight;
+                //if necessary space would shrink the right widget, instead get as close to original size as possible
+                //this minimizes noticeable layout changes
+                r.left = std::min(rightWantsLeft, std::max(l.right + dynamicSpace, r.left));
+
                 leftW->MoveWindow(l);
-                r.left = rightWantsLeft;
                 rightW->MoveWindow(r);
             }
         }
