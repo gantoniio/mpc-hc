@@ -162,7 +162,7 @@ msgid ""
 "rendered relative to the window."
 msgstr ""
 "レンダリング ターゲットが未定義のままの場合、SSA/ASS 字幕は、ビデオ "
-"フレームを基準に表示されますが、その他すべてのテキスト字幕は、ウィンドウを基準に表示されます。"
+"フレームを基準にレンダリングされますが、その他すべてのテキスト字幕は、ウィンドウを基準にレンダリングされます。"
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
