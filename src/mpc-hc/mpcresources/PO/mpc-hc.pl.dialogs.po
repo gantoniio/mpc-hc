@@ -87,7 +87,7 @@ msgstr "Normalizuj"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Maks. wzmocnienie:"
+msgstr "Maksymalne wzmocnienie:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
