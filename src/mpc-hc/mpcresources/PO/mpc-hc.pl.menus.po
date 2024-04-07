@@ -785,7 +785,7 @@ msgstr "&Strona główna"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Sprawdź, czy jest &aktualizacja"
+msgstr "Sprawdź &aktualizacje"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
