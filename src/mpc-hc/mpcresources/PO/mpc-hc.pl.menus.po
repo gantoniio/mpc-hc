@@ -541,7 +541,7 @@ msgstr "&Odtwarzanie"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Odtwarzaj/Wstrzymaj"
+msgstr "&Odtwarzaj/wstrzymaj"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
