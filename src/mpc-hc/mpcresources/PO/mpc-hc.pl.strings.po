@@ -90,7 +90,7 @@ msgstr "Płyty DVD"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
-msgstr "Powtarzanie A-B: Zresetuj znaczniki"
+msgstr "Powt. A-B: Zresetuj znaczniki"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
