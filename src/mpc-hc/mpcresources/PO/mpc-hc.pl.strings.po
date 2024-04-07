@@ -4094,7 +4094,7 @@ msgstr "Rozmiar domyślnego paska sterowania w pikselach."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr "Używaj starszego paska narzędzi zamiast nowego, wektorowego."
+msgstr "Używaj starszego paska sterowania zamiast nowego, wektorowego."
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
