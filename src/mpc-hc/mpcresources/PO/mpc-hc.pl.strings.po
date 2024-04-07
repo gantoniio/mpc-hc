@@ -894,7 +894,7 @@ msgstr ""
 "Alokuje pow. wideo jako teksturę, ale używa funkcji 2D do kopiowania i "
 "rozciągania jej na backbuffer ramki. Wymaga GPU, które potrafi wyświetlać "
 "32-bitowy obraz, RGBA, tekstury o rozmiarze innym niż potęga dwóch i "
-"rozdzielczości odpowiadającej odtwarzanemu wideo."
+"rozdzielczości odpowiadającej wideo."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid ""
