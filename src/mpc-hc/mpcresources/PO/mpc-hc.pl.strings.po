@@ -3419,11 +3419,11 @@ msgstr "Dokł. synch. pion.: wył."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr "Synchr. wideo do wyświetlacza: wł."
+msgstr "Synch. wideo do wyświetlacza: wł."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Synchr. wideo do wyświetlacza: wył."
+msgstr "Synch. wideo do wyświetlacza: wył."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
