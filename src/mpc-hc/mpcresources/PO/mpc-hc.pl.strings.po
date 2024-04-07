@@ -318,7 +318,8 @@ msgstr "Czcionka"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Nie powiodło się renderowanie niektórych pinów Nawigatora DVD."
+msgstr ""
+"Wyświetlanie niektórych pinów Nawigatora DVD zakończone niepowodzeniem."
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
