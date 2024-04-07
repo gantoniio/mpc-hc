@@ -322,7 +322,8 @@ msgstr "Nie udało się wyrenderować niektórych pinów filtra Nawigatora DVD"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Błąd podczas zapytania interfejsów potrzebnych do odtwarzania DVD"
+msgstr ""
+"Nie udało się wysłać zapytania o interfejsy wymagane do odtwarzania DVD"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
