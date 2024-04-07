@@ -188,7 +188,7 @@ msgstr "Powt. ciągłe: wył."
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "Powtarzanie ciągłe"
+msgstr "Powt. ciągłe"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
