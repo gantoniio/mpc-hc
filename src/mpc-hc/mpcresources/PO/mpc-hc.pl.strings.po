@@ -230,8 +230,7 @@ msgstr "Tylko podczas przełączania różnych typów wideo"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr ""
-"Zawsze (niektóre urządzenia mogą wymagać tej opcji do poprawnego działania)"
+msgstr "Zawsze (niektóre urządzenia mogą wymagać tej opcji)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
