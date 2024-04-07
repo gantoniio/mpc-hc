@@ -4922,4 +4922,4 @@ msgstr "Podgląd wideo"
 
 msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
 msgid "Seek Time"
-msgstr "Szukanie czasu"
+msgstr "Znacznik czasu"
