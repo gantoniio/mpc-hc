@@ -494,7 +494,7 @@ msgstr "Używaj osobnego wątku programu do utworzenia grafu filtrów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Zgłaszaj błędy w renderowaniu pinów"
+msgstr "Powiadamiaj o błędach w renderowaniu pinów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
