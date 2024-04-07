@@ -1908,7 +1908,7 @@ msgstr "informacje o dźwięku"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
-msgstr "kl/s"
+msgstr "Klatki na sekundę"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
 msgid "A-B Marks"
