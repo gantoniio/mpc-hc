@@ -1852,7 +1852,7 @@ msgstr "Pokaż po najechaniu myszą, ukryj po:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Ustawienie shaderów przed skalowaniem nie powiodło się"
+msgstr "Nie udało się ustawić shaderów przed skalowaniem"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
