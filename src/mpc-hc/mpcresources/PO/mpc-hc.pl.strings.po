@@ -1740,7 +1740,7 @@ msgstr "Zapisz obraz"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "Zapisz obraz (autom.)"
+msgstr "Zapisz obraz (automatycznie)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
