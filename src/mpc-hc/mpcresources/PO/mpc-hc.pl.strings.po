@@ -1029,7 +1029,7 @@ msgstr "Brak własnych ustawień klawiszy do eksportu."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Nie znaleziono plików multimedialnych w tym archiwum"
+msgstr "Nie znaleziono plików mediów w tym archiwum"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
