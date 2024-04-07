@@ -189,7 +189,7 @@ msgstr "&Dopasuj autom."
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Ustawienia &renderowania"
+msgstr "Ustawienia &wyświetlania"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
