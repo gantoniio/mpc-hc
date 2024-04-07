@@ -1684,7 +1684,7 @@ msgstr "Pokaż procenty"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "Po zakończeniu odtwarzania: Przewiń plik do początku"
+msgstr "Po odtworzeniu: Przewiń plik do początku"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
