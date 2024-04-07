@@ -1550,7 +1550,7 @@ msgstr "Zastosuj domyślny tryb po opuszczeniu trybu pełnoekranowego"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Przywróć rozdzielczość po wyłączeniu programu"
+msgstr "Przywróć rozdzielczość po wyjściu z programu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
