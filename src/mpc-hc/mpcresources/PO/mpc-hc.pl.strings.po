@@ -334,7 +334,7 @@ msgstr "Nie można dodać filtra przechwytującego wideo do wykresu."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "Nie można dodać filtra przechwytującego dźwięk do wykresu."
+msgstr "Nie można dodać filtra przechwytującego audio do wykresu."
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
