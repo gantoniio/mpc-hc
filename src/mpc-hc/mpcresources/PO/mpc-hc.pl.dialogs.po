@@ -1952,7 +1952,7 @@ msgstr "Przyciągaj do krawędzi pulpitu"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
 msgid "Hide Windowed Controls"
-msgstr "Ukryj elementy sterujące w oknie"
+msgstr "Ukryj el. sterujące w trybie okna"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
