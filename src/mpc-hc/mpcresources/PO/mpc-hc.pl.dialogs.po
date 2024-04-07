@@ -1928,7 +1928,7 @@ msgstr "Informacje na ekranie (OSD)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Pokazuj OSD (wymagany restart)"
+msgstr "Pokazuj informacje (wymagany restart)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
 msgid "Font:"
