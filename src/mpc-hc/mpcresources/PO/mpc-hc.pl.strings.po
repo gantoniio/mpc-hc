@@ -1441,7 +1441,7 @@ msgstr "Otwórz płytę DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Ustawienie shaderów po skalowaniu nie powiodło się"
+msgstr "Nie udało się ustawić shaderów po skalowaniu"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
