@@ -1688,7 +1688,7 @@ msgstr "Po odtworzeniu: Przewiń plik do początku"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr "Po zakończeniu odtwarzania: Zamknij plik"
+msgstr "Po odtworzeniu: Zamknij plik"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization."
