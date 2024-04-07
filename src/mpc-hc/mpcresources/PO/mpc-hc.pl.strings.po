@@ -1025,7 +1025,7 @@ msgstr "Autom."
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "Brak niestandardowych ustawień klawiszy do wyeksportowania."
+msgstr "Brak własnych ustawień klawiszy do wyeksportowania."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
