@@ -1884,7 +1884,7 @@ msgstr "Typ podglądu:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
-msgstr "Szerokość podglądu (% ekranu)"
+msgstr "Szer. podglądu (% ekranu)"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
