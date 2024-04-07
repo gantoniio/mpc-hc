@@ -1786,7 +1786,7 @@ msgstr "Zwiększ tempo odtwarzania"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Show/Teleturniej"
+msgstr "Show/teleturniej"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
