@@ -3427,7 +3427,7 @@ msgstr "Synch. wideo do wyświetlacza: wył."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
-msgstr "Synchr. wyświetlacza do wideo: wł."
+msgstr "Synchr wyświetlacza do wideo: wł."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
