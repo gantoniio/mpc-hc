@@ -1912,7 +1912,7 @@ msgstr "Klatki na sekundę"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
 msgid "A-B Marks"
-msgstr "Znaczniki A-B"
+msgstr "Znaczniki powtarzania A-B"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
 msgid "Language"
