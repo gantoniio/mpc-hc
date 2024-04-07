@@ -490,7 +490,7 @@ msgstr "Opcje otwierania"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Użyj wątku roboczego do konstruowania grafu filtrów"
+msgstr "Używaj osobnego wątku programu do utworzenia grafu filtrów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
