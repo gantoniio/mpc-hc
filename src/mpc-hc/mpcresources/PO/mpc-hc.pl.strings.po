@@ -1265,7 +1265,7 @@ msgstr "Wyczyścić listę ostatnio otwartych plików?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
-msgstr "Zapisz listę EDL"
+msgstr "Zapis EDL"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
