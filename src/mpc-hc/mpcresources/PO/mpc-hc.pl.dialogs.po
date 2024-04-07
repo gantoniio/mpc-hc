@@ -1887,7 +1887,7 @@ msgstr "Szer. podglądu (% ekranu)"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
-msgstr "Znaczniki rozdziałów na pasku przewijania"
+msgstr "Znaczniki rozdziałów na pasku przew."
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
