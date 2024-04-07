@@ -338,7 +338,7 @@ msgstr "Nie można dodać filtra przechwytującego audio do wykresu."
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Nie można otworzyć urządzenia przechwytującego."
+msgstr "Nie można otworzyć urz. przechw."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
