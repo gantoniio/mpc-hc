@@ -2855,7 +2855,7 @@ msgstr "Nieznany %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "Synchronizacja pionowa"
+msgstr "Synch. pionowa"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
