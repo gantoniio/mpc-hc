@@ -102,7 +102,7 @@ msgstr "Powt. A-B: Ustaw znacznik A"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_B"
 msgid "A-B Repeat: Mark B Position"
-msgstr "Powtarzanie A-B: Ustaw znacznik B"
+msgstr "Powt. A-B: Ustaw znacznik B"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
