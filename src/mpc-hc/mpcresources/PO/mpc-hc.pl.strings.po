@@ -2875,7 +2875,7 @@ msgstr "Kamera %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Zwiększ przesunięcie synchronizacji pionowej"
+msgstr "Zwiększ przesunięcie synch. pionowej"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2883,7 +2883,7 @@ msgstr "Wyłączone"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Zmniejsz przesunięcie synchronizacji pionowej"
+msgstr "Zmniejsz przesunięcie synch. pionowej"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
