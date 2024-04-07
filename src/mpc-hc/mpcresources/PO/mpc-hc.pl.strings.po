@@ -3427,11 +3427,11 @@ msgstr "Synch. wideo do wyświetlacza: wył."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
-msgstr "Synchr wyświetlacza do wideo: wł."
+msgstr "Synch. wyświetlacza do wideo: wł."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr "Synchr. wyświetlacza do wideo: wył."
+msgstr "Synch. wyświetlacza do wideo: wył."
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
