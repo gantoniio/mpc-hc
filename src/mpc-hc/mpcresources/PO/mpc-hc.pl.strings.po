@@ -444,7 +444,7 @@ msgstr "Nie można ustawić docelowego okna dla powiadomień grafu."
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Nie powiodło się renderowanie wszystkich pinów Nawigatora DVD."
+msgstr "Wyświetlanie wszystkich pinów Nawigatora DVD zakończone błędem."
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
