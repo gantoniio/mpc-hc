@@ -360,7 +360,7 @@ msgid ""
 msgstr ""
 "Nie odnaleziono biblioteki ikon „mpciconlib.dll”.\n"
 "Domyślna ikona odtwarzacza zostanie użyta dla skojarzonych plików.\n"
-"Zainstaluj ponownie MPC-HC, aby przywrócić plik „mpciconlib.dll”."
+"Aby przywrócić bibliotekę, zainstaluj MPC-HC jeszcze raz."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
