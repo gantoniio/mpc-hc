@@ -346,7 +346,7 @@ msgstr "Nie można otworzyć, błędne parametry wejściowe."
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "Edytor list montażowych"
+msgstr "Edytuj edytora list"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
