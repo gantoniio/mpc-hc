@@ -1373,7 +1373,7 @@ msgstr "Autor"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Prawa autor."
+msgstr "Prawa autorskie"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
