@@ -1205,7 +1205,7 @@ msgstr "待機するポート:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "ウェブ ブラウザで開く..."
+msgstr "ウェブ ブラウザーで開く..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
