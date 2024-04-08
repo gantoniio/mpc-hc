@@ -3750,7 +3750,7 @@ msgstr "グラフに %s エンコーダー フィルターを追加できませ�
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "グラフに %s エンコーダ フィルタを接続できません。"
+msgstr "グラフに %s エンコーダー フィルターを接続できません。"
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
