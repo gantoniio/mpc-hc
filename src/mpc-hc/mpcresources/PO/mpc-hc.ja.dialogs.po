@@ -485,7 +485,7 @@ msgstr "開くの設定"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "ワーカー スレッドを使用してフィルタ グラフを作成する"
+msgstr "ワーカー スレッドを使用してフィルター グラフを作成する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
