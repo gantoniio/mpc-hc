@@ -943,7 +943,7 @@ msgstr "ピクセル"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "フィルタを選択"
+msgstr "フィルターを選択"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
