@@ -4438,7 +4438,7 @@ msgstr "/audiorenderer N\tN 番目 (N は 1 から始まる) のオーディオ 
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr "/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する"
+msgstr "/shaderpreset \"Pr\"\t\"Pr\" シェーダー プリセットを使用する"
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
