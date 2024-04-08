@@ -2088,7 +2088,7 @@ msgstr "Dopasuj rozmiar okna do rozdzielczości ekranu"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr "Połowa rozmiaru ramki wideo"
+msgstr "Klatka wideo - połowa rozmiaru"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
