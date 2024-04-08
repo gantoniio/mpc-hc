@@ -532,7 +532,7 @@ msgstr "シェーダーを選択(&S)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "シェーダ デバッガ(&D)..."
+msgstr "シェーダー デバッガー(&D)..."
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
