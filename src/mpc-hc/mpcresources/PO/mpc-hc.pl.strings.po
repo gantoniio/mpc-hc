@@ -2971,7 +2971,7 @@ msgstr "Następny profil proporcji obrazu"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr "Rozciągnięcie klatki wideo"
+msgstr "Klatka wideo - rozciągnij"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
