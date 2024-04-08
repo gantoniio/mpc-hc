@@ -2605,7 +2605,7 @@ msgid ""
 "To load subtitles you have to change the video renderer type and reopen the file.\n"
 "- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR"
 msgstr ""
-"字幕を読み込むには、ビデオ レンダラの種類を変更し、ファイルを開き直す必要があります。\n"
+"字幕を読み込むには、ビデオ レンダラーの種類を変更し、ファイルを開き直す必要があります。\n"
 "- DirectShow: EVR (カスタム プレゼンタ), 同期, VMR-9 (レンダーレス), madVR, MPC VR, または Haali VR"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
