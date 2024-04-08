@@ -3612,7 +3612,7 @@ msgstr "カスタム チャンネル マッピング 切り替え"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "カスタム チャネル マッピング: オン"
+msgstr "カスタム チャンネル マッピング: オン"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
