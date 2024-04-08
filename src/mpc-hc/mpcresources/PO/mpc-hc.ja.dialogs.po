@@ -649,7 +649,7 @@ msgstr "既定"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "ウィンドウ モードで再生中にマウス ポインタを自動で隠す"
+msgstr "ウィンドウ モードで再生中にマウス ポインターを自動で隠す"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
