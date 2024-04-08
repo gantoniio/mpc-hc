@@ -616,7 +616,7 @@ msgstr "再生::キャプチャ"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "再生::同期レンダラの設定"
+msgstr "再生::同期レンダラーの設定"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
