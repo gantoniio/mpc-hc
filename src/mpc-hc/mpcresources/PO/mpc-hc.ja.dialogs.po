@@ -164,7 +164,7 @@ msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid ""
 "Type the address of a movie or audio file (on the Internet or your computer)"
 " and the player will open it for you."
-msgstr "インターネットやコンピュータにある再生したい動画やオーディオ ファイルのアドレスを入力してください。"
+msgstr "インターネットやコンピューターにある再生したい動画やオーディオ ファイルのアドレスを入力してください。"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
