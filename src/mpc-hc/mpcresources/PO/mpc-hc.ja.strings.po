@@ -4261,7 +4261,7 @@ msgstr "/monitoroff\t再生終了後にモニターの電源を切る"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr "/playnext\t\t再生終了後にフォルダ内の次のファイルを開く"
+msgstr "/playnext\t\t再生終了後にフォルダー内の次のファイルを開く"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid ""
