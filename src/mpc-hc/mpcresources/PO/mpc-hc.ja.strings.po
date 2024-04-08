@@ -4196,7 +4196,7 @@ msgctxt "IDS_CMD_FILTER"
 msgid ""
 "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library "
 "(wildcards allowed)"
-msgstr "/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカードの使用可)"
+msgstr "/filter \"filtername\"\tDLL から DirectShow フィルターを読み込む (ワイルドカードの使用可)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
