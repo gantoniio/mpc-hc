@@ -842,7 +842,7 @@ msgstr "EVR と同じですが、字幕作成と後処理に HPC-HC のアロケ
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高画質なレンダラで、D3D9 以降をサポートする GPU が必要です。"
+msgstr "高画質なレンダラーで、D3D9 以降をサポートする GPU が必要です。"
 
 msgctxt "IDC_DSSYNC"
 msgid ""
