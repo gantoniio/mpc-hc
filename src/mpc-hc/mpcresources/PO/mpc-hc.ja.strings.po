@@ -1392,7 +1392,7 @@ msgstr "DVD/BD を開く"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "リサイズ後のシェーダを設定できませんでした"
+msgstr "リサイズ後のシェーダーを設定できませんでした"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
