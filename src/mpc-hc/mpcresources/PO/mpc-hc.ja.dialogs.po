@@ -1570,7 +1570,7 @@ msgstr "埋め込まれた字幕を無視する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "字幕ファイルの自動読み込みパス"
+msgstr "自動読み込みパス"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
