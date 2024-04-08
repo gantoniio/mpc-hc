@@ -2702,7 +2702,7 @@ msgstr "無効なファイル名です"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
-msgstr "フィルタを接続できません"
+msgstr "フィルターを接続できません"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
