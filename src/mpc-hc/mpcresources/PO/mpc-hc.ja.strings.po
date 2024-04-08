@@ -1460,7 +1460,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
-msgstr "このアイテムのフォルダを追加(&F)"
+msgstr "このアイテムのフォルダーを追加(&F)"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
