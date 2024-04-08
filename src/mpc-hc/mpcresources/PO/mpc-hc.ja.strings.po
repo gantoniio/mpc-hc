@@ -3616,7 +3616,7 @@ msgstr "カスタム チャンネル マッピング: オン"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "カスタム チャネル マッピング: オフ"
+msgstr "カスタム チャンネル マッピング: オフ"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
