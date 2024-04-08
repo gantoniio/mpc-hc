@@ -1433,7 +1433,7 @@ msgstr "フィルター グラフを再構築"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "フィルタ グラフを停止"
+msgstr "フィルター グラフを停止"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
