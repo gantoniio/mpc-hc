@@ -1424,7 +1424,7 @@ msgstr "次のシェーダー プリセット"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "前のシェーダ プリセット"
+msgstr "前のシェーダー プリセット"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
