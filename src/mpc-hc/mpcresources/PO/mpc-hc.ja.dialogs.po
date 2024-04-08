@@ -609,7 +609,7 @@ msgstr "既定のプログラムに設定(&D)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "エクスプローラのコンテキスト メニュー"
+msgstr "エクスプローラーのコンテキスト メニュー"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
