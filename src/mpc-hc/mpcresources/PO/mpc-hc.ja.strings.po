@@ -3758,7 +3758,7 @@ msgstr "%s エンコーダー フィルターで圧縮形式を設定できま�
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "マルチプレクサ フィルタに %s ストリームを接続できません。"
+msgstr "マルチプレクサー フィルターに %s ストリームを接続できません。"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
