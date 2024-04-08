@@ -880,7 +880,7 @@ msgctxt "IDC_DX9RESIZER_COMBO"
 msgid ""
 "If there is no Pixel Shader 2.0 support, simple bilinear is used "
 "automatically."
-msgstr "ピクセル シェーダ 2.0 がサポートされていない場合は、単純なバイリニアが自動的に使用されます。"
+msgstr "ピクセル シェーダー 2.0 がサポートされていない場合は、単純なバイリニアが自動的に使用されます。"
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid ""
