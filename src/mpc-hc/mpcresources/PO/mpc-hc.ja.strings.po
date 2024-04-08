@@ -3818,7 +3818,7 @@ msgstr "再生終了後: モニターの電源を切る"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "再生終了後: フォルダ内を順次再生"
+msgstr "再生終了後: フォルダー内を順次再生"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
