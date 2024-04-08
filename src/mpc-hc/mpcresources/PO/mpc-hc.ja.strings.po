@@ -2734,7 +2734,7 @@ msgstr "DVD ディレクトリが見つかりません"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "DVD ナビゲータ フィルタを作成できません"
+msgstr "DVD ナビゲーター フィルターを作成できません"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
