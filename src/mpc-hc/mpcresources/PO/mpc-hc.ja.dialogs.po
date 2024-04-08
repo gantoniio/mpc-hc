@@ -477,7 +477,7 @@ msgstr "音声:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "外部スプリッタでの選択の上書きを許可する"
+msgstr "外部スプリッターでの選択の上書きを許可する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
