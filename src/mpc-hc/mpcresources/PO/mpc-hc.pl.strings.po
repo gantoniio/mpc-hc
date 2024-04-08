@@ -2975,7 +2975,7 @@ msgstr "Klatka wideo - rozciągnij"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr "Klatka wewnątrz"
+msgstr "Klatka wideo - wewnątrz"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
