@@ -1027,7 +1027,7 @@ msgstr "字幕が読み込まれていないか、サポートされていない
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr "読み込み時間を短縮するためにローカルの AppData にコンパイルされたシェーダを保存します。"
+msgstr "読み込み時間を短縮するためにローカルの AppData にコンパイルされたシェーダーを保存します。"
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
