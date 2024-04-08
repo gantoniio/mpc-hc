@@ -648,7 +648,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "以前のビデオ レンダラ"
+msgstr "以前のビデオ レンダラー"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
