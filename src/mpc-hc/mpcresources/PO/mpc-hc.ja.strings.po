@@ -1396,7 +1396,7 @@ msgstr "リサイズ後のシェーダーを設定できませんでした"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "リサイズ前と後の両方のシェーダを設定できませんでした"
+msgstr "リサイズ前と後の両方のシェーダーを設定できませんでした"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
