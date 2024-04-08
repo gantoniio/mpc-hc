@@ -744,7 +744,7 @@ msgstr "字幕::既定のスタイル"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "内部フィルタ"
+msgstr "内部フィルター"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
