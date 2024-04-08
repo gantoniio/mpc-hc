@@ -1241,7 +1241,7 @@ msgstr "既定のページ:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "CGI ハンドラ: (拡張子1=パス1; 拡張子2=パス2;...)"
+msgstr "CGI ハンドラー: (拡張子1=パス1; 拡張子2=パス2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Download subtitles"
