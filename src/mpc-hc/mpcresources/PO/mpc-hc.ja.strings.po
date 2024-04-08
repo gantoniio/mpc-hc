@@ -1412,7 +1412,7 @@ msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid ""
 "Cannot find necessary function entry points in %s, pixel shaders will not "
 "work."
-msgstr "%s で必要な関数エントリ ポイントが見つかりません。ピクセル シェーダは動作しません。"
+msgstr "%s で必要な関数エントリ ポイントが見つかりません。ピクセル シェーダーは動作しません。"
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
