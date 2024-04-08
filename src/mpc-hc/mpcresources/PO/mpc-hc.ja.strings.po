@@ -4703,7 +4703,7 @@ msgstr "ステレオ クロスフィードを有効にする (ヘッドホン用
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
-msgstr "デバイス バッファ:"
+msgstr "デバイス バッファー:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
