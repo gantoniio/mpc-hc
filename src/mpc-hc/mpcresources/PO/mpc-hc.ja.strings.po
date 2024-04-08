@@ -3608,7 +3608,7 @@ msgstr "拡大: 自動"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr "カスタム チャネル マッピング 切り替え"
+msgstr "カスタム チャンネル マッピング 切り替え"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
