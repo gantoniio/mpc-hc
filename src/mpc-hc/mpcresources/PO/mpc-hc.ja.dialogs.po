@@ -1197,7 +1197,7 @@ msgstr "EVR バッファー:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "コンパイルされたシェーダをキャッシュする"
+msgstr "コンパイルされたシェーダーをキャッシュする"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
