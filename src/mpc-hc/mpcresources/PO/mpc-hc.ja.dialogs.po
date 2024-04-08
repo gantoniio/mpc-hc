@@ -1634,7 +1634,7 @@ msgstr "消去"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "リサイズ前のシェーダに追加"
+msgstr "リサイズ前のシェーダーに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
