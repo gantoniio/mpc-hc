@@ -3688,7 +3688,7 @@ msgstr "チューナーを接続できませんでした。"
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr "デマルチプレクサを作成できませんでした。"
+msgstr "デマルチプレクサーを作成できませんでした。"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
