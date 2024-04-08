@@ -2983,7 +2983,7 @@ msgstr "Klatka wideo - zewnątrz"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr "Klatka wideo - przywróć (reset)"
+msgstr "Klatka wideo - resetuj obraz"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
