@@ -3754,7 +3754,7 @@ msgstr "グラフに %s エンコーダー フィルターを接続できませ�
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "%s エンコーダ フィルタで圧縮形式を設定できません。"
+msgstr "%s エンコーダー フィルターで圧縮形式を設定できません。"
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
