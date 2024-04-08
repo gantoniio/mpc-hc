@@ -2383,7 +2383,7 @@ msgstr "フレーム数"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
-msgstr "バッファ"
+msgstr "バッファー"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
