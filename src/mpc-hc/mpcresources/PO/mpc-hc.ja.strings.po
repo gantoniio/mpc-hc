@@ -2998,7 +2998,7 @@ msgstr "現在のフォルダーにはもうメディア ファイルがあり�
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr "フォルダ内の最初のファイルが既に読み込まれています。"
+msgstr "フォルダー内の最初のファイルが既に読み込まれています。"
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
