@@ -1189,7 +1189,7 @@ msgstr "代替の垂直同期"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 ミキサ モード"
+msgstr "VMR-9 ミキサー モード"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
