@@ -1638,7 +1638,7 @@ msgstr "リサイズ前のシェーダーに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "リサイズ後のシェーダに追加"
+msgstr "リサイズ後のシェーダーに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
