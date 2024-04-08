@@ -1790,7 +1790,7 @@ msgstr "コントロールをポイントしたときに表示する。　表示
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "リサイズ前のシェーダを設定できませんでした"
+msgstr "リサイズ前のシェーダーを設定できませんでした"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
