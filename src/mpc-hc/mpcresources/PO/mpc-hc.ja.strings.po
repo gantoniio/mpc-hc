@@ -4667,7 +4667,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE"
 msgid "Insert deinterlace filter (blend) in capture mode"
-msgstr "インターレース解除フィルター (ブレンド) をキャプチャ モードで挿入します"
+msgstr "インターレース解除フィルター (ブレンド) をキャプチャー モードで挿入します"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
