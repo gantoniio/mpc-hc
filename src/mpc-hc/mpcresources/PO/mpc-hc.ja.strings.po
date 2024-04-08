@@ -2746,7 +2746,7 @@ msgstr "ビデオ キャプチャー フィルターを作成できません"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "キャプチャ フィルタがありません"
+msgstr "キャプチャー フィルターがありません"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
