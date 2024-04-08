@@ -657,7 +657,7 @@ msgstr "フィルタ(&F)"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "シェーダ(&H)"
+msgstr "シェーダー(&H)"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
