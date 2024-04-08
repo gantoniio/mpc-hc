@@ -1173,7 +1173,7 @@ msgstr "リサイザー:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "D3D9 レンダラ デバイスを選択する"
+msgstr "D3D9 レンダラー デバイスを選択する"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
