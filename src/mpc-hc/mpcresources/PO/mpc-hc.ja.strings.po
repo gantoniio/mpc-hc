@@ -2462,7 +2462,7 @@ msgstr "DVD: システムのリージョンとデコーダーのリージョン�
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
-msgstr "DVD: ディスクのリージョンとデコーダのリージョンの不一致"
+msgstr "DVD: ディスクのリージョンとデコーダーのリージョンの不一致"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid ""
