@@ -652,7 +652,7 @@ msgstr "以前のビデオ レンダラー"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "オーバーレイ ミキサ レンダラ"
+msgstr "オーバーレイ ミキサー レンダラー"
 
 msgctxt "IDS_ZOOM_25"
 msgid "25%"
