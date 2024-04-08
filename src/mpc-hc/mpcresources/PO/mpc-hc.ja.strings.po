@@ -672,7 +672,7 @@ msgstr "EVR"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "EVR (カスタム プレゼンタ)"
+msgstr "EVR (カスタム プレゼンター)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
