@@ -2882,7 +2882,7 @@ msgstr "キャプチャ バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "シェーダ デバッガの表示"
+msgstr "シェーダー デバッガーの表示"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
