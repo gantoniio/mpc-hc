@@ -2606,7 +2606,7 @@ msgid ""
 "- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR"
 msgstr ""
 "字幕を読み込むには、ビデオ レンダラーの種類を変更し、ファイルを開き直す必要があります。\n"
-"- DirectShow: EVR (カスタム プレゼンタ), 同期, VMR-9 (レンダーレス), madVR, MPC VR, または Haali VR"
+"- DirectShow: EVR (カスタム プレゼンター), 同期, VMR-9 (レンダーレス), madVR, MPC VR, または Haali VR"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
