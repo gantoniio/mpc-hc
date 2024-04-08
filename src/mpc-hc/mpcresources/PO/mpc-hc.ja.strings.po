@@ -1402,7 +1402,7 @@ msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
 "Shaders are recompiled automatically when the corresponding files are "
 "modified."
-msgstr "シェーダは、対応するファイルが変更されると自動的に再コンパイルされます。"
+msgstr "シェーダーは、対応するファイルが変更されると自動的に再コンパイルされます。"
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
