@@ -3738,7 +3738,7 @@ msgstr "音声"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "グラフに %s バッファ フィルタを追加できません。"
+msgstr "グラフに %s バッファー フィルターを追加できません。"
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
