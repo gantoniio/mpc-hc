@@ -4478,7 +4478,7 @@ msgid ""
 "don't show a dragger at current position, but instead are filled from left "
 "to right."
 msgstr ""
-"ダーク テーマが必要です。有効にすると、タイム シークバーとボリューム インジケータは現在位置にドラッガーを表示せず、左から右に塗りつぶされます。"
+"ダーク テーマが必要です。有効にすると、タイム シークバーとボリューム インジケーターは現在位置にドラッガーを表示せず、左から右に塗りつぶされます。"
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
