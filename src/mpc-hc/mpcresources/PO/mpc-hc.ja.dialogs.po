@@ -1762,7 +1762,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
 msgid "MPC Audio Renderer Settings"
-msgstr "MPC オーディオ レンダラの設定"
+msgstr "MPC オーディオ レンダラーの設定"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
