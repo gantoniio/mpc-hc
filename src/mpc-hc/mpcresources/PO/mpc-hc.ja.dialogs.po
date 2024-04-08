@@ -561,7 +561,7 @@ msgstr "キューが遅れている場合に、サブピクチャの欠落を許
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "レンダラのレイアウト"
+msgstr "レンダラーのレイアウト"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
