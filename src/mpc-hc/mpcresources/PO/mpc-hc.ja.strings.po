@@ -817,7 +817,7 @@ msgstr ""
 msgctxt "IDC_DSDXR"
 msgid ""
 "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "VMR-9 (レンダーレス) と同じですが、真の 2 パス バイキュービック リサイザを使用します。"
+msgstr "VMR-9 (レンダーレス) と同じですが、真の 2 パス バイキュービック リサイザーを使用します。"
 
 msgctxt "IDC_DSNULL_COMP"
 msgid ""
