@@ -2096,7 +2096,7 @@ msgstr "Klatka wideo - normalny rozmiar"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr "Podwójny rozmiar ramki wideo"
+msgstr "Klatka wideo - podwójny rozmiar"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
