@@ -432,7 +432,7 @@ msgstr "グラフの通知用のターゲット ウィンドウを設定でき�
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "DVD ナビゲータ フィルタのすべてのピンをレンダリングできませんでした"
+msgstr "DVD ナビゲーター フィルターのすべてのピンをレンダリングできませんでした"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
