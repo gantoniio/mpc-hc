@@ -1118,7 +1118,7 @@ msgstr "参照..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr "モニタ カラー プロファイルを適用する"
+msgstr "モニター カラー プロファイルを適用する"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
