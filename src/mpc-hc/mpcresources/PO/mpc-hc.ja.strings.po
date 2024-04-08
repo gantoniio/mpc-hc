@@ -3090,7 +3090,7 @@ msgstr "すべてのオーディオ デコーダーを無効にする"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "すべてのビデオ デコーダを有効にする"
+msgstr "すべてのビデオ デコーダーを有効にする"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
