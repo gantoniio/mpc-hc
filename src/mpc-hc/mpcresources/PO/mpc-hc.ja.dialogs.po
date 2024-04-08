@@ -1510,7 +1510,7 @@ msgstr "再生終了時に全画面表示を解除する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "全画面表示モニタ"
+msgstr "全画面表示モニター"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
