@@ -4470,7 +4470,7 @@ msgstr "既定の字幕スタイルに切り替え"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
-msgstr "最後のファイルを再生した後、フォルダ内の最初のファイルにループバックします。"
+msgstr "最後のファイルを再生した後、フォルダー内の最初のファイルにループバックします。"
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
 msgid ""
