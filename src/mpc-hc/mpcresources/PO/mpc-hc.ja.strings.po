@@ -4570,7 +4570,7 @@ msgstr "別のモニターで全画面表示するときは、メイン ウィ�
 
 msgctxt "IDS_PPAGEADVANCED_BLOCKRDP"
 msgid "Block use of RDP Redirection Filter"
-msgstr "RDP リダイレクト フィルタの使用をブロックします"
+msgstr "RDP リダイレクト フィルターの使用をブロックします"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_EXEPATH"
 msgid ""
