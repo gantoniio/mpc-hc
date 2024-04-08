@@ -1672,7 +1672,7 @@ msgstr "MPC-VR は、リサイズ前のシェーダーをサポートしてい�
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "シェーダ デバッガー"
+msgstr "シェーダー デバッガー"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
