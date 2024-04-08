@@ -957,7 +957,7 @@ msgstr "Null (非圧縮)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "SaneAR Audio Renderer"
-msgstr "SaneAR オーディオ レンダラ"
+msgstr "SaneAR オーディオ レンダラー"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
