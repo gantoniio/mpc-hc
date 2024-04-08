@@ -4499,7 +4499,7 @@ msgstr "スナップショットのファイル名に動画ファイルの拡張
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
-msgstr "リサイズ前のピクセル シェーダ: オン"
+msgstr "リサイズ前のピクセル シェーダー: オン"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
