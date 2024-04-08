@@ -4566,7 +4566,7 @@ msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS"
 msgid ""
 "Keep main window controls visible on current monitor when going fullscreen "
 "on another monitor."
-msgstr "別のモニタで全画面表示するときは、メイン ウィンドウ コントロールを現在のモニタに表示したままにします。"
+msgstr "別のモニターで全画面表示するときは、メイン ウィンドウ コントロールを現在のモニターに表示したままにします。"
 
 msgctxt "IDS_PPAGEADVANCED_BLOCKRDP"
 msgid "Block use of RDP Redirection Filter"
