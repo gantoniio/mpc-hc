@@ -1625,7 +1625,7 @@ msgstr "シェーダーには、ビデオ レンダリング プロセスに追�
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "シェーダ ファイルを追加"
+msgstr "シェーダー ファイルを追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
