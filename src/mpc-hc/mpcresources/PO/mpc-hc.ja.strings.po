@@ -2706,7 +2706,7 @@ msgstr "フィルターを接続できません"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
-msgstr "ソース フィルタを読み込めません"
+msgstr "ソース フィルターを読み込めません"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
