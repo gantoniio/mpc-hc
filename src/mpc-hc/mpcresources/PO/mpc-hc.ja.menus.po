@@ -701,7 +701,7 @@ msgstr "フォルダー内を順次再生(&N)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "モニタの電源を切る(&M)"
+msgstr "モニターの電源を切る(&M)"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
