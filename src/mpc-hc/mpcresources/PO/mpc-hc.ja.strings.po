@@ -897,7 +897,7 @@ msgstr "高品質のレンダラーで、D3D9 以降をサポートする GPU �
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "同期レンダラ"
+msgstr "同期レンダラー"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
