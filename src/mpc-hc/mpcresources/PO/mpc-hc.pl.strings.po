@@ -3047,7 +3047,7 @@ msgstr "Klatka wideo - powiększenie 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr "Zoom klatki wideo 2"
+msgstr "Klatka wideo - powiększenie 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
