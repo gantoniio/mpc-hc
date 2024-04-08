@@ -596,7 +596,7 @@ msgstr "外部フィルター"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "再生::シェーダ"
+msgstr "再生::シェーダー"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
