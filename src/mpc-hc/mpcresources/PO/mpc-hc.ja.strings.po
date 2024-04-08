@@ -3742,7 +3742,7 @@ msgstr "グラフに %s バッファー フィルターを追加できません�
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "グラフに %s バッファ フィルタを接続できません。"
+msgstr "グラフに %s バッファー フィルターを接続できません。"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
