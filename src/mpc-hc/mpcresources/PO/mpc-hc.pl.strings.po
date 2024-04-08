@@ -2112,7 +2112,7 @@ msgstr "Klatka wideo - powiększ szerokość (rozszerz)"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr "Przyrostowa wysokość klatki wideo"
+msgstr "Klatka wideo - powiększ wysokość "
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
