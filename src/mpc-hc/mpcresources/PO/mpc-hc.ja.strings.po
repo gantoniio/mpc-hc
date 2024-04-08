@@ -206,7 +206,7 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid ""
 "Fast except when switching between different video streams. Only one video "
 "decoder present in the filter graph."
-msgstr "異なるビデオ ストリーム間の切り替え時以外は速い。1 つのビデオ デコーダのみがフィルタ グラフに表示される。"
+msgstr "異なるビデオ ストリーム間の切り替え時以外は速い。1 つのビデオ デコーダーのみがフィルター グラフに表示される。"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
