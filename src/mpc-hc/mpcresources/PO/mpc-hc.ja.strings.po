@@ -4511,7 +4511,7 @@ msgstr "リサイズ前のピクセル シェーダーを有効にする"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
-msgstr "リサイズ後のピクセル シェーダ: オン"
+msgstr "リサイズ後のピクセル シェーダー: オン"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
