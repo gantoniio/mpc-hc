@@ -2750,7 +2750,7 @@ msgstr "キャプチャ フィルターがありません"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
-msgstr "キャプチャー グラフ ビルダー オブジェクトを作成できません"
+msgstr "キャプチャ グラフ ビルダー オブジェクトを作成できません"
 
 msgctxt "IDS_MAINFRM_108"
 msgid "Couldn't open any device"
