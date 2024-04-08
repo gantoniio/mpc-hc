@@ -3043,7 +3043,7 @@ msgstr "Rozmiar okna - zmiejsz -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr "Zoom klatki wideo 1"
+msgstr "Klatka wideo - powiększenie 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
