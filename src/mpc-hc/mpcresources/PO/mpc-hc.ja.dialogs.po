@@ -529,7 +529,7 @@ msgstr "テクスチャの設定 (変更を有効にするにはビデオを開�
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "先読みサブ ピクチャ数:"
+msgstr "先読みサブ ピクチャー数:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
