@@ -2115,7 +2115,7 @@ msgstr "拡大: 自動 (超過のみ)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr "ダブルクリックでファイルの場所を開く"
+msgstr "ダブル クリックでファイルの場所を開く"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
