@@ -2092,7 +2092,7 @@ msgstr "Klatka wideo - połowa rozmiaru"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr "Normalny rozmiar ramki wideo"
+msgstr "Klatka wideo - normalny rozmiar"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
