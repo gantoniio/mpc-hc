@@ -1599,7 +1599,7 @@ msgstr "言語の優先順位:"
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
-msgstr "ダウンロードした字幕を最初の自動読み込みパス フォルダに自動的に保存する"
+msgstr "ダウンロードした字幕を最初の自動読み込みパス フォルダーに自動的に保存する"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
