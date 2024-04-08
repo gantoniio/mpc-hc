@@ -1141,7 +1141,7 @@ msgstr "スクリーンショット"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr "シェーダ"
+msgstr "シェーダー"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
