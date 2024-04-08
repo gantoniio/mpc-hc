@@ -480,7 +480,7 @@ msgstr "元に戻す(&E)"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
-msgstr "セパレータ(&S)"
+msgstr "セパレーター(&S)"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
