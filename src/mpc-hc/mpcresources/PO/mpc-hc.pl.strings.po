@@ -2979,7 +2979,7 @@ msgstr "Klatka wideo - wewnątrz"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr "Klatka na zewnątrz"
+msgstr "Klatka wideo - zewnątrz"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
