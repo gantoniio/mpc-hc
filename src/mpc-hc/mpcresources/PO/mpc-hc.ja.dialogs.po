@@ -1641,7 +1641,7 @@ msgstr "リサイズ後のシェーダに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "シェーダ プリセット"
+msgstr "シェーダー プリセット"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
