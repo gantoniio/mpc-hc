@@ -528,7 +528,7 @@ msgstr "オプション"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "シェーダを選択(&S)..."
+msgstr "シェーダーを選択(&S)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
