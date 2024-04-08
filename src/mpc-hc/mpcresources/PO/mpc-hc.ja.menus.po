@@ -697,7 +697,7 @@ msgstr "何もしない(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "フォルダ内を順次再生(&N)"
+msgstr "フォルダー内を順次再生(&N)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
