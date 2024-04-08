@@ -330,7 +330,7 @@ msgstr "キャプチャ デバイスを開けませんでした。"
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "開けません。無効な入力パラメータです"
+msgstr "開けません。無効な入力パラメーターです"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
