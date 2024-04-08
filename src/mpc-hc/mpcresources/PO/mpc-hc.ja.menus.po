@@ -653,7 +653,7 @@ msgstr "再生速度 標準(&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "フィルタ(&F)"
+msgstr "フィルター(&F)"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
