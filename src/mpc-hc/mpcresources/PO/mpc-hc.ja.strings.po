@@ -1406,7 +1406,7 @@ msgstr "シェーダーは、対応するファイルが変更されると自動
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "%s を読み込めません。ピクセル シェーダは動作しません。"
+msgstr "%s を読み込めません。ピクセル シェーダーは動作しません。"
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid ""
