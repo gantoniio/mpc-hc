@@ -4579,7 +4579,7 @@ msgid ""
 "Leave empty to use default filename: youtube-dl.exe"
 msgstr ""
 "Youtube-DL 実行可能ファイルのフルパス。\n"
-"MPC-HC と同じフォルダにある場合は、ファイル名だけで十分です。\n"
+"MPC-HC と同じフォルダーにある場合は、ファイル名だけで十分です。\n"
 "既定のファイル名を使用するには、空のままにしておく: youtube-dl.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
