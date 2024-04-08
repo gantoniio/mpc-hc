@@ -3051,7 +3051,7 @@ msgstr "Klatka wideo - powiększenie 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr "Przełącz zoom klatki"
+msgstr "Klatka wideo - przełącz powiększenie"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
