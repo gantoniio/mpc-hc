@@ -1586,7 +1586,7 @@ msgstr "ローカルで見つからない場合は、字幕を自動的に検索
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
 "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "聴覚障害者用の字幕を優先する (字幕プロバイダによって示された場合)"
+msgstr "聴覚障害者用の字幕を優先する (字幕プロバイダーによって示された場合)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
