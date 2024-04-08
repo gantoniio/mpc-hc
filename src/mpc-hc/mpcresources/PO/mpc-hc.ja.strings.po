@@ -588,11 +588,11 @@ msgstr "詳細設定"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "内部フィルタ::音声切り替え"
+msgstr "内部フィルター::音声切り替え"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "外部フィルタ"
+msgstr "外部フィルター"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
