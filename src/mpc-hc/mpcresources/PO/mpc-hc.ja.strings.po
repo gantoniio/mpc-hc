@@ -2458,7 +2458,7 @@ msgstr "DVD: Macrovision による失敗"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: システムのリージョンとデコーダのリージョンの不一致"
+msgstr "DVD: システムのリージョンとデコーダーのリージョンの不一致"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
