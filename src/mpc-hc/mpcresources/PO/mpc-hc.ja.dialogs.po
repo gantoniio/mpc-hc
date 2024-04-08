@@ -676,7 +676,7 @@ msgstr "高速シーク (キーフレームに)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "フィルタを追加..."
+msgstr "フィルターを追加..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
