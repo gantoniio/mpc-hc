@@ -1420,7 +1420,7 @@ msgstr "シェーダー プリセット: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr "次のシェーダ プリセット"
+msgstr "次のシェーダー プリセット"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
