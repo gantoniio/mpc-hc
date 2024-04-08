@@ -2120,7 +2120,7 @@ msgstr "Rozmiar dziesiętny klatki wideo"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr "Szerokość dzies. klatki wideo"
+msgstr "Szerokość dziesiętna klatki wideo"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
