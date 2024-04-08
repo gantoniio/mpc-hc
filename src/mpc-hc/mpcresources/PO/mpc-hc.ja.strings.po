@@ -3814,7 +3814,7 @@ msgstr "再生終了後: ロック"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "再生終了後: モニタの電源を切る"
+msgstr "再生終了後: モニターの電源を切る"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
