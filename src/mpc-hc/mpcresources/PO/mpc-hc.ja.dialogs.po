@@ -1429,7 +1429,7 @@ msgstr "チャネル スイッチング アプローチ:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "フィルタ グラフを再構築"
+msgstr "フィルター グラフを再構築"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
