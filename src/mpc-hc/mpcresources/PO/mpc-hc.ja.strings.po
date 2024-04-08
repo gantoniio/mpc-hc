@@ -1476,7 +1476,7 @@ msgstr "再生速度"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr "フィルタ リストをクリップボードにコピー(&C)"
+msgstr "フィルター リストをクリップボードにコピー(&C)"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
