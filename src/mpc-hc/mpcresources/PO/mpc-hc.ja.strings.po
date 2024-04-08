@@ -1416,7 +1416,7 @@ msgstr "%s で必要な関数エントリ ポイントが見つかりません�
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "シェーダ プリセット: %s"
+msgstr "シェーダー プリセット: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
