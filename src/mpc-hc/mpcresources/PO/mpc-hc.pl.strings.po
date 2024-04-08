@@ -2104,7 +2104,7 @@ msgstr "Przełącz zawsze na wierzchu"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr "Przyrostowy rozmiar klatki wideo"
+msgstr "Klatka wideo - powiększ rozmiar"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
