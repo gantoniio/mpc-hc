@@ -334,7 +334,7 @@ msgstr "開けません。無効な入力パラメーターです"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "編集リスト エディタ"
+msgstr "編集リスト エディター"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
