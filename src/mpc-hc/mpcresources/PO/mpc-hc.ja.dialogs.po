@@ -1085,7 +1085,7 @@ msgstr "ソース フィルタ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "変換フィルタ"
+msgstr "変換フィルター"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
