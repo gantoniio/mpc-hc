@@ -901,7 +901,7 @@ msgstr "同期レンダラー"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
-msgstr "MPC オーディオ レンダラ"
+msgstr "MPC オーディオ レンダラー"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -945,7 +945,7 @@ msgstr "**利用不可**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
-msgstr "選択されたレンダラはインストールされていません。"
+msgstr "選択されたレンダラーはインストールされていません。"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
