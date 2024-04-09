@@ -4633,7 +4633,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_PLAYLIST"
 msgid "Remember playback position in local M3U and MPCPL playlist files."
-msgstr "ローカルの M3U および MPCPL プレイリスト ファイルの再生位置を記憶します。"
+msgstr "ローカルの M3U および MPCPL 再生リスト ファイルの再生位置を記憶します。"
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_TRACK_SELECTION"
 msgid ""
