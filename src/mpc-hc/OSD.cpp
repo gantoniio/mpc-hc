@@ -1000,15 +1000,24 @@ void COSD::DrawWnd()
     rectText.right = messageWidth;
     rectText.InflateRect(0, 0, 10, 10);
 
+    LONG bottomOSD = rectText.bottom + 2;
+    LONG bottomWindow = (LONG)m_MainWndRect.Height() - 20;
+    LONG horizontalRoom = m_MainWndRect.Width() - rectText.Width() - 30;
+
+    if (bottomOSD > bottomWindow || horizontalRoom < 0) { //we will not show OSD if it is being cropped
+        SetWindowPos(nullptr, 0,0,0,0, m_nDEFFLAGS | SWP_NOZORDER);
+        return;
+    }
+
     CRect rectMessages;
     switch (m_nMessagePos) {
         case OSD_TOPLEFT :
-            rectMessages = CRect(0, 0, std::min((rectText.right + 10), (LONG)m_MainWndRect.Width() - 20), std::min((rectText.bottom + 2), (LONG)m_MainWndRect.Height() - 20));
+            rectMessages = CRect(0, 0, std::min((rectText.right + 10), (LONG)m_MainWndRect.Width() - 20), std::min(bottomOSD, bottomWindow));
             break;
         case OSD_TOPRIGHT :
         default :
-            const int imax = std::max(0, m_MainWndRect.Width() - rectText.Width() - 30);
-            rectMessages = CRect(imax, 0, (m_MainWndRect.Width() - 20) + imax, std::min((rectText.bottom + 2), (LONG)m_MainWndRect.Height() - 20));
+            const LONG imax = std::max((LONG)0, horizontalRoom);
+            rectMessages = CRect(imax, 0, (m_MainWndRect.Width() - 20) + imax, std::min(bottomOSD, bottomWindow));
             break;
     }
 
@@ -1018,7 +1027,7 @@ void COSD::DrawWnd()
 
     CRect wr(m_MainWndRect.left + 10 + rectMessages.left, m_MainWndRect.top + 10, rectMessages.Width() - rectMessages.left, rectMessages.Height());
     if (SysVersion::IsWin8orLater()) {
-        wr.left    -= m_MainWndRect.left;
+        wr.left   -= m_MainWndRect.left;
         wr.top    -= m_MainWndRect.top;
     }
     SetWindowPos(nullptr, wr.left, wr.top, wr.right, wr.bottom, m_nDEFFLAGS | SWP_NOZORDER);
