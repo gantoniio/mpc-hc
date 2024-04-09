@@ -1406,7 +1406,7 @@ msgstr "Cyfrowe"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
-msgstr "Ustawienia urz. analog."
+msgstr "Ustawienia urządzenia analogowe"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
 msgid "Video"
