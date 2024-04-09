@@ -1198,7 +1198,7 @@ msgstr "Pełny ekran D3D"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Alternatywna synch. pion."
+msgstr "Alternatywna synchronizacja pionowa"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
