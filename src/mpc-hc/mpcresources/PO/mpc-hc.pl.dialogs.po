@@ -1474,7 +1474,7 @@ msgstr "kolumn"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Wyświetlanie na najbliższej synchronizacji pionowej"
+msgstr "Wyświetlanie przy najbliższej synchronizacji pionowej"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
