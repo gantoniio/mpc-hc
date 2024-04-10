@@ -4625,7 +4625,7 @@ msgstr "Shadery po skalowaniu: włączone"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
-msgstr "Shadery po skalowaniu: Wył."
+msgstr "Shadery po skalowaniu: wyłączone"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
