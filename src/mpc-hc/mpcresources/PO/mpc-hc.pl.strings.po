@@ -2598,7 +2598,7 @@ msgstr "Błąd"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Napisy: wył."
+msgstr "Napisy: Wył."
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
