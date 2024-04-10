@@ -3535,7 +3535,7 @@ msgstr "Wyłączenie kompozycji pulpitu: Wł."
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Wyłączenie kompozycji pulpitu: wył."
+msgstr "Wyłączenie kompozycji pulpitu: Wył."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
