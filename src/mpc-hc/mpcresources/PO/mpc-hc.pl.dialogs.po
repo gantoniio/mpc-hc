@@ -1218,7 +1218,7 @@ msgstr "Nasłuchiwaj portu:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Uruchom w przeglądarce sieci web..."
+msgstr "Uruchom w przeglądarce WWW..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
