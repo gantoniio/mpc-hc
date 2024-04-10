@@ -180,7 +180,7 @@ msgstr "Tryb powt.: Plik"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "Powt. ciągłe: wł."
+msgstr "Powt. ciągłe: Wł."
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
