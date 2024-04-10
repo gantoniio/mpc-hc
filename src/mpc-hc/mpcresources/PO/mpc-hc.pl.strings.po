@@ -2875,7 +2875,7 @@ msgstr "Kamera %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Zwiększ przesunięcie synch. pionowej"
+msgstr "Zwiększ przesunięcie synchronizacji pionowej"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
