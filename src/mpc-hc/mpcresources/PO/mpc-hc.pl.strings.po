@@ -1101,7 +1101,7 @@ msgstr "Przełącz widoczność panelu nawigacji"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "Dokładna synch. pionowa"
+msgstr "Dokładna synchronizacja pionowa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid ""
