@@ -1860,7 +1860,7 @@ msgstr "Korekcja czasu klatki: Wł."
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "Korekcja czasu klatki: wył."
+msgstr "Korekcja czasu klatki: Wył."
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
