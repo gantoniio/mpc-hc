@@ -3587,7 +3587,7 @@ msgstr "Pełne przetwarzanie zmiennoprzecinkowe: wył."
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Niepełne przetwarzanie zmiennoprzecinkowe: wł."
+msgstr "Niepełne przetwarzanie zmiennoprzecinkowe: Wł."
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
@@ -3681,7 +3681,7 @@ msgstr "Przełącz własne mapowanie kanałów"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "Własne mapowanie kanałów: wł."
+msgstr "Własne mapowanie kanałów: Wł."
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
