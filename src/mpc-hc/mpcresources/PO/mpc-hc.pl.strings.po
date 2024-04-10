@@ -3439,7 +3439,7 @@ msgstr "Obecność przy najbliższej synch. pion.: Wł."
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Obecność przy najbliższej synch. pion.: wył."
+msgstr "Obecność przy najbliższej synch. pion.: Wył."
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3447,7 +3447,7 @@ msgstr "Zarządzanie kolorami: Wł."
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Zarządzanie kolorami: wył."
+msgstr "Zarządzanie kolorami: Wył."
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
