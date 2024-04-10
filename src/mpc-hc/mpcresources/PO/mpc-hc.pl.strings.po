@@ -3155,7 +3155,7 @@ msgstr "Włącz wszystkie dekodery audio"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "Wyłącz wszystkie dekodery audio"
+msgstr "Wyłącz wszystkie dekodery dźwięku"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
