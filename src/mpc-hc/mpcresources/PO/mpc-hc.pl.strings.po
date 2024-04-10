@@ -3435,7 +3435,7 @@ msgstr "Synch. wyświetlacza do wideo: wył."
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "Obecność przy najbliższej synch. pion.: wł."
+msgstr "Obecność przy najbliższej synch. pion.: Wł."
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
@@ -3443,7 +3443,7 @@ msgstr "Obecność przy najbliższej synch. pion.: wył."
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "Zarządzanie kolorami: wł."
+msgstr "Zarządzanie kolorami: Wł."
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
