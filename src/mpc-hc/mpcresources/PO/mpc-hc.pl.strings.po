@@ -3443,7 +3443,7 @@ msgstr "Obecność przy najbliższej synchronizacji pionowej: wyłączona"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "Zarządzanie kolorami: Wł."
+msgstr "Zarządzanie kolorami: włączone"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
