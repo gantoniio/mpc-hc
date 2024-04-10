@@ -1822,7 +1822,7 @@ msgstr "Zapisz kopię jako"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Poprzednia klatka klucz."
+msgstr "Poprzednia klatka kluczowa"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
