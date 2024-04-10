@@ -3709,7 +3709,7 @@ msgstr "Utrzymywanie głośności: włączone"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Utrzymywanie głośności: Wył."
+msgstr "Utrzymywanie głośności: wyłączone"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
