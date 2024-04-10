@@ -3697,7 +3697,7 @@ msgstr "Normalizacja: Wł."
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr "Normalizowanie: wył."
+msgstr "Normalizacja: Wył."
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
@@ -3709,7 +3709,7 @@ msgstr "Utrzymywanie głośności: Wł."
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Utrzymywanie głośności: wył."
+msgstr "Utrzymywanie głośności: Wył."
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
