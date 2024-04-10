@@ -172,7 +172,7 @@ msgstr ""
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr "Tryb powt.: Lista odtw."
+msgstr "Tryb powtarzania: Lista odtwarzania"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
