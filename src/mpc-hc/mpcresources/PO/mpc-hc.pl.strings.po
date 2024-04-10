@@ -1826,7 +1826,7 @@ msgstr "Poprzednia klatka kluczowa"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "Najbliższa klatka klucz."
+msgstr "Najbliższa klatka kluczowa"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid ""
