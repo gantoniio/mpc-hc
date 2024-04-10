@@ -4613,7 +4613,7 @@ msgstr "Shadery przed skalowaniem: włączone"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "Shadery przed skalowaniem: Wył."
+msgstr "Shadery przed skalowaniem: wyłączone"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
