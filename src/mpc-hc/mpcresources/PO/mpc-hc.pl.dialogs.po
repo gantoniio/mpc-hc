@@ -1963,7 +1963,7 @@ msgstr "Użyj ulepszonych funkcji paska zadań"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr "Steruj przez interfejs Windows (SMTC)"
+msgstr "Steruj przez interfejs Windowsa (SMTC)"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"
