@@ -48,7 +48,7 @@ msgid ""
 msgstr ""
 "MPC-HC の設定も削除しますか？\n"
 "\n"
-"MPC-HC を再インストールする予定がある場合、設定を削除する必要はありません。"
+"MPC-HC を再度インストールする場合は、削除する必要はありません。"
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid ""
