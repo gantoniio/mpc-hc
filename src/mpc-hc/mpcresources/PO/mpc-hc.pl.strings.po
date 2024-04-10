@@ -3507,7 +3507,7 @@ msgstr "Opróżnianie bufora przed synchronizacją pionową: wyłączone"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Opróżnianie bufora po wyświetleniu: Wł."
+msgstr "Opróżnianie bufora po wyświetleniu: włączone"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
