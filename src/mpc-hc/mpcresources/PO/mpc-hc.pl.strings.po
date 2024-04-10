@@ -3407,7 +3407,7 @@ msgstr "Synch. pionowa: Wł."
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "Synch. pion.: wył."
+msgstr "Synch. pionowa: Wył."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
