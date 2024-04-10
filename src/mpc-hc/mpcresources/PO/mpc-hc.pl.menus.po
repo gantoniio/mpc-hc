@@ -229,7 +229,7 @@ msgstr "Pełny ekran &D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "&Interfejs graficzny na pełnym ekranie Direct3D"
+msgstr "&Interfejs graficzny na pełnym ekranie D3D"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
