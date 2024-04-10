@@ -3579,7 +3579,7 @@ msgstr "Wymuszenie 10-bitowego wejścia RGB: wył."
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr "Pełne przetwarzanie zmiennoprzecinkowe: wł."
+msgstr "Pełne przetwarzanie zmiennoprzecinkowe: Wł."
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
