@@ -3560,7 +3560,8 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Wsparcie dla GUI na pełnym ekranie D3D: Wył."
+msgstr ""
+"Wsparcie dla interfejsu graficznego na pełnym ekranie Direct3D: wyłączone"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
