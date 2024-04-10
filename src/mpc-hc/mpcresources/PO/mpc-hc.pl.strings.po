@@ -4621,7 +4621,7 @@ msgstr "Włącz shadery przed skalowaniem"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
-msgstr "Shadery po skalowaniu: wł."
+msgstr "Shadery po skalowaniu: Wł."
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
