@@ -3515,7 +3515,7 @@ msgstr "Opróżnianie bufora po wyświetleniu: wył."
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "Oczekiwanie na opróżnienie bufora: wł."
+msgstr "Oczekiwanie na opróżnienie bufora: Wł."
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
