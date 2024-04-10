@@ -2883,7 +2883,7 @@ msgstr "Wyłączone"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Zmniejsz przesunięcie synch. pionowej"
+msgstr "Zmniejsz przesunięcie synchronizacji pionowej"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
