@@ -3391,7 +3391,7 @@ msgstr "Archiwum RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr "kl/s."
+msgstr "kl./s"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
