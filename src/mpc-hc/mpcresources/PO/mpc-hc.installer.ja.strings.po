@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "このビルドの MPC-HC には、SSE2 拡張をサポートする CPU が必要です。\n"
 "\n"
-"お使いの CPU はそれらの機能を持っていません。"
+"お使いの CPU にはこれらの機能がありません。"
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
