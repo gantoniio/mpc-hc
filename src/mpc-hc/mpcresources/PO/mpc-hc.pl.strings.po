@@ -3519,7 +3519,7 @@ msgstr "Oczekiwanie na opróżnienie bufora: Wł."
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Oczekiwanie na opróżnienie bufora: wył."
+msgstr "Oczekiwanie na opróżnienie bufora: Wył."
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
