@@ -3407,7 +3407,7 @@ msgstr "Synchronizacja pionowa: włączona"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "Synch. pionowa: Wył."
+msgstr "Synchronizacja pionowa: wyłączona"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
