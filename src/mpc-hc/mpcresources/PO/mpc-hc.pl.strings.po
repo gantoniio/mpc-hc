@@ -4613,7 +4613,7 @@ msgstr "Shadery przed skalowaniem: Wł."
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "Shadery przed skalowaniem: wył."
+msgstr "Shadery przed skalowaniem: Wył."
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
@@ -4625,7 +4625,7 @@ msgstr "Shadery po skalowaniu: Wł."
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
-msgstr "Shadery po skalowaniu: wył."
+msgstr "Shadery po skalowaniu: Wył."
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
