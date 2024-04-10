@@ -3411,7 +3411,7 @@ msgstr "Synch. pion.: wył."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Dokł. synch. pion.: wł."
+msgstr "Dokładna synch. pion.: Wł."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
