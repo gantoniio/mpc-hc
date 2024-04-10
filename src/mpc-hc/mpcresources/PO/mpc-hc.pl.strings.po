@@ -146,7 +146,7 @@ msgstr "Bitrate"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(śr./akt.)"
+msgstr "(średnio/bieżący)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
