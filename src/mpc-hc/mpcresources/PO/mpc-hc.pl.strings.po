@@ -234,7 +234,7 @@ msgstr "Zawsze (niektóre urządzenia mogą wymagać tej opcji)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Kat. wiekowa"
+msgstr "Kategoria wiekowa"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
