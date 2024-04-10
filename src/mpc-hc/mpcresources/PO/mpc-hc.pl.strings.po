@@ -3423,7 +3423,7 @@ msgstr "Synchronizacja wideo do wyświetlacza: włączona"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Synchronizuj wideo do wyświetlacza: Wył."
+msgstr "Synchronizacja wideo do wyświetlacza: wyłączona"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
