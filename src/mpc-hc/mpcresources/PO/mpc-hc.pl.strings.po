@@ -1145,7 +1145,7 @@ msgid ""
 "cause the video renderer to skip some video frames."
 msgstr ""
 "Wyłączenie tej opcji zapobiega migotaniu napisów, ale może spowodować "
-"ominięcie niektórych klatek przez renderer wideo."
+"ominięcie niektórych klatek przez renderer obrazu."
 
 msgctxt "ID_PLAY_PLAY"
 msgid ""
