@@ -1748,7 +1748,7 @@ msgstr "Tryb wyłączny"
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
-"Zignoruj mikser kanałów systemowych (zawsze ignorowany w wyłącznym trybie "
+"Zignoruj mikser kanałów systemowych (zawsze ignorowany w trybie wyłącznym "
 "WASAPI)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
