@@ -3447,7 +3447,7 @@ msgstr "Zarządzanie kolorami: włączone"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Zarządzanie kolorami: Wył."
+msgstr "Zarządzanie kolorami: wyłączone"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
