@@ -3499,7 +3499,7 @@ msgstr "Zakres luminacji: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "Opróżnianie bufora przed synch. pion: wł."
+msgstr "Opróżnianie bufora przed synch. pion: Wł."
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
