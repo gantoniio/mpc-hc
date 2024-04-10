@@ -3439,7 +3439,7 @@ msgstr "Obecność przy najbliższej synchronizacji pionowej: włączona"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Obecność przy najbliższej synch. pion.: Wył."
+msgstr "Obecność przy najbliższej synchronizacji pionowej: wyłączona"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
