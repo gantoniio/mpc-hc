@@ -2955,7 +2955,7 @@ msgstr "Przełącz debugowanie shaderów"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Zoom 50%"
+msgstr "Powiększenie 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
