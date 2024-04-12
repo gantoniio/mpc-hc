@@ -1654,7 +1654,7 @@ void CMainFrame::OnSizingFixWndToVideo(UINT nSide, LPRECT lpRect, bool bCtrl)
         return;
     }
 
-    CSize videoSize = GetVideoSize();
+    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
     if (videoSize.cx == 0 || videoSize.cy == 0) {
         return;
     }
@@ -7842,33 +7842,22 @@ void CMainFrame::OnViewModifySize(UINT nID)
     double ratio = double(rect.Width()) / rect.Height();
     int step = 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
 
-    if (m_bWasSnapped) {
+    rect.right += step;
+    rect.bottom = ceil(rect.top + rect.Width() / ratio);
+    OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+    OnSizingSnapToScreen(WMSZ_RIGHT, &rect);
+
+    if (nID == ID_VIEW_ZOOM_ADD && rect.right <= rectOrig.right ||
+        nID == ID_VIEW_ZOOM_SUB && rectOrig.right <= rect.right)
+    {
         rect.right += step;
         rect.bottom = ceil(rect.top + rect.Width() / ratio);
         OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
-        OnSizingSnapToScreen(WMSZ_RIGHT, &rect);
-
-        if (nID == ID_VIEW_ZOOM_ADD && rect.right <= rectOrig.right ||
-            nID == ID_VIEW_ZOOM_SUB && rectOrig.right <= rect.right)
-        {
-            rect.right += step;
-            rect.bottom = ceil(rect.top + rect.Width() / ratio);
-            OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
-        }
-
-        MoveWindow(&rect);
-    } else {
-        CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
-        double videoRatio = double(videoSize.cy) / double(videoSize.cx);
-
-        CRect videoRect;
-        m_pVideoWnd->GetWindowRect(&videoRect);
-        LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
-        LONG newHeight = (LONG)ceil(newWidth * videoRatio);
-
-        CSize cs = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
-        MoveWindow(GetZoomWindowRect(cs, true));
     }
+
+    rect = GetZoomWindowRect(rect.Size(), true);
+    MoveWindow(&rect);
+
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
