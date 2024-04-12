@@ -3027,7 +3027,7 @@ msgstr "Kodowanie:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr "Zoom 25%"
+msgstr "Powiększenie 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
