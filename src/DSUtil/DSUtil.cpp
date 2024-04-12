@@ -103,6 +103,11 @@ bool IsStreamEnd(IBaseFilter* pBF)
 
 bool IsVideoRenderer(IBaseFilter* pBF)
 {
+    CLSID clsid = GetCLSID(pBF);
+    if (clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault || clsid == CLSID_VideoMixingRenderer9 || clsid == CLSID_EnhancedVideoRenderer || clsid == CLSID_madVR || clsid == CLSID_DXR || clsid == CLSID_MPCVR) {
+        return true;
+    }
+
     int nIn, nOut, nInC, nOutC;
     CountPins(pBF, nIn, nOut, nInC, nOutC);
 
@@ -121,11 +126,7 @@ bool IsVideoRenderer(IBaseFilter* pBF)
         EndEnumPins;
     }
 
-    CLSID clsid;
-    memcpy(&clsid, &GUID_NULL, sizeof(clsid));
-    pBF->GetClassID(&clsid);
-
-    return (clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault || clsid == CLSID_VideoMixingRenderer9 || clsid == CLSID_EnhancedVideoRenderer || clsid == CLSID_madVR || clsid == CLSID_DXR || clsid == CLSID_MPCVR);
+    return false;
 }
 
 bool IsAudioWaveRenderer(IBaseFilter* pBF)
@@ -2030,4 +2031,186 @@ CStringW ForceTrailingSlash(CStringW folder) {
         folder += L'\\';
     }
     return folder;
+}
+
+CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt) {
+    int discard;
+    return GetChannelStrFromMediaType(pmt, discard);
+}
+
+CStringW ChannelsToStr(int channels) {
+    CStringW ret;
+    switch (channels) {
+        case 1:
+            return L"mono";
+        case 2:
+            return L"2.0";
+        case 6:
+            return L"5.1";
+        case 7:
+            return L"6.1";
+        case 8:
+            return L"7.1";
+        default:
+            ret.Format(L"%uch", channels);
+            return ret;
+    }
+}
+
+CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt, int& channels) {
+    if (pmt && pmt->majortype == MEDIATYPE_Audio) {
+        if (pmt->formattype == FORMAT_WaveFormatEx) {
+            channels = ((WAVEFORMATEX*)pmt->pbFormat)->nChannels;
+            return ChannelsToStr(channels);
+        } else if (pmt->formattype == FORMAT_VorbisFormat) {
+            channels = ((VORBISFORMAT*)pmt->pbFormat)->nChannels;
+            return ChannelsToStr(channels);
+        } else if (pmt->formattype == FORMAT_VorbisFormat2) {
+            channels = ((VORBISFORMAT2*)pmt->pbFormat)->Channels;
+            return ChannelsToStr(channels);
+        } else {
+            channels = 2;
+            ASSERT(false);
+        }
+    }
+    ASSERT(false);
+    return L"";
+}
+
+CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
+    if (!pmt) {
+        return L"";
+    }
+
+    if (pmt->subtype == MEDIASUBTYPE_AAC || pmt->subtype == MEDIASUBTYPE_LATM_AAC || pmt->subtype == MEDIASUBTYPE_AAC_ADTS || pmt->subtype == MEDIASUBTYPE_MPEG_ADTS_AAC
+        || pmt->subtype == MEDIASUBTYPE_MPEG_HEAAC || pmt->subtype == MEDIASUBTYPE_MP4A || pmt->subtype == MEDIASUBTYPE_mp4a) {
+        return L"AAC";
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 || pmt->subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF
+        || pmt->subtype == MEDIASUBTYPE_RAW_SPORT || pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h || pmt->subtype == MEDIASUBTYPE_DVM) {
+        return L"AC3";
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
+        return L"E-AC3";
+    } else if (pmt->subtype == MEDIASUBTYPE_DTS || pmt->subtype == MEDIASUBTYPE_DTS2 || pmt->subtype == MEDIASUBTYPE_WAVE_DTS) {
+        return L"DTS";
+    } else if (pmt->subtype == MEDIASUBTYPE_DTS_HD) {
+        return L"DTS-HD";
+    } else if (pmt->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
+        return L"LPCM";
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+        return L"TrueHD";
+    } else if (pmt->subtype == MEDIASUBTYPE_MLP) {
+        return L"MLP";
+    } else if (pmt->subtype == MEDIASUBTYPE_PCM || pmt->subtype == MEDIASUBTYPE_IEEE_FLOAT) {
+        return L"PCM";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG1AudioPayload || pmt->subtype == MEDIASUBTYPE_MPEG1Packet || pmt->subtype == MEDIASUBTYPE_MPEG1Payload) { //are these all actually possible?
+        return L"MP1";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG2_AUDIO) {
+        return L"MP2";
+    } else if (pmt->subtype == MEDIASUBTYPE_MP3) {
+        return L"MP3";
+    } else if (pmt->subtype == MEDIASUBTYPE_FLAC || pmt->subtype == MEDIASUBTYPE_FLAC_FRAMED) {
+        return L"FLAC";
+    } else if (pmt->subtype == MEDIASUBTYPE_Vorbis || pmt->subtype == MEDIASUBTYPE_Vorbis2) {
+        return L"Vorbis";
+    } else if (pmt->subtype == MEDIASUBTYPE_OPUS || pmt->subtype == MEDIASUBTYPE_OPUS_OLD) {
+        return L"Opus";
+    } else if (pmt->subtype == MEDIASUBTYPE_MSAUDIO1) {
+        return L"WMA1";
+    } else if (pmt->subtype == MEDIASUBTYPE_WMAUDIO2) {
+        return L"WMA2";
+    } else if (pmt->subtype == MEDIASUBTYPE_WMAUDIO3) {
+        return L"WMA3";
+    } else if (pmt->subtype == MEDIASUBTYPE_WMAUDIO4) {
+        return L"WMA4";
+    } else if (pmt->subtype == MEDIASUBTYPE_WMAUDIO_LOSSLESS) {
+        return L"WMA-LL";
+    } else if (pmt->subtype == MEDIASUBTYPE_BD_LPCM_AUDIO || pmt->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
+        return L"LPCM";
+    } else if (pmt->subtype == MEDIASUBTYPE_IMA_AMV || pmt->subtype == MEDIASUBTYPE_ADPCM_MS || pmt->subtype == MEDIASUBTYPE_IMA_WAV || pmt->subtype == MEDIASUBTYPE_ADPCM_SWF) {
+        return L"ADPCM";
+    } else if (pmt->subtype == MEDIASUBTYPE_TRUESPEECH) {
+        return L"TrueSpeech";
+    } else if (pmt->subtype == MEDIASUBTYPE_PCM_NONE || pmt->subtype == MEDIASUBTYPE_PCM_RAW || pmt->subtype == MEDIASUBTYPE_PCM_TWOS || pmt->subtype == MEDIASUBTYPE_PCM_SOWT
+        || pmt->subtype == MEDIASUBTYPE_PCM_IN24 || pmt->subtype == MEDIASUBTYPE_PCM_IN32 || pmt->subtype == MEDIASUBTYPE_PCM_FL32 || pmt->subtype == MEDIASUBTYPE_PCM_FL64
+        || pmt->subtype == MEDIASUBTYPE_PCM_IN24_le || pmt->subtype == MEDIASUBTYPE_PCM_IN32_le || pmt->subtype == MEDIASUBTYPE_PCM_FL32_le || pmt->subtype == MEDIASUBTYPE_PCM_FL64_le) {
+        return L"QTPCM";
+    } else if (pmt->subtype == MEDIASUBTYPE_TTA1) {
+        return L"TTA";
+    } else if (pmt->subtype == MEDIASUBTYPE_SAMR) {
+        return L"SAMR";
+    } else if (pmt->subtype == MEDIASUBTYPE_QDM2) {
+        return L"QDM2";
+    } else if (pmt->subtype == MEDIASUBTYPE_MSGSM610) {
+        return L"GSM610";
+    } else if (pmt->subtype == MEDIASUBTYPE_ALAW || pmt->subtype == MEDIASUBTYPE_MULAW) {
+        return L"G711";
+    } else if (pmt->subtype == MEDIASUBTYPE_G723 || pmt->subtype == MEDIASUBTYPE_VIVO_G723) {
+        return L"G723";
+    } else if (pmt->subtype == MEDIASUBTYPE_G726) {
+        return L"G726";
+    } else if (pmt->subtype == MEDIASUBTYPE_G729 || pmt->subtype == MEDIASUBTYPE_729A) {
+        return L"G729";
+    } else if (pmt->subtype == MEDIASUBTYPE_APE) {
+        return L"APE";
+    } else if (pmt->subtype == MEDIASUBTYPE_TAK) {
+        return L"TAK";
+    } else if (pmt->subtype == MEDIASUBTYPE_ALS) {
+        return L"ALS";
+    } else if (pmt->subtype == MEDIASUBTYPE_NELLYMOSER) {
+        return L"NELLY";
+    } else if (pmt->subtype == MEDIASUBTYPE_SPEEX) {
+        return L"Speex";
+    } else if (pmt->subtype == MEDIASUBTYPE_AES3) {
+        return L"AES3";
+    } else if (pmt->subtype == MEDIASUBTYPE_DSDL || pmt->subtype == MEDIASUBTYPE_DSDM || pmt->subtype == MEDIASUBTYPE_DSD1 || pmt->subtype == MEDIASUBTYPE_DSD8) {
+        return L"DSD";
+    } else if (pmt->subtype == MEDIASUBTYPE_IMC) {
+        return L"IMC";
+    } else if (pmt->subtype == MEDIASUBTYPE_VOXWARE_RT29) {
+        return L"RT29";
+    } else if (pmt->subtype == MEDIASUBTYPE_MPEG_LOAS) {
+        return L"LOAS";
+    }
+
+    if (_IsFourCC(pmt->subtype)) {
+        CString fcc;
+        DWORD a = (pmt->subtype.Data1 >> 24) & 0xFF;
+        DWORD b = (pmt->subtype.Data1 >> 16) & 0xFF;
+        DWORD c = (pmt->subtype.Data1 >> 8) & 0xFF;
+        DWORD d = (pmt->subtype.Data1 >> 0) & 0xFF;
+        if (a != 0 || b != 0) {
+            fcc.Format(_T("%02x%02x%02x%02x"), a, b, c, d);
+        } else {
+            fcc.Format(_T("%02x%02x"), c, d);
+        }
+        return fcc;
+    }
+
+    return L"UNKN";
+}
+
+bool GetVideoFormatNameFromMediaType(const GUID& guid, CString& name) {
+    if (GetMediaTypeFourCC(guid, name)) {
+        if (name == L"HVC1") {
+            name = L"HEVC";
+        } else if (name == L"AVC1") {
+            name = L"H264";
+        } else if (name == L"VP90") {
+            name = L"VP9";
+        } else if (name == L"AV01") {
+            name = L"AV1";
+        }
+        return true;
+    } else if (guid == MEDIASUBTYPE_MPEG1Payload || guid == MEDIASUBTYPE_MPEG1Video) {
+        name = L"MPEG1";
+        return true;
+    } else if (guid == MEDIASUBTYPE_MPEG2_VIDEO) {
+        name = L"MPEG2";
+        return true;
+    } else {
+        name = L"UNKN";
+        ASSERT(false);
+    }
+
+    return false;
 }

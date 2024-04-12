@@ -141,6 +141,8 @@
     <ClCompile Include="CMPCThemeInternalPropertyPageWnd.cpp" />
     <ClCompile Include="CMPCThemeMiniDockFrameWnd.cpp" />
     <ClCompile Include="CMPCThemePropPageButton.cpp" />
+    <ClCompile Include="CMPCThemeResizablePropertyPage.cpp" />
+    <ClCompile Include="CMPCThemeResizablePropertySheet.cpp" />
     <ClCompile Include="CMPCThemeTitleBarControlButton.cpp" />
     <ClCompile Include="CMPCThemeUtil.cpp" />
     <ClCompile Include="CMPCThemeComboBox.cpp" />
@@ -271,6 +273,7 @@
     <ClCompile Include="PPageTheme.cpp" />
     <ClCompile Include="PPageTweaks.cpp" />
     <ClCompile Include="PPageWebServer.cpp" />
+    <ClCompile Include="RarEntrySelectorDialog.cpp" />
     <ClCompile Include="RegFilterChooserDlg.cpp" />
     <ClCompile Include="SaveDlg.cpp" />
     <ClCompile Include="SaveImageDialog.cpp" />
@@ -328,6 +331,8 @@
     <ClInclude Include="CMPCThemeInternalPropertyPageWnd.h" />
     <ClInclude Include="CMPCThemeMiniDockFrameWnd.h" />
     <ClInclude Include="CMPCThemePropPageButton.h" />
+    <ClInclude Include="CMPCThemeResizablePropertyPage.h" />
+    <ClInclude Include="CMPCThemeResizablePropertySheet.h" />
     <ClInclude Include="CMPCThemeTitleBarControlButton.h" />
     <ClInclude Include="CMPCThemeUtil.h" />
     <ClInclude Include="CMPCThemeComboBox.h" />
@@ -465,6 +470,7 @@
     <ClInclude Include="PPageTheme.h" />
     <ClInclude Include="PPageTweaks.h" />
     <ClInclude Include="PPageWebServer.h" />
+    <ClInclude Include="RarEntrySelectorDialog.h" />
     <ClInclude Include="RegFilterChooserDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SaveDlg.h" />

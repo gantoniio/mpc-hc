@@ -115,6 +115,11 @@ BOOL CPlayerPlaylistBar::PreCreateWindow(CREATESTRUCT& cs)
 BOOL CPlayerPlaylistBar::PreTranslateMessage(MSG* pMsg)
 {
     if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
+        if (GetKeyState(VK_MENU) & 0x8000) {
+            if (TranslateAccelerator(m_pMainFrame->GetSafeHwnd(), m_pMainFrame->GetDefaultAccelerator(), pMsg)) {
+                return TRUE;
+            }
+        }
         if (IsDialogMessage(pMsg)) {
             return TRUE;
         }
@@ -941,6 +946,7 @@ bool CPlayerPlaylistBar::PlaylistCanStripPath(CString path)
 
 bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e)
 {
+    CAppSettings& s = AfxGetAppSettings();
     CTextFile f;
     if (!f.Save(fn, e)) {
         return false;
@@ -1034,6 +1040,9 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e)
         }
     }
 
+    if (s.fKeepHistory && s.bRememberExternalPlaylistPos) {
+        s.SavePlayListPosition(fn, GetSelIdx());
+    }
     return true;
 }
 

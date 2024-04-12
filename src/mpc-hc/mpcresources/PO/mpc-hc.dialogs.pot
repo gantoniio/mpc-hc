@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-02-28 17:13:24+0000\n"
+"POT-Creation-Date: 2024-04-03 15:27:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1860,6 +1860,10 @@ msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
 msgstr ""
 
+msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
+msgid "Audio Info"
+msgstr ""
+
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
 msgstr ""
@@ -1892,6 +1896,10 @@ msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
 msgid "Font size:"
 msgstr ""
 
+msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
+msgid "Display Current T&ime"
+msgstr ""
+
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
 msgstr ""
@@ -1918,4 +1926,16 @@ msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
+msgstr ""
+
+msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
+msgid "Select Media from RAR"
+msgstr ""
+
+msgctxt "IDD_RAR_ENTRY_SELECTOR_IDOK"
+msgid "Select"
+msgstr ""
+
+msgctxt "IDD_RAR_ENTRY_SELECTOR_IDCANCEL"
+msgid "Cancel"
 msgstr ""

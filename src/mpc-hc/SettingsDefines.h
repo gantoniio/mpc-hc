@@ -51,6 +51,7 @@
 #define IDS_RS_LASTFULLSCREEN               _T("LastFullScreen")
 #define IDS_RS_EVR_BUFFERS                  _T("EVRBuffers")
 #define IDS_RS_SHOWOSD                      _T("ShowOSD")
+#define IDS_RS_SHOW_CURRENT_TIME_OSD        _T("ShowCurrentTimeInOSD")
 #define IDS_RS_LANGUAGE                     _T("InterfaceLanguage")
 #define IDS_RS_GLOBALMEDIA                  _T("UseGlobalMedia")
 #define IDS_RS_DXVAFILTERS                  _T("DXVAFilters")
@@ -96,6 +97,7 @@
 #define IDS_RS_SHOW_LANG_STATUSBAR          _T("ShowLangInStatusbar")
 #define IDS_RS_SHOW_FPS_STATUSBAR           _T("ShowFPSInStatusbar")
 #define IDS_RS_SHOW_VIDEOINFO_STATUSBAR     _T("ShowVideoInfoInStatusbar")
+#define IDS_RS_SHOW_AUDIOFORMAT_STATUSBAR   _T("ShowAudioFormatInStatusbar")
 #define IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES _T("AddLanguageCodeWhenSaveSubtitles")
 #define IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST    _T("UseTitleInRecentFileList")
 #define IDS_RS_YDL_SUBS_PREFERENCE          _T("YDLSubsPreference")
@@ -342,6 +344,7 @@
 #define IDS_R_DLG_ORGANIZE_FAV              _T("Dialogs\\OrganizeFavorites")
 
 #define IDS_R_DLG_CMD_LINE_HELP             _T("Dialogs\\CmdLineHelp")
+#define IDS_R_DLG_RAR_ENTRY_SELECTOR        _T("Dialogs\\RarEntrySelector")
 
 #define IDS_R_SHADERS                       _T("Shaders")
 #define IDS_RS_SHADERS_EXTRA                _T("Extra")

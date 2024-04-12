@@ -428,10 +428,10 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
         return E_NOINTERFACE;
     }
 
-    if (pFGF->GetCLSID() == __uuidof(CRARFileSource) && m_bIsPreview && m_entryRFS.GetLength() > 0) {
+    if (pFGF->GetCLSID() == __uuidof(CRARFileSource) && m_entryRFS.GetLength() > 0) {
         CComPtr<CRARFileSource> rfs = static_cast<CRARFileSource*>(pBF.p);
-        std::wstring previewFileEntry(m_entryRFS.GetBuffer());
-        rfs->SetPreviewFile(previewFileEntry);
+        std::wstring preselectedRarFileEntry(m_entryRFS.GetBuffer());
+        rfs->SetPreselectedRarFileEntry(preselectedRarFileEntry);
     }
 
     if (FAILED(hr = AddFilter(pBF, lpcwstrFilterName))) {
@@ -999,9 +999,7 @@ STDMETHODIMP CFGManager::Render(IPin* pPinOut)
 }
 
 HRESULT CFGManager::RenderRFSFileEntry(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList, CStringW entryRFS){
-    if (m_bIsPreview) {
-        this->m_entryRFS = entryRFS;
-    }
+    this->m_entryRFS = entryRFS;
     return RenderFile(lpcwstrFileName, lpcwstrPlayList);
 }
 
@@ -2017,6 +2015,11 @@ void CFGManagerCustom::InsertLAVVideo(bool IsPreview)
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HVC1);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HEVC);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HM10);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H265);
+#endif
+#if INTERNAL_DECODER_VVC
+    pFGF = IsPreview || tra[TRA_VVC] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VVC1);
 #endif
 #if INTERNAL_DECODER_AV1
     pFGF = IsPreview || tra[TRA_AV1] ? pFGLAVVideo : pFGLAVVideoLM;
@@ -2529,19 +2532,6 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
-        case CAppSettings::SubtitleRenderer::ASS_FILTER:
-            pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
-            if (pFGF) {
-                pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
-                m_override.AddTail(pFGF);
-            }
-            if (s.fBlockVSFilter) {
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
-            }
-            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
-            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
-            break;
         case CAppSettings::SubtitleRenderer::NONE:
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
@@ -2721,9 +2711,6 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoMixingRenderer9,  MERIT64(0x200003)));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_EnhancedVideoRenderer, MERIT64(0x200002)));
                 break;
-            case VIDRNDT_DS_OLDRENDERER:
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRenderer, renderer_merit));
-                break;
             case VIDRNDT_DS_OVERLAYMIXER:
                 m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, StrRes(IDS_PPAGE_OUTPUT_OVERLAYMIXER), renderer_merit));
                 break;
@@ -2881,11 +2868,6 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPr
     : CFGManagerPlayer(pName, pUnk, hWnd, IsPreview)
 {
     const CAppSettings& s = AfxGetAppSettings();
-
-    // have to avoid the old video renderer
-    if (s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER) {
-        m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), MERIT64(0x800001) + 0x101));
-    }
 
     // elecard's decoder isn't suited for dvd playback (atm)
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{F50B3F13-19C4-11CF-AA9A-02608C9BABA2}")), MERIT64_DO_NOT_USE));
