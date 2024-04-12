@@ -3175,7 +3175,7 @@ msgstr "Dopasowanie obrazu do wewnątrz"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "Zoom 1"
+msgstr "Powiększenie 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
