@@ -236,7 +236,3 @@ class TranslationData:
                     dataPair[0][dataID] = dataPair[1][dataID]
                 elif dataID in migrations and migrations[dataID] in translationData.dialogs:
                     dataPair[0][dataID] = translationData.dialogs[migrations[dataID]]
-
-
-
-
