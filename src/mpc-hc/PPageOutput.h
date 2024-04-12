@@ -29,6 +29,17 @@
 
 // CPPageOutput dialog
 
+enum VideoFeatureSupport {
+    VIDRND_DXVA_SUPPORT = 0,
+    VIDRND_SAVEIMAGE_SUPPORT,
+    VIDRND_SHADER_SUPPORT,
+    VIDRND_ROTATION_SUPPORT,
+    VIDRND_HDR_SUPPORT,
+    VIDRND_COUNT
+};
+
+typedef std::unordered_map<int, std::set<int>> featureSupportMap;
+
 class CPPageOutput : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageOutput)
@@ -36,8 +47,6 @@ class CPPageOutput : public CMPCThemePPageBase
 private:
     CStringArray m_AudioRendererDisplayNames;
     CStringArray m_D3D9GUIDNames;
-    CImageList m_tickcross;
-    HICON m_tick, m_cross;
 
     CMPCThemeComboBox m_iDSVideoRendererTypeCtrl;
     CMPCThemeComboBox m_iAudioRendererTypeCtrl;
@@ -46,12 +55,6 @@ private:
     CMPCThemeComboBox m_APSurfaceUsageCtrl;
     CMPCThemeComboBox m_DX9ResizerCtrl;
     CMPCThemeComboBox m_EVRBuffersCtrl;
-
-    CStatic m_iDSDXVASupport;
-    CStatic m_iDSSubtitleSupport;
-    CStatic m_iDSSaveImageSupport;
-    CStatic m_iDSShaderSupport;
-    CStatic m_iDSRotationSupport;
 
     void UpdateSubtitleSupport();
 
@@ -69,6 +72,7 @@ public:
     int m_iAPSurfaceUsage;
     int m_iAudioRendererType;
     int m_iMPCAudioRendererType;
+    int m_iSaneAudioRendererType;
     CAppSettings::SubtitleRenderer m_lastSubrenderer;
     int m_iDX9Resizer;
     BOOL m_fVMR9MixerMode;
@@ -77,10 +81,15 @@ public:
     BOOL m_fResetDevice;
     BOOL m_fCacheShaders;
     CString m_iEvrBuffers;
+    static featureSupportMap videoFeaturesSupported;
+    std::set<int> supportedVideoFeatures;
+    bool subtitlesSupported;
+    void SetFeatureTooltips();
 
     BOOL m_fD3D9RenderDevice;
     int m_iD3D9RenderDevice;
     const CString& GetAudioRendererDisplayName();
+    CStringW m_vidUnsupportedStr, m_audioUnsupportedStr;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
