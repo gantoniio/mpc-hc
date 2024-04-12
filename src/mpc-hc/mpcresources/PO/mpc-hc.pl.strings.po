@@ -3673,7 +3673,7 @@ msgstr "Zoom: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Zoom: Autom."
+msgstr "Powiększenie: automavtyczny"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
