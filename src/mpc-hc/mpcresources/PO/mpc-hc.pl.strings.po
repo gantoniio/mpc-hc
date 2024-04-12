@@ -2170,7 +2170,7 @@ msgstr "Dopasowanie automatyczne"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Dopasowanie automatyczne zoomu (tylko większe)"
+msgstr "Dopasowanie automatyczne powiększenia (tylko większe)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
