@@ -1726,7 +1726,7 @@ void CMainFrame::OnSizingFixWndToVideo(UINT nSide, LPRECT lpRect, bool bCtrl)
     }
 }
 
-void CMainFrame::OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl /*= false*/, bool zooming /*= false*/)
+void CMainFrame::OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl /*= false*/)
 {
     const auto& s = AfxGetAppSettings();
     if (!s.fSnapToDesktopEdges)
@@ -1745,11 +1745,6 @@ void CMainFrame::OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl /*= 
 
     CSize videoSize = GetVideoSize();
     if (bCtrl == s.fLimitWindowProportions || videoSize.cx == 0 || videoSize.cy == 0) {
-        if (rect.Height() < areaRect.Height() && zooming) {
-            if (rect.bottom > areaRect.bottom) {
-                rect.top -= (rect.bottom - areaRect.bottom);
-            }
-        }
         SnapTo(rect.left, areaRect.left, threshold.cx);
         SnapTo(rect.top, areaRect.top, threshold.cy);
         SnapTo(rect.right, areaRect.right, threshold.cx);
@@ -7834,35 +7829,25 @@ void CMainFrame::OnViewZoomAutoFitLarger()
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
-void CMainFrame::OnViewModifySize(UINT nID)
-{
+void CMainFrame::OnViewModifySize(UINT nID) {
     if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic()) {
         return;
     }
 
+    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
+    double videoRatio = double(videoSize.cy) / double(videoSize.cx);
+
+    CRect videoRect;
+    m_pVideoWnd->GetWindowRect(&videoRect);
+    LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
+    LONG newHeight = (LONG)ceil(newWidth * videoRatio);
+
     CRect rect;
     GetWindowRect(&rect);
 
-    CRect rectOrig = rect;
-    double ratio = double(rect.Width()) / rect.Height();
-    int step = 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
+    CSize cs = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
 
-    rect.right += step;
-    rect.bottom = ceil(rect.top + rect.Width() / ratio);
-    OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
-    rect = GetZoomWindowRect(rect.Size(), true);
-    OnSizingSnapToScreen(WMSZ_RIGHT, &rect, false, true);
-
-    /*
-    if ((nID == ID_VIEW_ZOOM_ADD || nID == ID_VIEW_ZOOM_SUB) && rect.Width() <= rectOrig.Width())
-    {
-        rect.right += step;
-        rect.bottom = ceil(rect.top + rect.Width() / ratio);
-        OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
-    }
-    */
-
-    MoveWindow(&rect);
+    MoveWindow(GetZoomWindowRect(cs, true));
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
