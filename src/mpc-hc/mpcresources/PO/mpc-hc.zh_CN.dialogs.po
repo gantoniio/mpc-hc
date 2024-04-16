@@ -1851,7 +1851,7 @@ msgstr "悬停显示类型: "
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
-msgstr "预览图宽度（画面百分占比）"
+msgstr "预览图宽度 (画面百分占比)"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
