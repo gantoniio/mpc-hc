@@ -1935,7 +1935,7 @@ msgstr "通过 Windows UI 来控制 (SMTC)"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"
-msgstr "在 RAR 中选择媒体"
+msgstr "在 RAR 中选取媒体"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDOK"
 msgid "Select"
