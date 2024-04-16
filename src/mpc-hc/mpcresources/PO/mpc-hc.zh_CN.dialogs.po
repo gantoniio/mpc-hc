@@ -1723,7 +1723,7 @@ msgstr "独占模式"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
-msgstr "忽略系统混音器（专有的WASAPI模式下将一直忽略）"
+msgstr "忽略系统混音器 (专有的WASAPI模式下将一直忽略)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
