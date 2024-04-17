@@ -7849,7 +7849,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
 
     CRect newRect;
     CRect work;
-    //if old rect was constrained to a single monitor, so we zoom incrementally
+    //if old rect was constrained to a single monitor, we zoom incrementally
     if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight())) {
         newRect = GetZoomWindowRect(cs, true);
     } else {
