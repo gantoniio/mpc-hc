@@ -985,7 +985,7 @@ msgstr "Yazı tipi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Spacing"
-msgstr "Aralık mesafesi"
+msgstr "Aralık"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
