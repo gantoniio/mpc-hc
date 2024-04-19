@@ -1253,7 +1253,7 @@ msgstr "Göz at..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "Çıkart..."
+msgstr "Konuşlandır..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
