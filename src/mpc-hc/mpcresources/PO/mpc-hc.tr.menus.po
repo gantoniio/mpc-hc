@@ -409,7 +409,7 @@ msgstr "&En boy oranı"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr "&Varsayılan (DAR)"
+msgstr "&Olağan (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
