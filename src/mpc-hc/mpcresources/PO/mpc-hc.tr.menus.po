@@ -513,7 +513,7 @@ msgstr "&Üstte kal"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "&Varsayılan"
+msgstr "&Olağan"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
