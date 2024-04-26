@@ -1385,7 +1385,7 @@ msgstr "Kaydet"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
-msgstr "Kuv."
+msgstr "Güç"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
