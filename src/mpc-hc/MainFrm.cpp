@@ -1691,15 +1691,25 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
 {
     __super::OnSizing(nSide, lpRect);
 
-    const auto& s = AfxGetAppSettings();
-    bool bCtrl = GetKeyState(VK_CONTROL) < 0;
-
-    if (GetLoadState() != MLS::LOADED || m_fFullScreen ||
-            s.iDefaultVideoSize == DVS_STRETCH || !bCtrl == !s.fLimitWindowProportions || IsAeroSnapped()) {
+    if (m_fFullScreen) {
         return;
     }
 
-    CSize videoSize = GetVideoSize();
+    bool bCtrl = GetKeyState(VK_CONTROL) < 0;
+    OnSizingFixWndToVideo(nSide, lpRect, bCtrl);
+    OnSizingSnapToScreen(nSide, lpRect, bCtrl);
+}
+
+void CMainFrame::OnSizingFixWndToVideo(UINT nSide, LPRECT lpRect, bool bCtrl)
+{
+    const auto& s = AfxGetAppSettings();
+
+    if (GetLoadState() != MLS::LOADED || s.iDefaultVideoSize == DVS_STRETCH ||
+        bCtrl == s.fLimitWindowProportions || IsAeroSnapped()) {
+        return;
+    }
+
+    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
     if (videoSize.cx == 0 || videoSize.cy == 0) {
         return;
     }
@@ -1770,6 +1780,104 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
             break;
     }
     OSDBarSetPos();
+}
+
+void CMainFrame::OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl /*= false*/)
+{
+    const auto& s = AfxGetAppSettings();
+    if (!s.fSnapToDesktopEdges)
+        return;
+
+    CRect areaRect;
+    CMonitors::GetNearestMonitor(this).GetWorkAreaRect(areaRect);
+    const CRect invisibleBorderSize = GetInvisibleBorderSize();
+    areaRect.InflateRect(invisibleBorderSize);
+
+    CRect& rect = *reinterpret_cast<CRect*>(lpRect);
+    const CSize threshold(m_dpi.ScaleX(16), m_dpi.ScaleY(16));
+    const auto SnapTo = [](LONG& val, LONG to, LONG threshold) {
+        return (std::abs(val - to) < threshold && val != to) ? (val = to, true) : false;
+    };
+
+    CSize videoSize = GetVideoSize();
+    if (bCtrl == s.fLimitWindowProportions || videoSize.cx == 0 || videoSize.cy == 0) {
+        SnapTo(rect.left, areaRect.left, threshold.cx);
+        SnapTo(rect.top, areaRect.top, threshold.cy);
+        SnapTo(rect.right, areaRect.right, threshold.cx);
+        SnapTo(rect.bottom, areaRect.bottom, threshold.cy);
+        return;
+    }
+
+    const CRect rectOrig(rect);
+    switch (nSide) {
+        case WMSZ_TOPLEFT:
+            if (SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                if (rect.top < areaRect.top && SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                    rect.OffsetRect(rectOrig.right - rect.right, 0);
+                }
+            } else if (SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                rect.OffsetRect(rectOrig.right - rect.right, 0);
+                if (rect.left < areaRect.left && SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                    rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                }
+            }
+            break;
+        case WMSZ_TOP:
+        case WMSZ_TOPRIGHT:
+            if (SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                if (rect.top < areaRect.top && SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                    rect.OffsetRect(rectOrig.left - rect.left, 0);
+                }
+            }
+            else if (SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                rect.OffsetRect(rectOrig.left - rect.left, 0);
+                if (areaRect.right < rect.right && SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                    rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                }
+            }
+            break;
+        case WMSZ_RIGHT:
+        case WMSZ_BOTTOM:
+        case WMSZ_BOTTOMRIGHT:
+            if (SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                if (areaRect.bottom < rect.bottom && SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                }
+            } else if (SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                if (areaRect.right < rect.right && SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                }
+            }
+            break;
+        case WMSZ_LEFT:
+        case WMSZ_BOTTOMLEFT:
+            if (SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                if (areaRect.bottom < rect.bottom && SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                    rect.OffsetRect(rectOrig.right - rect.right, 0);
+                }
+            } else if (SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                rect.OffsetRect(rectOrig.right - rect.right, 0);
+                if (rect.left < areaRect.left && SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                }
+            }
+            break;
+    }
 }
 
 void CMainFrame::OnExitSizeMove()
@@ -2231,13 +2339,13 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                     for (int i = 0, j = m_pBI->GetCount(); i < j; i++) {
                         int samples, size;
-                        if (S_OK == m_pBI->GetStatus(i, samples, size)) {
-                            sInfo.AppendFormat(_T("[%d]: %03d/%d KB "), i, samples, size / 1024);
+                        if (S_OK == m_pBI->GetStatus(i, samples, size) && (i < 2 || size > 0)) { // third pin is usually subs 
+                            sInfo.AppendFormat(_T("[P%d] %03d samples / %d KB   "), i, samples, size / 1024);
                         }
                     }
 
                     if (!sInfo.IsEmpty()) {
-                        sInfo.AppendFormat(_T("(p%lu)"), m_pBI->GetPriority());
+                        //sInfo.AppendFormat(_T("(p%lu)"), m_pBI->GetPriority());
                         m_wndStatsBar.SetLine(StrRes(IDS_AG_BUFFERS), sInfo);
                     }
                 }
@@ -2252,7 +2360,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                 DWORD nAvg = pBRI->GetAverageBitRate() / 1000;
 
                                 if (nAvg > 0) {
-                                    sInfo.AppendFormat(_T("[%u]: %lu/%lu kb/s "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
+                                    sInfo.AppendFormat(_T("[P%u] %lu/%lu kb/s   "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
                                 }
                             }
                             i++;
@@ -7778,26 +7886,64 @@ void CMainFrame::OnViewZoomAutoFitLarger()
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
-void CMainFrame::OnViewModifySize(UINT nID)
-{
+void CMainFrame::OnViewModifySize(UINT nID) {
     if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic()) {
         return;
     }
+    const CAppSettings& s = AfxGetAppSettings();
+    MINMAXINFO mmi;
+    CSize videoSize = GetVideoOrArtSize(mmi);
+    int minWidth = (int)mmi.ptMinTrackSize.x;
 
-    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
+    int mult = (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
+
     double videoRatio = double(videoSize.cy) / double(videoSize.cx);
 
-    CRect videoRect;
+    CRect videoRect, workRect;
     m_pVideoWnd->GetWindowRect(&videoRect);
-    LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
-    LONG newHeight = (LONG)ceil(newWidth * videoRatio);
+    double videoRectRatio = double(videoRect.Height()) / double(videoRect.Width());
+
+    GetWorkAreaRect(workRect);
+
+    int newWidth = videoRect.Width();
+    int newHeight = videoRect.Height();
+    if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) { //wider than aspect ratio, so use height instead
+        int growPixels = int(.01f * workRect.Height());
+        newHeight = videoRect.Height() + growPixels * mult;
+        double newRatio = double(newHeight) / double(videoRect.Width());
+        if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio-videoRatio) != SGN(videoRectRatio-videoRatio)) {
+            newWidth = std::max(int(ceil(newHeight / videoRatio)), minWidth);
+            if (mult == 1) {
+                newWidth = std::max(newWidth, videoRect.Width());
+            }
+        }
+    } else {
+        int growPixels = int(.01f * workRect.Width());
+        newWidth = std::max(videoRect.Width() + growPixels * mult, minWidth);
+        double newRatio = double(videoRect.Height()) / double(newWidth);
+        if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
+            newHeight = int(ceil(newWidth * videoRatio));
+            if (mult == 1) {
+                newHeight = std::max(newHeight, videoRect.Height());
+            }
+        }
+    }
 
     CRect rect;
     GetWindowRect(&rect);
 
     CSize cs = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
 
-    MoveWindow(GetZoomWindowRect(cs));
+    CRect newRect;
+    CRect work;
+    //if old rect was constrained to a single monitor, we zoom incrementally
+    if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight())) {
+        newRect = GetZoomWindowRect(cs, true);
+    } else {
+        newRect = CRect(rect.TopLeft(), cs);
+    }
+
+    MoveWindow(newRect);
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -11623,14 +11769,16 @@ bool CMainFrame::GetCurDispMode(const CString& displayName, DisplayMode& dm)
 
 bool CMainFrame::GetDispMode(CString displayName, int i, DisplayMode& dm)
 {
-    DEVMODE devmode;
-    devmode.dmSize = sizeof(DEVMODE);
     if (displayName == _T("Current") || displayName.IsEmpty()) {
         CMonitor monitor = CMonitors::GetNearestMonitor(AfxGetApp()->m_pMainWnd);
         monitor.GetName(displayName);
     }
 
-    dm.bValid = !!EnumDisplaySettings(displayName, i, &devmode);
+    DEVMODE devmode;
+    devmode.dmSize = sizeof(DEVMODE);
+    devmode.dmDriverExtra = 0;
+
+    dm.bValid = !!EnumDisplaySettingsExW(displayName, i, &devmode, EDS_RAWMODE);
 
     if (dm.bValid) {
         dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
@@ -12011,6 +12159,32 @@ void CMainFrame::HideVideoWindow(bool fHide)
     m_bLockedZoomVideoWindow = fHide;
 }
 
+CSize CMainFrame::GetVideoOrArtSize(MINMAXINFO& mmi)
+{
+    const auto& s = AfxGetAppSettings();
+    CSize videoSize;
+    OnGetMinMaxInfo(&mmi);
+
+    if (m_fAudioOnly) {
+        videoSize = m_wndView.GetLogoSize();
+
+        if (videoSize.cx > videoSize.cy) {
+            if (videoSize.cx > s.nCoverArtSizeLimit) {
+                videoSize.cy = MulDiv(videoSize.cy, s.nCoverArtSizeLimit, videoSize.cx);
+                videoSize.cx = s.nCoverArtSizeLimit;
+            }
+        } else {
+            if (videoSize.cy > s.nCoverArtSizeLimit) {
+                videoSize.cx = MulDiv(videoSize.cx, s.nCoverArtSizeLimit, videoSize.cy);
+                videoSize.cy = s.nCoverArtSizeLimit;
+            }
+        }
+    } else {
+        videoSize = GetVideoSize();
+    }
+    return videoSize;
+}
+
 CSize CMainFrame::GetZoomWindowSize(double dScale)
 {
     const auto& s = AfxGetAppSettings();
@@ -12018,34 +12192,14 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
 
     if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
         MINMAXINFO mmi;
-        OnGetMinMaxInfo(&mmi);
-        CSize videoSize;
-
-        if (m_fAudioOnly) {
-            videoSize = m_wndView.GetLogoSize();
-
-            if (videoSize.cx > videoSize.cy) {
-                if (videoSize.cx > s.nCoverArtSizeLimit) {
-                    videoSize.cy = MulDiv(videoSize.cy, s.nCoverArtSizeLimit, videoSize.cx);
-                    videoSize.cx = s.nCoverArtSizeLimit;
-                }
-            } else {
-                if (videoSize.cy > s.nCoverArtSizeLimit) {
-                    videoSize.cx = MulDiv(videoSize.cx, s.nCoverArtSizeLimit, videoSize.cy);
-                    videoSize.cy = s.nCoverArtSizeLimit;
-                }
-            }
-
-            if (videoSize.cx <= 1 || videoSize.cy <= 1) {
-                // Do not adjust window width if blank logo is used (1x1px) or cover-art size is limited
-                // to avoid shrinking window width too much and give ability to revert pre 94dc87c behavior
-                videoSize.SetSize(0, 0);
-                CRect windowRect;
-                GetWindowRect(windowRect);
-                mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
-            }
-        } else {
-            videoSize = GetVideoSize();
+        CSize videoSize = GetVideoOrArtSize(mmi);
+        if (videoSize.cx <= 1 || videoSize.cy <= 1) {
+            // Do not adjust window width if blank logo is used (1x1px) or cover-art size is limited
+            // to avoid shrinking window width too much and give ability to revert pre 94dc87c behavior
+            videoSize.SetSize(0, 0);
+            CRect windowRect;
+            GetWindowRect(windowRect);
+            mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
         }
 
         CSize videoTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
@@ -12113,21 +12267,28 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
     return ret;
 }
 
-CRect CMainFrame::GetZoomWindowRect(const CSize& size)
+bool CMainFrame::GetWorkAreaRect(CRect& work) {
+    MONITORINFO mi = { sizeof(mi) };
+    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        work = mi.rcWork;
+        // account for invisible borders on Windows 10 by allowing
+        // the window to go out of screen a bit
+        if (IsWindows10OrGreater()) {
+            work.InflateRect(GetInvisibleBorderSize());
+        }
+        return true;
+    }
+    return false;
+}
+
+CRect CMainFrame::GetZoomWindowRect(const CSize& size, bool ignoreSavedPosition /*= false*/)
 {
     const auto& s = AfxGetAppSettings();
     CRect ret;
     GetWindowRect(ret);
 
-    MONITORINFO mi = { sizeof(mi) };
-    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
-        CRect rcWork = mi.rcWork;
-        // account for invisible borders on Windows 10 by allowing
-        // the window to go out of screen a bit
-        if (IsWindows10OrGreater()) {
-            rcWork.InflateRect(GetInvisibleBorderSize());
-        }
-
+    CRect rcWork;
+    if (GetWorkAreaRect(rcWork)) {
         CSize windowSize(size);
 
         // don't go larger than the current monitor working area
@@ -12140,14 +12301,14 @@ CRect CMainFrame::GetZoomWindowRect(const CSize& size)
             // do nothing
         } else if (m_bWasSnapped && ret.right == rcWork.right) {
             ret.left = ret.right - windowSize.cx;
-        } else if (!s.fRememberWindowPos) {
+        } else if (!s.fRememberWindowPos || ignoreSavedPosition) {
             ret.left += (ret.right - ret.left) / 2 - windowSize.cx / 2;
         }
         if (m_bWasSnapped && ret.top == rcWork.top) {
             // do nothing
         } else if (m_bWasSnapped && ret.bottom == rcWork.bottom) {
             ret.top = ret.bottom - windowSize.cy;
-        } else if (!s.fRememberWindowPos) {
+        } else if (!s.fRememberWindowPos || ignoreSavedPosition) {
             ret.top += (ret.bottom - ret.top) / 2 - windowSize.cy / 2;
         }
 
@@ -12211,7 +12372,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
             ASSERT(FALSE);
             return;
         }
-        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale)));
+        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale), true));
     }
 }
 
@@ -19148,6 +19309,14 @@ afx_msg void CMainFrame::OnSubtitleFontSize(UINT nID)
             }
 
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pCurrentSubInput.pSubStream;
+
+            if (pRTS->m_LibassContext.IsLibassActive()) {
+                // not supported by libass (yet)
+                if (!IsFullScreenMode()) {
+                    AfxMessageBox(_T("Adjusting subtitle text size is not possible when using libass."), MB_ICONERROR, 0);
+                }
+            }
+
             {
                 CAutoLock cAutoLock(&m_csSubLock);
                 pRTS->Deinit();
@@ -19156,6 +19325,10 @@ afx_msg void CMainFrame::OnSubtitleFontSize(UINT nID)
 
             if (GetMediaState() != State_Running) {
                 m_pCAP->Paint(false);
+            }
+        } else {
+            if (!IsFullScreenMode()) {
+                AfxMessageBox(_T("Adjusting subtitle text size is not possible for image based subtitle formats."), MB_ICONERROR, 0);
             }
         }
     }

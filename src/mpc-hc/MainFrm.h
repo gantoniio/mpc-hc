@@ -360,8 +360,10 @@ private:
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
     CRect GetInvisibleBorderSize() const;
+    CSize GetVideoOrArtSize(MINMAXINFO& mmi);
     CSize GetZoomWindowSize(double dScale);
-    CRect GetZoomWindowRect(const CSize& size);
+    bool GetWorkAreaRect(CRect& work);
+    CRect GetZoomWindowRect(const CSize& size, bool ignoreSavedPosition = false);
     void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale();
 
@@ -1308,6 +1310,9 @@ protected:
     static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);
 
     void SubtitlesSave(const TCHAR* directory = nullptr, bool silent = false);
+
+    void OnSizingFixWndToVideo(UINT nSide, LPRECT lpRect, bool bCtrl = false);
+    void OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl = false);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
