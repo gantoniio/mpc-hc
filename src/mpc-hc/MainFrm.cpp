@@ -11699,10 +11699,10 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
         pD3DFS->GetD3DFullscreen(&bIsFullscreen);
         s.fLastFullScreen = !bIsFullscreen;
 
+        m_OSD.Stop();
+
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
-            m_OSD.EnableShowSeekBar(false);
-            m_OSD.EnableShowMessage(false);
             pD3DFS->SetD3DFullscreen(false);
 
             // Assign the windowed video frame and pass it to the relevant classes.
@@ -11727,10 +11727,10 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             }
 
             MoveVideoWindow();
-            m_OSD.EnableShowMessage(true);
+            if (s.fShowOSD) {
+                m_OSD.Start(m_pOSDWnd);
+            }
         } else {
-            m_OSD.EnableShowMessage(false);
-
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
                 AutoChangeMonitorMode();
@@ -11753,9 +11753,13 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             MoveVideoWindow();
 
             // Turn on D3D Fullscreen
-            m_OSD.EnableShowSeekBar(true);
-            m_OSD.EnableShowMessage(true);
             pD3DFS->SetD3DFullscreen(true);
+
+            if (s.fShowOSD || s.fShowDebugInfo) {
+                if (m_pMFVMB) {
+                    m_OSD.Start(m_pVideoWnd, m_pMFVMB, true);
+                }
+            }
 
             m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
         }
@@ -14960,6 +14964,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     m_pVMRWC = nullptr;
     m_pVMRMC = nullptr;
     m_pMFVDC = nullptr;
+    m_pMFVMB = nullptr;
     m_pMFVP = nullptr;
     m_pMVRC = nullptr;
     m_pMVRI = nullptr;
@@ -15022,7 +15027,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         CComPtr<IVMRMixerBitmap9>    pVMB   = nullptr;
-        CComPtr<IMFVideoMixerBitmap> pMFVMB = nullptr;
         CComPtr<IMadVRTextOsd>       pMVTO  = nullptr;
 
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
@@ -15031,7 +15035,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
-        m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVMB), TRUE);
 
         m_pMVRC = m_pCAP;
         m_pMVRI = m_pCAP;
@@ -15044,8 +15048,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             m_OSD.Stop();
 
             if (IsD3DFullScreenMode() && !m_fAudioOnly) {
-                if (pMFVMB) {
-                    m_OSD.Start(m_pVideoWnd, pMFVMB, true);
+                if (m_pMFVMB) {
+                    m_OSD.Start(m_pVideoWnd, m_pMFVMB, true);
                 }
             } else {
                 if (pMVTO) {
@@ -15338,6 +15342,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pCAP.Release();
     m_pVMRWC.Release();
     m_pVMRMC.Release();
+    m_pMFVMB.Release();
     m_pMFVP.Release();
     m_pMFVDC.Release();
     m_pLN21.Release();
@@ -18092,7 +18097,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
         if (fVidPrev) {
             CComPtr<IVMRMixerBitmap9>    pVMB;
-            CComPtr<IMFVideoMixerBitmap> pMFVMB;
             CComPtr<IMadVRTextOsd>       pMVTO;
 
             m_pMVRS.Release();
@@ -18105,6 +18109,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pCAP.Release();
             m_pVMRWC.Release();
             m_pVMRMC.Release();
+            m_pMFVMB.Release();
             m_pMFVP.Release();
             m_pMFVDC.Release();
             m_pQP.Release();
@@ -18117,7 +18122,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
-            m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVMB), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
             pMVTO = m_pCAP;
@@ -18138,8 +18143,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
                 m_OSD.Stop();
 
                 if (IsD3DFullScreenMode() && !m_fAudioOnly) {
-                    if (pMFVMB) {
-                        m_OSD.Start(m_pVideoWnd, pMFVMB, true);
+                    if (m_pMFVMB) {
+                        m_OSD.Start(m_pVideoWnd, m_pMFVMB, true);
                     }
                 } else {
                     if (pMVTO) {
@@ -20284,7 +20289,7 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
 
 HRESULT CMainFrame::UpdateThumbnailClip()
 {
-    if (!m_pTaskbarList || !m_hWnd) {
+    if (!m_pTaskbarList || !m_hWnd || !m_wndView.m_hWnd) {
         return E_FAIL;
     }
 
