@@ -375,8 +375,6 @@ void COSD::DrawRect(CRect& rect, CBrush* pBrush, CPen* pPen)
 
 void COSD::DrawSeekbar()
 {
-    m_MemDC.FillSolidRect(m_rectWnd, COLORREF(RGB(255, 0, 0)));
-    return;
     m_rectCursor.left = m_rectSlider.left;
     if (m_llSeekStop > 0) {
         m_rectCursor.left += (long)((m_rectSlider.Width() - SliderCursorWidth) * m_llSeekPos / m_llSeekStop);
