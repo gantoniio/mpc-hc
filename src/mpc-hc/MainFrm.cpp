@@ -11688,8 +11688,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
     CComQIPtr<ID3DFullscreenControl> pD3DFS;
     if (m_pMFVDC) {
         pD3DFS = m_pMFVDC;
-    } else {
-        pD3DFS = m_pVMRWC;
     }
 
     if (pD3DFS) {
