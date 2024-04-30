@@ -11726,10 +11726,11 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
                 m_fFirstFSAfterLaunchOnFS = false;
             }
 
-            MoveVideoWindow();
             if (s.fShowOSD) {
                 m_OSD.Start(m_pOSDWnd);
             }
+            MoveVideoWindow();
+            RecalcLayout();
         } else {
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
