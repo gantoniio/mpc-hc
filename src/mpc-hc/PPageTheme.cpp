@@ -44,6 +44,7 @@ CPPageTheme::CPPageTheme()
     , m_fShowChapters(TRUE)
     , m_iSeekPreviewSize(15)
     , m_fShowOSD(FALSE)
+    , m_fShowCurrentTimeInOSD(FALSE)
     , m_bShowVideoInfoInStatusbar(FALSE)
     , m_bShowAudioFormatInStatusbar(FALSE)
     , m_bShowLangInStatusbar(FALSE)
@@ -96,6 +97,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
 
     DDX_Control(pDX, IDC_COMBO3, m_HoverPosition);
     DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
+    DDX_Check(pDX, IDC_CHECK13, m_fShowCurrentTimeInOSD);
     DDX_Check(pDX, IDC_CHECK4, m_bShowVideoInfoInStatusbar);
     DDX_Check(pDX, IDC_CHECK12, m_bShowAudioFormatInStatusbar);
     DDX_Check(pDX, IDC_CHECK3, m_bShowLangInStatusbar);
@@ -170,6 +172,7 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
     m_HoverPosition.SetCurSel(s.nHoverPosition);
+    AdjustDynamicWidth(this, IDC_CHECK8, IDC_COMBO3, DynamicAlignCheckBox, DynamicAlignCombo);
     CorrectComboListWidth(m_HoverPosition);
 
     m_nOSDSize = s.nOSDSize;
@@ -221,6 +224,7 @@ BOOL CPPageTheme::OnInitDialog()
     m_FontSize.SetCurSel(iSel - 10);
 
     m_fShowOSD = s.fShowOSD;
+    m_fShowCurrentTimeInOSD = s.fShowCurrentTimeInOSD;
     m_bShowVideoInfoInStatusbar = s.bShowVideoInfoInStatusbar;
     m_bShowAudioFormatInStatusbar = s.bShowAudioFormatInStatusbar;
     m_bShowLangInStatusbar = s.bShowLangInStatusbar;
@@ -294,7 +298,7 @@ BOOL CPPageTheme::OnApply()
     if (m_iSeekPreviewSize < 5) m_iSeekPreviewSize = 5;
     if (m_iSeekPreviewSize > 40) m_iSeekPreviewSize = 40;
     CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-    if (s.iSeekPreviewSize != m_iSeekPreviewSize) {
+    if (pFrame && s.iSeekPreviewSize != m_iSeekPreviewSize) {
         s.iSeekPreviewSize = m_iSeekPreviewSize;
         pFrame->m_wndPreView.SetRelativeSize(m_iSeekPreviewSize);
     }
@@ -306,6 +310,7 @@ BOOL CPPageTheme::OnApply()
     }
 
     s.fShowOSD = !!m_fShowOSD;
+    s.fShowCurrentTimeInOSD = !!m_fShowCurrentTimeInOSD;
     s.bShowVideoInfoInStatusbar = !!m_bShowVideoInfoInStatusbar;
     s.bShowAudioFormatInStatusbar = !!m_bShowAudioFormatInStatusbar;
     s.bShowLangInStatusbar = !!m_bShowLangInStatusbar;
@@ -316,10 +321,12 @@ BOOL CPPageTheme::OnApply()
     s.bHideWindowedControls = !!m_bHideWindowedControls;
 
     s.bUseEnhancedTaskBar = !!m_bUseEnhancedTaskBar;
-    if (m_bUseEnhancedTaskBar) {
-        pFrame->CreateThumbnailToolbar();
+    if (pFrame) {
+        if (m_bUseEnhancedTaskBar) {
+            pFrame->CreateThumbnailToolbar();
+        }
+        pFrame->UpdateThumbarButton();
     }
-    pFrame->UpdateThumbarButton();
 
     s.bUseSMTC = !!m_bUseSMTC;
 

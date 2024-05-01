@@ -54,6 +54,8 @@ CAppSettings::CAppSettings()
     , fAllowMultipleInst(false)
     , fTrayIcon(false)
     , fShowOSD(true)
+    , fShowCurrentTimeInOSD(false)
+    , nOSDTransparent(0)
     , fLimitWindowProportions(false)
     , fSnapToDesktopEdges(false)
     , fHideCDROMsSubMenu(false)
@@ -437,6 +439,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_HEVC
     TraFiltersKeys[TRA_HEVC] = FilterKey(_T("TRA_HEVC"), true);
 #endif
+#if INTERNAL_DECODER_VVC
+    TraFiltersKeys[TRA_VVC] = FilterKey(_T("TRA_VVC"), true);
+#endif
 #if INTERNAL_DECODER_AV1
     TraFiltersKeys[TRA_AV1] = FilterKey(_T("TRA_AV1"), true);
 #endif
@@ -716,7 +721,9 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_EDL_IN,                            0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_IN },
     { ID_EDL_OUT,                           0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_OUT },
     { ID_EDL_NEWCLIP,                       0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_NEW_CLIP },
-    { ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE }
+    { ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE },
+
+    { ID_PLAYLIST_TOGGLE_SHUFFLE,           0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLIST_TOGGLE_SHUFFLE },
 };
 
 void CAppSettings::CreateCommands()
@@ -758,8 +765,6 @@ CAppSettings::SubtitleRenderer CAppSettings::GetSubtitleRenderer() const
             return IsSubtitleRendererSupported(SubtitleRenderer::INTERNAL, iDSVideoRendererType) ? eSubtitleRenderer : SubtitleRenderer::VS_FILTER;
         case SubtitleRenderer::XY_SUB_FILTER:
             return IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType) ? eSubtitleRenderer : SubtitleRenderer::VS_FILTER;
-        case SubtitleRenderer::ASS_FILTER:
-            return IsSubtitleRendererSupported(SubtitleRenderer::ASS_FILTER, iDSVideoRendererType) ? eSubtitleRenderer : SubtitleRenderer::VS_FILTER;
         default:
             return eSubtitleRenderer;
     }
@@ -774,8 +779,6 @@ bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRender
             return IsCLSIDRegistered(CLSID_VSFilter);
         case SubtitleRenderer::XY_SUB_FILTER:
             return IsCLSIDRegistered(CLSID_XySubFilter);
-        case SubtitleRenderer::ASS_FILTER:
-            return IsCLSIDRegistered(CLSID_AssFilter);
         case SubtitleRenderer::NONE:
             return true;
         default:
@@ -803,7 +806,6 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
             return true;
 
         case SubtitleRenderer::XY_SUB_FILTER:
-        case SubtitleRenderer::ASS_FILTER:
             switch (videoRenderer) {
                 case VIDRNDT_DS_VMR9RENDERLESS:
                 case VIDRNDT_DS_EVR_CUSTOM:
@@ -1049,6 +1051,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, iSaturation);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, fShowOSD);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CURRENT_TIME_OSD, fShowCurrentTimeInOSD);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, fEnableEDLEditor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, language);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, bFastSeek);
@@ -2014,6 +2017,8 @@ void CAppSettings::LoadSettings()
     iSaturation           = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
+    fShowCurrentTimeInOSD = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CURRENT_TIME_OSD, FALSE);
+
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
     bFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, TRUE);
     eFastSeekMethod       = static_cast<decltype(eFastSeekMethod)>(
@@ -2105,8 +2110,11 @@ void CAppSettings::LoadSettings()
     bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
     bUseLegacyToolbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_LEGACY_TOOLBAR, FALSE);
 
-    eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS,
-                                                      IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
+    eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
+    if (eSubtitleRenderer == SubtitleRenderer::RESERVED) {
+        eSubtitleRenderer = SubtitleRenderer::INTERNAL;
+        bRenderSSAUsingLibass = true;
+    }
 
     nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, 24);
 
@@ -2424,6 +2432,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
     ZeroMemory(&DVDPosition, sizeof(DVDPosition));
     iAdminOption = 0;
     sizeFixedWindow.SetSize(0, 0);
+    fixedWindowPosition = NO_FIXED_POSITION;
     iMonitor = 0;
     strPnSPreset.Empty();
 
@@ -2527,9 +2536,13 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 hMasterWnd = (HWND)IntToPtr(_ttoi(cmdln.GetNext(pos)));
             } else if (sw == _T("fixedsize") && pos) {
                 CAtlList<CString> sl;
-                Explode(cmdln.GetNext(pos), sl, ',', 2);
-                if (sl.GetCount() == 2) {
-                    sizeFixedWindow.SetSize(_ttol(sl.GetHead()), _ttol(sl.GetTail()));
+                // Optional arguments for the main window's position
+                Explode(cmdln.GetNext(pos), sl, ',', 4);
+                if (sl.GetCount() == 4) {
+                    fixedWindowPosition.SetPoint(_ttol(sl.GetAt(sl.FindIndex(2))), _ttol(sl.GetAt(sl.FindIndex(3))) );
+                }
+                if (sl.GetCount() >= 2) {
+                    sizeFixedWindow.SetSize(_ttol(sl.GetAt(sl.FindIndex(0))), _ttol(sl.GetAt(sl.FindIndex(1))) );
                     if (sizeFixedWindow.cx > 0 && sizeFixedWindow.cy > 0) {
                         nCLSwitches |= CLSW_FIXEDSIZE;
                     }
@@ -3436,6 +3449,8 @@ void CAppSettings::CRecentFileListWithMoreInfo::SetSize(size_t nSize) {
         rfe_array.SetCount(m_maxSize);
         PurgeMediaHistory(m_maxSize);
         PurgePlaylistHistory(m_maxSize);
+        // to force update of recent files menu
+        listModifySequence++;
     }
     rfe_array.FreeExtra();
 

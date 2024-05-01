@@ -54,6 +54,8 @@ private:
     CComPtr<IUnknown> m_pUnkInner;
     DWORD m_dwRegister;
 
+    bool m_aborted;
+
     CStreamPath m_streampath;
     CAutoPtrArray<CStreamDeadEnd> m_deadends;
 
@@ -126,7 +128,6 @@ public:
     HRESULT RenderRFSFileEntry(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList, CStringW entryRFS);
     bool PreviewSupportsRotation() { return m_bPreviewSupportsRotation; }
     static CUnknown* WINAPI GetMpcAudioRendererInstance(LPUNKNOWN lpunk, HRESULT* phr);
-    bool HasRarFilter(LPCWSTR lpcwstrFileName);
 
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);

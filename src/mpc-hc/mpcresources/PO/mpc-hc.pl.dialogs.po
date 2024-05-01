@@ -87,7 +87,7 @@ msgstr "Normalizuj"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Maksymalne wzmocnienie:"
+msgstr "Maks. wzmocnienie:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -449,11 +449,11 @@ msgstr "Powiększenie i wyrównanie"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Rozmiar okna:"
+msgstr "Auto-zoom:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Współczynnik dopasowania:"
+msgstr "Współczynnik autom. dopasowania:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
@@ -465,7 +465,7 @@ msgstr "maks %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
-msgstr "Wyrównanie w pionie:"
+msgstr "Wyrównanie pionowe:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
@@ -481,7 +481,7 @@ msgstr "Audio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Zezwól na zmianę ścieżki wybranej przez splitter"
+msgstr "Zezwalaj na nadpisywanie wyboru zewnętrznego splittera"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -489,15 +489,15 @@ msgstr "Opcje otwierania"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Używaj osobnego wątku programu do utworzenia grafu filtrów"
+msgstr "Użyj wątku roboczego do konstruowania grafu filtrów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Powiadamiaj o błędach w renderowaniu pinów"
+msgstr "Zgłaszaj błędy w renderowaniu pinów"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Automatycznie wczytuj dodatkowe ścieżki dźwiękowe"
+msgstr "Autom. wczytuj pliki audio"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -529,11 +529,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Ustawienia tekstur (wymaga ponownego otworzenia pliku)"
+msgstr "Ustawienia tekstur (otwórz wideo ponownie, aby zobaczyć zmiany)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Liczba buforowanych klatek napisów:"
+msgstr "Ramki napisów do buforowania:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -561,7 +561,7 @@ msgstr "% prędkości klatek obrazu"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Pozwól na omijanie klatek napisów, jeśli kolejka nie może nadążyć"
+msgstr "Zezwalaj na porzucanie niektórych ramek, jeśli kolejka jest opóźniona"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -569,7 +569,7 @@ msgstr "Układ renderera"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Dopasuj proporcję napisów do anamorficznych materiałów"
+msgstr "Dopasuj proporcje obrazu do filmów anamorficznych"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -581,8 +581,9 @@ msgid ""
 "videocard's settings, subtitles aren't going to look any better but it will "
 "surely eat your CPU."
 msgstr ""
-"Włączenie pełnoekranowego antyaliasingu w ustawieniach karty graficznej, nie"
-" polepszy jakości napisów, a zwiększy jedynie obciążenie CPU."
+"Jeśli zastąpisz i włączysz pełnoekranowe wygładzanie krawędzi w ustawieniach"
+" Twojej karty graficznej, napisy nie będą wyglądać lepiej, ale z pewnością "
+"zjedzą twój procesor."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"

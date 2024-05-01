@@ -66,6 +66,7 @@ CFGManager::CFGManager(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview)
     , m_transform()
     , m_override()
     , m_deadends()
+    , m_aborted(false)
 {
     m_pUnkInner.CoCreateInstance(CLSID_FilterGraph, GetOwner());
     m_pFM.CoCreateInstance(CLSID_FilterMapper2);
@@ -205,27 +206,6 @@ CFGFilter* LookupFilterRegistry(const GUID& guid, CAtlList<CFGFilter*>& list, UI
     } else {
         return DEBUG_NEW CFGFilterRegistry(guid, fallback_merit);
     }
-}
-
-bool CFGManager::HasRarFilter(LPCWSTR lpcwstrFileName) {
-    CFGFilterList fl;
-    HRESULT hr;
-    if (FAILED(hr = EnumSourceFilters(lpcwstrFileName, fl))) {
-        return false;
-    }
-
-    hr = VFW_E_CANNOT_RENDER;
-
-    POSITION pos = fl.GetHeadPosition();
-    while (pos) {
-        CComPtr<IBaseFilter> pBF;
-        CFGFilter* pFG = fl.GetNext(pos);
-        if (pFG->GetCLSID() == __uuidof(CRARFileSource) && HRESULT_FACILITY(hr) == FACILITY_ITF) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl)
@@ -628,6 +608,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
     CheckPointer(pPinOut, E_POINTER);
 
+    if (m_aborted) {
+        return VFW_E_CANNOT_RENDER;
+    }
+
     HRESULT hr;
 
     if (S_OK != IsPinDirection(pPinOut, PINDIR_OUTPUT)
@@ -795,6 +779,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
         pos = fl.GetHeadPosition();
         while (pos) {
+            if (m_aborted) {
+                return VFW_E_CANNOT_RENDER;
+            }
+
             CFGFilter* pFGF = fl.GetNext(pos);
 
             // avoid pointless connection attempts
@@ -948,6 +936,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
                     if (CComQIPtr<IVMRMixerBitmap9> pMB = pBF) {
                         m_pUnks.AddTail(pMB);
+                    }
+
+                    if (CComQIPtr<IMFVideoMixerBitmap> pMFVMB = pBF) {
+                        m_pUnks.AddTail(pMFVMB);
                     }
 
                     if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
@@ -1128,6 +1120,8 @@ STDMETHODIMP CFGManager::Abort()
     // FIXME: this can hang
     //CAutoLock cAutoLock(this);
 
+    m_aborted = true;
+
     return CComQIPtr<IFilterGraph2>(m_pUnkInner)->Abort();
 }
 
@@ -1243,6 +1237,10 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
     CAutoLock cAutoLock(this);
 
     CheckPointer(pBF, E_POINTER);
+
+    if (m_aborted) {
+        return VFW_E_CANNOT_RENDER;
+    }
 
     if (pPinIn && S_OK != IsPinDirection(pPinIn, PINDIR_INPUT)) {
         return VFW_E_INVALID_DIRECTION;
@@ -2036,6 +2034,11 @@ void CFGManagerCustom::InsertLAVVideo(bool IsPreview)
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HVC1);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HEVC);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HM10);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H265);
+#endif
+#if INTERNAL_DECODER_VVC
+    pFGF = IsPreview || tra[TRA_VVC] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VVC1);
 #endif
 #if INTERNAL_DECODER_AV1
     pFGF = IsPreview || tra[TRA_AV1] ? pFGLAVVideo : pFGLAVVideoLM;
@@ -2548,19 +2551,6 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
-        case CAppSettings::SubtitleRenderer::ASS_FILTER:
-            pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
-            if (pFGF) {
-                pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
-                m_override.AddTail(pFGF);
-            }
-            if (s.fBlockVSFilter) {
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
-            }
-            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
-            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
-            break;
         case CAppSettings::SubtitleRenderer::NONE:
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
@@ -2740,9 +2730,6 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoMixingRenderer9,  MERIT64(0x200003)));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_EnhancedVideoRenderer, MERIT64(0x200002)));
                 break;
-            case VIDRNDT_DS_OLDRENDERER:
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRenderer, renderer_merit));
-                break;
             case VIDRNDT_DS_OVERLAYMIXER:
                 m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, StrRes(IDS_PPAGE_OUTPUT_OVERLAYMIXER), renderer_merit));
                 break;
@@ -2768,7 +2755,11 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                 m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_SYNC), renderer_merit));
                 break;
             case VIDRNDT_DS_MPCVR:
-                m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_MPCVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_MPCVR), renderer_merit));
+                if (!m_bIsCapture) {
+                    m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_MPCVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_MPCVR), renderer_merit));
+                } else {
+                    m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, StrRes(IDS_PPAGE_OUTPUT_EVR), renderer_merit));
+                }
                 break;
             case VIDRNDT_DS_NULL_COMP:
                 pFGF = DEBUG_NEW CFGFilterInternal<CNullVideoRenderer>(StrRes(IDS_PPAGE_OUTPUT_NULL_COMP), MERIT64_ABOVE_DSHOW + 2);
@@ -2900,11 +2891,6 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPr
     : CFGManagerPlayer(pName, pUnk, hWnd, IsPreview)
 {
     const CAppSettings& s = AfxGetAppSettings();
-
-    // have to avoid the old video renderer
-    if (s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER) {
-        m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), MERIT64(0x800001) + 0x101));
-    }
 
     // elecard's decoder isn't suited for dvd playback (atm)
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{F50B3F13-19C4-11CF-AA9A-02608C9BABA2}")), MERIT64_DO_NOT_USE));

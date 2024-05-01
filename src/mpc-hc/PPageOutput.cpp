@@ -257,9 +257,6 @@ BOOL CPPageOutput::OnInitDialog()
             case VIDRNDT_DS_DEFAULT:
                 resName = IDS_PPAGE_OUTPUT_VMR7;
                 break;
-            case VIDRNDT_DS_OLDRENDERER:
-                resName = IDS_PPAGE_OUTPUT_OLDRENDERER;
-                break;
             case VIDRNDT_DS_OVERLAYMIXER:
                 resName = IDS_PPAGE_OUTPUT_OVERLAYMIXER;
                 break;
@@ -320,7 +317,6 @@ BOOL CPPageOutput::OnInitDialog()
     addRenderer(VIDRNDT_DS_DEFAULT);
     addRenderer(VIDRNDT_DS_DXR);
     addRenderer(VIDRNDT_DS_OVERLAYMIXER);
-    addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_NULL_COMP);
     addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 
@@ -538,10 +534,6 @@ void CPPageOutput::OnDSRendererChange()
             m_iDSSaveImageSupport.SetIcon(m_tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSSYSDEF), GetDlgItem(IDC_VIDRND_COMBO));
             break;
-        case VIDRNDT_DS_OLDRENDERER:
-            m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSOLD), GetDlgItem(IDC_VIDRND_COMBO));
-            break;
         case VIDRNDT_DS_OVERLAYMIXER:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSOVERLAYMIXER), GetDlgItem(IDC_VIDRND_COMBO));
             break;
@@ -719,9 +711,6 @@ void CPPageOutput::UpdateSubtitleRendererList()
             case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
                 sName = ResStr(IDS_SUBTITLE_RENDERER_XY_SUB_FILTER);
                 break;
-            case CAppSettings::SubtitleRenderer::ASS_FILTER:
-                sName = ResStr(IDS_SUBTITLE_RENDERER_ASS_FILTER);
-                break;
             case CAppSettings::SubtitleRenderer::NONE:
                 sName = ResStr(IDS_SUBTITLE_RENDERER_NONE);
                 break;
@@ -742,7 +731,6 @@ void CPPageOutput::UpdateSubtitleRendererList()
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::INTERNAL);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::XY_SUB_FILTER);
-    addSubtitleRenderer(CAppSettings::SubtitleRenderer::ASS_FILTER);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::NONE);
     m_SubtitleRendererCtrl.SetCurSel(0);
     if (m_SubtitleRendererCtrl.IsWindowEnabled()) {

@@ -43,7 +43,7 @@
 #include "SubtitleDlDlg.h"
 #include "SubtitleUpDlg.h"
 #include "TimerWrappers.h"
-#include "VMROSD.h"
+#include "OSD.h"
 #include "CMPCThemeMenu.h"
 #include "../SubPic/MemSubPic.h"
 #include <initguid.h>
@@ -286,6 +286,7 @@ private:
     CComPtr<IVMRMixerControl9> m_pVMRMC;
     CComPtr<IMFVideoDisplayControl> m_pMFVDC;
     CComPtr<IMFVideoProcessor> m_pMFVP;
+    CComPtr<IMFVideoMixerBitmap>    m_pMFVMB;
     CComPtr<IVMRWindowlessControl9> m_pVMRWC;
 
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
@@ -360,8 +361,10 @@ private:
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
     CRect GetInvisibleBorderSize() const;
+    CSize GetVideoOrArtSize(MINMAXINFO& mmi);
     CSize GetZoomWindowSize(double dScale);
-    CRect GetZoomWindowRect(const CSize& size);
+    bool GetWorkAreaRect(CRect& work);
+    CRect GetZoomWindowRect(const CSize& size, bool ignoreSavedPosition = false);
     void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale();
 
@@ -386,6 +389,9 @@ private:
     void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
     void OnStreamSelect(bool forward, DWORD dwSelGroup);
     static CString GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup);
+    void CreateOSDBar();
+    bool OSDBarSetPos();
+    void DestroyOSDBar();
 
     CMPCThemeMenu m_mainPopupMenu, m_popupMenu;
     CMPCThemeMenu m_openCDsMenu;
@@ -655,7 +661,7 @@ public:
     void MoveVideoWindow(bool fShowStats = false, bool bSetStoppedVideoRect = false);
     void SetPreviewVideoPosition();
 
-    void RepaintVideo();
+    void RepaintVideo(const bool bForceRepaint = false);
     void HideVideoWindow(bool fHide);
 
     OAFilterState GetMediaStateDirect() const;
@@ -943,6 +949,7 @@ public:
     afx_msg void OnViewSubresync();
     afx_msg void OnUpdateViewSubresync(CCmdUI* pCmdUI);
     afx_msg void OnViewPlaylist();
+    afx_msg void OnPlaylistToggleShuffle();
     afx_msg void OnUpdateViewPlaylist(CCmdUI* pCmdUI);
     afx_msg void OnViewEditListEditor();
     afx_msg void OnEDLIn();
@@ -1168,7 +1175,9 @@ public:
     CMPC_Lcd m_Lcd;
 
     CWnd*       m_pVideoWnd;            // Current Video (main display screen or 2nd)
+    CWnd*       m_pOSDWnd;
     CPreView    m_wndPreView;           // SeekPreview
+
 
     void ReleasePreviewGraph();
     HRESULT PreviewWindowHide();
@@ -1177,8 +1186,7 @@ public:
     bool CanPreviewUse();
 
     CFullscreenWnd* m_pDedicatedFSVideoWnd;
-    CVMROSD     m_OSD;
-    bool        m_bOSDDisplayTime;
+    COSD        m_OSD;
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
     REFERENCE_TIME m_rtCurSubPos;
@@ -1303,6 +1311,9 @@ protected:
     static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);
 
     void SubtitlesSave(const TCHAR* directory = nullptr, bool silent = false);
+
+    void OnSizingFixWndToVideo(UINT nSide, LPRECT lpRect, bool bCtrl = false);
+    void OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl = false);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);

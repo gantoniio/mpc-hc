@@ -36,6 +36,7 @@
 #include <afxsock.h>
 #include "CMPCTheme.h"
 
+
 class FilterOverride;
 
 // flags for CAppSettings::nCS
@@ -107,7 +108,6 @@ enum MpcCaptionState {
 
 enum {
     VIDRNDT_DS_DEFAULT        = 0,
-    VIDRNDT_DS_OLDRENDERER    = 1,
     VIDRNDT_DS_OVERLAYMIXER   = 2,
     VIDRNDT_DS_VMR9WINDOWED   = 4,
     VIDRNDT_DS_VMR9RENDERLESS = 6,
@@ -162,6 +162,8 @@ enum MCE_RAW_INPUT {
 #define MAX_AUTOFIT_SCALE_FACTOR 100
 #define DEF_MIN_AUTOFIT_SCALE_FACTOR 40
 #define DEF_MAX_AUTOFIT_SCALE_FACTOR 80
+
+#define NO_FIXED_POSITION CPoint(INT_MIN, INT_MIN)
 
 enum dvstype {
     DVS_HALF,
@@ -562,6 +564,7 @@ public:
     DVD_HMSF_TIMECODE   DVDPosition;
 
     CSize sizeFixedWindow;
+    CPoint fixedWindowPosition;
     bool HasFixedWindowSize() const {
         return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0;
     }
@@ -580,6 +583,9 @@ public:
     bool            fAllowMultipleInst;
     bool            fTrayIcon;
     bool            fShowOSD;
+    bool            fShowCurrentTimeInOSD;
+    int             nOSDTransparent;
+
     bool            fLimitWindowProportions;
     bool            fSnapToDesktopEdges;
     bool            fHideCDROMsSubMenu;
@@ -906,7 +912,7 @@ public:
         INTERNAL,
         VS_FILTER,
         XY_SUB_FILTER,
-        ASS_FILTER,
+        RESERVED, // unused
         NONE,
     };
 

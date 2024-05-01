@@ -361,6 +361,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_SUBRESYNC, OnUpdateViewSubresync)
     ON_COMMAND(ID_VIEW_PLAYLIST, OnViewPlaylist)
     ON_UPDATE_COMMAND_UI(ID_VIEW_PLAYLIST, OnUpdateViewPlaylist)
+    ON_COMMAND(ID_PLAYLIST_TOGGLE_SHUFFLE, OnPlaylistToggleShuffle)
     ON_COMMAND(ID_VIEW_EDITLISTEDITOR, OnViewEditListEditor)
     ON_COMMAND(ID_EDL_IN, OnEDLIn)
     ON_UPDATE_COMMAND_UI(ID_EDL_IN, OnUpdateEDLIn)
@@ -867,9 +868,9 @@ CMainFrame::CMainFrame()
     , m_wndCaptureBar(this)
     , m_wndNavigationBar(this)
     , m_pVideoWnd(nullptr)
+    , m_pOSDWnd(nullptr)
     , m_pDedicatedFSVideoWnd(nullptr)
     , m_OSD(this)
-    , m_bOSDDisplayTime(false)
     , m_nCurSubtitle(-1)
     , m_lSubtitleShift(0)
     , m_rtCurSubPos(0)
@@ -996,6 +997,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_wndView.ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
 
     const CAppSettings& s = AfxGetAppSettings();
+
+    // Create OSD Window
+    CreateOSDBar();
 
     // Create Preview Window
     if (s.fSeekPreview) {
@@ -1130,6 +1134,48 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     }
 
     return 0;
+}
+
+void CMainFrame::CreateOSDBar() {
+    if (SUCCEEDED(m_OSD.Create(&m_wndView))) {
+        m_pOSDWnd = &m_wndView;
+    }
+}
+
+bool CMainFrame::OSDBarSetPos() {
+    if (!m_OSD || !(::IsWindow(m_OSD.GetSafeHwnd())) || m_OSD.GetOSDType() != OSD_TYPE_GDI) {
+        return false;
+    }
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.iDSVideoRendererType == VIDRNDT_DS_MADVR || !m_wndView.IsWindowVisible()) {
+        if (m_OSD.IsWindowVisible()) {
+            m_OSD.ShowWindow(SW_HIDE);
+        }
+        return false;
+    }
+
+    CRect r_wndView;
+    m_wndView.GetWindowRect(&r_wndView);
+
+    int pos = 0;
+
+    CRect MainWndRect;
+    m_wndView.GetWindowRect(&MainWndRect);
+    MainWndRect.right -= pos;
+    m_OSD.SetWndRect(MainWndRect);
+    if (m_OSD.IsWindowVisible()) {
+        ::PostMessageW(m_OSD.m_hWnd, WM_OSD_DRAW, WPARAM(0), LPARAM(0));
+    }
+
+    return false;
+}
+
+void CMainFrame::DestroyOSDBar() {
+    if (m_OSD) {
+        m_OSD.Stop();
+        m_OSD.DestroyWindow();
+    }
 }
 
 void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
@@ -1400,6 +1446,7 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
         r |= CRect(r.TopLeft(), CSize(min));
         MoveWindow(r);
     }
+    OSDBarSetPos();
 }
 
 void CMainFrame::EnableDocking(DWORD dwDockStyle)
@@ -1532,6 +1579,8 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     lpMMI->ptMaxTrackSize.x = GetSystemMetrics(SM_CXVIRTUALSCREEN) + decorationsRect.Width();
     lpMMI->ptMaxTrackSize.y = GetSystemMetrics(SM_CYVIRTUALSCREEN)
                               + ((GetStyle() & WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME) : 0);
+
+    OSDBarSetPos();
 }
 
 void CMainFrame::OnMove(int x, int y)
@@ -1547,6 +1596,8 @@ void CMainFrame::OnMove(int x, int y)
     if (!m_fFirstFSAfterLaunchOnFS && !m_fFullScreen && IsWindowVisible() && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
         GetWindowRect(AfxGetAppSettings().rcLastWindowPos);
     }
+
+    OSDBarSetPos();
 }
 
 void CMainFrame::OnEnterSizeMove()
@@ -1614,6 +1665,7 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
     }
 
     __super::OnMoving(fwSide, pRect);
+    OSDBarSetPos();
 }
 
 void CMainFrame::OnSize(UINT nType, int cx, int cy)
@@ -1630,21 +1682,34 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
             s.nLastWindowType = nType;
         }
     }
+    if (nType != SIZE_MINIMIZED) {
+        OSDBarSetPos();
+    }
 }
 
 void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
 {
     __super::OnSizing(nSide, lpRect);
 
-    const auto& s = AfxGetAppSettings();
-    bool bCtrl = GetKeyState(VK_CONTROL) < 0;
-
-    if (GetLoadState() != MLS::LOADED || m_fFullScreen ||
-            s.iDefaultVideoSize == DVS_STRETCH || !bCtrl == !s.fLimitWindowProportions || IsAeroSnapped()) {
+    if (m_fFullScreen) {
         return;
     }
 
-    CSize videoSize = GetVideoSize();
+    bool bCtrl = GetKeyState(VK_CONTROL) < 0;
+    OnSizingFixWndToVideo(nSide, lpRect, bCtrl);
+    OnSizingSnapToScreen(nSide, lpRect, bCtrl);
+}
+
+void CMainFrame::OnSizingFixWndToVideo(UINT nSide, LPRECT lpRect, bool bCtrl)
+{
+    const auto& s = AfxGetAppSettings();
+
+    if (GetLoadState() != MLS::LOADED || s.iDefaultVideoSize == DVS_STRETCH ||
+        bCtrl == s.fLimitWindowProportions || IsAeroSnapped()) {
+        return;
+    }
+
+    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
     if (videoSize.cx == 0 || videoSize.cy == 0) {
         return;
     }
@@ -1712,6 +1777,105 @@ void CMainFrame::OnSizing(UINT nSide, LPRECT lpRect)
         case WMSZ_BOTTOMLEFT:
             lpRect->left = lpRect->right - newWindowSize.cx;
             lpRect->bottom = lpRect->top + newWindowSize.cy;
+            break;
+    }
+    OSDBarSetPos();
+}
+
+void CMainFrame::OnSizingSnapToScreen(UINT nSide, LPRECT lpRect, bool bCtrl /*= false*/)
+{
+    const auto& s = AfxGetAppSettings();
+    if (!s.fSnapToDesktopEdges)
+        return;
+
+    CRect areaRect;
+    CMonitors::GetNearestMonitor(this).GetWorkAreaRect(areaRect);
+    const CRect invisibleBorderSize = GetInvisibleBorderSize();
+    areaRect.InflateRect(invisibleBorderSize);
+
+    CRect& rect = *reinterpret_cast<CRect*>(lpRect);
+    const CSize threshold(m_dpi.ScaleX(16), m_dpi.ScaleY(16));
+    const auto SnapTo = [](LONG& val, LONG to, LONG threshold) {
+        return (std::abs(val - to) < threshold && val != to) ? (val = to, true) : false;
+    };
+
+    CSize videoSize = GetVideoSize();
+    if (bCtrl == s.fLimitWindowProportions || videoSize.cx == 0 || videoSize.cy == 0) {
+        SnapTo(rect.left, areaRect.left, threshold.cx);
+        SnapTo(rect.top, areaRect.top, threshold.cy);
+        SnapTo(rect.right, areaRect.right, threshold.cx);
+        SnapTo(rect.bottom, areaRect.bottom, threshold.cy);
+        return;
+    }
+
+    const CRect rectOrig(rect);
+    switch (nSide) {
+        case WMSZ_TOPLEFT:
+            if (SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                if (rect.top < areaRect.top && SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                    rect.OffsetRect(rectOrig.right - rect.right, 0);
+                }
+            } else if (SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                rect.OffsetRect(rectOrig.right - rect.right, 0);
+                if (rect.left < areaRect.left && SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                    rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                }
+            }
+            break;
+        case WMSZ_TOP:
+        case WMSZ_TOPRIGHT:
+            if (SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                if (rect.top < areaRect.top && SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                    rect.OffsetRect(rectOrig.left - rect.left, 0);
+                }
+            }
+            else if (SnapTo(rect.top, areaRect.top, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_TOP, &rect);
+                rect.OffsetRect(rectOrig.left - rect.left, 0);
+                if (areaRect.right < rect.right && SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                    rect.OffsetRect(0, rectOrig.bottom - rect.bottom);
+                }
+            }
+            break;
+        case WMSZ_RIGHT:
+        case WMSZ_BOTTOM:
+        case WMSZ_BOTTOMRIGHT:
+            if (SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                if (areaRect.bottom < rect.bottom && SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                }
+            } else if (SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                if (areaRect.right < rect.right && SnapTo(rect.right, areaRect.right, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_RIGHT, &rect);
+                }
+            }
+            break;
+        case WMSZ_LEFT:
+        case WMSZ_BOTTOMLEFT:
+            if (SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                if (areaRect.bottom < rect.bottom && SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                    OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                    rect.OffsetRect(rectOrig.right - rect.right, 0);
+                }
+            } else if (SnapTo(rect.bottom, areaRect.bottom, threshold.cy)) {
+                OnSizingFixWndToVideo(WMSZ_BOTTOM, &rect);
+                rect.OffsetRect(rectOrig.right - rect.right, 0);
+                if (rect.left < areaRect.left && SnapTo(rect.left, areaRect.left, threshold.cx)) {
+                    OnSizingFixWndToVideo(WMSZ_LEFT, &rect);
+                }
+            }
             break;
     }
 }
@@ -2067,7 +2231,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 m_wndSeekBar.Enable(!g_bNoDuration);
                 m_wndSeekBar.SetRange(0, rtDur);
                 m_wndSeekBar.SetPos(rtNow);
-                m_OSD.SetRange(0, rtDur);
+                m_OSD.SetRange(rtDur);
                 m_OSD.SetPos(rtNow);
                 m_Lcd.SetMediaRange(0, rtDur);
                 m_Lcd.SetMediaPos(rtNow);
@@ -2090,7 +2254,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     case PM_FILE:
                     // no break
                     case PM_DVD:
-                        if (m_bOSDDisplayTime && m_OSD.CanShowMessage()) {
+                        if (AfxGetAppSettings().fShowCurrentTimeInOSD && m_OSD.CanShowMessage()) {
                             m_OSD.DisplayTime(m_wndStatusBar.GetStatusTimer());
                         }
                         break;
@@ -2102,7 +2266,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             REFERENCE_TIME rtNow = REFERENCE_TIME(tNow - NowNext.startTime) * 10000000;
                             REFERENCE_TIME rtDur = REFERENCE_TIME(NowNext.duration) * 10000000;
                             m_wndStatusBar.SetStatusTimer(rtNow, rtDur, false, TIME_FORMAT_MEDIA_TIME);
-                            if (m_bOSDDisplayTime && m_OSD.CanShowMessage()) {
+                            if (AfxGetAppSettings().fShowCurrentTimeInOSD && m_OSD.CanShowMessage()) {
                                 m_OSD.DisplayTime(m_wndStatusBar.GetStatusTimer());
                             }
                         } else {
@@ -2175,13 +2339,13 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                     for (int i = 0, j = m_pBI->GetCount(); i < j; i++) {
                         int samples, size;
-                        if (S_OK == m_pBI->GetStatus(i, samples, size)) {
-                            sInfo.AppendFormat(_T("[%d]: %03d/%d KB "), i, samples, size / 1024);
+                        if (S_OK == m_pBI->GetStatus(i, samples, size) && (i < 2 || size > 0)) { // third pin is usually subs 
+                            sInfo.AppendFormat(_T("[P%d] %03d samples / %d KB   "), i, samples, size / 1024);
                         }
                     }
 
                     if (!sInfo.IsEmpty()) {
-                        sInfo.AppendFormat(_T("(p%lu)"), m_pBI->GetPriority());
+                        //sInfo.AppendFormat(_T("(p%lu)"), m_pBI->GetPriority());
                         m_wndStatsBar.SetLine(StrRes(IDS_AG_BUFFERS), sInfo);
                     }
                 }
@@ -2196,7 +2360,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                 DWORD nAvg = pBRI->GetAverageBitRate() / 1000;
 
                                 if (nAvg > 0) {
-                                    sInfo.AppendFormat(_T("[%u]: %lu/%lu kb/s "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
+                                    sInfo.AppendFormat(_T("[P%u] %lu/%lu kb/s   "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
                                 }
                             }
                             i++;
@@ -4092,7 +4256,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_wndStatusBar.ShowTimer(false);
     currentAudioLang.Empty();
     currentSubLang.Empty();
-    m_OSD.SetRange(0, 0);
+    m_OSD.SetRange(0);
     m_OSD.SetPos(0);
     m_Lcd.SetMediaRange(0, 0);
     m_Lcd.SetMediaPos(0);
@@ -7219,14 +7383,15 @@ void CMainFrame::OnUpdateViewOSDDisplayTime(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     pCmdUI->Enable(s.fShowOSD && GetLoadState() != MLS::CLOSED);
-    pCmdUI->SetCheck(m_bOSDDisplayTime);
+    pCmdUI->SetCheck(AfxGetAppSettings().fShowCurrentTimeInOSD);
 }
 
 void CMainFrame::OnViewOSDDisplayTime()
 {
-    m_bOSDDisplayTime = !m_bOSDDisplayTime;
+    auto &showTime = AfxGetAppSettings().fShowCurrentTimeInOSD;
+    showTime = !showTime;
 
-    if (!m_bOSDDisplayTime) {
+    if (!showTime) {
         m_OSD.ClearTime();
     }
 
@@ -7433,6 +7598,7 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
     }
 
     VERIFY(SetWindowPos(nullptr, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(), uFlags));
+    OSDBarSetPos();
 }
 
 void CMainFrame::OnViewCaptionmenu()
@@ -7498,6 +7664,12 @@ void CMainFrame::OnViewPlaylist()
 void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
 {
     pCmdUI->SetCheck(m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST));
+}
+
+void CMainFrame::OnPlaylistToggleShuffle() {
+    CAppSettings& s = AfxGetAppSettings();
+    s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
+    m_wndPlaylistBar.m_pl.SetShuffle(s.bShufflePlaylistItems);
 }
 
 void CMainFrame::OnViewEditListEditor()
@@ -7714,26 +7886,64 @@ void CMainFrame::OnViewZoomAutoFitLarger()
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
-void CMainFrame::OnViewModifySize(UINT nID)
-{
+void CMainFrame::OnViewModifySize(UINT nID) {
     if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic()) {
         return;
     }
+    const CAppSettings& s = AfxGetAppSettings();
+    MINMAXINFO mmi;
+    CSize videoSize = GetVideoOrArtSize(mmi);
+    int minWidth = (int)mmi.ptMinTrackSize.x;
 
-    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
+    int mult = (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
+
     double videoRatio = double(videoSize.cy) / double(videoSize.cx);
 
-    CRect videoRect;
+    CRect videoRect, workRect;
     m_pVideoWnd->GetWindowRect(&videoRect);
-    LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
-    LONG newHeight = (LONG)ceil(newWidth * videoRatio);
+    double videoRectRatio = double(videoRect.Height()) / double(videoRect.Width());
+
+    GetWorkAreaRect(workRect);
+
+    int newWidth = videoRect.Width();
+    int newHeight = videoRect.Height();
+    if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) { //wider than aspect ratio, so use height instead
+        int growPixels = int(.01f * workRect.Height());
+        newHeight = videoRect.Height() + growPixels * mult;
+        double newRatio = double(newHeight) / double(videoRect.Width());
+        if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio-videoRatio) != SGN(videoRectRatio-videoRatio)) {
+            newWidth = std::max(int(ceil(newHeight / videoRatio)), minWidth);
+            if (mult == 1) {
+                newWidth = std::max(newWidth, videoRect.Width());
+            }
+        }
+    } else {
+        int growPixels = int(.01f * workRect.Width());
+        newWidth = std::max(videoRect.Width() + growPixels * mult, minWidth);
+        double newRatio = double(videoRect.Height()) / double(newWidth);
+        if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
+            newHeight = int(ceil(newWidth * videoRatio));
+            if (mult == 1) {
+                newHeight = std::max(newHeight, videoRect.Height());
+            }
+        }
+    }
 
     CRect rect;
     GetWindowRect(&rect);
-    rect.right = rect.right + newWidth - videoRect.Width();
-    rect.bottom = rect.bottom + newHeight - videoRect.Height();
-    
-    MoveWindow(&rect);
+
+    CSize cs = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
+
+    CRect newRect;
+    CRect work;
+    //if old rect was constrained to a single monitor, we zoom incrementally
+    if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight())) {
+        newRect = GetZoomWindowRect(cs, true);
+    } else {
+        newRect = CRect(rect.TopLeft(), cs);
+    }
+
+    MoveWindow(newRect);
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -10868,7 +11078,7 @@ static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT l
 void CMainFrame::SetDefaultWindowRect(int iMonitor)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    const CRect rcLastWindowPos = s.rcLastWindowPos;
+    CRect rcLastWindowPos = s.rcLastWindowPos;
 
     if (s.eCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
         if (s.eCaptionMenuMode == MODE_FRAMEONLY) {
@@ -10880,9 +11090,28 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
+    CMonitors monitors;
+    CMonitor monitor;
+    if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
+        monitor = monitors.GetMonitor(iMonitor - 1);
+    } else {
+        monitor = CMonitors::GetNearestMonitor(this);
+    }
+
     CSize windowSize;
+    bool tRememberPos = s.fRememberWindowPos;
+    MINMAXINFO mmi;
+    OnGetMinMaxInfo(&mmi);
+
     if (s.HasFixedWindowSize()) {
-        windowSize = s.sizeFixedWindow;
+        windowSize = CSize(std::max(s.sizeFixedWindow.cx, mmi.ptMinTrackSize.x), std::max(s.sizeFixedWindow.cy, mmi.ptMinTrackSize.y));
+        if (s.fixedWindowPosition != NO_FIXED_POSITION) {
+            tRememberPos = true;
+            CRect monitorRect;
+            monitor.GetWorkAreaRect(&monitorRect);
+            monitorRect += s.fixedWindowPosition;
+            rcLastWindowPos.MoveToXY(monitorRect.left, monitorRect.top);
+        }
     } else if (s.fRememberWindowSize) {
         windowSize = rcLastWindowPos.Size();
     } else {
@@ -10902,16 +11131,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         windowSize.cy = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
     }
 
-    CMonitors monitors;
-    CMonitor monitor;
-    if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
-        monitor = monitors.GetMonitor(iMonitor - 1);
-    } else {
-        monitor = CMonitors::GetNearestMonitor(this);
-    }
-
     bool bRestoredWindowPosition = false;
-    if (s.fRememberWindowPos) {
+    if (tRememberPos) {
         CRect windowRect(rcLastWindowPos.TopLeft(), windowSize);
         if ((!iMonitor && CMonitors::IsOnScreen(windowRect))
                 || (iMonitor && monitor.IsOnMonitor(windowRect))) {
@@ -10923,8 +11144,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     }
 
     if (!bRestoredWindowPosition) {
-        MINMAXINFO mmi;
-        OnGetMinMaxInfo(&mmi);
         CRect windowRect(0, 0, std::max(windowSize.cx, mmi.ptMinTrackSize.x), std::max(windowSize.cy, mmi.ptMinTrackSize.y));
         monitor.CenterRectToMonitor(windowRect, TRUE);
         SetWindowPos(nullptr, windowRect.left, windowRect.top, windowSize.cx, windowSize.cy, SWP_NOZORDER | SWP_NOACTIVATE);
@@ -11299,7 +11518,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             CreateFullScreenWindow(false);
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = m_pDedicatedFSVideoWnd;
-            m_OSD.SetVideoWindow(m_pVideoWnd);
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
@@ -11312,7 +11530,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
             m_pVideoWnd = &m_wndView;
-            m_OSD.SetVideoWindow(m_pVideoWnd);
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
@@ -11369,7 +11586,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
             if (m_pVideoWnd != &m_wndView) {
                 m_pVideoWnd = &m_wndView;
-                m_OSD.SetVideoWindow(m_pVideoWnd);
                 if (m_pMFVDC) {
                     m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
                 } else if (m_pVMRWC) {
@@ -11483,15 +11699,14 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
         pD3DFS->GetD3DFullscreen(&bIsFullscreen);
         s.fLastFullScreen = !bIsFullscreen;
 
+        m_OSD.Stop();
+
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
-            m_OSD.EnableShowSeekBar(false);
-            m_OSD.EnableShowMessage(false);
             pD3DFS->SetD3DFullscreen(false);
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = &m_wndView;
-            m_OSD.SetVideoWindow(m_pVideoWnd);
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else {
@@ -11511,11 +11726,12 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
                 m_fFirstFSAfterLaunchOnFS = false;
             }
 
+            if (s.fShowOSD) {
+                m_OSD.Start(m_pOSDWnd);
+            }
             MoveVideoWindow();
-            m_OSD.EnableShowMessage(true);
+            RecalcLayout();
         } else {
-            m_OSD.EnableShowMessage(false);
-
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
                 AutoChangeMonitorMode();
@@ -11528,7 +11744,6 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = m_pDedicatedFSVideoWnd;
-            m_OSD.SetVideoWindow(m_pVideoWnd);
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else {
@@ -11539,9 +11754,13 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             MoveVideoWindow();
 
             // Turn on D3D Fullscreen
-            m_OSD.EnableShowSeekBar(true);
-            m_OSD.EnableShowMessage(true);
             pD3DFS->SetD3DFullscreen(true);
+
+            if (s.fShowOSD || s.fShowDebugInfo) {
+                if (m_pMFVMB) {
+                    m_OSD.Start(m_pVideoWnd, m_pMFVMB, true);
+                }
+            }
 
             m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
         }
@@ -11555,14 +11774,16 @@ bool CMainFrame::GetCurDispMode(const CString& displayName, DisplayMode& dm)
 
 bool CMainFrame::GetDispMode(CString displayName, int i, DisplayMode& dm)
 {
-    DEVMODE devmode;
-    devmode.dmSize = sizeof(DEVMODE);
     if (displayName == _T("Current") || displayName.IsEmpty()) {
         CMonitor monitor = CMonitors::GetNearestMonitor(AfxGetApp()->m_pMainWnd);
         monitor.GetName(displayName);
     }
 
-    dm.bValid = !!EnumDisplaySettings(displayName, i, &devmode);
+    DEVMODE devmode;
+    devmode.dmSize = sizeof(DEVMODE);
+    devmode.dmDriverExtra = 0;
+
+    dm.bValid = !!EnumDisplaySettingsExW(displayName, i, &devmode, EDS_RAWMODE);
 
     if (dm.bValid) {
         dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
@@ -11854,7 +12075,6 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
         } else {
             m_wndView.SetVideoRect(&windowRect);
         }
-        m_OSD.SetSize(windowRect, videoRect);
     } else {
         m_wndView.SetVideoRect();
     }
@@ -11944,6 +12164,32 @@ void CMainFrame::HideVideoWindow(bool fHide)
     m_bLockedZoomVideoWindow = fHide;
 }
 
+CSize CMainFrame::GetVideoOrArtSize(MINMAXINFO& mmi)
+{
+    const auto& s = AfxGetAppSettings();
+    CSize videoSize;
+    OnGetMinMaxInfo(&mmi);
+
+    if (m_fAudioOnly) {
+        videoSize = m_wndView.GetLogoSize();
+
+        if (videoSize.cx > videoSize.cy) {
+            if (videoSize.cx > s.nCoverArtSizeLimit) {
+                videoSize.cy = MulDiv(videoSize.cy, s.nCoverArtSizeLimit, videoSize.cx);
+                videoSize.cx = s.nCoverArtSizeLimit;
+            }
+        } else {
+            if (videoSize.cy > s.nCoverArtSizeLimit) {
+                videoSize.cx = MulDiv(videoSize.cx, s.nCoverArtSizeLimit, videoSize.cy);
+                videoSize.cy = s.nCoverArtSizeLimit;
+            }
+        }
+    } else {
+        videoSize = GetVideoSize();
+    }
+    return videoSize;
+}
+
 CSize CMainFrame::GetZoomWindowSize(double dScale)
 {
     const auto& s = AfxGetAppSettings();
@@ -11951,34 +12197,14 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
 
     if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
         MINMAXINFO mmi;
-        OnGetMinMaxInfo(&mmi);
-        CSize videoSize;
-
-        if (m_fAudioOnly) {
-            videoSize = m_wndView.GetLogoSize();
-
-            if (videoSize.cx > videoSize.cy) {
-                if (videoSize.cx > s.nCoverArtSizeLimit) {
-                    videoSize.cy = MulDiv(videoSize.cy, s.nCoverArtSizeLimit, videoSize.cx);
-                    videoSize.cx = s.nCoverArtSizeLimit;
-                }
-            } else {
-                if (videoSize.cy > s.nCoverArtSizeLimit) {
-                    videoSize.cx = MulDiv(videoSize.cx, s.nCoverArtSizeLimit, videoSize.cy);
-                    videoSize.cy = s.nCoverArtSizeLimit;
-                }
-            }
-
-            if (videoSize.cx <= 1 || videoSize.cy <= 1) {
-                // Do not adjust window width if blank logo is used (1x1px) or cover-art size is limited
-                // to avoid shrinking window width too much and give ability to revert pre 94dc87c behavior
-                videoSize.SetSize(0, 0);
-                CRect windowRect;
-                GetWindowRect(windowRect);
-                mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
-            }
-        } else {
-            videoSize = GetVideoSize();
+        CSize videoSize = GetVideoOrArtSize(mmi);
+        if (videoSize.cx <= 1 || videoSize.cy <= 1) {
+            // Do not adjust window width if blank logo is used (1x1px) or cover-art size is limited
+            // to avoid shrinking window width too much and give ability to revert pre 94dc87c behavior
+            videoSize.SetSize(0, 0);
+            CRect windowRect;
+            GetWindowRect(windowRect);
+            mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
         }
 
         CSize videoTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
@@ -12046,21 +12272,28 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
     return ret;
 }
 
-CRect CMainFrame::GetZoomWindowRect(const CSize& size)
+bool CMainFrame::GetWorkAreaRect(CRect& work) {
+    MONITORINFO mi = { sizeof(mi) };
+    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        work = mi.rcWork;
+        // account for invisible borders on Windows 10 by allowing
+        // the window to go out of screen a bit
+        if (IsWindows10OrGreater()) {
+            work.InflateRect(GetInvisibleBorderSize());
+        }
+        return true;
+    }
+    return false;
+}
+
+CRect CMainFrame::GetZoomWindowRect(const CSize& size, bool ignoreSavedPosition /*= false*/)
 {
     const auto& s = AfxGetAppSettings();
     CRect ret;
     GetWindowRect(ret);
 
-    MONITORINFO mi = { sizeof(mi) };
-    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
-        CRect rcWork = mi.rcWork;
-        // account for invisible borders on Windows 10 by allowing
-        // the window to go out of screen a bit
-        if (IsWindows10OrGreater()) {
-            rcWork.InflateRect(GetInvisibleBorderSize());
-        }
-
+    CRect rcWork;
+    if (GetWorkAreaRect(rcWork)) {
         CSize windowSize(size);
 
         // don't go larger than the current monitor working area
@@ -12073,14 +12306,14 @@ CRect CMainFrame::GetZoomWindowRect(const CSize& size)
             // do nothing
         } else if (m_bWasSnapped && ret.right == rcWork.right) {
             ret.left = ret.right - windowSize.cx;
-        } else if (!s.fRememberWindowPos) {
+        } else if (!s.fRememberWindowPos || ignoreSavedPosition) {
             ret.left += (ret.right - ret.left) / 2 - windowSize.cx / 2;
         }
         if (m_bWasSnapped && ret.top == rcWork.top) {
             // do nothing
         } else if (m_bWasSnapped && ret.bottom == rcWork.bottom) {
             ret.top = ret.bottom - windowSize.cy;
-        } else if (!s.fRememberWindowPos) {
+        } else if (!s.fRememberWindowPos || ignoreSavedPosition) {
             ret.top += (ret.bottom - ret.top) / 2 - windowSize.cy / 2;
         }
 
@@ -12144,7 +12377,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
             ASSERT(FALSE);
             return;
         }
-        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale)));
+        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale), true));
     }
 }
 
@@ -12245,11 +12478,11 @@ double CMainFrame::GetZoomAutoFitScale()
 
 }
 
-void CMainFrame::RepaintVideo()
+void CMainFrame::RepaintVideo(const bool bForceRepaint/* = false*/)
 {
     if (!m_bDelaySetOutputRect && (m_pCAP || m_pMFVDC)) {
         OAFilterState fs = GetMediaState();
-        if (fs == State_Paused || fs == State_Stopped) {
+        if (fs == State_Paused || fs == State_Stopped || bForceRepaint) {
             if (m_pCAP) {
                 m_pCAP->Paint(false);
             } else if (m_pMFVDC) {
@@ -12850,22 +13083,20 @@ HRESULT CMainFrame::PreviewWindowShow(REFERENCE_TIME rtCur2) {
 }
 
 HRESULT CMainFrame::HandleMultipleEntryRar(CStringW fn) {
-    CComPtr<CFGManager> fgm = static_cast<CFGManager*>(m_pGB.p);
-    if (fgm->HasRarFilter(fn)) {
-        CRFSList <CRFSFile> file_list;
-        int num_files, num_ok_files;
+    CRFSList <CRFSFile> file_list(true); //true = clears itself on destruction
+    int num_files, num_ok_files;
 
-        CRARFileSource::ScanArchive(fn.GetBuffer(), &file_list, &num_files, &num_ok_files);
-        if (num_ok_files > 1) {
-            RarEntrySelectorDialog entrySelector(&file_list, GetModalParent());
-            if (IDOK == entrySelector.DoModal()) {
-                CStringW entryName = entrySelector.GetCurrentEntry();
-                if (entryName.GetLength() > 0) {
-                    return fgm->RenderRFSFileEntry(fn, nullptr, entryName);
-                }
+    CRARFileSource::ScanArchive(fn.GetBuffer(), &file_list, &num_files, &num_ok_files);
+    if (num_ok_files > 1) {
+        RarEntrySelectorDialog entrySelector(&file_list, GetModalParent());
+        if (IDOK == entrySelector.DoModal()) {
+            CStringW entryName = entrySelector.GetCurrentEntry();
+            if (entryName.GetLength() > 0) {
+                CComPtr<CFGManager> fgm = static_cast<CFGManager*>(m_pGB.p);
+                return fgm->RenderRFSFileEntry(fn, nullptr, entryName);
             }
-            return RFS_E_ABORT; //we found multiple entries but no entry selected.
         }
+        return RFS_E_ABORT; //we found multiple entries but no entry selected.
     }
     return E_NOTIMPL; //not a multi-entry rar
 }
@@ -12895,8 +13126,16 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             lastOpenFile = fn;
         }
 
-        HRESULT hr, rarHR;
-        rarHR = HandleMultipleEntryRar(fn);
+        HRESULT hr;
+        HRESULT rarHR = E_NOTIMPL;
+#if INTERNAL_SOURCEFILTER_RFS
+        if (s.SrcFilters[SRC_RFS] && !PathUtils::IsURL(fn)) {
+            CString ext = CPath(fn).GetExtension().MakeLower();
+            if (ext == L".rar") {
+                rarHR = HandleMultipleEntryRar(fn);
+            }
+        }
+#endif
         if (E_NOTIMPL == rarHR) {
             hr = m_pGB->RenderFile(fn, nullptr);
         } else {
@@ -14726,6 +14965,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     m_pVMRWC = nullptr;
     m_pVMRMC = nullptr;
     m_pMFVDC = nullptr;
+    m_pMFVMB = nullptr;
     m_pMFVP = nullptr;
     m_pMVRC = nullptr;
     m_pMVRI = nullptr;
@@ -14788,7 +15028,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         CComPtr<IVMRMixerBitmap9>    pVMB   = nullptr;
-        CComPtr<IMFVideoMixerBitmap> pMFVMB = nullptr;
         CComPtr<IMadVRTextOsd>       pMVTO  = nullptr;
 
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
@@ -14797,7 +15036,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
-        m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+        m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVMB), TRUE);
 
         m_pMVRC = m_pCAP;
         m_pMVRI = m_pCAP;
@@ -14807,12 +15046,18 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         pMVTO = m_pCAP;
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
-            if (pVMB) {
-                m_OSD.Start(m_pVideoWnd, pVMB, IsD3DFullScreenMode());
-            } else if (pMFVMB) {
-                m_OSD.Start(m_pVideoWnd, pMFVMB, IsD3DFullScreenMode());
-            } else if (pMVTO) {
-                m_OSD.Start(m_pVideoWnd, pMVTO);
+            m_OSD.Stop();
+
+            if (IsD3DFullScreenMode() && !m_fAudioOnly) {
+                if (m_pMFVMB) {
+                    m_OSD.Start(m_pVideoWnd, m_pMFVMB, true);
+                }
+            } else {
+                if (pMVTO) {
+                    m_OSD.Start(m_pVideoWnd, pMVTO);
+                } else {
+                    m_OSD.Start(m_pOSDWnd);
+                }
             }
         }
         checkAborted();
@@ -15098,6 +15343,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pCAP.Release();
     m_pVMRWC.Release();
     m_pVMRMC.Release();
+    m_pMFVMB.Release();
     m_pMFVP.Release();
     m_pMFVDC.Release();
     m_pLN21.Release();
@@ -17159,7 +17405,7 @@ void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
             if (m_pCAP) {
                 m_pCAP->SetSubPicProvider(nullptr);
             }
-            currentSubLang.Empty();
+            currentSubLang = ResStr(IDS_AG_DISABLED);
 
             if (bDisplayMessage) {
                 m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
@@ -17852,7 +18098,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
         if (fVidPrev) {
             CComPtr<IVMRMixerBitmap9>    pVMB;
-            CComPtr<IMFVideoMixerBitmap> pMFVMB;
             CComPtr<IMadVRTextOsd>       pMVTO;
 
             m_pMVRS.Release();
@@ -17865,6 +18110,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pCAP.Release();
             m_pVMRWC.Release();
             m_pVMRMC.Release();
+            m_pMFVMB.Release();
             m_pMFVP.Release();
             m_pMFVDC.Release();
             m_pQP.Release();
@@ -17877,7 +18123,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
-            m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+            m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVMB), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
             pMVTO = m_pCAP;
@@ -17894,13 +18140,19 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
             }
 
-            if (s.fShowOSD || s.fShowDebugInfo) {
-                if (pVMB) {
-                    m_OSD.Start(m_pVideoWnd, pVMB, IsD3DFullScreenMode());
-                } else if (pMFVMB) {
-                    m_OSD.Start(m_pVideoWnd, pMFVMB, IsD3DFullScreenMode());
-                } else if (pMVTO) {
-                    m_OSD.Start(m_pVideoWnd, pMVTO);
+            if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
+                m_OSD.Stop();
+
+                if (IsD3DFullScreenMode() && !m_fAudioOnly) {
+                    if (m_pMFVMB) {
+                        m_OSD.Start(m_pVideoWnd, m_pMFVMB, true);
+                    }
+                } else {
+                    if (pMVTO) {
+                        m_OSD.Start(m_pVideoWnd, pMVTO);
+                    } else {
+                        m_OSD.Start(m_pOSDWnd);
+                    }
                 }
             }
         }
@@ -18315,6 +18567,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     TRACE(_T("CMainFrame::CloseMedia\n"));
 
     m_dwLastPause = 0;
+
+    if (m_bUseSeekPreview && m_wndPreView.IsWindowVisible()) {
+        m_wndPreView.ShowWindow(SW_HIDE);
+    }
     m_bUseSeekPreview = false;
 
     if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
@@ -18402,9 +18658,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     if (GetLoadState() == MLS::LOADING) {
         TRACE(_T("Media is still loading. Aborting graph.\n"));
 
-        // should be possible only in graph thread
-        ASSERT(m_bOpenedThroughThread);
-
         // tell OpenMediaPrivate() that we want to abort
         m_fOpeningAborted = true;
 
@@ -18420,23 +18673,37 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
             m_pGB->Abort(); // TODO: lock on graph objects somehow, this is not thread safe
         }
 
-        BeginWaitCursor();
-        if (WaitForSingleObject(m_evOpenPrivateFinished, 5000) == WAIT_TIMEOUT) { // TODO: it's really dangerous, decide if we should do it at all
-            // graph thread is taking too long to respond, we take extreme measures and terminate it
-            MessageBeep(MB_ICONEXCLAMATION);
-            ASSERT(FALSE);
-            ENSURE(TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR));
-            // then we recreate graph thread
-            bGraphTerminated = true;
-            CWinThread* newthread = AfxBeginThread(RUNTIME_CLASS(CGraphThread));
-            if (newthread) {
-                m_pGraphThread = (CGraphThread*)newthread;
-                m_pGraphThread->SetMainFrame(this);
-            } else {
-                m_pGraphThread = nullptr;
+        if (m_bOpenedThroughThread) {
+            BeginWaitCursor();
+            if (WaitForSingleObject(m_evOpenPrivateFinished, 5000) == WAIT_TIMEOUT) { // TODO: it's really dangerous, decide if we should do it at all
+                // graph thread is taking too long to respond, we take extreme measures and terminate it
+                MessageBeep(MB_ICONEXCLAMATION);
+                ASSERT(FALSE);
+#ifndef DEBUG
+                if (bNextIsQueued) {
+#endif
+                    ENSURE(TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR));
+                    // then we recreate graph thread
+                    bGraphTerminated = true;
+                    CWinThread* newthread = AfxBeginThread(RUNTIME_CLASS(CGraphThread));
+                    if (newthread) {
+                        m_pGraphThread = (CGraphThread*)newthread;
+                        m_pGraphThread->SetMainFrame(this);
+                    } else {
+                        m_pGraphThread = nullptr;
+                    }
+#ifndef DEBUG
+                } else {
+                    exit(1);
+                }
+#endif
             }
+            EndWaitCursor();
+        } else {
+#ifndef DEBUG
+            exit(1);
+#endif
         }
-        EndWaitCursor();
 
         MSG msg;
         // purge possible queued OnFilePostOpenmedia()
@@ -19059,6 +19326,14 @@ afx_msg void CMainFrame::OnSubtitleFontSize(UINT nID)
             }
 
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pCurrentSubInput.pSubStream;
+
+            if (pRTS->m_LibassContext.IsLibassActive()) {
+                // not supported by libass (yet)
+                if (!IsFullScreenMode()) {
+                    AfxMessageBox(_T("Adjusting subtitle text size is not possible when using libass."), MB_ICONERROR, 0);
+                }
+            }
+
             {
                 CAutoLock cAutoLock(&m_csSubLock);
                 pRTS->Deinit();
@@ -19067,6 +19342,10 @@ afx_msg void CMainFrame::OnSubtitleFontSize(UINT nID)
 
             if (GetMediaState() != State_Running) {
                 m_pCAP->Paint(false);
+            }
+        } else {
+            if (!IsFullScreenMode()) {
+                AfxMessageBox(_T("Adjusting subtitle text size is not possible for image based subtitle formats."), MB_ICONERROR, 0);
             }
         }
     }
@@ -20022,7 +20301,7 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
 
 HRESULT CMainFrame::UpdateThumbnailClip()
 {
-    if (!m_pTaskbarList || !m_hWnd) {
+    if (!m_pTaskbarList || !m_hWnd || !m_wndView.m_hWnd) {
         return E_FAIL;
     }
 
