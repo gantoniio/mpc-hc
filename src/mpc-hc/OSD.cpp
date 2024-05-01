@@ -1131,11 +1131,8 @@ bool COSD::UpdateButtonImages()
 
 void COSD::SimpleFill(CDC* pDc, CRect* rc)
 {
-    const CAppSettings& s = AfxGetAppSettings();
-
     pDc->SelectObject(m_brushBack);
     pDc->SelectObject(m_penBorder);
-
     pDc->Rectangle(rc);
 }
 
