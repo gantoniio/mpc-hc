@@ -1924,7 +1924,7 @@ msgstr "Idioma:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
 msgid "On Screen Display (OSD)"
-msgstr "Exibição no ecrã (OSD)"
+msgstr "Visualização no ecrã (OSD)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
