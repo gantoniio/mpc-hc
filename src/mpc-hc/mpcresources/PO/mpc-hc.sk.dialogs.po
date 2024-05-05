@@ -1939,7 +1939,7 @@ msgstr "Veľkosť písma:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Zobrazi&ť aktuálny čas"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
