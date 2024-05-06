@@ -385,7 +385,7 @@ msgstr "&İki kat boyut"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Pencereye uzat"
+msgstr "&Sündür"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
