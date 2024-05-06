@@ -189,7 +189,7 @@ msgstr "İşleyici ayarları"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Yırtılma testi"
+msgstr "&Yırtılmayı sına"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
