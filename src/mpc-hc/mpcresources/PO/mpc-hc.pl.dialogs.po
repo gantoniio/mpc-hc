@@ -757,7 +757,7 @@ msgstr "Autor:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Copyright:"
-msgstr "Prawa autor.:"
+msgstr "Prawa autorskie:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
