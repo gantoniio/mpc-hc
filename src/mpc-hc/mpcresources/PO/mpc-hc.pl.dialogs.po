@@ -1947,7 +1947,7 @@ msgstr "Zachowanie okna"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
-msgstr "Zablokuj proporcje okna"
+msgstr "Zachowaj proporcje okna przy zmianie rozmiaru"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
 msgid "Snap to desktop edges"
