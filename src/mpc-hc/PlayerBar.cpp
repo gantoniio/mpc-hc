@@ -190,5 +190,5 @@ bool CPlayerBar::IsAutohidden() const
 
 bool CPlayerBar::HasActivePopup() const
 {
-    return m_bAutohidden;
+    return m_bHasActivePopup;
 }
