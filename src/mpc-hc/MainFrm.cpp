@@ -11472,6 +11472,17 @@ CSize CMainFrame::GetVideoSize() const
     return ret;
 }
 
+void CMainFrame::HidePlaylistFullScreen(bool force /* = false */)
+{
+    if (force || m_fFullScreen) {
+        CAppSettings& s = AfxGetAppSettings();
+        if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
+            m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
+            ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
+        }
+    }
+}
+
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
     if (IsD3DFullScreenMode()) {
@@ -11558,10 +11569,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
             m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
 
-            if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
-                m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
-                ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
-            }
+            HidePlaylistFullScreen(true);
 
             GetWindowRect(&m_lastWindowRect);
 
