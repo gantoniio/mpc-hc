@@ -231,7 +231,6 @@ protected:
     BOOL PreCreateWindow(CREATESTRUCT& cs);
     BOOL PreTranslateMessage(MSG* pMsg);
     void OnPaint();
-    bool NeedsHiding();
     BOOL OnEraseBkgnd(CDC* pDC);
 
     DECLARE_MESSAGE_MAP()

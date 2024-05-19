@@ -780,7 +780,7 @@ void COSD::DisplayMessage(
     LPCWSTR OSD_Font/* = nullptr*/,
     const bool bPeriodicallyDisplayed/* = false*/)
 {
-    if (!m_bShowMessage || NeedsHiding()) {
+    if (!m_bShowMessage) {
         return;
     }
 
@@ -936,18 +936,11 @@ void COSD::OnPaint()
     DrawWnd();
 }
 
-bool COSD::NeedsHiding()
-{
-    if (!SysVersion::IsWin8orLater()) { //we have a WS_POPUP topmost window, special behavior required
-        return m_pMainFrame->IsIconic() || !m_pMainFrame->IsWindowVisible();
-    }
-}
-
 void COSD::DrawWnd()
 {
     CAutoLock Lock(&m_Lock);
 
-    if (m_nMessagePos == OSD_NOMESSAGE || NeedsHiding()) {
+    if (m_nMessagePos == OSD_NOMESSAGE) {
         if (IsWindowVisible()) {
             ShowWindow(SW_HIDE);
         }
