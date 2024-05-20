@@ -7911,7 +7911,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
     int newWidth = videoRect.Width();
     int newHeight = videoRect.Height();
     if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) { //wider than aspect ratio, so use height instead
-        int growPixels = int(.01f * workRect.Height());
+        int growPixels = int(.02f * workRect.Height());
         newHeight = videoRect.Height() + growPixels * mult;
         double newRatio = double(newHeight) / double(videoRect.Width());
         if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio-videoRatio) != SGN(videoRectRatio-videoRatio)) {
@@ -7921,7 +7921,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
             }
         }
     } else {
-        int growPixels = int(.01f * workRect.Width());
+        int growPixels = int(.02f * workRect.Width());
         newWidth = std::max(videoRect.Width() + growPixels * mult, minWidth);
         double newRatio = double(videoRect.Height()) / double(newWidth);
         if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
@@ -7937,11 +7937,11 @@ void CMainFrame::OnViewModifySize(UINT nID) {
 
     CSize cs = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
 
-    CRect newRect;
-    CRect work;
+    CRect newRect, work, zoomRect;
+    zoomRect = GetZoomWindowRect(cs, true);
     //if old rect was constrained to a single monitor, we zoom incrementally
-    if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight())) {
-        newRect = GetZoomWindowRect(cs, true);
+    if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight()-CSize(1,1)) && zoomRect != rect) {
+        newRect = zoomRect;
     } else {
         newRect = CRect(rect.TopLeft(), cs);
     }
