@@ -7903,7 +7903,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
     double videoRatio = double(videoSize.cy) / double(videoSize.cx);
 
     CRect videoRect, workRect;
-    m_pVideoWnd->GetWindowRect(&videoRect);
+    videoRect = m_pVideoWnd->GetVideoRect();
     double videoRectRatio = double(videoRect.Height()) / double(videoRect.Width());
 
     GetWorkAreaRect(workRect);
