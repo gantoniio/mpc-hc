@@ -7890,7 +7890,7 @@ void CMainFrame::OnViewZoomAutoFitLarger()
 }
 
 void CMainFrame::OnViewModifySize(UINT nID) {
-    if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic()) {
+    if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic() || GetLoadState() != MLS::LOADED) {
         return;
     }
 
