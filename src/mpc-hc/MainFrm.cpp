@@ -7926,7 +7926,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
         int newHeight = videoRect.Height();
 
         if (useMethod == autoChoose) {
-            if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) {
+            if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) { //wider than aspect ratio, so use height instead
                 useMethod = byHeight;
                 int growPixels = int(.02f * workRect.Height());
                 newHeight = videoRect.Height() + growPixels * mult;
@@ -7941,7 +7941,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
             newWidth = forceDimension.cx + videoRect.Width() - rect.Width();
         }
 
-        if (useMethod == byHeight) { //wider than aspect ratio, so use height instead
+        if (useMethod == byHeight) {
             double newRatio = double(newHeight) / double(videoRect.Width());
             if (s.fLimitWindowProportions || previouslyProportional || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
                 newWidth = std::max(int(ceil(newHeight / videoRatio)), minWidth);
