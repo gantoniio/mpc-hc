@@ -7938,7 +7938,7 @@ void CMainFrame::OnViewModifySize(UINT nID) {
         } else if (useMethod == byHeight) {
             newHeight = forceDimension.cy + videoRect.Height() - rect.Height();
         } else {
-            newWidth = forceDimension.cx;
+            newWidth = forceDimension.cx + videoRect.Width() - rect.Width();
         }
 
         if (useMethod == byHeight) { //wider than aspect ratio, so use height instead
