@@ -4094,6 +4094,7 @@ BEGIN
     IDS_MOUSE_WHEEL_RIGHT   "Wheel Right"
     IDS_MOUSE_ACTION        "Action"
     IDS_MOUSE_COMMAND       "Command"
+    IDS_MOUSE_RIGHT_BUTTON  "Right button"
 END
 
 STRINGTABLE

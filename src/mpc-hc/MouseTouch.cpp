@@ -206,7 +206,7 @@ WORD CMouse::AssignedMouseToCmd(UINT mouseValue, UINT nFlags) {
     case wmcmd::WDOWN:     mcmds = s.MouseWheelDown;    break;
     case wmcmd::WLEFT:     mcmds = s.MouseWheelLeft;    break;
     case wmcmd::WRIGHT:    mcmds = s.MouseWheelRight;   break;
-    case wmcmd::LDOWN:     return (WORD)s.nMouseLeftClick;
+    case wmcmd::LUP:       return (WORD)s.nMouseLeftClick;
     case wmcmd::LDBLCLK:   return (WORD)s.nMouseLeftDblClick;
     case wmcmd::RUP:       return (WORD)s.nMouseRightClick;
     }
@@ -569,7 +569,7 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         bool checkDrag = (diff.x * diff.x + diff.y * diff.y) > maxDim*maxDim; // if dragged 10%/4% of screen maxDim start dragging
 
         if (checkDrag) {
-            bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP);
+            bool bUpAssigned = !!AssignedMouseToCmd(wmcmd::LUP,0);
             if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
                 (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint,
                     GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {
