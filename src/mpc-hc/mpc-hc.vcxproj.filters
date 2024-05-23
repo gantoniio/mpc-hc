@@ -618,6 +618,12 @@
     <ClCompile Include="WicUtils.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="PPageMouse.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="AddCommandDlg.cpp">
+      <Filter>Modal Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1172,6 +1178,12 @@
     </ClInclude>
     <ClInclude Include="WicUtils.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageMouse.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="AddCommandDlg.h">
+      <Filter>Modal Dialogs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

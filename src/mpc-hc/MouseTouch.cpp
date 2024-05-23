@@ -193,10 +193,41 @@ bool CMouse::IsOnFullscreenWindow() const
     }
 }
 
-bool CMouse::OnButton(UINT id, const CPoint& point)
+WORD CMouse::AssignedMouseToCmd(UINT mouseValue, UINT nFlags) {
+    CAppSettings& s = AfxGetAppSettings();
+
+    CAppSettings::MOUSE_ASSIGNMENT mcmds = {};
+
+    switch (mouseValue) {
+    case wmcmd::MDOWN:     mcmds = s.MouseMiddleClick;  break;
+    case wmcmd::X1DOWN:    mcmds = s.MouseX1Click;      break;
+    case wmcmd::X2DOWN:    mcmds = s.MouseX2Click;      break;
+    case wmcmd::WUP:       mcmds = s.MouseWheelUp;      break;
+    case wmcmd::WDOWN:     mcmds = s.MouseWheelDown;    break;
+    case wmcmd::WLEFT:     mcmds = s.MouseWheelLeft;    break;
+    case wmcmd::WRIGHT:    mcmds = s.MouseWheelRight;   break;
+    case wmcmd::LDOWN:     return (WORD)s.nMouseLeftClick;
+    case wmcmd::LDBLCLK:   return (WORD)s.nMouseLeftDblClick;
+    case wmcmd::RUP:       return (WORD)s.nMouseRightClick;
+    }
+
+    if (mcmds.ctrl && (nFlags & MK_CONTROL)) {
+        return (WORD)mcmds.ctrl;
+    }
+    if (mcmds.shift && (nFlags & MK_SHIFT)) {
+        return (WORD)mcmds.shift;
+    }
+    if (mcmds.rbtn && (nFlags & MK_RBUTTON)) {
+        return (WORD)mcmds.rbtn;
+    }
+
+    return (WORD)mcmds.normal;
+}
+
+bool CMouse::OnButton(UINT id, const CPoint& point, int nFlags)
 {
     bool ret = false;
-    WORD cmd = AssignedToCmd(id);
+    WORD cmd = AssignedMouseToCmd(id, nFlags);
     if (cmd) {
         m_pMainFrame->PostMessage(WM_COMMAND, cmd);
         ret = true;
