@@ -99,6 +99,7 @@ extern bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& Fri
 extern IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB);
 extern CStringW GetFriendlyName(CStringW DisplayName);
 extern HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv);
+extern HRESULT LoadExternalClassFactory(LPCTSTR path, REFCLSID clsid, CComPtr<IClassFactory>& pCF);
 extern HRESULT LoadExternalFilter(LPCTSTR path, REFCLSID clsid, IBaseFilter** ppBF);
 extern HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** ppPP);
 extern bool UnloadUnusedExternalObjects();

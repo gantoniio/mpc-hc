@@ -1310,6 +1310,60 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
     return hr;
 }
 
+HRESULT LoadExternalClassFactory(LPCTSTR path, REFCLSID clsid, CComPtr<IClassFactory>& pCF) {
+    CAutoLock lock(&s_csExtObjs);
+
+    CString fullpath = MakeFullPath(path);
+
+    HINSTANCE hInst = nullptr;
+    bool fFound = false;
+
+    POSITION pos = s_extObjs.GetHeadPosition();
+    while (pos) {
+        ExternalObject& eo = s_extObjs.GetNext(pos);
+        if (!eo.path.CompareNoCase(fullpath)) {
+            hInst = eo.hInst;
+            fFound = true;
+            eo.bUnloadOnNextCheck = false;
+            break;
+        }
+    }
+
+    HRESULT hr = E_FAIL;
+
+    if (!hInst) {
+        hInst = LoadLibraryEx(fullpath, nullptr, LOAD_WITH_ALTERED_SEARCH_PATH);
+    }
+    if (hInst) {
+        typedef HRESULT(__stdcall* PDllGetClassObject)(REFCLSID rclsid, REFIID riid, LPVOID* ppv);
+        PDllGetClassObject p = (PDllGetClassObject)GetProcAddress(hInst, "DllGetClassObject");
+
+        if (p) {
+            if (SUCCEEDED(hr = p(clsid, IID_PPV_ARGS(&pCF)))) {
+                DWORD cRegister;
+                hr = CoRegisterClassObject(clsid, pCF, CLSCTX_INPROC_SERVER, REGCLS_MULTIPLEUSE, &cRegister);
+            }
+        }
+    }
+
+    if (FAILED(hr) && hInst && !fFound) {
+        FreeLibrary(hInst);
+        return hr;
+    }
+
+    if (hInst && !fFound) {
+        ExternalObject eo;
+        eo.path = fullpath;
+        eo.hInst = hInst;
+        eo.clsid = clsid;
+        eo.fpDllCanUnloadNow = (fDllCanUnloadNow)GetProcAddress(hInst, "DllCanUnloadNow");
+        eo.bUnloadOnNextCheck = false;
+        s_extObjs.AddTail(eo);
+    }
+
+    return hr;
+}
+
 HRESULT LoadExternalFilter(LPCTSTR path, REFCLSID clsid, IBaseFilter** ppBF)
 {
     return LoadExternalObject(path, clsid, IID_PPV_ARGS(ppBF));
