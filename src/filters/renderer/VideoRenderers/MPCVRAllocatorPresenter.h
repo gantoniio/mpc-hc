@@ -101,7 +101,7 @@ namespace DSObjects
         STDMETHODIMP_(bool) ToggleStats() override;
         static bool HasInternalMPCVRFilter();
     protected:
-        bool NeedsInternalMPCVRFilter();
+        bool LoadInternalMPCVRFilter();
         static bool CheckVersion(CString filterPath);
     };
 }

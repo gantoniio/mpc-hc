@@ -247,9 +247,9 @@ bool CMPCVRAllocatorPresenter::HasInternalMPCVRFilter() {
     return CheckVersion(lPath);
 }
 
-bool CMPCVRAllocatorPresenter::NeedsInternalMPCVRFilter()
+bool CMPCVRAllocatorPresenter::LoadInternalMPCVRFilter()
 {
-    if (!IsCLSIDRegistered(CLSID_MPCVR) && HasInternalMPCVRFilter()) {
+    if (HasInternalMPCVRFilter()) {
         CComPtr<IClassFactory> pCF;
         HRESULT hr = LoadExternalClassFactory(GetInternalLibraryPath(), CLSID_MPCVR, pCF);
         if (SUCCEEDED(hr)) {
@@ -270,7 +270,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_UNEXPECTED;
     }
 
-    if (!NeedsInternalMPCVRFilter()) {
+    if (IsCLSIDRegistered(CLSID_MPCVR) || !LoadInternalMPCVRFilter()) {
         HRESULT hr = m_pMPCVR.CoCreateInstance(CLSID_MPCVR, GetOwner());
         if (FAILED(hr)) {
             return hr;
