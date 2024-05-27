@@ -1253,7 +1253,7 @@ struct ExternalObject {
 static CAtlList<ExternalObject> s_extObjs;
 static CCritSec s_csExtObjs;
 
-HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv, IUnknown* aggregate)
+HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
 
@@ -1284,10 +1284,10 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv,
         typedef HRESULT(__stdcall * PDllGetClassObject)(REFCLSID rclsid, REFIID riid, LPVOID * ppv);
         PDllGetClassObject p = (PDllGetClassObject)GetProcAddress(hInst, "DllGetClassObject");
 
-        if (p && (aggregate || FAILED(hr = p(clsid, iid, ppv)))) {
+        if (p && FAILED(hr = p(clsid, iid, ppv))) {
             CComPtr<IClassFactory> pCF;
             if (SUCCEEDED(hr = p(clsid, IID_PPV_ARGS(&pCF)))) {
-                hr = pCF->CreateInstance(aggregate, iid, ppv);
+                hr = pCF->CreateInstance(nullptr, iid, ppv);
             }
         }
     }
