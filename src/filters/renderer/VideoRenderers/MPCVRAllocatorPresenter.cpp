@@ -250,12 +250,8 @@ bool CMPCVRAllocatorPresenter::HasInternalMPCVRFilter() {
 bool CMPCVRAllocatorPresenter::LoadInternalMPCVRFilter()
 {
     if (HasInternalMPCVRFilter()) {
-        CComPtr<IClassFactory> pCF;
-        HRESULT hr = LoadExternalClassFactory(GetInternalLibraryPath(), CLSID_MPCVR, pCF);
-        if (SUCCEEDED(hr)) {
-            hr = pCF->CreateInstance(GetOwner(), IID_PPV_ARGS(&m_pMPCVR.p));
-            return SUCCEEDED(hr);
-        }
+        HRESULT hr = LoadExternalObject(GetInternalLibraryPath(), CLSID_MPCVR, IID_PPV_ARGS(&m_pMPCVR.p), GetOwner());
+        return SUCCEEDED(hr);
     }
     return false;
 }
