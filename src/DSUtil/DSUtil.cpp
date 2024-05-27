@@ -1339,10 +1339,7 @@ HRESULT LoadExternalClassFactory(LPCTSTR path, REFCLSID clsid, CComPtr<IClassFac
         PDllGetClassObject p = (PDllGetClassObject)GetProcAddress(hInst, "DllGetClassObject");
 
         if (p) {
-            if (SUCCEEDED(hr = p(clsid, IID_PPV_ARGS(&pCF)))) {
-                DWORD cRegister;
-                hr = CoRegisterClassObject(clsid, pCF, CLSCTX_INPROC_SERVER, REGCLS_MULTIPLEUSE, &cRegister);
-            }
+            hr = p(clsid, IID_PPV_ARGS(&pCF));
         }
     }
 
