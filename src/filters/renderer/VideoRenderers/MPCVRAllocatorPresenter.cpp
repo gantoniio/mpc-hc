@@ -247,7 +247,7 @@ bool CMPCVRAllocatorPresenter::HasInternalMPCVRFilter() {
     return CheckVersion(lPath);
 }
 
-bool CMPCVRAllocatorPresenter::InstantiateInternalMPCVR(CComPtr<IUnknown>& m_pMPCVR, LPUNKNOWN pUnkOuter)
+HRESULT CMPCVRAllocatorPresenter::InstantiateInternalMPCVR(CComPtr<IUnknown>& m_pMPCVR, LPUNKNOWN pUnkOuter)
 {
     if (HasInternalMPCVRFilter()) {
         CComPtr<IClassFactory> pCF;
@@ -255,9 +255,9 @@ bool CMPCVRAllocatorPresenter::InstantiateInternalMPCVR(CComPtr<IUnknown>& m_pMP
         if (SUCCEEDED(hr)) {
             hr = pCF->CreateInstance(pUnkOuter, IID_PPV_ARGS(&m_pMPCVR.p));
         }
-        return SUCCEEDED(hr);
+        return hr;
     }
-    return false;
+    return E_FAIL;
 }
 
 // ISubPicAllocatorPresenter
@@ -270,11 +270,15 @@ STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_UNEXPECTED;
     }
 
-    if (IsCLSIDRegistered(CLSID_MPCVR) || !InstantiateInternalMPCVR(m_pMPCVR, GetOwner())) {
-        HRESULT hr = m_pMPCVR.CoCreateInstance(CLSID_MPCVR, GetOwner());
-        if (FAILED(hr)) {
-            return hr;
-        }
+    HRESULT hr;
+    if (IsCLSIDRegistered(CLSID_MPCVR)) {
+        hr = m_pMPCVR.CoCreateInstance(CLSID_MPCVR, GetOwner());
+    } else {
+        hr = InstantiateInternalMPCVR(m_pMPCVR, GetOwner());
+    }
+
+    if (FAILED(hr)) {
+        return hr;
     }
 
     if (!m_pMPCVR) {
