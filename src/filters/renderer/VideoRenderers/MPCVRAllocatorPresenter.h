@@ -100,7 +100,6 @@ namespace DSObjects
         STDMETHODIMP AddPixelShader(int target, LPCWSTR name, LPCSTR profile, LPCSTR sourceCode) override;
         STDMETHODIMP_(bool) ToggleStats() override;
         static bool HasInternalMPCVRFilter();
-        static HRESULT LoadInternalMPCVRFilter(CComPtr<IBaseFilter>& pBF);
         static bool InstantiateInternalMPCVR(CComPtr<IUnknown>& m_pMPCVR, LPUNKNOWN pUnkOuter);
     protected:
         static bool CheckVersion(CString filterPath);

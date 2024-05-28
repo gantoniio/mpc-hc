@@ -260,14 +260,6 @@ bool CMPCVRAllocatorPresenter::InstantiateInternalMPCVR(CComPtr<IUnknown>& m_pMP
     return false;
 }
 
-HRESULT CMPCVRAllocatorPresenter::LoadInternalMPCVRFilter(CComPtr<IBaseFilter>& pBF)
-{
-    if (HasInternalMPCVRFilter()) {
-        return LoadExternalFilter(GetInternalLibraryPath(), CLSID_MPCVR, &pBF);
-    }
-    return E_FAIL;
-}
-
 // ISubPicAllocatorPresenter
 
 STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
