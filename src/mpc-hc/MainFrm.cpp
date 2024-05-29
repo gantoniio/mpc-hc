@@ -6126,6 +6126,7 @@ CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
     ASSERT(!thumbnails || GetPlaybackMode() == PM_FILE);
 
     auto videoFn = GetFileName();
+    auto fullName = m_wndPlaylistBar.GetCurFileName(true);
     bool needsExtensionRemoval = !s.bSnapShotKeepVideoExtension;
     if (IsPlaylistFile(videoFn)) {
         CPlaylistItem pli;
@@ -6133,7 +6134,7 @@ CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
             videoFn = pli.m_label;
             needsExtensionRemoval = false;
         }
-    } else if (needsExtensionRemoval){
+    } else if (needsExtensionRemoval && PathUtils::IsURL(fullName)){
         auto title = getBestTitle();
         if (!title.IsEmpty()) {
             videoFn = title;
