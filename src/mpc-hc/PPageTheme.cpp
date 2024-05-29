@@ -182,7 +182,7 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_TOOLTIP));
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_PREVIEW));
     m_HoverType.SetCurSel(s.fSeekPreview ? 1 : 0);
-    CorrectComboListWidth(m_HoverType);
+    AdjustDynamicWidth(this, IDC_STATIC8, IDC_SEEK_PREVIEW, DynamicAlignText, DynamicAlignCombo);
 
     HoverEnableSubControls(m_fUseSeekbarHover);
 
