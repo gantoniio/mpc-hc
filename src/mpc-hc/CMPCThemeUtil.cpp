@@ -1063,7 +1063,7 @@ CPoint CMPCThemeUtil::GetRegionOffset(CWnd* window) {
     return offset;
 }
 
-void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWidget, DynamicAlignWindowType lType, DynamicAlignWindowType rType) {
+void CMPCThemeUtil::AdjustDynamicWidgetPair(CWnd* window, int leftWidget, int rightWidget, DynamicAlignWindowType lType, DynamicAlignWindowType rType) {
     if (window && IsWindow(window->m_hWnd)) {
         DpiHelper dpiWindow;
         dpiWindow.Override(window->GetSafeHwnd());
@@ -1114,16 +1114,25 @@ void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWi
                     }
                 }
             }
+            CRect cl = l, cr = r;
             if (leftWantsRight > rightWantsLeft - dynamicSpace //overlaps; we will assume defaults are best
                 || (leftWantsRight < l.right && rightWantsLeft > r.left)) { // there is no need to resize
-                return;
+                //do nothing
             } else {
                 l.right = leftWantsRight;
                 //if necessary space would shrink the right widget, instead get as close to original size as possible
                 //this minimizes noticeable layout changes
                 r.left = std::min(rightWantsLeft, std::max(l.right + dynamicSpace, r.left));
+            }
+            if ((lType == DynamicAlignText || lType == DynamicAlignCheckBox) && (rType == DynamicAlignCombo || rType == DynamicAlignEdit)) {
+                l.bottom += r.Height() - l.Height();
+                leftW->ModifyStyle(0, SS_CENTERIMAGE);
+            }
 
+            if (l != cl) {
                 leftW->MoveWindow(l);
+            }
+            if (r != cr) {
                 rightW->MoveWindow(r);
             }
         }

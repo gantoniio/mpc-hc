@@ -22,6 +22,7 @@ public:
         DynamicAlignCheckBox = 0
         , DynamicAlignCombo
         , DynamicAlignText
+        , DynamicAlignEdit
     };
 
 
@@ -92,7 +93,7 @@ public:
     static void drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill = true);
     static void fulfillThemeReqs(CProgressCtrl* ctl);
     static void enableWindows10DarkFrame(CWnd* window);
-    static void AdjustDynamicWidth(CWnd* window, int left, int right, DynamicAlignWindowType lType, DynamicAlignWindowType rType);
+    static void AdjustDynamicWidgetPair(CWnd* window, int left, int right, DynamicAlignWindowType lType, DynamicAlignWindowType rType);
 
     void PreDoModalRTL(LPPROPSHEETHEADERW m_psh);
 

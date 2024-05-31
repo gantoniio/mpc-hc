@@ -140,16 +140,18 @@ BOOL CPPageTheme::OnInitDialog()
 
     m_ModernSeekbarHeightCtrl.SetRange32(MIN_MODERN_SEEKBAR_HEIGHT, MAX_MODERN_SEEKBAR_HEIGHT);
     m_iModernSeekbarHeight = s.iModernSeekbarHeight;
+    AdjustDynamicWidgetPair(this, IDC_STATIC22, IDC_MODERNSEEKBARHEIGHT, DynamicAlignText, DynamicAlignEdit);
 
     m_DefaultToolbarSizeCtrl.SetRange32(MIN_TOOLBAR_HEIGHT, MAX_TOOLBAR_HEIGHT);
     m_iDefaultToolbarSize = s.nDefaultToolbarSize;
+    AdjustDynamicWidgetPair(this, IDC_STATIC3, IDC_EDIT1, DynamicAlignText, DynamicAlignEdit);
 
     m_iThemeMode = static_cast<int>(s.eModernThemeMode);
 
     m_ThemeMode.AddString(ResStr(IDS_THEMEMODE_DARK));
     m_ThemeMode.AddString(ResStr(IDS_THEMEMODE_LIGHT));
     m_ThemeMode.AddString(ResStr(IDS_THEMEMODE_WINDOWS));
-    CorrectComboListWidth(m_ThemeMode);
+    AdjustDynamicWidgetPair(this, IDC_STATIC2, IDC_COMBO1, DynamicAlignText, DynamicAlignCombo);
 
     for (auto& lr : Translations::GetAvailableLanguageResources()) {
         int pos = m_langsComboBox.AddString(lr.name);
@@ -165,15 +167,14 @@ BOOL CPPageTheme::OnInitDialog()
             ASSERT(FALSE);
         }
     }
-    CorrectComboListWidth(m_langsComboBox);
+    AdjustDynamicWidgetPair(this, IDC_STATIC5, IDC_COMBO2, DynamicAlignCheckBox, DynamicAlignCombo);
 
     m_fUseSeekbarHover = s.fUseSeekbarHover;
 
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
     m_HoverPosition.SetCurSel(s.nHoverPosition);
-    AdjustDynamicWidth(this, IDC_CHECK8, IDC_COMBO3, DynamicAlignCheckBox, DynamicAlignCombo);
-    CorrectComboListWidth(m_HoverPosition);
+    AdjustDynamicWidgetPair(this, IDC_CHECK8, IDC_COMBO3, DynamicAlignCheckBox, DynamicAlignCombo);
 
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
@@ -182,12 +183,14 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_TOOLTIP));
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_PREVIEW));
     m_HoverType.SetCurSel(s.fSeekPreview ? 1 : 0);
-    AdjustDynamicWidth(this, IDC_STATIC8, IDC_SEEK_PREVIEW, DynamicAlignText, DynamicAlignCombo);
+    AdjustDynamicWidgetPair(this, IDC_STATIC8, IDC_SEEK_PREVIEW, DynamicAlignText, DynamicAlignCombo);
 
     HoverEnableSubControls(m_fUseSeekbarHover);
 
     m_iSeekPreviewSize = s.iSeekPreviewSize;
     m_SeekPreviewSizeCtrl.SetRange32(5, 40);
+    AdjustDynamicWidgetPair(this, IDC_STATIC7, IDC_EDIT4, DynamicAlignText, DynamicAlignEdit);
+
 
     m_fShowChapters = s.fShowChapters;
 
@@ -212,6 +215,7 @@ BOOL CPPageTheme::OnInitDialog()
         }
     }
     m_FontType.SetCurSel(iSel);
+    AdjustDynamicWidgetPair(this, IDC_STATIC6, IDC_COMBO5, DynamicAlignText, DynamicAlignCombo);
 
     CString str;
     for (int i = 10; i < 51; ++i) {
@@ -222,6 +226,7 @@ BOOL CPPageTheme::OnInitDialog()
         }
     }
     m_FontSize.SetCurSel(iSel - 10);
+    AdjustDynamicWidgetPair(this, IDC_STATIC23, IDC_COMBO6, DynamicAlignText, DynamicAlignCombo);
 
     m_fShowOSD = s.fShowOSD;
     m_fShowCurrentTimeInOSD = s.fShowCurrentTimeInOSD;
