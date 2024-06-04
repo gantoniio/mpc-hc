@@ -122,8 +122,6 @@ BOOL CMPCThemeTabCtrl::OnEraseBkgnd(CDC* pDC)
     return TRUE;
 }
 
-
-
 void CMPCThemeTabCtrl::OnPaint()
 {
     if (AppIsThemeLoaded()) {
