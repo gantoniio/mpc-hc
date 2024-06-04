@@ -1021,7 +1021,7 @@ msgstr "Przesunięcie (ms):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr "Automatyczny"
+msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
