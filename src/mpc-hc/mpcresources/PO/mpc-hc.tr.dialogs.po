@@ -658,7 +658,7 @@ msgstr "Atlama mesafeleri (kısa, orta, uzun - ms cinsinden)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
-msgstr "Varsayılan"
+msgstr "Sıfırla"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
