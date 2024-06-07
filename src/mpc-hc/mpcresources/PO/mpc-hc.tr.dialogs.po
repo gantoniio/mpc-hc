@@ -112,7 +112,7 @@ msgstr "Ses gecikmesi (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Özel kanal adreslemesi kullan"
+msgstr "Özel isteğe uyarlanmış kanal eşlemleme kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
@@ -349,11 +349,11 @@ msgstr "\"DVD/Blu-ray aç\" davranışı"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Konum bilgisi iste"
+msgstr "Yer sor"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Her zaman varsayılan konumu aç:"
+msgstr "Daima belirtilen yeri aç:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
@@ -1949,7 +1949,7 @@ msgstr "Yazı boyutu:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Güncel süreyi göster"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
