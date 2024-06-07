@@ -4029,7 +4029,7 @@ msgid ""
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
 "/pns \"girdi\"\tKullanılacak video karesi \"ön ayar adı\"nı ya da\n"
-"\"px,py,zx,zy\" biçiminde doğrudan yerleşim ve yakınlaştırma değerlerini belirtin"
+"\t\t\"px,py,zx,zy\" biçiminde doğrudan yerleşim ve yakınlaştırma değerlerini belirtin"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
