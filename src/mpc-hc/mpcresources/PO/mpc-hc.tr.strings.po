@@ -1894,7 +1894,7 @@ msgid ""
 "Are you sure you want to restore MPC-HC to its default settings?\n"
 "Be warned that ALL your current settings will be lost!"
 msgstr ""
-"MPC-HC uygulamasını varsayılan ayarlarına döndürmek istiyor musunuz?\n"
+"MPC-HC uygulamasını öntanımlı ayarlarına geri getirmek istiyor musunuz?\n"
 "Şimdiki TÜM ayarlarınızın KAYBOLACAĞINI önemle hatırlatırız!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
