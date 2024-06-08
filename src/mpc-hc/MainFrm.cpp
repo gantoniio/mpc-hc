@@ -108,6 +108,7 @@
 #include "CMPCThemeMiniDockFrameWnd.h"
 #include "RarEntrySelectorDialog.h"
 #include "FileHandle.h"
+#include "MPCFolderPickerDialog.h"
 
 #include "stb/stb_image.h"
 #include "stb/stb_image_resize2.h"
@@ -20133,8 +20134,7 @@ void CMainFrame::OnFileOpendirectory()
     CString strTitle(StrRes(IDS_MAINFRM_DIR_TITLE));
     CString path;
 
-    CFolderPickerDialog fd(ForceTrailingSlash(s.lastFileOpenDirPath), FOS_PATHMUSTEXIST, GetModalParent());
-    fd.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
+    MPCFolderPickerDialog fd(ForceTrailingSlash(s.lastFileOpenDirPath), FOS_PATHMUSTEXIST, GetModalParent(), IDS_MAINFRM_DIR_CHECK);
     fd.m_ofn.lpstrTitle = strTitle;
 
     if (fd.DoModal() == IDOK) {
@@ -20487,15 +20487,8 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         fileDialogHandle = (HWND)lParam;
         watchingFileDialog = false;
         //capture but process message normally
-    } else if (message == WM_GETICON && nullptr != fileDialogHandle) {
-        HWND duiview = ::FindWindowEx(fileDialogHandle, NULL, _T("DUIViewWndClassName"), NULL);
-        HWND duihwnd = ::FindWindowEx(duiview, NULL, _T("DirectUIHWND"), NULL);
-        HWND firstchild = ::GetWindow(duihwnd, GW_CHILD);
-        if (nullptr != firstchild) {
-            fileDialogHookHelper->subClassFileDialog(this, duihwnd);
-            ::RedrawWindow(duiview, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
-            fileDialogHandle = nullptr;
-        }
+    } else if (message == WM_GETICON && nullptr != fileDialogHookHelper && nullptr != fileDialogHandle) {
+        fileDialogHookHelper->subClassFileDialog(this, fileDialogHandle);
     }
 
     if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION && !m_pMVRSR) {
