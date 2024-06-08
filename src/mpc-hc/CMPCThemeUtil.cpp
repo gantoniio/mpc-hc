@@ -270,7 +270,7 @@ void CMPCThemeUtil::subClassFileDialog(CWnd* wnd, HWND& fileDialogHandle) {
 void CMPCThemeUtil::subClassFileDialogRecurse(CWnd* wnd, HWND hWnd, FileDialogWidgetSearch searchType) {
     HWND pChild = ::GetWindow(hWnd, GW_CHILD);
     while (pChild) {
-        TCHAR childWindowClass[MAX_PATH];
+        WCHAR childWindowClass[MAX_PATH];
         ::GetClassName(pChild, childWindowClass, _countof(childWindowClass));
         if (searchType == RecurseSinkWidgets) {
             if (0 == wcsicmp(childWindowClass, L"FloatNotifySink")) { //children are the injected controls
@@ -279,7 +279,7 @@ void CMPCThemeUtil::subClassFileDialogRecurse(CWnd* wnd, HWND hWnd, FileDialogWi
         } else if (searchType == ThemeAllChildren) {
             subClassFileDialogWidgets(pChild, hWnd, childWindowClass);
         } else if (searchType == ProminentControlIDWidget){
-            TCHAR str[MAX_PATH];
+            WCHAR str[MAX_PATH];
             ::GetWindowText(pChild, str, _countof(str));
             if (0 == wcsicmp(str, ResStr(dialogProminentControlStringID))) {
                 subClassFileDialogWidgets(pChild, hWnd, childWindowClass);
