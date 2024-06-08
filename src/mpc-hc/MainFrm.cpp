@@ -6247,7 +6247,7 @@ void CMainFrame::OnFileSaveImage()
 
     bool subtitleOptionSupported = !m_pMVRFG && s.fEnableSubtitles && s.IsISRAutoLoadEnabled();
 
-    CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
+    CSaveImageDialog fd(s.nJpegQuality, s.strSnapshotExt, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), subtitleOptionSupported);
 
     if (s.strSnapshotExt == _T(".bmp")) {
