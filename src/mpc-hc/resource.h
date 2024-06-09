@@ -229,6 +229,7 @@
 #define ID_STREAM_SUB_NEXT              954
 #define ID_STREAM_SUB_PREV              955
 #define ID_STREAM_SUB_ONOFF             956
+#define ID_AUDIOSHIFT_ONOFF             960
 #define ID_DVD_ANGLE_NEXT               961
 #define ID_DVD_ANGLE_PREV               962
 #define ID_DVD_AUDIO_NEXT               963
@@ -510,6 +511,7 @@
 #define IDS_INTERNAL_LAVF               14004
 #define IDS_INTERNAL_LAVF_WMV           14005
 #define IDS_AG_OPEN_FILE_LOCATION       14006
+#define IDS_AG_OPENDIRECTORY            14007
 #define IDS_PLAYLIST_OPEN               14114
 #define IDS_PLAYLIST_ADD                14115
 #define IDS_PLAYLIST_REMOVE             14116
@@ -1707,7 +1709,8 @@
 #define IDS_PPAGEADVANCED_PREVENT_DISPLAY_SLEEP 57641
 #define IDS_PPAGEADVANCED_STILL_VIDEO_DURATION 57642
 #define IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE 57643
-#define IDS_PLAYLIST_TOGGLE_SHUFFLE 57644
+#define IDS_PLAYLIST_TOGGLE_SHUFFLE     57644
+#define IDS_AUDIOSHIFT_ONOFF            57645
 
 
 #define IDS_ARS_WASAPI_MODE             57700

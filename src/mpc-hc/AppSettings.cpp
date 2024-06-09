@@ -38,6 +38,7 @@
 #include <chrono>
 #include "date/date.h"
 #include "PPageExternalFilters.h"
+#include "../VideoRenderers/MPCVRAllocatorPresenter.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
@@ -55,7 +56,8 @@ CAppSettings::CAppSettings()
     , fTrayIcon(false)
     , fShowOSD(true)
     , fShowCurrentTimeInOSD(false)
-    , nOSDTransparent(0)
+    , nOSDTransparency(64)
+    , nOSDBorder(1)
     , fLimitWindowProportions(false)
     , fSnapToDesktopEdges(false)
     , fHideCDROMsSubMenu(false)
@@ -264,6 +266,7 @@ CAppSettings::CAppSettings()
     , lastQuickOpenPath(L"")
     , lastFileSaveCopyPath(L"")
     , lastFileOpenDirPath(L"")
+    , externalPlayListPath(L"")
     , iRedirectOpenToAppendThreshold(1000)
     , bFullscreenSeparateControls(true)
     , bAlwaysUseShortMenu(false)
@@ -523,6 +526,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_OPENMEDIA,                  'O', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_FILE },
     { ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD },
     { ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE },
+    { ID_FILE_OPENDIRECTORY,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_OPENDIRECTORY },
     { ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN },
     { ID_FILE_RECYCLE,              VK_DELETE, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE },
 
@@ -724,6 +728,8 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE },
 
     { ID_PLAYLIST_TOGGLE_SHUFFLE,           0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLIST_TOGGLE_SHUFFLE },
+
+    { ID_AUDIOSHIFT_ONOFF,                  0, FVIRTKEY | FNOINVERT,                    IDS_AUDIOSHIFT_ONOFF },
 };
 
 void CAppSettings::CreateCommands()
@@ -743,9 +749,7 @@ CAppSettings::~CAppSettings()
 
 bool CAppSettings::IsD3DFullscreen() const
 {
-    if (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
-            iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
-            iDSVideoRendererType == VIDRNDT_DS_SYNC) {
+    if (iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || iDSVideoRendererType == VIDRNDT_DS_SYNC) {
         return fD3DFullscreen || (nCLSwitches & CLSW_D3DFULLSCREEN);
     } else {
         return false;
@@ -837,7 +841,7 @@ bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
         case VIDRNDT_DS_MADVR:
             return IsCLSIDRegistered(CLSID_madVR);
         case VIDRNDT_DS_MPCVR:
-            return IsCLSIDRegistered(CLSID_MPCVR);
+            return IsCLSIDRegistered(CLSID_MPCVR) || DSObjects::CMPCVRAllocatorPresenter::HasInternalMPCVRFilter();
 #ifdef _WIN64
         case VIDRNDT_DS_OVERLAYMIXER:
             return false;
@@ -1042,7 +1046,6 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     // Last Open Dir
     //pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LAST_OPEN_DIR, strLastOpenDir);
 
-    // CASIMIR666 : new settings
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, fD3DFullscreen);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, iBrightness);
@@ -1052,12 +1055,14 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, fShowOSD);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CURRENT_TIME_OSD, fShowCurrentTimeInOSD);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_OSD_TRANSPARENCY, nOSDTransparency);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_OSD_BORDER, nOSDBorder);
+
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, fEnableEDLEditor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, language);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, bFastSeek);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK_METHOD, eFastSeekMethod);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CHAPTERS, fShowChapters);
-
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, fLCDSupport);
 
@@ -1286,7 +1291,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, lastQuickOpenPath);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_FILESAVECOPY_PATH, lastFileSaveCopyPath);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_LAST_FILEOPENDIR_PATH, lastFileOpenDirPath);
-
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_EXTERNAL_PLAYLIST_PATH, externalPlayListPath);
+    
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, iRedirectOpenToAppendThreshold);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, bFullscreenSeparateControls);
@@ -2008,7 +2014,6 @@ void CAppSettings::LoadSettings()
         }
     }
 
-    // CASIMIR666 : new settings
     fD3DFullscreen        = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
 
     iBrightness           = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, 0);
@@ -2018,6 +2023,9 @@ void CAppSettings::LoadSettings()
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
     fShowCurrentTimeInOSD = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_CURRENT_TIME_OSD, FALSE);
+
+    nOSDTransparency      = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OSD_TRANSPARENCY, 64);
+    nOSDBorder            = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OSD_BORDER, 1);
 
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
     bFastSeek             = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FASTSEEK, TRUE);
@@ -2169,7 +2177,7 @@ void CAppSettings::LoadSettings()
     lastQuickOpenPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_QUICKOPEN_PATH, L"");
     lastFileSaveCopyPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_FILESAVECOPY_PATH, L"");
     lastFileOpenDirPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_LAST_FILEOPENDIR_PATH, L"");
-
+    externalPlayListPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_EXTERNAL_PLAYLIST_PATH, L"");
 
     iRedirectOpenToAppendThreshold = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, 1000);
     bFullscreenSeparateControls = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, TRUE);

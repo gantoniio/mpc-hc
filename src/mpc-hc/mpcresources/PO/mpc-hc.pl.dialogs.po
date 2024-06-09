@@ -407,7 +407,7 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
 msgstr "Kontrola"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
 msgstr "Zmiana głośności o:"
 
@@ -415,7 +415,7 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
 msgstr "%"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
 msgstr "Zmiana prędkości o:"
 
@@ -435,7 +435,7 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
 msgstr "raz(y)"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
 msgstr "Powtarzanie:"
 
@@ -471,11 +471,11 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
 msgstr "Domyślne preferencje ścieżki"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC8"
 msgid "Subtitles:"
 msgstr "Napisy:"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC9"
 msgid "Audio:"
 msgstr "Audio:"
 
@@ -531,11 +531,11 @@ msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
 msgstr "Ustawienia tekstur (wymaga ponownego otworzenia pliku)"
 
-msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
 msgstr "Liczba buforowanych klatek napisów:"
 
-msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
 msgstr "Maksymalna rozdzielczość tekstur:"
 
@@ -976,19 +976,19 @@ msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
 msgstr "Czcionka"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC1"
 msgid "Spacing"
 msgstr "Odstępy:"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC2"
 msgid "Angle (z,°)"
 msgstr "Kąt (z,°):"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC3"
 msgid "Scale (x,%)"
 msgstr "Skala (x,%):"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC4"
 msgid "Scale (y,%)"
 msgstr "Skala (y,%):"
 
@@ -1004,11 +1004,11 @@ msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
 msgstr "Jednolite tło"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC5"
 msgid "Width"
 msgstr "Szerokość"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC6"
 msgid "Shadow"
 msgstr "Cień"
 
@@ -1016,19 +1016,19 @@ msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
 msgstr "Położenie i marginesy"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC7"
 msgid "Left"
 msgstr "Lewo"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC8"
 msgid "Right"
 msgstr "Prawo"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC9"
 msgid "Top"
 msgstr "Góra"
 
-msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC10"
 msgid "Bottom"
 msgstr "Dół"
 
@@ -1059,6 +1059,10 @@ msgstr "Drugorzędny"
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Outline"
 msgstr "Zarys"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Shadow"
+msgstr "Cień"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
@@ -1526,7 +1530,7 @@ msgstr "Wyświetlacz"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Używaj automatycznej zmiany trybu pracy wyświetlacza"
+msgstr "Używaj autom. zmiany trybu pracy wyświetlacza"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1607,7 +1611,7 @@ msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
 msgstr "Ignoruj pliki zawierające którekolwiek z poniższych słów:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
 msgstr "Języki w kolejności preferencji:"
 
@@ -1855,7 +1859,7 @@ msgstr "Motyw"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
-msgstr "Użyj nowoczesnego motywu"
+msgstr "Użyj nowego motywu"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
@@ -1869,7 +1873,7 @@ msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
 msgid "Seekbar"
 msgstr "Pasek przewijania"
 
-msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
 msgstr "Wysokość paska przewijania:"
 
@@ -1947,7 +1951,7 @@ msgstr "Zachowanie okna"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
-msgstr "Zachowaj proporcje okna przy zmianie rozmiaru"
+msgstr "Zablokuj proporcje okna"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
 msgid "Snap to desktop edges"
@@ -1955,7 +1959,7 @@ msgstr "Przyciągaj do krawędzi pulpitu"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
 msgid "Hide Windowed Controls"
-msgstr "Ukryj elementy sterujące w oknie"
+msgstr "Ukryj elem. sterujące w trybie okna"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
@@ -1963,11 +1967,11 @@ msgstr "Integracja z Windows"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "Użyj zaawansowanych funkcji paska zadań"
+msgstr "Użyj ulepszonych funkcji paska zadań"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr "Steruj przez Windows UI (SMTC)"
+msgstr "Steruj przez interfejs Windowsa (SMTC)"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"

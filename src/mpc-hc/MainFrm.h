@@ -368,6 +368,7 @@ private:
     void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);
     double GetZoomAutoFitScale();
 
+    bool alwaysOnTopZOrderInitialized = false;
     void SetAlwaysOnTop(int iOnTop);
     bool WindowExpectedOnTop();
 
@@ -656,6 +657,7 @@ public:
 
     CSize GetVideoSize() const;
     CSize GetVideoSizeWithRotation(bool forPreview = false) const;
+    void HidePlaylistFullScreen(bool force = false);
     void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
     void ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo);
     void MoveVideoWindow(bool fShowStats = false, bool bSetStoppedVideoRect = false);
@@ -895,6 +897,7 @@ public:
     afx_msg void OnStreamAudio(UINT nID);
     afx_msg void OnStreamSub(UINT nID);
     afx_msg void OnStreamSubOnOff();
+    afx_msg void OnAudioShiftOnOff();
     afx_msg void OnDvdAngle(UINT nID);
     afx_msg void OnDvdAudio(UINT nID);
     afx_msg void OnDvdSub(UINT nID);
@@ -1174,9 +1177,9 @@ public:
 
     CMPC_Lcd m_Lcd;
 
-    CWnd*       m_pVideoWnd;            // Current Video (main display screen or 2nd)
-    CWnd*       m_pOSDWnd;
-    CPreView    m_wndPreView;           // SeekPreview
+    CMouseWndWithArtView*  m_pVideoWnd;            // Current Video (main display screen or 2nd)
+    CWnd*                  m_pOSDWnd;
+    CPreView               m_wndPreView;           // SeekPreview
 
 
     void ReleasePreviewGraph();

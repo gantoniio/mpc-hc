@@ -218,6 +218,7 @@ private:
     void DrawWnd();
 
     void GradientFill(CDC* pDc, CRect* rc);
+    void SimpleFill(CDC* pDc, CRect* rc);
 
     void CreateFontInternal();
 
@@ -230,6 +231,7 @@ protected:
     BOOL PreCreateWindow(CREATESTRUCT& cs);
     BOOL PreTranslateMessage(MSG* pMsg);
     void OnPaint();
+    bool NeedsHiding();
     BOOL OnEraseBkgnd(CDC* pDC);
 
     DECLARE_MESSAGE_MAP()

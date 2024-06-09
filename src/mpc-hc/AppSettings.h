@@ -271,7 +271,7 @@ struct AutoChangeFullscreenMode {
     unsigned                    uDelay = 0u;
 };
 
-#define ACCEL_LIST_SIZE 200
+#define ACCEL_LIST_SIZE 201
 
 struct wmcmd_base : public ACCEL {
     BYTE mouse;
@@ -584,7 +584,8 @@ public:
     bool            fTrayIcon;
     bool            fShowOSD;
     bool            fShowCurrentTimeInOSD;
-    int             nOSDTransparent;
+    int             nOSDTransparency;
+    int             nOSDBorder;
 
     bool            fLimitWindowProportions;
     bool            fSnapToDesktopEdges;
@@ -963,6 +964,7 @@ public:
     CStringW lastQuickOpenPath;
     CStringW lastFileSaveCopyPath;
     CStringW lastFileOpenDirPath;
+    CStringW externalPlayListPath;
 
     int iRedirectOpenToAppendThreshold;
     bool bFullscreenSeparateControls;
@@ -971,7 +973,6 @@ public:
     int iMouseLeftUpDelay;
 
     bool bCaptureDeinterlace;
-
 private:
     struct FilterKey {
         CString name;

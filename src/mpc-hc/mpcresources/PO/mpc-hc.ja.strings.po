@@ -1040,6 +1040,10 @@ msgctxt "IDS_AG_OPEN_FILE_LOCATION"
 msgid "Open File Location"
 msgstr "ファイルの場所を開く"
 
+msgctxt "IDS_AG_OPENDIRECTORY"
+msgid "Open Directory"
+msgstr ""
+
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
 msgstr "ナビゲーション バーの表示"
@@ -1259,6 +1263,10 @@ msgstr "インターレース解除フィルター (ブレンド) をキャプ�
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
+msgstr ""
+
+msgctxt "IDS_AUDIOSHIFT_ONOFF"
+msgid "Toggle Audio Delay"
 msgstr ""
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"

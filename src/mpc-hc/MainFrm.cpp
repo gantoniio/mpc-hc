@@ -108,6 +108,10 @@
 #include "CMPCThemeMiniDockFrameWnd.h"
 #include "RarEntrySelectorDialog.h"
 #include "FileHandle.h"
+#include "MPCFolderPickerDialog.h"
+
+#include "stb/stb_image.h"
+#include "stb/stb_image_resize2.h"
 
 #include <dwmapi.h>
 #undef SubclassWindow
@@ -309,6 +313,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_COMMAND_RANGE(ID_STREAM_AUDIO_NEXT, ID_STREAM_AUDIO_PREV, OnStreamAudio)
     ON_COMMAND_RANGE(ID_STREAM_SUB_NEXT, ID_STREAM_SUB_PREV, OnStreamSub)
+    ON_COMMAND(ID_AUDIOSHIFT_ONOFF, OnAudioShiftOnOff)
     ON_COMMAND(ID_STREAM_SUB_ONOFF, OnStreamSubOnOff)
     ON_COMMAND_RANGE(ID_DVD_ANGLE_NEXT, ID_DVD_ANGLE_PREV, OnDvdAngle)
     ON_COMMAND_RANGE(ID_DVD_AUDIO_NEXT, ID_DVD_AUDIO_PREV, OnDvdAudio)
@@ -1234,11 +1239,15 @@ void CMainFrame::OnClose()
 
     m_controls.SaveState();
 
+    m_OSD.OnHide();
+
     ShowWindow(SW_HIDE);
 
     if (GetLoadState() == MLS::LOADED || GetLoadState() == MLS::LOADING) {
         CloseMedia();
     }
+
+    m_wndPlaylistBar.ClearExternalPlaylistIfInvalid();
 
     s.WinLircClient.DisConnect();
     s.UIceClient.DisConnect();
@@ -2657,8 +2666,10 @@ void CMainFrame::DoAfterPlaybackEvent()
         // remembered after playback events
         switch (s.eAfterPlayback) {
             case CAppSettings::AfterPlayback::PLAY_NEXT:
-                if (!SearchInDir(true, s.bLoopFolderOnPlayNextFile)) {
-                    SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
+                if (m_wndPlaylistBar.GetCount() < 2) { // ignore global PLAY_NEXT in case of a playlist
+                    if (!SearchInDir(true, s.bLoopFolderOnPlayNextFile)) {
+                        SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
+                    }
                 }
                 break;
             case CAppSettings::AfterPlayback::REWIND:
@@ -5896,6 +5907,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     }
 
     // Draw the thumbnails
+    std::unique_ptr<BYTE[]> thumb(new(std::nothrow) BYTE[szThumbnail.cx * szThumbnail.cy * 4]);
+    if (!thumb) {
+        return;
+    }
+
     int pics = cols * rows;
     REFERENCE_TIME rtInterval = rtDur / (pics + 1LL);
     for (int i = 1; i <= pics; i++) {
@@ -6000,46 +6016,21 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         int sh = abs(bi->bmiHeader.biHeight);
         int sp = sw * 4;
         const BYTE* src = pData + sizeof(bi->bmiHeader);
-        if (bi->bmiHeader.biHeight >= 0) {
-            src += sp * (sh - 1);
-            sp = -sp;
-        }
 
-        int dp = spd.pitch;
+        stbir_resize(src, sw, sh, sp, thumb.get(), szThumbnail.cx, szThumbnail.cy, szThumbnail.cx * 4, STBIR_RGBA_PM, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, STBIR_FILTER_DEFAULT);
+
         BYTE* dst = spd.bits + spd.pitch * r.top + r.left * 4;
 
-        for (DWORD h = szThumbnail.cy, y = 0, yd = (sh << 8) / h; h > 0; y += yd, h--) {
-            DWORD yf = y & 0xff;
-            DWORD yi = y >> 8;
-
-            DWORD* s0 = (DWORD*)(src + (int)yi * sp);
-            DWORD* s1 = (DWORD*)(src + (int)yi * sp + sp);
-            DWORD* d = (DWORD*)dst;
-
-            for (DWORD w = szThumbnail.cx, x = 0, xd = (sw << 8) / w; w > 0; x += xd, w--) {
-                DWORD xf = x & 0xff;
-                DWORD xi = x >> 8;
-
-                DWORD c0 = s0[xi];
-                DWORD c1 = s0[xi + 1];
-                DWORD c2 = s1[xi];
-                DWORD c3 = s1[xi + 1];
-
-                c0 = ((c0 & 0xff00ff) + ((((c1 & 0xff00ff) - (c0 & 0xff00ff)) * xf) >> 8)) & 0xff00ff
-                     | ((c0 & 0x00ff00) + ((((c1 & 0x00ff00) - (c0 & 0x00ff00)) * xf) >> 8)) & 0x00ff00;
-
-                c2 = ((c2 & 0xff00ff) + ((((c3 & 0xff00ff) - (c2 & 0xff00ff)) * xf) >> 8)) & 0xff00ff
-                     | ((c2 & 0x00ff00) + ((((c3 & 0x00ff00) - (c2 & 0x00ff00)) * xf) >> 8)) & 0x00ff00;
-
-                c0 = ((c0 & 0xff00ff) + ((((c2 & 0xff00ff) - (c0 & 0xff00ff)) * yf) >> 8)) & 0xff00ff
-                     | ((c0 & 0x00ff00) + ((((c2 & 0x00ff00) - (c0 & 0x00ff00)) * yf) >> 8)) & 0x00ff00;
-
-                *d++ = c0;
-            }
-
-            dst += dp;
+        const BYTE* tsrc = thumb.get();
+        int tsrcPitch = szThumbnail.cx * 4;
+        if (bi->bmiHeader.biHeight >= 0) {
+            tsrc += tsrcPitch * (szThumbnail.cy - 1);
+            tsrcPitch = -tsrcPitch;
         }
-
+        for (int y = 0; y < szThumbnail.cy; y++, dst += spd.pitch, tsrc += tsrcPitch) {
+            memcpy(dst, tsrc, abs(tsrcPitch));
+        }
+        
         rts.Render(spd, 10000, 25, bbox); // Draw the thumbnail time
 
         delete [] pData;
@@ -6140,25 +6131,52 @@ CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
     ASSERT(!thumbnails || GetPlaybackMode() == PM_FILE);
 
     auto videoFn = GetFileName();
-    if (!s.bSnapShotKeepVideoExtension) {
+    auto fullName = m_wndPlaylistBar.GetCurFileName(true);
+    bool needsExtensionRemoval = !s.bSnapShotKeepVideoExtension;
+    if (IsPlaylistFile(videoFn)) {
+        CPlaylistItem pli;
+        if (m_wndPlaylistBar.GetCur(pli, true)) {
+            videoFn = pli.m_label;
+            needsExtensionRemoval = false;
+        }
+    } else if (needsExtensionRemoval && PathUtils::IsURL(fullName)){
+        auto title = getBestTitle();
+        if (!title.IsEmpty()) {
+            videoFn = title;
+            needsExtensionRemoval = false;
+        }
+    }
+
+
+    if (needsExtensionRemoval) {
         int nPos = videoFn.ReverseFind('.');
         if (nPos != -1) {
             videoFn = videoFn.Left(nPos);
         }
     }
 
+    bool saveImagePosition, saveImageCurrentTime;
+
+    if (m_wndSeekBar.HasDuration()) {
+        saveImagePosition = s.bSaveImagePosition;
+        saveImageCurrentTime = s.bSaveImageCurrentTime;
+    } else {
+        saveImagePosition = false;
+        saveImageCurrentTime = true;
+    }
+
     if (GetPlaybackMode() == PM_FILE) {
         if (thumbnails) {
             prefix.Format(_T("%s_thumbs"), videoFn.GetString());
         } else {
-            if (s.bSaveImagePosition) {
+            if (saveImagePosition) {
                 prefix.Format(_T("%s_snapshot_%s"), videoFn.GetString(), GetVidPos().GetString());
             } else {
-                prefix.Format(_T("%s"), videoFn.GetString());
+                prefix.Format(_T("%s_snapshot"), videoFn.GetString());
             }
         }
     } else if (GetPlaybackMode() == PM_DVD) {
-        if (s.bSaveImagePosition) {
+        if (saveImagePosition) {
             prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
         } else {
             prefix = _T("dvd_snapshot");
@@ -6169,7 +6187,7 @@ CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
         prefix = _T("snapshot");
     }
 
-    if (!thumbnails && s.bSaveImageCurrentTime) {
+    if (!thumbnails && saveImageCurrentTime) {
         CTime t = CTime::GetCurrentTime();
         fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), s.strSnapshotExt.GetString());
     } else {
@@ -6229,7 +6247,7 @@ void CMainFrame::OnFileSaveImage()
 
     bool subtitleOptionSupported = !m_pMVRFG && s.fEnableSubtitles && s.IsISRAutoLoadEnabled();
 
-    CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
+    CSaveImageDialog fd(s.nJpegQuality, s.strSnapshotExt, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), subtitleOptionSupported);
 
     if (s.strSnapshotExt == _T(".bmp")) {
@@ -6314,7 +6332,7 @@ void CMainFrame::OnFileSaveThumbnails()
     CPath psrc(s.strSnapshotPath);
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(TRUE));
 
-    CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, nullptr, (LPCTSTR)psrc,
+    CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, s.strSnapshotExt, (LPCTSTR)psrc,
                              _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
     if (s.strSnapshotExt == _T(".bmp")) {
@@ -7887,9 +7905,16 @@ void CMainFrame::OnViewZoomAutoFitLarger()
 }
 
 void CMainFrame::OnViewModifySize(UINT nID) {
-    if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic()) {
+    if (m_fFullScreen || !m_pVideoWnd || IsZoomed() || IsIconic() || GetLoadState() != MLS::LOADED) {
         return;
     }
+
+    enum resizeMethod {
+        autoChoose
+        , byHeight
+        , byWidth
+    } usedMethod;
+
     const CAppSettings& s = AfxGetAppSettings();
     MINMAXINFO mmi;
     CSize videoSize = GetVideoOrArtSize(mmi);
@@ -7899,48 +7924,80 @@ void CMainFrame::OnViewModifySize(UINT nID) {
 
     double videoRatio = double(videoSize.cy) / double(videoSize.cx);
 
-    CRect videoRect, workRect;
-    m_pVideoWnd->GetWindowRect(&videoRect);
+    CRect videoRect, workRect, maxRect;
+    videoRect = m_pVideoWnd->GetVideoRect();
     double videoRectRatio = double(videoRect.Height()) / double(videoRect.Width());
+    bool previouslyProportional = IsNearlyEqual(videoRectRatio, videoRatio, 0.01);
 
     GetWorkAreaRect(workRect);
+    maxRect = GetZoomWindowRect(CSize(INT_MAX, INT_MAX), true);
 
-    int newWidth = videoRect.Width();
-    int newHeight = videoRect.Height();
-    if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) { //wider than aspect ratio, so use height instead
-        int growPixels = int(.01f * workRect.Height());
-        newHeight = videoRect.Height() + growPixels * mult;
-        double newRatio = double(newHeight) / double(videoRect.Width());
-        if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio-videoRatio) != SGN(videoRectRatio-videoRatio)) {
-            newWidth = std::max(int(ceil(newHeight / videoRatio)), minWidth);
-            if (mult == 1) {
-                newWidth = std::max(newWidth, videoRect.Width());
-            }
-        }
-    } else {
-        int growPixels = int(.01f * workRect.Width());
-        newWidth = std::max(videoRect.Width() + growPixels * mult, minWidth);
-        double newRatio = double(videoRect.Height()) / double(newWidth);
-        if (s.fLimitWindowProportions || IsNearlyEqual(videoRectRatio, videoRatio, 0.01) || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
-            newHeight = int(ceil(newWidth * videoRatio));
-            if (mult == 1) {
-                newHeight = std::max(newHeight, videoRect.Height());
-            }
-        }
-    }
-
-    CRect rect;
+    CRect rect, zoomRect;
     GetWindowRect(&rect);
+    CSize targetSize;
 
-    CSize cs = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
+    auto calculateZoomWindowRect = [&](resizeMethod useMethod = autoChoose, CSize forceDimension = {0,0}) {
+        int newWidth = videoRect.Width();
+        int newHeight = videoRect.Height();
 
-    CRect newRect;
-    CRect work;
+        if (useMethod == autoChoose) {
+            if (double(videoRect.Height()) / videoRect.Width() + 0.01f < videoRatio) { //wider than aspect ratio, so use height instead
+                useMethod = byHeight;
+                int growPixels = int(.02f * workRect.Height());
+                newHeight = videoRect.Height() + growPixels * mult;
+            } else {
+                useMethod = byWidth;
+                int growPixels = int(.02f * workRect.Width());
+                newWidth = std::max(videoRect.Width() + growPixels * mult, minWidth);
+            }
+        } else if (useMethod == byHeight) {
+            newHeight = forceDimension.cy + videoRect.Height() - rect.Height();
+        } else {
+            newWidth = forceDimension.cx + videoRect.Width() - rect.Width();
+        }
+
+        if (useMethod == byHeight) {
+            double newRatio = double(newHeight) / double(videoRect.Width());
+            if (s.fLimitWindowProportions || previouslyProportional || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
+                newWidth = std::max(int(ceil(newHeight / videoRatio)), minWidth);
+                if (mult == 1) {
+                    newWidth = std::max(newWidth, videoRect.Width());
+                }
+            }
+        } else {
+            double newRatio = double(videoRect.Height()) / double(newWidth);
+            if (s.fLimitWindowProportions || previouslyProportional || SGN(newRatio - videoRatio) != SGN(videoRectRatio - videoRatio)) {
+                newHeight = int(ceil(newWidth * videoRatio));
+                if (mult == 1) {
+                    newHeight = std::max(newHeight, videoRect.Height());
+                }
+            }
+        }
+        targetSize = rect.Size() + CSize(newWidth - videoRect.Width(), newHeight - videoRect.Height());
+        usedMethod = useMethod;
+        return GetZoomWindowRect(targetSize, true);
+    };
+
+    zoomRect = calculateZoomWindowRect();
+
+    CRect newRect, work;
+    newRect = CRect(rect.TopLeft(), targetSize); //this will be our default
+
     //if old rect was constrained to a single monitor, we zoom incrementally
-    if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight())) {
-        newRect = GetZoomWindowRect(cs, true);
-    } else {
-        newRect = CRect(rect.TopLeft(), cs);
+    if (GetWorkAreaRect(work) && work.PtInRect(rect.TopLeft()) && work.PtInRect(rect.BottomRight()-CSize(1,1))
+        && ((zoomRect.Height() != rect.Height() && usedMethod == byHeight) || (zoomRect.Width() != rect.Width() && usedMethod == byWidth))) {
+
+        if (zoomRect.Width() != targetSize.cx && zoomRect.Width() == maxRect.Width()) { //we appear to have been constrained by Screen Width
+            if (maxRect.Width() != rect.Width()) { //if it wasn't already filling the monitor horizonally, we will do that now
+                newRect = calculateZoomWindowRect(byWidth, maxRect.Size());
+            }
+        } else if (zoomRect.Height() != targetSize.cy && zoomRect.Height() == maxRect.Height()) { //we appear to have been constrained by Screen Height
+            if (maxRect.Height() != rect.Height()) { //if it wasn't already filling the monitor vertically, we will do that now
+                newRect = calculateZoomWindowRect(byHeight, maxRect.Size());
+            }
+        } else {
+            newRect = zoomRect;
+        }
     }
 
     MoveWindow(newRect);
@@ -10029,7 +10086,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
         case ID_AFTERPLAYBACK_PLAYNEXT:
             bChecked = !!(s.nCLSwitches & CLSW_PLAYNEXT);
-            bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT;
+            bRadio = (s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT) && (m_wndPlaylistBar.GetCount() < 2);
             break;
         case ID_AFTERPLAYBACK_DONOTHING:
             bChecked = !!(s.nCLSwitches & CLSW_DONOTHING);
@@ -11471,6 +11528,17 @@ CSize CMainFrame::GetVideoSize() const
     return ret;
 }
 
+void CMainFrame::HidePlaylistFullScreen(bool force /* = false */)
+{
+    if (force || m_fFullScreen) {
+        CAppSettings& s = AfxGetAppSettings();
+        if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
+            m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
+            ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
+        }
+    }
+}
+
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
     if (IsD3DFullScreenMode()) {
@@ -11557,10 +11625,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
             m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
 
-            if (s.bHidePlaylistFullScreen && m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
-                m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
-                ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
-            }
+            HidePlaylistFullScreen(true);
 
             GetWindowRect(&m_lastWindowRect);
 
@@ -11689,7 +11754,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
     if (m_pMFVDC) {
         pD3DFS = m_pMFVDC;
     } else {
-        pD3DFS = m_pVMRWC;
+        ASSERT(false);
     }
 
     if (pD3DFS) {
@@ -11707,11 +11772,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = &m_wndView;
-            if (m_pMFVDC) {
-                m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
-            } else {
-                m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-            }
+            m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
 
             if (s.autoChangeFSMode.bEnabled && s.autoChangeFSMode.bApplyDefaultModeAtFSExit && !s.autoChangeFSMode.modes.empty() && s.autoChangeFSMode.modes[0].bChecked) {
                 SetDispMode(s.strFullScreenMonitorID, s.autoChangeFSMode.modes[0].dm, s.fAudioTimeShift ? s.iAudioTimeShift : 0); // Restore default time shift
@@ -11744,11 +11805,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = m_pDedicatedFSVideoWnd;
-            if (m_pMFVDC) {
-                m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
-            } else {
-                m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-            }
+            m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             m_wndView.Invalidate();
 
             MoveVideoWindow();
@@ -12377,7 +12434,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
             ASSERT(FALSE);
             return;
         }
-        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale), true));
+        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale), !s.fRememberWindowPos));
     }
 }
 
@@ -16926,8 +16983,9 @@ void CMainFrame::SetAlwaysOnTop(int iOnTop)
         if (iOnTop == 0) {
             // We only want to disable "On Top" once so that
             // we don't interfere with other window manager
-            if (s.iOnTop) {
+            if (s.iOnTop || !alwaysOnTopZOrderInitialized) {
                 pInsertAfter = &wndNoTopMost;
+                alwaysOnTopZOrderInitialized = true;
             }
         } else if (iOnTop == 1) {
             pInsertAfter = &wndTopMost;
@@ -17387,6 +17445,11 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = 
     }
 }
 
+void CMainFrame::OnAudioShiftOnOff()
+{
+    AfxGetAppSettings().fAudioTimeShift = !AfxGetAppSettings().fAudioTimeShift;
+}
+
 void CMainFrame::ToggleSubtitleOnOff(bool bDisplayMessage /*= false*/)
 {
     if (m_pDVS) {
@@ -17783,7 +17846,12 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         }
 
         //SleepEx(5000, False); // artificial slow seek for testing purposes
-        m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+        if (FAILED(m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning))) {
+            TRACE(_T("IMediaSeeking SetPositions failure\n"));
+            if (abRepeat.positionA && rtPos == abRepeat.positionA) {
+                DisableABRepeat();
+            }
+        }
         UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (fs == State_Stopped) {
@@ -18476,7 +18544,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     // use the graph thread only for some media types
     bool bDirectShow = pFileData && !pFileData->fns.IsEmpty() && s.m_Formats.GetEngine(pFileData->fns.GetHead()) == DirectShow;
     bool bUseThread = m_pGraphThread && s.fEnableWorkerThreadForOpening && (bDirectShow || !pFileData) && (s.iDefaultCaptureDevice == 1 || !pDeviceData);
-
+    bool wasMaximized = IsZoomed();
     // create d3dfs window if launching in fullscreen and d3dfs is enabled
     if (s.IsD3DFullscreen() && m_fStartInD3DFullscreen) {
         CreateFullScreenWindow();
@@ -18492,7 +18560,8 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     // activate auto-fit logic upon exiting fullscreen if
     // we are opening new media in fullscreen mode
-    if ((IsFullScreenMode()) && s.fRememberZoomLevel) {
+    // adipose: unless we were previously maximized
+    if ((IsFullScreenMode()) && s.fRememberZoomLevel && !wasMaximized) {
         m_fFirstFSAfterLaunchOnFS = true;
     }
 
@@ -18694,6 +18763,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
                     }
 #ifndef DEBUG
                 } else {
+                    if (CrashReporter::IsEnabled()) {
+                        CrashReporter::Disable();
+                    }
                     exit(1);
                 }
 #endif
@@ -18701,6 +18773,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
             EndWaitCursor();
         } else {
 #ifndef DEBUG
+            if (CrashReporter::IsEnabled()) {
+                CrashReporter::Disable();
+            }
             exit(1);
 #endif
         }
@@ -18752,7 +18827,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         DWORD dwWait;
         // We don't want to block messages processing completely so we stop waiting
         // on new message received from another thread or application.
-        while ((dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, INFINITE, QS_SENDMESSAGE)) != WAIT_OBJECT_0) {
+        while ((dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, 5000, QS_SENDMESSAGE)) != WAIT_OBJECT_0) {
             // If we haven't got the event we were waiting for, we ensure that we have got a new message instead
             if (dwWait == WAIT_OBJECT_0 + 1) {
                 // and we make sure it is handled before resuming waiting
@@ -18760,6 +18835,12 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
                 PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE);
             } else {
                 ASSERT(FALSE);
+#ifndef DEBUG
+                if (CrashReporter::IsEnabled()) {
+                    CrashReporter::Disable();
+                }
+                exit(1);
+#endif
             }
         }
     } else {
@@ -20053,8 +20134,7 @@ void CMainFrame::OnFileOpendirectory()
     CString strTitle(StrRes(IDS_MAINFRM_DIR_TITLE));
     CString path;
 
-    CFolderPickerDialog fd(ForceTrailingSlash(s.lastFileOpenDirPath), FOS_PATHMUSTEXIST, GetModalParent());
-    fd.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
+    MPCFolderPickerDialog fd(ForceTrailingSlash(s.lastFileOpenDirPath), FOS_PATHMUSTEXIST, GetModalParent(), IDS_MAINFRM_DIR_CHECK);
     fd.m_ofn.lpstrTitle = strTitle;
 
     if (fd.DoModal() == IDOK) {
@@ -20407,15 +20487,8 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         fileDialogHandle = (HWND)lParam;
         watchingFileDialog = false;
         //capture but process message normally
-    } else if (message == WM_GETICON && nullptr != fileDialogHandle) {
-        HWND duiview = ::FindWindowEx(fileDialogHandle, NULL, _T("DUIViewWndClassName"), NULL);
-        HWND duihwnd = ::FindWindowEx(duiview, NULL, _T("DirectUIHWND"), NULL);
-        HWND firstchild = ::GetWindow(duihwnd, GW_CHILD);
-        if (nullptr != firstchild) {
-            fileDialogHookHelper->subClassFileDialog(this, duihwnd);
-            ::RedrawWindow(duiview, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
-            fileDialogHandle = nullptr;
-        }
+    } else if (message == WM_GETICON && nullptr != fileDialogHookHelper && nullptr != fileDialogHandle) {
+        fileDialogHookHelper->subClassFileDialog(this, fileDialogHandle);
     }
 
     if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION && !m_pMVRSR) {

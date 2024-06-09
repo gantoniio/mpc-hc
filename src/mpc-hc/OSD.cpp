@@ -60,7 +60,7 @@ COSD::COSD(CMainFrame* pMainFrame)
     m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);
     if (AppIsThemeLoaded()) {
         m_colors[OSD_BACKGROUND] = CMPCTheme::ContentBGColor;
-        m_colors[OSD_BORDER] = CMPCTheme::WindowBorderColorDim;
+        m_colors[OSD_BORDER] = CMPCTheme::EditBorderColor;
         m_colors[OSD_TEXT] = CMPCTheme::TextFGColor;
         m_colors[OSD_BAR] = CMPCTheme::ScrollProgressColor;
         m_colors[OSD_CURSOR] = CMPCTheme::ScrollThumbDragColor;
@@ -123,7 +123,7 @@ HRESULT COSD::Create(CWnd* pWnd)
     }
 
     const CAppSettings& s = AfxGetAppSettings();
-    SetLayeredWindowAttributes(RGB(255, 0, 255), 255 - s.nOSDTransparent, LWA_ALPHA | LWA_COLORKEY);
+    SetLayeredWindowAttributes(RGB(255, 0, 255), 255 - s.nOSDTransparency, LWA_ALPHA | LWA_COLORKEY);
     if (s.fShowOSD) {
         Start(pWnd);
     }
@@ -468,7 +468,7 @@ void COSD::DrawMessage()
         //m_MemDC.EndPath();
         //m_MemDC.SelectClipPath(RGN_COPY);
 
-        GradientFill(&m_MemDC, &rectMessages);
+        SimpleFill(&m_MemDC, &rectMessages);
 
         UINT uFormat = DT_LEFT|DT_VCENTER|DT_NOPREFIX;
 
@@ -780,7 +780,7 @@ void COSD::DisplayMessage(
     LPCWSTR OSD_Font/* = nullptr*/,
     const bool bPeriodicallyDisplayed/* = false*/)
 {
-    if (!m_bShowMessage) {
+    if (!m_bShowMessage || NeedsHiding()) {
         return;
     }
 
@@ -936,11 +936,19 @@ void COSD::OnPaint()
     DrawWnd();
 }
 
+bool COSD::NeedsHiding()
+{
+    if (!SysVersion::IsWin8orLater()) { //we have a WS_POPUP topmost window, special behavior required
+        return m_pMainFrame->IsIconic() || !m_pMainFrame->IsWindowVisible();
+    }
+    return false;
+}
+
 void COSD::DrawWnd()
 {
     CAutoLock Lock(&m_Lock);
 
-    if (m_nMessagePos == OSD_NOMESSAGE) {
+    if (m_nMessagePos == OSD_NOMESSAGE || NeedsHiding()) {
         if (IsWindowVisible()) {
             ShowWindow(SW_HIDE);
         }
@@ -1004,7 +1012,7 @@ void COSD::DrawWnd()
     LONG bottomWindow = (LONG)m_MainWndRect.Height() - 20;
     LONG horizontalRoom = m_MainWndRect.Width() - rectText.Width() - 30;
 
-    if (bottomOSD > bottomWindow || horizontalRoom < 0) { //we will not show OSD if it is being cropped
+    if (bottomOSD > bottomWindow) { //we will not show OSD if it is being cropped vertically
         SetWindowPos(nullptr, 0,0,0,0, m_nDEFFLAGS | SWP_NOZORDER);
         return;
     }
@@ -1129,6 +1137,13 @@ bool COSD::UpdateButtonImages()
     return false;
 }
 
+void COSD::SimpleFill(CDC* pDc, CRect* rc)
+{
+    pDc->SelectObject(m_brushBack);
+    pDc->SelectObject(m_penBorder);
+    pDc->Rectangle(rc);
+}
+
 void COSD::GradientFill(CDC* pDc, CRect* rc)
 {
     const CAppSettings& s = AfxGetAppSettings();
@@ -1148,9 +1163,9 @@ void COSD::GradientFill(CDC* pDc, CRect* rc)
     R1 <<= 8;
     G1 <<= 8;
     B1 <<= 8;
-    COLOR16 alpha = (COLOR16)(s.nOSDTransparent << 8);
+    COLOR16 alpha = (COLOR16)(s.nOSDTransparency << 8);
 
-    int bordersize = 1;
+    int bordersize = s.nOSDBorder;
 
     GRADIENT_RECT gr = {0, 1};
     TRIVERTEX tv[2] = {
@@ -1195,7 +1210,7 @@ void COSD::CreateFontInternal()
     LOGFONTW lf = {};
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
     lf.lfHeight = -m_DPIHelper.PointsToPixels(m_FontSize);
-    lf.lfQuality = ANTIALIASED_QUALITY;
+    lf.lfQuality = CLEARTYPE_QUALITY;
     wcscpy_s(lf.lfFaceName, LF_FACESIZE, m_OSD_Font);
 
     m_MainFont.CreateFontIndirectW(&lf);
