@@ -1530,7 +1530,7 @@ msgstr "Wyświetlacz"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Używaj autom. zmiany trybu pracy wyświetlacza"
+msgstr "Używaj automatycznej zmiany trybu pracy wyświetlacza"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1859,7 +1859,7 @@ msgstr "Motyw"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
-msgstr "Użyj nowego motywu"
+msgstr "Użyj nowoczesnego motywu"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
@@ -1951,7 +1951,7 @@ msgstr "Zachowanie okna"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
-msgstr "Zablokuj proporcje okna"
+msgstr "Zachowaj proporcje okna przy zmianie rozmiaru"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
 msgid "Snap to desktop edges"
@@ -1959,7 +1959,7 @@ msgstr "Przyciągaj do krawędzi pulpitu"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
 msgid "Hide Windowed Controls"
-msgstr "Ukryj elem. sterujące w trybie okna"
+msgstr "Ukryj elementy sterujące w oknie"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
@@ -1967,11 +1967,11 @@ msgstr "Integracja z Windows"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "Użyj ulepszonych funkcji paska zadań"
+msgstr "Użyj zaawansowanych funkcji paska zadań"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr "Steruj przez interfejs Windowsa (SMTC)"
+msgstr "Steruj przez Windows UI (SMTC)"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"
