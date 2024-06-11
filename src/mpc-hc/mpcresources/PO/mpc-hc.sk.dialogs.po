@@ -1177,7 +1177,7 @@ msgstr "Vykresľovač titulkov"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Nastavenia VMR-9 (bez vykreslenia) EVR (CP)"
+msgstr "Nastavenia VMR-9 (bez vykreslenia) a EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
