@@ -407,7 +407,7 @@ msgstr "Ovládač"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
-msgstr "Krok pri hlasitosti:"
+msgstr "Krok pre hlasitosť:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -415,7 +415,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
-msgstr "Krok pri rýchlosti:"
+msgstr "Krok pre rýchlosť:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -1611,7 +1611,7 @@ msgstr "Ignorovať súbory obsahujúce niektoré z týchto slov:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Uprednostňované jazyky v poradí:"
+msgstr "Jazyky v uprednostňovanom poradí:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
