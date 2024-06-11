@@ -1245,7 +1245,7 @@ msgstr "Dodávať stránky z adresy:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Prehľadávať"
+msgstr "Prehľadávať..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
