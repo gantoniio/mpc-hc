@@ -1129,7 +1129,7 @@ msgstr "Externé:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Prehľadávať"
+msgstr "Prehľadávať..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
