@@ -1425,7 +1425,7 @@ msgstr "Krajina"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Digital settings (BDA)"
-msgstr "Nastavenia digitálnej časti (BDA)"
+msgstr "Digitálne nastavenia (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
