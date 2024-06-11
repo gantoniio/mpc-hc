@@ -1037,7 +1037,7 @@ msgstr "Relatívne umiestnenie titulkov voči videu"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Farby && priehľadnosť"
+msgstr "Farby a priehľadnosť"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
