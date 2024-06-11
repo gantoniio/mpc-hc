@@ -1590,7 +1590,7 @@ msgstr "Cesty pre automotické načítavanie"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Obnoviť"
+msgstr "Reset"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
