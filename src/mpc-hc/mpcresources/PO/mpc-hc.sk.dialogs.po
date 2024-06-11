@@ -1582,7 +1582,7 @@ msgstr "Uprednostniť externé titulky pred vloženými"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Nenačítavať vložené titulky"
+msgstr "Ignorovať vložené titulky"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
