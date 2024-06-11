@@ -1313,7 +1313,7 @@ msgstr "Sýtosť"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Obnoviť"
+msgstr "Reset"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
