@@ -1237,7 +1237,7 @@ msgstr "Zapnúť náhľad"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "Informácie pre ladenie"
+msgstr "Vytlačiť Informácie pre ladenie"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
