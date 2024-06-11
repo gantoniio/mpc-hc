@@ -1409,7 +1409,7 @@ msgstr "Digitálne"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
-msgstr "Nastavenia analógovej časti"
+msgstr "Analógové nastavenia"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
 msgid "Video"
