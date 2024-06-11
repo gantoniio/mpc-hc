@@ -1229,7 +1229,7 @@ msgstr "Zapnúť kompresiu"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Povoliť prístup len z lokálnej stanice"
+msgstr "Povoliť prístup len lokálnemu host."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
