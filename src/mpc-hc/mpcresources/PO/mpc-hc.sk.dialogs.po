@@ -917,7 +917,7 @@ msgstr "Kódovanie:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
-msgstr "Posun:"
+msgstr "Oneskorenie:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
