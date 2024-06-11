@@ -1554,7 +1554,7 @@ msgstr "Po ukončení režimu na celú obrazovku použiť predvolený režim mon
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Po ukončení obnoviť pôvodné rozlíšenie"
+msgstr "Po ukončení obnoviť rozlíšenie"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
