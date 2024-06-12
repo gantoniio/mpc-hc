@@ -1936,6 +1936,15 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 styleName.TrimLeft(_T('*'));
 
                 style->hasAnsiStyleName = !file->IsUnicode();
+
+                //for srt the default style is created by mpc-hc.  if they have a .style containing "Default" then we can assume the default is not desired
+                if (styleName == L"Default" && EndsWithNoCase(file->GetFilePath(), L".srt.style")) {
+                    STSStyle* discard;
+                    if (ret.m_styles.Lookup(styleName, discard)) {
+                        ret.m_styles.RemoveKey(styleName);
+                    }
+                }
+
                 ret.AddStyle(styleName, style);
             } catch (...) {
                 delete style;
