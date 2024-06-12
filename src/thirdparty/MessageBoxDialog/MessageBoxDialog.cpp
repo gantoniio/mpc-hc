@@ -929,7 +929,7 @@ void CMessageBoxDialog::CreateMessageControl ( )
 void CMessageBoxDialog::CreateButtonControls ( )
 {
 	// Initialize the control with the size of the button.
-	m_sButton = CSize(XDialogUnitToPixel(CX_BUTTON),YDialogUnitToPixel(CY_BUTTON));
+	m_sButton = CSize(XDialogUnitToPixel(CX_BUTTON) + 1,YDialogUnitToPixel(CY_BUTTON) + 1);
 
 	// Create a handle to access the DC of the dialog.
 	CClientDC dc(this);
