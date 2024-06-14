@@ -16599,7 +16599,10 @@ DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwS
     if (!streams_found && m_pOtherSS[1]) {
         addStreamSelectFilter(m_pOtherSS[1]);
     }
-
+    if (CComQIPtr<IAMStreamSelect> pSS = m_pGB) {
+        //ASSERT(false);
+        addStreamSelectFilter(pSS);
+    }
     return selected;
 }
 
