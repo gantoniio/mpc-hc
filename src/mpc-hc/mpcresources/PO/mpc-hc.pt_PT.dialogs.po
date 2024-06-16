@@ -435,7 +435,7 @@ msgstr "vez(es)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
-msgstr "Modo repetição:"
+msgstr "Modo de repetição:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -531,7 +531,7 @@ msgstr "Definições de textura (abre o vídeo outra vez para ver as alteraçõe
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Sob-imagens para empilhar:"
+msgstr "Sub imagens para o buffer:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
@@ -1024,11 +1024,11 @@ msgstr "Direita"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC9"
 msgid "Top"
-msgstr "Cima"
+msgstr "Topo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC10"
 msgid "Bottom"
-msgstr "Baixo"
+msgstr "Fundo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
@@ -1614,7 +1614,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Idiomas na ordem de preferência:"
+msgstr "Idiomas por ordem de preferência:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
@@ -1876,7 +1876,7 @@ msgstr "Barra de pesquisa"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
-msgstr "Altura da barra de pesquisa do tema moderno:"
+msgstr "Altura da barra de pesquisa moderna:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
 msgid "Hover:"
@@ -1928,7 +1928,7 @@ msgstr "Idioma:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
 msgid "On Screen Display (OSD)"
-msgstr "Exibição no ecrã (OSD)"
+msgstr "Visualização no ecrã (OSD)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
