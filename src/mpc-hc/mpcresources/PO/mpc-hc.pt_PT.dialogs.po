@@ -1032,7 +1032,7 @@ msgstr "Fundo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Posição legendas relativamente ao frame do vídeo"
+msgstr "Posição legendas relativamente ao fotograma do vídeo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
