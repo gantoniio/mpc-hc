@@ -3370,6 +3370,9 @@ void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 void CMainFrame::OnInitMenu(CMenu* pMenu)
 {
     __super::OnInitMenu(pMenu);
+    if (GetFocus() != this) {
+        SetFocus();
+    }
 
     const UINT uiMenuCount = pMenu->GetMenuItemCount();
     if (uiMenuCount == -1) {
