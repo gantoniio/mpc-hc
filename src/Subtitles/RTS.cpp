@@ -3467,6 +3467,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         iclipRect[3] = CRect(0, clipRect.bottom, spd.w, spd.h);
 
         pos = s->GetHeadPosition();
+        bool hasMultiple = s->GetCount() > 1;
+        int lastOutlineBottom = 0;
         while (pos) {
             CLine* l = s->GetNext(pos);
 
@@ -3488,7 +3490,17 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                 bbox2 |= l->PaintBody(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
             } else {
                 bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
-                bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                if (!hasMultiple) {
+                    bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                } else {
+                    CRect outlineRect = clipRect;
+                    if (lastOutlineBottom > outlineRect.top) {
+                        outlineRect.top = lastOutlineBottom;
+                    }
+                    CRect tBB = l->PaintOutline(spd, outlineRect, pAlphaMask, p, org2, m_time, alpha);
+                    lastOutlineBottom = tBB.bottom-2; //magic number is 2 to leave no gap
+                    bbox2 |= tBB;
+                }
                 bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
             }
             p.y += l->m_ascent + l->m_descent + l->m_linePadding;
