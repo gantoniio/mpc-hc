@@ -3463,7 +3463,11 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         iclipRect[2] = CRect(clipRect.right, clipRect.top, spd.w, clipRect.bottom);
         iclipRect[3] = CRect(0, clipRect.bottom, spd.w, spd.h);
 
-        for (int pass = 0; pass < 2; pass++) {
+        bool multiLine = s->GetCount() > 1;
+        int numPass = multiLine ? 2 : 1;
+        for (int pass = 0; pass < numPass; pass++) {
+            bool paintBG = (pass == 0);
+            bool paintBody = (!multiLine || pass == 1);
             CPoint p(0, r.top);
             POSITION pos;
 
@@ -3475,7 +3479,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                     : (s->m_scrAlignment % 3) == 0 ? org.x - l->m_width
                     : org.x - (l->m_width / 2);
                 if (s->m_clipInverse) {
-                    if (pass == 0) {
+                    if (paintBG) {
                         bbox2 |= l->PaintShadow(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintShadow(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintShadow(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
@@ -3484,17 +3488,19 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                         bbox2 |= l->PaintOutline(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintOutline(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintOutline(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
-                    } else {
+                    }
+                    if (paintBody) {
                         bbox2 |= l->PaintBody(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintBody(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintBody(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintBody(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
                     }
                 } else {
-                    if (pass == 0) {
+                    if (paintBG) {
                         bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
                         bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
-                    } else {
+                    }
+                    if (paintBody) {
                         bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
                     }
                 }
