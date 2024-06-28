@@ -5,7 +5,7 @@
 // This file is part of ResizableLib
 // https://github.com/ppescher/resizablelib
 //
-// Copyright (C) 2000-2015 by Paolo Messina
+// Copyright (C) 2000-2024 by Paolo Messina
 // mailto:ppescher@hotmail.com
 //
 // The contents of this file are subject to the Artistic License 2.0
@@ -82,13 +82,13 @@ BOOL CResizableDialog::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
 	if (!CreateSizeGrip(!bChild))
 		return FALSE;
 
+	// Moved from behind if (!bChild) because user could resize the dialog smaller as in resource defined and that causes some static text to be clipped or disappear.
+	MakeResizable(lpCreateStruct);
 	if (!bChild)
 	{
 		// set the initial size as the min track size
 		SetMinTrackSize(CSize(lpCreateStruct->cx, lpCreateStruct->cy));
 	}
-	
-	MakeResizable(lpCreateStruct);
 
 	return TRUE;
 }
