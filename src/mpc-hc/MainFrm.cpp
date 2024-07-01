@@ -832,7 +832,7 @@ CMainFrame::CMainFrame()
     , m_bFullScreenWindowIsOnSeparateDisplay(false)
     , m_fFirstFSAfterLaunchOnFS(false)
     , m_fStartInD3DFullscreen(false)
-    , m_fStartInFullscreen(false)
+    , m_fStartInFullscreenSeparate(false)
     , m_pLastBar(nullptr)
     , m_bFirstPlay(false)
     , m_bOpeningInAutochangedMonitorMode(false)
@@ -3969,7 +3969,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
         } else {
-            m_fStartInFullscreen = true;
+            m_fStartInFullscreenSeparate = true;
         }
     }
 
@@ -4326,7 +4326,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
         if (IsD3DFullScreenMode()) {
             m_fStartInD3DFullscreen = true;
         } else {
-            m_fStartInFullscreen = true;
+            m_fStartInFullscreenSeparate = true;
         }
         if (!bNextIsQueued) {
             m_pDedicatedFSVideoWnd->DestroyWindow();
@@ -11260,7 +11260,7 @@ void CMainFrame::SetDefaultFullscreenState()
             }
 
             if (launchingFullscreenSeparateControls) {
-                m_fStartInFullscreen = true;
+                m_fStartInFullscreenSeparate = true;
             } else {
                 ToggleFullscreen(true, true);
                 m_fFirstFSAfterLaunchOnFS = true;
@@ -18578,10 +18578,10 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         CreateFullScreenWindow();
         m_pVideoWnd = m_pDedicatedFSVideoWnd;
         m_fStartInD3DFullscreen = false;
-    } else if (m_fStartInFullscreen) {
+    } else if (m_fStartInFullscreenSeparate) {
         CreateFullScreenWindow(false);
         m_pVideoWnd = m_pDedicatedFSVideoWnd;
-        m_fStartInFullscreen = false;
+        m_fStartInFullscreenSeparate = false;
     } else {
         m_pVideoWnd = &m_wndView;
     }
