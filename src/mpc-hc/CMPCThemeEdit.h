@@ -13,6 +13,7 @@ public:
     void setBuddy(CWnd* buddyWindow) { this->buddy = buddyWindow; };
     void setFileDialogChild(bool set) { isFileDialogChild = set; };
     void SetFixedWidthFont(CFont& f);
+    bool IsScrollable();
 protected:
     CWnd* buddy;
     CMPCThemeScrollBarHelper* themedSBHelper;
@@ -21,11 +22,13 @@ protected:
 
     DECLARE_MESSAGE_MAP()
     
+    afx_msg LRESULT ResizeSupport(WPARAM wParam, LPARAM lParam);
     afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
     afx_msg void OnNcPaint();
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
     afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 public:
     afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };

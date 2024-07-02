@@ -122,9 +122,6 @@ void CResizableDialog::OnSize(UINT nType, int cx, int cy)
 	// update grip and layout
 	UpdateSizeGrip();
 	ArrangeLayout();
-    //mpc-hc changes to fix redraw bugs
-    Invalidate();
-    //end mpc-hc
 }
 
 void CResizableDialog::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI) 
