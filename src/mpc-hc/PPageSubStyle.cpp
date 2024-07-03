@@ -394,13 +394,13 @@ BOOL CPPageSubStyle::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult) {
 
         CString strTipText;
         if (nID == IDC_SLIDER1) {
-            strTipText.Format(IDS_VOLUME, int(float(m_alpha[0]) * 100 / 255.0f));
+            strTipText.Format(IDS_VOLUME, int(float(m_alpha[0]) * 100 / 255));
         } else if (nID == IDC_SLIDER2) {
-            strTipText.Format(IDS_VOLUME, int(float(m_alpha[1]) * 100 / 255.0f));
+            strTipText.Format(IDS_VOLUME, int(float(m_alpha[1]) * 100 / 255));
         } else if (nID == IDC_SLIDER3) {
-            strTipText.Format(IDS_VOLUME, int(float(m_alpha[2]) * 100 / 255.0f));
+            strTipText.Format(IDS_VOLUME, int(float(m_alpha[2]) * 100 / 255));
         } else if (nID == IDC_SLIDER4) {
-            strTipText.Format(IDS_VOLUME, int(float(m_alpha[3]) * 100 / 255.0f));
+            strTipText.Format(IDS_VOLUME, int(float(m_alpha[3]) * 100 / 255));
         }
 
         _tcscpy_s(pTTT->szText, strTipText.Left(_countof(pTTT->szText) - 1));
