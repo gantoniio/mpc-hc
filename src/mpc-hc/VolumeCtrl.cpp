@@ -24,6 +24,7 @@
 #include "VolumeCtrl.h"
 #include "AppSettings.h"
 #include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
 #undef SubclassWindow
 
 
