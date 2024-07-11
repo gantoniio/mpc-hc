@@ -20,5 +20,7 @@ public:
     BOOL PreTranslateMessage(MSG* pMsg);
 private:
     bool isDummy = false;
+public:
+    afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 };
 

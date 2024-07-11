@@ -23,6 +23,7 @@ IMPLEMENT_DYNAMIC(CMPCThemeDialog, CDialog)
 
 BEGIN_MESSAGE_MAP(CMPCThemeDialog, CDialog)
     ON_WM_CTLCOLOR()
+    ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 BOOL CMPCThemeDialog::OnInitDialog()
@@ -49,3 +50,12 @@ BOOL CMPCThemeDialog::PreTranslateMessage(MSG* pMsg) {
     }
 }
 
+
+
+void CMPCThemeDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+    // TODO: Add your message handler code here and/or call default
+    if (DYNAMIC_DOWNCAST(CSliderCtrl, pScrollBar)) {
+        
+    }
+    __super::OnHScroll(nSBCode, nPos, pScrollBar);
+}
