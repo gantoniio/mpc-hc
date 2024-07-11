@@ -39,7 +39,7 @@ CResizableSheetState::~CResizableSheetState()
 // either in the registry or a private .INI file
 // depending on your application settings
 
-#define ACTIVEPAGE_ENT 	_T("ActivePage")
+#define ACTIVEPAGE_ENT	_T("ActivePage")
 
 /*!
  *  This function saves the current property sheet active page using the base
@@ -88,7 +88,7 @@ BOOL CResizableSheetState::LoadPage(LPCTSTR pszName)
 	// MPC-HC custom code
 	if (!ReadState(CString(pszName), ACTIVEPAGE_ENT, data))
 		return FALSE;
-	
+
 	CPropertySheet* pSheet = DYNAMIC_DOWNCAST(CPropertySheet, GetResizableWnd());
 
 	return (pSheet != NULL) && pSheet->SetActivePage(_ttoi(data));

@@ -84,6 +84,7 @@ BOOL CResizableDialog::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// Moved from behind if (!bChild) because user could resize the dialog smaller as in resource defined and that causes some static text to be clipped or disappear.
 	MakeResizable(lpCreateStruct);
+
 	if (!bChild)
 	{
 		// set the initial size as the min track size
@@ -93,7 +94,7 @@ BOOL CResizableDialog::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
 	return TRUE;
 }
 
-void CResizableDialog::OnDestroy() 
+void CResizableDialog::OnDestroy()
 {
 	if (m_bEnableSaveRestore)
 		SaveWindowRect(m_sSection, m_bRectOnly);
@@ -106,11 +107,10 @@ void CResizableDialog::OnDestroy()
 	__super::OnDestroy();
 }
 
-void CResizableDialog::OnSize(UINT nType, int cx, int cy) 
+void CResizableDialog::OnSize(UINT nType, int cx, int cy)
 {
 	__super::OnSize(nType, cx, cy);
 
-	
 	if (nType == SIZE_MAXHIDE || nType == SIZE_MAXSHOW)
 		return;		// arrangement not needed
 
@@ -124,7 +124,7 @@ void CResizableDialog::OnSize(UINT nType, int cx, int cy)
 	ArrangeLayout();
 }
 
-void CResizableDialog::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI) 
+void CResizableDialog::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI)
 {
 	MinMaxInfo(lpMMI);
 }
@@ -142,7 +142,7 @@ void CResizableDialog::EnableSaveRestore(LPCTSTR pszSection, BOOL bRectOnly)
 	LoadWindowRect(pszSection, bRectOnly);
 }
 
-BOOL CResizableDialog::OnEraseBkgnd(CDC* pDC) 
+BOOL CResizableDialog::OnEraseBkgnd(CDC* pDC)
 {
 	ClipChildren(pDC, FALSE);
 
@@ -153,7 +153,7 @@ BOOL CResizableDialog::OnEraseBkgnd(CDC* pDC)
 	return bRet;
 }
 
-LRESULT CResizableDialog::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
+LRESULT CResizableDialog::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (message != WM_NCCALCSIZE || wParam == 0)
 		return __super::WindowProc(message, wParam, lParam);

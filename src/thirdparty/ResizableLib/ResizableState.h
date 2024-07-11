@@ -59,9 +59,11 @@ protected:
 	//@{
 
 	//! @brief Read state information
+    // MPC-HC custom code--adds LPCTSTR szValue
 	virtual BOOL ReadState(LPCTSTR szId, LPCTSTR szValue, CString& rsState);
 
 	//! @brief Write state information
+    // MPC-HC custom code--adds LPCTSTR szValue
 	virtual BOOL WriteState(LPCTSTR szId, LPCTSTR szValue, LPCTSTR szState);
 
 	//@}
