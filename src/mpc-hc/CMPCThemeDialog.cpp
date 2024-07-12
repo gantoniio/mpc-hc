@@ -50,12 +50,11 @@ BOOL CMPCThemeDialog::PreTranslateMessage(MSG* pMsg) {
     }
 }
 
-
-
 void CMPCThemeDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-    // TODO: Add your message handler code here and/or call default
-    if (DYNAMIC_DOWNCAST(CSliderCtrl, pScrollBar)) {
-        
-    }
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
+    if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase && nSBCode == TB_THUMBPOSITION) {
+        if (CSliderCtrl* slider = DYNAMIC_DOWNCAST(CSliderCtrl, pScrollBar)) {
+            UpdateAnalogCaptureDeviceEdit(slider, this, nPos);
+        }
+    }
 }
