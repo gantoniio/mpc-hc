@@ -9442,11 +9442,7 @@ void CMainFrame::FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent) {
     CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES);
 
     CComQIPtr<IBaseFilter> pBF = pUnk;
-    if (!pBF) {
-        return;
-    }
     CLSID clsid = GetCLSID(pBF);
-
     CFGFilterLAV::LAVFILTER_TYPE LAVFilterType = CFGFilterLAV::INVALID;
     bool bIsInternalLAV = CFGFilterLAV::IsInternalInstance(pBF, &LAVFilterType);
 
@@ -13926,7 +13922,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     WCHAR buff[MAX_PATH];
     ULONG len = 0;
     if (SUCCEEDED(hr = m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len))) {
-        pODD->title = CString(CStringW(buff)).Trim(_T("\\"));
+        pODD->title = CString(CStringW(buff)).TrimRight(_T("\\"));
     }
 
     if (s.fKeepHistory) {

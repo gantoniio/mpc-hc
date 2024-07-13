@@ -113,6 +113,7 @@ public:
     static void enableWindows10DarkFrame(CWnd* window);
     static void AdjustDynamicWidgetPair(CWnd* window, int left, int right, WidgetPairType lType = WidgetPairAuto, WidgetPairType rType = WidgetPairAuto);
     static void UpdateAnalogCaptureDeviceEdit(CSliderCtrl* slider, CDialog* parent, UINT nPos);
+    static bool IsWindowVisibleAndRendered(CWnd* window);
 
     void PreDoModalRTL(LPPROPSHEETHEADERW m_psh);
 
