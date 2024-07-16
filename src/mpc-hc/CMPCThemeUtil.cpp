@@ -1255,10 +1255,10 @@ void CMPCThemeUtil::AdjustDynamicWidgetPair(CWnd* window, int leftWidget, int ri
     }
 }
 
-void CMPCThemeUtil::UpdateAnalogCaptureDeviceEdit(CScrollBar* pScrollBar) {
+void CMPCThemeUtil::UpdateAnalogCaptureDeviceSlider(CScrollBar* pScrollBar) {
     if (pScrollBar && ::IsWindow(pScrollBar->m_hWnd)) {
         if (CSliderCtrl* slider = DYNAMIC_DOWNCAST(CSliderCtrl, pScrollBar)) {
-            slider->SendMessage(WM_KEYUP, VK_LEFT, 1);
+            slider->SendMessage(WM_KEYUP, VK_LEFT, 1); //does not move the slider, only forces current position to be registered
         }
     }
 }

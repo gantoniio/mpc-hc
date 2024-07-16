@@ -53,6 +53,6 @@ BOOL CMPCThemeDialog::PreTranslateMessage(MSG* pMsg) {
 void CMPCThemeDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
     if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase && nSBCode == TB_THUMBPOSITION) {
-        UpdateAnalogCaptureDeviceEdit(pScrollBar);
+        UpdateAnalogCaptureDeviceSlider(pScrollBar);
     }
 }
