@@ -3920,14 +3920,14 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                 if (abRepeat) {
                     msg.Append(_T("\u2001[A-B "));
                     if(abRepeat.positionA) {
-                        CString timeMarkA = ReftimeToString2(abRepeat.positionA);
+                        CString timeMarkA = ReftimeToString4(abRepeat.positionA, false);
                         msg.Append(timeMarkA.GetString());
                     }
                     if(abRepeat.positionB) {
                         if(abRepeat.positionA) {
                             msg.AppendChar(_T(' '));
                         }
-                        CString timeMarkB = ReftimeToString2(abRepeat.positionB);
+                        CString timeMarkB = ReftimeToString4(abRepeat.positionB, false);
                         msg.AppendFormat(_T("> %s"), timeMarkB.GetString());
                     }
                     msg.Append(_T("]"));
