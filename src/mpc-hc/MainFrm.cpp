@@ -3919,15 +3919,16 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             if (s.bShowABMarksInStatusbar) {
                 if (abRepeat) {
                     msg.Append(_T("\u2001[A-B "));
+                    bool needsHours = ABNeedsHours(abRepeat.positionA, abRepeat.positionB);
                     if(abRepeat.positionA) {
-                        CString timeMarkA = ReftimeToString4(abRepeat.positionA, false);
+                        CString timeMarkA = ReftimeToString4(abRepeat.positionA, needsHours);
                         msg.Append(timeMarkA.GetString());
                     }
                     if(abRepeat.positionB) {
                         if(abRepeat.positionA) {
                             msg.AppendChar(_T(' '));
                         }
-                        CString timeMarkB = ReftimeToString4(abRepeat.positionB, false);
+                        CString timeMarkB = ReftimeToString4(abRepeat.positionB, needsHours);
                         msg.AppendFormat(_T("> %s"), timeMarkB.GetString());
                     }
                     msg.Append(_T("]"));

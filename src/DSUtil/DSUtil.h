@@ -127,6 +127,7 @@ extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString3(const REFERENCE_TIME& rtVal);
 extern CStringW ReftimeToString4(REFERENCE_TIME rt, bool showZeroHours = true);
+extern bool ABNeedsHours(REFERENCE_TIME positionA, REFERENCE_TIME positionB);
 extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
 extern REFERENCE_TIME StringToReftime(LPCTSTR strVal);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);

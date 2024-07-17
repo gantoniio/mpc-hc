@@ -1846,6 +1846,24 @@ CStringW ReftimeToString4(REFERENCE_TIME rt, bool showZeroHours /* = true*/)
     return DVDtimeToString(tc, showZeroHours);
 }
 
+bool ABNeedsHours(REFERENCE_TIME positionA, REFERENCE_TIME positionB)
+{
+    bool needsHours = false;
+    if (positionA) {
+        LONGLONG seconds = (positionA + 5000000) / 10000000;
+        if ((int)(seconds / 3600)) {
+            needsHours = true;
+        }
+    }
+    if (positionB) {
+        LONGLONG seconds = (positionB + 5000000) / 10000000;
+        if ((int)(seconds / 3600)) {
+            needsHours = true;
+        }
+    }
+    return needsHours;
+}
+
 CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours)
 {
     CString strTemp;
