@@ -22,6 +22,7 @@
 
 #include "Mpeg2Def.h"
 #include <atlcoll.h>
+#include <vector>
 
 enum BDVM_VideoFormat {
     BDVM_VideoFormat_Unknown = 0,
@@ -102,6 +103,15 @@ public:
         bool operator == (const PlaylistItem& pi) const {
             return pi.m_strFileName == m_strFileName;
         }
+        bool operator >(const PlaylistItem& pi) const {
+            return Duration() > pi.Duration();
+        }
+    };
+    class HdmvPlaylist : public std::vector<PlaylistItem> {
+    public:
+        __int64 m_mpls_size = 0;
+        unsigned m_max_video_res = 0u;
+        bool contains(PlaylistItem& pli) { return std::find(begin(), end(), pli) != end(); }
     };
 
     enum PlaylistMarkType {
@@ -132,8 +142,8 @@ public:
     size_t GetStreamNumber() { return m_Streams.GetCount(); };
     Stream* GetStreamByIndex(size_t nIndex) { return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : nullptr; };
 
-    HRESULT FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists);
-    HRESULT ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);
+    HRESULT FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, HdmvPlaylist& MainPlaylist, HdmvPlaylist& MPLSPlaylists);
+    HRESULT ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, HdmvPlaylist& Playlist);
     HRESULT ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<PlaylistChapter>& Chapters);
     bool ReadMeta(LPCTSTR strFolder, CAtlList<BDMVMeta>& meta);
 

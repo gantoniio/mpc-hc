@@ -256,7 +256,7 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
     }
 }
 
-HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist)
+HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, HdmvPlaylist& Playlist)
 {
     CPath Path(strPlaylistFile);
     rtDuration = 0;
@@ -317,10 +317,10 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 
             rtDuration += (Item.m_rtOut - Item.m_rtIn);
 
-            if (Playlist.Find(Item) != nullptr) {
+            if (Playlist.contains(Item)) {
                 bDuplicate = true;
             }
-            Playlist.AddTail(Item);
+            Playlist.push_back(Item);
 
             //TRACE(_T("File : %s, Duration : %s, Total duration  : %s\n"), strTemp, ReftimeToString (rtOut - rtIn), ReftimeToString (rtDuration));
         }
@@ -405,16 +405,16 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 
 #define MIN_LIMIT 3
 
-HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists)
+HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, HdmvPlaylist& MainPlaylist, HdmvPlaylist& MPLSPlaylists)
 {
     HRESULT hr = E_FAIL;
 
     CString strPath(strFolder);
     CString strFilter;
 
-    MPLSPlaylists.RemoveAll();
+    MPLSPlaylists.clear();
 
-    CAtlList<PlaylistItem> Playlist;
+    HdmvPlaylist Playlist;
     WIN32_FIND_DATA fd;
     ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
 
@@ -426,31 +426,64 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 
     HANDLE hFind = FindFirstFile(strFilter, &fd);
     if (hFind != INVALID_HANDLE_VALUE) {
+        std::list<HdmvPlaylist> PlaylistArray;
+
         REFERENCE_TIME rtMax = 0;
         REFERENCE_TIME rtCurrent;
         CString strCurrentPlaylist;
+        __int64 mpls_size_max = 0;
+        unsigned max_video_res = 0u;
         do {
             strCurrentPlaylist.Format(_T("%sPLAYLIST\\%s"), strPath.GetString(), fd.cFileName);
-            Playlist.RemoveAll();
+            Playlist.clear();
 
             // Main movie shouldn't have duplicate M2TS filename...
             if (ReadPlaylist(strCurrentPlaylist, rtCurrent, Playlist) == S_OK) {
-                if (rtCurrent > rtMax) {
+                if ((rtCurrent > rtMax && Playlist.m_max_video_res >= max_video_res)
+                    || (rtCurrent == rtMax && Playlist.m_mpls_size > mpls_size_max)
+                    || ((rtCurrent < rtMax && rtCurrent >= rtMax / 2) && Playlist.m_max_video_res > max_video_res)) {
                     rtMax = rtCurrent;
+                    mpls_size_max = Playlist.m_mpls_size;
+                    max_video_res = Playlist.m_max_video_res;
                     strPlaylistFile = strCurrentPlaylist;
-                    MainPlaylist.RemoveAll();
-                    POSITION pos = Playlist.GetHeadPosition();
-                    while (pos) {
-                        MainPlaylist.AddTail(Playlist.GetNext(pos));
-                    }
+                    MainPlaylist.clear();
+                    MainPlaylist.insert(std::end(MainPlaylist), std::begin(Playlist), std::end(Playlist));
                     hr = S_OK;
                 }
+
                 if (rtCurrent >= (REFERENCE_TIME)MIN_LIMIT * 600000000) {
+                    // Search duplicate playlists ...
+                    bool duplicate = false;
+                    if (!MPLSPlaylists.empty()) {
+                        for (const auto& item : PlaylistArray) {
+                            if (item.size() != Playlist.size()) {
+                                continue;
+                            }
+
+                            duplicate = true;
+                            for (size_t i = 0; i < item.size() && duplicate; i++) {
+                                if (item[i] == Playlist[i]) {
+                                    continue;
+                                }
+
+                                duplicate = false;
+                            }
+
+                            if (duplicate) {
+                                duplicate = (item.m_mpls_size == Playlist.m_mpls_size);
+                            }
+                        }
+                    }
+                    if (duplicate) {
+                        //continue;
+                    }
+
                     PlaylistItem Item;
                     Item.m_strFileName = strCurrentPlaylist;
                     Item.m_rtIn = 0;
                     Item.m_rtOut = rtCurrent;
-                    MPLSPlaylists.AddTail(Item);
+                    MPLSPlaylists.emplace_back(Item);
+                    PlaylistArray.emplace_back(Playlist);
                 }
 
             }
@@ -459,15 +492,8 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
         FindClose(hFind);
     }
 
-    if (MPLSPlaylists.GetCount() > 1) {
-        // bubble sort
-        for (size_t j = 0; j < MPLSPlaylists.GetCount(); j++) {
-            for (size_t i = 0; i < MPLSPlaylists.GetCount() - 1; i++) {
-                if (MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i)).Duration() < MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i + 1)).Duration()) {
-                    MPLSPlaylists.SwapElements(MPLSPlaylists.FindIndex(i), MPLSPlaylists.FindIndex(i + 1));
-                }
-            }
-        }
+    if (MPLSPlaylists.size() > 1) {
+        std::sort(MPLSPlaylists.begin(), MPLSPlaylists.end(), std::greater<PlaylistItem>());
     }
 
     return hr;
