@@ -716,7 +716,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
                         }
                     }
                     if (duplicate) {
-                        //continue;
+                        continue;
                     }
 
                     PlaylistItem Item;
