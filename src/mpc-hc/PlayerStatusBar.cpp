@@ -586,6 +586,7 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
 
     m_timerMenu.CreatePopupMenu();
     m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.fRemainingTime ? MF_CHECKED : MF_UNCHECKED), REMAINING_TIME, ResStr(IDS_TIMER_REMAINING_TIME));
+    m_timerMenu.AppendMenu(MFT_SEPARATOR);
     UINT nFlags = MF_STRING;
     if (m_pMainFrame->IsSubresyncBarVisible()) {
         nFlags |= MF_DISABLED | MF_CHECKED;

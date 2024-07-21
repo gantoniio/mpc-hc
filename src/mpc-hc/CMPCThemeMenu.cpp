@@ -35,12 +35,14 @@ CMPCThemeMenu::CMPCThemeMenu()
 
 CMPCThemeMenu::~CMPCThemeMenu()
 {
-    std::map<UINT, CMPCThemeMenu*>::iterator itr = subMenuIDs.begin();
-    while (itr != subMenuIDs.end()) {
-        if (itr->second == this) {
-            itr = subMenuIDs.erase(itr);
-        } else {
-            ++itr;
+    if (!subMenuIDs.empty()) { //empty maps can crash on iterators! 
+        std::map<UINT, CMPCThemeMenu*>::iterator itr = subMenuIDs.begin();
+        while (itr != subMenuIDs.end()) {
+            if (itr->second == this) {
+                itr = subMenuIDs.erase(itr);
+            } else {
+                ++itr;
+            }
         }
     }
 
