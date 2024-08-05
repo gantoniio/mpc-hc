@@ -105,21 +105,25 @@ BOOL CPPageMisc::OnInitDialog()
     m_SliBrightness.SetRange(-100, 100, true);
     m_SliBrightness.SetTic(0);
     m_SliBrightness.SetPos(m_iBrightness);
+    m_SliBrightness.SetLockToZero();
 
     m_SliContrast.EnableWindow(TRUE);
     m_SliContrast.SetRange(-100, 100, true);
     m_SliContrast.SetTic(0);
     m_SliContrast.SetPos(m_iContrast);
+    m_SliContrast.SetLockToZero();
 
     m_SliHue.EnableWindow(TRUE);
     m_SliHue.SetRange(-180, 180, true);
     m_SliHue.SetTic(0);
     m_SliHue.SetPos(m_iHue);
+    m_SliHue.SetLockToZero();
 
     m_SliSaturation.EnableWindow(TRUE);
     m_SliSaturation.SetRange(-100, 100, true);
     m_SliSaturation.SetTic(0);
     m_SliSaturation.SetPos(m_iSaturation);
+    m_SliSaturation.SetLockToZero();
 
     if (AfxGetMyApp()->IsIniValid()) {
         m_ExportKeys.EnableWindow(FALSE);
@@ -134,6 +138,7 @@ BOOL CPPageMisc::OnInitDialog()
     m_nUpdaterDelay = s.nUpdaterDelay;
     m_updaterDelaySpin.SetRange32(1, 365);
 
+    AdjustDynamicWidgets();
     UpdateData(FALSE);
 
     return TRUE;
@@ -159,6 +164,7 @@ BOOL CPPageMisc::OnApply()
 void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
     UpdateData();
+    
     if (*pScrollBar == m_SliBrightness) {
         m_iBrightness = m_SliBrightness.GetPos();
         ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_Brightness, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
@@ -280,4 +286,8 @@ void CPPageMisc::OnCancel()
 
     ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_All, s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
     __super::OnCancel();
+}
+
+void CPPageMisc::AdjustDynamicWidgets() {
+    AdjustDynamicWidgetPair(this, IDC_STATIC5, IDC_EDIT1);
 }

@@ -119,6 +119,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_volumectrl.SetTicFreq(10);
     m_balancectrl.SetRange(-100, 100);
     m_balancectrl.SetTicFreq(20);
+    m_balancectrl.SetLockToZero();
     m_nVolume = m_oldVolume = s.nVolume;
     m_nBalance = s.nBalance;
     m_nVolumeStep = s.nVolumeStep;
@@ -175,6 +176,7 @@ BOOL CPPagePlayback::OnInitDialog()
     UDACCEL accel = { 0, 5 };
     m_SpeedStepCtrl.SetAccel(1, &accel);
 
+    AdjustDynamicWidgets();
     EnableThemedDialogTooltips(this);
     CreateToolTip();
 
@@ -231,6 +233,7 @@ void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         UpdateData();
         ((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance); // see prev note...
     }
+    RedrawDialogTooltipIfVisible(); //if the scroll is caused by a wheel or arrows, the default tooltip may be active due to hover, in which case, we want to update
 
     SetModified();
 
@@ -354,4 +357,14 @@ void CPPagePlayback::OnChangeFitFactorMax() {
         }
         SetModified();
     }
+}
+
+void CPPagePlayback::AdjustDynamicWidgets() {
+    AdjustDynamicWidgetPair(this, IDC_STATIC5, IDC_VOLUMESTEP);
+    AdjustDynamicWidgetPair(this, IDC_STATIC6, IDC_SPEEDSTEP);
+    AdjustDynamicWidgetPair(this, IDC_STATIC7, IDC_COMBO3);
+    AdjustDynamicWidgetPair(this, IDC_CHECK5, IDC_COMBO1);
+    AdjustDynamicWidgetPair(this, IDC_STATIC4, IDC_COMBO4);
+    AdjustDynamicWidgetPair(this, IDC_STATIC8, IDC_EDIT2);
+    AdjustDynamicWidgetPair(this, IDC_STATIC9, IDC_EDIT3);
 }

@@ -624,6 +624,9 @@
     <ClCompile Include="AddCommandDlg.cpp">
       <Filter>Modal Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="MPCFolderPickerDialog.cpp">
+      <Filter>Modal Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1183,6 +1186,9 @@
       <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
     <ClInclude Include="AddCommandDlg.h">
+      <Filter>Modal Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MPCFolderPickerDialog.h">
       <Filter>Modal Dialogs</Filter>
     </ClInclude>
   </ItemGroup>

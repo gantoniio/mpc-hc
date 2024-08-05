@@ -199,7 +199,15 @@ void COSD::UpdateBitmap()
         hbmpRender = CreateDIBSection(m_MemDC, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
         m_MemDC.SelectObject(hbmpRender);
         if (::GetObjectW(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0) {
-            if (m_pMFVMB) {
+            if (m_pVMB) {
+                ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+                m_VMR9AlphaBitmap.dwFlags = VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
+                m_VMR9AlphaBitmap.hdc = m_MemDC;
+                m_VMR9AlphaBitmap.clrSrcKey = m_colors[OSD_TRANSPARENT];
+                m_VMR9AlphaBitmap.rSrc = m_rectWnd;
+                m_VMR9AlphaBitmap.rDest = { 0, 0, 1, 1 };
+                m_VMR9AlphaBitmap.fAlpha = 1.0;
+            } else if (m_pMFVMB) {
                 ZeroMemory(&m_MFVAlphaBitmap, sizeof(m_MFVAlphaBitmap));
                 m_MFVAlphaBitmap.GetBitmapFromDC  = TRUE;
                 m_MFVAlphaBitmap.bitmap.hdc       = m_MemDC;
@@ -232,8 +240,9 @@ void COSD::Reset()
     CalcFlybar();
 }
 
-void COSD::Start(CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pMFVMB, bool bShowSeekBar)
+void COSD::Start(CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB, CComPtr<IMFVideoMixerBitmap> pMFVMB, bool bShowSeekBar)
 {
+    m_pVMB         = pVMB;
     m_pMFVMB       = pMFVMB;
     m_pMVTO        = nullptr;
     m_pWnd         = pWnd;
@@ -547,7 +556,12 @@ void COSD::InvalidateBitmapOSD()
     DrawMessage();
     DrawDebug();
 
-    m_pMFVMB->SetAlphaBitmap(&m_MFVAlphaBitmap);
+    if (m_pVMB) {
+        m_VMR9AlphaBitmap.dwFlags &= ~VMRBITMAP_DISABLE;
+        m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
+    } else if (m_pMFVMB) {
+        m_pMFVMB->SetAlphaBitmap(&m_MFVAlphaBitmap);
+    }
 
     m_pMainFrame->RepaintVideo(m_llSeekPos == m_llSeekStop);
 }
@@ -749,7 +763,11 @@ void COSD::ClearMessage(bool hide)
         m_nMessagePos = OSD_NOMESSAGE;
     }
 
-    if (m_pMFVMB) {
+    if (m_pVMB) {
+        m_VMR9AlphaBitmap.dwFlags |= VMRBITMAP_DISABLE;
+        m_pVMB->UpdateAlphaBitmapParameters(&m_VMR9AlphaBitmap);
+        m_pMainFrame->RepaintVideo();
+    } else if (m_pMFVMB) {
         m_pMFVMB->ClearAlphaBitmap();
         DLog(L"IMFVideoMixerBitmap::ClearAlphaBitmap");
         m_pMainFrame->RepaintVideo(); //???
@@ -1211,7 +1229,7 @@ void COSD::CreateFontInternal()
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
     lf.lfHeight = -m_DPIHelper.PointsToPixels(m_FontSize);
     lf.lfQuality = CLEARTYPE_QUALITY;
-    wcscpy_s(lf.lfFaceName, LF_FACESIZE, m_OSD_Font);
+    wcsncpy_s(lf.lfFaceName, LF_FACESIZE, m_OSD_Font, LF_FACESIZE-1);
 
     m_MainFont.CreateFontIndirectW(&lf);
 }

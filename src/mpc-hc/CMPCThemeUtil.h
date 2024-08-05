@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <map>
 #include <afxcmn.h>
 #include <afxdlgs.h>
 #include "CMPCTheme.h"
@@ -16,28 +17,42 @@ public:
     enum SpecialThemeCases {
         NoSpecialCase = 0,
         ExternalPropertyPageWithDefaultButton,
+        ExternalPropertyPageWithAnalogCaptureSliders,
     };
 
-    enum DynamicAlignWindowType {
-        DynamicAlignCheckBox = 0
-        , DynamicAlignCombo
-        , DynamicAlignText
+    enum WidgetPairType {
+        WidgetPairAuto = 0
+        , WidgetPairCheckBox
+        , WidgetPairCombo
+        , WidgetPairText
+        , WidgetPairEdit
     };
-
 
     CMPCThemeUtil();
     virtual ~CMPCThemeUtil();
 
     static bool ModifyTemplates(CPropertySheet* sheet, CRuntimeClass* pageClass, DWORD id, DWORD addStyle, DWORD removeStyle = 0);
 
-    void enableFileDialogHook();
 
     static HBRUSH getCtlColorFileDialog(HDC hDC, UINT nCtlColor);
     static HBRUSH getCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     static bool MPCThemeEraseBkgnd(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-    void subClassFileDialog(CWnd* wnd, HWND hwnd, bool findSink = true);
 
+    enum FileDialogWidgetSearch {
+        RecurseSinkWidgets
+        ,ThemeAllChildren
+        ,ProminentControlIDWidget
+    };
+
+    HWND fileDialogHandle = nullptr;
+    void enableFileDialogHook();
+    void subClassFileDialogRecurse(CWnd* wnd, HWND hWnd, FileDialogWidgetSearch searchType);
+    void subClassFileDialog(CWnd* wnd);
+    void subClassFileDialogWidgets(HWND widget, HWND parent, wchar_t* childWindowClass);
+    void redrawAllThemedWidgets();
 protected:
+    int dialogProminentControlStringID = 0;
+
     static CBrush contentBrush, windowBrush, controlAreaBrush, W10DarkThemeFileDialogInjectedBGBrush;
     static NONCLIENTMETRICS nonClientMetrics;
     std::vector<CWnd*> allocatedWindows;
@@ -52,6 +67,7 @@ protected:
     void EnableThemedDialogTooltips(CDialog* wnd);
     void PlaceThemedDialogTooltip(UINT_PTR nID);
     void RelayThemedDialogTooltip(MSG* pMsg);
+    void RedrawDialogTooltipIfVisible();
     static bool metricsNeedCalculation;
 public:
     static bool getFontByFace(CFont& font, CWnd *wnd, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
@@ -81,6 +97,7 @@ public:
     static float getConstantFByDPI(CWnd* window, const float* constants);
     static int getConstantByDPI(CWnd* window, const int* constants);
     static UINT getResourceByDPI(CWnd* window, CDC* pDC, const UINT* resources);
+    static void MapDialogRect2(CDialog* wnd, CRect& r);
     static const std::vector<CMPCTheme::pathPoint> getIconPathByDPI(CMPCThemeTitleBarControlButton* button);
     static const std::vector<CMPCTheme::pathPoint> getIconPathByDPI(CWnd* wnd, WPARAM buttonType);
     static void drawCheckBox(CWnd* window, UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio = false);
@@ -92,7 +109,9 @@ public:
     static void drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill = true);
     static void fulfillThemeReqs(CProgressCtrl* ctl);
     static void enableWindows10DarkFrame(CWnd* window);
-    static void AdjustDynamicWidth(CWnd* window, int left, int right, DynamicAlignWindowType lType, DynamicAlignWindowType rType);
+    static void AdjustDynamicWidgetPair(CWnd* window, int left, int right, WidgetPairType lType = WidgetPairAuto, WidgetPairType rType = WidgetPairAuto);
+    static void UpdateAnalogCaptureDeviceSlider(CScrollBar* pScrollBar);
+    static bool IsWindowVisibleAndRendered(CWnd* window);
 
     void PreDoModalRTL(LPPROPSHEETHEADERW m_psh);
 

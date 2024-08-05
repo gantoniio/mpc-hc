@@ -582,9 +582,9 @@ void CPlayerSeekBar::OnPaint()
     bkg    = GetSysColor(COLOR_BTNFACE);
 
     const CRect channelRect(GetChannelRect());
-    auto funcMarkChannel = [&](REFERENCE_TIME pos, long verticalPadding, COLORREF markColor) {
+    auto funcMarkChannel = [&](REFERENCE_TIME pos, long verticalPadding, long thickness, COLORREF markColor) {
         long markPos = channelRect.left + ChannelPointFromPosition(pos);
-        CRect r(markPos, channelRect.top + verticalPadding, markPos + 1, channelRect.bottom - verticalPadding);
+        CRect r(markPos, channelRect.top + verticalPadding, markPos + thickness - 1, channelRect.bottom - verticalPadding);
         if (r.right < channelRect.right) {
             r.right++;
         }
@@ -603,21 +603,23 @@ void CPlayerSeekBar::OnPaint()
             // A-B Repeat
             REFERENCE_TIME aPos, bPos;
             if (m_pMainFrame->CheckABRepeat(aPos, bPos)) {
+                long thickness = m_pMainFrame->m_dpi.ScaleX(2);
                 if (aPos) {
-                    funcMarkChannel(aPos, 1, CMPCTheme::SeekbarABColor);
+                    funcMarkChannel(aPos, 1, thickness, CMPCTheme::SeekbarABColor);
                 }
                 if (bPos) {
-                    funcMarkChannel(bPos, 1, CMPCTheme::SeekbarABColor);
+                    funcMarkChannel(bPos, 1, thickness, CMPCTheme::SeekbarABColor);
                 }
             }
 
             // Chapters
             CAutoLock lock(&m_csChapterBag);
             if (m_pChapterBag) {
+                long thickness = m_pMainFrame->m_dpi.ScaleX(1);
                 for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
                     REFERENCE_TIME rtChap;
                     if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
-                        funcMarkChannel(rtChap, 1, CMPCTheme::SeekbarChapterColor);
+                        funcMarkChannel(rtChap, 1, thickness, CMPCTheme::SeekbarChapterColor);
                     } else {
                         ASSERT(FALSE);
                     }
@@ -681,21 +683,23 @@ void CPlayerSeekBar::OnPaint()
             // A-B Repeat
             REFERENCE_TIME aPos, bPos;
             if (m_pMainFrame->CheckABRepeat(aPos, bPos)) {
+                long thickness = m_pMainFrame->m_dpi.ScaleX(2);
                 if (aPos) {
-                    funcMarkChannel(aPos, 0, CMPCTheme::SeekbarABColor);
+                    funcMarkChannel(aPos, 0, thickness, CMPCTheme::SeekbarABColor);
                 }
                 if (bPos) {
-                    funcMarkChannel(bPos, 0, CMPCTheme::SeekbarABColor);
+                    funcMarkChannel(bPos, 0, thickness, CMPCTheme::SeekbarABColor);
                 }
             }
 
             // Chapters
             CAutoLock lock(&m_csChapterBag);
             if (m_pChapterBag) {
+                long thickness = m_pMainFrame->m_dpi.ScaleX(1);
                 for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
                     REFERENCE_TIME rtChap;
                     if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
-                        funcMarkChannel(rtChap, 0, dark);
+                        funcMarkChannel(rtChap, 0, thickness, dark);
                     } else {
                         ASSERT(FALSE);
                     }
@@ -728,6 +732,12 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
     CRect clientRect;
     GetClientRect(&clientRect);
     if (m_bEnabled && m_bHasDuration && clientRect.PtInRect(point)) {
+        if (AfxGetAppSettings().bPauseWhileDraggingSeekbar && m_pMainFrame->GetMediaState() == State_Running) {
+            pausedDuringSeek = true;
+            m_pMainFrame->MediaControlPause();
+        } else {
+            pausedDuringSeek = false;
+        }
         SetCapture();
         m_bDraggingThumb = true;
         MoveThumb(point);
@@ -753,6 +763,9 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
         // update video position if seekbar moved at least 250 ms or 1/100th of duration
         CheckScrollDistance(point, std::min(2500000LL, m_rtStop / 100), 0LL);
         invalidateThumb();
+        if (pausedDuringSeek) {
+            m_pMainFrame->MediaControlRun();
+        }
     }
     checkHover(point);
 }
@@ -817,21 +830,17 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
         CheckScrollDistance(point, std::min(5000000LL, m_rtStop / 30), 150LL);
     }
 
-    bool usepreview = m_bHasDuration && m_pMainFrame->CanPreviewUse();
-
-    if (usepreview || AfxGetAppSettings().fUseSeekbarHover) {
+    if (AfxGetAppSettings().fUseSeekbarHover) {
         UpdateTooltip(point);
-    }
 
-    if (usepreview) {
-        //checkHover(point);
-
-        const OAFilterState fs = m_pMainFrame->m_CachedFilterState;
-        if (fs != -1) {
-            UpdateToolTipPosition(point);
-            PreviewWindowShow(point);
-        } else {
-            m_pMainFrame->PreviewWindowHide();
+        if (m_bHasDuration && m_pMainFrame->CanPreviewUse()) {
+            const OAFilterState fs = m_pMainFrame->m_CachedFilterState;
+            if (fs != -1) {
+                UpdateToolTipPosition(point);
+                PreviewWindowShow(point);
+            } else {
+                m_pMainFrame->PreviewWindowHide();
+            }
         }
     }
 }

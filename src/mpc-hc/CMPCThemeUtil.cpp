@@ -108,6 +108,13 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                             tChild->MoveWindow(wr);
                         }
                         makeThemed(pObject, tChild);
+                        if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase && 0x416 == GetDlgCtrlID(tChild->m_hWnd)) {
+                            CStringW str;
+                            pObject->GetWindowTextW(str);
+                            str.Replace(L" \r\n ", L"\r\n"); //this prevents double-wrapping due to the space wrapping before the carriage return
+                            pObject->SetWindowTextW(str);
+                            pObject->ModifyStyle(0, TBS_DOWNISLEFT);
+                        }
                     }
                 } else if (0 == _tcsicmp(windowClass, WC_EDIT)) {
                     CMPCThemeEdit* pObject = DEBUG_NEW CMPCThemeEdit();
@@ -117,6 +124,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, _T("#32770"))) { //dialog class
                     CMPCThemeDialog* pObject = DEBUG_NEW CMPCThemeDialog(windowTitle == "");
+                    pObject->SetSpecialCase(specialCase);
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, WC_COMBOBOX)) {
                     CMPCThemeComboBox* pObject = DEBUG_NEW CMPCThemeComboBox();
@@ -124,6 +132,9 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                 } else if (0 == _tcsicmp(windowClass, TRACKBAR_CLASS)) {
                     CMPCThemeSliderCtrl* pObject = DEBUG_NEW CMPCThemeSliderCtrl();
                     makeThemed(pObject, tChild);
+                    if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase) {
+                        pObject->ModifyStyle(0, TBS_DOWNISLEFT);
+                    }
                 } else if (0 == _tcsicmp(windowClass, WC_TABCONTROL)) {
                     CMPCThemeTabCtrl* pObject = DEBUG_NEW CMPCThemeTabCtrl();
                     makeThemed(pObject, tChild);
@@ -182,7 +193,18 @@ void CMPCThemeUtil::EnableThemedDialogTooltips(CDialog* wnd)
     } else {
         wnd->EnableToolTips(TRUE);
     }
+}
 
+void CMPCThemeUtil::RedrawDialogTooltipIfVisible() {
+    if (AppIsThemeLoaded() && themedDialogToolTip.m_hWnd) {
+        themedDialogToolTip.RedrawIfVisible();
+    } else {
+        AFX_MODULE_THREAD_STATE* pModuleThreadState = AfxGetModuleThreadState();
+        CToolTipCtrl* pToolTip = pModuleThreadState->m_pToolTip;
+        if (pToolTip && ::IsWindow(pToolTip->m_hWnd) && pToolTip->IsWindowVisible()) {
+            pToolTip->Update();
+        }
+    }
 }
 
 void CMPCThemeUtil::PlaceThemedDialogTooltip(UINT_PTR nID)
@@ -215,56 +237,87 @@ LRESULT CALLBACK wndProcFileDialog(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
     return ::CallWindowProc(wndProcSink, hWnd, uMsg, wParam, lParam);
 }
 
-
-void CMPCThemeUtil::subClassFileDialog(CWnd* wnd, HWND hWnd, bool findSink)
-{
-    if (AfxGetAppSettings().bWindows10DarkThemeActive) {
-        initHelperObjects();
-        HWND pChild = ::GetWindow(hWnd, GW_CHILD);
-
-        while (pChild) {
-            TCHAR childWindowClass[MAX_PATH];
-            ::GetClassName(pChild, childWindowClass, _countof(childWindowClass));
-            if (findSink) {
-                if (0 == _tcsicmp(childWindowClass, _T("FloatNotifySink"))) { //children are the injected controls
-                    subClassFileDialog(wnd, pChild, false); //recurse into the sinks
-                }
-            } else {
-                if (0 == _tcsicmp(childWindowClass, WC_STATIC)) {
-                    CWnd* c = CWnd::FromHandle(pChild);
-                    c->UnsubclassWindow();
-                    CMPCThemeStatic* pObject = DEBUG_NEW CMPCThemeStatic();
-                    pObject->setFileDialogChild(true);
-                    allocatedWindows.push_back(pObject);
-                    pObject->SubclassWindow(pChild);
-                } else if (0 == _tcsicmp(childWindowClass, WC_BUTTON)) {
-                    CWnd* c = CWnd::FromHandle(pChild);
-                    DWORD style = c->GetStyle();
-                    DWORD buttonType = (style & BS_TYPEMASK);
-                    if (buttonType == BS_CHECKBOX || buttonType == BS_AUTOCHECKBOX) {
-                        c->UnsubclassWindow();
-                        CMPCThemeRadioOrCheck* pObject = DEBUG_NEW CMPCThemeRadioOrCheck();
-                        pObject->setFileDialogChild(true);
-                        allocatedWindows.push_back(pObject);
-                        pObject->SubclassWindow(pChild);
-                    }
-                } else if (0 == _tcsicmp(childWindowClass, WC_EDIT)) {
-                    CWnd* c = CWnd::FromHandle(pChild);
-                    c->UnsubclassWindow();
-                    CMPCThemeEdit* pObject = DEBUG_NEW CMPCThemeEdit();
-                    pObject->setFileDialogChild(true);
-                    allocatedWindows.push_back(pObject);
-                    pObject->SubclassWindow(pChild);
-                    if (nullptr == GetProp(hWnd, _T("WNDPROC_SINK"))) {
-                        LONG_PTR wndProcOld = ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)wndProcFileDialog);
-                        SetProp(hWnd, _T("WNDPROC_SINK"), (HANDLE)wndProcOld);
-                    }
-                }
-            }
-            pChild = ::GetNextWindow(pChild, GW_HWNDNEXT);
+void CMPCThemeUtil::subClassFileDialogWidgets(HWND widget, HWND parent, wchar_t* childWindowClass) {
+    if (0 == wcsicmp(childWindowClass, WC_STATIC)) {
+        CWnd* c = CWnd::FromHandle(widget);
+        c->UnsubclassWindow();
+        CMPCThemeStatic* pObject = DEBUG_NEW CMPCThemeStatic();
+        pObject->setFileDialogChild(true);
+        allocatedWindows.push_back(pObject);
+        pObject->SubclassWindow(widget);
+    } else if (0 == wcsicmp(childWindowClass, WC_BUTTON)) {
+        CWnd* c = CWnd::FromHandle(widget);
+        DWORD style = c->GetStyle();
+        DWORD buttonType = (style & BS_TYPEMASK);
+        if (buttonType == BS_CHECKBOX || buttonType == BS_AUTOCHECKBOX) {
+            c->UnsubclassWindow();
+            CMPCThemeRadioOrCheck* pObject = DEBUG_NEW CMPCThemeRadioOrCheck();
+            pObject->setFileDialogChild(true);
+            allocatedWindows.push_back(pObject);
+            pObject->SubclassWindow(widget);
+        }
+    } else if (0 == wcsicmp(childWindowClass, WC_EDIT)) {
+        CWnd* c = CWnd::FromHandle(widget);
+        c->UnsubclassWindow();
+        CMPCThemeEdit* pObject = DEBUG_NEW CMPCThemeEdit();
+        pObject->setFileDialogChild(true);
+        allocatedWindows.push_back(pObject);
+        pObject->SubclassWindow(widget);
+        if (nullptr == GetProp(parent, _T("WNDPROC_SINK"))) {
+            LONG_PTR wndProcOld = ::SetWindowLongPtr(parent, GWLP_WNDPROC, (LONG_PTR)wndProcFileDialog);
+            SetProp(parent, _T("WNDPROC_SINK"), (HANDLE)wndProcOld);
         }
     }
 }
+
+void CMPCThemeUtil::subClassFileDialog(CWnd* wnd) {
+    if (AfxGetAppSettings().bWindows10DarkThemeActive) {
+        initHelperObjects();
+
+        HWND duiview = ::FindWindowExW(fileDialogHandle, NULL, L"DUIViewWndClassName", NULL);
+        HWND duihwnd = ::FindWindowExW(duiview, NULL, L"DirectUIHWND", NULL);
+
+        if (duihwnd) { //we found the FileDialog
+            if (dialogProminentControlStringID) { //if this is set, we assume there is a single prominent control (note, it's in the filedialog main window)
+                subClassFileDialogRecurse(wnd, fileDialogHandle, ProminentControlIDWidget);
+            } else {
+                subClassFileDialogRecurse(wnd, duihwnd, RecurseSinkWidgets);
+            }
+            fileDialogHandle = nullptr;
+            ::RedrawWindow(duiview, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+        }
+    }
+}
+
+void CMPCThemeUtil::subClassFileDialogRecurse(CWnd* wnd, HWND hWnd, FileDialogWidgetSearch searchType) {
+    HWND pChild = ::GetWindow(hWnd, GW_CHILD);
+    while (pChild) {
+        WCHAR childWindowClass[MAX_PATH];
+        ::GetClassName(pChild, childWindowClass, _countof(childWindowClass));
+        if (searchType == RecurseSinkWidgets) {
+            if (0 == wcsicmp(childWindowClass, L"FloatNotifySink")) { //children are the injected controls
+                subClassFileDialogRecurse(wnd, pChild, ThemeAllChildren); //recurse and theme all children of sink
+            }
+        } else if (searchType == ThemeAllChildren) {
+            subClassFileDialogWidgets(pChild, hWnd, childWindowClass);
+        } else if (searchType == ProminentControlIDWidget){
+            WCHAR str[MAX_PATH];
+            ::GetWindowText(pChild, str, _countof(str));
+            if (0 == wcsicmp(str, ResStr(dialogProminentControlStringID))) {
+                subClassFileDialogWidgets(pChild, hWnd, childWindowClass);
+                return;
+            }
+        }
+        pChild = ::GetNextWindow(pChild, GW_HWNDNEXT);
+    }
+}
+
+void CMPCThemeUtil::redrawAllThemedWidgets() {
+    for (auto w : allocatedWindows) {
+        w->RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    }
+}
+
 AFX_STATIC DLGITEMTEMPLATE* AFXAPI _AfxFindNextDlgItem(DLGITEMTEMPLATE* pItem, BOOL bDialogEx);
 AFX_STATIC DLGITEMTEMPLATE* AFXAPI _AfxFindFirstDlgItem(const DLGTEMPLATE* pTemplate);
 
@@ -791,6 +844,38 @@ const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CWnd* wn
     }
 }
 
+//MapDialogRect deficiencies:
+// 1. Caches results for windows even after they receive a DPI change
+// 2. for templateless dialogs (e.g., MessageBoxDialog.cpp), the caching requires a reboot to fix
+// 3. Does not honor selected font
+// 4. For PropSheet, always uses "MS Shell Dlg" no matter what the sheet has selected in the .rc
+void CMPCThemeUtil::MapDialogRect2(CDialog* wnd, CRect& r) {
+    CDC* pDC;
+    if (wnd && (pDC = wnd->GetDC())) {
+        CFont msgFont;
+        if (!getFontByType(msgFont, wnd, CMPCThemeUtil::MessageFont)) {
+        //if (!getFontByFace(msgFont, wnd, L"MS Shell Dlg", 9)){
+            return;
+        }
+
+        CFont* oldFont = pDC->SelectObject(&msgFont);
+
+        //average character dimensions: https://web.archive.org/web/20131208002908/http://support.microsoft.com/kb/125681
+        TEXTMETRICW tm;
+        SIZE size;
+        pDC->GetTextMetricsW(&tm);
+        GetTextExtentPoint32W(pDC->GetSafeHdc(), L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &size);
+        pDC->SelectObject(oldFont);
+        int avgWidth = (size.cx / 26 + 1) / 2;
+        int avgHeight = (WORD)tm.tmHeight;
+
+        //MapDialogRect definition: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mapdialogrect
+        r.left = MulDiv(r.left, avgWidth, 4);
+        r.right = MulDiv(r.right, avgWidth, 4);
+        r.top = MulDiv(r.top, avgHeight, 8);
+        r.bottom = MulDiv(r.bottom, avgHeight, 8);
+    }
+}
 
 const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThemeTitleBarControlButton* button)
 {
@@ -1063,14 +1148,42 @@ CPoint CMPCThemeUtil::GetRegionOffset(CWnd* window) {
     return offset;
 }
 
-void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWidget, DynamicAlignWindowType lType, DynamicAlignWindowType rType) {
+void CMPCThemeUtil::AdjustDynamicWidgetPair(CWnd* window, int leftWidget, int rightWidget, WidgetPairType lType, WidgetPairType rType) {
     if (window && IsWindow(window->m_hWnd)) {
         DpiHelper dpiWindow;
         dpiWindow.Override(window->GetSafeHwnd());
         LONG dynamicSpace = dpiWindow.ScaleX(5);
 
+
+
         CWnd* leftW = window->GetDlgItem(leftWidget);
         CWnd* rightW = window->GetDlgItem(rightWidget);
+
+        WidgetPairType ll = lType;
+        WidgetPairType rr = rType;
+
+        if (true || lType == WidgetPairAuto) {
+            LRESULT lRes = leftW->SendMessage(WM_GETDLGCODE, 0, 0);
+            DWORD buttonType = (leftW->GetStyle() & BS_TYPEMASK);
+
+            if (DLGC_BUTTON == (lRes & DLGC_BUTTON) && (buttonType == BS_CHECKBOX || buttonType == BS_AUTOCHECKBOX)) {
+                lType = WidgetPairCheckBox;
+            } else { //we only support checkbox or text on the left, just assume it's text now
+                lType = WidgetPairText;
+            }
+        }
+
+        if (true || rType == WidgetPairAuto) {
+            TCHAR windowClass[MAX_PATH];
+            ::GetClassName(rightW->GetSafeHwnd(), windowClass, _countof(windowClass));
+
+            if (0 == _tcsicmp(windowClass, WC_COMBOBOX)) {
+                rType = WidgetPairCombo;
+            } else { //we only support combo or edit on the right, just assume it's edit now
+                rType = WidgetPairEdit;
+            }
+        }
+
         if (leftW && rightW && IsWindow(leftW->m_hWnd) && IsWindow(rightW->m_hWnd)) {
             CRect l, r;
             LONG leftWantsRight, rightWantsLeft;
@@ -1085,7 +1198,7 @@ void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWi
             rightWantsLeft = r.left;
             {
                 int left = l.left;
-                if (lType == DynamicAlignCheckBox) {
+                if (lType == WidgetPairCheckBox) {
                     left += dpiWindow.GetSystemMetricsDPI(SM_CXMENUCHECK) + 2;
                 }
 
@@ -1103,7 +1216,7 @@ void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWi
             }
 
             {
-                if (rType == DynamicAlignCombo) {
+                if (rType == WidgetPairCombo) {
                     //int wantWidth = (int)::SendMessage(rightW->m_hWnd, CB_GETDROPPEDWIDTH, 0, 0);
                     CComboBox *cb = DYNAMIC_DOWNCAST(CComboBox, rightW);
                     if (cb) {
@@ -1114,18 +1227,52 @@ void CMPCThemeUtil::AdjustDynamicWidth(CWnd* window, int leftWidget, int rightWi
                     }
                 }
             }
+            CRect cl = l, cr = r;
             if (leftWantsRight > rightWantsLeft - dynamicSpace //overlaps; we will assume defaults are best
-                || (leftWantsRight < l.right && rightWantsLeft > r.left)) { // there is no need to resize
-                return;
+                || (leftWantsRight < l.right && rightWantsLeft > r.left) // there is no need to resize
+                || (lType == WidgetPairText && DT_RIGHT == (leftW->GetStyle() & DT_RIGHT)) ) //right aligned text not supported, as the right edge is fixed
+            {
+                //do nothing
             } else {
                 l.right = leftWantsRight;
                 //if necessary space would shrink the right widget, instead get as close to original size as possible
                 //this minimizes noticeable layout changes
                 r.left = std::min(rightWantsLeft, std::max(l.right + dynamicSpace, r.left));
+            }
+            if ((lType == WidgetPairText || lType == WidgetPairCheckBox) && (rType == WidgetPairCombo || rType == WidgetPairEdit)) {
+                l.top = r.top;
+                l.bottom += r.Height() - l.Height();
+                leftW->ModifyStyle(0, SS_CENTERIMAGE);
+            }
 
+            if (l != cl) {
                 leftW->MoveWindow(l);
+            }
+            if (r != cr) {
                 rightW->MoveWindow(r);
             }
         }
     }
+}
+
+void CMPCThemeUtil::UpdateAnalogCaptureDeviceSlider(CScrollBar* pScrollBar) {
+    if (pScrollBar && ::IsWindow(pScrollBar->m_hWnd)) {
+        if (CSliderCtrl* slider = DYNAMIC_DOWNCAST(CSliderCtrl, pScrollBar)) {
+            slider->SendMessage(WM_KEYUP, VK_LEFT, 1); //does not move the slider, only forces current position to be registered
+        }
+    }
+}
+
+bool CMPCThemeUtil::IsWindowVisibleAndRendered(CWnd* window) {
+    if (!window || !IsWindow(window->m_hWnd) || !window->IsWindowVisible()) {
+        return false;
+    } else {
+        CRect r;
+        HDC hdc = GetWindowDC(window->m_hWnd);
+        GetClipBox(hdc, &r);
+        if (r.IsRectEmpty()) {
+            return false;
+        }
+    }
+    return true;
 }

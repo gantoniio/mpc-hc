@@ -34,8 +34,10 @@ CString GetYDLExePath() {
         CString appdir = PathUtils::GetProgramPath(false);
         if (CPath(appdir + _T("\\yt-dlp.exe")).FileExists()) {
             ydlpath = _T("yt-dlp.exe");
-        } else {
+        } else if (CPath(appdir + _T("\\youtube-dl.exe")).FileExists()) {
             ydlpath = _T("youtube-dl.exe");
+        } else {
+            ydlpath = _T("yt-dlp.exe");
         }
     } else {
         ydlpath = s.sYDLExePath;
@@ -90,6 +92,10 @@ bool CYoutubeDLInstance::Run(CString url)
         args.Append(_T(" --ignore-errors --no-playlist"));
     }
     args.Append(_T(" \"") + url + _T("\""));
+    WCHAR lpszTempPath[MAX_PATH] = { 0 };
+    if (GetTempPathW(MAX_PATH, lpszTempPath)) {
+        args.AppendFormat(_T(" -P temp:\"%s\""), lpszTempPath);
+    }
 
     ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
     ZeroMemory(&startup_info, sizeof(STARTUPINFO));
@@ -266,6 +272,7 @@ struct YDLStreamDetails {
     bool pref_lang;
     int video_score;
     int audio_score;
+    CString useragent;
 };
 
 #define YDL_EXTRA_LOGGING 0
@@ -301,8 +308,15 @@ void GetVideoScore(YDLStreamDetails& details) {
         score += 1;
     }
 
-    if (s.iYDLMaxHeight > 0 && s.iYDLMaxHeight >= details.height) {
-        score += 64;
+    if (s.iYDLMaxHeight > 0) {
+        if (details.height > details.width) {
+            // vertical video
+            if (s.iYDLMaxHeight >= details.width) {
+                score += 64;
+            }
+        } else if (s.iYDLMaxHeight >= details.height) {
+            score += 64;
+        }
     }
 
     switch (s.iYDLVideoFormat) {
@@ -449,7 +463,10 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
     }
     if (format.HasMember(_T("language_preference")) && !format[_T("language_preference")].IsNull()) {
         details.pref_lang = format[_T("language_preference")].GetInt() > 0;
-    } 
+    }
+    if (format.HasMember(_T("http_headers")) && format[_T("http_headers")].HasMember(_T("User-Agent"))) {
+        details.useragent = CString(format[_T("http_headers")][_T("User-Agent")].GetString());
+    }
 
     details.has_audio = !details.acodec.IsEmpty() && details.acodec != _T("none");
     details.has_video = !details.vcodec.IsEmpty() && details.vcodec != _T("none") || (details.width > 0) || (details.height > 0);
@@ -537,22 +554,44 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
         }
 
         // Video resolution
-        if (second.height > first.height) {
-            if (max_height > 0) {
-                // calculate maximum width based on 16:9 AR
-                return (max_height * 16 / 9 + 1) >= second.width;
-            }
-            return true;
-        } else {
-            if (second.height == first.height) {
-                if (second.width > first.width) {
-                    return true;
+        if (first.height > first.width) {
+            // vertical video
+            if (second.width > first.width) {
+                if (max_height > 0) {
+                    // calculate maximum height based on 9:16 AR
+                    return (max_height * 16 / 9 + 1) >= second.height;
                 }
-                if (second.width < first.width) {
+                return true;
+            } else {
+                if (second.width == first.width) {
+                    if (second.height > first.height) {
+                        return true;
+                    }
+                    if (second.height < first.height) {
+                        return false;
+                    }
+                } else {
                     return false;
                 }
+            }
+        } else {
+            if (second.height > first.height) {
+                if (max_height > 0) {
+                    // calculate maximum width based on 16:9 AR
+                    return (max_height * 16 / 9 + 1) >= second.width;
+                }
+                return true;
             } else {
-                return false;
+                if (second.height == first.height) {
+                    if (second.width > first.width) {
+                        return true;
+                    }
+                    if (second.width < first.width) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
             }
         }
     } else if (first.has_audio) {
@@ -693,7 +732,7 @@ bool filterAudio(const Value& formats, YDLStreamDetails& ydl_sd)
     return found;
 }
 
-bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlaylistInfo& info)
+bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlaylistInfo& info, CString& useragent)
 {
     CString url;
     CString extractor;
@@ -761,10 +800,12 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlay
                 }
             }
             streams.AddTail(stream);
+            useragent = ydl_sd.useragent;
         } else if (filterAudio(pJSON->d[_T("formats")], ydl_sd)) {
             stream.audio_url = ydl_sd.url;
             stream.video_url = _T("");
             streams.AddTail(stream);
+            useragent = ydl_sd.useragent;
         }
     } else {
         if (pJSON->d.HasMember(_T("id")) && !pJSON->d[_T("id")].IsNull()) info.id = pJSON->d[_T("id")].GetString();
@@ -780,10 +821,6 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlay
                 YDL_LOG(_T("Playlist entry %d"), i);
                 const Value& entry = entries[i];
 
-                if (entry.HasMember(_T("title")) && !entry[_T("title")].IsNull()) {
-                    stream.title = entry[_T("title")].GetString();
-                }
-
                 if (!entry.HasMember(_T("formats")) || entry[_T("formats")].IsNull()) {
                     if (entry.HasMember(_T("url")) && !entry[_T("url")].IsNull()) {
                         stream.video_url = entry[_T("url")].GetString();
@@ -793,6 +830,13 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlay
                         }
                     }
                     continue;
+                }
+
+                if (entry.HasMember(_T("title")) && !entry[_T("title")].IsNull()) {
+                    stream.title = entry[_T("title")].GetString();
+                }
+                if (entry.HasMember(_T("webpage_url")) && !entry[_T("webpage_url")].IsNull()) {
+                    stream.webpage_url = entry[_T("webpage_url")].GetString();
                 }
 
                 if (filterVideo(entry[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
@@ -820,10 +864,16 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlay
                         }
                     }
                     streams.AddTail(stream);
+                    if (i == 0) {
+                        useragent = ydl_sd.useragent;
+                    }
                 } else if (filterAudio(entry[_T("formats")], ydl_sd)) {
                     stream.audio_url = ydl_sd.url;
                     stream.video_url = _T("");
                     streams.AddTail(stream);
+                    if (i == 0) {
+                        useragent = ydl_sd.useragent;
+                    }
                 }
             }
         }

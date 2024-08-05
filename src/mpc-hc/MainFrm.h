@@ -110,6 +110,8 @@ public:
     REFERENCE_TIME rtStart;
     ABRepeat abRepeat;
     bool bAddToRecent;
+    CString useragent;
+    CString referrer;
 };
 
 class OpenDVDData : public OpenMediaData
@@ -286,6 +288,7 @@ private:
     CComPtr<IVMRMixerControl9> m_pVMRMC;
     CComPtr<IMFVideoDisplayControl> m_pMFVDC;
     CComPtr<IMFVideoProcessor> m_pMFVP;
+    CComPtr<IVMRMixerBitmap9>    m_pVMB;
     CComPtr<IMFVideoMixerBitmap>    m_pMFVMB;
     CComPtr<IVMRWindowlessControl9> m_pVMRWC;
 
@@ -530,7 +533,7 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
-    bool m_fStartInFullscreen;
+    bool m_fStartInFullscreenSeparate;
     bool m_bFullScreenWindowIsD3D;
     bool m_bFullScreenWindowIsOnSeparateDisplay;
 
@@ -573,6 +576,8 @@ protected:
     int m_AngleX, m_AngleY, m_AngleZ;
     int m_iDefRotation;
 
+    void ForceCloseProcess();
+
     // Operations
     bool OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD);
     void CloseMediaPrivate();
@@ -595,6 +600,7 @@ protected:
     void OpenSetupInfoBar(bool bClear = true);
     void UpdateChapterInInfoBar();
     void OpenSetupStatsBar();
+    void CheckSelectedAudioStream();
     void OpenSetupStatusBar();
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(bool reset = false);
@@ -873,6 +879,8 @@ public:
 
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 
+    void RestoreFocus();
+
     afx_msg void OnInitMenu(CMenu* pMenu);
     afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
     afx_msg void OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags);
@@ -909,6 +917,7 @@ public:
     // menu item handlers
 
     INT_PTR DoFileDialogWithLastFolder(CFileDialog& fd, CStringW& lastPath);
+    void OpenDVDOrBD(CStringW path);
 
     afx_msg void OnFileOpenQuick();
     afx_msg void OnFileOpenmedia();
@@ -924,6 +933,7 @@ public:
     afx_msg void OnFileSaveImage();
     afx_msg void OnFileSaveImageAuto();
     afx_msg void OnUpdateFileSaveImage(CCmdUI* pCmdUI);
+    afx_msg void OnCmdLineSaveThumbnails();
     afx_msg void OnFileSaveThumbnails();
     afx_msg void OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesLoad();
@@ -1340,9 +1350,12 @@ public:
     // TODO: refactor it outside of MainFrm
     GUID GetTimeFormat();
 
-    CAtlList<CHdmvClipInfo::PlaylistItem> m_MPLSPlaylist;
+    CHdmvClipInfo::HdmvPlaylist m_MPLSPlaylist;
     bool m_bIsBDPlay;
     bool OpenBD(CString Path);
+    bool m_bHasBDMeta;
+    CAtlList<CHdmvClipInfo::BDMVMeta> m_BDMeta;
+    CHdmvClipInfo::BDMVMeta GetBDMVMeta();
 
     bool GetDecoderType(CString& type) const;
 
@@ -1365,7 +1378,6 @@ public:
 
 private:
     bool watchingFileDialog;
-    HWND fileDialogHandle;
     CMPCThemeUtil* fileDialogHookHelper;
 public:
     afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);

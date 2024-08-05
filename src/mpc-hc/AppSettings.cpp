@@ -248,8 +248,8 @@ CAppSettings::CAppSettings()
     , bShowLangInStatusbar(false)
     , bShowFPSInStatusbar(false)
     , bShowABMarksInStatusbar(false)
-    , bShowVideoInfoInStatusbar(false)
-    , bShowAudioFormatInStatusbar(false)
+    , bShowVideoInfoInStatusbar(true)
+    , bShowAudioFormatInStatusbar(true)
 #if USE_LIBASS
     , bRenderSSAUsingLibass(false)
     , bRenderSRTUsingLibass(false)
@@ -275,6 +275,8 @@ CAppSettings::CAppSettings()
     , bUseFreeType(false)
     , bUseMediainfoLoadFileDuration(false)
     , bCaptureDeinterlace(false)
+    , bPauseWhileDraggingSeekbar(true)
+    , bConfirmFileDelete(true)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_AC3
@@ -1341,6 +1343,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, iStillVideoDuration);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, iMouseLeftUpDelay);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CAPTURE_DEINTERLACE, bCaptureDeinterlace);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR, bPauseWhileDraggingSeekbar);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CONFIRM_FILE_DELETE, bConfirmFileDelete);
 
     if (fKeepHistory && write_full_history) {
         MRU.SaveMediaHistory();
@@ -1801,6 +1805,8 @@ void CAppSettings::LoadSettings()
     bUseFreeType = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_FREETYPE, FALSE);
     bUseMediainfoLoadFileDuration = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_MEDIAINFO_LOAD_FILE_DURATION, FALSE);
     bCaptureDeinterlace = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CAPTURE_DEINTERLACE, FALSE);
+    bPauseWhileDraggingSeekbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR, TRUE);
+    bConfirmFileDelete = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR, TRUE);
 
     fClosedCaptions = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CLOSEDCAPTIONS, FALSE);
     {
@@ -2242,8 +2248,8 @@ void CAppSettings::LoadSettings()
     bShowLangInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_LANG_STATUSBAR, FALSE);
     bShowFPSInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_FPS_STATUSBAR, FALSE);
     bShowABMarksInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_ABMARKS_STATUSBAR, FALSE);
-    bShowVideoInfoInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_VIDEOINFO_STATUSBAR, FALSE);
-    bShowAudioFormatInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_AUDIOFORMAT_STATUSBAR, FALSE);
+    bShowVideoInfoInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_VIDEOINFO_STATUSBAR, TRUE);
+    bShowAudioFormatInStatusbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_AUDIOFORMAT_STATUSBAR, TRUE);
     
     bAddLangCodeWhenSaveSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, FALSE);
     bUseTitleInRecentFileList = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, TRUE);
@@ -2690,6 +2696,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 abRepeat.positionA = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
             } else if (sw == L"ab_end" && pos) {
                 abRepeat.positionB = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
+            } else if (sw == L"thumbnails") {
+                nCLSwitches |= CLSW_THUMBNAILS;
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
