@@ -45,7 +45,9 @@ CPPageMouse::CPPageMouse()
 	m_comands_X.Add(ID_NAVIGATE_SKIPBACKFILE);
 	m_comands_X.Add(ID_PLAY_SEEKBACKWARDMED);
 	m_comands_X.Add(ID_PLAY_SEEKFORWARDMED);
-	m_comands_X.AddEllipsisEnd();
+    m_comands_X.Add(ID_PLAY_SEEKBACKWARDLARGE);
+    m_comands_X.Add(ID_PLAY_SEEKFORWARDLARGE);
+    m_comands_X.AddEllipsisEnd();
 
 	m_comands_W.Add(0);
 	m_comands_W.Add(ID_VOLUME_UP);
@@ -54,9 +56,11 @@ CPPageMouse::CPPageMouse()
 	m_comands_W.Add(ID_PLAY_DECRATE);
 	m_comands_W.Add(ID_PLAY_SEEKFORWARDMED);
 	m_comands_W.Add(ID_PLAY_SEEKBACKWARDMED);
-	m_comands_W.Add(ID_NAVIGATE_SKIPFORWARDFILE);
+    m_comands_W.Add(ID_PLAY_SEEKFORWARDLARGE);
+    m_comands_W.Add(ID_PLAY_SEEKBACKWARDLARGE);
+    m_comands_W.Add(ID_NAVIGATE_SKIPFORWARDFILE);
 	m_comands_W.Add(ID_NAVIGATE_SKIPBACKFILE);
-	m_comands_W.Add(ID_SUB_DELAY_UP);
+    m_comands_W.Add(ID_SUB_DELAY_UP);
 	m_comands_W.Add(ID_SUB_DELAY_DOWN);
 	m_comands_W.AddEllipsisEnd();
 }
