@@ -199,9 +199,9 @@ WORD CMouse::AssignedMouseToCmd(UINT mouseValue, UINT nFlags) {
     CAppSettings::MOUSE_ASSIGNMENT mcmds = {};
 
     switch (mouseValue) {
-    case wmcmd::MDOWN:     mcmds = s.MouseMiddleClick;  break;
-    case wmcmd::X1DOWN:    mcmds = s.MouseX1Click;      break;
-    case wmcmd::X2DOWN:    mcmds = s.MouseX2Click;      break;
+    case wmcmd::MUP:       mcmds = s.MouseMiddleClick;  break;
+    case wmcmd::X1UP:      mcmds = s.MouseX1Click;      break;
+    case wmcmd::X2UP:      mcmds = s.MouseX2Click;      break;
     case wmcmd::WUP:       mcmds = s.MouseWheelUp;      break;
     case wmcmd::WDOWN:     mcmds = s.MouseWheelDown;    break;
     case wmcmd::WLEFT:     mcmds = s.MouseWheelLeft;    break;
@@ -423,11 +423,12 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
 void CMouse::InternalOnMButtonDown(UINT nFlags, const CPoint& point)
 {
     SetCursor(nFlags, point);
+    return;
     OnButton(wmcmd::MDOWN, point);
 }
 void CMouse::InternalOnMButtonUp(UINT nFlags, const CPoint& point)
 {
-    OnButton(wmcmd::MUP, point);
+    OnButton(wmcmd::MUP, point, nFlags);
     SetCursor(nFlags, point);
 }
 void CMouse::InternalOnMButtonDblClk(UINT nFlags, const CPoint& point)
@@ -459,11 +460,12 @@ void CMouse::InternalOnRButtonDblClk(UINT nFlags, const CPoint& point)
 bool CMouse::InternalOnXButtonDown(UINT nFlags, UINT nButton, const CPoint& point)
 {
     SetCursor(nFlags, point);
+    return false;
     return OnButton(nButton == XBUTTON1 ? wmcmd::X1DOWN : nButton == XBUTTON2 ? wmcmd::X2DOWN : wmcmd::NONE, point);
 }
 bool CMouse::InternalOnXButtonUp(UINT nFlags, UINT nButton, const CPoint& point)
 {
-    bool ret = OnButton(nButton == XBUTTON1 ? wmcmd::X1UP : nButton == XBUTTON2 ? wmcmd::X2UP : wmcmd::NONE, point);
+    bool ret = OnButton(nButton == XBUTTON1 ? wmcmd::X1UP : nButton == XBUTTON2 ? wmcmd::X2UP : wmcmd::NONE, point, nFlags);
     SetCursor(nFlags, point);
     return ret;
 }
@@ -475,14 +477,14 @@ bool CMouse::InternalOnXButtonDblClk(UINT nFlags, UINT nButton, const CPoint& po
 
 BOOL CMouse::InternalOnMouseWheel(UINT nFlags, short zDelta, const CPoint& point)
 {
-    return zDelta > 0 ? OnButton(wmcmd::WUP, point) :
-           zDelta < 0 ? OnButton(wmcmd::WDOWN, point) :
+    return zDelta > 0 ? OnButton(wmcmd::WUP, point, nFlags) :
+           zDelta < 0 ? OnButton(wmcmd::WDOWN, point, nFlags) :
            FALSE;
 }
 
 BOOL CMouse::OnMouseHWheelImpl(UINT nFlags, short zDelta, const CPoint& point) {
-    return zDelta > 0 ? OnButton(wmcmd::WRIGHT, point) :
-        zDelta < 0 ? OnButton(wmcmd::WLEFT, point) :
+    return zDelta > 0 ? OnButton(wmcmd::WRIGHT, point, nFlags) :
+        zDelta < 0 ? OnButton(wmcmd::WLEFT, point, nFlags) :
         FALSE;
 }
 
