@@ -77,6 +77,7 @@ private:
     CPoint m_leftDoubleStartPoint;
     int m_leftDoubleStartTime;
     int m_popupMenuUninitTime;
+    bool m_bWaitingRButtonUp = false;
 
     std::pair<bool, CPoint> m_switchingToFullscreen;
 

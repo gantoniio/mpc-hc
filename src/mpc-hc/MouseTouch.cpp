@@ -428,6 +428,7 @@ void CMouse::InternalOnMButtonDown(UINT nFlags, const CPoint& point)
 }
 void CMouse::InternalOnMButtonUp(UINT nFlags, const CPoint& point)
 {
+    m_bWaitingRButtonUp = false;
     OnButton(wmcmd::MUP, point, nFlags);
     SetCursor(nFlags, point);
 }
@@ -441,13 +442,17 @@ void CMouse::InternalOnMButtonDblClk(UINT nFlags, const CPoint& point)
 // Right button
 void CMouse::InternalOnRButtonDown(UINT nFlags, const CPoint& point)
 {
+    m_bWaitingRButtonUp = true;
     SetCursor(nFlags, point);
     OnButton(wmcmd::RDOWN, point);
 }
 void CMouse::InternalOnRButtonUp(UINT nFlags, const CPoint& point)
 {
-    OnButton(wmcmd::RUP, point);
-    SetCursor(nFlags, point);
+    if (m_bWaitingRButtonUp) {
+        m_bWaitingRButtonUp = false;
+        OnButton(wmcmd::RUP, point);
+        SetCursor(nFlags, point);
+    }
 }
 void CMouse::InternalOnRButtonDblClk(UINT nFlags, const CPoint& point)
 {
@@ -465,6 +470,7 @@ bool CMouse::InternalOnXButtonDown(UINT nFlags, UINT nButton, const CPoint& poin
 }
 bool CMouse::InternalOnXButtonUp(UINT nFlags, UINT nButton, const CPoint& point)
 {
+    m_bWaitingRButtonUp = false;
     bool ret = OnButton(nButton == XBUTTON1 ? wmcmd::X1UP : nButton == XBUTTON2 ? wmcmd::X2UP : wmcmd::NONE, point, nFlags);
     SetCursor(nFlags, point);
     return ret;
@@ -477,12 +483,14 @@ bool CMouse::InternalOnXButtonDblClk(UINT nFlags, UINT nButton, const CPoint& po
 
 BOOL CMouse::InternalOnMouseWheel(UINT nFlags, short zDelta, const CPoint& point)
 {
+    m_bWaitingRButtonUp = false;
     return zDelta > 0 ? OnButton(wmcmd::WUP, point, nFlags) :
            zDelta < 0 ? OnButton(wmcmd::WDOWN, point, nFlags) :
            FALSE;
 }
 
 BOOL CMouse::OnMouseHWheelImpl(UINT nFlags, short zDelta, const CPoint& point) {
+    m_bWaitingRButtonUp = false;
     return zDelta > 0 ? OnButton(wmcmd::WRIGHT, point, nFlags) :
         zDelta < 0 ? OnButton(wmcmd::WLEFT, point, nFlags) :
         FALSE;
