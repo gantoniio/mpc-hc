@@ -22,22 +22,20 @@
 
 #include "mplayerc.h"
 #include "PPageBase.h"
-
+#include "CMPCThemeUtil.h"
+#include "CMPCThemePPageBase.h"
 
 // CPPageMouse dialog
 
-class CPPageMouse : public CPPageBase
+class CPPageMouse : public CMPCThemePPageBase
 {
 	DECLARE_DYNAMIC(CPPageMouse)
 
-	CComboBox m_cmbLeftButtonClick;
-	CComboBox m_cmbLeftButtonDblClick;
-	CComboBox m_cmbRightButtonClick;
+	CMPCThemeComboBox m_cmbLeftButtonClick;
+    CMPCThemeComboBox m_cmbLeftButtonDblClick;
+    CMPCThemeComboBox m_cmbRightButtonClick;
 
-	CButton m_chkMouseLeftClickOpenRecent;
-	CButton m_chkMouseEasyMove;
-
-	CPlayerListCtrl m_list;
+    CPlayerListCtrl m_list;
 	enum {
 		ROW_BTN_M,
 		ROW_BTN_X1,

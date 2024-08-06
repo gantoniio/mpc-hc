@@ -26,9 +26,9 @@
 
 // CPPageMouse dialog
 
-IMPLEMENT_DYNAMIC(CPPageMouse, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageMouse, CMPCThemePPageBase)
 CPPageMouse::CPPageMouse()
-	: CPPageBase(CPPageMouse::IDD, CPPageMouse::IDD)
+	: CMPCThemePPageBase(CPPageMouse::IDD, CPPageMouse::IDD)
 	, m_list(0)
 {
 	m_comands_M.Add(0);
@@ -72,8 +72,6 @@ void CPPageMouse::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO1, m_cmbLeftButtonClick);
 	DDX_Control(pDX, IDC_COMBO2, m_cmbLeftButtonDblClick);
 	DDX_Control(pDX, IDC_COMBO3, m_cmbRightButtonClick);
-	DDX_Control(pDX, IDC_CHECK1, m_chkMouseLeftClickOpenRecent);
-	DDX_Control(pDX, IDC_CHECK2, m_chkMouseEasyMove);
 	DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
@@ -127,9 +125,6 @@ BOOL CPPageMouse::OnInitDialog()
 	AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_77), ID_MENU_PLAYER_SHORT);
 	SelectByItemData(m_cmbRightButtonClick, s.nMouseRightClick);
 
-	m_chkMouseLeftClickOpenRecent.SetCheck(s.bMouseLeftClickOpenRecent ? BST_CHECKED : BST_UNCHECKED);
-	m_chkMouseEasyMove.SetCheck(s.bMouseEasyMove ? BST_CHECKED : BST_UNCHECKED);
-
 	m_table_values[ROW_BTN_M][COL_CMD]    = s.MouseMiddleClick.normal;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = s.MouseMiddleClick.ctrl;
 	m_table_values[ROW_BTN_M][COL_SHIFT]  = s.MouseMiddleClick.shift;
@@ -170,7 +165,9 @@ BOOL CPPageMouse::OnInitDialog()
 		}
 	}
 
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+	//m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    m_list.setAdditionalStyles(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+
 
 	m_list.InsertColumn(COL_ACTION, ResStr(IDS_MOUSE_ACTION));
 	m_list.InsertColumn(COL_CMD,    ResStr(IDS_MOUSE_COMMAND));
@@ -189,16 +186,15 @@ BOOL CPPageMouse::OnInitDialog()
 	for (int nCol = COL_ACTION; nCol < COL_COUNT; nCol++) {
 		m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
 		const int headerSize = m_list.GetColumnWidth(nCol);
+        m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
 
 		LVCOLUMNW col;
 		col.mask = LVCF_MINWIDTH;
 		col.cxMin = headerSize;
 		m_list.SetColumn(nCol, &col);
-	}
+    }
 
 	SyncList();
-
-	m_chkMouseLeftClickOpenRecent.EnableWindow(m_cmbLeftButtonClick.GetCurSel() == 1 ? TRUE : FALSE);
 
 	return TRUE;
 }
@@ -212,9 +208,6 @@ BOOL CPPageMouse::OnApply()
 	s.nMouseLeftClick    = (UINT)GetCurItemData(m_cmbLeftButtonClick);
 	s.nMouseLeftDblClick = (UINT)GetCurItemData(m_cmbLeftButtonDblClick);
 	s.nMouseRightClick   = (UINT)GetCurItemData(m_cmbRightButtonClick);
-
-	s.bMouseLeftClickOpenRecent = !!m_chkMouseLeftClickOpenRecent.GetCheck();
-	s.bMouseEasyMove            = !!m_chkMouseEasyMove.GetCheck();
 
 	s.MouseMiddleClick.normal = m_table_values[ROW_BTN_M][COL_CMD];
 	s.MouseMiddleClick.ctrl   = m_table_values[ROW_BTN_M][COL_CTRL];
@@ -248,7 +241,7 @@ BOOL CPPageMouse::OnApply()
 	return __super::OnApply();
 }
 
-BEGIN_MESSAGE_MAP(CPPageMouse, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageMouse, CMPCThemePPageBase)
 	ON_CBN_SELCHANGE(IDC_COMBO1, OnLeftClickChange)
 	ON_NOTIFY(LVN_BEGINLABELEDITW, IDC_LIST1, OnBeginlabeleditList)
 	ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDolabeleditList)
@@ -260,12 +253,6 @@ END_MESSAGE_MAP()
 
 void CPPageMouse::OnLeftClickChange()
 {
-	if (m_cmbLeftButtonClick.GetCurSel() == 1) {
-		m_chkMouseLeftClickOpenRecent.EnableWindow(TRUE);
-	} else {
-		m_chkMouseLeftClickOpenRecent.EnableWindow(FALSE);
-	}
-
 	SetModified();
 }
 
@@ -371,9 +358,6 @@ void CPPageMouse::OnBnClickedReset()
 	SelectByItemData(m_cmbLeftButtonClick, ID_PLAY_PLAYPAUSE);
 	SelectByItemData(m_cmbLeftButtonDblClick, ID_VIEW_FULLSCREEN);
 	SelectByItemData(m_cmbRightButtonClick, 0);
-
-	m_chkMouseLeftClickOpenRecent.SetCheck(BST_UNCHECKED);
-	m_chkMouseEasyMove.SetCheck(BST_CHECKED);
 
 	m_table_values[ROW_BTN_M][COL_CMD]    = 0;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = 0;
