@@ -21,17 +21,21 @@
 #pragma once
 
 #include <afxwin.h>
+#include "CMPCThemeResizableDialog.h"
+#include "CMPCThemeEdit.h"
+#include "CMPCThemeButton.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 // CAddCommandDlg dialog
 
-class CAddCommandDlg : public CDialog
+class CAddCommandDlg : public CMPCThemeResizableDialog
 {
-	DECLARE_DYNAMIC(CAddCommandDlg)
+	//DECLARE_DYNAMIC(CAddCommandDlg)
 
 private:
-	CEdit m_FilterEdit;
-	CListCtrl m_list;
-	CButton m_okButton;
+	CMPCThemeEdit m_FilterEdit;
+	CMPCThemePlayerListCtrl m_list;
+	CMPCThemeButton m_okButton;
 
 	enum {
 		COL_CMD,

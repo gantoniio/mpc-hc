@@ -24,9 +24,9 @@
 
 // CAddCommandDlg dialog
 
-IMPLEMENT_DYNAMIC(CAddCommandDlg, CDialog)
+//IMPLEMENT_DYNAMIC(CAddCommandDlg, CMPCThemeResizableDialog)
 CAddCommandDlg::CAddCommandDlg(CWnd* pParent)
-	: CDialog(CAddCommandDlg::IDD, pParent)
+	: CMPCThemeResizableDialog(CAddCommandDlg::IDD, pParent)
 {
 }
 
@@ -99,14 +99,14 @@ void CAddCommandDlg::FilterList()
 
 void CAddCommandDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CMPCThemeResizableDialog::DoDataExchange(pDX);
 
 	DDX_Control(pDX, IDC_EDIT1, m_FilterEdit);
 	DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Control(pDX, IDOK, m_okButton);
 }
 
-BEGIN_MESSAGE_MAP(CAddCommandDlg, CDialog)
+BEGIN_MESSAGE_MAP(CAddCommandDlg, CMPCThemeResizableDialog)
 	ON_WM_TIMER()
 	ON_EN_CHANGE(IDC_EDIT1, OnChangeFilterEdit)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemchangedList)
@@ -117,9 +117,10 @@ END_MESSAGE_MAP()
 
 BOOL CAddCommandDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CMPCThemeResizableDialog::OnInitDialog();
 
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_COLUMNSNAPPOINTS | LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+	//m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_COLUMNSNAPPOINTS | LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    m_list.setAdditionalStyles(LVS_EX_COLUMNSNAPPOINTS | LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
 
 	m_list.InsertColumn(COL_CMD, ResStr(IDS_MOUSE_COMMAND));
 	m_list.InsertColumn(COL_ID, L"ID");
@@ -139,6 +140,12 @@ BOOL CAddCommandDlg::OnInitDialog()
 	}
 
 	m_okButton.EnableWindow(FALSE);
+
+    AddAnchor(IDC_EDIT1, TOP_LEFT);
+    AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
+    AddAnchor(IDOK, BOTTOM_RIGHT);
+    AddAnchor(IDCANCEL, BOTTOM_RIGHT);
+    fulfillThemeReqs();
 
 	return TRUE;
 }
