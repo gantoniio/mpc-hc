@@ -664,7 +664,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                     const auto panels = it->second; // copy
                     for (const auto panel : panels) {
                         auto pBar = m_panels[panel];
-                        if (!pBar->IsAutohidden() && !ToolbarInputActive(pBar)) {
+                        if (!pBar->IsAutohidden() && !ToolbarInputActive(pBar) && !pBar->HasActivePopup()) {
                             bRecalcLayout = true;
                             m_pMainFrame->ShowControlBar(pBar, FALSE, TRUE);
                             m_pMainFrame->RestoreFocus();
