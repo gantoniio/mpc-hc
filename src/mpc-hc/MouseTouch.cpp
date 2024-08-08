@@ -430,8 +430,8 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
 void CMouse::InternalOnMButtonDown(UINT nFlags, const CPoint& point)
 {
     SetCursor(nFlags, point);
-    return;
-    OnButton(wmcmd::MDOWN, point);
+    //all mouse commands operate on UP
+    //OnButton(wmcmd::MDOWN, point);
 }
 void CMouse::InternalOnMButtonUp(UINT nFlags, const CPoint& point)
 {
@@ -472,8 +472,9 @@ void CMouse::InternalOnRButtonDblClk(UINT nFlags, const CPoint& point)
 bool CMouse::InternalOnXButtonDown(UINT nFlags, UINT nButton, const CPoint& point)
 {
     SetCursor(nFlags, point);
+    //all mouse commands operate on UP
+    //return OnButton(nButton == XBUTTON1 ? wmcmd::X1DOWN : nButton == XBUTTON2 ? wmcmd::X2DOWN : wmcmd::NONE, point);
     return false;
-    return OnButton(nButton == XBUTTON1 ? wmcmd::X1DOWN : nButton == XBUTTON2 ? wmcmd::X2DOWN : wmcmd::NONE, point);
 }
 bool CMouse::InternalOnXButtonUp(UINT nFlags, UINT nButton, const CPoint& point)
 {
