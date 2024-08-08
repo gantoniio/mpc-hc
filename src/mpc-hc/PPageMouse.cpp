@@ -359,9 +359,9 @@ void CPPageMouse::OnBnClickedReset()
 {
 	CAppSettings& s = AfxGetAppSettings();
 
-	SelectByItemData(m_cmbLeftButtonClick, ID_PLAY_PLAYPAUSE);
-	SelectByItemData(m_cmbLeftButtonDblClick, ID_VIEW_FULLSCREEN);
-	SelectByItemData(m_cmbRightButtonClick, 0);
+    m_cmbLeftButtonClick.SelectByItemData(ID_PLAY_PLAYPAUSE);
+    m_cmbLeftButtonDblClick.SelectByItemData(ID_VIEW_FULLSCREEN);
+    m_cmbLeftButtonDblClick.SelectByItemData(0);
 
 	m_table_values[ROW_BTN_M][COL_CMD]    = 0;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = 0;
