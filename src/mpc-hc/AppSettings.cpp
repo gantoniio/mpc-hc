@@ -528,8 +528,8 @@ CAppSettings::CAppSettings()
     MouseMiddleClick = { 0, 0, 0, 0 };
     MouseX1Click = { ID_NAVIGATE_SKIPBACK, 0, 0, 0 };
     MouseX2Click = { ID_NAVIGATE_SKIPFORWARD, 0, 0, 0 };
-    MouseWheelUp = { ID_VOLUME_UP, 0, 0, 0 };
-    MouseWheelDown = { ID_VOLUME_DOWN, 0, 0, 0 };
+    MouseWheelUp = { ID_VOLUME_UP, ID_PLAY_SEEKFORWARDLARGE, 0, 0 };
+    MouseWheelDown = { ID_VOLUME_DOWN, ID_PLAY_SEEKBACKWARDLARGE, 0, 0 };
     MouseWheelLeft = { 0, 0, 0, 0 };
     MouseWheelRight = { 0, 0, 0, 0 };
     bMouseLeftClickOpenRecent = false;
