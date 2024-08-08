@@ -361,7 +361,7 @@ void CPPageMouse::OnBnClickedReset()
 
     m_cmbLeftButtonClick.SelectByItemData(ID_PLAY_PLAYPAUSE);
     m_cmbLeftButtonDblClick.SelectByItemData(ID_VIEW_FULLSCREEN);
-    m_cmbLeftButtonDblClick.SelectByItemData(0);
+    m_cmbRightButtonClick.SelectByItemData(0);
 
 	m_table_values[ROW_BTN_M][COL_CMD]    = 0;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = 0;
