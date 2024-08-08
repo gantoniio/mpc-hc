@@ -305,6 +305,39 @@ bool CMainFrameControls::ToolbarsCoverVideo() const
                                            s.eHideFullscreenControlsPolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER);
 }
 
+bool ToolbarInputActive(CPlayerBar *bar) {
+    HWND capture = GetCapture();
+    HWND focus = GetFocus();
+
+    if (capture == nullptr && focus == nullptr) {
+        return false;
+    }
+
+    if (capture == bar->m_hWnd) {
+        return true;
+    }
+
+    if (CWnd* pChildDialog = bar->GetWindow(GW_CHILD)) {
+        CWnd* pChild = pChildDialog->GetWindow(GW_CHILD);
+        while (pChild) {
+            if (CComboBox* cb = DYNAMIC_DOWNCAST(CComboBox, pChild)) {
+                COMBOBOXINFO cbi = { sizeof(COMBOBOXINFO) };
+                if (cb->GetComboBoxInfo(&cbi)) {
+                    if (cbi.hwndList == capture) {
+                        return true;
+                    }
+                }
+            } else if (CEdit* e = DYNAMIC_DOWNCAST(CEdit, pChild)) {
+                if (e->m_hWnd == focus) {
+                    return true;
+                }
+            }
+            pChild = pChild->GetNextWindow();
+        }
+    }
+    return false;
+}
+
 void CMainFrameControls::UpdateToolbarsVisibility()
 {
     ASSERT(GetCurrentThreadId() == AfxGetApp()->m_nThreadID);
@@ -631,9 +664,10 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                     const auto panels = it->second; // copy
                     for (const auto panel : panels) {
                         auto pBar = m_panels[panel];
-                        if (!pBar->IsAutohidden() && GetCapture() != pBar->m_hWnd) {
+                        if (!pBar->IsAutohidden() && !ToolbarInputActive(pBar) && !pBar->HasActivePopup()) {
                             bRecalcLayout = true;
                             m_pMainFrame->ShowControlBar(pBar, FALSE, TRUE);
+                            m_pMainFrame->RestoreFocus();
                             pBar->SetAutohidden(true);
                         }
                     }

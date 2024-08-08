@@ -119,8 +119,8 @@
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
 
-#define MIN_LOGO_WIDTH 304
-#define MIN_LOGO_HEIGHT 171
+#define MIN_LOGO_WIDTH 400
+#define MIN_LOGO_HEIGHT 150
 
 #define PREV_CHAP_THRESHOLD 2
 
@@ -831,7 +831,7 @@ CMainFrame::CMainFrame()
     , m_fFullScreen(false)
     , m_bFullScreenWindowIsD3D(false)
     , m_bFullScreenWindowIsOnSeparateDisplay(false)
-    , m_fFirstFSAfterLaunchOnFS(false)
+    , m_bNeedZoomAfterFullscreenExit(false)
     , m_fStartInD3DFullscreen(false)
     , m_fStartInFullscreenSeparate(false)
     , m_pLastBar(nullptr)
@@ -1604,7 +1604,7 @@ void CMainFrame::OnMove(int x, int y)
 
     WINDOWPLACEMENT wp;
     GetWindowPlacement(&wp);
-    if (!m_fFirstFSAfterLaunchOnFS && !m_fFullScreen && IsWindowVisible() && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
+    if (!m_bNeedZoomAfterFullscreenExit && !m_fFullScreen && IsWindowVisible() && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
         GetWindowRect(AfxGetAppSettings().rcLastWindowPos);
     }
 
@@ -1685,7 +1685,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
         ShowWindow(SW_HIDE);
     } else {
         __super::OnSize(nType, cx, cy);
-        if (!m_fFirstFSAfterLaunchOnFS && IsWindowVisible() && !m_fFullScreen) {
+        if (!m_bNeedZoomAfterFullscreenExit && IsWindowVisible() && !m_fFullScreen) {
             CAppSettings& s = AfxGetAppSettings();
             if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED) {
                 GetWindowRect(s.rcLastWindowPos);
@@ -4073,13 +4073,17 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         PerformFlipRotate();
     }
 
+    bool go_fullscreen = s.fLaunchfullscreen && !m_fAudioOnly && !IsFullScreenMode() && lastSkipDirection == 0 && !(s.nCLSwitches & CLSW_THUMBNAILS);
+
     // auto-zoom if requested
-    if (IsWindowVisible() && s.fRememberZoomLevel &&
-            !IsFullScreenMode() && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
-        ZoomVideoWindow();
+    if (IsWindowVisible() && s.fRememberZoomLevel && !IsFullScreenMode() && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
+        if (go_fullscreen) {
+            m_bNeedZoomAfterFullscreenExit = true;
+        }
+        ZoomVideoWindow(ZOOM_DEFAULT_LEVEL, go_fullscreen);
     }
 
-    if (s.fLaunchfullscreen && !m_fAudioOnly && !IsFullScreenMode() && lastSkipDirection == 0) {
+    if (go_fullscreen) {
         OnViewFullscreen();
     }
 
@@ -4093,41 +4097,42 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     RecalcLayout();
     UpdateWindow();
 
-    MediaTransportControlSetMedia();
-
     // the window is repositioned and repainted, video renderer rect is ready to be set -
     // OnPlayPlay()/OnPlayPause() will take care of that
     m_bDelaySetOutputRect = false;
 
-    bool checkPlayback = true;
     if (s.nCLSwitches & CLSW_THUMBNAILS) {
+        MoveVideoWindow(false, true);
+        MediaControlPause(true);
         SendMessageW(WM_COMMAND, ID_CMDLINE_SAVE_THUMBNAILS);
-        s.nCLSwitches &= ~CLSW_THUMBNAILS;
-        checkPlayback = s.nCLSwitches & (CLSW_PLAY | CLSW_OPEN); //unless they requested to open or play, we will not open the video after thumbnail
+        m_bSettingUpMenus = false;
+        m_bRememberFilePos = false;
+        SendMessageW(WM_COMMAND, ID_FILE_EXIT);
+        return 0;
     }
 
-    if (checkPlayback) {
-        // start playback if requested
-        m_bFirstPlay = true;
-        const auto uModeChangeDelay = s.autoChangeFSMode.uDelay * 1000;
-        if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
-            if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
-                m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
-                    std::bind(&CMainFrame::OnPlayPlay, this), uModeChangeDelay);
-            } else {
-                OnPlayPlay();
-            }
+    MediaTransportControlSetMedia();
+
+    // start playback if requested
+    m_bFirstPlay = true;
+    const auto uModeChangeDelay = s.autoChangeFSMode.uDelay * 1000;
+    if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
+        if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
+                std::bind(&CMainFrame::OnPlayPlay, this), uModeChangeDelay);
         } else {
-            // OnUpdatePlayPauseStop() will decide if we can pause the media
-            if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
-                m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
-                    [this] { OnCommand(ID_PLAY_PAUSE, 0); }, uModeChangeDelay);
-            } else {
-                OnCommand(ID_PLAY_PAUSE, 0);
-            }
+            OnPlayPlay();
+        }
+    } else {
+        // OnUpdatePlayPauseStop() will decide if we can pause the media
+        if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
+                [this] { OnCommand(ID_PLAY_PAUSE, 0); }, uModeChangeDelay);
+        } else {
+            OnCommand(ID_PLAY_PAUSE, 0);
         }
     }
-    s.nCLSwitches &= ~CLSW_OPEN;
+    s.nCLSwitches &= ~CLSW_OPEN;  
 
     // Ensure the dynamically added menu items are updated
     SetupFiltersSubMenu();
@@ -5365,7 +5370,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
     if (!ppData) {
         return false;
     }
-    if (GetLoadState() == MLS::LOADED || m_fAudioOnly) {
+    if (GetLoadState() != MLS::LOADED || m_fAudioOnly) {
         return false;
     }
     OAFilterState fs = GetMediaState();
@@ -5834,7 +5839,6 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     bool bWasStopped = (filterState == State_Stopped);
     if (filterState != State_Paused) {
         OnPlayPause();
-        UpdateCachedMediaState(); // wait for completion of the pause command
     }
 
     CSize szVideoARCorrected, szVideo, szAR;
@@ -11230,8 +11234,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         GetClientRect(&clientRect);
 
         CSize logoSize = m_wndView.GetLogoSize();
-        logoSize.cx = std::max<LONG>(logoSize.cx, s.nLogoId == IDF_LOGO0 ? 16 : m_dpi.ScaleX(MIN_LOGO_WIDTH));
-        logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 16 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+        logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
+        logoSize.cy = std::max<LONG>(logoSize.cy, m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -11268,7 +11272,7 @@ void CMainFrame::SetDefaultFullscreenState()
 {
     CAppSettings& s = AfxGetAppSettings();
 
-    bool clGoFullscreen = !(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN);
+    bool clGoFullscreen = !(s.nCLSwitches & (CLSW_ADD | CLSW_THUMBNAILS)) && (s.nCLSwitches & CLSW_FULLSCREEN);
 
     if (clGoFullscreen && !s.slFiles.IsEmpty()) {
         // ignore fullscreen if all files are audio
@@ -11285,25 +11289,25 @@ void CMainFrame::SetDefaultFullscreenState()
         }
     }
 
-
     if (clGoFullscreen) {
         if (s.IsD3DFullscreen()) {
             m_fStartInD3DFullscreen = true;
         } else {
             bool launchingFullscreenSeparateControls = false;
-            if (s.bFullscreenSeparateControls && (!s.strFullScreenMonitorID.IsEmpty() || !s.strFullScreenMonitorDeviceName.IsEmpty())) {//do some checks to see if this will apply
+            if (s.bFullscreenSeparateControls) {
                 CMonitors monitors;
+                CMonitor currentMonitor = monitors.GetNearestMonitor(this);
                 CMonitor fullscreenMonitor = monitors.GetMonitor(s.strFullScreenMonitorID, s.strFullScreenMonitorDeviceName);
-                if (fullscreenMonitor && fullscreenMonitor != CMonitors::GetNearestMonitor(this)) {
-                    launchingFullscreenSeparateControls = true;
-                }
+                if (fullscreenMonitor.IsMonitor()) {
+                    launchingFullscreenSeparateControls = fullscreenMonitor != currentMonitor;
+                }                
             }
 
             if (launchingFullscreenSeparateControls) {
                 m_fStartInFullscreenSeparate = true;
             } else {
                 ToggleFullscreen(true, true);
-                m_fFirstFSAfterLaunchOnFS = true;
+                m_bNeedZoomAfterFullscreenExit = true;
             }
         }
         s.nCLSwitches &= ~CLSW_FULLSCREEN;
@@ -11313,7 +11317,7 @@ void CMainFrame::SetDefaultFullscreenState()
             m_fStartInD3DFullscreen = true;
         } else {
             ToggleFullscreen(true, true);
-            m_fFirstFSAfterLaunchOnFS = true;
+            m_bNeedZoomAfterFullscreenExit = true;
         }
     }
 }
@@ -11623,20 +11627,28 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     if (!fullscreenMonitor.IsMonitor()) {
         fullscreenMonitor = currentMonitor;
     }
+    bool fullScreenSeparate = s.bFullscreenSeparateControls && (m_pMFVDC || m_pVMRWC || m_pVW) && fullscreenMonitor.IsMonitor() && fullscreenMonitor != currentMonitor;
 
     const CWnd* pInsertAfter = nullptr;
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
 
-    bool fullScreenSecondMonitor = s.bFullscreenSeparateControls && (m_pMFVDC || m_pVMRWC || m_pVW) && fullscreenMonitor.IsMonitor() && fullscreenMonitor != currentMonitor;
-
-    if (!fullScreenSecondMonitor && s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+    if (!fullScreenSeparate && s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         BOOL setEnabled = TRUE;
         ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
     }
 
-    if (fullScreenSecondMonitor) {
-        m_fFullScreen = !m_fFullScreen;
+    if (fullScreenSeparate) {
+        if (m_fFullScreen) {
+            m_fFullScreen = false;
+        } else {
+            if (!m_bNeedZoomAfterFullscreenExit && !s.HasFixedWindowSize()) {
+                // adjust control window size to minimal
+                m_bNeedZoomAfterFullscreenExit = true;
+                ZoomVideoWindow(ZOOM_DEFAULT_LEVEL, true);
+            }
+            m_fFullScreen = true;
+        }
         s.fLastFullScreen = false; //not really, just fullScreenSecondMonitor
 
         if (m_fFullScreen) {
@@ -11675,8 +11687,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
             // Destroy the Fullscreen window and zoom the windowed video frame
             m_pDedicatedFSVideoWnd->DestroyWindow();
-            if (m_fFirstFSAfterLaunchOnFS) {
-                m_fFirstFSAfterLaunchOnFS = false;
+            if (m_bNeedZoomAfterFullscreenExit) {
+                m_bNeedZoomAfterFullscreenExit = false;
                 if (s.fRememberZoomLevel) {
                     ZoomVideoWindow();
                 }
@@ -11755,10 +11767,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
 
         bool bZoomVideoWindow = false;
-        if (m_fFirstFSAfterLaunchOnFS) {
-            ASSERT(m_fFullScreen);
+        if (m_bNeedZoomAfterFullscreenExit && m_fFullScreen) {
             bZoomVideoWindow = s.fRememberZoomLevel;
-            m_fFirstFSAfterLaunchOnFS = false;
+            m_bNeedZoomAfterFullscreenExit = false;
         }
 
         m_fFullScreen = !m_fFullScreen;
@@ -11799,7 +11810,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         m_eventc.FireEvent(MpcEvent::SWITCHED_FROM_FULLSCREEN);
     }
 
-    if (!fullScreenSecondMonitor && s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+    if (!fullScreenSeparate && s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         UINT_PTR timerID = 0;
         timerID = SetTimer(TIMER_WINDOW_FULLSCREEN, s.iFullscreenDelay, nullptr);
         if (0 == timerID) {
@@ -11844,11 +11855,11 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pDedicatedFSVideoWnd->DestroyWindow();
-            if (m_fFirstFSAfterLaunchOnFS) {
+            if (m_bNeedZoomAfterFullscreenExit) {
                 if (s.fRememberZoomLevel) {
                     ZoomVideoWindow();
                 }
-                m_fFirstFSAfterLaunchOnFS = false;
+                m_bNeedZoomAfterFullscreenExit = false;
             }
 
             if (s.fShowOSD) {
@@ -12311,24 +12322,34 @@ CSize CMainFrame::GetVideoOrArtSize(MINMAXINFO& mmi)
     return videoSize;
 }
 
-CSize CMainFrame::GetZoomWindowSize(double dScale)
+CSize CMainFrame::GetZoomWindowSize(double dScale, bool ignore_video_size)
 {
-    const auto& s = AfxGetAppSettings();
     CSize ret;
 
     if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
+        const auto& s = AfxGetAppSettings();
         MINMAXINFO mmi;
         CSize videoSize = GetVideoOrArtSize(mmi);
-        if (videoSize.cx <= 1 || videoSize.cy <= 1) {
-            // Do not adjust window width if blank logo is used (1x1px) or cover-art size is limited
-            // to avoid shrinking window width too much and give ability to revert pre 94dc87c behavior
+
+        if (ignore_video_size || videoSize.cx <= 1 || videoSize.cy <= 1) {
             videoSize.SetSize(0, 0);
+        }
+        if (videoSize.cx == 0 || m_fAudioOnly) {
             CRect windowRect;
             GetWindowRect(windowRect);
-            mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
+            if (windowRect.Height() < 420 && windowRect.Width() < 3800) {
+                // keep existing width, since it probably was intentionally made wider by user
+                mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
+                if (m_fAudioOnly) {
+                    // also keep existing height
+                    videoSize.SetSize(0, 0);
+                    mmi.ptMinTrackSize.y = std::max<long>(windowRect.Height(), mmi.ptMinTrackSize.y);
+                }
+            }
+
         }
 
-        CSize videoTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+        CSize videoTargetSize = videoSize;
 
         CSize controlsSize;
         const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
@@ -12359,24 +12380,28 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
                 workRect.InflateRect(GetInvisibleBorderSize());
             }
 
-            // don't go larger than the current monitor working area and prevent black bars in this case
-            CSize videoSpaceSize = workRect.Size() - controlsSize - decorationsRect.Size();
+            if (videoSize.cx > 0) {
+                // don't go larger than the current monitor working area and prevent black bars in this case
+                CSize videoSpaceSize = workRect.Size() - controlsSize - decorationsRect.Size();
 
-            // Do not adjust window size for video frame aspect ratio when video size is independent from window size
-            const bool bAdjustWindowAR = !(s.iDefaultVideoSize == DVS_HALF || s.iDefaultVideoSize == DVS_NORMAL || s.iDefaultVideoSize == DVS_DOUBLE);
-            const double videoAR = videoSize.cx / (double)videoSize.cy;
+                // Do not adjust window size for video frame aspect ratio when video size is independent from window size
+                const bool bAdjustWindowAR = !(s.iDefaultVideoSize == DVS_HALF || s.iDefaultVideoSize == DVS_NORMAL || s.iDefaultVideoSize == DVS_DOUBLE);
+                const double videoAR = videoSize.cx / (double)videoSize.cy;
 
-            if (videoTargetSize.cx > videoSpaceSize.cx) {
-                videoTargetSize.cx = videoSpaceSize.cx;
-                if (bAdjustWindowAR) {
-                    videoTargetSize.cy = std::lround(videoSpaceSize.cx / videoAR);
+                videoTargetSize = CSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+
+                if (videoTargetSize.cx > videoSpaceSize.cx) {
+                    videoTargetSize.cx = videoSpaceSize.cx;
+                    if (bAdjustWindowAR) {
+                        videoTargetSize.cy = std::lround(videoSpaceSize.cx / videoAR);
+                    }
                 }
-            }
 
-            if (videoTargetSize.cy > videoSpaceSize.cy) {
-                videoTargetSize.cy = videoSpaceSize.cy;
-                if (bAdjustWindowAR) {
-                    videoTargetSize.cx = std::lround(videoSpaceSize.cy * videoAR);
+                if (videoTargetSize.cy > videoSpaceSize.cy) {
+                    videoTargetSize.cy = videoSpaceSize.cy;
+                    if (bAdjustWindowAR) {
+                        videoTargetSize.cx = std::lround(videoSpaceSize.cy * videoAR);
+                    }
                 }
             }
         } else {
@@ -12461,7 +12486,7 @@ CRect CMainFrame::GetZoomWindowRect(const CSize& size, bool ignoreSavedPosition 
     return ret;
 }
 
-void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
+void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/, bool ignore_video_size /*= false*/)
 {
     const auto& s = AfxGetAppSettings();
 
@@ -12498,7 +12523,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
             ASSERT(FALSE);
             return;
         }
-        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale), !s.fRememberWindowPos));
+        MoveWindow(GetZoomWindowRect(GetZoomWindowSize(dScale, ignore_video_size), !s.fRememberWindowPos));
     }
 }
 
@@ -12932,7 +12957,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     const CAppSettings& s = AfxGetAppSettings();
 
     m_pGB_preview = nullptr;
-    m_bUseSeekPreview = s.fUseSeekbarHover && s.fSeekPreview && m_wndPreView && ::IsWindow(m_wndPreView.m_hWnd);
+    m_bUseSeekPreview = s.fUseSeekbarHover && s.fSeekPreview && m_wndPreView && ::IsWindow(m_wndPreView.m_hWnd) && !(s.nCLSwitches & CLSW_THUMBNAILS);
     if (m_bUseSeekPreview) {
         if (OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD)) {
             CString fn = pFileData->fns.GetHead();
@@ -18663,6 +18688,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         CreateFullScreenWindow(false);
         m_pVideoWnd = m_pDedicatedFSVideoWnd;
         m_fStartInFullscreenSeparate = false;
+        m_bNeedZoomAfterFullscreenExit = true;
     } else {
         m_pVideoWnd = &m_wndView;
     }
@@ -18671,7 +18697,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     // we are opening new media in fullscreen mode
     // adipose: unless we were previously maximized
     if ((IsFullScreenMode()) && s.fRememberZoomLevel && !wasMaximized) {
-        m_fFirstFSAfterLaunchOnFS = true;
+        m_bNeedZoomAfterFullscreenExit = true;
     }
 
     // don't set video renderer output rect until the window is repositioned

@@ -1806,7 +1806,7 @@ void CAppSettings::LoadSettings()
     bUseMediainfoLoadFileDuration = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_MEDIAINFO_LOAD_FILE_DURATION, FALSE);
     bCaptureDeinterlace = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CAPTURE_DEINTERLACE, FALSE);
     bPauseWhileDraggingSeekbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR, TRUE);
-    bConfirmFileDelete = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR, TRUE);
+    bConfirmFileDelete = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CONFIRM_FILE_DELETE, TRUE);
 
     fClosedCaptions = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CLOSEDCAPTIONS, FALSE);
     {
@@ -2697,7 +2697,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             } else if (sw == L"ab_end" && pos) {
                 abRepeat.positionB = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
             } else if (sw == L"thumbnails") {
-                nCLSwitches |= CLSW_THUMBNAILS;
+                nCLSwitches |= CLSW_THUMBNAILS | CLSW_NEW;
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
