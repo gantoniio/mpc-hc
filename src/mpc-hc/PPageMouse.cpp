@@ -118,16 +118,16 @@ BOOL CPPageMouse::OnInitDialog()
 
 	AddStringData(m_cmbLeftButtonClick, L"", 0);
 	AddStringData(m_cmbLeftButtonClick, ResStr(IDS_AG_PLAYPAUSE), ID_PLAY_PLAYPAUSE);
-	SelectByItemData(m_cmbLeftButtonClick, s.nMouseLeftClick);
+	m_cmbLeftButtonClick.SelectByItemData(s.nMouseLeftClick);
 
 	AddStringData(m_cmbLeftButtonDblClick, L"", 0);
 	AddStringData(m_cmbLeftButtonDblClick, ResStr(IDS_AG_PLAYPAUSE), ID_PLAY_PLAYPAUSE);
 	AddStringData(m_cmbLeftButtonDblClick, ResStr(IDS_AG_FULLSCREEN), ID_VIEW_FULLSCREEN);
-	SelectByItemData(m_cmbLeftButtonDblClick, s.nMouseLeftDblClick);
+	m_cmbLeftButtonDblClick.SelectByItemData(s.nMouseLeftDblClick);
 
 	AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_78), ID_MENU_PLAYER_LONG);
 	AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_77), ID_MENU_PLAYER_SHORT);
-	SelectByItemData(m_cmbRightButtonClick, s.nMouseRightClick);
+	m_cmbRightButtonClick.SelectByItemData(s.nMouseRightClick);
 
 	m_table_values[ROW_BTN_M][COL_CMD]    = s.MouseMiddleClick.normal;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = s.MouseMiddleClick.ctrl;
