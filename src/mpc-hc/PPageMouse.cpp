@@ -376,11 +376,11 @@ void CPPageMouse::OnBnClickedReset()
 	m_table_values[ROW_BTN_X2][COL_SHIFT] = 0;
 	m_table_values[ROW_BTN_X2][COL_RBTN]  = 0;
 	m_table_values[ROW_WHL_U][COL_CMD]    = ID_VOLUME_UP;
-	m_table_values[ROW_WHL_U][COL_CTRL]   = 0;
+	m_table_values[ROW_WHL_U][COL_CTRL]   = ID_PLAY_SEEKFORWARDLARGE;
 	m_table_values[ROW_WHL_U][COL_SHIFT]  = 0;
 	m_table_values[ROW_WHL_U][COL_RBTN]   = 0;
 	m_table_values[ROW_WHL_D][COL_CMD]    = ID_VOLUME_DOWN;
-	m_table_values[ROW_WHL_D][COL_CTRL]   = 0;
+	m_table_values[ROW_WHL_D][COL_CTRL]   = ID_PLAY_SEEKBACKWARDLARGE;
 	m_table_values[ROW_WHL_D][COL_SHIFT]  = 0;
 	m_table_values[ROW_WHL_D][COL_RBTN]   = 0;
 	m_table_values[ROW_WHL_L][COL_CMD]    = 0;
