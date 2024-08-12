@@ -95,7 +95,7 @@ private:
     CPPageTheme m_theme;
     CPPageFormats m_formats;
     CPPageAccelTbl m_acceltbl;
-	CPPageMouse           m_mouse;
+    CPPageMouse m_mouse;
     CPPageLogo m_logo;
     CPPageWebServer m_webserver;
     CPPagePlayback m_playback;
