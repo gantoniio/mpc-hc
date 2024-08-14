@@ -1071,8 +1071,6 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_WHEEL_LEFT, str);
     str.Format(L"%u;%u;%u;%u", MouseWheelRight.normal, MouseWheelRight.ctrl, MouseWheelRight.shift, MouseWheelRight.rbtn);
     pApp->WriteProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_WHEEL_RIGHT, str);
-    pApp->WriteProfileInt(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_LEFT_OPENRECENT, bMouseLeftClickOpenRecent);
-    pApp->WriteProfileInt(IDS_R_MOUSE, IDS_RS_MOUSE_EASYMOVE, bMouseEasyMove);
 
 
     // Prevent Minimize when in Fullscreen mode on non default monitor
@@ -1696,9 +1694,6 @@ void CAppSettings::LoadSettings()
     str = pApp->GetProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_WHEEL_RIGHT);
     swscanf_s(str, L"%u;%u;%u;%u", &MouseWheelRight.normal, &MouseWheelRight.ctrl, &MouseWheelRight.shift, &MouseWheelRight.rbtn);
 
-
-    bMouseLeftClickOpenRecent=!!pApp->GetProfileInt(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_LEFT_OPENRECENT, FALSE);
-    bMouseEasyMove=!!!!pApp->GetProfileInt(IDS_R_MOUSE, IDS_RS_MOUSE_EASYMOVE, TRUE);
 
     // Prevent Minimize when in fullscreen mode on non default monitor
     fPreventMinimize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, FALSE);

@@ -399,9 +399,7 @@
 // Mouse
 #define IDS_R_MOUSE                         L"Mouse"
 #define IDS_RS_MOUSE_BTN_LEFT               L"ButtonLeft"
-#define IDS_RS_MOUSE_BTN_LEFT_OPENRECENT    L"ButtonLeftOpenRecent"
 #define IDS_RS_MOUSE_BTN_LEFT_DBLCLICK      L"ButtonLeftDblClick"
-#define IDS_RS_MOUSE_EASYMOVE               L"EasyMove"
 #define IDS_RS_MOUSE_BTN_RIGHT              L"ButtonRight"
 #define IDS_RS_MOUSE_BTN_MIDDLE             L"ButtonMiddle"
 #define IDS_RS_MOUSE_BTN_X1                 L"ButtonX1"
