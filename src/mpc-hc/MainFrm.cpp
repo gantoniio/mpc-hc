@@ -11666,8 +11666,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-            } else if (m_pVW) {
+            }
+            if (m_pVW) {
                 m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
+                m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
             }
             m_wndView.Invalidate();
         } else {
@@ -11678,8 +11680,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-            } else if (m_pVW) {
+            }
+            if (m_pVW) {
                 m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
+                m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
             }
             if (s.autoChangeFSMode.bEnabled && s.autoChangeFSMode.bApplyDefaultModeAtFSExit && !s.autoChangeFSMode.modes.empty() && s.autoChangeFSMode.modes[0].bChecked) {
                 SetDispMode(s.strFullScreenMonitorID, s.autoChangeFSMode.modes[0].dm, s.fAudioTimeShift ? s.iAudioTimeShift : 0); // Restore default time shift
@@ -11731,8 +11735,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                     m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
                 } else if (m_pVMRWC) {
                     m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-                } else if (m_pVW) {
+                }
+                if (m_pVW) {
                     m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
+                    m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
                 }
             }
             m_pDedicatedFSVideoWnd->DestroyWindow();
@@ -11755,8 +11761,12 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             }
 
             if (m_wndPlaylistBar.IsHiddenDueToFullscreen() && !m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
-                m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
-                m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
+                if (s.bHideWindowedControls) {
+                    m_wndPlaylistBar.SetHiddenDueToFullscreen(false, true);
+                } else {
+                    m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
+                    m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
+                }
             }
 
             // If MPC-HC wasn't previously set "on top" by an external tool,
@@ -12334,7 +12344,7 @@ CSize CMainFrame::GetZoomWindowSize(double dScale, bool ignore_video_size)
         if (ignore_video_size || videoSize.cx <= 1 || videoSize.cy <= 1) {
             videoSize.SetSize(0, 0);
         }
-        if (videoSize.cx == 0 || m_fAudioOnly) {
+        if (videoSize.cx == 0 || m_fAudioOnly && videoSize.cy < 300) {
             CRect windowRect;
             GetWindowRect(windowRect);
             if (windowRect.Height() < 420 && windowRect.Width() < 3800) {
