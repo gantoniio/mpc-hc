@@ -187,14 +187,18 @@ BOOL CPPageMouse::OnInitDialog()
 	m_list.InsertItem(ROW_WHL_L,  ResStr(IDS_MOUSE_WHEEL_LEFT));
 	m_list.InsertItem(ROW_WHL_R,  ResStr(IDS_MOUSE_WHEEL_RIGHT));
 
-	for (int nCol = COL_ACTION; nCol < COL_COUNT; nCol++) {
+    DpiHelper dpiWindow;
+    dpiWindow.Override(GetSafeHwnd());
+
+    int minSize = dpiWindow.ScaleX(80);
+    for (int nCol = COL_ACTION; nCol < COL_COUNT; nCol++) {
 		m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
 		const int headerSize = m_list.GetColumnWidth(nCol);
         m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
 
 		LVCOLUMNW col;
 		col.mask = LVCF_MINWIDTH;
-		col.cxMin = headerSize;
+		col.cxMin = std::max(headerSize, minSize);
 		m_list.SetColumn(nCol, &col);
     }
 
@@ -378,11 +382,11 @@ void CPPageMouse::OnBnClickedReset()
 	m_table_values[ROW_WHL_U][COL_CMD]    = ID_VOLUME_UP;
 	m_table_values[ROW_WHL_U][COL_CTRL]   = ID_PLAY_SEEKFORWARDLARGE;
 	m_table_values[ROW_WHL_U][COL_SHIFT]  = 0;
-	m_table_values[ROW_WHL_U][COL_RBTN]   = 0;
+	m_table_values[ROW_WHL_U][COL_RBTN]   = ID_PLAY_SEEKFORWARDLARGE;
 	m_table_values[ROW_WHL_D][COL_CMD]    = ID_VOLUME_DOWN;
 	m_table_values[ROW_WHL_D][COL_CTRL]   = ID_PLAY_SEEKBACKWARDLARGE;
 	m_table_values[ROW_WHL_D][COL_SHIFT]  = 0;
-	m_table_values[ROW_WHL_D][COL_RBTN]   = 0;
+	m_table_values[ROW_WHL_D][COL_RBTN]   = ID_PLAY_SEEKBACKWARDLARGE;
 	m_table_values[ROW_WHL_L][COL_CMD]    = 0;
 	m_table_values[ROW_WHL_L][COL_CTRL]   = 0;
 	m_table_values[ROW_WHL_L][COL_SHIFT]  = 0;
