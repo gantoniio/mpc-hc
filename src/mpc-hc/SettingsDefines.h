@@ -397,7 +397,7 @@
 #define IDS_EXTERNAL_PLAYLIST_PATH          _T("ExternalPlayListPath")
 
 // Mouse
-#define IDS_R_MOUSE                         IDS_R_SETTINGS L"\\Mouse"
+#define IDS_R_MOUSE                         L"Mouse"
 #define IDS_RS_MOUSE_BTN_LEFT               L"ButtonLeft"
 #define IDS_RS_MOUSE_BTN_LEFT_OPENRECENT    L"ButtonLeftOpenRecent"
 #define IDS_RS_MOUSE_BTN_LEFT_DBLCLICK      L"ButtonLeftDblClick"
