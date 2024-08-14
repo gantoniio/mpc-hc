@@ -11666,7 +11666,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-            } else if (m_pVW) {
+            }
+            if (m_pVW) {
                 m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
                 m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
             }
@@ -11679,7 +11680,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             } else if (m_pVMRWC) {
                 m_pVMRWC->SetVideoClippingWindow(m_pVideoWnd->m_hWnd);
-            } else if (m_pVW) {
+            }
+            if (m_pVW) {
                 m_pVW->put_Owner((OAHWND)m_pVideoWnd->m_hWnd);
                 m_pVW->put_MessageDrain((OAHWND)m_pVideoWnd->m_hWnd);
             }
