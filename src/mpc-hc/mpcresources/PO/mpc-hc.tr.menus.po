@@ -581,7 +581,7 @@ msgstr "Yürütme &hızı"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
-msgstr "x 0,25"
+msgstr "0,25 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_050"
 msgid "0.50 x"
