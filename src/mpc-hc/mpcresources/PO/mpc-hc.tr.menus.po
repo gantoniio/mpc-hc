@@ -629,7 +629,7 @@ msgstr "6,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_800"
 msgid "8.00 x"
-msgstr "x 8,00"
+msgstr "8,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS24"
 msgid "24 fps"
