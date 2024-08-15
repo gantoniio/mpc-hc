@@ -617,7 +617,7 @@ msgstr "2,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_300"
 msgid "3.00 x"
-msgstr "x 3,00"
+msgstr "3,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_400"
 msgid "4.00 x"
