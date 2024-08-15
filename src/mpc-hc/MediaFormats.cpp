@@ -223,7 +223,6 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("swf"),         StrRes(IDS_MFMT_SWF),         _T("swf")));
         ADDFMT((_T("rar"),         StrRes(IDS_MFMT_RAR),         _T("rar"), false, false));
         ADDFMT((_T("avs"),         StrRes(IDS_MFMT_AVS),         _T("avs"), false, false));
-        
 #undef ADDFMT
     }
 
