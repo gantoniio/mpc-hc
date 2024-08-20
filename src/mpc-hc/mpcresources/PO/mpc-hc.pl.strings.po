@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-03-28 16:29:05+0000\n"
+"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Łukasz Janik, 2024\n"
 "Language-Team: Polish (https://app.transifex.com/mpchc/teams/106126/pl/)\n"
@@ -748,7 +748,7 @@ msgstr "Program::Skróty klawiszowe"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
-msgstr ""
+msgstr "Program::Mysz"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -1087,7 +1087,7 @@ msgstr "Otwórz lokalizację pliku"
 
 msgctxt "IDS_AG_OPENDIRECTORY"
 msgid "Open Directory"
-msgstr ""
+msgstr "otwórz katalog"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1324,11 +1324,11 @@ msgstr "Wstaw filtr usuwania przeplotu (blend) w trybie przechwytywania"
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr ""
+msgstr "Przełącz losowe odtwarzanie listy odtwarzania"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
-msgstr ""
+msgstr "Przełącz opóźnienie dźwięku"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -3354,7 +3354,7 @@ msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_AVS"
 msgid "AviSynth Script"
-msgstr ""
+msgstr "Skrypt AviSynth"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -4587,6 +4587,8 @@ msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
 msgstr ""
+"/fixedsize w,h[,x,y]\tUstaw stały rozmiar okna; opcjonalnie określ położenie"
+" okna w lewym górnym rogu"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
@@ -4627,43 +4629,43 @@ msgstr "OK"
 
 msgctxt "IDS_MOUSE_CLICK_MIDDLE"
 msgid "Middle click"
-msgstr ""
+msgstr "Środkowy przycisk myszy"
 
 msgctxt "IDS_MOUSE_CLICK_X1"
 msgid "X1 click"
-msgstr ""
+msgstr "X1 klik"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
-msgstr ""
+msgstr "X2 klik"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
-msgstr ""
+msgstr "Koło w góra"
 
 msgctxt "IDS_MOUSE_WHEEL_DOWN"
 msgid "Wheel Down"
-msgstr ""
+msgstr "Koło w dół"
 
 msgctxt "IDS_MOUSE_WHEEL_LEFT"
 msgid "Wheel Left"
-msgstr ""
+msgstr "Koło w lewo"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
-msgstr ""
+msgstr "Koło w prawo"
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
-msgstr ""
+msgstr "Akcja"
 
 msgctxt "IDS_MOUSE_COMMAND"
 msgid "Command"
-msgstr ""
+msgstr "Polecenie"
 
 msgctxt "IDS_MOUSE_RIGHT_BUTTON"
 msgid "Right button"
-msgstr ""
+msgstr "Prawy klik"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
@@ -4767,7 +4769,7 @@ msgstr "Wyświetlaj informacje o wideo (kodek, rozdzielczość) na pasku stanu."
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr ""
+msgstr "Wstrzymaj odtwarzanie podczas przeciągania paska wyszukiwania."
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4965,4 +4967,4 @@ msgstr "Domyślny"
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
-msgstr ""
+msgstr "/thumbnails\tUtwórz miniatury"
