@@ -33,6 +33,12 @@
 #include <functional>
 #include "ScreenUtil.h"
 
+#include "mpc-hc_config.h"
+
+#if !TRACE_SUBTITLES
+#define TRACE(...)
+#endif
+
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
     , m_hWnd(hWnd)
@@ -90,6 +96,9 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSizeX, int
             m_maxSubtitleTextureSize.cy = maxSizeY;
         }
     }
+#if DEBUG_OVERRIDE_TEXTURE_SIZE
+    m_maxSubtitleTextureSize = CSize(DEBUG_OVERRIDE_TEXTURE_SIZE_WIDTH, DEBUG_OVERRIDE_TEXTURE_SIZE_HEIGHT);
+#endif
     m_curSubtitleTextureSize = m_maxSubtitleTextureSize;
     TRACE(_T("CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize %dx%d\n"), m_maxSubtitleTextureSize.cx, m_maxSubtitleTextureSize.cy);
 }

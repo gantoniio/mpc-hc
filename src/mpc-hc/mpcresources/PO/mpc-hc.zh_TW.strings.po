@@ -729,6 +729,10 @@ msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "播放器::按鍵"
 
+msgctxt "IDD_PPAGEMOUSE"
+msgid "Player::Mouse"
+msgstr ""
+
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
 msgstr "字幕::預設樣式"
@@ -3242,6 +3246,10 @@ msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
 msgstr "Indeo Video Format"
 
+msgctxt "IDS_MFMT_AVS"
+msgid "AviSynth script"
+msgstr ""
+
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
 msgstr "其它選項"
@@ -4473,6 +4481,46 @@ msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
 msgstr "確定"
 
+msgctxt "IDS_MOUSE_CLICK_MIDDLE"
+msgid "Middle click"
+msgstr ""
+
+msgctxt "IDS_MOUSE_CLICK_X1"
+msgid "X1 click"
+msgstr ""
+
+msgctxt "IDS_MOUSE_CLICK_X2"
+msgid "X2 click"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_UP"
+msgid "Wheel Up"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_DOWN"
+msgid "Wheel Down"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_LEFT"
+msgid "Wheel Left"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_RIGHT"
+msgid "Wheel Right"
+msgstr ""
+
+msgctxt "IDS_MOUSE_ACTION"
+msgid "Action"
+msgstr ""
+
+msgctxt "IDS_MOUSE_COMMAND"
+msgid "Command"
+msgstr ""
+
+msgctxt "IDS_MOUSE_RIGHT_BUTTON"
+msgid "Right button"
+msgstr ""
+
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
 msgstr "繼續 (&C)"
@@ -4562,6 +4610,10 @@ msgstr "在狀態列顯示目前的 A-B 重複播放點。"
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
 msgstr "在狀態列顯示影片資訊（編解碼器名稱、解析度）。"
+
+msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
+msgid "Pause playback while dragging the seekbar."
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4737,3 +4789,7 @@ msgstr "重設"
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
 msgstr "預設值"
+
+msgctxt "IDS_CMD_THUMBNAILS"
+msgid "/thumbnails\tCreate thumbnails"
+msgstr ""

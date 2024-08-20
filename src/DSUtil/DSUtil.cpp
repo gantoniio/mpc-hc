@@ -2070,19 +2070,23 @@ CStringW ChannelsToStr(int channels) {
 }
 
 CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt, int& channels) {
-    if (pmt && pmt->majortype == MEDIATYPE_Audio) {
-        if (pmt->formattype == FORMAT_WaveFormatEx) {
-            channels = ((WAVEFORMATEX*)pmt->pbFormat)->nChannels;
-            return ChannelsToStr(channels);
-        } else if (pmt->formattype == FORMAT_VorbisFormat) {
-            channels = ((VORBISFORMAT*)pmt->pbFormat)->nChannels;
-            return ChannelsToStr(channels);
-        } else if (pmt->formattype == FORMAT_VorbisFormat2) {
-            channels = ((VORBISFORMAT2*)pmt->pbFormat)->Channels;
-            return ChannelsToStr(channels);
-        } else {
+    if (pmt) {
+        if (pmt->majortype == MEDIATYPE_Audio) {
+            if (pmt->formattype == FORMAT_WaveFormatEx) {
+                channels = ((WAVEFORMATEX*)pmt->pbFormat)->nChannels;
+                return ChannelsToStr(channels);
+            } else if (pmt->formattype == FORMAT_VorbisFormat) {
+                channels = ((VORBISFORMAT*)pmt->pbFormat)->nChannels;
+                return ChannelsToStr(channels);
+            } else if (pmt->formattype == FORMAT_VorbisFormat2) {
+                channels = ((VORBISFORMAT2*)pmt->pbFormat)->Channels;
+                return ChannelsToStr(channels);
+            } else {
+                channels = 2;
+              }
+        } else if (pmt->majortype == MEDIATYPE_Midi) {
             channels = 2;
-            ASSERT(false);
+            return L"";
         }
     }
     ASSERT(false);
@@ -2092,6 +2096,13 @@ CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt, int& channels) {
 CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
     if (!pmt) {
         return L"";
+    }
+    if (pmt->majortype != MEDIATYPE_Audio) {
+        if (pmt->majortype == MEDIATYPE_Midi) {
+            return L"MIDI";
+        } else {
+            return L"";
+        }
     }
 
     if (pmt->subtype == MEDIASUBTYPE_AAC || pmt->subtype == MEDIASUBTYPE_LATM_AAC || pmt->subtype == MEDIASUBTYPE_AAC_ADTS || pmt->subtype == MEDIASUBTYPE_MPEG_ADTS_AAC
@@ -2218,6 +2229,15 @@ bool GetVideoFormatNameFromMediaType(const GUID& guid, CString& name) {
         return true;
     } else if (guid == MEDIASUBTYPE_MPEG2_VIDEO) {
         name = L"MPEG2";
+        return true;
+    } else if (guid == MEDIASUBTYPE_ARGB32) {
+        name = L"ARGB";
+        return true;
+    } else if (guid == MEDIASUBTYPE_RGB32) {
+        name = L"RGB";
+        return true;
+    } else if (guid == MEDIASUBTYPE_LAV_RAWVIDEO) {
+        name = L"RAW";
         return true;
     } else {
         name = L"UNKN";

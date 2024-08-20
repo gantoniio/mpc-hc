@@ -65,7 +65,6 @@ private:
     int m_iRelativeTo;
 #if USE_LIBASS
     int iRenderSSAUsingLibass;
-    int iRenderSRTUsingLibass;
 #endif
 
     void AskColor(int i);
@@ -96,4 +95,5 @@ protected:
     afx_msg void OnLinkAlphaSlidersChanged();
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     void AdjustDynamicWidgets();
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

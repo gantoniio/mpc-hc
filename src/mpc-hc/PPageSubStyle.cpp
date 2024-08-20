@@ -44,7 +44,6 @@ CPPageSubStyle::CPPageSubStyle()
     , m_bLinkAlphaSliders(FALSE)
     , m_iRelativeTo(0)
 #if USE_LIBASS
-    , iRenderSRTUsingLibass(false)
     , iRenderSSAUsingLibass(false)
 #endif
 {
@@ -117,7 +116,6 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_RELATIVETO, m_iRelativeTo);
 #if USE_LIBASS
     DDX_Check(pDX, IDC_CHECK2, iRenderSSAUsingLibass);
-    DDX_Check(pDX, IDC_CHECK3, iRenderSRTUsingLibass);
 #endif
 }
 
@@ -130,6 +128,7 @@ BEGIN_MESSAGE_MAP(CPPageSubStyle, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_COLORSHAD, OnChooseShadowColor)
     ON_BN_CLICKED(IDC_CHECK1, OnLinkAlphaSlidersChanged)
     ON_WM_HSCROLL()
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -171,11 +170,9 @@ BOOL CPPageSubStyle::OnInitDialog()
 
 #if USE_LIBASS
     iRenderSSAUsingLibass = s.bRenderSSAUsingLibass;
-    iRenderSRTUsingLibass = s.bRenderSRTUsingLibass;
 #else
     GetDlgItem(IDC_STATIC_LIBASS)->ShowWindow(false);
     GetDlgItem(IDC_CHECK2)->ShowWindow(false);
-    GetDlgItem(IDC_CHECK3)->ShowWindow(false);
 #endif
 
     // TODO: allow floats in these edit boxes
@@ -216,6 +213,7 @@ BOOL CPPageSubStyle::OnInitDialog()
     UpdateData(FALSE);
 
     AdjustDynamicWidgets();
+    EnableThemedDialogTooltips(this);
     CreateToolTip();
     if (m_bDefaultStyle) {
         m_wndToolTip.AddTool(GetDlgItem(IDC_CHECK_RELATIVETO), ResStr(IDS_TEXT_SUB_RENDERING_TARGET));
@@ -240,7 +238,6 @@ BOOL CPPageSubStyle::OnApply()
 
 #if USE_LIBASS
     s.bRenderSSAUsingLibass = iRenderSSAUsingLibass;
-    s.bRenderSRTUsingLibass = iRenderSRTUsingLibass;
 #endif
     m_stss.fontSpacing = m_spacing;
     m_stss.fontAngleZ = m_angle;
@@ -350,13 +347,15 @@ void CPPageSubStyle::OnLinkAlphaSlidersChanged()
 
 void CPPageSubStyle::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+    //note, this code assumes that the only sliders are the 4 alphas
     if (m_bLinkAlphaSliders && pScrollBar) {
         int pos = ((CSliderCtrl*)pScrollBar)->GetPos();
         for (auto& alphaSlider : m_alphaSliders) {
             alphaSlider.SetPos(pos);
         }
     }
-
+    UpdateData(); //if we don't do this, m_alpha will not be updated for tooltips
+    RedrawDialogTooltipIfVisible(); //if the scroll is caused by a wheel or arrows, the default tooltip may be active due to hover, in which case, we want to update
     SetModified();
 
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
@@ -373,4 +372,40 @@ void CPPageSubStyle::AdjustDynamicWidgets() {
     AdjustDynamicWidgetPair(this, IDC_STATIC8, IDC_EDIT8);
     AdjustDynamicWidgetPair(this, IDC_STATIC9, IDC_EDIT9);
     AdjustDynamicWidgetPair(this, IDC_STATIC10, IDC_EDIT10);
+}
+
+
+BOOL CPPageSubStyle::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult) {
+    LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
+
+    UINT_PTR nID = pNMHDR->idFrom;
+    if (pTTT->uFlags & TTF_IDISHWND) {
+        nID = ::GetDlgCtrlID((HWND)nID);
+    }
+
+    BOOL bRet = FALSE;
+
+    if (nID == IDC_SLIDER1 || nID == IDC_SLIDER2 || nID == IDC_SLIDER3 || nID == IDC_SLIDER4) {
+        bRet = TRUE;
+
+        CString strTipText;
+        int alpha;
+        if (nID == IDC_SLIDER1) {
+            alpha = m_alpha[0];
+        } else if (nID == IDC_SLIDER2) {
+            alpha = m_alpha[1];
+        } else if (nID == IDC_SLIDER3) {
+            alpha = m_alpha[2];
+        } else if (nID == IDC_SLIDER4) {
+            alpha = m_alpha[3];
+        }
+        strTipText.Format(IDS_VOLUME, int(float(alpha) * 100 / 255));
+        _tcscpy_s(pTTT->szText, strTipText.Left(_countof(pTTT->szText) - 1));
+    }
+
+    if (bRet) {
+        PlaceThemedDialogTooltip(nID);
+    }
+
+    return bRet;
 }

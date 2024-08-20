@@ -108,6 +108,13 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                             tChild->MoveWindow(wr);
                         }
                         makeThemed(pObject, tChild);
+                        if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase && 0x416 == GetDlgCtrlID(tChild->m_hWnd)) {
+                            CStringW str;
+                            pObject->GetWindowTextW(str);
+                            str.Replace(L" \r\n ", L"\r\n"); //this prevents double-wrapping due to the space wrapping before the carriage return
+                            pObject->SetWindowTextW(str);
+                            pObject->ModifyStyle(0, TBS_DOWNISLEFT);
+                        }
                     }
                 } else if (0 == _tcsicmp(windowClass, WC_EDIT)) {
                     CMPCThemeEdit* pObject = DEBUG_NEW CMPCThemeEdit();
@@ -117,6 +124,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, _T("#32770"))) { //dialog class
                     CMPCThemeDialog* pObject = DEBUG_NEW CMPCThemeDialog(windowTitle == "");
+                    pObject->SetSpecialCase(specialCase);
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, WC_COMBOBOX)) {
                     CMPCThemeComboBox* pObject = DEBUG_NEW CMPCThemeComboBox();
@@ -124,6 +132,9 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                 } else if (0 == _tcsicmp(windowClass, TRACKBAR_CLASS)) {
                     CMPCThemeSliderCtrl* pObject = DEBUG_NEW CMPCThemeSliderCtrl();
                     makeThemed(pObject, tChild);
+                    if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase) {
+                        pObject->ModifyStyle(0, TBS_DOWNISLEFT);
+                    }
                 } else if (0 == _tcsicmp(windowClass, WC_TABCONTROL)) {
                     CMPCThemeTabCtrl* pObject = DEBUG_NEW CMPCThemeTabCtrl();
                     makeThemed(pObject, tChild);
@@ -182,7 +193,18 @@ void CMPCThemeUtil::EnableThemedDialogTooltips(CDialog* wnd)
     } else {
         wnd->EnableToolTips(TRUE);
     }
+}
 
+void CMPCThemeUtil::RedrawDialogTooltipIfVisible() {
+    if (AppIsThemeLoaded() && themedDialogToolTip.m_hWnd) {
+        themedDialogToolTip.RedrawIfVisible();
+    } else {
+        AFX_MODULE_THREAD_STATE* pModuleThreadState = AfxGetModuleThreadState();
+        CToolTipCtrl* pToolTip = pModuleThreadState->m_pToolTip;
+        if (pToolTip && ::IsWindow(pToolTip->m_hWnd) && pToolTip->IsWindowVisible()) {
+            pToolTip->Update();
+        }
+    }
 }
 
 void CMPCThemeUtil::PlaceThemedDialogTooltip(UINT_PTR nID)
@@ -248,7 +270,7 @@ void CMPCThemeUtil::subClassFileDialogWidgets(HWND widget, HWND parent, wchar_t*
     }
 }
 
-void CMPCThemeUtil::subClassFileDialog(CWnd* wnd, HWND& fileDialogHandle) {
+void CMPCThemeUtil::subClassFileDialog(CWnd* wnd) {
     if (AfxGetAppSettings().bWindows10DarkThemeActive) {
         initHelperObjects();
 
@@ -287,6 +309,12 @@ void CMPCThemeUtil::subClassFileDialogRecurse(CWnd* wnd, HWND hWnd, FileDialogWi
             }
         }
         pChild = ::GetNextWindow(pChild, GW_HWNDNEXT);
+    }
+}
+
+void CMPCThemeUtil::redrawAllThemedWidgets() {
+    for (auto w : allocatedWindows) {
+        w->RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
     }
 }
 
@@ -816,6 +844,38 @@ const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CWnd* wn
     }
 }
 
+//MapDialogRect deficiencies:
+// 1. Caches results for windows even after they receive a DPI change
+// 2. for templateless dialogs (e.g., MessageBoxDialog.cpp), the caching requires a reboot to fix
+// 3. Does not honor selected font
+// 4. For PropSheet, always uses "MS Shell Dlg" no matter what the sheet has selected in the .rc
+void CMPCThemeUtil::MapDialogRect2(CDialog* wnd, CRect& r) {
+    CDC* pDC;
+    if (wnd && (pDC = wnd->GetDC())) {
+        CFont msgFont;
+        if (!getFontByType(msgFont, wnd, CMPCThemeUtil::MessageFont)) {
+        //if (!getFontByFace(msgFont, wnd, L"MS Shell Dlg", 9)){
+            return;
+        }
+
+        CFont* oldFont = pDC->SelectObject(&msgFont);
+
+        //average character dimensions: https://web.archive.org/web/20131208002908/http://support.microsoft.com/kb/125681
+        TEXTMETRICW tm;
+        SIZE size;
+        pDC->GetTextMetricsW(&tm);
+        GetTextExtentPoint32W(pDC->GetSafeHdc(), L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &size);
+        pDC->SelectObject(oldFont);
+        int avgWidth = (size.cx / 26 + 1) / 2;
+        int avgHeight = (WORD)tm.tmHeight;
+
+        //MapDialogRect definition: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mapdialogrect
+        r.left = MulDiv(r.left, avgWidth, 4);
+        r.right = MulDiv(r.right, avgWidth, 4);
+        r.top = MulDiv(r.top, avgHeight, 8);
+        r.bottom = MulDiv(r.bottom, avgHeight, 8);
+    }
+}
 
 const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThemeTitleBarControlButton* button)
 {
@@ -1193,4 +1253,26 @@ void CMPCThemeUtil::AdjustDynamicWidgetPair(CWnd* window, int leftWidget, int ri
             }
         }
     }
+}
+
+void CMPCThemeUtil::UpdateAnalogCaptureDeviceSlider(CScrollBar* pScrollBar) {
+    if (pScrollBar && ::IsWindow(pScrollBar->m_hWnd)) {
+        if (CSliderCtrl* slider = DYNAMIC_DOWNCAST(CSliderCtrl, pScrollBar)) {
+            slider->SendMessage(WM_KEYUP, VK_LEFT, 1); //does not move the slider, only forces current position to be registered
+        }
+    }
+}
+
+bool CMPCThemeUtil::IsWindowVisibleAndRendered(CWnd* window) {
+    if (!window || !IsWindow(window->m_hWnd) || !window->IsWindowVisible()) {
+        return false;
+    } else {
+        CRect r;
+        HDC hdc = GetWindowDC(window->m_hWnd);
+        GetClipBox(hdc, &r);
+        if (r.IsRectEmpty()) {
+            return false;
+        }
+    }
+    return true;
 }

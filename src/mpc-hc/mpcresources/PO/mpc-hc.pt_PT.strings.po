@@ -740,6 +740,10 @@ msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "Reprodutor::Teclas"
 
+msgctxt "IDD_PPAGEMOUSE"
+msgid "Player::Mouse"
+msgstr ""
+
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
 msgstr "Legendas::Estilo por defeito"
@@ -3347,6 +3351,10 @@ msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
 msgstr "Formato de vídeo Indeo"
 
+msgctxt "IDS_MFMT_AVS"
+msgid "AviSynth script"
+msgstr ""
+
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
 msgstr "Outro"
@@ -4616,6 +4624,46 @@ msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
 msgstr "OK"
 
+msgctxt "IDS_MOUSE_CLICK_MIDDLE"
+msgid "Middle click"
+msgstr ""
+
+msgctxt "IDS_MOUSE_CLICK_X1"
+msgid "X1 click"
+msgstr ""
+
+msgctxt "IDS_MOUSE_CLICK_X2"
+msgid "X2 click"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_UP"
+msgid "Wheel Up"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_DOWN"
+msgid "Wheel Down"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_LEFT"
+msgid "Wheel Left"
+msgstr ""
+
+msgctxt "IDS_MOUSE_WHEEL_RIGHT"
+msgid "Wheel Right"
+msgstr ""
+
+msgctxt "IDS_MOUSE_ACTION"
+msgid "Action"
+msgstr ""
+
+msgctxt "IDS_MOUSE_COMMAND"
+msgid "Command"
+msgstr ""
+
+msgctxt "IDS_MOUSE_RIGHT_BUTTON"
+msgid "Right button"
+msgstr ""
+
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
 msgstr "&Continuar"
@@ -4717,6 +4765,10 @@ msgstr "Mostrar as marcas de repetição A-B na barra de estado."
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
 msgstr "Mostrar info do vídeo (nome do codec, resolução) na barra de estado."
+
+msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
+msgid "Pause playback while dragging the seekbar."
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4914,3 +4966,7 @@ msgstr "Repor"
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
 msgstr "Por defeito"
+
+msgctxt "IDS_CMD_THUMBNAILS"
+msgid "/thumbnails\tCreate thumbnails"
+msgstr ""

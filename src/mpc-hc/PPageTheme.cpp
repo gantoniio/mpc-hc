@@ -28,6 +28,7 @@
 #include "ColorProfileUtil.h"
 #include "resource.h"
 #include "Translations.h"
+#include "WinAPIUtils.h"
 
 // CPPageTheme dialog
 
@@ -174,7 +175,6 @@ BOOL CPPageTheme::OnInitDialog()
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
 
-    //m_fSeekPreview = s.fSeekPreview;
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_TOOLTIP));
     m_HoverType.AddString(ResStr(IDS_SEEKBAR_HOVER_PREVIEW));
     m_HoverType.SetCurSel(s.fSeekPreview ? 1 : 0);
@@ -202,7 +202,12 @@ BOOL CPPageTheme::OnInitDialog()
     if (iSel == CB_ERR) {
         iSel = m_FontType.FindString(0, m_strOSDFont);
         if (iSel == CB_ERR) {
-            iSel = 0;
+            LOGFONT lf;
+            GetMessageFont(&lf);
+            iSel = m_FontType.FindStringExact(0, lf.lfFaceName);
+            if (iSel == CB_ERR) {
+                iSel = 0;
+            }
         }
     }
     m_FontType.SetCurSel(iSel);

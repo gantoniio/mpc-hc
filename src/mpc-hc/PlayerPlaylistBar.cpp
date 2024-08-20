@@ -159,10 +159,12 @@ bool CPlayerPlaylistBar::IsHiddenDueToFullscreen() const
     return m_bHiddenDueToFullscreen;
 }
 
-void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
+void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen, bool returningFromFullScreen /* = false */)
 {
     if (bHiddenDueToFullscreen) {
         SetAutohidden(false);
+    } else if (returningFromFullScreen) { //it was already hidden, but now we will flag it as autohidden vs. hiddenDueToFullscreen
+        SetAutohidden(true);
     }
     m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
 }
@@ -224,7 +226,7 @@ void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
     AddItem(sl, subs);
 }
 
-void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
+void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString ydl_ua, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
     CPlaylistItem pli;
 
@@ -254,6 +256,7 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     pli.m_label = label;
     if (!ydl_src.IsEmpty()) {
         pli.m_ydlSourceURL = ydl_src;
+        pli.m_useragent = ydl_ua;
         pli.m_bYoutubeDL = true;
     }
 
@@ -273,11 +276,11 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     }
 }
 
-void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
+void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString ydl_ua, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
     CPlaylistItem* pli = GetCur();
     if (pli == nullptr) {
-        AddItem(fns, subs, label, ydl_src, cue);
+        AddItem(fns, subs, label, ydl_src, ydl_ua, cue);
     } else {
         pli->m_fns.RemoveAll();
         pli->m_fns.AddTailList(&fns);
@@ -287,6 +290,7 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
         }
         pli->m_label = label;
         pli->m_ydlSourceURL = ydl_src;
+        pli->m_useragent = ydl_ua;
         pli->m_bYoutubeDL = !ydl_src.IsEmpty();
         pli->m_cue = !cue.IsEmpty();
         pli->m_cue_filename = cue;
@@ -410,7 +414,7 @@ bool CPlayerPlaylistBar::IsExternalPlayListActive(CStringW& playlistPath) {
     }
 }
 
-void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
+void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString ydl_ua, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
     if (fns.IsEmpty()) {
         return;
@@ -478,7 +482,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 #endif
     }
 
-    AddItem(fns, subs, label, ydl_src, cue, ydl_subs);
+    AddItem(fns, subs, label, ydl_src, ydl_ua, cue, ydl_subs);
 }
 
 static CString CombinePath(CString base, CString fn, bool base_is_url)
@@ -511,16 +515,17 @@ bool CPlayerPlaylistBar::ParseBDMVPlayList(CString fn)
 {
     CHdmvClipInfo ClipInfo;
     CString strPlaylistFile;
-    CAtlList<CHdmvClipInfo::PlaylistItem>   MainPlaylist;
+    CHdmvClipInfo::HdmvPlaylist MainPlaylist;
 
     CPath Path(fn);
     Path.RemoveFileSpec();
     Path.RemoveFileSpec();
 
+
     if (SUCCEEDED(ClipInfo.FindMainMovie(Path + L"\\", strPlaylistFile, MainPlaylist, m_pMainFrame->m_MPLSPlaylist))) {
         CAtlList<CString> strFiles;
         strFiles.AddHead(strPlaylistFile);
-        Append(strFiles, MainPlaylist.GetCount() > 1, nullptr);
+        Append(strFiles, MainPlaylist.size() > 1, nullptr);
     }
 
     return !m_pl.IsEmpty();
@@ -855,6 +860,11 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
             } else if (key == _T("ydlSourceURL")) {
                 pli[i].m_ydlSourceURL = value;
                 pli[i].m_bYoutubeDL = true;
+            } else if (key == _T("duration")) {
+                long long dur = _ttoll(value) * 10000LL;
+                if (dur > 0) {
+                    pli[i].m_duration = dur;
+                }
             } else if (key == _T("video")) {
                 while (pli[i].m_fns.GetCount() < 2) {
                     pli[i].m_fns.AddTail(_T(""));
@@ -1034,6 +1044,11 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e)
                     f.WriteString(t);
                 }
             }
+            if (pli.m_duration > 0) {
+                CString dur;
+                dur.Format(_T("%lld"), pli.m_duration / 10000LL);
+                f.WriteString(idx + _T(",duration,") + dur + _T("\n"));
+            }
         } else if (pli.m_type == CPlaylistItem::device && pli.m_fns.GetCount() == 2) {
             f.WriteString(idx + _T(",video,") + pli.m_fns.GetHead() + _T("\n"));
             f.WriteString(idx + _T(",audio,") + pli.m_fns.GetTail() + _T("\n"));
@@ -1074,10 +1089,10 @@ bool CPlayerPlaylistBar::Empty()
     return bWasPlaying;
 }
 
-void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue)
+void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString ydl_ua, CString cue)
 {
     Empty();
-    Append(fns, fMulti, subs, label, ydl_src, cue);
+    Append(fns, fMulti, subs, label, ydl_src, ydl_ua, cue);
 
     CString ext = CPath(fns.GetHead()).GetExtension().MakeLower();
     if (!fMulti && (ext == _T(".mpcpl"))) {
@@ -1088,7 +1103,7 @@ void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CStr
     }
 }
 
-void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
+void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs, CString label, CString ydl_src, CString ydl_ua, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
     POSITION posFirstAdded = m_pl.GetTailPosition();
     int activateListItemIndex = (int)m_pl.GetCount();
@@ -1100,7 +1115,7 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
             ParsePlayList(fns.GetNext(pos), nullptr);
         }
     } else {
-        ParsePlayList(fns, subs, 0, label, ydl_src, cue, ydl_subs);
+        ParsePlayList(fns, subs, 0, label, ydl_src, ydl_ua, cue, ydl_subs);
     }
 
     Refresh();
@@ -1465,6 +1480,8 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart, ABRepeat ab
             p->rtStart = rtStart;
             p->bAddToRecent = true;
             p->abRepeat = abRepeat;
+            p->useragent = pli->m_useragent;
+            p->referrer = pli->m_ydlSourceURL;
             omd = p;
         }
     }
@@ -1484,10 +1501,18 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
     POSITION pos = m_pl.GetHeadPosition();
     while (pos) {
         CPlaylistItem& pli = m_pl.GetAt(pos);
-        if (pli.FindFile(filename)) {
-            m_pl.SetPos(pos);
-            EnsureVisible(pos);
-            return true;
+        if (pli.m_bYoutubeDL) {
+            if (pli.m_ydlSourceURL.CompareNoCase(filename) == 0) {
+                m_pl.SetPos(pos);
+                EnsureVisible(pos);
+                return true;
+            }
+        } else {
+            if (pli.m_fns.GetHead().CompareNoCase(filename) == 0) {
+                m_pl.SetPos(pos);
+                EnsureVisible(pos);
+                return true;
+            }
         }
         m_pl.GetNext(pos);
     }
@@ -1496,38 +1521,69 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
 
 bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
 {
+    auto& s = AfxGetAppSettings();
+    CString filename = m_pl.GetAt(pos).m_fns.GetHead();
+    bool candeletefile = false;
+    bool folderPlayNext = false;
+    bool noconfirm = !s.bConfirmFileDelete;
+    if (!PathUtils::IsURL(filename)) {
+        if (!noconfirm && IsWindows10OrGreater()) {
+            // show prompt, because Windows might not ask for confirmation
+            CString msg;
+            msg.Format(L"Move file to recycle bin?\n\n%s", filename.GetString());
+            if (AfxMessageBox(msg, MB_ICONQUESTION | MB_YESNO, 0) == IDYES) {
+                candeletefile = true;
+                noconfirm = true;
+            } else {
+                return false;
+            }
+        } else {
+            candeletefile = true;
+        }
+        folderPlayNext = (m_pl.GetCount() == 1 && (s.nCLSwitches & CLSW_PLAYNEXT || s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT));
+    }
+    
     bool isplaying = false;
-    bool folderPlayNext = (m_pl.GetCount() == 1 && AfxGetAppSettings().eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT); //only one item in pl, so we are looping by folder, not pl
     if (pos == m_pl.GetPos()) {
         isplaying = true;
-        // close file to release the file handle
-        m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     }
-
-    CString filename = m_pl.GetAt(pos).m_fns.GetHead();
-    int listPos = FindItem(pos);
 
     // Get position of next file
     POSITION nextpos = pos;
     if (isplaying) {
         m_pl.GetNext(nextpos);
+        if (nextpos == nullptr && m_pl.GetCount() > 1) {
+            nextpos = m_pl.GetHeadPosition();
+        }
     }
 
-    // Delete file
-    if (SUCCEEDED(FileDelete(filename, m_pMainFrame->m_hWnd, recycle))) {
-        // remove selected from playlist
-        m_list.DeleteItem(listPos);
-        m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
-        m_pl.RemoveAt(pos);
-        SavePlaylist();
-        // Continue with next file
-        if (isplaying) {
-            if (folderPlayNext) {
-                m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
-            } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
-                m_pl.SetPos(nextpos);
-                m_pMainFrame->OpenCurPlaylistItem();
-            }
+    // remove selected from playlist
+    int listPos = FindItem(pos);
+    assert(listPos >= 0);
+    m_pl.RemoveAt(pos);
+    m_list.DeleteItem(listPos);
+    m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
+    SavePlaylist();
+
+    if (isplaying && !folderPlayNext && nextpos) {
+        m_pl.SetPos(nextpos);
+    }
+
+    if (isplaying) {
+        // close file to release the file handle
+        m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+    }
+
+    if (candeletefile) {
+        FileDelete(filename, m_pMainFrame->m_hWnd, true, noconfirm);
+    }
+
+    // Continue with next file
+    if (isplaying) {
+        if (folderPlayNext) {
+            m_pMainFrame->DoAfterPlaybackEvent();
+        } else if (nextpos) {
+            m_pMainFrame->OpenCurPlaylistItem();
         }
     }
 

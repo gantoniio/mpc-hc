@@ -547,9 +547,9 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
     return content;
 }
 
-WORD AssignedToCmd(UINT keyOrMouseValue, bool bCheckMouse)
+WORD AssignedToCmd(UINT keyValue)
 {
-    if (keyOrMouseValue == 0) {
+    if (keyValue == 0) {
         ASSERT(false);
         return 0;
     }
@@ -557,28 +557,11 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bCheckMouse)
     WORD assignTo = 0;
     const CAppSettings& s = AfxGetAppSettings();
 
-    BYTE mouseVirt = 0;
-    if (bCheckMouse) {
-        if (GetKeyState(VK_SHIFT) & 0x8000) {
-            mouseVirt |= FSHIFT;
-        }
-        if (GetKeyState(VK_MENU) & 0x8000) {
-            mouseVirt |= FALT;
-        }
-        if (GetKeyState(VK_CONTROL) & 0x8000) {
-            mouseVirt |= FCONTROL;
-        }
-    }
-
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos && !assignTo) {
         const wmcmd& wc = s.wmcmds.GetNext(pos);
 
-        if (bCheckMouse) {
-            if (wc.mouse == keyOrMouseValue && (wc.mouseVirt & ~FVIRTKEY) == mouseVirt) {
-                assignTo = wc.cmd;
-            }
-        } else if (wc.key == keyOrMouseValue) {
+        if (wc.key == keyValue) {
             assignTo = wc.cmd;
         }
     }
@@ -1428,7 +1411,7 @@ bool CMPlayerCApp::SendCommandLine(HWND hWnd)
     cds.cbData = bufflen;
     cds.lpData = (void*)(BYTE*)buff;
 
-    return !!SendMessage(hWnd, WM_COPYDATA, (WPARAM)nullptr, (LPARAM)&cds);
+    return !!SendMessageTimeoutW(hWnd, WM_COPYDATA, (WPARAM)nullptr, (LPARAM)&cds, SMTO_ABORTIFHUNG | SMTO_NOTIMEOUTIFNOTHUNG, 5000, nullptr);
 }
 
 // CMPlayerCApp initialization

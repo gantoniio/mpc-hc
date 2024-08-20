@@ -283,7 +283,7 @@ CoInitializeHelper::~CoInitializeHelper()
     CoUninitialize();
 }
 
-HRESULT FileDelete(CString file, HWND hWnd, bool recycle /*= true*/)
+HRESULT FileDelete(CString file, HWND hWnd, bool recycle /*= true*/, bool noconfirm /*= false*/)
 {
     // Strings in SHFILEOPSTRUCT must be double-null terminated
     file.AppendChar(_T('\0'));
@@ -293,8 +293,14 @@ HRESULT FileDelete(CString file, HWND hWnd, bool recycle /*= true*/)
     fileOpStruct.hwnd = hWnd;
     fileOpStruct.wFunc = FO_DELETE;
     fileOpStruct.pFrom = file;
+    fileOpStruct.fFlags = FOF_FILESONLY | FOF_SILENT;
     if (recycle) {
-        fileOpStruct.fFlags = FOF_ALLOWUNDO | FOF_WANTNUKEWARNING;
+        fileOpStruct.fFlags |= FOF_ALLOWUNDO;
+    }
+    if (noconfirm) {
+        fileOpStruct.fFlags |= FOF_NOCONFIRMATION;
+    } else {
+        fileOpStruct.fFlags |= FOF_WANTNUKEWARNING;
     }
     int hRes = SHFileOperation(&fileOpStruct);
     if (fileOpStruct.fAnyOperationsAborted) {

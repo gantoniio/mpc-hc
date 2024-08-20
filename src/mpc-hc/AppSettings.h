@@ -95,7 +95,8 @@ enum : UINT64 {
     CLSW_CONFIGLAVVIDEO = CLSW_CONFIGLAVAUDIO << 1,
     CLSW_MUTE = CLSW_CONFIGLAVVIDEO << 1,
     CLSW_VOLUME = CLSW_MUTE << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1, // 46
+    CLSW_THUMBNAILS = CLSW_VOLUME << 1,
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_THUMBNAILS << 1, // 47
 };
 
 enum MpcCaptionState {
@@ -626,6 +627,26 @@ public:
     CUIceClient     UIceClient;
     bool            fGlobalMedia;
 
+    // Mouse
+    UINT			nMouseLeftClick;
+    bool			bMouseLeftClickOpenRecent;
+    UINT			nMouseLeftDblClick;
+    bool			bMouseEasyMove;
+    UINT			nMouseRightClick;
+    struct MOUSE_ASSIGNMENT {
+        UINT normal;
+        UINT ctrl;
+        UINT shift;
+        UINT rbtn;
+    };
+    MOUSE_ASSIGNMENT MouseMiddleClick;
+    MOUSE_ASSIGNMENT MouseX1Click;
+    MOUSE_ASSIGNMENT MouseX2Click;
+    MOUSE_ASSIGNMENT MouseWheelUp;
+    MOUSE_ASSIGNMENT MouseWheelDown;
+    MOUSE_ASSIGNMENT MouseWheelLeft;
+    MOUSE_ASSIGNMENT MouseWheelRight;
+
     // Logo
     int             nLogoId;
     bool            fLogoExternal;
@@ -959,6 +980,7 @@ public:
     bool bUseAutomaticCaptions;
     bool bUseFreeType;
     bool bUseMediainfoLoadFileDuration;
+    bool bPauseWhileDraggingSeekbar;
     CStringA strOpenTypeLangHint;
 
     CStringW lastQuickOpenPath;
@@ -973,6 +995,8 @@ public:
     int iMouseLeftUpDelay;
 
     bool bCaptureDeinterlace;
+    bool bConfirmFileDelete;
+
 private:
     struct FilterKey {
         CString name;

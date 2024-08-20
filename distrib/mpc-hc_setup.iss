@@ -20,8 +20,8 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,9)
-  #error Update your Inno Setup version (5.5.9 or newer)
+#if VER < EncodeVer(6,3,2)
+  #error Update your Inno Setup version (6.3.2 or newer)
 #endif
 
 #ifndef UNICODE
@@ -73,6 +73,7 @@
   #define OutFilename   = app_name + "." + app_ver + ".x64"
   #define platform      = "x64"
   #define mpcvr_ax      = "MpcVideoRenderer64.ax"
+  #define mediainfo_dll = "..\distrib\x64\MediaInfo.dll"
 #else
   #define bindir        = AddBackslash(base_bindir) + "mpc-hc_x86"
   #define mpchc_exe     = "mpc-hc.exe"
@@ -81,6 +82,7 @@
   #define OutFilename   = app_name + "." + app_ver + ".x86"
   #define platform      = "x86"
   #define mpcvr_ax      = "MpcVideoRenderer.ax"
+  #define mediainfo_dll = "..\distrib\x86\MediaInfo.dll"
 #endif
 
 #if defined(MPCHC_LITE)
@@ -119,6 +121,17 @@
 #define INCLUDE_MPCVR = true
 #else
 #define INCLUDE_MPCVR = false
+#bla
+#endif
+
+#ifexist mediainfo_dll
+	#if !defined(MPCHC_LITE)
+#define INCLUDE_MEDIAINFO = true
+	#else
+#define INCLUDE_MEDIAINFO = false
+	#endif
+#else
+#define INCLUDE_MEDIAINFO = false
 #endif
 
 
@@ -126,8 +139,8 @@
 #ifdef x64Build
 AppId                     = {{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName          = {#app_name} x64
-ArchitecturesAllowed      = x64 arm64
-ArchitecturesInstallIn64BitMode = x64 arm64
+ArchitecturesAllowed      = x64compatible
+ArchitecturesInstallIn64BitMode = x64compatible
 #else
 AppId                     = {{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName          = {#app_name}
@@ -176,9 +189,6 @@ Name: ca;    MessagesFile: compiler:Languages\Catalan.isl
 Name: cs;    MessagesFile: compiler:Languages\Czech.isl
 Name: da;    MessagesFile: compiler:Languages\Danish.isl
 Name: de;    MessagesFile: compiler:Languages\German.isl
-#if VER <= EncodeVer(5,5,9)
-Name: el;    MessagesFile: compiler:Languages\Greek.isl
-#endif
 Name: en_GB; MessagesFile: Languages\EnglishBritish.isl
 Name: es;    MessagesFile: compiler:Languages\Spanish.isl
 Name: eu;    MessagesFile: Languages\Basque.isl
@@ -188,11 +198,7 @@ Name: gl;    MessagesFile: Languages\Galician.isl
 Name: he;    MessagesFile: compiler:Languages\Hebrew.isl
 Name: hr;    MessagesFile: Languages\Croatian.isl
 Name: hu;    MessagesFile: compiler:Languages\Hungarian.isl
-#if VER < EncodeVer(6,0,0)
-Name: hy;    MessagesFile: compiler:Languages\Armenian.islu
-#else
 Name: hy;    MessagesFile: compiler:Languages\Armenian.isl
-#endif
 Name: id;    MessagesFile: Languages\Indonesian.isl
 Name: it;    MessagesFile: compiler:Languages\Italian.isl
 Name: ja;    MessagesFile: compiler:Languages\Japanese.isl
@@ -207,9 +213,6 @@ Name: ro;    MessagesFile: Languages\Romanian.isl
 Name: ru;    MessagesFile: compiler:Languages\Russian.isl
 Name: sk;    MessagesFile: Languages\Slovak.isl
 Name: sl;    MessagesFile: compiler:Languages\Slovenian.isl
-#if VER <= EncodeVer(5,5,9)
-Name: sr;    MessagesFile: compiler:Languages\SerbianCyrillic.isl
-#endif
 Name: sv;    MessagesFile: Languages\Swedish.isl
 Name: th_TH; MessagesFile: Languages\Thai.isl
 Name: tt;    MessagesFile: Languages\Tatar.isl
@@ -262,7 +265,7 @@ Source: {#bindir}\{#lavfiltersdir}\*.manifest;     DestDir: {app}\{#lavfiltersdi
 	#endif
 Source: {#platform}\d3dcompiler_{#MPC_D3D_COMPILER_VERSION}.dll; DestDir: {app};    Components: main;         Flags: ignoreversion
 Source: {#platform}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;              DestDir: {app};    Components: main;         Flags: ignoreversion
-	#if !defined(MPCHC_LITE)
+	#if INCLUDE_MEDIAINFO
 Source: {#platform}\mediainfo.dll;                 DestDir: {app};                  Components: main;         Flags: ignoreversion
 	#endif
 Source: ..\src\mpc-hc\res\shaders\dx9\*.hlsl;      DestDir: {app}\Shaders;          Components: main;         Flags: onlyifdoesntexist
@@ -559,11 +562,6 @@ begin
 #if defined(sse2_required)
     if not Is_SSE2_Supported() then begin
       SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbCriticalError, MB_OK, MB_OK);
-      Result := False;
-    end;
-#elif defined(sse_required)
-    if not Is_SSE_Supported() then begin
-      SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbCriticalError, MB_OK, MB_OK);
       Result := False;
     end;
 #endif

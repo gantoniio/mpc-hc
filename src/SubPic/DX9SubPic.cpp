@@ -24,6 +24,12 @@
 #include <vmr9.h>
 #include <algorithm>
 
+#include "mpc-hc_config.h"
+
+#if !TRACE_SUBTITLES
+#define TRACE(...)
+#endif
+
 //
 // CDX9SubPic
 //
@@ -395,6 +401,11 @@ STDMETHODIMP CDX9SubPicAllocator::ChangeDevice(IUnknown* pDev)
 STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE maxTextureSize)
 {
     CAutoLock cAutoLock(this);
+
+#if DEBUG_OVERRIDE_TEXTURE_SIZE
+    maxTextureSize = CSize(DEBUG_OVERRIDE_TEXTURE_SIZE_WIDTH, DEBUG_OVERRIDE_TEXTURE_SIZE_HEIGHT);
+#endif
+
     if (maxTextureSize.cx > 0 && maxTextureSize.cy > 0 && m_maxsize != maxTextureSize) {
         ClearCache();
         m_maxsize = maxTextureSize;
@@ -416,6 +427,10 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
         TRACE(_T("CDX9SubPicAllocator::Alloc -> maxsize is zero\n"));
         return false;
     }
+
+#if DEBUG_OVERRIDE_TEXTURE_SIZE
+    ASSERT(m_maxsize.cx == DEBUG_OVERRIDE_TEXTURE_SIZE_WIDTH && m_maxsize.cy == DEBUG_OVERRIDE_TEXTURE_SIZE_HEIGHT);
+#endif
 
     CAutoLock cAutoLock(this);
 

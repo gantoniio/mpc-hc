@@ -25,6 +25,8 @@
 #include "FullscreenWnd.h"
 #include <mvrInterfaces.h>
 
+#define TRACE_LEFTCLICKS 0
+
 #define CURSOR_HIDE_TIMEOUT 2000
 
 CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
@@ -33,10 +35,10 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     , m_dwMouseHiderStartTick(0)
     , m_bLeftDown(false)
     , m_bLeftUpDelayed(false)
-    , m_bLeftUpIgnoreNext(false)
     , m_bLeftDoubleStarted(false)
     , m_leftDoubleStartTime(0)
     , m_popupMenuUninitTime(0)
+    , m_doubleclicktime((int)GetDoubleClickTime())
 {
     m_cursors[Cursor::NONE] = nullptr;
     m_cursors[Cursor::ARROW] = LoadCursor(nullptr, IDC_ARROW);
@@ -123,7 +125,6 @@ void CMouse::ResetToBlankState()
     m_drag = Drag::NO_DRAG;
     m_cursor = Cursor::ARROW;
     m_switchingToFullscreen.first = false;
-    m_bLeftUpIgnoreNext = false;
     if (m_bLeftUpDelayed) {
         m_bLeftUpDelayed = false;
         KillTimer(GetWnd(), (UINT_PTR)this);
@@ -193,10 +194,41 @@ bool CMouse::IsOnFullscreenWindow() const
     }
 }
 
-bool CMouse::OnButton(UINT id, const CPoint& point)
+WORD CMouse::AssignedMouseToCmd(UINT mouseValue, UINT nFlags) {
+    CAppSettings& s = AfxGetAppSettings();
+
+    CAppSettings::MOUSE_ASSIGNMENT mcmds = {};
+
+    switch (mouseValue) {
+    case wmcmd::MUP:       mcmds = s.MouseMiddleClick;  break;
+    case wmcmd::X1UP:      mcmds = s.MouseX1Click;      break;
+    case wmcmd::X2UP:      mcmds = s.MouseX2Click;      break;
+    case wmcmd::WUP:       mcmds = s.MouseWheelUp;      break;
+    case wmcmd::WDOWN:     mcmds = s.MouseWheelDown;    break;
+    case wmcmd::WLEFT:     mcmds = s.MouseWheelLeft;    break;
+    case wmcmd::WRIGHT:    mcmds = s.MouseWheelRight;   break;
+    case wmcmd::LUP:       return (WORD)s.nMouseLeftClick;
+    case wmcmd::LDBLCLK:   return (WORD)s.nMouseLeftDblClick;
+    case wmcmd::RUP:       return (WORD)s.nMouseRightClick;
+    }
+
+    if (mcmds.ctrl && (nFlags & MK_CONTROL)) {
+        return (WORD)mcmds.ctrl;
+    }
+    if (mcmds.shift && (nFlags & MK_SHIFT)) {
+        return (WORD)mcmds.shift;
+    }
+    if (mcmds.rbtn && (nFlags & MK_RBUTTON)) {
+        return (WORD)mcmds.rbtn;
+    }
+
+    return (WORD)mcmds.normal;
+}
+
+bool CMouse::OnButton(UINT id, const CPoint& point, int nFlags)
 {
     bool ret = false;
-    WORD cmd = AssignedToCmd(id);
+    WORD cmd = AssignedMouseToCmd(id, nFlags);
     if (cmd) {
         m_pMainFrame->PostMessage(WM_COMMAND, cmd);
         ret = true;
@@ -298,28 +330,27 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         return;
     }
 
-    //ASSERT(!m_bLeftUpIgnoreNext);
+#if TRACE_LEFTCLICKS
+    TRACE(L"InternalOnLButtonDown\n");
+#endif
+
+    int msgtime = GetMessageTime();
 
     m_bLeftDown = true;
     bool bDouble = false;
-    if (m_bLeftDoubleStarted &&
-            GetMessageTime() - m_leftDoubleStartTime < (int)GetDoubleClickTime() &&
-            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point,
-                                         GetSystemMetrics(SM_CXDOUBLECLK) / 2, GetSystemMetrics(SM_CYDOUBLECLK) / 2)) {
+    if (m_bLeftDoubleStarted && (msgtime - m_leftDoubleStartTime < m_doubleclicktime) &&
+            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point, GetSystemMetrics(SM_CXDOUBLECLK) / 2, GetSystemMetrics(SM_CYDOUBLECLK) / 2)) {
         m_bLeftDoubleStarted = false;
         bDouble = true;
     } else {
         m_bLeftDoubleStarted = true;
-        m_leftDoubleStartTime = GetMessageTime();
+        m_leftDoubleStartTime = msgtime;
         m_leftDoubleStartPoint = point;
     }
 
     if (m_bLeftUpDelayed) {
         KillTimer(GetWnd(), (UINT_PTR)this);
-        if (bDouble) {
-            m_bLeftUpDelayed = false;
-            m_bLeftUpIgnoreNext = true;
-        } else {
+        if (!bDouble) {
             PerformDelayedLeftUp();
         }
     }
@@ -331,9 +362,25 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
             ret = OnButton(wmcmd::LDOWN, point);
         }
         if (bDouble) {
+            // perform the LeftUp command before double-click
+            // reason is that toggling fullscreen can move the video window, which can cause the LeftUp action to not be processed properly
+            // ToDo: rewrite code to trigger doubleclick at second LeftUp instead of LeftDown
+            if (m_bLeftUpDelayed) {
+                // the first LeftUp was delayed and then skipped, so skip second one as well
+                m_bLeftUpDelayed = false;
+            } else {
+#if TRACE_LEFTCLICKS
+                TRACE(L"doing early LEFT UP\n");
+#endif
+                OnButton(wmcmd::LUP, point);
+            }
+#if TRACE_LEFTCLICKS
+            TRACE(L"doing DOUBLE\n");
+#endif
             ret = OnButton(wmcmd::LDBLCLK, point) || ret;
+            m_bLeftDown = false; // skip next LEFT UP
         }
-        if (!ret) {
+        if (!ret || bDouble) {
             ReleaseCapture();
         }
         return ret;
@@ -366,10 +413,13 @@ void CMouse::OnTimerLeftUp(HWND hWnd, UINT nMsg, UINT_PTR nIDEvent, DWORD dwTime
 
 void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
 {
+#if TRACE_LEFTCLICKS
+    TRACE(L"InternalOnLButtonUp\n");
+#endif
     ReleaseCapture();
-    if (!MVRUp(nFlags, point) && !m_bLeftUpIgnoreNext) {
+    if (!MVRUp(nFlags, point) && m_bLeftDown) {
         bool bIsOnFS = IsOnFullscreenWindow();
-        if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point)) && m_bLeftDown) {
+        if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point))) {
             UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
             if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
                 ASSERT(!m_bLeftUpDelayed);
@@ -380,8 +430,11 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
                 OnButton(wmcmd::LUP, point);
             }
         }
+    } else {
+#if TRACE_LEFTCLICKS
+        TRACE(L"skipped LEFT UP\n");
+#endif
     }
-    m_bLeftUpIgnoreNext = false;
 
     m_drag = Drag::NO_DRAG;
     m_bLeftDown = false;
@@ -392,11 +445,13 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
 void CMouse::InternalOnMButtonDown(UINT nFlags, const CPoint& point)
 {
     SetCursor(nFlags, point);
-    OnButton(wmcmd::MDOWN, point);
+    //all mouse commands operate on UP
+    //OnButton(wmcmd::MDOWN, point);
 }
 void CMouse::InternalOnMButtonUp(UINT nFlags, const CPoint& point)
 {
-    OnButton(wmcmd::MUP, point);
+    m_bWaitingRButtonUp = false;
+    OnButton(wmcmd::MUP, point, nFlags);
     SetCursor(nFlags, point);
 }
 void CMouse::InternalOnMButtonDblClk(UINT nFlags, const CPoint& point)
@@ -409,13 +464,17 @@ void CMouse::InternalOnMButtonDblClk(UINT nFlags, const CPoint& point)
 // Right button
 void CMouse::InternalOnRButtonDown(UINT nFlags, const CPoint& point)
 {
+    m_bWaitingRButtonUp = true;
     SetCursor(nFlags, point);
     OnButton(wmcmd::RDOWN, point);
 }
 void CMouse::InternalOnRButtonUp(UINT nFlags, const CPoint& point)
 {
-    OnButton(wmcmd::RUP, point);
-    SetCursor(nFlags, point);
+    if (m_bWaitingRButtonUp) {
+        m_bWaitingRButtonUp = false;
+        OnButton(wmcmd::RUP, point);
+        SetCursor(nFlags, point);
+    }
 }
 void CMouse::InternalOnRButtonDblClk(UINT nFlags, const CPoint& point)
 {
@@ -428,11 +487,14 @@ void CMouse::InternalOnRButtonDblClk(UINT nFlags, const CPoint& point)
 bool CMouse::InternalOnXButtonDown(UINT nFlags, UINT nButton, const CPoint& point)
 {
     SetCursor(nFlags, point);
-    return OnButton(nButton == XBUTTON1 ? wmcmd::X1DOWN : nButton == XBUTTON2 ? wmcmd::X2DOWN : wmcmd::NONE, point);
+    //all mouse commands operate on UP
+    //return OnButton(nButton == XBUTTON1 ? wmcmd::X1DOWN : nButton == XBUTTON2 ? wmcmd::X2DOWN : wmcmd::NONE, point);
+    return false;
 }
 bool CMouse::InternalOnXButtonUp(UINT nFlags, UINT nButton, const CPoint& point)
 {
-    bool ret = OnButton(nButton == XBUTTON1 ? wmcmd::X1UP : nButton == XBUTTON2 ? wmcmd::X2UP : wmcmd::NONE, point);
+    m_bWaitingRButtonUp = false;
+    bool ret = OnButton(nButton == XBUTTON1 ? wmcmd::X1UP : nButton == XBUTTON2 ? wmcmd::X2UP : wmcmd::NONE, point, nFlags);
     SetCursor(nFlags, point);
     return ret;
 }
@@ -444,14 +506,16 @@ bool CMouse::InternalOnXButtonDblClk(UINT nFlags, UINT nButton, const CPoint& po
 
 BOOL CMouse::InternalOnMouseWheel(UINT nFlags, short zDelta, const CPoint& point)
 {
-    return zDelta > 0 ? OnButton(wmcmd::WUP, point) :
-           zDelta < 0 ? OnButton(wmcmd::WDOWN, point) :
+    m_bWaitingRButtonUp = false;
+    return zDelta > 0 ? OnButton(wmcmd::WUP, point, nFlags) :
+           zDelta < 0 ? OnButton(wmcmd::WDOWN, point, nFlags) :
            FALSE;
 }
 
 BOOL CMouse::OnMouseHWheelImpl(UINT nFlags, short zDelta, const CPoint& point) {
-    return zDelta > 0 ? OnButton(wmcmd::WRIGHT, point) :
-        zDelta < 0 ? OnButton(wmcmd::WLEFT, point) :
+    m_bWaitingRButtonUp = false;
+    return zDelta > 0 ? OnButton(wmcmd::WRIGHT, point, nFlags) :
+        zDelta < 0 ? OnButton(wmcmd::WLEFT, point, nFlags) :
         FALSE;
 }
 
@@ -538,7 +602,7 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         bool checkDrag = (diff.x * diff.x + diff.y * diff.y) > maxDim*maxDim; // if dragged 10%/4% of screen maxDim start dragging
 
         if (checkDrag) {
-            bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP);
+            bool bUpAssigned = !!AssignedMouseToCmd(wmcmd::LUP,0);
             if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
                 (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint,
                     GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {

@@ -119,6 +119,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_volumectrl.SetTicFreq(10);
     m_balancectrl.SetRange(-100, 100);
     m_balancectrl.SetTicFreq(20);
+    m_balancectrl.SetLockToZero();
     m_nVolume = m_oldVolume = s.nVolume;
     m_nBalance = s.nBalance;
     m_nVolumeStep = s.nVolumeStep;
@@ -232,6 +233,7 @@ void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         UpdateData();
         ((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance); // see prev note...
     }
+    RedrawDialogTooltipIfVisible(); //if the scroll is caused by a wheel or arrows, the default tooltip may be active due to hover, in which case, we want to update
 
     SetModified();
 

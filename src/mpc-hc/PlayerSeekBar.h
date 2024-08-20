@@ -52,6 +52,8 @@ private:
     HCURSOR m_cursor;
     bool m_bDraggingThumb, m_bHoverThumb;
     ULONGLONG m_lastDragSeekTickCount;
+    bool pauseAfterFirstScroll = false;
+    bool pausedForScrolling = false;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);

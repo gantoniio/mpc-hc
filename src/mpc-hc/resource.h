@@ -311,6 +311,7 @@
 #define ID_PLAY_PLAYBACKRATE_FPS25      5021
 #define ID_PLAY_PLAYBACKRATE_END        5029
 #define ID_PLAYLIST_TOGGLE_SHUFFLE      5030
+#define ID_CMDLINE_SAVE_THUMBNAILS      5031
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
@@ -358,6 +359,7 @@
 #define IDD_PPAGEFULLSCREEN             10056
 #define IDD_RFS_FILELIST_EXT            10057
 #define IDD_PPAGEAUDIORENDERER          10058
+#define IDD_PPAGEMOUSE                  10059
 #define IDC_COMBO1                      11000
 #define IDC_COMBO2                      11001
 #define IDC_COMBO3                      11002
@@ -619,6 +621,7 @@
 #define IDD_CRASH_REPORTER              20017
 #define IDD_PPAGEDPICALC                20018
 #define IDD_RAR_ENTRY_SELECTOR          20019
+#define IDD_ADDCOMMAND_DLG              20020
 #define IDB_DT_CB_96                    20050
 #define IDB_DT_CB_120                   20051
 #define IDB_DT_CB_144                   20052
@@ -1123,6 +1126,7 @@
 #define IDS_MFMT_FLIC                   39019
 #define IDS_MFMT_DSM                    39020
 #define IDS_MFMT_IVF                    39021
+#define IDS_MFMT_AVS                    39022
 #define IDS_MFMT_OTHER                  39401
 #define IDS_MFMT_SWF                    39403
 #define IDS_MFMT_OTHER_AUDIO            39404
@@ -1458,6 +1462,16 @@
 #define IDS_NAVIGATE_CHANNELS           41465
 #define IDS_PPAGE_OUTPUT_MPCVR          41466
 #define IDS_PPAGE_OUTPUT_VMR7           41467
+#define IDS_MOUSE_CLICK_MIDDLE          41702
+#define IDS_MOUSE_CLICK_X1              41703
+#define IDS_MOUSE_CLICK_X2              41704
+#define IDS_MOUSE_WHEEL_UP              41705
+#define IDS_MOUSE_WHEEL_DOWN            41706
+#define IDS_MOUSE_WHEEL_LEFT            41707
+#define IDS_MOUSE_WHEEL_RIGHT           41708
+#define IDS_MOUSE_ACTION                41710
+#define IDS_MOUSE_COMMAND               41711
+#define IDS_MOUSE_RIGHT_BUTTON          41712
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347
@@ -1711,7 +1725,9 @@
 #define IDS_PPAGEADVANCED_CAPTURE_DEINTERLACE 57643
 #define IDS_PLAYLIST_TOGGLE_SHUFFLE     57644
 #define IDS_AUDIOSHIFT_ONOFF            57645
-
+#define IDS_SAVEDIALOG_INCLUDE_SUBS     57646
+#define IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR 57647
+#define IDS_CMD_THUMBNAILS              57648
 
 #define IDS_ARS_WASAPI_MODE             57700
 #define IDS_ARS_EXCLUSIVE               57701
