@@ -18807,6 +18807,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         m_wndPreView.ShowWindow(SW_HIDE);
     }
     m_bUseSeekPreview = false;
+    m_bDVDStillOn = false;
 
     if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
         // double close, should be prevented
