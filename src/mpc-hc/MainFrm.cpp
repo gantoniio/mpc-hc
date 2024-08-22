@@ -12643,7 +12643,7 @@ void CMainFrame::RepaintVideo(const bool bForceRepaint/* = false*/)
 {
     if (!m_bDelaySetOutputRect && (m_pCAP || m_pMFVDC)) {
         OAFilterState fs = GetMediaState();
-        if (fs == State_Paused || fs == State_Stopped || bForceRepaint || (GetPlaybackMode() == PM_DVD && m_bDVDStillOn)) {
+        if (fs == State_Paused || fs == State_Stopped || bForceRepaint || (m_bDVDStillOn && GetPlaybackMode() == PM_DVD)) {
             if (m_pCAP) {
                 m_pCAP->Paint(false);
             } else if (m_pMFVDC) {
