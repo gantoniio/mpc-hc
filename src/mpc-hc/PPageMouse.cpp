@@ -127,7 +127,11 @@ BOOL CPPageMouse::OnInitDialog()
 
 	AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_78), ID_MENU_PLAYER_LONG);
 	AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_77), ID_MENU_PLAYER_SHORT);
-	m_cmbRightButtonClick.SelectByItemData(s.nMouseRightClick);
+    AddStringData(m_cmbRightButtonClick, L"...", ID_MOUSE_ADD_CMD);
+    if (s.nMouseRightClick != ID_MENU_PLAYER_LONG && s.nMouseRightClick != ID_MENU_PLAYER_SHORT) {
+        AddCmdToRightClick(s.nMouseRightClick, m_cmbRightButtonClick.GetCount());
+    }
+    m_cmbRightButtonClick.SelectByItemData(s.nMouseRightClick);
 
 	m_table_values[ROW_BTN_M][COL_CMD]    = s.MouseMiddleClick.normal;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = s.MouseMiddleClick.ctrl;
@@ -255,6 +259,7 @@ BEGIN_MESSAGE_MAP(CPPageMouse, CMPCThemePPageBase)
 	ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDolabeleditList)
 	ON_NOTIFY(LVN_ENDLABELEDITW, IDC_LIST1, OnEndlabeleditList)
 	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedReset)
+    ON_CBN_SELENDOK(IDC_COMBO3, OnRightClickChange)
 END_MESSAGE_MAP()
 
 // CPPageMouse message handlers
@@ -262,6 +267,42 @@ END_MESSAGE_MAP()
 void CPPageMouse::OnLeftClickChange()
 {
 	SetModified();
+}
+
+void CPPageMouse::AddCmdToRightClick(WORD id, size_t idx) {
+    auto& wmcmds = AfxGetAppSettings().wmcmds;
+    POSITION pos = wmcmds.GetHeadPosition();
+    while (pos) {
+        wmcmd& wc = wmcmds.GetNext(pos);
+        if (id == wc.cmd) {
+            idx = m_cmbRightButtonClick.InsertString(idx - 1, ResStr(wc.dwname));
+            m_cmbRightButtonClick.SetItemData(idx, id);
+            break;
+        }
+    }
+}
+
+void CPPageMouse::OnRightClickChange() {
+    int curSel = m_cmbRightButtonClick.GetCurSel();
+    if (curSel != CB_ERR && m_cmbRightButtonClick.GetItemData(curSel) == ID_MOUSE_ADD_CMD) {
+        CAddCommandDlg dlg(this);
+        if (dlg.DoModal() == IDOK) {
+            const WORD id = dlg.GetSelectedCommandID();
+            size_t idx;
+            for (idx = 0; idx < m_cmbRightButtonClick.GetCount(); idx++) {
+                if (id == m_cmbRightButtonClick.GetItemData(idx)) {
+                    break;
+                }
+            }
+            
+            if (idx == m_cmbRightButtonClick.GetCount()) {
+                AddCmdToRightClick(id, idx);
+                m_cmbRightButtonClick.SelectByItemData(id);
+            }
+        }
+
+    }
+    SetModified();
 }
 
 void CPPageMouse::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
@@ -365,7 +406,7 @@ void CPPageMouse::OnBnClickedReset()
 
     m_cmbLeftButtonClick.SelectByItemData(ID_PLAY_PLAYPAUSE);
     m_cmbLeftButtonDblClick.SelectByItemData(ID_VIEW_FULLSCREEN);
-    m_cmbRightButtonClick.SelectByItemData(0);
+    m_cmbRightButtonClick.SelectByItemData(ID_MENU_PLAYER_LONG);
 
 	m_table_values[ROW_BTN_M][COL_CMD]    = 0;
 	m_table_values[ROW_BTN_M][COL_CTRL]   = 0;

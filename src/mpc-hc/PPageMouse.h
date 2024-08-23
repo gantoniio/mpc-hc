@@ -126,8 +126,11 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnLeftClickChange();
-	afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+    void AddCmdToRightClick(WORD id, size_t idx);
+
+    afx_msg void OnLeftClickChange();
+    afx_msg void OnRightClickChange();
+    afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnBnClickedReset();
