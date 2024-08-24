@@ -1102,7 +1102,7 @@ msgstr "Prawy klik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_BUTTON2"
 msgid "Default"
-msgstr "Domyślny"
+msgstr "Domyślne"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
