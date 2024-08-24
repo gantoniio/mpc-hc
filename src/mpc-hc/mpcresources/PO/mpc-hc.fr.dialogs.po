@@ -1897,7 +1897,7 @@ msgstr "Filtre:"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDOK"
 msgid "OK"
-msgstr "Confirmer"
+msgstr "Valider"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDCANCEL"
 msgid "Cancel"
