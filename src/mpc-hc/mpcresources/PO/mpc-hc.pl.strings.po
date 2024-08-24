@@ -4641,7 +4641,7 @@ msgstr "X2 klik"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
-msgstr "Koło w góra"
+msgstr "Kółko w górę"
 
 msgctxt "IDS_MOUSE_WHEEL_DOWN"
 msgid "Wheel Down"
