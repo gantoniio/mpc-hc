@@ -4653,7 +4653,7 @@ msgstr "Rolka w lewo"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
-msgstr "Kółko w prawo"
+msgstr "Rolka w prawo"
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
