@@ -1739,11 +1739,11 @@ msgstr "Ustawienia zaawansowane; nie edytuj ich, chyba że wiesz, co robisz."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "Prawda"
+msgstr "Tak"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr "Fałsz"
+msgstr "Nie"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
