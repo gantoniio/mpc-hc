@@ -1378,7 +1378,7 @@ msgstr "Anuluj"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
-msgstr "Częst. początkowa:"
+msgstr "Częstotliwość początkowa:"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Bandwidth"
@@ -1386,7 +1386,7 @@ msgstr "Pasmo:"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Częst. końcowa:"
+msgstr "Częstotliwość końcowa:"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
