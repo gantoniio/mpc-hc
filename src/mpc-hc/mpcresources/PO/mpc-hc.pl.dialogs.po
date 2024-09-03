@@ -1624,7 +1624,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr "Ignoruj pliki zawierające którekolwiek z poniższych słów:"
+msgstr "Ignoruj ​​pliki zawierające następujące słowa:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
