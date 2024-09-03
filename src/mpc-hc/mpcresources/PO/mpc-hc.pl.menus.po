@@ -369,7 +369,7 @@ msgstr "Zresetuj ustawienia renderowania"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "&Optymalne"
+msgstr "Zresetuj ustawienia renderowania do &optymalnych"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
