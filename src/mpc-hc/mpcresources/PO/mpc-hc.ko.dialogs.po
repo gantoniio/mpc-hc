@@ -1837,7 +1837,7 @@ msgstr "자동 재생"
 
 msgctxt "IDD_ADDCOMMAND_DLG_CAPTION"
 msgid "Select command"
-msgstr "명령어 선택"
+msgstr "명령 선택"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDC_STATIC"
 msgid "Filter:"
