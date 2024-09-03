@@ -4817,7 +4817,7 @@ msgid ""
 msgstr ""
 "Preferencja językowa ładowania strumieni napisów wyodrębnionych przez Youtube-DL.\n"
 "Jeśli jest pusta, napisy nie będą ładowane.\n"
-"Użyj dwuliterowych kodów językowych ISO639-1.\n"
+"Użyj dwuliterowego kodu języka ISO639-1\n"
 "Przykład: en de es pl zh ja nl"
 
 msgctxt "IDS_PPAGEADVANCED_USE_AUTOMATIC_CAPTIONS"
