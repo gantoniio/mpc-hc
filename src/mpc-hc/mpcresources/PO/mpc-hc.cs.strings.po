@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-03-28 16:29:05+0000\n"
+"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Jindřich T, 2024\n"
 "Language-Team: Czech (https://app.transifex.com/mpchc/teams/106126/cs/)\n"
@@ -740,7 +740,7 @@ msgstr "Přehrávač::Klávesové zkratky"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
-msgstr ""
+msgstr "Přehrávač::Myš"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -1069,7 +1069,7 @@ msgstr "Otevřít umístění souboru"
 
 msgctxt "IDS_AG_OPENDIRECTORY"
 msgid "Open Directory"
-msgstr ""
+msgstr "Otevřít adresář"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1298,11 +1298,11 @@ msgstr "Vložit filtr prokládání (blend) v režimu záznamu."
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr ""
+msgstr "Zapnout/Vypnout náhodné přehrávání"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
-msgstr ""
+msgstr "Zapnout/Vypnout zpozdění zvuku"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -3327,7 +3327,7 @@ msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_AVS"
 msgid "AviSynth Script"
-msgstr ""
+msgstr "Skript AviSynth"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -4561,6 +4561,8 @@ msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
 msgstr ""
+"/pevná velikost v,š[,x,y]\tNastavit pevnou velikost okna; volitelně zvolte "
+"levohorní pozici okna"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
@@ -4602,43 +4604,43 @@ msgstr "OK"
 
 msgctxt "IDS_MOUSE_CLICK_MIDDLE"
 msgid "Middle click"
-msgstr ""
+msgstr "Prostřední klik"
 
 msgctxt "IDS_MOUSE_CLICK_X1"
 msgid "X1 click"
-msgstr ""
+msgstr "X1 klik"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
-msgstr ""
+msgstr "X2 klik"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
-msgstr ""
+msgstr "Kolečko nahoru"
 
 msgctxt "IDS_MOUSE_WHEEL_DOWN"
 msgid "Wheel Down"
-msgstr ""
+msgstr "Kolečko dulů"
 
 msgctxt "IDS_MOUSE_WHEEL_LEFT"
 msgid "Wheel Left"
-msgstr ""
+msgstr "Kolečko doleva"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
-msgstr ""
+msgstr "Kolečko doprava"
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
-msgstr ""
+msgstr "Akce"
 
 msgctxt "IDS_MOUSE_COMMAND"
 msgid "Command"
-msgstr ""
+msgstr "Příkaz"
 
 msgctxt "IDS_MOUSE_RIGHT_BUTTON"
 msgid "Right button"
-msgstr ""
+msgstr "Pravé tlačítko"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
@@ -4738,7 +4740,7 @@ msgstr "Zobrazit informace o videu (kodek, rozlišení) ve stavovém řádku."
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr ""
+msgstr "Pozastavit přehrávání při posouvání panelu hledání."
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4934,4 +4936,4 @@ msgstr "Výchozí"
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
-msgstr ""
+msgstr "/náhledy\tVytvořit náhledy"
