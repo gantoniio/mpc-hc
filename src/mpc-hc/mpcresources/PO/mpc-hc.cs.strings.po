@@ -4561,7 +4561,7 @@ msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
 msgstr ""
-"/pevná velikost v,š[,x,y]\tNastavit pevnou velikost okna; volitelně zvolte "
+"/pevná velikost š,v[,x,y]\tNastavit pevnou velikost okna; volitelně zvolte "
 "levohorní pozici okna"
 
 msgctxt "IDS_CMD_MONITOR"
