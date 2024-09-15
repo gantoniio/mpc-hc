@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include "CMPCThemeResizableDialog.h"
+#include "CMPCThemeCmdUIDialog.h"
 #include "CMPCThemeComboBox.h"
 
 // CFavoriteAddDlg dialog
 
-class CFavoriteAddDlg : public CMPCThemeResizableDialog
+class CFavoriteAddDlg : public CMPCThemeCmdUIDialog
 {
 public:
     CFavoriteAddDlg(CString shortname, CString fullname, BOOL bEnableABMarks = FALSE, CWnd* pParent = nullptr);   // standard constructor
