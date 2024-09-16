@@ -80,12 +80,12 @@ void CMPCThemeStatic::OnPaint()
                 uFormat |= DT_LEFT;
             }
 
-            UINT maskStyle = (style & SS_ELLIPSISMASK);
-            if (maskStyle == SS_PATHELLIPSIS) {
+            UINT ellipsisStyle = (style & SS_ELLIPSISMASK);
+            if (ellipsisStyle == SS_PATHELLIPSIS) {
                 uFormat |= DT_PATH_ELLIPSIS;
-            } else if (maskStyle == SS_ENDELLIPSIS) {
+            } else if (ellipsisStyle == SS_ENDELLIPSIS) {
                 uFormat |= DT_END_ELLIPSIS;
-            } else if (maskStyle == SS_WORDELLIPSIS) {
+            } else if (ellipsisStyle == SS_WORDELLIPSIS) {
                 uFormat |= DT_WORD_ELLIPSIS;
             }
 
