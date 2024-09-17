@@ -49,7 +49,7 @@ public:
     CAnimateCtrl m_anim;
     CProgressCtrl m_progress;
     CMPCThemeStatic m_report;
-    CMPCThemeStatic m_fromto;
+    CMPCThemeStatic m_from, m_to;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

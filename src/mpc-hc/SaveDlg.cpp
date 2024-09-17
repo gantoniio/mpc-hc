@@ -47,7 +47,8 @@ void CSaveDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_ANIMATE1, m_anim);
     DDX_Control(pDX, IDC_PROGRESS1, m_progress);
     DDX_Control(pDX, IDC_REPORT, m_report);
-    DDX_Control(pDX, IDC_FROMTO, m_fromto);
+    DDX_Control(pDX, IDC_STATIC1, m_from);
+    DDX_Control(pDX, IDC_STATIC2, m_to);
     fulfillThemeReqs();
 }
 
@@ -69,17 +70,8 @@ BOOL CSaveDlg::OnInitDialog()
     m_anim.SendMessage(ACM_OPEN, (WPARAM)AfxGetInstanceHandle(), (LPARAM)IDR_AVI_FILECOPY);
     m_anim.Play(0, UINT(-1), UINT(-1));
 
-    CString str, in = m_in, out = m_out;
-#if 0
-    if (in.GetLength() > 60) {
-        in = in.Left(17) + _T("..") + in.Right(43);
-    }
-    if (out.GetLength() > 60) {
-        out = out.Left(17) + _T("..") + out.Right(43);
-    }
-#endif
-    str.Format(_T("%s\r\n%s"), in.GetString(), out.GetString());
-    m_fromto.SetWindowText(str);
+    m_from.SetWindowText(m_in);
+    m_to.SetWindowText(m_out);
 
     m_progress.SetRange(0, 100);
     CMPCThemeUtil::fulfillThemeReqs(&m_progress);
@@ -209,7 +201,8 @@ BOOL CSaveDlg::OnInitDialog()
     m_nIDTimerEvent = SetTimer(1, 500, nullptr);
 
     AddAnchor(IDC_PROGRESS1, TOP_LEFT, TOP_RIGHT);
-    AddAnchor(IDC_FROMTO, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_STATIC1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_STATIC2, TOP_LEFT, TOP_RIGHT);
     AddAnchor(IDCANCEL, BOTTOM_RIGHT);
 
     return TRUE;  // return TRUE unless you set the focus to a control
