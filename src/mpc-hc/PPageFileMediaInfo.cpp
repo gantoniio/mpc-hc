@@ -274,10 +274,7 @@ void CPPageFileMediaInfo::OnSaveAs()
 {
     CStringW fn = m_fn;
     if (PathUtils::IsURL(fn)) {
-        fn.TrimRight(_T('/'));
-        CPathW fp(fn);
-        fp.StripPath();
-        fn = (CStringW)fp;
+        fn = L"online_stream";
     }
     fn.Append(_T(".MediaInfo.txt"));
 
