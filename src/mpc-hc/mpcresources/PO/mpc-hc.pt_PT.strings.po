@@ -2832,7 +2832,7 @@ msgstr "Alternar barra de título e menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seekbar"
-msgstr "Alternar barra de pesquisa"
+msgstr "Alternar barra de busca"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
