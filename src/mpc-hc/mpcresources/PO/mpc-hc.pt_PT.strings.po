@@ -4691,8 +4691,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr ""
-"Altura de barra de pesquisa moderna (a 96dpi, caso contrário é escalado)"
+msgstr "Altura da barra de busca moderna (a 96dpi, caso contrário é escalado)"
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
