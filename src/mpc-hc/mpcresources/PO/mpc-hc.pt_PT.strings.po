@@ -3069,7 +3069,7 @@ msgstr "Acima da barra de pesquisa"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "Abaixo da barra de pesquisa"
+msgstr "Abaixo da barra de busca"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
