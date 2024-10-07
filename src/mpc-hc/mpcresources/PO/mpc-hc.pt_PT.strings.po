@@ -3065,7 +3065,7 @@ msgstr "Rotação do fotograma do vídeo X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
-msgstr "Acima da barra de pesquisa"
+msgstr "Acima da barra de busca"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
