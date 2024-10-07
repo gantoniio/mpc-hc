@@ -3121,7 +3121,7 @@ msgstr "Pré-visualização do vídeo"
 
 msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
 msgid "Seek Time"
-msgstr "Tempo de pesquisa"
+msgstr "Tempo de busca"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
