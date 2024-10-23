@@ -52,11 +52,13 @@ private:
     CAtlList<CString> m_displayModesString;
     size_t m_nCurrentDisplayModeIndex;
     CString m_CurrentDisplayModeString;
+    CStringW m_FullScreenSeparateControlsText;
 
     std::vector<AutoChangeMode> m_autoChangeFSModes;
     BOOL m_bAutoChangeFSModeEnabled;
     BOOL m_bAutoChangeFSModeApplyDefModeAtFSExist;
     BOOL m_bAutoChangeFSModeRestoreResAfterProgExit;
+    BOOL m_bFullScreenSeparateControls;
     unsigned m_uAutoChangeFullscrResDelay;
 
     CPlayerListCtrl m_list;
