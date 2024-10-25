@@ -216,7 +216,7 @@ void COSD::UpdateBitmap()
                 m_MFVAlphaBitmap.params.rcSrc     = m_rectWnd;
                 m_MFVAlphaBitmap.params.nrcDest   = { 0, 0, 1, 1 };
                 m_MFVAlphaBitmap.params.fAlpha    = 1.0;
-            }
+            } 
 
             m_MemDC.SetTextColor(m_colors[OSD_TEXT]);
             m_MemDC.SetBkMode(TRANSPARENT);
@@ -242,6 +242,8 @@ void COSD::Reset()
 
 void COSD::Start(CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB, CComPtr<IMFVideoMixerBitmap> pMFVMB, bool bShowSeekBar)
 {
+    ASSERT(m_OSDType == OSD_TYPE_NONE);
+
     m_pVMB         = pVMB;
     m_pMFVMB       = pMFVMB;
     m_pMVTO        = nullptr;
@@ -259,6 +261,9 @@ void COSD::Start(CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB, CComPtr<IMFVideoMix
 
 void COSD::Start(CWnd* pWnd, IMadVRTextOsd* pMVTO)
 {
+    ASSERT(m_OSDType == OSD_TYPE_NONE);
+
+    m_pVMB      = nullptr;
     m_pMFVMB    = nullptr;
     m_pMVTO     = pMVTO;
     m_pWnd      = pWnd;
@@ -269,6 +274,9 @@ void COSD::Start(CWnd* pWnd, IMadVRTextOsd* pMVTO)
 
 void COSD::Start(CWnd* pWnd)
 {
+    ASSERT(m_OSDType == OSD_TYPE_NONE);
+
+    m_pVMB      = nullptr;
     m_pMFVMB    = nullptr;
     m_pMVTO     = nullptr;
     m_pWnd      = pWnd;
@@ -293,9 +301,12 @@ void COSD::Stop()
 
     ClearMessage();
 
+    m_pVMB.Release();
     m_pMFVMB.Release();
     m_pMVTO.Release();
     m_pWnd = nullptr;
+
+    m_OSDType = OSD_TYPE_NONE;
 
     Reset();
 }
@@ -559,7 +570,8 @@ void COSD::InvalidateBitmapOSD()
     if (m_pVMB) {
         m_VMR9AlphaBitmap.dwFlags &= ~VMRBITMAP_DISABLE;
         m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
-    } else if (m_pMFVMB) {
+    }
+    if (m_pMFVMB) {
         m_pMFVMB->SetAlphaBitmap(&m_MFVAlphaBitmap);
     }
 
@@ -586,6 +598,22 @@ void COSD::EnableShowSeekBar(bool enabled) {
     m_bShowSeekBar = enabled;
 }
 
+void COSD::SetCursorName(LPCWSTR lpCursorName) {
+    if (m_pMainFrame->IsD3DFullScreenMode()) {
+        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(lpCursorName);
+    } else {
+        SetCursor(LoadCursorW(nullptr, lpCursorName));
+    }
+}
+
+void COSD::SetCursorArrow() {
+    SetCursorName(IDC_ARROW);
+}
+
+void COSD::SetCursorHand() {
+    SetCursorName(IDC_HAND);
+}
+
 bool COSD::OnMouseMove(UINT nFlags, CPoint point)
 {
     bool bRet = false;
@@ -598,22 +626,14 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
         } else if (m_bShowSeekBar && m_rectSeekBar.PtInRect(point)) {
             bRet = true;
             if (!m_bSeekBarVisible) {
-                if (m_pMainFrame->IsD3DFullScreenMode()) {
-                    m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_HAND);
-                } else {
-                    SetCursor(LoadCursorW(nullptr, IDC_HAND));
-                }
+                SetCursorHand();
                 m_bSeekBarVisible = true;
                 InvalidateBitmapOSD();
             }
         } else if (m_rectFlyBar.PtInRect(point)) {
             bRet = true;
             if (!m_bFlyBarVisible) {
-                if (m_pMainFrame->IsD3DFullScreenMode()) {
-                    m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_ARROW);
-                } else {
-                    SetCursor(LoadCursorW(nullptr, IDC_ARROW));
-                }
+                SetCursorArrow();
                 m_bFlyBarVisible = true;
                 InvalidateBitmapOSD();
             } else {
@@ -632,17 +652,9 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
                 }
 
                 if (m_rectCloseButton.PtInRect(point) || m_rectExitButton.PtInRect(point)) {
-                    if (m_pMainFrame->IsD3DFullScreenMode()) {
-                        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_HAND);
-                    } else {
-                        SetCursor(LoadCursorW(nullptr, IDC_HAND));
-                    }
+                    SetCursorHand();
                 } else {
-                    if (m_pMainFrame->IsD3DFullScreenMode()) {
-                        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_ARROW);
-                    } else {
-                        SetCursor(LoadCursorW(nullptr, IDC_ARROW));
-                    }
+                    SetCursorArrow();
                 }
             }
         } else if (m_bSeekBarVisible || m_bFlyBarVisible) {
@@ -655,11 +667,7 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
 
 void COSD::OnMouseLeave()
 {
-    if (m_pMainFrame->IsD3DFullScreenMode()) {
-        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_ARROW);
-    } else {
-        SetCursor(LoadCursorW(nullptr, IDC_ARROW));
-    }
+    SetCursorArrow();
 
     const bool bHideBars = (m_pMFVMB && (m_bSeekBarVisible || m_bFlyBarVisible));
 
@@ -763,14 +771,15 @@ void COSD::ClearMessage(bool hide)
         m_nMessagePos = OSD_NOMESSAGE;
     }
 
-    if (m_pVMB) {
-        m_VMR9AlphaBitmap.dwFlags |= VMRBITMAP_DISABLE;
-        m_pVMB->UpdateAlphaBitmapParameters(&m_VMR9AlphaBitmap);
+    if (m_pVMB || m_pMFVMB) {
+        if (m_pVMB) {
+            m_VMR9AlphaBitmap.dwFlags |= VMRBITMAP_DISABLE;
+            m_pVMB->UpdateAlphaBitmapParameters(&m_VMR9AlphaBitmap);
+        }
+        if (m_pMFVMB) {
+            m_pMFVMB->ClearAlphaBitmap();
+        }
         m_pMainFrame->RepaintVideo();
-    } else if (m_pMFVMB) {
-        m_pMFVMB->ClearAlphaBitmap();
-        DLog(L"IMFVideoMixerBitmap::ClearAlphaBitmap");
-        m_pMainFrame->RepaintVideo(); //???
     } else if (m_pMVTO) {
         m_pMVTO->OsdClearMessage();
     } else if (::IsWindow(m_hWnd) && IsWindowVisible()) {
@@ -891,15 +900,11 @@ void COSD::DebugMessage(LPCWSTR format, ...)
 
 void COSD::HideMessage(bool hide)
 {
-    if (m_pMFVMB) {
-        if (hide) {
-            ClearMessage(true);
-        } else {
-            InvalidateBitmapOSD();
-        }
+    if (hide) {
+        ClearMessage(true);
     } else {
-        if (hide) {
-            ClearMessage(true);
+        if (m_pMFVMB) {
+            InvalidateBitmapOSD();
         } else {
             if (!m_strMessage.IsEmpty()) {
                 SetWindowPos(m_pWndInsertAfter, 0, 0, 0, 0, m_nDEFFLAGS | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);

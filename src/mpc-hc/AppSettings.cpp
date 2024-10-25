@@ -203,7 +203,8 @@ CAppSettings::CAppSettings()
     , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
     , language(LANGID(-1))
     , fEnableSubtitles(true)
-    , fUseDefaultSubtitlesStyle(false)
+    , bSubtitleOverrideDefaultStyle(false)
+    , bSubtitleOverrideAllStyles(false)
     , iDefaultVideoSize(DVS_FROMINSIDE)
     , fKeepAspectRatio(true)
     , fCompMonDeskARDiff(false)
@@ -524,7 +525,7 @@ CAppSettings::CAppSettings()
     // Mouse
     nMouseLeftClick = ID_PLAY_PLAYPAUSE;
     nMouseLeftDblClick = ID_VIEW_FULLSCREEN;
-    nMouseRightClick = ID_MENU_PLAYER_LONG;
+    nMouseRightClick = ID_MENU_PLAYER_SHORT;
     MouseMiddleClick = { 0, 0, 0, 0 };
     MouseX1Click = { ID_NAVIGATE_SKIPBACK, 0, 0, 0 };
     MouseX2Click = { ID_NAVIGATE_SKIPFORWARD, 0, 0, 0 };
@@ -607,7 +608,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_VIEW_DEBUGSHADERS,                 0, 0,                 IDS_AG_TOGGLE_DEBUGSHADERS },
     { ID_PRESIZE_SHADERS_TOGGLE,          'P', FCONTROL,          IDS_PRESIZE_SHADERS_TOGGLE },
     { ID_POSTSIZE_SHADERS_TOGGLE,         'P', FCONTROL | FALT,   IDS_POSTSIZE_SHADERS_TOGGLE },
-    { ID_SUBTITLES_DEFAULT_STYLE,           0, 0,                 IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE },
+    { ID_SUBTITLES_OVERRIDE_DEFAULT_STYLE,  0, 0,                 IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE },
     { ID_VIEW_PRESETS_MINIMAL,            '1', 0,                 IDS_AG_VIEW_MINIMAL },
     { ID_VIEW_PRESETS_COMPACT,            '2', 0,                 IDS_AG_VIEW_COMPACT },
     { ID_VIEW_PRESETS_NORMAL,             '3', 0,                 IDS_AG_VIEW_NORMAL },
@@ -1031,7 +1032,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, fUseDefaultSubtitlesStyle);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_DEFAULT_STYLE, bSubtitleOverrideDefaultStyle);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_ALL_STYLES, bSubtitleOverrideAllStyles);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, fEnableAudioSwitcher);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, fAudioTimeShift);
@@ -1676,9 +1678,6 @@ void CAppSettings::LoadSettings()
     swscanf_s(str, L"%u", &nMouseLeftDblClick);
     str = pApp->GetProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_RIGHT);
     swscanf_s(str, L"%u", &nMouseRightClick);
-    if (nMouseRightClick != ID_MENU_PLAYER_SHORT && nMouseRightClick != ID_MENU_PLAYER_LONG) {
-        nMouseRightClick = ID_MENU_PLAYER_LONG;
-    }
 
     str = pApp->GetProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_MIDDLE);
     swscanf_s(str, L"%u;%u;%u;%u", &MouseMiddleClick.normal, &MouseMiddleClick.ctrl, &MouseMiddleClick.shift, &MouseMiddleClick.rbtn);
@@ -1873,7 +1872,9 @@ void CAppSettings::LoadSettings()
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
-    fUseDefaultSubtitlesStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
+    bSubtitleOverrideDefaultStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_DEFAULT_STYLE, FALSE);
+    bSubtitleOverrideAllStyles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_ALL_STYLES, FALSE);
+
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
     fDownSampleTo441 = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
     fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, FALSE);
@@ -3852,7 +3853,8 @@ SubRendererSettings GetSubRendererSettings() {
     const auto& s = AfxGetAppSettings();
     SubRendererSettings srs;
     srs.defaultStyle = s.subtitlesDefStyle;
-    srs.overrideDefaultStyle = s.fUseDefaultSubtitlesStyle;
+    srs.overrideDefaultStyle = s.bSubtitleOverrideDefaultStyle || s.bSubtitleOverrideAllStyles;
+    srs.overrideAllStyles = s.bSubtitleOverrideAllStyles;
 #if USE_LIBASS
     srs.renderSSAUsingLibass = s.bRenderSSAUsingLibass;
     srs.renderSRTUsingLibass = s.bRenderSRTUsingLibass;

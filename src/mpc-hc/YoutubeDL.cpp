@@ -27,15 +27,17 @@ struct CUtf16JSON {
     rapidjson::GenericDocument<rapidjson::UTF16<>> d;
 };
 
-CString GetYDLExePath() {
+CString GetYDLExePath(bool* is_ytdlp) {
     auto& s = AfxGetAppSettings();
     CString ydlpath;
+    *is_ytdlp = true;
     if (s.sYDLExePath.IsEmpty()) {
         CString appdir = PathUtils::GetProgramPath(false);
         if (CPath(appdir + _T("\\yt-dlp.exe")).FileExists()) {
             ydlpath = _T("yt-dlp.exe");
         } else if (CPath(appdir + _T("\\youtube-dl.exe")).FileExists()) {
             ydlpath = _T("youtube-dl.exe");
+            *is_ytdlp = false;
         } else {
             ydlpath = _T("yt-dlp.exe");
         }
@@ -48,6 +50,9 @@ CString GetYDLExePath() {
             if (req > 0 && req < MAX_PATH) {
                 ydlpath = CString(expanded_buf);
             }
+        }
+        if (ydlpath.MakeLower().Find(_T("youtube-dl")) >= 0) {
+            *is_ytdlp = false;
         }
     }
     return ydlpath;
@@ -83,7 +88,8 @@ bool CYoutubeDLInstance::Run(CString url)
 
     YDL_LOG(url);
 
-    CString args = _T("\"") + GetYDLExePath() + _T("\" -J --no-warnings");
+    bool ytdlp = true;
+    CString args = _T("\"") + GetYDLExePath(&ytdlp) + _T("\" -J --no-warnings");
     if (!s.sYDLSubsPreference.IsEmpty()) {
         args.Append(_T(" --all-subs --write-sub"));
         if (s.bUseAutomaticCaptions) args.Append(_T(" --write-auto-sub"));
@@ -92,9 +98,11 @@ bool CYoutubeDLInstance::Run(CString url)
         args.Append(_T(" --ignore-errors --no-playlist"));
     }
     args.Append(_T(" \"") + url + _T("\""));
-    WCHAR lpszTempPath[MAX_PATH] = { 0 };
-    if (GetTempPathW(MAX_PATH, lpszTempPath)) {
-        args.AppendFormat(_T(" -P temp:\"%s\""), lpszTempPath);
+    if (ytdlp) {
+        WCHAR lpszTempPath[MAX_PATH] = { 0 };
+        if (GetTempPathW(MAX_PATH, lpszTempPath)) {
+            args.AppendFormat(_T(" -P temp:\"%s\""), lpszTempPath);
+        }
     }
 
     ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
@@ -257,21 +265,21 @@ DWORD WINAPI CYoutubeDLInstance::BuffErrThread(void* ydl_inst)
 struct YDLStreamDetails {
     CString protocol;
     CString url;
-    int width;
-    int height;
+    int width  = 0;
+    int height = 0;
     CString vcodec;
     CString acodec;
     CString format;
-    bool has_video;
-    bool has_audio;
-    int vbr;
-    int abr;
-    int fps;
+    bool has_video = false;
+    bool has_audio = false;
+    int vbr = 0;
+    int abr = 0;
+    int fps = 0;
     CString format_id;
     CString language;
-    bool pref_lang;
-    int video_score;
-    int audio_score;
+    bool pref_lang  = false;
+    int video_score = 0;
+    int audio_score = 0;
     CString useragent;
 };
 

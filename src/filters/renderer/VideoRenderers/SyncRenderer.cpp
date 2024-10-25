@@ -64,9 +64,6 @@
 #define GRAPH_HEIGHT    360
 #define GRAPH_WIDTH     1000
 
-// only for debugging
-//#define DISABLE_USING_D3D9EX
-
 using namespace GothSync;
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
@@ -178,19 +175,8 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-#ifndef DISABLE_USING_D3D9EX
     Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-    if (!m_pD3DEx) {
-        Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-    }
-#endif
-
-    if (!m_pD3DEx) {
-        m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-        if (!m_pD3D) {
-            m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
-        }
-    } else {
+    if (m_pD3DEx) {
         m_pD3D = m_pD3DEx;
     }
 
@@ -2536,13 +2522,6 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
         if (FAILED(hr)) {
             _Error += L"m_pD3DManager->ResetDevice failed\n";
-        }
-        CComPtr<IDirectXVideoDecoderService> pDecoderService;
-        HANDLE hDevice;
-        if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-                SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-            HookDirectXVideoDecoderService(pDecoderService);
-            m_pD3DManager->CloseDeviceHandle(hDevice);
         }
     } else {
         _Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";

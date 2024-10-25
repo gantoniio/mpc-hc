@@ -780,9 +780,9 @@ msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
 msgstr "Favoriten hinzufügen"
 
-msgctxt "IDD_FAVADD_IDC_STATIC"
+msgctxt "IDD_FAVADD_IDC_STATIC1"
 msgid "Choose a name for your shortcut:"
-msgstr "Name des Favoriten:"
+msgstr ""
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -860,13 +860,13 @@ msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
 msgstr "OK"
 
-msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC2"
 msgid "Pos: 0.0 -> 1.0"
-msgstr "Pos.: 0.0 -> 1.0"
+msgstr ""
 
-msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC3"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr "Zoom: 0.2 -> 3.0"
+msgstr ""
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
@@ -1148,13 +1148,13 @@ msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
 msgstr "Extern:"
 
-msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
-msgid "Browse..."
-msgstr "&Öffnen..."
-
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
 msgstr "Übernehme Bildschirm-Farbprofil"
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "&Öffnen..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1913,21 +1913,29 @@ msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
 msgstr "Höhe der modernen Zeitleiste:"
 
-msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
-msgid "Hover:"
-msgstr "Hover:"
+msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
+msgid "Show chapter marks on seekbar"
+msgstr "Kapitelmarkierungen in der Suchleiste anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
-msgid "Hover type:"
-msgstr "Hover-Typ:"
+msgid "Seekbar Hover"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
+msgid "Hover Position:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
+msgid "Show video preview"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK14"
+msgid "Show time"
+msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
 msgstr "Breite der Vorschau (% des Bildschirms)"
-
-msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
-msgid "Show chapter marks on seekbar"
-msgstr "Kapitelmarkierungen in der Suchleiste anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
@@ -1953,14 +1961,6 @@ msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
 msgid "A-B Marks"
 msgstr "A-B Markierungen"
 
-msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
-msgid "Language"
-msgstr "Sprache"
-
-msgctxt "IDD_PPAGETHEME_IDC_STATIC5"
-msgid "Language:"
-msgstr "Sprache:"
-
 msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
 msgid "On Screen Display (OSD)"
 msgstr "Bildschirmanzeige (OSD)"
@@ -1978,8 +1978,8 @@ msgid "Font size:"
 msgstr "Schriftgröße:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
-msgid "Display Current T&ime"
-msgstr "Aktuelle Uhrzei&t anzeigen"
+msgid "Display Current Time"
+msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
@@ -2008,6 +2008,14 @@ msgstr "Erweiterte Funktionen der Taskleiste verwenden"
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
 msgstr "Steuerung über Windows UI (SMTC)"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC5"
+msgid "Language:"
+msgstr "Sprache:"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"

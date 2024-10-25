@@ -882,30 +882,6 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 continue;
             }
 
-            auto hookDirectXVideoDecoderService = [](CComQIPtr<IMFGetService> pMFGS) {
-                CComPtr<IDirectXVideoDecoderService> pDecoderService;
-                CComPtr<IDirect3DDeviceManager9>     pDeviceManager;
-                HANDLE                               hDevice = INVALID_HANDLE_VALUE;
-
-                if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_ACCELERATION_SERVICE, IID_PPV_ARGS(&pDeviceManager)))
-                    && SUCCEEDED(pDeviceManager->OpenDeviceHandle(&hDevice))
-                    && SUCCEEDED(pDeviceManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-                    HookDirectXVideoDecoderService(pDecoderService);
-                    pDeviceManager->CloseDeviceHandle(hDevice);
-                }
-                pDeviceManager.Release();
-                pDecoderService.Release();
-            };
-
-            if (!m_bIsPreview && !pMadVRAllocatorPresenter) {
-                if (CComQIPtr<IMFGetService> pMFGS = pBF) {
-                    // hook IDirectXVideoDecoderService to get DXVA status & logging;
-                    // why before ConnectFilterDirect() - some decoder, like ArcSoft & Cyberlink, init DXVA2 decoder while connect to the renderer ...
-                    // madVR crash on call ::GetService() before connect
-                    hookDirectXVideoDecoderService(pMFGS);
-                }
-            }
-
             hr = ConnectFilterDirect(pPinOut, pBF, nullptr);
             /*
             if (FAILED(hr))
@@ -981,16 +957,6 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
                         if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_MIXER_SERVICE, IID_PPV_ARGS(&pMFVP)))) {
                             m_pUnks.AddTail(pMFVP);
-                        }
-
-                        //CComPtr<IMFWorkQueueServices> pMFWQS;
-                        //pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_PPV_ARGS(&pMFWQS));
-                        //pMFWQS->BeginRegisterPlatformWorkQueueWithMMCSS(
-
-                        if (!m_bIsPreview && pMadVRAllocatorPresenter) {
-                            // hook IDirectXVideoDecoderService to get DXVA status & logging;
-                            // madVR crash on call ::GetService() before connect - so set Hook after ConnectFilterDirect()
-                            hookDirectXVideoDecoderService(pMFGS);
                         }
                     }
 
@@ -2475,6 +2441,9 @@ void CFGManagerCustom::InsertBlockedFilters()
 
     // mainconcept color space converter
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{272D77A0-A852-4851-ADA4-9091FEAD4C86}")), MERIT64_DO_NOT_USE));
+
+    // mainconcept mp4 demuxer
+    m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{2A55FF12-1657-41D7-9D2D-A2CDC6978FF2}")), MERIT64_DO_NOT_USE));
 
     // Accusoft PICVideo M-JPEG Codec
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{4C4CD9E1-F876-11D2-962F-00500471FDDC}")), MERIT64_DO_NOT_USE));

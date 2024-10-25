@@ -424,9 +424,9 @@ public:
 #define APPSETTINGS_VERSION 8
 
 struct DVD_POSITION {
-    ULONGLONG           llDVDGuid;
-    ULONG               lTitle;
-    DVD_HMSF_TIMECODE   timecode;
+    ULONGLONG           llDVDGuid = 0;
+    ULONG               lTitle    = 0;
+    DVD_HMSF_TIMECODE   timecode  = { 0 };
 };
 
 struct ABRepeat {
@@ -861,7 +861,8 @@ public:
     LANGID          language;
     // Subtitles menu
     bool            fEnableSubtitles;
-    bool            fUseDefaultSubtitlesStyle;
+    bool            bSubtitleOverrideDefaultStyle;
+    bool            bSubtitleOverrideAllStyles;
     // Video Frame
     int             iDefaultVideoSize;
     bool            fKeepAspectRatio;

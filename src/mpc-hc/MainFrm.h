@@ -41,7 +41,6 @@
 #include "PlayerPreView.h"
 #include "PlayerToolBar.h"
 #include "SubtitleDlDlg.h"
-#include "SubtitleUpDlg.h"
 #include "TimerWrappers.h"
 #include "OSD.h"
 #include "CMPCThemeMenu.h"
@@ -53,6 +52,7 @@
 #include "../filters/transform/VSFilter/IDirectVobSub.h"
 #include "MediaTransControls.h"
 #include "FavoriteOrganizeDlg.h"
+#include "AllocatorCommon.h"
 
 class CDebugShadersDlg;
 class CFullscreenWnd;
@@ -301,6 +301,9 @@ private:
     CComPtr<IMadVRCommand> m_pMVRC;
     CComPtr<IMadVRInfo> m_pMVRI;
     CComPtr<IMadVRFrameGrabber> m_pMVRFG;
+    CComPtr<IMadVRTextOsd> m_pMVTO;
+
+    CComPtr<ID3DFullscreenControl> m_pD3DFSC;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;
@@ -393,6 +396,7 @@ private:
     void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
     void OnStreamSelect(bool forward, DWORD dwSelGroup);
     static CString GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup);
+
     void CreateOSDBar();
     bool OSDBarSetPos();
     void DestroyOSDBar();
@@ -455,6 +459,8 @@ private:
     bool m_fLiveWM;
 
     bool delayingFullScreen;
+
+    bool m_bIsMPCVRExclusiveMode = false;
 
     void SendStatusMessage(CString msg, int nTimeOut);
     CString m_tempstatus_msg, m_closingmsg;
@@ -547,6 +553,8 @@ public:
     bool IsInteractiveVideo() const;
     bool IsFullScreenMode() const;
     bool IsFullScreenMainFrame() const;
+    bool IsFullScreenMainFrameExclusiveMPCVR() const;
+    bool IsFullScreenSeparate() const;
     bool HasDedicatedFSVideoWindow() const;
     bool IsD3DFullScreenMode() const;
     bool IsSubresyncBarVisible() const;
@@ -567,6 +575,7 @@ protected:
 
     DVD_DOMAIN  m_iDVDDomain;
     DWORD       m_iDVDTitle;
+    bool        m_bDVDStillOn;
     int         m_loadedAudioTrackIndex = -1;
     int         m_loadedSubtitleTrackIndex = -1;
     int         m_audioTrackCount = 0;
@@ -630,8 +639,6 @@ protected:
 protected:
     friend class CSubtitleDlDlg;
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
-    //friend class CSubtitleUpDlg;
-    //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
     CFavoriteOrganizeDlg m_wndFavoriteOrganizeDialog;
     friend class CPPageSubMisc;
 
@@ -650,7 +657,7 @@ public:
     bool ResetDevice();
     bool DisplayChange();
     void CloseMediaBeforeOpen();
-    void CloseMedia(bool bNextIsQueued = false);
+    void CloseMedia(bool bNextIsQueued = false, bool bPendingFileDelete = false);
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
     HRESULT SetChannel(int nChannel);
@@ -1181,9 +1188,11 @@ public:
     afx_msg void OnHelpDonate();
 
     afx_msg void OnClose();
+
     bool FilterSettingsByClassID(CLSID clsid, CWnd* parent);
     void FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent);
 
+    LRESULT OnMPCVRSwitchFullscreen(WPARAM wParam, LPARAM lParam);
 
     CMPC_Lcd m_Lcd;
 
