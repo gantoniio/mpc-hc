@@ -6052,6 +6052,8 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         CRenderedTextSubtitle rts(&csSubLock);
         rts.m_SubRendererSettings.renderSSAUsingLibass = false;
+        rts.m_SubRendererSettings.overrideDefaultStyle = false;
+        rts.m_SubRendererSettings.overrideAllStyles = false;
         rts.CreateDefaultStyle(0);
         rts.m_storageRes = rts.m_playRes = CSize(width, height);
         STSStyle* style = DEBUG_NEW STSStyle();
