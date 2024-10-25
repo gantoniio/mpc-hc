@@ -48,6 +48,7 @@ CPPageFullscreen::CPPageFullscreen()
     , m_uAutoChangeFullscrResDelay(0)
     , m_list(0)
 {
+    m_FullScreenSeparateControlsText = CStringW(StrRes(IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS));
 }
 
 CPPageFullscreen::~CPPageFullscreen()
@@ -196,6 +197,7 @@ void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_RESTORERESCHECK, m_bAutoChangeFSModeRestoreResAfterProgExit);
     DDX_Text(pDX, IDC_EDIT2, m_uAutoChangeFullscrResDelay);
     DDX_Control(pDX, IDC_SPIN1, m_delaySpinner);
+    DDX_Check(pDX, IDC_CHECK7, m_bFullScreenSeparateControls);
 }
 
 BEGIN_MESSAGE_MAP(CPPageFullscreen, CMPCThemePPageBase)
@@ -334,6 +336,8 @@ BOOL CPPageFullscreen::OnInitDialog()
 
     m_delaySpinner.SetRange32(0, 9);
 
+    m_bFullScreenSeparateControls = s.bFullscreenSeparateControls;
+
     CorrectComboListWidth(m_fullScreenMonitorCtrl);
     CorrectComboListWidth(m_hidePolicy);
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK2));
@@ -403,6 +407,8 @@ BOOL CPPageFullscreen::OnApply()
         }
     }
     s.autoChangeFSMode.modes = m_autoChangeFSModes;
+
+    s.bFullscreenSeparateControls = m_bFullScreenSeparateControls;
 
     // There is no main frame when the option dialog is displayed stand-alone
     if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
@@ -736,6 +742,10 @@ BOOL CPPageFullscreen::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
     switch (nID) {
         case IDC_COMBO2:
             bRet = FillComboToolTip(m_hidePolicy, pTTT);
+            break;
+        case IDC_CHECK7:
+            bRet = true;
+            pTTT->lpszText = (LPTSTR)(LPCTSTR)m_FullScreenSeparateControlsText;
             break;
     }
 
