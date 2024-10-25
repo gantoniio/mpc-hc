@@ -2639,10 +2639,10 @@ msgstr "文件大小: %s (%s 字节)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}文件名: %s\\N%s分辨率: %dx%d "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}文件名: %s\\N%s分辨率: %dx%d "
 "%s\\N持续时间: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"

@@ -2648,10 +2648,10 @@ msgstr "파일 크기 : %s (%s 바이트)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}파일 이름 : %s\\N%s해상도 : %dx%d "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}파일 이름 : %s\\N%s해상도 : %dx%d "
 "%s\\N기간 : %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"

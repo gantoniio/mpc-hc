@@ -2728,10 +2728,10 @@ msgstr "Veľkosť súboru: %s (%s bytov)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Názov súboru: %s\\N%sRozlíšenie:"
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Názov súboru: %s\\N%sRozlíšenie:"
 " %dx%d %s\\NTrvanie: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"

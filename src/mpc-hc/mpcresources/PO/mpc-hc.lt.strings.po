@@ -2684,10 +2684,10 @@ msgstr "Failo dydis: %s (%s baitų)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Failo vardas: %s\\N%sSkiriamoji "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Failo vardas: %s\\N%sSkiriamoji "
 "geba: %dx%d %s\\NTrukmė: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"

@@ -2736,10 +2736,10 @@ msgstr "Μέγεθος αρχείου: %s (%s bytes)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Όνομα αρχείου: %s\\N%sΑνάλυση: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Όνομα αρχείου: %s\\N%sΑνάλυση: "
 "%dx%d %s\\NΔιάρκεια: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"

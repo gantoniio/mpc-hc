@@ -5924,8 +5924,10 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     int rows = std::clamp(s.iThumbRows, 1, 40);
 
     const int margin = 5;
-    const int infoheight = 70;
     int width = std::clamp(s.iThumbWidth, 256, 3840);
+    float fontscale = width / 1280.0;
+    int fontsize = fontscale * 16;
+    const int infoheight = 4 * fontsize + 6 + 2 * margin;
     int height = width * szVideoARCorrected.cy / szVideoARCorrected.cx * rows / cols + infoheight;
 
     int dibsize = sizeof(BITMAPINFOHEADER) + width * height * 4;
@@ -6057,6 +6059,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         rts.CreateDefaultStyle(0);
         rts.m_storageRes = rts.m_playRes = CSize(width, height);
         STSStyle* style = DEBUG_NEW STSStyle();
+        style->fontName = L"Calibri";
         style->marginRect.SetRectEmpty();
         rts.AddStyle(_T("thumbs"), style);
 
@@ -6067,8 +6070,8 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
                 r.left, r.top, r.right, r.top, r.right, r.bottom, r.left, r.bottom);
             rts.Add(str, true, MS2RT(0), MS2RT(1), _T("thumbs")); // Thumbnail background
         }
-        str.Format(L"{\\an3\\1c&Hffffff&\\3c&H000000&\\alpha&H80&\\fs16\\b1\\bord2\\shad0\\pos(%d,%d)}%02u:%02u:%02u",
-                   r.right - 5, r.bottom - 3, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+        str.Format(L"{\\an3\\1c&Hffffff&\\3c&H000000&\\alpha&H80&\\fs%d\\b1\\bord2\\shad0\\pos(%d,%d)}%02u:%02u:%02u",
+                   fontsize, r.right - 5, r.bottom - 3, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, MS2RT(1), MS2RT(2), _T("thumbs")); // Thumbnail time
 
         rts.Render(spd, 0, 25, bbox); // Draw the thumbnail background/time
@@ -6123,6 +6126,8 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     {
         CRenderedTextSubtitle rts(&csSubLock);
         rts.m_SubRendererSettings.renderSSAUsingLibass = false;
+        rts.m_SubRendererSettings.overrideDefaultStyle = false;
+        rts.m_SubRendererSettings.overrideAllStyles = false;
         rts.CreateDefaultStyle(0);
         rts.m_storageRes = rts.m_playRes = CSize(width, height);
         STSStyle* style = DEBUG_NEW STSStyle();
@@ -6138,17 +6143,15 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         rts.AddStyle(_T("thumbs"), style);
 
         CStringW str;
-        str.Format(L"{\\an9\\fs%d\\b1\\bord0\\shad0\\1c&Hffffff&}%s", infoheight - 10, L"MPC-HC");
+        str.Format(L"{\\an9\\fs%d\\b1\\bord0\\shad0\\1c&Hffffff&}%s", infoheight - 2 * margin, L"MPC-HC");
         if (darktheme) {
             str.Replace(L"\\1c&Hffffff", L"\\1c&Hc8c8c8");
         }
-
         rts.Add(str, true, 0, 1, _T("thumbs"), _T(""), _T(""), CRect(0, 0, 0, 0), -1);
 
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rtDur);
 
         CString title;
-
         CPlaylistItem pli;
         if (m_wndPlaylistBar.GetCur(pli, true) && pli.m_bYoutubeDL && pli.m_label && !pli.m_label.IsEmpty()) {
             title = pli.m_label;
@@ -6183,7 +6186,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         if (darktheme) {
             fmt.Replace(L"\\1c&H000000", L"\\1c&Hc8c8c8");
         }
-        str.Format(fmt,
+        str.Format(fmt, fontsize,
                    title.GetString(), fs.GetString(), szVideo.cx, szVideo.cy, ar.GetString(), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, 0, 1, _T("thumbs"));
 

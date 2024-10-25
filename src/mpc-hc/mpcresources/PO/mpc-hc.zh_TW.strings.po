@@ -2627,10 +2627,10 @@ msgstr "檔案大小：%s（%s 位元組）\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}檔案名稱：%s\\N%s解析度：%dx%d "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}檔案名稱：%s\\N%s解析度：%dx%d "
 "%s\\N時間長度：%02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
