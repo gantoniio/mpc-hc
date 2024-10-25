@@ -1992,8 +1992,8 @@ msgid "Font size:"
 msgstr "Taille de police:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
-msgid "Display Current T&ime"
-msgstr "Afficher l'&indicateur de temps"
+msgid "Display Current Time"
+msgstr "Afficher l'indicateur de temps"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"

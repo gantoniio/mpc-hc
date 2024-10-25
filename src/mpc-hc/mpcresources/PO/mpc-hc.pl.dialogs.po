@@ -1932,10 +1932,6 @@ msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
 msgstr "Szerokość podglądu (% ekranu)"
 
-msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
-msgid "Show chapter marks on seekbar"
-msgstr "Znaczniki rozdziałów na pasku przewijania"
-
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
 msgstr "Elementy paska stanu"
