@@ -4594,7 +4594,7 @@ msgstr "/ab_start hh:mm:ss \tA-B powtórz pozycję początkową"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr "/ab_start hh:mm:ss \tA-B powtórz pozycję początkową"
+msgstr "/ab_end hh:mm:ss\tA-B powtórz pozycję końcową"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
