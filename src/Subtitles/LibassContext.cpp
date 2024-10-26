@@ -688,7 +688,7 @@ void LibassContext::StylesChanged() {
     hasStyleOverrides = styles_overrides.size() > 0;
 
     bool need_override = hasStyleOverrides || m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle || m_STS->m_SubRendererSettings.overrideAllStyles || m_bOverrideDefaultStyleActive && !m_bOverrideAllStylesActive;
-    bool need_reload = !need_override && (m_bOverrideDefaultStyleActive || m_bOverrideAllStylesActive) || m_bOverrideAllStylesActive && !m_STS->m_SubRendererSettings.overrideAllStyles || hadStyleOverrides;
+    bool need_reload = !need_override && (m_bOverrideDefaultStyleActive || m_bOverrideAllStylesActive || hadStyleOverrides) || m_bOverrideAllStylesActive && !m_STS->m_SubRendererSettings.overrideAllStyles;
 
     if (need_reload) {
         m_bOverrideDefaultStyleActive = false;
