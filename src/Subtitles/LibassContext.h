@@ -142,4 +142,6 @@ protected:
     bool curTimeInitialized;
     bool m_bOverrideDefaultStyleActive = false;
     bool m_bOverrideAllStylesActive = false;
+    CSTSStyleMap origStyles;
+    bool hasStyleOverrides;
 };

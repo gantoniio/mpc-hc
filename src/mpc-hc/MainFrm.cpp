@@ -9843,15 +9843,23 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     if (dlg.DoModal() == IDOK) {
                         {
                             CAutoLock cAutoLock(&m_csSubLock);
+                            bool defaultStyleChanged = false, otherStyleChanged = false;
 
                             for (size_t l = 0; l < pages.GetCount(); l++) {
+                                STSStyle tmpStyle = *styles[l];
                                 pages[l]->GetStyle(*styles[l]);
                                 if (pages[l]->GetStyleName() == L"Default") {
                                     if (*styles[l] != s.subtitlesDefStyle) {
                                         pRTS->m_bUsingPlayerDefaultStyle = false;
                                         pRTS->SetDefaultStyle(*styles[l]);
+                                        defaultStyleChanged = true;
                                     }
+                                } else if (tmpStyle != *styles[l]) {
+                                    otherStyleChanged = true;
                                 }
+                            }
+                            if (otherStyleChanged && !defaultStyleChanged) {
+                                pRTS->SetStyleChanged();
                             }
                             pRTS->Deinit();
                         }
