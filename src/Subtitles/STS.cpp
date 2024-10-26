@@ -2788,7 +2788,7 @@ bool CSimpleTextSubtitle::SetDefaultStyle(const STSStyle& s)
 void CSimpleTextSubtitle::SetStyleChanged() {
 #if USE_LIBASS
     if (m_LibassContext.IsLibassActive()) {
-        m_LibassContext.DefaultStyleChanged();
+        m_LibassContext.StylesChanged();
     }
 #endif
 }

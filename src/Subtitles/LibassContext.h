@@ -117,7 +117,7 @@ public:
     void Unload();
     void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
     void LoadTrackData(ASS_Track* track, char* data, int size);
-    void DefaultStyleChanged();
+    void StylesChanged();
     void LoadASSFont();
     CRect GetSPDRect(SubPicDesc& spd);
     POSITION GetStartPosition(REFERENCE_TIME rt, double fps);

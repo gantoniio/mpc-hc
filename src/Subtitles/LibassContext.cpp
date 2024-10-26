@@ -668,7 +668,7 @@ static void detect_style_changes(STSStyle* before, STSStyle* after, const wchar_
     }
 }
 
-void LibassContext::DefaultStyleChanged() {
+void LibassContext::StylesChanged() {
     if (!m_assloaded) {
         ASSERT(false);
         return;
