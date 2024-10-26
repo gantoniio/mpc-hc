@@ -777,7 +777,7 @@ msgstr "Dodaj do ulubionych"
 
 msgctxt "IDD_FAVADD_IDC_STATIC1"
 msgid "Choose a name for your shortcut:"
-msgstr "Wprowadź nazwę dla Twojego skrótu"
+msgstr "Wprowadź nazwę dla Twojego skrótu:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
