@@ -4583,7 +4583,7 @@ msgstr "/ab_start hh:mm:ss\tPozícia začiatku opakovania A-B"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr "/ab_end hh:mm:ss\tpozícia konca opakovania A-B"
+msgstr "/ab_end hh:mm:ss\tPozícia konca opakovania A-B"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
