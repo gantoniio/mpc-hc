@@ -2743,7 +2743,7 @@ msgid ""
 "{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Dosya Adı:  %s\\N%sÇözünürlük: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Dosya Adı: %s\\N%sÇözünürlük: "
 "%dx%d %s\\NSüre: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
