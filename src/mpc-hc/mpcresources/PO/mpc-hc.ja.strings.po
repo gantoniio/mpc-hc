@@ -69,11 +69,11 @@ msgstr "ファイル"
 
 msgctxt "IDS_SUB_OVERRIDE_DEFAULT_STYLE"
 msgid "Override Default Style"
-msgstr ""
+msgstr "既定のスタイルの上書き"
 
 msgctxt "IDS_SUB_OVERRIDE_ALL_STYLES"
 msgid "Override All Styles"
-msgstr ""
+msgstr "すべてのスタイルの上書き"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -696,6 +696,9 @@ msgid ""
 "Use three letter ISO 639-2 languages codes.\n"
 "For example: eng spa ger fre rus pob jpn chi"
 msgstr ""
+"ここに優先言語を入力してください。\n"
+"3 文字の ISO 639-2 言語コードを使用します。\n"
+"例: eng spa ger fre rus pob jpn chi"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1382,7 +1385,7 @@ msgstr "再読み込み(&R)"
 
 msgctxt "IDS_SUBTITLES_HIDE"
 msgid "&Hide Subtitles"
-msgstr ""
+msgstr "字幕を隠す(&H)"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -4482,11 +4485,11 @@ msgstr "/startpos hh:mm:ss\thh:mm:ss の位置から再生を開始する"
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
-msgstr ""
+msgstr "/ab_start hh:mm:ss\tA-B リピートの開始位置"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr ""
+msgstr "/ab_end hh:mm:ss\tA-B リピートの終了位置"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
@@ -4574,7 +4577,7 @@ msgstr "続行(&C)"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Override Default Style"
-msgstr ""
+msgstr "既定のスタイルの上書き 切り替え"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
@@ -4665,13 +4668,13 @@ msgstr "シークバーをドラッグしている間は再生を一時停止し
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
-msgstr ""
+msgstr "ファイルを削除する前に確認のプロンプトを表示します"
 
 msgctxt "IDS_PPAGEADVANCED_LIBASS_FOR_SRT"
 msgid ""
 "Use libass (instead of standard renderer) for SRT subtitles. NOT "
 "recommended."
-msgstr ""
+msgstr "SRT 字幕には (標準のレンダラーの代わりに) libass を使用します。お勧めしません。"
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-03-28 16:29:05+0000\n"
+"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2024\n"
 "Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
@@ -70,11 +70,11 @@ msgstr "Dosya"
 
 msgctxt "IDS_SUB_OVERRIDE_DEFAULT_STYLE"
 msgid "Override Default Style"
-msgstr ""
+msgstr "Olağan Biçemi Geçersiz Kıl"
 
 msgctxt "IDS_SUB_OVERRIDE_ALL_STYLES"
 msgid "Override All Styles"
-msgstr ""
+msgstr "Tüm Biçemleri Geçersiz Kıl"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -705,6 +705,8 @@ msgid ""
 "Use three letter ISO 639-2 languages codes.\n"
 "For example: eng spa ger fre rus pob jpn chi"
 msgstr ""
+"Tercih ettiğiniz dilleri buraya giriniz. Üç harfli ISO 639-2 dil kodlarını "
+"kullanın. Örneğin: tur eng jpn spa ger fre rus pob"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -748,7 +750,7 @@ msgstr "Oynatıcı::Tuşlar"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
-msgstr ""
+msgstr "Oynatıcı::Fare"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -1085,7 +1087,7 @@ msgstr "Dosya konumunu aç"
 
 msgctxt "IDS_AG_OPENDIRECTORY"
 msgid "Open Directory"
-msgstr ""
+msgstr "Dizin aç"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1326,11 +1328,11 @@ msgstr ""
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr ""
+msgstr "Karışık oynatımı Aç/Kapat"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
-msgstr ""
+msgstr "Ses gecikmesini Aç/Kapat"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -1438,7 +1440,7 @@ msgstr "&Yeniden yükle"
 
 msgctxt "IDS_SUBTITLES_HIDE"
 msgid "&Hide Subtitles"
-msgstr ""
+msgstr "Altyazıları Gizle"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -3365,7 +3367,7 @@ msgstr "Indeo Video Biçimi"
 
 msgctxt "IDS_MFMT_AVS"
 msgid "AviSynth Script"
-msgstr ""
+msgstr "AviSynth Script"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -4594,17 +4596,19 @@ msgstr "/startpos sa:da:sn\tYürütmeyi sa:da:sn'den başlat"
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
-msgstr ""
+msgstr "/ab_start hh:mm:ss\tA-B tekrarı başlangıç konumu"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr ""
+msgstr "/ab_end hh:mm:ss\tA-B tekrarı bitiş konumu"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
 msgstr ""
+"/fixedsize w,h[,x,y]\tSabit bir pencere boyutu ayarlar; isteğe bağlı olarak "
+"sol üst pencere konumunu belirleyebilirsiniz"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
@@ -4644,43 +4648,43 @@ msgstr "Tamam"
 
 msgctxt "IDS_MOUSE_CLICK_MIDDLE"
 msgid "Middle click"
-msgstr ""
+msgstr "Orta tıklama"
 
 msgctxt "IDS_MOUSE_CLICK_X1"
 msgid "X1 click"
-msgstr ""
+msgstr "4'üncü düğme"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
-msgstr ""
+msgstr "5'inci düğme"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
-msgstr ""
+msgstr "Tekerlek Yukarı"
 
 msgctxt "IDS_MOUSE_WHEEL_DOWN"
 msgid "Wheel Down"
-msgstr ""
+msgstr "Tekerlek Aşağı"
 
 msgctxt "IDS_MOUSE_WHEEL_LEFT"
 msgid "Wheel Left"
-msgstr ""
+msgstr "Tekerlek Sola"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
-msgstr ""
+msgstr "Tekerlek Sağa"
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
-msgstr ""
+msgstr "Eylem"
 
 msgctxt "IDS_MOUSE_COMMAND"
 msgid "Command"
-msgstr ""
+msgstr "Komut"
 
 msgctxt "IDS_MOUSE_RIGHT_BUTTON"
 msgid "Right button"
-msgstr ""
+msgstr "Sağ düğme"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
@@ -4688,7 +4692,7 @@ msgstr "&Devam"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Override Default Style"
-msgstr ""
+msgstr "Olağan Biçemi Geçersiz Kılmayı Aç/Kapat"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
@@ -4784,17 +4788,18 @@ msgstr "Video bilgilerini (kodlayıcı adı, çözünürlük) durum çubuğunda 
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr ""
+msgstr "İzlem çubuğunda sürükleme yapılırken oynatımı duraklat."
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
-msgstr ""
+msgstr "Dosyayı silmeden önce onay istemini göster"
 
 msgctxt "IDS_PPAGEADVANCED_LIBASS_FOR_SRT"
 msgid ""
 "Use libass (instead of standard renderer) for SRT subtitles. NOT "
 "recommended."
 msgstr ""
+"SRT altyazıları için libass (standart renderer yerine) kullan. ÖNERİLMEZ."
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4994,4 +4999,4 @@ msgstr "Varsayılan"
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
-msgstr ""
+msgstr "/thumbnails\tKüçük resimler oluştur"
