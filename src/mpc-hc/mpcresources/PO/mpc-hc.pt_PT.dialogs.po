@@ -868,7 +868,7 @@ msgstr "Teclas de atalho"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Teclas globais de media"
+msgstr "Teclas globais multimédia"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
