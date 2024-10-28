@@ -9826,7 +9826,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         STSStyle* style;
                         pRTS->m_styles.GetNextAssoc(pos, styleName, style);
 
-                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
+                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle(/*isStyleDialog = */ true));
                         if (style->hasAnsiStyleName) {
                             styleName = ToUnicode(styleName, pRTS->GetCharSet(style->charSet));
                         }
@@ -9858,14 +9858,16 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                                     otherStyleChanged = true;
                                 }
                             }
-                            if (otherStyleChanged && !defaultStyleChanged) {
-                                pRTS->SetStyleChanged();
+                            if (otherStyleChanged || defaultStyleChanged) {
+                                if (!defaultStyleChanged) { //it will already have triggered SetStyleChanged() internally
+                                    pRTS->SetStyleChanged();
+                                }
+                                pRTS->Deinit();
+                                InvalidateSubtitle();
+                                RepaintVideo();
+                                m_wndSubresyncBar.ReloadSubtitle();
                             }
-                            pRTS->Deinit();
                         }
-                        InvalidateSubtitle();
-                        RepaintVideo();
-                        m_wndSubresyncBar.ReloadSubtitle();
                     }
                 }
             }
