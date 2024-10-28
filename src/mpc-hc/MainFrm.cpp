@@ -9826,7 +9826,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         STSStyle* style;
                         pRTS->m_styles.GetNextAssoc(pos, styleName, style);
 
-                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
+                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle(/*isStyleDialog = */ true));
                         if (style->hasAnsiStyleName) {
                             styleName = ToUnicode(styleName, pRTS->GetCharSet(style->charSet));
                         }
@@ -9843,21 +9843,31 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     if (dlg.DoModal() == IDOK) {
                         {
                             CAutoLock cAutoLock(&m_csSubLock);
+                            bool defaultStyleChanged = false, otherStyleChanged = false;
 
                             for (size_t l = 0; l < pages.GetCount(); l++) {
+                                STSStyle tmpStyle = *styles[l];
                                 pages[l]->GetStyle(*styles[l]);
                                 if (pages[l]->GetStyleName() == L"Default") {
                                     if (*styles[l] != s.subtitlesDefStyle) {
                                         pRTS->m_bUsingPlayerDefaultStyle = false;
                                         pRTS->SetDefaultStyle(*styles[l]);
+                                        defaultStyleChanged = true;
                                     }
+                                } else if (tmpStyle != *styles[l]) {
+                                    otherStyleChanged = true;
                                 }
                             }
-                            pRTS->Deinit();
+                            if (otherStyleChanged || defaultStyleChanged) {
+                                if (!defaultStyleChanged) { //it will already have triggered SetStyleChanged() internally
+                                    pRTS->SetStyleChanged();
+                                }
+                                pRTS->Deinit();
+                                InvalidateSubtitle();
+                                RepaintVideo();
+                                m_wndSubresyncBar.ReloadSubtitle();
+                            }
                         }
-                        InvalidateSubtitle();
-                        RepaintVideo();
-                        m_wndSubresyncBar.ReloadSubtitle();
                     }
                 }
             }
