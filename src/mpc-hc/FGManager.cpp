@@ -50,6 +50,7 @@
 #include <dmodshow.h>
 
 #if !TRACE_GRAPH_BUILD
+#undef TRACE
 #define TRACE(...)
 #endif
 

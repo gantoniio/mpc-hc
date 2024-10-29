@@ -36,6 +36,7 @@
 #define LOG_FILTER_INSERT 0
 
 #if !TRACE_GRAPH_BUILD
+#undef TRACE
 #define TRACE(...)
 #endif
 
