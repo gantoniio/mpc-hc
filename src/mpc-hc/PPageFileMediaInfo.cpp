@@ -93,6 +93,10 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
     m_futureMIText = std::async(m_bSyncAnalysis ? std::launch::deferred : std::launch::async, [ = ]() {
         MediaInfoDLL::String filename = m_path;
         MediaInfo MI;
+        if (!MI.IsReady()) {
+            CString error = L"MediaInfo loading failed";
+            return error;
+        }
         // If we do a synchronous analysis on an optical drive, we pause the video during
         // the analysis to avoid concurrent accesses to the drive. Note that due to the
         // synchronous nature of the analysis, we are sure that the graph state will not
