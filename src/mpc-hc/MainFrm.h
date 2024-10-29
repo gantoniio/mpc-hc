@@ -1110,6 +1110,7 @@ public:
     afx_msg void OnApiPlay();
     afx_msg void OnApiPause();
     afx_msg void OnPlayStop();
+            void OnPlayStop(bool is_closing);
     afx_msg void OnUpdatePlayPauseStop(CCmdUI* pCmdUI);
     afx_msg void OnPlayFramestep(UINT nID);
     afx_msg void OnUpdatePlayFramestep(CCmdUI* pCmdUI);

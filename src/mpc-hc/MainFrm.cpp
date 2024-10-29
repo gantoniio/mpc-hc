@@ -8830,6 +8830,11 @@ void CMainFrame::OnApiPlay()
 
 void CMainFrame::OnPlayStop()
 {
+    OnPlayStop(false);
+}
+
+void CMainFrame::OnPlayStop(bool is_closing)
+{
     m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE);
     m_bOpeningInAutochangedMonitorMode = false;
     m_bPausedForAutochangeMonitorMode = false;
@@ -8839,8 +8844,10 @@ void CMainFrame::OnPlayStop()
     m_wndSeekBar.SetPos(0);
     if (GetLoadState() == MLS::LOADED) {
         if (GetPlaybackMode() == PM_FILE) {
-            LONGLONG pos = 0;
-            m_pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+            if (!is_closing) {
+                LONGLONG pos = 0;
+                m_pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+            }
             MediaControlStop();
             if (m_bUseSeekPreview && m_pMC_preview) {
                 m_pMC_preview->Stop();
@@ -8895,7 +8902,7 @@ void CMainFrame::OnPlayStop()
     if (m_hWnd) {
         MoveVideoWindow();
 
-        if (GetLoadState() == MLS::LOADED) {
+        if (!is_closing && GetLoadState() == MLS::LOADED) {
             __int64 start, stop;
             m_wndSeekBar.GetRange(start, stop);
             if (!IsPlaybackCaptureMode()) {
@@ -8906,7 +8913,7 @@ void CMainFrame::OnPlayStop()
         }
     }
 
-    if (!m_fEndOfStream && GetLoadState() == MLS::LOADED) {
+    if (!is_closing && !m_fEndOfStream && GetLoadState() == MLS::LOADED) {
         CString strOSD(StrRes(ID_PLAY_STOP));
         int i = strOSD.Find(_T("\n"));
         if (i > 0) {
@@ -19041,7 +19048,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     }
 
     // stop the graph before destroying it
-    OnPlayStop();
+    OnPlayStop(true);
 
     // clear any active osd messages
     //m_OSD.ClearMessage();
