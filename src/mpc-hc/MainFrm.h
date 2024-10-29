@@ -685,6 +685,7 @@ public:
     bool MediaControlRun(bool waitforcompletion = false);
     bool MediaControlPause(bool waitforcompletion = false);
     bool MediaControlStop(bool waitforcompletion = false);
+    bool MediaControlStopPreview();
 
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;

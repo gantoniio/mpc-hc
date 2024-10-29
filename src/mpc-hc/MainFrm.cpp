@@ -8848,9 +8848,9 @@ void CMainFrame::OnPlayStop(bool is_closing)
                 LONGLONG pos = 0;
                 m_pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
             }
-            MediaControlStop();
-            if (m_bUseSeekPreview && m_pMC_preview) {
-                m_pMC_preview->Stop();
+            MediaControlStop(true);
+            if (m_bUseSeekPreview) {
+                MediaControlStopPreview();
             }
 
             if (m_pAMNS && m_pFSF) {
@@ -8865,21 +8865,21 @@ void CMainFrame::OnPlayStop(bool is_closing)
             }
         } else if (GetPlaybackMode() == PM_DVD) {
             m_pDVDC->SetOption(DVD_ResetOnStop, TRUE);
-            MediaControlStop();
+            MediaControlStop(true);
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
 
             if (m_bUseSeekPreview && m_pDVDC_preview) {
                 m_pDVDC_preview->SetOption(DVD_ResetOnStop, TRUE);
-                m_pMC_preview->Stop();
+                MediaControlStopPreview();
                 m_pDVDC_preview->SetOption(DVD_ResetOnStop, FALSE);
             }
         } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-            MediaControlStop();
+            MediaControlStop(true);
             m_pDVBState->bActive = false;
             OpenSetupWindowTitle();
             m_wndStatusBar.SetStatusTimer(StrRes(IDS_CAPTURE_LIVE));
         } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
-            MediaControlStop();
+            MediaControlStop(true);
         }
 
         m_dSpeedRate = 1.0;
@@ -11532,17 +11532,39 @@ bool CMainFrame::MediaControlStop(bool waitforcompletion)
 {
     m_dwLastPause = 0;
     if (m_pMC) {
-        m_CachedFilterState = State_Stopped;
-        MediaTransportControlUpdateState(State_Stopped);
-        if (FAILED(m_pMC->Stop())) {
-            ASSERT(FALSE);
-            m_CachedFilterState = -1;
-            return false;
+        m_pMC->GetState(0, &m_CachedFilterState);
+        if (m_CachedFilterState != State_Stopped) {
+            if (FAILED(m_pMC->Stop())) {
+                ASSERT(FALSE);
+                m_CachedFilterState = -1;
+                return false;
+            }
+            if (waitforcompletion) {
+                m_CachedFilterState = -1;
+                m_pMC->GetState(0, &m_CachedFilterState);
+                ASSERT(m_CachedFilterState == State_Stopped);
+            } else {
+                m_CachedFilterState = State_Stopped;
+            }
         }
-        if (waitforcompletion) {
-            m_CachedFilterState = -1;
-            m_pMC->GetState(0, &m_CachedFilterState);
-            ASSERT(m_CachedFilterState == State_Stopped);
+        MediaTransportControlUpdateState(State_Stopped);
+        return true;
+    }
+    return false;
+}
+
+bool CMainFrame::MediaControlStopPreview()
+{
+    if (m_pMC_preview) {
+        OAFilterState fs = -1;
+        m_pMC_preview->GetState(0, &fs);
+        if (fs != State_Stopped) {
+            if (FAILED(m_pMC_preview->Stop())) {
+                ASSERT(FALSE);
+                return false;
+            }
+            m_pMC_preview->GetState(0, &fs);
+            ASSERT(fs == State_Stopped);
         }
         return true;
     }
@@ -15678,10 +15700,8 @@ void CMainFrame::CloseMediaPrivate()
     }
 
     if (m_pGB_preview) {
-        if (m_pMC_preview) {
-            TRACE(_T("Stopping preview graph\n"));
-            m_pMC_preview->Stop();
-        }
+        TRACE(_T("Stopping preview graph\n"));
+        MediaControlStopPreview();
         TRACE(_T("Releasing preview graph\n"));
         ReleasePreviewGraph();
     }
