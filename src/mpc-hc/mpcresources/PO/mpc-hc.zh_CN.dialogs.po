@@ -765,7 +765,7 @@ msgstr "添加到收藏夹"
 
 msgctxt "IDD_FAVADD_IDC_STATIC1"
 msgid "Choose a name for your shortcut:"
-msgstr ""
+msgstr "为您的快捷方式选择一个名称:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -845,11 +845,11 @@ msgstr "保存(&S)"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC2"
 msgid "Pos: 0.0 -> 1.0"
-msgstr ""
+msgstr "位置: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC3"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr ""
+msgstr "缩放: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
@@ -1565,7 +1565,7 @@ msgstr "秒"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK7"
 msgid "Allow separate control window"
-msgstr ""
+msgstr "分离控制栏窗口"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
@@ -1887,19 +1887,19 @@ msgstr "在进度条上显示章节标记"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
-msgstr ""
+msgstr "进度条悬停"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
-msgstr ""
+msgstr "悬停位置:"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
-msgstr ""
+msgstr "显示画面预览"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK14"
 msgid "Show time"
-msgstr ""
+msgstr "显示时间"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
