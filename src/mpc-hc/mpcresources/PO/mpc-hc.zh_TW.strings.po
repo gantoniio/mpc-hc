@@ -1597,7 +1597,7 @@ msgstr "倒帶目前檔案"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr "關閉"
+msgstr "關閉檔案"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
