@@ -68,11 +68,11 @@ msgstr "Soubor"
 
 msgctxt "IDS_SUB_OVERRIDE_DEFAULT_STYLE"
 msgid "Override Default Style"
-msgstr ""
+msgstr "Změnit výchozí styl"
 
 msgctxt "IDS_SUB_OVERRIDE_ALL_STYLES"
 msgid "Override All Styles"
-msgstr ""
+msgstr "Změnit všechny styly"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -702,6 +702,9 @@ msgid ""
 "Use three letter ISO 639-2 languages codes.\n"
 "For example: eng spa ger fre rus pob jpn chi"
 msgstr ""
+"Zvolte vaše jazykové preference.\n"
+"Použijte třípísmenné kódy jazyků dle ISO 639-2.\n"
+"Například: eng cze spa ger fre rus pob jpn chi"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1415,7 +1418,7 @@ msgstr "&Načíst znovu"
 
 msgctxt "IDS_SUBTITLES_HIDE"
 msgid "&Hide Subtitles"
-msgstr ""
+msgstr "&Skrýt titulky"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -4563,11 +4566,11 @@ msgstr "/startpos hh:mm:ss\tSpustí přehrávání od pozice hh:mm:ss"
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
-msgstr ""
+msgstr "/ab_start hh:mm:ss\tpočáteční pozice opakování A-B"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr ""
+msgstr "/ab_end hh:mm:ss\tkonečná pozice opakování A-B"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
@@ -4661,7 +4664,7 @@ msgstr "&Pokračovat"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Override Default Style"
-msgstr ""
+msgstr "Zobrazit/Skrýt Změnit výchozí styl"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
@@ -4757,13 +4760,14 @@ msgstr "Pozastavit přehrávání při posouvání panelu hledání."
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
-msgstr ""
+msgstr "Vyžadovat potvrzení před odstraněním souboru"
 
 msgctxt "IDS_PPAGEADVANCED_LIBASS_FOR_SRT"
 msgid ""
 "Use libass (instead of standard renderer) for SRT subtitles. NOT "
 "recommended."
 msgstr ""
+"Použij libass (místo standardního rendereru) pro SRT titulky. NEDOPORUČENO."
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
