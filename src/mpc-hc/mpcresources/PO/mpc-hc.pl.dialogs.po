@@ -1922,7 +1922,7 @@ msgstr "Pasek wyszukiwania"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
-msgstr "Pozycja najechania:"
+msgstr "Podgląd pozycji:"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
