@@ -1670,7 +1670,7 @@ void CAppSettings::LoadSettings()
     CStringW str;
     str = pApp->GetProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_LEFT);
     swscanf_s(str, L"%u", &nMouseLeftClick);
-    if (nMouseLeftClick != 0 && nMouseLeftClick != ID_PLAY_PLAYPAUSE) {
+    if (nMouseLeftClick != 0 && nMouseLeftClick != ID_PLAY_PLAYPAUSE && nMouseLeftClick != ID_VIEW_FULLSCREEN) {
         nMouseLeftClick = ID_PLAY_PLAYPAUSE;
     }
 
