@@ -292,6 +292,9 @@ BOOL CPPageTheme::OnApply()
 
     s.nOSDSize = m_nOSDSize;
     m_FontType.GetLBText(m_FontType.GetCurSel(), s.strOSDFont);
+    if (s.strOSDFont.GetLength() >= LF_FACESIZE) {
+        s.strOSDFont = s.strOSDFont.Left(LF_FACESIZE - 1);
+    }
     s.fShowChapters = !!m_fShowChapters;
 
     s.fSeekPreview = !!m_bShowPreview;

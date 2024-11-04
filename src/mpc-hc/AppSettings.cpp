@@ -1705,6 +1705,9 @@ void CAppSettings::LoadSettings()
     LOGFONT lf;
     GetMessageFont(&lf);
     strOSDFont = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_MPC_OSD_FONT, lf.lfFaceName);
+    if (strOSDFont.IsEmpty() || strOSDFont.GetLength() >= LF_FACESIZE) {
+        strOSDFont = lf.lfFaceName;
+    }
 
     // Associated types with icon or not...
     fAssociatedWithIcons = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASSOCIATED_WITH_ICON, TRUE);
