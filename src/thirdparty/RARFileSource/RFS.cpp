@@ -338,6 +338,11 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
                 (*files_found)++;
                 continue;
             }
+            if (rarArchive.FileHead.Encrypted != 0) {
+                DbgLog((LOG_TRACE, 2, L"Encrypted files are not supported."));
+                (*files_found)++;
+                continue;
+            }
 
             CRFSFile* file;
 
