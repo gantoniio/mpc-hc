@@ -680,8 +680,6 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
             break;
     }
 
-    CString playbackrate = _T("1"); // TODO
-
     CString volumelevel, muted;
     volumelevel.Format(_T("%d"), m_pMainFrame->m_wndToolBar.m_volctrl.GetPos());
     muted.Format(_T("%d"), m_pMainFrame->m_wndToolBar.Volume == -10000 ? 1 : 0);
@@ -701,7 +699,7 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
     body.Replace("[durationstring]", UTF8(ReftimeToString2(m_pMainFrame->GetDur())));
     body.Replace("[volumelevel]", UTF8(volumelevel));
     body.Replace("[muted]", UTF8(muted));
-    body.Replace("[playbackrate]", UTF8(playbackrate));
+    body.Replace("[playbackrate]", UTF8(NumToCString(m_pMainFrame->GetPlayingRate())));
     body.Replace("[reloadtime]", UTF8(reloadtime));
 
     return true;
@@ -738,8 +736,6 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
             break;
     }
 
-    CString playbackrate = _T("1"); // TODO
-
     CString volumelevel, muted;
     volumelevel.Format(_T("%d"), m_pMainFrame->m_wndToolBar.m_volctrl.GetPos());
     muted.Format(_T("%d"), m_pMainFrame->m_wndToolBar.Volume == -10000 ? 1 : 0);
@@ -760,7 +756,7 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
     body.Replace("[durationstring]", UTF8(ReftimeToString2(m_pMainFrame->GetDur())));
     body.Replace("[volumelevel]", UTF8(volumelevel));
     body.Replace("[muted]", UTF8(muted));
-    body.Replace("[playbackrate]", UTF8(playbackrate));
+    body.Replace("[playbackrate]", UTF8(NumToCString(m_pMainFrame->GetPlayingRate())));
     body.Replace("[size]", UTF8(GetSize()));
     body.Replace("[reloadtime]", UTF8(reloadtime));
     body.Replace("[version]", UTF8(AfxGetMyApp()->m_strVersion));
