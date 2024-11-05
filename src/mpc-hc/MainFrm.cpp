@@ -8777,9 +8777,15 @@ void CMainFrame::OnPlayPause()
     }
 
     if (GetLoadState() == MLS::LOADED) {
-        if (GetPlaybackMode() == PM_FILE
-                || GetPlaybackMode() == PM_DVD
-                || GetPlaybackMode() == PM_ANALOG_CAPTURE) {
+        if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_DVD || GetPlaybackMode() == PM_ANALOG_CAPTURE) {
+            if (m_fFrameSteppingActive) {
+                m_pFS->CancelStep();
+                m_fFrameSteppingActive = false;
+                m_nStepForwardCount = 0;
+                if (m_pBA) {
+                    m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
+                }
+            }
             MediaControlPause(true);
         } else {
             ASSERT(FALSE);
