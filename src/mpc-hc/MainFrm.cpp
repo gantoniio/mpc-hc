@@ -19157,7 +19157,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
 void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
 {
     // Remove the old info during the scan
-    m_pDVBState->Reset();
+    if (m_pDVBState) {
+        m_pDVBState->Reset();
+    }
     m_wndInfoBar.RemoveAllLines();
     m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
     RecalcLayout();
