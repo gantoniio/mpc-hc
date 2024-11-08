@@ -529,6 +529,9 @@ public:
     int GetVolume() {
         return m_wndToolBar.m_volctrl.GetPos();
     }
+    double GetPlayingRate() const {
+        return m_dSpeedRate;
+    }
 
 public:
     CMainFrame();
