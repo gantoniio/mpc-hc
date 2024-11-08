@@ -36,6 +36,7 @@ private:
     CString m_title;
     STSStyle m_stss;
     bool m_bDefaultStyle;
+    bool isStyleDialog;
 
     CMPCThemeButton m_font;
     int m_iCharset;
@@ -70,7 +71,7 @@ private:
     void AskColor(int i);
 
 public:
-    CPPageSubStyle();
+    CPPageSubStyle(bool isStyleDialog = false);
     virtual ~CPPageSubStyle();
 
     void InitStyle(const CString& title, const STSStyle& stss);

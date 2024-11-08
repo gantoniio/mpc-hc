@@ -344,14 +344,11 @@
 #define IDD_PPAGETHEME                  10038
 #define IDD_PPAGEOUTPUT                 10039
 #define IDD_PPAGEWEBSERVER              10040
-#define IDD_SAVETEXTFILEDIALOGTEMPL     10043
-#define IDD_SAVESUBTITLESFILEDIALOGTEMPL 10044
 #define IDD_CAPTURE_DLG                 10045
 #define IDD_ADDREGFILTER                10046
 #define IDD_SELECTMEDIATYPE             10047
 #define IDD_COMPROPERTYPAGE             10048
 #define IDD_FILEPROPRES                 10049
-#define IDD_SAVETHUMBSDIALOGTEMPL       10050
 #define IDD_PPAGEMISC                   10052
 #define IDD_FILEMEDIAINFO               10053
 #define IDD_PPAGECAPTURE                10054
@@ -618,7 +615,6 @@
 #define IDF_WIN7_TOOLBAR                20012
 #define IDD_DEBUGSHADERS_DLG            20013
 #define IDD_PPAGEADVANCED               20014
-#define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
 #define IDD_CRASH_REPORTER              20017
 #define IDD_PPAGEDPICALC                20018

@@ -82,3 +82,11 @@ public:
     friend CString& operator <<= (CString& style, const STSStyle& s);
     friend STSStyle& operator <<= (STSStyle& s, const CString& style);
 };
+
+class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CString>>
+{
+public:
+    CSTSStyleMap() {}
+    virtual ~CSTSStyleMap() { Free(); }
+    void Free();
+};

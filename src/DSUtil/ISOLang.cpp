@@ -213,6 +213,7 @@ namespace
         { "Haitian", "hat", "ht" },
         { "Hausa", "hau", "ha",                      MAKELCID(MAKELANGID(LANG_HAUSA, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Hawaiian", "haw", "" },
+        { "Hearing impaired", "sdh", "hi" },
         { "Hebrew", "heb", "he",                     MAKELCID(MAKELANGID(LANG_HEBREW, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Herero", "her", "hz" },
         { "Hiligaynon", "hil", "" },

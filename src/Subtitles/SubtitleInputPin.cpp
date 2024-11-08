@@ -31,6 +31,7 @@
 #include "../DSUtil/ISOLang.h"
 
 #if !TRACE_SUBTITLES
+#undef TRACE
 #define TRACE(...)
 #endif
 

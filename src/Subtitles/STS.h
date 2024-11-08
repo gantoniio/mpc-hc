@@ -33,14 +33,6 @@
 
 enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
 
-class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CString>>
-{
-public:
-    CSTSStyleMap() {}
-    virtual ~CSTSStyleMap() { Free(); }
-    void Free();
-};
-
 struct STSEntry {
     CStringW str;
     bool fUnicode;
@@ -156,9 +148,11 @@ public:
     STSStyle GetOriginalDefaultStyle();
     void ChangeUnknownStylesToDefault();
     void AddStyle(CString name, STSStyle* style); // style will be stored and freed in Empty() later
+    bool CopyToStyles(CSTSStyleMap& styles);
     bool CopyStyles(const CSTSStyleMap& styles, bool fAppend = false);
 
     bool SetDefaultStyle(const STSStyle& s);
+    void SetStyleChanged();
     bool GetDefaultStyle(STSStyle& s) const;
 
     void ConvertToTimeBased(double fps);

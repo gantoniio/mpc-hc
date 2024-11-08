@@ -145,6 +145,7 @@ size_t Archive::ReadHeader15()
 
   if (Decrypt)
   {
+    return 0; // MPC-HC
 #ifdef RAR_NOCRYPT // For rarext.dll and unrar_nocrypt.dll.
     return 0;
 #else
@@ -552,6 +553,7 @@ size_t Archive::ReadHeader50()
 
   if (Decrypt)
   {
+    return 0; // MPC-HC
 #if defined(RAR_NOCRYPT)
     return 0;
 #else

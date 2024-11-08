@@ -2461,17 +2461,26 @@ void CSimpleTextSubtitle::Append(CSimpleTextSubtitle& sts, REFERENCE_TIME timeof
     CreateSegments();
 }
 
-void CSTSStyleMap::Free()
-{
-    POSITION pos = GetStartPosition();
+bool CSimpleTextSubtitle::CopyToStyles(CSTSStyleMap& styles) {
+    styles.Free();
+
+    POSITION pos = m_styles.GetStartPosition();
     while (pos) {
         CString key;
         STSStyle* val;
-        GetNextAssoc(pos, key, val);
-        delete val;
+        m_styles.GetNextAssoc(pos, key, val);
+
+        STSStyle* s = DEBUG_NEW STSStyle;
+        if (!s) {
+            return false;
+        }
+
+        *s = *val;
+
+        styles[key] = s;
     }
 
-    RemoveAll();
+    return true;
 }
 
 bool CSimpleTextSubtitle::CopyStyles(const CSTSStyleMap& styles, bool fAppend)
@@ -2771,13 +2780,17 @@ bool CSimpleTextSubtitle::SetDefaultStyle(const STSStyle& s)
     bool changed = (s != m_SubRendererSettings.defaultStyle);
     if (changed) {
         m_SubRendererSettings.defaultStyle = s;
-#if USE_LIBASS
-        if (m_LibassContext.IsLibassActive()) {
-            m_LibassContext.DefaultStyleChanged();
-        }
-#endif
+        SetStyleChanged();
     }
     return true;
+}
+
+void CSimpleTextSubtitle::SetStyleChanged() {
+#if USE_LIBASS
+    if (m_LibassContext.IsLibassActive()) {
+        m_LibassContext.StylesChanged();
+    }
+#endif
 }
 
 bool CSimpleTextSubtitle::GetDefaultStyle(STSStyle& s) const
@@ -3908,4 +3921,16 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     }
 
     return !ret.IsEmpty();
+}
+
+void CSTSStyleMap::Free() {
+    POSITION pos = GetStartPosition();
+    while (pos) {
+        CString key;
+        STSStyle* val;
+        GetNextAssoc(pos, key, val);
+        delete val;
+    }
+
+    RemoveAll();
 }

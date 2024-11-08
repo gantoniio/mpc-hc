@@ -50,6 +50,7 @@
 #include <dmodshow.h>
 
 #if !TRACE_GRAPH_BUILD
+#undef TRACE
 #define TRACE(...)
 #endif
 
@@ -399,6 +400,21 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
                 CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
                 pFGF->AddType(majortype, subtype);
                 fl.Insert(pFGF, 7);
+            }
+        }
+
+        // preferred external filters
+        if (ext == L".avs" || ext == L".vpy") {
+            POSITION pos = m_override.GetHeadPosition();
+            while (pos) {
+                CFGFilter* pFGF = m_override.GetNext(pos);
+                if (pFGF->GetMerit() >= MERIT64_ABOVE_DSHOW) {
+                    if (pFGF->GetCLSID() == GUIDFromCString(L"{7D3BBD5A-880D-4A30-A2D1-7B8C2741AFEF}")) { // MPC Script Source
+                        if (ext == L".avs" || ext == L".vpy") {
+                            fl.Insert(pFGF, 0, false, false);
+                        }
+                    }
+                }
             }
         }
     }

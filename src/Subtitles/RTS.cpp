@@ -29,6 +29,7 @@
 #include "moreuuids.h"
 
 #if !TRACE_SUBTITLES
+#undef TRACE
 #define TRACE(...)
 #endif
 
@@ -1926,7 +1927,7 @@ void CRenderedTextSubtitle::SetOverride(bool bOverrideDefault, bool bOverrideAll
 
 #if USE_LIBASS
         if (m_LibassContext.IsLibassActive()) {
-            m_LibassContext.DefaultStyleChanged();
+            m_LibassContext.StylesChanged();
         }
 #endif
     }

@@ -29,7 +29,7 @@
 // CPPageSubStyle dialog
 
 IMPLEMENT_DYNAMIC(CPPageSubStyle, CMPCThemePPageBase)
-CPPageSubStyle::CPPageSubStyle()
+CPPageSubStyle::CPPageSubStyle(bool isStyleDialog)
     : CMPCThemePPageBase(CPPageSubStyle::IDD, CPPageSubStyle::IDD)
     , m_stss(AfxGetAppSettings().subtitlesDefStyle)
     , m_bDefaultStyle(true)
@@ -43,6 +43,7 @@ CPPageSubStyle::CPPageSubStyle()
     , m_margin(0, 0, 0, 0)
     , m_bLinkAlphaSliders(FALSE)
     , m_iRelativeTo(0)
+    , isStyleDialog(isStyleDialog)
 #if USE_LIBASS
     , iRenderSSAUsingLibass(false)
 #endif
@@ -137,6 +138,11 @@ END_MESSAGE_MAP()
 BOOL CPPageSubStyle::OnInitDialog()
 {
     __super::OnInitDialog();
+
+    if (isStyleDialog) {
+        GetDlgItem(IDC_STATIC_LIBASS)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_CHECK2)->ShowWindow(SW_HIDE);
+    }
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 

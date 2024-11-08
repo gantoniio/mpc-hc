@@ -86,7 +86,7 @@ bool CYoutubeDLInstance::Run(CString url)
     SECURITY_ATTRIBUTES sec_attrib;
     auto& s = AfxGetAppSettings();
 
-    YDL_LOG(url);
+    YDL_LOG(L"%s", url);
 
     bool ytdlp = true;
     CString args = _T("\"") + GetYDLExePath(&ytdlp) + _T("\" -J --no-warnings");

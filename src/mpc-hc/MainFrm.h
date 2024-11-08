@@ -529,6 +529,9 @@ public:
     int GetVolume() {
         return m_wndToolBar.m_volctrl.GetPos();
     }
+    double GetPlayingRate() const {
+        return m_dSpeedRate;
+    }
 
 public:
     CMainFrame();
@@ -685,6 +688,7 @@ public:
     bool MediaControlRun(bool waitforcompletion = false);
     bool MediaControlPause(bool waitforcompletion = false);
     bool MediaControlStop(bool waitforcompletion = false);
+    bool MediaControlStopPreview();
 
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;
@@ -1110,6 +1114,7 @@ public:
     afx_msg void OnApiPlay();
     afx_msg void OnApiPause();
     afx_msg void OnPlayStop();
+            void OnPlayStop(bool is_closing);
     afx_msg void OnUpdatePlayPauseStop(CCmdUI* pCmdUI);
     afx_msg void OnPlayFramestep(UINT nID);
     afx_msg void OnUpdatePlayFramestep(CCmdUI* pCmdUI);

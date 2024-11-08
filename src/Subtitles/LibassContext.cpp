@@ -668,14 +668,27 @@ static void detect_style_changes(STSStyle* before, STSStyle* after, const wchar_
     }
 }
 
-void LibassContext::DefaultStyleChanged() {
+void LibassContext::StylesChanged() {
     if (!m_assloaded) {
         ASSERT(false);
         return;
     }
 
-    bool need_override = m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle || m_STS->m_SubRendererSettings.overrideAllStyles || m_bOverrideDefaultStyleActive && !m_bOverrideAllStylesActive;
-    bool need_reload = !need_override && (m_bOverrideDefaultStyleActive || m_bOverrideAllStylesActive) || m_bOverrideAllStylesActive && !m_STS->m_SubRendererSettings.overrideAllStyles;
+    std::vector<CStringA> styles_overrides;
+    POSITION pos = m_STS->m_styles.GetStartPosition();
+    for (int k = 0; pos; k++) {
+        CString styleName;
+        STSStyle* style;
+        m_STS->m_styles.GetNextAssoc(pos, styleName, style);
+        if (styleName != L"Default" && origStyles.Lookup(styleName)) {
+            detect_style_changes(origStyles[styleName], style, nullptr, styles_overrides);
+        }
+    }
+    bool hadStyleOverrides = hasStyleOverrides;
+    hasStyleOverrides = styles_overrides.size() > 0;
+
+    bool need_override = hasStyleOverrides || m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle || m_STS->m_SubRendererSettings.overrideAllStyles || m_bOverrideDefaultStyleActive && !m_bOverrideAllStylesActive;
+    bool need_reload = !need_override && (m_bOverrideDefaultStyleActive || m_bOverrideAllStylesActive || hadStyleOverrides) || m_bOverrideAllStylesActive && !m_STS->m_SubRendererSettings.overrideAllStyles;
 
     if (need_reload) {
         m_bOverrideDefaultStyleActive = false;
@@ -691,7 +704,6 @@ void LibassContext::DefaultStyleChanged() {
     }
 
     if (need_override) {
-        std::vector<CStringA> styles_overrides;
 
         if (m_STS->m_subtitleType == Subtitle::SubType::SRT) {
             STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
@@ -732,6 +744,8 @@ void LibassContext::DefaultStyleChanged() {
 
 void LibassContext::InitLibASS() {
     Unload();
+    m_STS->CopyToStyles(origStyles);
+    hasStyleOverrides = false;
     m_assfontloaded = false;
     m_ass = decltype(m_ass)(ass_library_init());
     ass_set_fonts_dir(m_ass.get(), NULL); //initialize it or we get free() errors in debug mode

@@ -8830,6 +8830,11 @@ void CMainFrame::OnApiPlay()
 
 void CMainFrame::OnPlayStop()
 {
+    OnPlayStop(false);
+}
+
+void CMainFrame::OnPlayStop(bool is_closing)
+{
     m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE);
     m_bOpeningInAutochangedMonitorMode = false;
     m_bPausedForAutochangeMonitorMode = false;
@@ -8839,11 +8844,13 @@ void CMainFrame::OnPlayStop()
     m_wndSeekBar.SetPos(0);
     if (GetLoadState() == MLS::LOADED) {
         if (GetPlaybackMode() == PM_FILE) {
-            LONGLONG pos = 0;
-            m_pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
-            MediaControlStop();
-            if (m_bUseSeekPreview && m_pMC_preview) {
-                m_pMC_preview->Stop();
+            if (!is_closing) {
+                LONGLONG pos = 0;
+                m_pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+            }
+            MediaControlStop(true);
+            if (m_bUseSeekPreview) {
+                MediaControlStopPreview();
             }
 
             if (m_pAMNS && m_pFSF) {
@@ -8858,21 +8865,21 @@ void CMainFrame::OnPlayStop()
             }
         } else if (GetPlaybackMode() == PM_DVD) {
             m_pDVDC->SetOption(DVD_ResetOnStop, TRUE);
-            MediaControlStop();
+            MediaControlStop(true);
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
 
             if (m_bUseSeekPreview && m_pDVDC_preview) {
                 m_pDVDC_preview->SetOption(DVD_ResetOnStop, TRUE);
-                m_pMC_preview->Stop();
+                MediaControlStopPreview();
                 m_pDVDC_preview->SetOption(DVD_ResetOnStop, FALSE);
             }
         } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-            MediaControlStop();
+            MediaControlStop(true);
             m_pDVBState->bActive = false;
             OpenSetupWindowTitle();
             m_wndStatusBar.SetStatusTimer(StrRes(IDS_CAPTURE_LIVE));
         } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
-            MediaControlStop();
+            MediaControlStop(true);
         }
 
         m_dSpeedRate = 1.0;
@@ -8895,7 +8902,7 @@ void CMainFrame::OnPlayStop()
     if (m_hWnd) {
         MoveVideoWindow();
 
-        if (GetLoadState() == MLS::LOADED) {
+        if (!is_closing && GetLoadState() == MLS::LOADED) {
             __int64 start, stop;
             m_wndSeekBar.GetRange(start, stop);
             if (!IsPlaybackCaptureMode()) {
@@ -8906,7 +8913,7 @@ void CMainFrame::OnPlayStop()
         }
     }
 
-    if (!m_fEndOfStream && GetLoadState() == MLS::LOADED) {
+    if (!is_closing && !m_fEndOfStream && GetLoadState() == MLS::LOADED) {
         CString strOSD(StrRes(ID_PLAY_STOP));
         int i = strOSD.Find(_T("\n"));
         if (i > 0) {
@@ -9826,7 +9833,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         STSStyle* style;
                         pRTS->m_styles.GetNextAssoc(pos, styleName, style);
 
-                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
+                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle(/*isStyleDialog = */ true));
                         if (style->hasAnsiStyleName) {
                             styleName = ToUnicode(styleName, pRTS->GetCharSet(style->charSet));
                         }
@@ -9843,21 +9850,31 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     if (dlg.DoModal() == IDOK) {
                         {
                             CAutoLock cAutoLock(&m_csSubLock);
+                            bool defaultStyleChanged = false, otherStyleChanged = false;
 
                             for (size_t l = 0; l < pages.GetCount(); l++) {
+                                STSStyle tmpStyle = *styles[l];
                                 pages[l]->GetStyle(*styles[l]);
                                 if (pages[l]->GetStyleName() == L"Default") {
                                     if (*styles[l] != s.subtitlesDefStyle) {
                                         pRTS->m_bUsingPlayerDefaultStyle = false;
                                         pRTS->SetDefaultStyle(*styles[l]);
+                                        defaultStyleChanged = true;
                                     }
+                                } else if (tmpStyle != *styles[l]) {
+                                    otherStyleChanged = true;
                                 }
                             }
-                            pRTS->Deinit();
+                            if (otherStyleChanged || defaultStyleChanged) {
+                                if (!defaultStyleChanged) { //it will already have triggered SetStyleChanged() internally
+                                    pRTS->SetStyleChanged();
+                                }
+                                pRTS->Deinit();
+                                InvalidateSubtitle();
+                                RepaintVideo();
+                                m_wndSubresyncBar.ReloadSubtitle();
+                            }
                         }
-                        InvalidateSubtitle();
-                        RepaintVideo();
-                        m_wndSubresyncBar.ReloadSubtitle();
                     }
                 }
             }
@@ -11515,17 +11532,39 @@ bool CMainFrame::MediaControlStop(bool waitforcompletion)
 {
     m_dwLastPause = 0;
     if (m_pMC) {
-        m_CachedFilterState = State_Stopped;
-        MediaTransportControlUpdateState(State_Stopped);
-        if (FAILED(m_pMC->Stop())) {
-            ASSERT(FALSE);
-            m_CachedFilterState = -1;
-            return false;
+        m_pMC->GetState(0, &m_CachedFilterState);
+        if (m_CachedFilterState != State_Stopped) {
+            if (FAILED(m_pMC->Stop())) {
+                ASSERT(FALSE);
+                m_CachedFilterState = -1;
+                return false;
+            }
+            if (waitforcompletion) {
+                m_CachedFilterState = -1;
+                m_pMC->GetState(0, &m_CachedFilterState);
+                ASSERT(m_CachedFilterState == State_Stopped);
+            } else {
+                m_CachedFilterState = State_Stopped;
+            }
         }
-        if (waitforcompletion) {
-            m_CachedFilterState = -1;
-            m_pMC->GetState(0, &m_CachedFilterState);
-            ASSERT(m_CachedFilterState == State_Stopped);
+        MediaTransportControlUpdateState(State_Stopped);
+        return true;
+    }
+    return false;
+}
+
+bool CMainFrame::MediaControlStopPreview()
+{
+    if (m_pMC_preview) {
+        OAFilterState fs = -1;
+        m_pMC_preview->GetState(0, &fs);
+        if (fs != State_Stopped) {
+            if (FAILED(m_pMC_preview->Stop())) {
+                ASSERT(FALSE);
+                return false;
+            }
+            m_pMC_preview->GetState(0, &fs);
+            ASSERT(fs == State_Stopped);
         }
         return true;
     }
@@ -15661,10 +15700,8 @@ void CMainFrame::CloseMediaPrivate()
     }
 
     if (m_pGB_preview) {
-        if (m_pMC_preview) {
-            TRACE(_T("Stopping preview graph\n"));
-            m_pMC_preview->Stop();
-        }
+        TRACE(_T("Stopping preview graph\n"));
+        MediaControlStopPreview();
         TRACE(_T("Releasing preview graph\n"));
         ReleasePreviewGraph();
     }
@@ -19031,7 +19068,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     }
 
     // stop the graph before destroying it
-    OnPlayStop();
+    OnPlayStop(true);
 
     // clear any active osd messages
     //m_OSD.ClearMessage();
