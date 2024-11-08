@@ -1920,7 +1920,7 @@ msgstr "Höhe der modernen Zeitleiste:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
-msgstr "Kapitelmarkierungen in der Suchleiste anzeigen"
+msgstr "Kapitelmarkierungen in der Zeitleiste anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
