@@ -1912,7 +1912,7 @@ msgstr "Größe der Steuertasten:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
 msgid "Seekbar"
-msgstr "Suchleiste"
+msgstr "Zeitleiste"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
