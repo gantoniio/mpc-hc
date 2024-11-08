@@ -351,7 +351,7 @@ msgstr "Liste Düzenleme Yöneticisi"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Girilen süre dosyanın süresinden daha büyüktür."
+msgstr "Girilen süre, dosyanın süresinden daha uzundur."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid ""
@@ -441,7 +441,7 @@ msgstr "Oynatım için gerekli arabirimler sorgulanamadı"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "Grafiksel bilgi için hedef pencere oluşturulamadı"
+msgstr "Graf yapısı için hedef pencere ayarlanamadı."
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
