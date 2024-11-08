@@ -1940,7 +1940,7 @@ msgstr "Zeitangabe anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
-msgstr "Breite der Vorschau (% des Bildschirms)"
+msgstr "Vorschaubreite (% des Bildschirms)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
