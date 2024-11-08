@@ -1932,7 +1932,7 @@ msgstr "Vorschauposition"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
-msgstr "Zeige Videovorschau"
+msgstr "Videovorschau anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK14"
 msgid "Show time"
