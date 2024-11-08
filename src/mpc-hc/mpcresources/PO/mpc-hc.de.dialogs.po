@@ -1936,7 +1936,7 @@ msgstr "Videovorschau anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK14"
 msgid "Show time"
-msgstr "Zeige Zeitangabe"
+msgstr "Zeitangabe anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
