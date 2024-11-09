@@ -1579,7 +1579,7 @@ msgstr "Ignorar los subtítulos integrados"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Cargar rutas automáticamente"
+msgstr "Rutas autocarga"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
