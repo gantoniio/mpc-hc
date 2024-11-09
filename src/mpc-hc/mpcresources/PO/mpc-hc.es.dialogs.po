@@ -1887,7 +1887,7 @@ msgstr "Altura de Barra de Búsqueda:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
-msgstr "Mostrar marcas de capítulo en la barra"
+msgstr "Mostrar marcas de capítulo en barra"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
