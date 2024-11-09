@@ -331,7 +331,7 @@ msgstr "Canlı"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "Video yakalama filtresi çizeneğe eklenemiyor"
+msgstr "Video yakalama filtresi grafa eklenemiyor"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
