@@ -3917,11 +3917,11 @@ msgstr "%s ara bölge filtresi çizeneğe bağlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Grafiğe %s kodlayıcı filtresi eklenemedi."
+msgstr "%s kodlayıcı filtresi grafa eklenemiyor."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Grafiğe %s kodlayıcı filtresi bağlanamıyor."
+msgstr "%s kodlayıcı filtresi grafa bağlanamıyor."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
