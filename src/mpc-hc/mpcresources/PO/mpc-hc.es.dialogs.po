@@ -1959,7 +1959,7 @@ msgstr "Comportamiento de la Ventana"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
-msgstr "Limitar proporciones de ventana al cambiar tamaño "
+msgstr "Limitar proporciones al cambiar tamaño "
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
 msgid "Snap to desktop edges"
