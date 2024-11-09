@@ -335,7 +335,7 @@ msgstr "Video yakalama filtresi grafa eklenemiyor"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "Ses yakalama filtresi çizeneğe eklenemiyor"
+msgstr "Ses yakalama filtresi grafa eklenemiyor"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
