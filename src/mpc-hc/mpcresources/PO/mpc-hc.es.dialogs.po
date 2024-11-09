@@ -541,7 +541,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Tamaño Búfer de Sub imágenes:"
+msgstr "Subtítulos pre-renderizados en cola:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
