@@ -2906,7 +2906,7 @@ msgstr "Yakalama filtreleri yok"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
-msgstr "Yakalama çizenek oluşturucusu yaratılamadı"
+msgstr "Yakalama graf oluşturucu nesnesi yaratılamadı"
 
 msgctxt "IDS_MAINFRM_108"
 msgid "Couldn't open any device"
