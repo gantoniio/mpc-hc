@@ -1612,7 +1612,7 @@ msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
 msgstr ""
-"Descargar automáticamente los subtítulos a la primera ruta de \"Rutas "
+"Descargar automáticamente los subtítulos a la primera ruta de \"Rutas de "
 "autocarga\""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
