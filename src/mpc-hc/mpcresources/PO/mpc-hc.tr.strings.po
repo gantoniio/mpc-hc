@@ -2794,7 +2794,7 @@ msgstr "Hata: IE için olan killswitch yamalı Adobe Flash Player gerekmekte."
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Filtre çizeneği nesnesi oluşturulamadı"
+msgstr "Filtre graf nesnesi oluşturulamadı"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
