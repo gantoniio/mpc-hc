@@ -2316,7 +2316,7 @@ msgstr "Fotograma de Vídeo Centro"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr "Marco de Vídeo Izquierda"
+msgstr "Fotograma de Vídeo Izquierda"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
