@@ -2210,11 +2210,11 @@ msgstr "Tamaño de Fotograma de Vídeo mitad"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr "Tamaño de Marco de Vídeo normal"
+msgstr "Tamaño de Fotograma de Vídeo normal"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr "Tamaño de Marco de Vídeo doble"
+msgstr "Tamaño de Fotograma de Vídeo doble"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
