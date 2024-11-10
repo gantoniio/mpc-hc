@@ -2344,7 +2344,7 @@ msgstr "Fotograma de Vídeo Abajo/Izquierda"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr "Marco de Vídeo Abajo/Derecha"
+msgstr "Fotograma de Vídeo Abajo/Derecha"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
