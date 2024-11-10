@@ -137,8 +137,8 @@ msgid ""
 "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
 " You do not need to enter the separators explicitly."
 msgstr ""
-"Belirli bir süreye atlamak için [sa:]dk:sn.ms biçimini kullanarak bir zaman "
-"kodu giriniz. Ayırmaç girmeniz gerekmez."
+"Belirli bir süreye atlamak için [sa:]dk:sn.ms biçiminde bir zaman kodu "
+"giriniz. Ayırmaç girmeniz gerekmez."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -325,11 +325,11 @@ msgstr "Son oynatma listesini hatırla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Dosya yerleşimini hatırla"
+msgstr "Dosyaların son konumunu hatırla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "DVD yerleşimini hatırla"
+msgstr "DVD'lerin son konumunu hatırla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
@@ -788,7 +788,7 @@ msgstr "Kısayolunuz için bir isim seçiniz:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
-msgstr "Yerleşimi hatırla"
+msgstr "Konumunu hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
