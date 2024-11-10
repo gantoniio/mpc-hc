@@ -2340,7 +2340,7 @@ msgstr "Fotograma de Vídeo Arriba/Derecha"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr "Marco de Vídeo Abajo/Izquierda"
+msgstr "Fotograma de Vídeo Abajo/Izquierda"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
