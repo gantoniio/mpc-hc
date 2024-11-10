@@ -479,7 +479,7 @@ void COSD::DrawMessage()
                 break;
             case OSD_TOPRIGHT :
             default :
-                rectMessages = CRect(std::max(10L, m_rectWnd.right - 10 - rectText.Width()), 10, m_rectWnd.right-10, rectText.bottom + 10);
+                rectMessages = CRect(std::max(10L, m_rectWnd.right - rectText.Width() + 10), 10, m_rectWnd.right - 10, rectText.bottom + 12);
                 break;
         }
 
