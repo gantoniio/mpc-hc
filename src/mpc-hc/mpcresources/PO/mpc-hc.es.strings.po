@@ -2242,7 +2242,7 @@ msgstr "Dec. Anchura de Fotograma de Vídeo"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr "Dec. Altura de Marco de Vídeo"
+msgstr "Dec. Altura de Fotograma de Vídeo"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
