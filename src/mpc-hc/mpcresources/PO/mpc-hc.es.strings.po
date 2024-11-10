@@ -2206,7 +2206,7 @@ msgstr "Auto ajuste de zoom"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr "Tamaño de Marco de Vídeo mitad"
+msgstr "Tamaño de Fotograma de Vídeo mitad"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
