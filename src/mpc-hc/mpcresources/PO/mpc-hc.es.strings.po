@@ -3168,7 +3168,7 @@ msgstr "Tiempo de búsqueda"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr "Marco de Vídeo Zoom 1"
+msgstr "Fotograma de Vídeo Zoom 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
