@@ -3104,7 +3104,7 @@ msgstr "Fotograma de Vídeo Reinicio"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr "Marco de Vídeo Rotar X+"
+msgstr "Fotograma de Vídeo Rotar X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
