@@ -1406,7 +1406,7 @@ msgstr "Fotograma de Vídeo Rotar Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr "Marco de Vídeo Rotar Z+"
+msgstr "Fotograma de Vídeo Rotar Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
