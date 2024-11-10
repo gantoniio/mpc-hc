@@ -2230,11 +2230,11 @@ msgstr "Inc. Anchura de Fotograma de Vídeo"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr "Inc. Altura de Marco de Vídeo"
+msgstr "Inc. Altura de Fotograma de Vídeo"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr "Dec. Tamaño de Marco de Vídeo"
+msgstr "Dec. Tamaño de Fotograma de Vídeo"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
