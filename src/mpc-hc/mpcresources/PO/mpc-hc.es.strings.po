@@ -2312,7 +2312,7 @@ msgstr "Escriba un número entre 1 y 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr "Marco de Vídeo Centro"
+msgstr "Fotograma de Vídeo Centro"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
