@@ -3176,7 +3176,7 @@ msgstr "Fotograma de Vídeo Zoom 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr "Marco de Vídeo Cambiar Zoom"
+msgstr "Fotograma de Vídeo Cambiar Zoom"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
