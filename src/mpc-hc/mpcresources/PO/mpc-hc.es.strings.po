@@ -3096,11 +3096,11 @@ msgstr "Fotograma de Vídeo Dentro"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr "Marco de Vídeo Fuera"
+msgstr "Fotograma de Vídeo Fuera"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr "Marco de Vídeo Reinicio"
+msgstr "Fotograma de Vídeo Reinicio"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
