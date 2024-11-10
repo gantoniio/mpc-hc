@@ -2226,7 +2226,7 @@ msgstr "Inc. Tamaño de Fotograma de Vídeo"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr "Inc. Anchura de Marco de Vídeo"
+msgstr "Inc. Anchura de Fotograma de Vídeo"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
