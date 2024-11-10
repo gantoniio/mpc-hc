@@ -4645,7 +4645,7 @@ msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
 msgstr ""
-"/fixedsize w,h[,x,y]\tIndica un tamaño fijo de ventana; opcionalmente "
+"/fixedsize w,h[,x,y]\tEstablece un tamaño fijo de ventana; opcionalmente "
 "especifique la esquina superior izquierda de la ventana"
 
 msgctxt "IDS_CMD_MONITOR"
