@@ -916,9 +916,10 @@ STDMETHODIMP LibassContext::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbo
     return E_POINTER;
 }
 
-void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, int srcOffset, BYTE* dst, int dst_pitch) {
+void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, int srcXOffset, int srcYOffset, BYTE* dst, int dst_pitch) {
+    src += srcYOffset * pitch;
     for (int i = 0; i < h; i++, src += pitch, dst += dst_pitch) {
-        const BYTE* s2 = src + srcOffset;
+        const BYTE* s2 = src + srcXOffset;
         const BYTE* s2end = s2 + w * 4;
         DWORD* d2 = (DWORD*)dst;
         for (; s2 < s2end; s2 += 4, d2++) {
@@ -952,7 +953,7 @@ bool LibassContext::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) 
     }
 
     BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
-    AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * lastUncroppedDirty.Width(), 4 * (rcDirty.left - lastUncroppedDirty.left), pixelBytes, spd.pitch);
+    AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * lastUncroppedDirty.Width(), 4 * (rcDirty.left - lastUncroppedDirty.left), rcDirty.top - lastUncroppedDirty.top, pixelBytes, spd.pitch);
     return true;
 }
 
