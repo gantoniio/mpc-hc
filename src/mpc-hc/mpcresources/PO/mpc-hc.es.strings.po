@@ -3088,11 +3088,11 @@ msgstr "Siguiente modo de RA"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr "Marco de Vídeo Ajuste"
+msgstr "Fotograma de Vídeo Ajuste"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr "Marco de Vídeo Dentro"
+msgstr "Fotograma de Vídeo Dentro"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
