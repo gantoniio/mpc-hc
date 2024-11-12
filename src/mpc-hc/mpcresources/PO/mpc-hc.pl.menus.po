@@ -445,7 +445,7 @@ msgstr "Poprawianie różnicy proporcji &ekranu i pulpitu"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "Ust.& wstępne regulacji ramki PnS"
+msgstr "Regulacja ramek P&nS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
