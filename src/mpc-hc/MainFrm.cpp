@@ -19049,6 +19049,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                             DispatchMessage(&msg);
                         }
                         break;
+                    case WAIT_TIMEOUT:
+                        break;
                     default: // unexpected failure
                         processmsg = false;
                         break;
@@ -19117,44 +19119,57 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
 
         HANDLE handle = m_evClosePrivateFinished;
         DWORD dwWait;
-        // We don't want to block messages processing completely so we stop waiting
-        // on new message received from another thread or application.
-        while ((dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, 10000, QS_SENDMESSAGE)) != WAIT_OBJECT_0) {
-            // If we haven't got the event we were waiting for, we ensure that we have got a new message instead
-            if (dwWait == WAIT_OBJECT_0 + 1) {
-                // and we make sure it is handled before resuming waiting
-                MSG msg;
-                PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE);
-            } else {
-                // Aborting graph failed
-                TRACE(_T("Failed to close filter graph thread.\n"));
-                CString msg;
-                if (!m_pGB && m_pGB_preview) {
-#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10) && 0
-                    if (CrashReporter::IsEnabled()) {
-                        throw 1;
-                    }
-#endif
-                    msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                } else {
-                    msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                }
-
-                if (m_fFullScreen || (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0))) {
-                    ForceCloseProcess();
-                } else {
-                    int wait = 15000;
-                    while (wait > 0 && (m_pGB || m_pGB_preview)) {
-                        Sleep(100);
-                        wait -= 100;
-                    }
-                    if (m_pGB || m_pGB_preview) {
-                        ForceCloseProcess();
-                    }
-                    Sleep(200);
+        ULONGLONG start = GetTickCount64();
+        ULONGLONG waitdur = 10000ULL;
+        bool killprocess = true;
+        bool processmsg = true;
+        bool extendedwait = false;
+        while (processmsg) {
+            dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, 1000, QS_SENDMESSAGE);
+            switch (dwWait) {
+                case WAIT_OBJECT_0:
+                    processmsg = false; // event received
+                    killprocess = false;
                     break;
+                case WAIT_OBJECT_0 + 1:
+                    MSG msg;
+                    PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE);
+                    break;
+                case WAIT_TIMEOUT:
+                    break;
+                default:
+                    processmsg = false;
+                    break;
+            }
+
+            if (processmsg && (GetTickCount64() - start > waitdur)) {
+                if (extendedwait || m_fFullScreen) {
+                    processmsg = false;
+                } else {
+                     CString msg;
+                    if (!m_pGB && m_pGB_preview) {
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10) && 0
+                        if (CrashReporter::IsEnabled()) {
+                            throw 1;
+                        }
+#endif
+                        msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                    } else {
+                        msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                    }
+                    if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                        processmsg = false;
+                    } else {
+                        extendedwait = true;
+                        start = GetTickCount64();
+                        waitdur = 15000ULL;
+                    }
                 }
             }
+        }
+        if (killprocess) {
+            TRACE(_T("Failed to close filter graph thread.\n"));
+            ForceCloseProcess();
         }
     } else {
         CloseMediaPrivate();
