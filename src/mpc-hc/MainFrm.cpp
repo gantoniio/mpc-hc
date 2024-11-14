@@ -18881,17 +18881,8 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMediaBeforeOpen()
 {
-    // Wait a little so we can maybe avoid having to close previous media while graph is still being created
-    int wait = 3000;
-    while (GetLoadState() == MLS::LOADING && wait > 0) {
-        SleepEx(200, false);
-        wait -= 200;
-    }
-
-    // close the current graph before opening new media
     if (GetLoadState() != MLS::CLOSED) {
         CloseMedia(true);
-        ASSERT(GetLoadState() == MLS::CLOSED);
     }
 }
 
@@ -18917,8 +18908,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     m_bDVDStillOn = false;
 
     if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
-        // double close, should be prevented
-        ASSERT(FALSE);
+        TRACE(_T("Ignoring duplicate close action.\n"));
         return;
     }
 
