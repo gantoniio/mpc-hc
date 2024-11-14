@@ -13217,13 +13217,15 @@ CWnd* CMainFrame::GetModalParent()
 }
 
 void CMainFrame::ShowMediaTypesDialog() {
-    CAutoLock lck(&lockModalDialog);
-    CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
-    if (pGBDE && pGBDE->GetCount()) {
-        mediaTypesErrorDlg = DEBUG_NEW CMediaTypesDlg(pGBDE, GetModalParent());
-        mediaTypesErrorDlg->DoModal();
-        delete mediaTypesErrorDlg;
-        mediaTypesErrorDlg = nullptr;
+    if (!m_fOpeningAborted) {
+        CAutoLock lck(&lockModalDialog);
+        CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
+        if (pGBDE && pGBDE->GetCount()) {
+            mediaTypesErrorDlg = DEBUG_NEW CMediaTypesDlg(pGBDE, GetModalParent());
+            mediaTypesErrorDlg->DoModal();
+            delete mediaTypesErrorDlg;
+            mediaTypesErrorDlg = nullptr;
+        }
     }
 }
 
@@ -15315,7 +15317,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 throw (UINT)IDS_AG_ABORTED;
             }
         };
-        checkAborted();
 
         OpenCreateGraphObject(pOMD);
         checkAborted();
