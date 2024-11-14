@@ -649,7 +649,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
     CheckPointer(pPinOut, E_POINTER);
 
     if (m_aborted) {
-        return VFW_E_CANNOT_RENDER;
+        return E_ABORT;
     }
 
     HRESULT hr;
@@ -820,7 +820,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
         pos = fl.GetHeadPosition();
         while (pos) {
             if (m_aborted) {
-                return VFW_E_CANNOT_RENDER;
+                return E_ABORT;
             }
 
             CFGFilter* pFGF = fl.GetNext(pos);
@@ -920,6 +920,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 TRACE(_T("FGM: Filter connected to %s\n"), CLSIDToString(clsid_pinout));
                 if (!IsStreamEnd(pBF)) {
                     fDeadEnd = false;
+                }
+
+                if (m_aborted) {
+                    return E_ABORT;
                 }
 
                 if (bContinueRender) {
@@ -1072,6 +1076,10 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
             RemoveFilter(pBF);
 
             deadends.Append(m_deadends);
+
+            if (hr == E_ABORT) {
+                break;
+            }
         } else if (pFG->GetCLSID() == __uuidof(CRARFileSource) && HRESULT_FACILITY(hr) == FACILITY_ITF) {
             hrRFS = hr;
         }
@@ -1245,7 +1253,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
     CheckPointer(pBF, E_POINTER);
 
     if (m_aborted) {
-        return VFW_E_CANNOT_RENDER;
+        return E_ABORT;
     }
 
     if (pPinIn && S_OK != IsPinDirection(pPinIn, PINDIR_INPUT)) {
@@ -1448,7 +1456,7 @@ STDMETHODIMP CFGManager::RemoveFromROT()
         return S_FALSE;
     }
 
-    CAutoLock cAutoLock(this);
+    //CAutoLock cAutoLock(this);
 
     HRESULT hr;
     CComPtr<IRunningObjectTable> pROT;
