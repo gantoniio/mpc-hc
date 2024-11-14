@@ -1131,7 +1131,10 @@ STDMETHODIMP CFGManager::Abort()
         return E_UNEXPECTED;
     }
 
-    // FIXME: this can hang
+    // When a filter (renderer) in the child thread (the graph thread) calls CreateWindow()
+    // then that call triggers an implicit call of SendMessage to the main window.
+    // This is a blocking call, meaning main thread must be able to process that window message.
+    // So we can not request a lock here when called from main thread since that would result in a deadlock.
     //CAutoLock cAutoLock(this);
 
     m_aborted = true;

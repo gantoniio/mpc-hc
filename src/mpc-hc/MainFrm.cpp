@@ -19029,7 +19029,33 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
 
         if (m_bOpenedThroughThread) {
             BeginWaitCursor();
-            if (WaitForSingleObject(m_evOpenPrivateFinished, 5000) == WAIT_TIMEOUT) {
+            MSG msg;
+            HANDLE h = m_evOpenPrivateFinished;
+            bool killprocess = true;
+            bool processmsg = true;
+            ULONGLONG start = GetTickCount64();
+            while (processmsg && (GetTickCount64() - start < 6000ULL)) {
+                DWORD res = MsgWaitForMultipleObjectsEx(1, &h, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+                switch (res) {
+                    case WAIT_OBJECT_0:
+                        TRACE(_T("Graph abort successful\n"));
+                        killprocess = false; // event has been signalled
+                        processmsg = false;
+                        break;
+                    case WAIT_OBJECT_0 + 1:
+                        // we have a message - peek and dispatch it
+                        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+                            TranslateMessage(&msg);
+                            DispatchMessage(&msg);
+                        }
+                        break;
+                    default: // unexpected failure
+                        processmsg = false;
+                        break;
+                }
+            }
+            if (killprocess)
+            {
                 // Aborting graph failed
                 TRACE(_T("Failed to abort graph creation.\n"));
                 ForceCloseProcess();
