@@ -18641,6 +18641,16 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
         return;
     }
 
+    // show warning when INI file is read-only
+    CPath iniPath = AfxGetMyApp()->GetIniPath();
+    if (PathUtils::Exists(iniPath)) {
+        HANDLE hFile = CreateFile(iniPath, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+        if (hFile == INVALID_HANDLE_VALUE) {
+            AfxMessageBox(_T("The player settings are currently stored in an INI file located in the installation directory of the player.\n\nThe player currently does not have write access to this file, meaning any changes to the settings will not be saved.\n\nPlease remove the INI file to ensure proper functionality of the player.\n\nSettings will then be stored in the Windows Registry. You can easily backup those settings through: Options > Miscellaneous > Export"), MB_ICONWARNING, 0);
+        }
+        CloseHandle(hFile);
+    }
+
     INT_PTR iRes;
     do {
         CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), m_pGB, GetModalParent(), idPage);
