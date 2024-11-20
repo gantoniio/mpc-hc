@@ -2579,6 +2579,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 if (s.iTitleBarTextStyle == 1 && s.fTitleBarTextTitle) {
                     OpenSetupWindowTitle();
                 }
+                MediaTransportControlSetMedia();
                 SendNowPlayingToSkype();
                 SendNowPlayingToApi(false);
             }
