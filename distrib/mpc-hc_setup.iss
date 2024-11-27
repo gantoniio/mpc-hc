@@ -121,7 +121,6 @@
 #define INCLUDE_MPCVR = true
 #else
 #define INCLUDE_MPCVR = false
-#bla
 #endif
 
 #ifexist mediainfo_dll
