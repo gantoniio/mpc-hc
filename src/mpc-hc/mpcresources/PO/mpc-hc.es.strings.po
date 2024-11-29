@@ -554,7 +554,7 @@ msgstr "&Seleccionar Sombreadores..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Depurar shaders..."
+msgstr "&Depurar Sombreadores..."
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
