@@ -1677,7 +1677,7 @@ msgstr "Sombreadores de pre-redimensionado activos"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Shaders de post-redimensionado activos"
+msgstr "Sombreadores de post-redimensionado activos"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC5"
 msgid ""
