@@ -1576,7 +1576,7 @@ msgid ""
 "work."
 msgstr ""
 "No se pueden encontrar los puntos de entrada requeridos de la función en %s."
-" Los sombreadores de píxel (PS) no funcionarán."
+" Los sombreadores de píxel no funcionarán."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
