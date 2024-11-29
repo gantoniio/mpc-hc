@@ -1145,7 +1145,7 @@ msgstr "C. de pant."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr "Shaders"
+msgstr "Sombreadores"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
