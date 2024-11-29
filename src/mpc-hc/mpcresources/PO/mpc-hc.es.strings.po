@@ -3063,7 +3063,7 @@ msgstr "Mostrar/ocultar barra de captura"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Accionar «Depurar shaders»"
+msgstr "Accionar «Depurar Sombreadores»"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
