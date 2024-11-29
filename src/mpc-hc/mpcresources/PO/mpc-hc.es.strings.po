@@ -618,7 +618,7 @@ msgstr "Filtros externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Reproducción::Shaders"
+msgstr "Reproducción::Sombreadores"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
