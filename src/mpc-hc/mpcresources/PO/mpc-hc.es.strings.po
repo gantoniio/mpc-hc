@@ -1962,8 +1962,7 @@ msgstr "Mostrar al pasar el cursor sobre los controles, ocultar tras:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
-"No se pudieron establecer los shaders ('sombreadores') de pre-redimensionado"
+msgstr "No se pudieron establecer los sombreadores de pre-redimensionado"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
