@@ -1673,7 +1673,7 @@ msgstr "Eliminar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Shaders de pre-redimensionado activos"
+msgstr "Sombreadores de pre-redimensionado activos"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
