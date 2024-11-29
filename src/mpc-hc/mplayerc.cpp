@@ -1508,6 +1508,7 @@ static blocked_module_t moduleblocklist[] = {
     // ASUS GPU TWEAK II OSD
     {_T("\\gtii-osd64.dll"), 15},
     {_T("\\gtii-osd64-vk.dll"), 18},
+    {_T("\\gtiii-osd64.dll"), 16},
     // Nahimic Audio
     {L"\\nahimicmsidevprops.dll", 23},
     {L"\\nahimicmsiosd.dll", 18},
