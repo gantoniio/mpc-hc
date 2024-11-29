@@ -1568,7 +1568,7 @@ msgstr ""
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "No se puede cargar %s. Los sombreadores de píxel (PS) no funcionarán."
+msgstr "No se puede cargar %s. Los sombreadores de píxel no funcionarán."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid ""
