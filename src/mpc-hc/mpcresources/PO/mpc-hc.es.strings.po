@@ -550,7 +550,7 @@ msgstr "Opciones"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Seleccionar shaders..."
+msgstr "&Seleccionar Sombreadores..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
