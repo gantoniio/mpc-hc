@@ -182,9 +182,11 @@ BOOL CPPageOutput::OnInitDialog()
     std::map<CStringW,CStringW> devicelist = GetAudioDeviceList();
 
     for (auto it = devicelist.cbegin(); it != devicelist.cend(); it++) {
-        m_AudioRendererDisplayNames.Add((*it).second);
-        m_iAudioRendererTypeCtrl.AddString((*it).first);
-        if (s.strAudioRendererDisplayName == (*it).second && m_iAudioRendererType == 0) {
+        CString description = (*it).first;
+        CString deviceid = (*it).second;
+        m_AudioRendererDisplayNames.Add(deviceid);
+        m_iAudioRendererTypeCtrl.AddString(description);
+        if (s.strAudioRendererDisplayName == deviceid && m_iAudioRendererType == 0) {
             m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
         }
     }

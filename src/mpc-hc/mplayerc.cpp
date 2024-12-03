@@ -586,6 +586,14 @@ std::map<CStringW, CStringW> GetAudioDeviceList() {
                 CStringW frname(var.bstrVal);
                 var.Clear();
                 friendlyname = frname;
+                if (SUCCEEDED(pPB->Read(_T("WaveOutId"), &var, nullptr))) {
+                    DWORD dw = var.intVal;
+                    var.Clear();
+                    if (dw != -1) { // skip default waveout
+                        friendlyname = L"WaveOut: " + friendlyname;
+                    }
+                    friendlyname.Append(L"  [Deprecated]");
+                }
             }
         } else {
             friendlyname = dispname;
