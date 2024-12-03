@@ -57,8 +57,9 @@ releases.
 
 ## Part D: Yasm
 
-1. Download YASM from <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe>
-2. Rename it to **yasm.exe** and put it in a folder that is included in %PATH%. For example **`C:\Windows`** or **`C:\MSYS64\usr\bin`** (see part C).
+1. Download Microsoft Visual C++ 2010 Redistributable Package from <https://www.microsoft.com/en-us/download/details.aspx?id=26999> and install it.
+2. Download YASM from <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe>
+3. Rename it to **yasm.exe** and put it in a folder that is included in %PATH%. For example **`C:\Windows`** or **`C:\MSYS64\usr\bin`** (see part C).
 
 ## PART E: NASM
 
