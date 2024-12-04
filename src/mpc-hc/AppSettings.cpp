@@ -1879,7 +1879,7 @@ void CAppSettings::LoadSettings()
     bSubtitleOverrideAllStyles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_ALL_STYLES, FALSE);
 
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
-    fDownSampleTo441 = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
+    fDownSampleTo441 = false; //!!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
     fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, FALSE);
 
     BOOL bResult = pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, &ptr, &len);

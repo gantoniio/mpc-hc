@@ -186,6 +186,8 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
 
+    GetDlgItem(IDC_CHECK3)->ShowWindow(SW_HIDE); // Hide downsample checkbox, will remove relevant code in future
+
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
