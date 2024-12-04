@@ -2650,7 +2650,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 
     bool bOverrideBroadcom = false;
     CFGFilter* pFGF;
-    m_source;
 
     const bool* src = s.SrcFilters;
     const bool* tra = s.TraFilters;
