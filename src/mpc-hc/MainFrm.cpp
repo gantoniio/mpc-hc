@@ -18112,10 +18112,6 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     }
 
     if (GetPlaybackMode() == PM_FILE) {
-        if (fs == State_Stopped) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-        }
-
         //SleepEx(5000, False); // artificial slow seek for testing purposes
         if (FAILED(m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning))) {
             TRACE(_T("IMediaSeeking SetPositions failure\n"));
@@ -18124,6 +18120,9 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
             }
         }
         UpdateChapterInInfoBar();
+        if (fs == State_Stopped) {
+            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        }
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (fs == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
