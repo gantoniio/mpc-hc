@@ -119,6 +119,7 @@
 #define IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR _T("PauseWhileDraggingSeekbar")
 #define IDS_RS_CONFIRM_FILE_DELETE          _T("ConfirmFileDelete")
 #define IDS_RS_LIBASS_FOR_SRT               _T("UseLibassForSRT")
+#define IDS_RS_SHOW_VOLUME_PERCENTAGE       _T("ShowVolumePercentage")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")

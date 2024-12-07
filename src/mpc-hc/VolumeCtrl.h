@@ -45,6 +45,7 @@ protected:
     void updateModernVolCtrl(CPoint point);
     bool m_bDrag, m_bHover;
     bool modernStyle;
+    bool showPercentage;
     CMPCThemeToolTipCtrl themedToolTip;
 
     DECLARE_MESSAGE_MAP()
