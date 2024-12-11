@@ -139,6 +139,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
             }
 
             if (!bMatchAnotherVid) {
+                ExtendMaxPathLengthIfNeeded(fn2, MAX_PATH);
                 SubFile f;
                 f.fn = fn2;
                 ret.Add(f);
@@ -157,6 +158,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
                 CString fn2 = path + wfd.cFileName;
                 CString ext = CPath(fn2).GetExtension();
                 if (ext == L".srt" || ext == L".ass" || ext == L".ssa" || ext == L".webvtt" || ext == L".vtt") {
+                    ExtendMaxPathLengthIfNeeded(fn2, MAX_PATH);
                     SubFile f;
                     f.fn = fn2;
                     ret.Add(f);
