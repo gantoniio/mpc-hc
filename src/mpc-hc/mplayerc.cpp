@@ -1457,7 +1457,7 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
     return nRet;
 }
 
-#define USE_DLL_BLOCKLIST 1
+#define USE_DLL_BLOCKLIST 0
 
 #if USE_DLL_BLOCKLIST
 #define STATUS_UNSUCCESSFUL ((NTSTATUS)0xC0000001L)
@@ -1524,10 +1524,6 @@ static blocked_module_t moduleblocklist[] = {
     {_T("\\loilocap.dll"), 13},
     // Other
     {_T("\\tortoiseoverlays.dll"), 21},
-#if WIN64
-    // Sizer
-    {_T("\\hook64.dll"), 11},
-#endif
 };
 
 bool IsBlockedModule(wchar_t* modulename)
