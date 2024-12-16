@@ -3337,10 +3337,6 @@ msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
 msgstr "Mídia do RealPlayer"
 
-msgctxt "IDS_MFMT_RT"
-msgid "Real Script"
-msgstr "Script do RealPlayer"
-
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
 msgstr "Vídeo de Mídia do Windows"

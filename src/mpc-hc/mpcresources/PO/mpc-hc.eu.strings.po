@@ -3311,10 +3311,6 @@ msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
 msgstr "Real Multimedia"
 
-msgctxt "IDS_MFMT_RT"
-msgid "Real Script"
-msgstr "Real Eskripta"
-
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
 msgstr "Windows Media Bideoa"
