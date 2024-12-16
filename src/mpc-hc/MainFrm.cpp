@@ -14546,7 +14546,7 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
                         rating = bstr.m_str;
                     }
                     bstr.Empty();
-                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length() > 0 && bstr.Length() < 512) {
                         description = bstr.m_str;
                     }
                     bstr.Empty();
