@@ -111,15 +111,15 @@ msgstr "Feliratok engedélyezése"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "Sötét"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "Világos"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "Windows alapértelmezett"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -746,7 +746,7 @@ msgstr "Lejátszó::Billentyűk"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
-msgstr ""
+msgstr "Lejátszó::Egér"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -762,7 +762,7 @@ msgstr "Lejátszó::Logó"
 
 msgctxt "IDD_PPAGETHEME"
 msgid "Player::User Interface"
-msgstr ""
+msgstr "Lejátszó::Felhasználói felület"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1472,7 +1472,7 @@ msgstr "Billentyű"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse"
-msgstr ""
+msgstr "Egér"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -3079,7 +3079,7 @@ msgstr "Törlés"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
@@ -3099,15 +3099,15 @@ msgstr "Nagyítás 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
-msgstr "Egér Módosítók"
+msgstr "Egér módosítók"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "Ablak Nagyítása"
+msgstr "Ablak nagyítása"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "Ablak Kicsinyítése"
+msgstr "Ablak kicsinyítése"
 
 msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
 msgid "Video Preview"
@@ -4596,7 +4596,7 @@ msgstr "/shaderpreset \"P\"\tIndulás a \"P\" árnyékoló séma használatával
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
@@ -4644,15 +4644,15 @@ msgstr ""
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
-msgstr ""
+msgstr "Művelet"
 
 msgctxt "IDS_MOUSE_COMMAND"
 msgid "Command"
-msgstr ""
+msgstr "Parancs"
 
 msgctxt "IDS_MOUSE_RIGHT_BUTTON"
 msgid "Right button"
-msgstr ""
+msgstr "Jobb gomb"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
