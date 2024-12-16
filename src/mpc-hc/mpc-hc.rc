@@ -3618,7 +3618,6 @@ BEGIN
     IDS_MFMT_FLV            "Flash Video"
     IDS_MFMT_OGM            "Ogg Media"
     IDS_MFMT_RM             "Real Media"
-    IDS_MFMT_RT             "Real Script"
     IDS_MFMT_WMV            "Windows Media Video"
     IDS_MFMT_BINK           "Smacker/Bink Video"
     IDS_MFMT_FLIC           "FLIC Animation"
