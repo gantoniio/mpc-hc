@@ -386,6 +386,9 @@ void CPPageAudioSwitcher::OnUpdateChannelMapping(CCmdUI* pCmdUI)
 
 void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+    if (pScrollBar == nullptr) {
+        return;
+    }
     if (*pScrollBar == m_AudioBoostCtrl) {
         UpdateData();
         ((CMainFrame*)GetParentFrame())->SetVolumeBoost(m_AudioBoostPos); // nice shortcut...
