@@ -120,8 +120,10 @@ void ParseSrtLine(std::string& srtLine, const STSStyle& style) {
                         } else if (attribute_name == "family") {
                         }
                         if (attribute_name == "size") {
-                            int font_size = (int)std::round(std::stod(attribute_value));
-                            subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
+                            try {
+                                int font_size = (int)std::round(std::stod(attribute_value));
+                                subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
+                            } catch (...) {}
                         } else if (attribute_name == "color") {
                             MatchColorSrt(attribute_value);
 
