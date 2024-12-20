@@ -67,17 +67,22 @@ bool CPlayerInfoBar::SetLine(CString label, CString info)
     }
 
     CAutoPtr<CStatusLabel> l(DEBUG_NEW CStatusLabel(m_pMainFrame->m_dpi, true, false));
-    l->Create(label, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW, CRect(0, 0, 0, 0), this);
-    m_label.Add(l);
+    if (l->Create(label, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW, CRect(0, 0, 0, 0), this)) {
+        m_label.Add(l);
+    } else {
+        ASSERT(false);
+        return false;
+    }
 
     CAutoPtr<CStatusLabel> i(DEBUG_NEW CStatusLabel(m_pMainFrame->m_dpi, false, true));
-    i->Create(info, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW | SS_NOTIFY, CRect(0, 0, 0, 0), this);
-    if (usetheme) {
-        themedToolTip.AddTool(i, info);
-    } else {
-        m_tooltip.AddTool(i, info);
+    if (i->Create(info, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW | SS_NOTIFY, CRect(0, 0, 0, 0), this)) {
+        if (usetheme) {
+            themedToolTip.AddTool(i, info);
+        } else {
+            m_tooltip.AddTool(i, info);
+        }
+        m_info.Add(i);
     }
-    m_info.Add(i);
 
     Relayout();
 
