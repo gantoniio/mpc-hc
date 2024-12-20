@@ -1882,7 +1882,7 @@ msgstr "Lebegő keresősáv"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
-msgstr "Pozíció:"
+msgstr "Lebegés pozíciója:"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
