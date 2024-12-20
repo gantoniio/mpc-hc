@@ -444,7 +444,7 @@ msgstr "Monitor/Asztal képarány-eltérés javítása"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "P&nS Képkocka beállítása"
+msgstr "P&nS Képkocka beállítás"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
