@@ -37,7 +37,7 @@ msgstr ""
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "Ikon Gyűjtemény"
+msgstr "Ikon gyűjtemény"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
