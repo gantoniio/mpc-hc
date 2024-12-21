@@ -255,7 +255,7 @@ msgstr "Film/Dráma"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Hírek/Folyó ügyek"
+msgstr "Hírek/Aktuális témák"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
