@@ -3550,7 +3550,7 @@ msgstr "Színkezelés: Bekapcsolva"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Színkezelés: Kikapcsolva"
+msgstr "Színkezelés: Ki"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
