@@ -192,7 +192,7 @@ msgstr "Videó átalakító beállítások"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Képszétválasztás teszt"
+msgstr "&Képszakadás teszt"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
