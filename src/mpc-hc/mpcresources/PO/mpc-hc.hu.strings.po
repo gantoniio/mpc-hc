@@ -3666,7 +3666,7 @@ msgstr "D3D Teljes képernyős GUI támogatás: Ki"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr "10-bit RGB kimenet: Bekapcsolva"
+msgstr "10-bit RGB kimenet: Be"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
@@ -3674,7 +3674,7 @@ msgstr "10-bit RGB kimenet: Ki"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "10-bit RGB bemenet kényszerítése: Bekapcsolva"
+msgstr "10-bit RGB bemenet kényszerítése: Be"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
