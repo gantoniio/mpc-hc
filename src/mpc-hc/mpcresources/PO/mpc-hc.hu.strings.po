@@ -3784,7 +3784,7 @@ msgstr "Egyedi csatornaleképezés be- és kikapcsolása"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "Egyedi csatornaleképezés: Bekapcsolva"
+msgstr "Egyedi csatornaleképezés: Be"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
