@@ -856,7 +856,7 @@ msgstr "&Beállítás"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Mégse"
+msgstr "&Mégsem"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
@@ -912,7 +912,7 @@ msgstr "Mentés..."
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
