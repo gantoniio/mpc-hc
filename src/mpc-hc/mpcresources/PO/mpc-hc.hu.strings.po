@@ -3214,7 +3214,7 @@ msgstr "Bal oldalsó"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
-msgstr "Jobb Oldalsó"
+msgstr "Jobb oldalsó"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
