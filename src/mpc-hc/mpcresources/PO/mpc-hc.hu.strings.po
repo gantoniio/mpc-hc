@@ -1007,7 +1007,7 @@ msgid ""
 msgstr ""
 "Beágyazott erőforrások böngészőben megjelenítéséhez be kell kapcsolni a netes felületet.\n"
 "\n"
-"Használja a \"Mentés Másként\" gombot, ha csak menteni akarja az információt."
+"Használja a \"Mentés másként\" gombot, ha csak menteni akarja az információt."
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
