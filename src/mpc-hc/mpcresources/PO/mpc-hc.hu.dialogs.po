@@ -1336,7 +1336,7 @@ msgstr "Indítás"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
