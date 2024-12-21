@@ -1986,4 +1986,4 @@ msgstr "Kijelölés"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDCANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
