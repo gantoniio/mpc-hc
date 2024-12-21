@@ -3186,7 +3186,7 @@ msgstr "Front közép"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
-msgstr "Alacsony Frekvencia"
+msgstr "Alacsony frekvencia"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
