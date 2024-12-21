@@ -3602,7 +3602,7 @@ msgstr "Kimeneti tartomány: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "GPU memória ürítése függőleges szinkronizáció előtt: Bekapcsolva"
+msgstr "GPU memória ürítése függőleges szinkronizáció előtt: Be"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
