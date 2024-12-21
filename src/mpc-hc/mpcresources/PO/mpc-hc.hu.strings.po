@@ -3206,7 +3206,7 @@ msgstr "Front Jobb középső"
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
-msgstr "Hátsó Center"
+msgstr "Hátsó közép"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
