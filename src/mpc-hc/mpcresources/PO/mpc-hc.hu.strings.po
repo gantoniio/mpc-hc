@@ -1395,7 +1395,7 @@ msgstr "Videó képkocka forgatás Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Képszétválasztás teszt"
+msgstr "Képszakadás teszt"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
