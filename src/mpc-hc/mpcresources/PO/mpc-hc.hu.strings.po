@@ -3610,7 +3610,7 @@ msgstr "GPU memória ürítése függőleges szinkronizáció előtt: Ki"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "GPU memória ürítése megjelenítés után: Bekapcsolva"
+msgstr "GPU memória ürítése megjelenítés után: Be"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
