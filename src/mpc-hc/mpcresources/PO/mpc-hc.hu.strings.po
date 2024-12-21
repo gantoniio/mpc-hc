@@ -3800,7 +3800,7 @@ msgstr "Normalizáció: Be"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr "Normalizáció: Kikapcsolva"
+msgstr "Normalizáció: Ki"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
