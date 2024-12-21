@@ -1048,7 +1048,7 @@ msgstr "Csökkenti a képszakadást, de az eszköztár nem jeleníthető meg."
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr ""
-"Csökketni a képszakadást az alapértelmezett függőleges szinkronizáció "
+"Csökkenti a képszakadást az alapértelmezett függőleges szinkronizáció "
 "megkerülésével."
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
