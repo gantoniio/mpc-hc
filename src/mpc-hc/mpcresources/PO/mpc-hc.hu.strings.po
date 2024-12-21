@@ -633,7 +633,7 @@ msgstr "Lejátszás::Sync Renderer beállítások"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Lejátszás::Teljes Képernyő"
+msgstr "Lejátszás::Teljes képernyő"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
