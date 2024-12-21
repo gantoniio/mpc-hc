@@ -3534,7 +3534,7 @@ msgstr "Kijelző szinkronizálása a videóhoz: Be"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr "Kijelző szinkronizálása a videóhoz: Kikapcsolva"
+msgstr "Kijelző szinkronizálása a videóhoz: Ki"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
