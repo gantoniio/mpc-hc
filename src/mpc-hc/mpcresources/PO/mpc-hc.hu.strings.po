@@ -3872,7 +3872,7 @@ msgstr "Nem értelmezhető a beírt szöveg!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "Nem értelmezhető a beírt képkocka idő!"
+msgstr "Nem értelmezhető a beírt képkocka sebesség!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
