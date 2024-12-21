@@ -3788,7 +3788,7 @@ msgstr "Egyedi csatornaleképezés: Be"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "Egyedi csatornaleképezés: Kikapcsolva"
+msgstr "Egyedi csatornaleképezés: Ki"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
