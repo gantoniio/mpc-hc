@@ -3182,7 +3182,7 @@ msgstr "Jobb első"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
-msgstr "Front Közép"
+msgstr "Front közép"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
