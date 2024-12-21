@@ -59,7 +59,7 @@ msgid ""
 "\n"
 "Your CPU does not have those capabilities."
 msgstr ""
-"Az MPC-HC jelen változatához SSE2 támogatással bíró CPU-ra van szüksége.\n"
+"Az MPC-HC ehhez a kiadásához az SSE2 kiterjesztést támogató CPU szükséges.\n"
 "\n"
 "Az ön CPU-ja nem rendelkezik ilyen támogatással."
 
