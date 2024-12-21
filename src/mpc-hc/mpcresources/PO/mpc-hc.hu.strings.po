@@ -3614,11 +3614,11 @@ msgstr "GPU memória ürítése megjelenítés után: Be"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "GPU memória ürítése megjelenítés után: Kikapcsolva"
+msgstr "GPU memória ürítése megjelenítés után: Ki"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "GPU memória ürítések kivárása: Bekapcsolva"
+msgstr "GPU memória ürítések kivárása: Be"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
