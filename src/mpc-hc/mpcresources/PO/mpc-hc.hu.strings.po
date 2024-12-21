@@ -3210,7 +3210,7 @@ msgstr "Hátsó közép"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
-msgstr "Bal Oldalsó"
+msgstr "Bal oldalsó"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
