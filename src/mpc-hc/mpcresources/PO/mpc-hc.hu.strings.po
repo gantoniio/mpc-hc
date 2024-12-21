@@ -3808,7 +3808,7 @@ msgstr "Hangerő visszanyerés be- és kikapcsolása"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr "Hangerő visszanyerés: Bekapcsolva"
+msgstr "Hangerő visszanyerés: Be"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
