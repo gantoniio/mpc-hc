@@ -3646,7 +3646,7 @@ msgstr "Alternatív függőleges szinkronizáció: Bekapcsolva"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Alternatív függőleges szinkronizáció: Kikapcsolva"
+msgstr "Alternatív függőleges szinkronizáció: Ki"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
