@@ -3102,7 +3102,7 @@ msgstr "Törlés"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
