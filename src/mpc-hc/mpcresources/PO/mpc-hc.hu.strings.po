@@ -3630,7 +3630,7 @@ msgstr "Direct3D Teljes képernyő: Be"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Direct3D Teljes képernyő: Kikapcsolva"
+msgstr "Direct3D Teljes képernyő: Ki"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3638,7 +3638,7 @@ msgstr "Asztal-összeállítás kikapcsolása: Bekapcsolva"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Asztal-összeállítás kikapcsolása: Kikapcsolva"
+msgstr "Asztal-összeállítás kikapcsolása: Ki"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
