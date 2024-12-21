@@ -2383,7 +2383,7 @@ msgstr "DVD menü Elhagyás"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Főnök Gomb"
+msgstr "Főnök gomb"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
