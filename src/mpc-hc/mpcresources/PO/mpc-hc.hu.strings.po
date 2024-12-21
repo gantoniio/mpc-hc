@@ -3812,7 +3812,7 @@ msgstr "Hangerő visszanyerés: Be"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Hangerő visszanyerés: Kikapcsolva"
+msgstr "Hangerő visszanyerés: Ki"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
