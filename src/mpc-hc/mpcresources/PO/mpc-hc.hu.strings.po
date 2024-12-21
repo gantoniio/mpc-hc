@@ -3122,7 +3122,7 @@ msgstr "Nagyítás 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
-msgstr "Egér Módosítók"
+msgstr "Egér módosítók"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
