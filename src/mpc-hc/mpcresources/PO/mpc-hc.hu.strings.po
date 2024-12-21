@@ -4628,7 +4628,7 @@ msgstr "/shaderpreset \"P\"\tIndulás a \"P\" árnyékoló séma használatával
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
