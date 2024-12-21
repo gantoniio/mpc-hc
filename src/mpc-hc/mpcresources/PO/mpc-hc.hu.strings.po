@@ -1499,7 +1499,7 @@ msgstr "Egér"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
-msgstr "Prog. Parancs"
+msgstr "Prog. parancs"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
