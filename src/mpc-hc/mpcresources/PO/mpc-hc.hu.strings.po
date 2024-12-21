@@ -3686,7 +3686,7 @@ msgstr "Teljes lebegőpontos feldolgozás: Bekapcsolva"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
-msgstr "Teljes lebegőpontos feldolgozás: Kikapcsolva"
+msgstr "Teljes lebegőpontos feldolgozás: Ki"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
