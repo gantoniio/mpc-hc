@@ -3506,7 +3506,7 @@ msgstr "Képarány"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "Függőleges szinkronizáció: Bekapcsolva"
+msgstr "Függőleges szinkronizáció: Be"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
