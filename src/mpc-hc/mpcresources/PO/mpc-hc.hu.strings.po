@@ -3670,7 +3670,7 @@ msgstr "10-bit RGB kimenet: Bekapcsolva"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "10-bit RGB kimenet: Kikapcsolva"
+msgstr "10-bit RGB kimenet: Ki"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
@@ -3678,7 +3678,7 @@ msgstr "10-bit RGB bemenet kényszerítése: Bekapcsolva"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr "10-bit RGB bemenet kényszerítése: KIkapcsolva"
+msgstr "10-bit RGB bemenet kényszerítése: Ki"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
