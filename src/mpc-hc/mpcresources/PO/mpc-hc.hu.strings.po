@@ -3796,7 +3796,7 @@ msgstr "Normalizáció be- és kikapcsolása"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr "Normalizáció: Bekapcsolva"
+msgstr "Normalizáció: Be"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
