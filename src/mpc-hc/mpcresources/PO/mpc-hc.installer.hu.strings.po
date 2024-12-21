@@ -93,4 +93,4 @@ msgstr "Egyéni telepítés"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Verziótörténet megtekintése"
+msgstr "Változások megtekintése"
