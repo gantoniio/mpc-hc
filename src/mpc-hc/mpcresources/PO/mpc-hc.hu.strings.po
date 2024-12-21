@@ -3634,7 +3634,7 @@ msgstr "Direct3D Teljes képernyő: Ki"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr "Asztal-összeállítás kikapcsolása: Bekapcsolva"
+msgstr "Asztal-összeállítás kikapcsolása: Be"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
