@@ -937,7 +937,7 @@ msgstr "MPC Audió Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Sima képernyőn kívüli felület"
+msgstr "Szabályos képernyőn kívüli felület"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
