@@ -949,7 +949,7 @@ msgstr "3D felületek (ajánlott)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr "Nearest neighbor"
+msgstr "Közeli szomszéd"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
