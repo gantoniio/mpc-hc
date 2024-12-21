@@ -3658,7 +3658,7 @@ msgstr "Optimális renderelő beállítások visszaállítása"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "D3D Teljes képernyős GUI támogatás: Bekapcsolva"
+msgstr "D3D Teljes képernyős GUI támogatás: Be"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
