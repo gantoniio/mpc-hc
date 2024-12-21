@@ -3546,7 +3546,7 @@ msgstr "Prezentálás a legközelebbi VSync-kor: Ki"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "Színkezelés: Bekapcsolva"
+msgstr "Színkezelés: Be"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
