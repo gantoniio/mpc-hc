@@ -3642,7 +3642,7 @@ msgstr "Asztal-összeállítás kikapcsolása: Ki"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "Alternatív függőleges szinkronizáció: Bekapcsolva"
+msgstr "Alternatív függőleges szinkronizáció: Be"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
