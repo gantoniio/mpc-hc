@@ -5524,6 +5524,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
         return;
     }
+    bool topdown = (bih->biHeight < 0);
     int w = bih->biWidth;
     int h = abs(bih->biHeight);
     int srcpitch = w * (bpp >> 3);
@@ -5533,7 +5534,11 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
     const BYTE* src = pData + sizeof(*bih);
 
-    BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+    if (topdown) {
+        BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src, srcpitch, bpp);
+    } else {
+        BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+    }
 
     {
         Gdiplus::GdiplusStartupInput gdiplusStartupInput;
