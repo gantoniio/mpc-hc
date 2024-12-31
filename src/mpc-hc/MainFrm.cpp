@@ -19148,7 +19148,14 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     break;
                 case WAIT_OBJECT_0 + 1:
                     MSG msg;
-                    PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE);
+                    if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+                        if (msg.message == WM_QUIT) {
+                            processmsg = false;
+                        } else {
+                            TranslateMessage(&msg);
+                            DispatchMessage(&msg);
+                        }
+                    }
                     break;
                 case WAIT_TIMEOUT:
                     break;
