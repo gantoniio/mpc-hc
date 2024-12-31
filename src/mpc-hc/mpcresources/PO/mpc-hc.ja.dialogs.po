@@ -199,8 +199,8 @@ msgid "About"
 msgstr "バージョン情報"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2024 clsid2 and others"
-msgstr "著作権 2002-2024 clsid2 他"
+msgid "Copyright 2002-2025 clsid2 and others"
+msgstr "著作権 2002-2025 clsid2 他"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
