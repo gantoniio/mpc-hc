@@ -363,6 +363,8 @@
 #define IDS_RS_CACHESHADERS                 _T("CacheShaders")
 #define IDS_R_SHADER_CACHE                  _T("ShaderCache")
 
+# define IDS_RS_PLAY_AS_PAUSE               _T("EnablePlayAsPause")
+
 #define IDS_RS_COVER_ART                    _T("EnableCoverArt")
 #define IDS_RS_COVER_ART_SIZE_LIMIT         _T("CoverArtSizeLimit")
 #define IDS_RS_LOGGING                      _T("EnableLogging")

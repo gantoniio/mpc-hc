@@ -324,6 +324,8 @@ BOOL CPPageTheme::OnApply()
     s.fLimitWindowProportions = !!m_fLimitWindowProportions;
     s.bHideWindowedControls = !!m_bHideWindowedControls;
 
+    pFrame->UpdateToolbarIconsBasedOnState();
+
     s.bUseEnhancedTaskBar = !!m_bUseEnhancedTaskBar;
     if (pFrame) {
         if (m_bUseEnhancedTaskBar) {

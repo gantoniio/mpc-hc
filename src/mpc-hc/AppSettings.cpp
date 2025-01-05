@@ -228,6 +228,7 @@ CAppSettings::CAppSettings()
     , hMasterWnd(nullptr)
     , bHideWindowedControls(false)
     , nJpegQuality(90)
+    , bCombinePlayPause(false)
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
     , bEnableLogging(false)
@@ -1267,6 +1268,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_JPEG_QUALITY, nJpegQuality);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PLAY_AS_PAUSE, bCombinePlayPause);
+
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, bEnableCoverArt);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
@@ -2196,6 +2199,8 @@ void CAppSettings::LoadSettings()
     if (nJpegQuality < 20 || nJpegQuality > 100) {
         nJpegQuality = 90;
     }
+
+    bCombinePlayPause = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PLAY_AS_PAUSE, FALSE);
 
     bEnableCoverArt = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, TRUE);
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);

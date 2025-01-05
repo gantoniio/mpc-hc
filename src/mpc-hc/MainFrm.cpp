@@ -532,6 +532,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_PLAY_PAUSE, OnUpdatePlayPauseStop)
     ON_UPDATE_COMMAND_UI(ID_PLAY_PLAYPAUSE, OnUpdatePlayPauseStop)
     ON_UPDATE_COMMAND_UI(ID_PLAY_STOP, OnUpdatePlayPauseStop)
+
     ON_COMMAND_RANGE(ID_PLAY_FRAMESTEP, ID_PLAY_FRAMESTEP_BACK, OnPlayFramestep)
     ON_UPDATE_COMMAND_UI(ID_PLAY_FRAMESTEP, OnUpdatePlayFramestep)
     ON_COMMAND_RANGE(ID_PLAY_SEEKBACKWARDSMALL, ID_PLAY_SEEKFORWARDLARGE, OnPlaySeek)
@@ -1040,6 +1041,40 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (!bResult) {
         TRACE(_T("Failed to create all control bars\n"));
         return -1;      // fail to create
+    }
+
+    // Check application setting if play acts also as pause, then hide pause button.
+    bool shouldHidePlayPauseButton = s.bCombinePlayPause;
+    
+    // Check if the button is found and hide it based on the setting
+    m_playButtonIconIndex = 0;
+    m_pauseButtonIconIndex = 1;
+    if (shouldHidePlayPauseButton)
+    {
+        // Get a pointer to the toolbarCtrl
+        CToolBarCtrl& toolbarCtrl = m_wndToolBar.GetToolBarCtrl();
+
+        // Define a TBBUTTONINFO structure to retrieve the button info
+        TBBUTTONINFO tbInfoPlay = { 0 };
+        tbInfoPlay.cbSize = sizeof(TBBUTTONINFO);
+        tbInfoPlay.dwMask = TBIF_IMAGE;
+
+        TBBUTTONINFO tbInfoPause = { 0 };
+        tbInfoPause.cbSize = sizeof(TBBUTTONINFO);
+        tbInfoPause.dwMask = TBIF_IMAGE;
+
+        if (toolbarCtrl.GetButtonInfo(ID_PLAY_PLAY, &tbInfoPlay) == -1) {
+            return E_FAIL;
+        }
+        if (toolbarCtrl.GetButtonInfo(ID_PLAY_PAUSE, &tbInfoPause) == -1) {
+            return E_FAIL;
+        }
+        m_playButtonIconIndex = tbInfoPlay.iImage;
+        m_pauseButtonIconIndex = tbInfoPause.iImage;
+
+
+        // Hide the button
+        toolbarCtrl.HideButton(ID_PLAY_PAUSE);
     }
 
     m_pDedicatedFSVideoWnd = DEBUG_NEW CFullscreenWnd(this);
@@ -8662,6 +8697,13 @@ void CMainFrame::OnPlayPlay()
         // If playback was previously stopped or ended, we need to reset the window size
         bool bVideoWndNeedReset = GetMediaState() == State_Stopped || m_fEndOfStream;
 
+        bool shouldActAsPause = (GetMediaState() == State_Running) && s.bCombinePlayPause;
+        if (shouldActAsPause) {
+            // Trigger pause.
+            OnPlayPause();
+            return;
+        }
+
         KillTimersStop();
 
         if (GetPlaybackMode() == PM_FILE) {
@@ -8947,8 +8989,10 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 
     if (GetLoadState() == MLS::LOADED) {
         OAFilterState fs = m_fFrameSteppingActive ? State_Paused : GetMediaState();
-
-        fCheck = pCmdUI->m_nID == ID_PLAY_PLAY && fs == State_Running ||
+        const auto& s = AfxGetAppSettings();
+        
+        fCheck = (pCmdUI->m_nID == ID_PLAY_PLAY && fs == State_Running && !s.bCombinePlayPause) || // If bCombinePlayPause is disabled, check Play only in Running.
+            ((pCmdUI->m_nID == ID_PLAY_PLAY || pCmdUI->m_nID == ID_PLAY_PAUSE) && (fs == State_Running || fs == State_Paused) && s.bCombinePlayPause) || // If bCombinePlayPause is enabled, check Play in Running and Pause, too
             pCmdUI->m_nID == ID_PLAY_PAUSE && fs == State_Paused ||
             pCmdUI->m_nID == ID_PLAY_STOP && fs == State_Stopped ||
             pCmdUI->m_nID == ID_PLAY_PLAYPAUSE && (fs == State_Paused || fs == State_Running);
@@ -19450,7 +19494,7 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
         SetThreadExecutionState(ES_CONTINUOUS);
     }
 
-
+    UpdateToolbarIconsBasedOnState(iState);
     UpdateThumbarButton(iState);
 }
 
@@ -20736,6 +20780,50 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
     }
 
     return m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, _countof(buttons), buttons);
+}
+
+HRESULT CMainFrame::UpdateToolbarIconsBasedOnState() {
+    MPC_PLAYSTATE state = PS_STOP;
+    if (GetLoadState() == MLS::LOADED) {
+        switch (GetMediaState()) {
+        case State_Running:
+            state = PS_PLAY;
+            break;
+        case State_Paused:
+            state = PS_PAUSE;
+            break;
+        }
+    }
+    return UpdateToolbarIconsBasedOnState(state);
+}
+
+HRESULT CMainFrame::UpdateToolbarIconsBasedOnState(MPC_PLAYSTATE iPlayState)
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bCombinePlayPause) {
+        // Play as Pause enabled. Toggle Play/Pause icons based on iPlayState.
+        
+        // Get a pointer to the toolbarCtrl
+        CToolBarCtrl& toolbarCtrl = m_wndToolBar.GetToolBarCtrl();
+
+        // Retrieve the current state of the button
+        TBBUTTONINFO tbInfo = { 0 };
+        tbInfo.cbSize = sizeof(TBBUTTONINFO);
+        tbInfo.dwMask = TBIF_STATE | TBIF_IMAGE;
+        if (toolbarCtrl.GetButtonInfo(ID_PLAY_PLAY, &tbInfo) == -1)
+        {
+            return E_FAIL;
+        }
+
+        if (iPlayState == PS_PLAY) {
+            tbInfo.iImage = m_pauseButtonIconIndex;
+            toolbarCtrl.SetButtonInfo(ID_PLAY_PLAY, &tbInfo);
+        }
+        else {
+            tbInfo.iImage = m_playButtonIconIndex;
+            toolbarCtrl.SetButtonInfo(ID_PLAY_PLAY, &tbInfo);
+        }
+    }
 }
 
 HRESULT CMainFrame::UpdateThumbnailClip()

@@ -181,6 +181,8 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
     SetMute(AfxGetAppSettings().fMute);
 
+    const CAppSettings& s = AfxGetAppSettings();
+
     UINT styles[] = {
         TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
         TBBS_SEPARATOR,
@@ -496,7 +498,32 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
         ClientToScreen(&point);
         m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     } else {
+        const CAppSettings& s = AfxGetAppSettings();
+        if (s.bCombinePlayPause) {
+            // Play acts as Pause also. In that case, uncheck the button before proceeding with click handle so that it can be retriggered.
+            if (i >= 0) {
+                TBBUTTON button;
+                GetToolBarCtrl().GetButton(i, &button);
+                if (button.idCommand == ID_PLAY_PLAY && (button.fsStyle & TBBS_CHECKGROUP)) {
+                    BOOL bChecked = (button.fsState & TBSTATE_CHECKED) != 0;
+                    if (bChecked) {
+                        GetToolBarCtrl().CheckButton(button.idCommand, FALSE);
+                        button.fsState &= ~TBSTATE_CHECKED;
+                        GetToolBarCtrl().SetState(button.idCommand, button.fsState);
+                        // Manually invoke the command handler to ensure the event is triggered
+                        CWnd* pMainWnd = AfxGetMainWnd();
+                        if (pMainWnd) {
+                            pMainWnd->SendMessage(WM_COMMAND, MAKEWPARAM(button.idCommand, BN_CLICKED), (LPARAM)GetSafeHwnd());
+                        }
+                        // Refresh the toolbar to ensure the change is reflected
+                        Invalidate();
+                        UpdateWindow();
+                    }
+                }
+            }
+        }
         __super::OnLButtonDown(nFlags, point);
+        
     }
     m_pMainFrame->RestoreFocus();
 }
@@ -540,26 +567,50 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         nID = ::GetDlgCtrlID((HWND)nID);
     }
 
-    if (nID != ID_VOLUME_MUTE) {
+    const auto& s = AfxGetAppSettings();
+
+    // Allow only Volume Mute and, Play (if bCombinePlayPause setting is true).
+    if (nID != ID_VOLUME_MUTE && (!s.bCombinePlayPause || nID != ID_PLAY_PLAY)) {
         return FALSE;
     }
+
+
     CToolBarCtrl& tb = GetToolBarCtrl();
 
     TBBUTTONINFO bi;
     bi.cbSize = sizeof(bi);
     bi.dwMask = TBIF_IMAGE;
-    tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
+    tb.GetButtonInfo(nID, &bi);
 
     static CString strTipText;
-    if (bi.iImage == 12) {
-        strTipText.LoadString(ID_VOLUME_MUTE);
-    } else if (bi.iImage == 13) {
-        strTipText.LoadString(ID_VOLUME_MUTE_OFF);
-    } else if (bi.iImage == 14) {
-        strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
-    } else {
-        return FALSE;
+    if (nID == ID_VOLUME_MUTE) {
+        // Mute Tooltips.
+        if (bi.iImage == 12) {
+            strTipText.LoadString(ID_VOLUME_MUTE);
+        }
+        else if (bi.iImage == 13) {
+            strTipText.LoadString(ID_VOLUME_MUTE_OFF);
+        }
+        else if (bi.iImage == 14) {
+            strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
+        }
+        else {
+            return FALSE;
+        }
     }
+    else if (s.bCombinePlayPause && nID == ID_PLAY_PLAY) {
+        // Play tooltips when play/pause are combined
+        if (bi.iImage == 0) {
+            // 0 is Play
+            strTipText.LoadString(IDS_AG_PLAY);
+        }
+        else if (bi.iImage == 1) {
+            // 1 is Pause
+            strTipText.LoadString(IDS_AG_PAUSE);
+        }
+    }
+
+    // Set calculated tooltip text.
     pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 
     *pResult = 0;

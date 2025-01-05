@@ -912,6 +912,8 @@ public:
 
     int             nJpegQuality;
 
+    bool            bCombinePlayPause;
+
     bool            bEnableCoverArt;
     int             nCoverArtSizeLimit;
 

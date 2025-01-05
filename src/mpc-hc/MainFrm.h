@@ -239,6 +239,9 @@ private:
     static PlaybackRateMap filePlaybackRates;
     static PlaybackRateMap dvdPlaybackRates;
 
+    int m_playButtonIconIndex = 0;
+    int m_pauseButtonIconIndex = 1;
+
     friend class CPPageFileInfoSheet;
     friend class CPPageLogo;
     friend class CMouse;
@@ -1255,6 +1258,8 @@ public:
 
     CString GetVidPos() const;
 
+    HRESULT UpdateToolbarIconsBasedOnState();
+    HRESULT UpdateToolbarIconsBasedOnState(MPC_PLAYSTATE iPlayState);
     CComPtr<ITaskbarList3> m_pTaskbarList;
     HRESULT CreateThumbnailToolbar();
     HRESULT UpdateThumbarButton();

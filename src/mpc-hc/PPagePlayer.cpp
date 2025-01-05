@@ -45,6 +45,7 @@ CPPagePlayer::CPPagePlayer()
     , m_fRememberDVDPos(FALSE)
     , m_fRememberFilePos(FALSE)
     , m_bRememberPlaylistItems(TRUE)
+    , m_bCombinePlayPause(FALSE)
     , m_bEnableCoverArt(TRUE)
     , m_dwCheckIniLastTick(0)
 {
@@ -74,6 +75,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
     DDX_Check(pDX, IDC_CHECK2, m_bRememberPlaylistItems);
     DDX_Check(pDX, IDC_CHECK14, m_bEnableCoverArt);
+    DDX_Check(pDX, IDC_CHECK15, m_bCombinePlayPause);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CMPCThemePPageBase)
@@ -108,6 +110,7 @@ BOOL CPPagePlayer::OnInitDialog()
     m_fRememberDVDPos = s.fRememberDVDPos;
     m_fRememberFilePos = s.fRememberFilePos;
     m_bRememberPlaylistItems = s.bRememberPlaylistItems;
+    m_bCombinePlayPause = s.bCombinePlayPause;
     m_bEnableCoverArt = s.bEnableCoverArt;
 
 
@@ -140,6 +143,7 @@ BOOL CPPagePlayer::OnApply()
     s.fRememberFilePos = !!m_fRememberFilePos;
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
     s.bEnableCoverArt = !!m_bEnableCoverArt;
+    s.bCombinePlayPause = !!m_bCombinePlayPause;
 
     if (!m_fKeepHistory) {
         s.ClearRecentFiles();
