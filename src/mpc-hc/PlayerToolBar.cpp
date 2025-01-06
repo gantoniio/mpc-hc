@@ -184,7 +184,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     const CAppSettings& s = AfxGetAppSettings();
 
     UINT styles[] = {
-        TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
+        (s.bCombinePlayPause ? TBBS_BUTTON : TBBS_CHECKGROUP), TBBS_CHECKGROUP, TBBS_CHECKGROUP,
         TBBS_SEPARATOR,
         TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
         TBBS_SEPARATOR,
@@ -498,30 +498,6 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
         ClientToScreen(&point);
         m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     } else {
-        const CAppSettings& s = AfxGetAppSettings();
-        if (s.bCombinePlayPause) {
-            // Play acts as Pause also. In that case, uncheck the button before proceeding with click handle so that it can be retriggered.
-            if (i >= 0) {
-                TBBUTTON button;
-                GetToolBarCtrl().GetButton(i, &button);
-                if (button.idCommand == ID_PLAY_PLAY && (button.fsStyle & TBBS_CHECKGROUP)) {
-                    BOOL bChecked = (button.fsState & TBSTATE_CHECKED) != 0;
-                    if (bChecked) {
-                        GetToolBarCtrl().CheckButton(button.idCommand, FALSE);
-                        button.fsState &= ~TBSTATE_CHECKED;
-                        GetToolBarCtrl().SetState(button.idCommand, button.fsState);
-                        // Manually invoke the command handler to ensure the event is triggered
-                        CWnd* pMainWnd = AfxGetMainWnd();
-                        if (pMainWnd) {
-                            pMainWnd->SendMessage(WM_COMMAND, MAKEWPARAM(button.idCommand, BN_CLICKED), (LPARAM)GetSafeHwnd());
-                        }
-                        // Refresh the toolbar to ensure the change is reflected
-                        Invalidate();
-                        UpdateWindow();
-                    }
-                }
-            }
-        }
         __super::OnLButtonDown(nFlags, point);
         
     }

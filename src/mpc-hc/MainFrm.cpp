@@ -8992,7 +8992,6 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
         const auto& s = AfxGetAppSettings();
         
         fCheck = (pCmdUI->m_nID == ID_PLAY_PLAY && fs == State_Running && !s.bCombinePlayPause) || // If bCombinePlayPause is disabled, check Play only in Running.
-            ((pCmdUI->m_nID == ID_PLAY_PLAY || pCmdUI->m_nID == ID_PLAY_PAUSE) && (fs == State_Running || fs == State_Paused) && s.bCombinePlayPause) || // If bCombinePlayPause is enabled, check Play in Running and Pause, too
             pCmdUI->m_nID == ID_PLAY_PAUSE && fs == State_Paused ||
             pCmdUI->m_nID == ID_PLAY_STOP && fs == State_Stopped ||
             pCmdUI->m_nID == ID_PLAY_PLAYPAUSE && (fs == State_Paused || fs == State_Running);
