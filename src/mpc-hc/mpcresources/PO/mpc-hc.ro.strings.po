@@ -1840,7 +1840,7 @@ msgstr "Încarcă subtitrări.."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr "Salvare subtitluri..."
+msgstr "Salvează subtitrările..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
