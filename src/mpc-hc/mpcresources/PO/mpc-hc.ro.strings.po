@@ -4088,7 +4088,7 @@ msgstr "Scor"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr "Căutarea pe Internet a subtitlurilor a eșuat."
+msgstr "Căutarea pe Internet a subtitrărilor a eșuat."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
