@@ -4225,7 +4225,7 @@ msgstr "Încărcarea subtitlurilor a eșuat."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr "Încărcarea subtitlurilor a fost abantodonată."
+msgstr "Încărcarea subtirărilor a fost abandonată."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
