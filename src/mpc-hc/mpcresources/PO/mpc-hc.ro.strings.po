@@ -4221,7 +4221,7 @@ msgstr "Subtitlurile au fost încărcate cu succes."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr "Încărcarea subtitlurilor a eșuat."
+msgstr "Încărcarea subtitrărilor a eșuat."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
