@@ -3640,7 +3640,7 @@ msgstr "Ecran complet D3D: Dezactivat"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr "Dezactivare compoziție desktop (Aero): Da"
+msgstr "Dezactivează compoziția desktop-ului (Aero): Activată"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
