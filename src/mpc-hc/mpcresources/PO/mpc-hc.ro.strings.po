@@ -4281,7 +4281,7 @@ msgstr "EROARE: Conexiunea la Internet nu a putut fi stabilită."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
-msgstr "Introduceți datele de autentificare pe site web"
+msgstr "Introdu datele de autentificare pentru site-ului web"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
