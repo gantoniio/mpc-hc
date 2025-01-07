@@ -4106,7 +4106,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
-msgstr "Descarcă subtitluri"
+msgstr "Descarcă subtitrările"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
