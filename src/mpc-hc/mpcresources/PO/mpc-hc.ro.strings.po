@@ -4637,7 +4637,7 @@ msgstr "/shaderpreset \"Pr\"\tPornește folosind prestabilirea „Pr” pentru n
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr "Renunță"
+msgstr "Revocare"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
