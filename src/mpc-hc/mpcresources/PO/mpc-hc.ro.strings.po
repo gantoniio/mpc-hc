@@ -1812,11 +1812,11 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Randor subtitluri intern"
+msgstr "Randor de subtitrări intern"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
-msgstr "Deschide dispozitiv"
+msgstr "Deschide dispozitivul"
 
 msgctxt "IDS_AG_SAVE_AS"
 msgid "Save As"
