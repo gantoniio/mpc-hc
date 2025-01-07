@@ -1824,7 +1824,7 @@ msgstr "Salvează ca"
 
 msgctxt "IDS_AG_SAVE_IMAGE"
 msgid "Save Image"
-msgstr "Salvează imagine"
+msgstr "Salvează imaginea"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
