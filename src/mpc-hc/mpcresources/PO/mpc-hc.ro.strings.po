@@ -4285,7 +4285,7 @@ msgstr "Introduceți datele de autentificare pe site web"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
-msgstr "Introduceți datele de autentificare pentru a vă conecta la: "
+msgstr "Introdu-ți datele de autentificare pentru a te conecta la: "
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
