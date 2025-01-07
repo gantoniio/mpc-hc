@@ -4653,7 +4653,7 @@ msgstr "&Ignoră"
 
 msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
-msgstr "Bine"
+msgstr "OK"
 
 msgctxt "IDS_MOUSE_CLICK_MIDDLE"
 msgid "Middle click"
