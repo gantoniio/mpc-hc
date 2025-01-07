@@ -4092,7 +4092,7 @@ msgstr "Căutarea pe Internet a subtitrărilor a eșuat."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr "Căutarea pe Internet a subtitlurilor a fost abandonată."
+msgstr "Căutarea pe Internet a subtitrărilor a fost abandonată."
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
