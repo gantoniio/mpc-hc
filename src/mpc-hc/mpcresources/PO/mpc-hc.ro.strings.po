@@ -4114,7 +4114,7 @@ msgstr "Se caută subtitluri pe Internet, așteptați..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr "Se abandonează căutarea pe Internet a subtitlurilor..."
+msgstr "Se abandonează căutarea pe Internet a subtitrărilor..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
