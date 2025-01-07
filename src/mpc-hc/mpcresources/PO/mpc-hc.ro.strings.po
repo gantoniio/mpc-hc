@@ -1836,7 +1836,7 @@ msgstr "Imagine salvată cu succes"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr "Încărcare subtitluri..."
+msgstr "Încarcă subtitrări.."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
