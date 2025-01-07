@@ -4110,7 +4110,7 @@ msgstr "Descarcă subtitluri"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr "Se caută subtitluri pe Internet, așteptați..."
+msgstr "Se caută subtitrări pe Internet, te rugăm să aștepți..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
