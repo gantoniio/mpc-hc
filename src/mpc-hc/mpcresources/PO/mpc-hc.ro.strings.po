@@ -4229,7 +4229,7 @@ msgstr "Încărcarea subtitlurilor a fost abantodonată."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr "Subtitlurile există deja."
+msgstr "Subtitrările există deja."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
