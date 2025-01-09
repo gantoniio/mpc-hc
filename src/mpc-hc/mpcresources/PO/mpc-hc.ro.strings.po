@@ -2636,7 +2636,7 @@ msgid ""
 msgstr ""
 "Această opțiune a fost proiectată pentru a evita efectul de rupere (tearing). Cu toate acestea, va împiedica de asemenea MPC-HC să afișeze meniul contextual și orice căsuță de dialog în timpul redării.\n"
 "\n"
-"Sigur doriți să activați această opțiune?"
+"Ești sigur(ă) că dorești să activezi această opțiune?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
