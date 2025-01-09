@@ -3499,7 +3499,7 @@ msgstr "Arhivă RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr "CPS (cadre pe secundă)"
+msgstr "FPS (cadre pe secundă)"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
