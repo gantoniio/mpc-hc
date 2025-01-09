@@ -790,7 +790,7 @@ msgid ""
 "Default video renderer filter for DirectShow. Others will fall back to this "
 "one when they can't be loaded for some reason."
 msgstr ""
-"Filtru randor video implicit pentru DirectShow. Celelalte vor reveni la "
+"Filtru de randor video implicit pentru DirectShow. Celelalte vor reveni la "
 "acesta când nu pot fi încărcate dintr-un motiv anume."
 
 msgctxt "IDC_DSOVERLAYMIXER"
