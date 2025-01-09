@@ -3519,7 +3519,7 @@ msgstr "Sincronizare verticală: Oprită"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Sincronizare verticală precisă: Activată"
+msgstr "Sincronizare verticală precisă: Pornită"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
