@@ -2563,7 +2563,7 @@ msgstr "Adaugă la lista de redare a MPC-HC"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
-msgstr "Redă cu MPC-HC"
+msgstr "Redare cu MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid ""
