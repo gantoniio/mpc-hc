@@ -3644,7 +3644,7 @@ msgstr "Dezactivează compoziția desktop-ului (Aero): Pornit"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Dezactivează compoziția desktop-ului (Aero): Dezactivat"
+msgstr "Dezactivează compoziția desktop-ului (Aero): Oprit"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
