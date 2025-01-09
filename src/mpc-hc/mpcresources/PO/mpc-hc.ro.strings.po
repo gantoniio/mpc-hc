@@ -3535,7 +3535,7 @@ msgstr "Sincronizarea afișării cu videoclipul: Oprită"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
-msgstr "Sincronizează afișarea cu video: Pornită"
+msgstr "Sincronizarea afișării cu videoclipul: Pornită"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
