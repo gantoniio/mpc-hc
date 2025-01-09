@@ -3018,7 +3018,7 @@ msgid ""
 "Unrecognized switch(es) found in command line string: \n"
 "\n"
 msgstr ""
-"Au fost găsite comutatoare nerecunoscute în șirul liniei de comandă: \n"
+"Comutator nerecunoscut (Comutatoare nerecunoscute) găsit(e) în șirul liniei de comandă: \n"
 "\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
