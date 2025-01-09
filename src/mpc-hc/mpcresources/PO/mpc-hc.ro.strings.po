@@ -2701,7 +2701,7 @@ msgstr "Subtitrare: oprită"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
-msgstr "Subtitlu: %s"
+msgstr "Subtirare: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
