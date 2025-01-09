@@ -2527,7 +2527,7 @@ msgstr "Subtitrări salvate"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Subtitlurile nu pot fi salvate"
+msgstr "Subtitrările nu pot fi salvate"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
