@@ -2725,7 +2725,7 @@ msgstr "Obținerea cadrului actual a eșuat, hr = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
-msgstr "Fișierul nu poate fi creat"
+msgstr "Nu se poate crea fișierul"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
