@@ -2571,7 +2571,7 @@ msgid ""
 "Please click on the \"Run as administrator\" button."
 msgstr ""
 "MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele de "
-"fișiere. Dați clic pe butonul „Rulează ca administrator”."
+"fișiere. Dă clic pe butonul „Rulează ca administrator”."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid ""
