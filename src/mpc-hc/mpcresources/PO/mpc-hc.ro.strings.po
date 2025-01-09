@@ -2523,7 +2523,7 @@ msgstr "Focalizare pierdută la: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
-msgstr "Subtitluri salvate"
+msgstr "Subtitrări salvate"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
