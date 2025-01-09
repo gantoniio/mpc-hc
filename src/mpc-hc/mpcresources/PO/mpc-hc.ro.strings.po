@@ -841,7 +841,7 @@ msgid ""
 msgstr ""
 "Se conectează la orice tip de media video și nu va trimite mostrele primite "
 "nicăieri. Folosește-l atunci când nu ai veți nevoie de afișajul video și "
-"dorești să salvezi procesorul (CPU-ul) de la funcționarea inutilă."
+"dorești să salvezi CPU-ul de la funcționarea inutilă."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid ""
