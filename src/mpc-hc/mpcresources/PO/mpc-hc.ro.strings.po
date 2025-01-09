@@ -3527,7 +3527,7 @@ msgstr "Sincronizare verticală precisă: dezactivată"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr "Sincronizare video cu afișarea: Activată"
+msgstr "Sincronizare video cu afișarea: Pornită"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
