@@ -2697,7 +2697,7 @@ msgstr "Eroare"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Subtitlu: oprit"
+msgstr "Subtitrare: oprită"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
