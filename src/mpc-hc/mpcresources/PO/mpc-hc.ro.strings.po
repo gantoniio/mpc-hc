@@ -3511,7 +3511,7 @@ msgstr "Raport de aspect"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "Sincronizare verticală: Activată"
+msgstr "Sincronizare verticală: Pornită"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
