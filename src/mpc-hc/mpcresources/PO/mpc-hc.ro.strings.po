@@ -2661,7 +2661,7 @@ msgstr "Coloane:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
-msgstr "Lățime imagine:"
+msgstr "Lățimea imaginii:"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
