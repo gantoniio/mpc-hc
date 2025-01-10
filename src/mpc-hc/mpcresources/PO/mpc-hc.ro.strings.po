@@ -3806,7 +3806,7 @@ msgstr "Normalizare: Activată"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr "Normalizare: Oprită"
+msgstr "Normalizare: Dezactivată"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
