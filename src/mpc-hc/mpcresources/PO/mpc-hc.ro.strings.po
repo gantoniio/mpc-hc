@@ -3802,7 +3802,7 @@ msgstr "Comută normalizare"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr "Normalizare: Pornită"
+msgstr "Normalizare: Activată"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
