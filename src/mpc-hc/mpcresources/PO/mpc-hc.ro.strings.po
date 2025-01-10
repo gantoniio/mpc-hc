@@ -4024,7 +4024,7 @@ msgstr "Saturație: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Stabilirile de culoare au fost restaurate"
+msgstr "Setările de culoare au fost restaurate"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
