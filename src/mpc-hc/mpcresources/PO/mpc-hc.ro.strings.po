@@ -3818,7 +3818,7 @@ msgstr "Restabește volumul: Activat"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Restabește volumul: Oprit"
+msgstr "Restabește volumul: Dezactivat"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
