@@ -3968,7 +3968,7 @@ msgstr "Acest tip se află deja în listă!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "Trebuie să aplicați noile stabiliri înainte de a le testa."
+msgstr "Trebuie să aplici noile setări înainte de a le testa."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
