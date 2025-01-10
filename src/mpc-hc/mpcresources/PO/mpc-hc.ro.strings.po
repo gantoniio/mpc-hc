@@ -3814,7 +3814,7 @@ msgstr "Comută restabilire volum"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr "Restabește volumul: Pornit"
+msgstr "Restabește volumul: Activat"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
