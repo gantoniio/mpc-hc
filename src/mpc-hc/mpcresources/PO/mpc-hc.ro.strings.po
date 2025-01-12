@@ -2233,7 +2233,7 @@ msgstr "Analizează lista..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Nu s-au găsit subtitluri."
+msgstr "Nu s-au găsit subtitrări."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
