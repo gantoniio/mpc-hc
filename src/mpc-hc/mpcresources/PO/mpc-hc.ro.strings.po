@@ -2245,7 +2245,7 @@ msgid ""
 "\n"
 "This feature can be disabled later from the Miscellaneous options page."
 msgstr ""
-"Doriți să verificați periodic pentru actualizări ale MPC-HC?\n"
+"Dorești să verifici periodic dacă există actualizări ale MPC-HC?\n"
 "\n"
 "Această caracteristică poate fi dezactivată mai târziu din pagina de opțiuni Diverse."
 
