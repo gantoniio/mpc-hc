@@ -2431,7 +2431,7 @@ msgstr "Activează/Dezactivează subtitrarea"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Reîncarcă subtitlurile"
+msgstr "Reîncarcă subtitrările"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
