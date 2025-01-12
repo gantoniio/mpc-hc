@@ -2427,7 +2427,7 @@ msgstr "Subtitrarea precedentă"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Activare/Dezactivare subtitlu"
+msgstr "Activează/Dezactivează subtitrarea"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
