@@ -2403,7 +2403,7 @@ msgstr "Meniu player (complet)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
-msgstr "Meniu filtre"
+msgstr "Meniul pentru filtre"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
