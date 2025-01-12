@@ -2229,7 +2229,7 @@ msgstr "Se descarcă [%s] „%s”"
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "Analizare listă..."
+msgstr "Analizează lista..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
