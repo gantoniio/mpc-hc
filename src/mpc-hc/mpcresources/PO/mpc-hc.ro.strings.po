@@ -2331,7 +2331,7 @@ msgstr "Crește volum"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
-msgstr "Scade Volum"
+msgstr "Scade volumul"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
