@@ -2963,7 +2963,7 @@ msgstr " (Comentarii regizor 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr "Activează subtitluri DVD"
+msgstr "Activează subtitlrări pentru DVD-uri"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
