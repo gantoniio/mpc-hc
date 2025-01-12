@@ -2391,7 +2391,7 @@ msgstr "Meniu DVD: ieșire"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Tastă <Vine șefu!>"
+msgstr "Tastă Șef"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
