@@ -2419,7 +2419,7 @@ msgstr "Pista audio precedentă"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr "Subtitlul următor"
+msgstr "Subtitrarea următoare"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
