@@ -2237,7 +2237,7 @@ msgstr "Nu s-au găsit subtitrări."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
-msgstr "Nr. de subtitrări disponibile: %d"
+msgstr "%d subitrare disponibilă (subtitrări disponibile)"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid ""
