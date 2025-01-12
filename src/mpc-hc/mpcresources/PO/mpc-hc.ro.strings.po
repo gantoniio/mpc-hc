@@ -4032,7 +4032,7 @@ msgstr "Controalele de culoare nu sunt sprijinite"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "Mărire luminozitate"
+msgstr "Mărește luminozitatea"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid ""
