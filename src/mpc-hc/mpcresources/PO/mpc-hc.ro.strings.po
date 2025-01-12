@@ -2327,7 +2327,7 @@ msgstr "Cadrul video în jos/ în dreapta"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
-msgstr "Crește volum"
+msgstr "Crește volumul"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
