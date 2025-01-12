@@ -2423,7 +2423,7 @@ msgstr "Subtitrarea următoare"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr "Subtitlul precedent"
+msgstr "Subtitrarea precedentă"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
