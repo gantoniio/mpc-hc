@@ -2016,7 +2016,7 @@ msgstr "자막 0.1초 빠르게"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr "자막 100밀리 초 느리게"
+msgstr "자막 0.1초 느리게"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
