@@ -387,7 +387,7 @@ msgstr "Audio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume"
-msgstr "Volum sonor"
+msgstr "Volumul sonorului"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
