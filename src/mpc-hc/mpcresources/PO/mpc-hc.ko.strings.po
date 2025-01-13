@@ -977,7 +977,7 @@ msgstr "자막 다운로드..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr "지연(밀리 초) :"
+msgstr "지연(밀리초) :"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
