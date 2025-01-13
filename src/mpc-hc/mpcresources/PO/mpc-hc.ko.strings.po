@@ -269,7 +269,7 @@ msgstr "탐색 표시줄"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "자막 조정"
+msgstr "자막 동기화"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
