@@ -2689,7 +2689,7 @@ msgstr "종횡비 : 기본값(DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "오디오 지연 : %I64d밀리 초"
+msgstr "오디오 지연 : %I64d밀리초"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
