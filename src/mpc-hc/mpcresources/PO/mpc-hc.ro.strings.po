@@ -106,7 +106,7 @@ msgstr "Repetare A-B: Marchează poziția B"
 
 msgctxt "IDS_SNAPSHOT_SUBTITLES"
 msgid "Include Subtitles"
-msgstr "Include subtitlurile"
+msgstr "Include subtitrările"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
