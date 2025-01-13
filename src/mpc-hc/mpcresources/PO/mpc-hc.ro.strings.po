@@ -34,7 +34,7 @@ msgstr "Audio"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
-msgstr "Subtitluri"
+msgstr "Subtitrări"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
