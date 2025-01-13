@@ -491,7 +491,7 @@ msgstr "Permite alegerea separatorului extern cu prioritate"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Stabiliri deschidere"
+msgstr "Setări pentru deschidere"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
