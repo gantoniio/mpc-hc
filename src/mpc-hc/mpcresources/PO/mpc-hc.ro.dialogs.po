@@ -379,7 +379,7 @@ msgstr "Stabiliri adiționale"
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
 msgstr ""
-"Permite subtitluri pentru persoane cu dizabilități în „Line 21 Decoder”"
+"Permite subtitrări pentru persoanele cu dizabilități în „Line 21 Decoder”"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
