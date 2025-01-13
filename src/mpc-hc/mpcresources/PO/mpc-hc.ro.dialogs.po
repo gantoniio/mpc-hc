@@ -487,7 +487,7 @@ msgstr "Audio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Permite suprascrierea opțiunii separatorului (splitter-ului) extern"
+msgstr "Permite alegerea separatorului extern cu prioritate"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
