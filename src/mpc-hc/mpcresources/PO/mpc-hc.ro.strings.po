@@ -715,7 +715,7 @@ msgid ""
 "Enable this option if you want MPC-HC to control external splitters."
 msgstr ""
 "Separatoarele externe pot avea propriile opțiuni privind preferințele pentru limbă, de aceea comportamentul implicit al MPC-HC este să nu schimbe alegerea inițială a acestora.\n"
-"Activați această opțiune dacă doriți ca MPC-HC să controleze separatoarele externe."
+"Activează această opțiune dacă dorești ca MPC-HC să controleze separatoarele externe."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
