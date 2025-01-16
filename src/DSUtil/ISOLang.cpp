@@ -171,6 +171,7 @@ namespace
         { "Fanti", "fat", "" },
         { "Faroese", "fao", "fo",                    MAKELCID(MAKELANGID(LANG_FAEROESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Fijian", "fij", "fj" },
+        { "Filipino", "fil", "" },
         { "Finnish", "fin", "fi",                    MAKELCID(MAKELANGID(LANG_FINNISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Finno-Ugrian", "fiu", "" },
         { "Flemish", "dut", "nl",                    MAKELCID(MAKELANGID(LANG_DUTCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
