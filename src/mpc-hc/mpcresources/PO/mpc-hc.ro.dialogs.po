@@ -116,7 +116,7 @@ msgstr "Activează repartizarea particularizată a canalelor "
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
-msgstr "Configurație a difuzoarelor pentru"
+msgstr "Configurația difuzoarelor pentru"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
