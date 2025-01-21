@@ -549,7 +549,7 @@ msgstr "Rezoluția maximă a texturii:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr "Nu anima niciodată subtitlurile"
+msgstr "Nu anima niciodată subtitrările"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
