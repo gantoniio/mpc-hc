@@ -306,7 +306,7 @@ msgstr "Dezactivează meniul „Deschide discul”"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Prioritatea procesării peste normală"
+msgstr "Prioritatea procesării e mai mare de normală"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
