@@ -459,7 +459,7 @@ msgstr "Scalare automată"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Factor de auto-potrivire:"
+msgstr "Factor de potrivire automată:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
