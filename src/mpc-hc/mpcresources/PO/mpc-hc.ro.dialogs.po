@@ -270,7 +270,7 @@ msgstr "Deschide un player nou pentru fiecare fișier media redat"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
-msgstr "Bară de titlu"
+msgstr "Bara de titlu"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
