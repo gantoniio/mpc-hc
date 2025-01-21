@@ -302,7 +302,7 @@ msgstr "Salvează stabilirile într-un fișier .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Dezactivează meniul „Deschide disc”"
+msgstr "Dezactivează meniul „Deschide discul”"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
