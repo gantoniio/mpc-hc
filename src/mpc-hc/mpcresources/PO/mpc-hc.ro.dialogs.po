@@ -569,8 +569,7 @@ msgstr "% din rata cadrelor video"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
-"Permite abandonarea unor imagini subtitlu dacă coada de randare este în urmă"
+msgstr "Permite eliminarea unor imagini secundare dacă coada întârzie"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
