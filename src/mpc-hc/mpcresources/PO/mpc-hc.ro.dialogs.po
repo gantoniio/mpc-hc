@@ -23,7 +23,7 @@ msgstr ""
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "Selectează tipul de media"
+msgstr "Selectează tipul de fișiere media"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
