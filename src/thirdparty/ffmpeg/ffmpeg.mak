@@ -26,14 +26,14 @@ LIB_LIBSWSCALE    = $(OBJ_DIR)libswscale.a
 TARGET_LIB        = $(TARGET_LIB_DIR)/ffmpeg.lib
 ARSCRIPT          = $(OBJ_DIR)script.ar
 
-# Compiler and yasm flags
+# Compiler and nasm flags
 CFLAGS = -I. -I.. -I $(MAK_DIR) -I $(SOXR_DIR) -D__USE_MINGW_ANSI_STDIO=0 \
 	   -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_XOPEN_SOURCE=600 \
 	   -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DOPJ_STATIC \
 	   -D_WIN32_WINNT=0x0600 -DWINVER=0x0600 \
 	   -fomit-frame-pointer -std=c11  \
 	   -fno-common -fno-ident -mthreads
-YASMFLAGS = -I. -I$(MAK_DIR) -Pconfig.asm
+NASMFLAGS = -I. -I$(MAK_DIR) -Pconfig.asm
 AVCODECFLAGS= -DBUILDING_avcodec
 
 
@@ -42,12 +42,12 @@ ifeq ($(64BIT),yes)
 	TARGET_OS   = x86_64-w64-mingw32
 	CFLAGS     += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC -I ../thirdparty/64/include
 	OPTFLAGS    = -m64 -fno-leading-underscore
-	YASMFLAGS  += -f win32 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
+	NASMFLAGS  += -f win64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
 else
 	TARGET_OS   = i686-w64-mingw32
 	CFLAGS     += -DWIN32 -D_WIN32 -DARCH_X86_32 -I ../thirdparty/32/include
 	OPTFLAGS    = -m32 -march=i686 -msse -msse2 -mfpmath=sse -mstackrealign
-	YASMFLAGS  += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
+	NASMFLAGS  += -f win32 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
 endif
 
 ifeq ($(DEBUG),yes)
@@ -250,17 +250,16 @@ SRCS_LR = \
 	libswresample/x86/rematrix_init.c \
 	libswresample/x86/resample_init.c
 
-# Yasm objects
-SRCS_YASM_LC = \
+# Nasm objects
+SRCS_NASM_LC = \
 	libavcodec/x86/idctdsp.asm \
 	libavcodec/x86/fdct.asm \
 	libavcodec/x86/simple_idct.asm \
 	libavcodec/x86/simple_idct10.asm
 
+SRCS_NASM_LF = 
 
-SRCS_YASM_LF = 
-
-SRCS_YASM_LU = \
+SRCS_NASM_LU = \
 	libavutil/x86/cpuid.asm \
 	libavutil/x86/emms.asm \
 	libavutil/x86/fixed_dsp.asm \
@@ -268,7 +267,7 @@ SRCS_YASM_LU = \
 	libavutil/x86/imgutils.asm \
 	libavutil/x86/lls.asm
 
-SRCS_YASM_LR = \
+SRCS_NASM_LR = \
 	libswresample/x86/audio_convert.asm \
 	libswresample/x86/rematrix.asm \
 	libswresample/x86/resample.asm
@@ -276,7 +275,7 @@ SRCS_YASM_LR = \
 OBJS_LC = \
 	$(SRCS_LC:%.c=$(OBJ_DIR)%.o) \
 	$(OBJ_DIR)config.o \
-	$(SRCS_YASM_LC:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LC:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LC_B = \
 	$(SRCS_LC_B:%.c=$(OBJ_DIR)%.o)
@@ -286,23 +285,23 @@ OBJS_LC_C = \
 
 OBJS_LF = \
 	$(SRCS_LF:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LF:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LF:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LU = \
 	$(SRCS_LU:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LU:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LU:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LR = \
 	$(SRCS_LR:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LR:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LR:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LS = \
 	$(SRCS_LS:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LS:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LS:%.asm=$(OBJ_DIR)%.o)
 
 COMPILE = @$(GCC_PREFIX)gcc -c $(CFLAGS) $(OPTFLAGS) -MMD -Wno-deprecated-declarations -Wno-pointer-to-int-cast -o $@ $<
 LIBAR = @$(GCC_PREFIX)ar rc $@ 
-YASMC = @yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
+NASMC = @nasm $(NASMFLAGS) -I$(<D)/ -o $@ $<
 
 VERSIONH=$(MAK_DIR)/libavutil/ffversion.h
 
@@ -324,7 +323,7 @@ $(OBJ_DIR)%.o: %.c
 
 $(OBJ_DIR)%.o: %.asm
 	@echo $<
-	$(YASMC)
+	$(NASMC)
 
 $(LIB_LIBAVCODEC): $(OBJS_LC)
 	@echo $@

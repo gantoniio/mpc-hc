@@ -23,9 +23,9 @@ LIB_LIBSWRESAMPLE = $(OBJ_DIR)libswresample.a
 TARGET_LIB        = $(TARGET_LIB_DIR)/ffmpeg.lib
 ARSCRIPT          = $(OBJ_DIR)script.ar
 
-# Compiler and yasm flags
+# Compiler and nasm flags
 
-YASMFLAGS = -I. -I$(MAK_DIR)
+NASMFLAGS = -I. -I$(MAK_DIR)
 AVCODECFLAGS= -DBUILDING_avcodec
 AVFILTERFLAGS= -DBUILDING_avfilter
 AVUTILFLAGS= -DBUILDING_avutil
@@ -39,14 +39,14 @@ LIB=lib.exe
 
 ifeq ($(64BIT),yes)
 	CFLAGS     += -I ../thirdparty/64/include -DWIN64=1 
-	YASMFLAGS  += -f win32 -m amd64 -DWIN64=1 -DPIC 
+	NASMFLAGS  += -f win64 -DWIN64=1 -DPIC 
 else
 	CFLAGS     += -I ../thirdparty/32/include -Oy- -DWIN32=1 
-	YASMFLAGS  += -f win32 -m x86 -DWIN32=1 -DPREFIX 
+	NASMFLAGS  += -f win32 -DWIN32=1 -DPREFIX 
 endif
 
 #do after setting constants
-YASMFLAGS += -Pconfig.asm
+NASMFLAGS += -Pconfig.asm
 
 
 ifeq ($(DEBUG),yes)
@@ -237,17 +237,16 @@ SRCS_LR = \
 	libswresample/x86/rematrix_init.c \
 	libswresample/x86/resample_init.c
 
-# Yasm objects
-SRCS_YASM_LC = \
+# Nasm objects
+SRCS_NASM_LC = \
 	libavcodec/x86/idctdsp.asm \
 	libavcodec/x86/fdct.asm \
 	libavcodec/x86/simple_idct.asm \
 	libavcodec/x86/simple_idct10.asm
 
+SRCS_NASM_LF = 
 
-SRCS_YASM_LF = 
-
-SRCS_YASM_LU = \
+SRCS_NASM_LU = \
 	libavutil/x86/cpuid.asm \
 	libavutil/x86/emms.asm \
 	libavutil/x86/fixed_dsp.asm \
@@ -256,34 +255,34 @@ SRCS_YASM_LU = \
 	libavutil/x86/lls.asm \
 	libavutil/x86/tx_float.asm
 
-SRCS_YASM_LR = \
+SRCS_NASM_LR = \
 	libswresample/x86/audio_convert.asm \
 	libswresample/x86/rematrix.asm \
 	libswresample/x86/resample.asm
 
 OBJS_LC = \
 	$(SRCS_LC:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LC:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LC:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LF = \
 	$(SRCS_LF:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LF:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LF:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LU = \
 	$(SRCS_LU:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LU:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LU:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LR = \
 	$(SRCS_LR:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LR:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LR:%.asm=$(OBJ_DIR)%.o)
 
 OBJS_LS = \
 	$(SRCS_LS:%.c=$(OBJ_DIR)%.o) \
-	$(SRCS_YASM_LS:%.asm=$(OBJ_DIR)%.o)
+	$(SRCS_NASM_LS:%.asm=$(OBJ_DIR)%.o)
 
 COMPILE = @$(CC) $(CFLAGS) $(OPTFLAGS) -c -Fo$@ $<
 LIBAR = @$(LIB) $(LIBFLAGS) -out:$@ $^
-YASMC = yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
+NASMC = nasm $(NASMFLAGS) -I$(<D)/ -o $@ $<
 
 VERSIONH=$(MAK_DIR)/libavutil/ffversion.h
 
@@ -309,7 +308,7 @@ $(OBJ_DIR)%.o: %.c
 
 $(OBJ_DIR)%.o: %.asm
 	@echo $<
-	$(YASMC)
+	$(NASMC)
 
 $(LIB_LIBAVCODEC): $(OBJS_LC)
 	@echo $@

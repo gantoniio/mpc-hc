@@ -44,7 +44,7 @@ configure() {
   EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../zlib"
   EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../soxr/libsoxr/src"
 
-  sh ${LAVSRCDIR}ffmpeg/configure ${TOOLCHAIN} --x86asmexe=yasm ${OPTIONS} --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}"
+  sh ${LAVSRCDIR}ffmpeg/configure ${TOOLCHAIN} --x86asmexe=nasm ${OPTIONS} --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}"
 }
 
 pushd tmp/64
