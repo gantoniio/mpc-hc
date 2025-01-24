@@ -1004,7 +1004,7 @@ msgstr "Jos"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Poziționează subtitlurile relativ la cadrul video"
+msgstr "Poziționează subtitrările relativ la cadrul video"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
