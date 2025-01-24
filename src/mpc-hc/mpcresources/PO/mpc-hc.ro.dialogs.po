@@ -878,7 +878,7 @@ msgstr "Scalare: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
-msgstr "Taste scurtatura"
+msgstr "Taste pentru comenzi rapide/scurtături"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
