@@ -1212,7 +1212,7 @@ msgstr "Lansează în navigatorul web..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "Activează comprimare"
+msgstr "Activează comprimarea"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
