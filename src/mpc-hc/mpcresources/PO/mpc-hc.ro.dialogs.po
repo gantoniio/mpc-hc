@@ -890,7 +890,7 @@ msgstr "Selectează-le pe toate"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Restabilește selectate"
+msgstr "Restabilește-le pe cele selectate"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
