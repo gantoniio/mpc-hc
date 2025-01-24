@@ -1250,7 +1250,7 @@ msgstr "Operatori CGI: (.ext1=dosar1;.ext2=dosar2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Download subtitles"
-msgstr "Descarcă subtitluri"
+msgstr "Descarcă subtitrări"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
