@@ -451,7 +451,7 @@ msgstr "După redare"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
-msgstr "Marire si aliniere"
+msgstr "Mărire și aliniere"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
