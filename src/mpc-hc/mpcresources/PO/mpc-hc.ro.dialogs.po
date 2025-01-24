@@ -595,7 +595,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
-msgstr "Extensii fișiere"
+msgstr "Extensii pentru fișiere"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
