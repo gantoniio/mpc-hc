@@ -1274,7 +1274,7 @@ msgstr "Opțiuni"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
-msgstr "Cautare"
+msgstr "Căutare"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
