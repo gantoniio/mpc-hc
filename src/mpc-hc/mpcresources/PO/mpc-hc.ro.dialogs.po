@@ -1140,7 +1140,7 @@ msgstr "Subtitrări"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr "Captură ecran"
+msgstr "Captură de ecran"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
