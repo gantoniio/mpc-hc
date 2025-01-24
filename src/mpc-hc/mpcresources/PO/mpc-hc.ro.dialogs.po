@@ -984,7 +984,7 @@ msgstr "Umbră"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Aliniere ecran și margini"
+msgstr "Aliniază ecranul și marginile"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC7"
 msgid "Left"
