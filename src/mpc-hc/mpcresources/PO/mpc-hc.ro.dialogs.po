@@ -1144,7 +1144,7 @@ msgstr "Captură de ecran"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr "Nuanțatoare"
+msgstr "Nuanțatoare/Shadere"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
