@@ -814,7 +814,7 @@ msgstr "Revocare"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Organizare favorite"
+msgstr "Organizează favoritele"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
