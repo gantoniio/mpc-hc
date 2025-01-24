@@ -730,7 +730,7 @@ msgstr "Adaugă tipul de media..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Adăugare subtip..."
+msgstr "Adaugă un subtip..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
