@@ -1254,7 +1254,7 @@ msgstr "Descarcă subtitrări"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Înlocuiește subtitrările actual încărcate"
+msgstr "Înlocuiește subtitrările încărcate în prezent"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
