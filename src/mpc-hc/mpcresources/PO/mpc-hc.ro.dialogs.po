@@ -886,7 +886,7 @@ msgstr "Taste media globale"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Selectează toate"
+msgstr "Selectează-le pe toate"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
