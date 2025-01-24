@@ -573,7 +573,7 @@ msgstr "Permite eliminarea unor imagini secundare dacă coada întârzie"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "Schemă randor"
+msgstr "Schema randorului"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
