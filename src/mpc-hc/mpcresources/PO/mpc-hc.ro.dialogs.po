@@ -1172,7 +1172,7 @@ msgstr "Suprafață:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "Redimensionare:"
+msgstr "Redimensionator:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
