@@ -1092,7 +1092,7 @@ msgstr "Filtre de transformare"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Stabiliri LAV Filters interne"
+msgstr "Setări de filtre LAV interne"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
