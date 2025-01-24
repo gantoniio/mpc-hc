@@ -1096,7 +1096,7 @@ msgstr "Setări de filtre LAV interne"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Separator"
+msgstr "Splitter/Despicător"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
