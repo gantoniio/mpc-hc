@@ -627,7 +627,7 @@ msgstr "Meniu contextual pentru Explorator"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
-msgstr "Directoare"
+msgstr "Director"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "Playlist"
