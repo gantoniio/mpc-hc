@@ -1222,7 +1222,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "Activează previzualizare"
+msgstr "Activează previzualizarea"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
