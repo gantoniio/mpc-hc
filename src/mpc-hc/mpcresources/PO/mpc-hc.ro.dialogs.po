@@ -698,7 +698,7 @@ msgstr "Derulare rapidă (la cadru cheie)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Adăugare filtru..."
+msgstr "Adaugă filtru..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
