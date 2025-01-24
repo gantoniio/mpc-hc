@@ -964,7 +964,7 @@ msgstr "Scală (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Stil chenar"
+msgstr "Stilul chenarului"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
