@@ -906,7 +906,9 @@ msgstr ""
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Următorii pini au eșuat în găsirea unui filtru conectabil:"
+msgstr ""
+"Următorul pin a eșuat (Următorii pini au eșuat) în găsirea unui filtru "
+"conectabil:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
