@@ -3977,7 +3977,7 @@ msgstr "청각 장애"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr "다운로드"
+msgstr "내려받기"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
