@@ -2132,7 +2132,7 @@ msgstr "비디오 프레임 디코딩 높이"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr "[%s] \"%s\" 다운로드 중"
+msgstr "[%s] \"%s\" 내려받는 중"
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
