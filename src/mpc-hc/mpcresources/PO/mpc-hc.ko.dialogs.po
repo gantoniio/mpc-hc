@@ -1215,7 +1215,7 @@ msgstr "CGI 핸들러 : (.확장자1=경로1;.확장자2=경로2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Download subtitles"
-msgstr "자막 다운로드"
+msgstr "자막 내려받기"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
