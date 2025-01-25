@@ -1555,7 +1555,7 @@ msgstr "온라인 자막 검색"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "자막이 없는 경우 자동으로 자막 검색 및 다운로드"
+msgstr "자막이 없는 경우 자동으로 자막 검색하여 내려받기"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
