@@ -80,7 +80,7 @@ msgstr "자막 저장(&U)..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr "자막 다운로드(&D)..."
+msgstr "자막 내려받기(&D)..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
