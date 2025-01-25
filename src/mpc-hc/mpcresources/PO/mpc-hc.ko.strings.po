@@ -1226,7 +1226,7 @@ msgstr "비율 표시"
 
 msgctxt "IDS_SUBDL_DLG_FAILED_DL"
 msgid "Subtitle download failed."
-msgstr "자막을 다운로드하지 못했습니다."
+msgstr "자막을 내려받지 못했습니다."
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_PLAYLIST"
 msgid "Remember playback position in local M3U and MPCPL playlist files."
