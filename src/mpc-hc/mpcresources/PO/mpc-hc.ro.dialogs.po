@@ -1306,7 +1306,7 @@ msgstr "Restabilește"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Verificare actualizări"
+msgstr "Verifică pentru actualizări"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
