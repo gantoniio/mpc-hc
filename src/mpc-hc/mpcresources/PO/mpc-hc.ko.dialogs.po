@@ -1223,7 +1223,7 @@ msgstr "지금 로드한 자막과 대체"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr "다운로드"
+msgstr "내려받기"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
