@@ -1839,7 +1839,7 @@ msgstr "Zamknij program"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Rozpocznij/Wstrzymaj odtwarzanie"
+msgstr "Rozpocznij/Zatrzymaj odtwarzanie"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
