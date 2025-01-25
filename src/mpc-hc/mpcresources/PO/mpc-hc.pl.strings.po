@@ -2831,7 +2831,7 @@ msgstr "Uwzględnij podkatalogi"
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
-msgstr "Wstrzymaj odtwarzanie"
+msgstr "Zatrzymaj odtwarzanie"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
