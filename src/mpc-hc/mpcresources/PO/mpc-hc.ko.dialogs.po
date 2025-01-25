@@ -1573,7 +1573,7 @@ msgstr "선호하는 언어 순 정렬 :"
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
-msgstr "다운로드한 자막을 1번째 자동 로드 경로 폴더에 자동 저장"
+msgstr "내려받은 자막을 1번째 자동 불러오기 경로 폴더에 자동 저장"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
