@@ -4183,7 +4183,7 @@ msgstr "종횡비 : 정사각형 픽셀 가정(SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr "다운로드 [%s] \"%s\" 완료"
+msgstr "내려받기 [%s] \"%s\" 완료"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
