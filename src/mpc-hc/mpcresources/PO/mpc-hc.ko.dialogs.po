@@ -1581,7 +1581,7 @@ msgstr "업데이트 검사"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "지금 다운로드"
+msgstr "지금 내려받기(&D)"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
