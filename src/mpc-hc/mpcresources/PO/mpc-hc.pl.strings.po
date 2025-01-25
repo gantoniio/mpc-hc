@@ -4783,7 +4783,7 @@ msgstr "Wyświetlaj informacje o wideo (kodek, rozdzielczość) na pasku stanu."
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr "Zatrzymaj odtwarzanie podczas przeciągania paska wyszukiwania."
+msgstr "Wstrzymaj odtwarzanie podczas przeciągania paska wyszukiwania."
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
