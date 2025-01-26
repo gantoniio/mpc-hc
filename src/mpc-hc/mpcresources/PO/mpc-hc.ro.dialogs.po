@@ -1326,7 +1326,7 @@ msgstr "Gestionează setările"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Restabilește"
+msgstr "Resetează"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
