@@ -1555,7 +1555,7 @@ msgstr "s"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK7"
 msgid "Allow separate control window"
-msgstr "Permite fereastră de control separată"
+msgstr "Permite o fereastră de control separată"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
