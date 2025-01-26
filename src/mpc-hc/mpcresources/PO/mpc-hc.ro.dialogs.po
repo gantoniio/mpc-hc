@@ -1575,7 +1575,7 @@ msgstr "Preferă subtitrările externe în locul celor integrate"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Ignoră subtitlurile integrate"
+msgstr "Ignoră subtitrările integrate"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
