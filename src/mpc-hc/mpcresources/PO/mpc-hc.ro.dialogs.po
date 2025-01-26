@@ -1334,7 +1334,7 @@ msgstr "Exportă"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Exportă taste rapide"
+msgstr "Exportă tastele rapide"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
