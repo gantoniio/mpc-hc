@@ -1398,7 +1398,7 @@ msgstr "Digital"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
-msgstr "Stabiliri receptor analog"
+msgstr "Setări ale receptorului analog"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
 msgid "Video"
