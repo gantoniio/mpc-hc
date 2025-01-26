@@ -1587,7 +1587,7 @@ msgstr "Resetează"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
-msgstr "Căutare pe internet a subtitlurilor"
+msgstr "Căutare online a subtitrărilor"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
