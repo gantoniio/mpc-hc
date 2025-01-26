@@ -1322,7 +1322,7 @@ msgstr "zi(le)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
-msgstr "Gestionare stabiliri"
+msgstr "Gestionează setările"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
