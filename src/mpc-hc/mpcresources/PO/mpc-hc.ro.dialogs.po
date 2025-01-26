@@ -1515,7 +1515,7 @@ msgstr "Ieși din modul ecran complet la sfârșitul redării"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Monitor în ecranul complet"
+msgstr "Monitor cu ecranul complet"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
