@@ -1350,7 +1350,7 @@ msgstr "Revocare"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
-msgstr "Frecv. de pornire"
+msgstr "Frecvența de pornire"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Bandwidth"
