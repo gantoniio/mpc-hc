@@ -1660,7 +1660,7 @@ msgstr "Adaugă după redimensionare"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Prestabiliri nuanțator"
+msgstr "Presetări ale nuanțatorului"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
