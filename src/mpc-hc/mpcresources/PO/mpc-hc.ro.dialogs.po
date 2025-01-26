@@ -1422,7 +1422,7 @@ msgstr "Furnizor de rețea"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
-msgstr "Prinzător"
+msgstr "Tuner"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
