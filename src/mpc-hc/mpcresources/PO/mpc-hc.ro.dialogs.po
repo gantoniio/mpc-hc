@@ -1358,7 +1358,7 @@ msgstr "Lățime de bandă"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Frecv. de încheiere"
+msgstr "Frecvența de încheiere"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
