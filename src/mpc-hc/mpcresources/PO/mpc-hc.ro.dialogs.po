@@ -1640,7 +1640,7 @@ msgid ""
 "process."
 msgstr ""
 "Nuanțatoarele conțin efecte speciale ce pot fi adăugate în timpul procesului"
-" de randare video"
+" de randare video."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
