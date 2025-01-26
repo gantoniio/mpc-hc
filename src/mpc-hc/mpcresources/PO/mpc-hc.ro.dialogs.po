@@ -1338,7 +1338,7 @@ msgstr "Exportă tastele rapide"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
-msgstr "Scanare prinzător"
+msgstr "Scanează tunerul"
 
 msgctxt "IDD_TUNER_SCAN_ID_START"
 msgid "Start"
