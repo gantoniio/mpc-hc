@@ -2863,9 +2863,19 @@ void CMainFrame::GraphEventComplete()
 
     auto* pMRU = &s.MRU;
 
-
     if (m_bRememberFilePos) {
         pMRU->UpdateCurrentFilePosition(0, true);
+    }
+
+    if (m_fFrameSteppingActive) {
+        m_fFrameSteppingActive = false;
+        m_nStepForwardCount = 0;
+        MediaControlPause(true);
+        if (m_pBA) {
+            m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
+        }
+        m_fEndOfStream = true;
+        return;
     }
 
     bool bBreak = false;
