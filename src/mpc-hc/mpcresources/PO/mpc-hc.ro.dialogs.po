@@ -1519,7 +1519,7 @@ msgstr "Monitor cu ecranul complet"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Folosește schimbarea automată a modului monitor în ecran complet"
+msgstr "Folosește schimbarea automată a modului monitorcu ecran complet"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
