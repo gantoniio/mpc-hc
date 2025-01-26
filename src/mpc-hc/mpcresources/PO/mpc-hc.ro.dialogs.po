@@ -1571,7 +1571,7 @@ msgstr "Preferă subtitrările forțate și/sau implicite"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Preferă subtitlurile externe în locul celor integrate"
+msgstr "Preferă subtitrările externe în locul celor integrate"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
