@@ -1912,7 +1912,7 @@ msgstr "Lățimea previzualizării (% din ecran)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
-msgstr "Elemente din bara de stare"
+msgstr "Elementele din bara de stare"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
 msgid "Track Language"
