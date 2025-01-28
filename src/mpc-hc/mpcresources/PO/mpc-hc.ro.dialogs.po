@@ -1892,7 +1892,7 @@ msgstr "Afișează semnele de capitol pe bara de căutare"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
-msgstr "Hover-ul barei de căutare"
+msgstr "Plasarea cursorului pe bara de căutare"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
