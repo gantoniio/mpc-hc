@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# CALIN <calin.nemes@gmail.com>, 2020
 # Daniel <danny3@tutanota.com>, 2022
 # Mac Balls, 2022
 # Andrei Miloiu, 2025
@@ -1749,8 +1748,8 @@ msgstr "Mod exclusiv"
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
-"Ignoră mixerul de canale din sistem (ignorat tot timpul în modul exclusiv "
-"WASAPI)"
+"Ignoră mixerul de canale al sistemului (ignorat tot timpul în modul exclusiv"
+" WASAPI)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
