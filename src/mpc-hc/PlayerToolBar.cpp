@@ -182,7 +182,9 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     SetMute(AfxGetAppSettings().fMute);
 
     UINT styles[] = {
-        TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
+        TBBS_BUTTON,
+        TBBS_BUTTON,
+        TBBS_CHECKGROUP,
         TBBS_SEPARATOR,
         TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
         TBBS_SEPARATOR,
@@ -296,8 +298,8 @@ int CPlayerToolBar::GetVolume() const
 int CPlayerToolBar::GetMinWidth() const
 {
     // button widths are inflated by 7px
-    // 9 buttons + 3 separators + spacing + volume
-    return 9 * (m_nButtonHeight + 7) + 3 * 8 + 4 + m_volumeCtrlSize;
+    // 8 buttons + 3 separators + spacing + volume
+    return 8 * (m_nButtonHeight + 7) + 3 * 8 + 4 + m_volumeCtrlSize;
 }
 
 void CPlayerToolBar::SetVolume(int volume)

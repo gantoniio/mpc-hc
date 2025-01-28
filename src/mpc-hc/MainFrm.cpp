@@ -1035,6 +1035,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         bResult = m_wndToolBar.Create(this);
     }
     if (bResult) {
+        m_wndToolBar.GetToolBarCtrl().HideButton(ID_PLAY_PAUSE);
+
         bResult = m_wndSeekBar.Create(this);
     }
     if (!bResult) {
@@ -8963,6 +8965,22 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
             pCmdUI->m_nID == ID_PLAY_STOP && fs == State_Stopped ||
             pCmdUI->m_nID == ID_PLAY_PLAYPAUSE && (fs == State_Paused || fs == State_Running);
 
+        if (pCmdUI->m_nID == ID_PLAY_PLAY) {
+            CToolBarCtrl& toolbarCtrl = m_wndToolBar.GetToolBarCtrl();
+            int playbuttonstate = toolbarCtrl.GetState(ID_PLAY_PLAY);
+            if (fs == State_Running) {
+                if (!(playbuttonstate & TBSTATE_HIDDEN)) {
+                    toolbarCtrl.SetState(ID_PLAY_PLAY, TBSTATE_HIDDEN);
+                    toolbarCtrl.SetState(ID_PLAY_PAUSE, TBSTATE_ENABLED);
+                }
+            } else {
+                if (playbuttonstate & TBSTATE_HIDDEN) {
+                    toolbarCtrl.SetState(ID_PLAY_PLAY, TBSTATE_ENABLED);
+                    toolbarCtrl.SetState(ID_PLAY_PAUSE, TBSTATE_HIDDEN);
+                }
+            }
+        }
+
         if (fs >= 0) {
             if (GetPlaybackMode() == PM_FILE || IsPlaybackCaptureMode()) {
                 fEnable = true;
@@ -8985,6 +9003,15 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
         }
     } else if (GetLoadState() == MLS::CLOSED) {
         fEnable = (pCmdUI->m_nID == ID_PLAY_PLAY || pCmdUI->m_nID == ID_PLAY_PLAYPAUSE) && !IsPlaylistEmpty();
+
+        if (pCmdUI->m_nID == ID_PLAY_PLAY) {
+            CToolBarCtrl& toolbarCtrl = m_wndToolBar.GetToolBarCtrl();
+            int playbuttonstate = toolbarCtrl.GetState(ID_PLAY_PLAY);
+            if (playbuttonstate & TBSTATE_HIDDEN) {
+                toolbarCtrl.SetState(ID_PLAY_PLAY, TBSTATE_ENABLED);
+                toolbarCtrl.SetState(ID_PLAY_PAUSE, TBSTATE_HIDDEN);
+            }
+        }
     }
 
     pCmdUI->SetCheck(fCheck);
