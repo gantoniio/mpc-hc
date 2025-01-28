@@ -79,7 +79,7 @@ msgstr "Alte sarcini:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Restabilește stabilirile"
+msgstr "Restabilește setările"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
