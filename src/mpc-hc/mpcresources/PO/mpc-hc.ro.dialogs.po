@@ -1880,7 +1880,7 @@ msgstr "Dimensiunea butoanelor de control:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
 msgid "Seekbar"
-msgstr "Bară de căutare"
+msgstr "Bara de căutare"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
