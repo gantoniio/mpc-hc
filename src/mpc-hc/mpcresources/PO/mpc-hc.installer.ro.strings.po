@@ -30,7 +30,7 @@ msgstr ""
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
-msgstr "[name] necesită Windows Vista sau mai nou pentru a rula. "
+msgstr "[name] necesită Windows Vista sau o versiune mai nouă pentru a rula. "
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
