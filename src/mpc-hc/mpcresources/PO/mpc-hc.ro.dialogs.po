@@ -1940,7 +1940,7 @@ msgstr "Afișează pe ecran (OSD)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Afișează OSD (necesită repornire)"
+msgstr "Afișează OSD-ul (necesită repornire)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
 msgid "Font:"
