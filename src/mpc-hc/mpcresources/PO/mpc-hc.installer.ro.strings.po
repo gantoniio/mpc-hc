@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "Această versiune a MPC-HC necesită un procesor cu suport pentru extensia SSE2.\n"
 "\n"
-"Procesorul (CPU-ul) tău nu are aceste capacități."
+"Procesorul/CPU-ul tău nu are aceste capacități."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
