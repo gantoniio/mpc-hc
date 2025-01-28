@@ -75,7 +75,7 @@ msgstr "Doar pentru utilizatorul actual"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
-msgstr "Alte activități:"
+msgstr "Alte sarcini:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
