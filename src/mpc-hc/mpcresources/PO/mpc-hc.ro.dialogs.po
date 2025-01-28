@@ -1828,7 +1828,7 @@ msgstr ""
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr "Descrierea problemei (folosiți doar limba engleză):"
+msgstr "Descrierea problemei (folosește doar limba engleză):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
