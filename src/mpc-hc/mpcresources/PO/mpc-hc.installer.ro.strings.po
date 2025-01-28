@@ -91,4 +91,4 @@ msgstr "Instalare personalizată"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Vezi istoricul modificărilor"
+msgstr "Vezi jurnalul modificărilor"
