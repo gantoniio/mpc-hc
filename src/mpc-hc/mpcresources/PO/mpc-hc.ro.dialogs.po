@@ -1802,7 +1802,7 @@ msgstr "Raportor de picări"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr "Ne pare rău, se pare că MPC-HC tocmai s-a prăbușit. :("
+msgstr "Ne pare rău, se pare că MPC-HC tocmai a crăpat. :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
