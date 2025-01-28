@@ -1896,7 +1896,7 @@ msgstr "Plasarea cursorului pe bara de căutare"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
-msgstr "Poziția hover-ului"
+msgstr "Poziția plasării cursorului"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
