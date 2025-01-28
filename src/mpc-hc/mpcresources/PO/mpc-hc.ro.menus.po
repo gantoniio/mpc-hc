@@ -685,7 +685,7 @@ msgstr "&Scade"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Taci"
+msgstr "&Mut"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
