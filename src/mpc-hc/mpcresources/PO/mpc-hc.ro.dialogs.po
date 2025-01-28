@@ -1696,7 +1696,7 @@ msgstr "Depanează nuanțatoarele"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Informații depanare"
+msgstr "Informații de depanare"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
