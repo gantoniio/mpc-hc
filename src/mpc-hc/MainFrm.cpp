@@ -19082,23 +19082,31 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         if (m_bOpenedThroughThread) {
             BeginWaitCursor();
             MSG msg;
-            HANDLE h = m_evOpenPrivateFinished;
+            DWORD dwWait;
+            HANDLE handle = m_evOpenPrivateFinished;
             bool killprocess = true;
             bool processmsg = true;
             ULONGLONG start = GetTickCount64();
-            while (processmsg && (GetTickCount64() - start < 6000ULL)) {
-                DWORD res = MsgWaitForMultipleObjectsEx(1, &h, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
-                switch (res) {
+            ULONGLONG waitdur = 5000ULL;
+            bool extendedwait = false;
+            while (processmsg) {
+                dwWait = MsgWaitForMultipleObjectsEx(1, &handle, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+                switch (dwWait) {
                     case WAIT_OBJECT_0:
                         TRACE(_T("Graph abort successful\n"));
                         killprocess = false; // event has been signalled
                         processmsg = false;
+                        bGraphTerminated = true;
                         break;
                     case WAIT_OBJECT_0 + 1:
                         // we have a message - peek and dispatch it
                         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-                            TranslateMessage(&msg);
-                            DispatchMessage(&msg);
+                            if (msg.message == WM_QUIT) {
+                                processmsg = false;
+                            } else {
+                                TranslateMessage(&msg);
+                                DispatchMessage(&msg);
+                            }
                         }
                         break;
                     case WAIT_TIMEOUT:
@@ -19106,6 +19114,20 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     default: // unexpected failure
                         processmsg = false;
                         break;
+                }
+                if (processmsg && (GetTickCount64() - start > waitdur)) {
+                    if (extendedwait || m_fFullScreen) {
+                        processmsg = false;
+                    } else {
+                        CString msg = L"Timeout while aborting filter graph creation.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                        if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                            processmsg = false;
+                        } else {
+                            extendedwait = true;
+                            start = GetTickCount64();
+                            waitdur = 15000ULL;
+                        }
+                    }
                 }
             }
             if (killprocess)
@@ -19177,7 +19199,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         bool processmsg = true;
         bool extendedwait = false;
         while (processmsg) {
-            dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, 1000, QS_SENDMESSAGE);
+            dwWait = MsgWaitForMultipleObjectsEx(1, &handle, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
             switch (dwWait) {
                 case WAIT_OBJECT_0:
                     processmsg = false; // event received
