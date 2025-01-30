@@ -4720,6 +4720,8 @@ void CMainFrame::OnFileOpenmedia()
     if (dlg.GetAppendToPlaylist()) {
         m_wndPlaylistBar.Append(filenames, dlg.HasMultipleFiles());
     } else {
+        SendStatusMessage(_T("Loading..."), 500);
+
         m_wndPlaylistBar.Open(filenames, dlg.HasMultipleFiles());
 
         OpenCurPlaylistItem();
@@ -18740,6 +18742,10 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 
     m_tempstatus_msg = msg;
     m_timerOneTime.Subscribe(timerId, [this] { m_tempstatus_msg.Empty(); }, nTimeOut);
+
+    if (!m_tempstatus_msg.IsEmpty()) {
+        m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
+    }
 
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
