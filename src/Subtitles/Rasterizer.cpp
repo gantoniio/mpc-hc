@@ -1885,6 +1885,10 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 
 void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor) const
 {
+	if (x < 0 || y < 0) {
+        ASSERT(FALSE);
+        return;
+	}
     ASSERT(spd.w >= x + nWidth && spd.h >= y + nHeight);
     BYTE* dst = (BYTE*)((DWORD*)(spd.bits + spd.pitch * y) + x);
     DrawInternal(m_bUseAVX2, dst, spd.pitch, BYTE(0x40), nWidth, nHeight, lColor);
