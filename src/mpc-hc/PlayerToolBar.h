@@ -35,6 +35,7 @@ class CPlayerToolBar : public CToolBar
 private:
     CMainFrame* m_pMainFrame;
 
+    CImage volumeOn, volumeOff;
     bool IsMuted() const;
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
@@ -47,16 +48,19 @@ private:
     int m_nButtonHeight;
     std::unique_ptr<CImageList> m_pButtonsImages;
     std::unique_ptr<CImageList> m_pDisabledButtonsImages;
+    int buttonCount, sepCount;
     int m_volumeCtrlSize;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
-
+    int volumeButtonIndex, dummySeparatorIndex, flexibleSpaceIndex;
+    int currentlyDraggingButton, mouseOverButton;
+    CPoint mousePosition;
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
-    bool LoadExternalToolBar(CImage& image, bool useColor);
+    bool LoadExternalToolBar(CImage& image, float svgscale);
 
     int GetVolume() const;
     int GetMinWidth() const;
@@ -64,6 +68,8 @@ public:
     __declspec(property(get = GetVolume, put = SetVolume)) int Volume;
 
     void ArrangeControls();
+    CImage& GetVolumeImageOn() { return volumeOn; };
+    CImage& GetVolumeImageOff() { return volumeOff; };
 
     CVolumeCtrl m_volctrl;
 
@@ -86,7 +92,6 @@ protected:
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     //}}AFX_MSG
@@ -94,4 +99,8 @@ protected:
 public:
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
     afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnTbnQueryDelete(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };

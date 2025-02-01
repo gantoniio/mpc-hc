@@ -555,6 +555,7 @@ public:
     // cmdline params
     UINT64 nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
+    static std::map<DWORD, const wmcmd_base*> CommandIDToWMCMD;
 
     // Initial position (used by command line flags)
     REFERENCE_TIME      rtShift;

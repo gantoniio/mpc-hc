@@ -39,6 +39,7 @@
 #include "date/date.h"
 #include "PPageExternalFilters.h"
 #include "../VideoRenderers/MPCVRAllocatorPresenter.h"
+std::map<DWORD, const wmcmd_base*> CAppSettings::CommandIDToWMCMD;
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
@@ -754,6 +755,7 @@ void CAppSettings::CreateCommands()
     for (const auto& wc : default_wmcmds) {
         wmcmd w = wmcmd(wc);
         w.fVirt |= FVIRTKEY | FNOINVERT;
+        CommandIDToWMCMD[wc.cmd] = &wc;
         wmcmds.AddTail(w);
     }
     ASSERT(wmcmds.GetCount() <= ACCEL_LIST_SIZE);
