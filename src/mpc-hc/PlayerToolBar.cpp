@@ -37,6 +37,7 @@
 struct svgButtonInfo {
     UINT style;
     int svgIndex;
+    CString text;
 };
 
 //svg has 30 positions
@@ -61,6 +62,8 @@ static std::map<int, svgButtonInfo> supportedSvgButtons = {
     {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX}},
 };
 
+static std::vector<int> supportedSvgButtonsSeq;
+
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
@@ -72,6 +75,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     , dummySeparatorIndex(11)
     , flexibleSpaceIndex(10)
     , currentlyDraggingButton(-1)
+    , toolbarAdjustActive(false)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -92,7 +96,7 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale)
         paths.emplace_back(appDataPath);
     }
     CString basetbname;
-    basetbname = _T("buttons-.");
+    basetbname = _T("buttons.");
 
     // Try loading the external toolbar
     for (const auto& path : paths) {
@@ -209,6 +213,15 @@ void CPlayerToolBar::LoadToolbarImage()
     
 }
 
+TBBUTTON CPlayerToolBar::GetStandardButton(int cmdid) {
+    auto& svgInfo = supportedSvgButtons[cmdid];
+    TBBUTTON button = { 0 };
+    button.iBitmap = svgInfo.svgIndex;
+    button.idCommand = cmdid;
+    button.iString = -1;
+    return button;
+}
+
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
     VERIFY(__super::CreateEx(pParentWnd,
@@ -228,10 +241,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
     auto addButton = [&](int cmdid) {
         auto& svgInfo = supportedSvgButtons[cmdid];
-        TBBUTTON button = { 0 };
-        button.iBitmap = svgInfo.svgIndex;
-        button.idCommand = cmdid;
-        button.iString = -1;
+        TBBUTTON button = GetStandardButton(cmdid);
         tb.AddButtons(1, &button);
         SetButtonStyle(tb.GetButtonCount() - 1, svgInfo.style | TBBS_DISABLED);
         buttonCount++;
@@ -245,6 +255,13 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         tb.AddButtons(1, &button);
         sepCount++;
     };
+
+    for (auto& it : supportedSvgButtons) {
+        if (it.second.svgIndex != -1) {
+            it.second.text.LoadString(s.CommandIDToWMCMD[it.first]->dwname);
+            supportedSvgButtonsSeq.push_back(it.first);
+        }
+    }
 
     int sequence = 0;
     std::vector<int> buttons = AfxGetMyApp()->GetProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence");
@@ -396,6 +413,10 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_NOTIFY_REFLECT(TBN_QUERYINSERT, &CPlayerToolBar::OnTbnQueryInsert)
     ON_NOTIFY_REFLECT(TBN_TOOLBARCHANGE, &CPlayerToolBar::OnTbnToolbarChange)
     ON_WM_MOUSEMOVE()
+    ON_NOTIFY_REFLECT(TBN_GETBUTTONINFO, &CPlayerToolBar::OnTbnGetButtonInfo)
+    ON_NOTIFY_REFLECT(TBN_INITCUSTOMIZE, &CPlayerToolBar::OnTbnInitCustomize)
+    ON_NOTIFY_REFLECT(TBN_BEGINADJUST, &CPlayerToolBar::OnTbnBeginAdjust)
+    ON_NOTIFY_REFLECT(TBN_ENDADJUST, &CPlayerToolBar::OnTbnEndAdjust)
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -708,25 +729,32 @@ void CPlayerToolBar::OnTbnQueryDelete(NMHDR* pNMHDR, LRESULT* pResult) {
 void CPlayerToolBar::OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
 
-    int width = LOWORD(GetToolBarCtrl().GetButtonSize());
+    bool preventSeparatorInsert = false;
 
-    CPoint p = mousePosition;
-    p.x += width / 2;
+    if (!toolbarAdjustActive) {
+        int width = LOWORD(GetToolBarCtrl().GetButtonSize());
 
-    int testButton = GetToolBarCtrl().HitTest(&p);
+        CPoint p = mousePosition;
+        p.x += width / 2;
 
-    //according to https://learn.microsoft.com/en-us/windows/win32/Controls/tb-hittest
-    //"The absolute value of the return value is the index of a separator item"
-    //but emperical testing shows it is offset by 1
-    if (testButton < 0) { 
-        testButton = -1 - testButton;
+        int testButton = GetToolBarCtrl().HitTest(&p);
+
+        //according to https://learn.microsoft.com/en-us/windows/win32/Controls/tb-hittest
+        //"The absolute value of the return value is the index of a separator item"
+        //but emperical testing shows it is offset by 1
+        if (testButton < 0) {
+            testButton = -1 - testButton;
+        }
+
+        //undocumented toolbar behavior--if the "testpoint" is on the button to the right, a separator is created to the left
+        preventSeparatorInsert = (currentlyDraggingButton + 1 == testButton);
     }
 
     //this code prevents inserting at the given point
-    //first test is to prevent inserting the dragged button outside of the "dynamic" area
+    //first test is to prevent inserting buttons outside of the "dynamic" area
     //second test is to prevent the insertion of a separator directly to the left of the dragged button
     if (pNMTB->iItem < 3 || pNMTB->iItem >= volumeButtonIndex //do not allow moving between beginning and ending standard toolbar items
-        || currentlyDraggingButton+1 == testButton) //undocumented toolbar behavior--if the "testpoint" is on the button to the right, a separator is created to the left
+        || preventSeparatorInsert) 
     {
         *pResult = FALSE;
         return;
@@ -736,25 +764,63 @@ void CPlayerToolBar::OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult) {
 }
 
 
-void CPlayerToolBar::OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult) {
-    // TODO: Add your control notification handler code here
-    auto& ctrl = GetToolBarCtrl();
-    std::vector<int> buttons;
-    for (int i = 0; i < ctrl.GetButtonCount(); i++) {
-        TBBUTTON button;
-        ctrl.GetButton(i, &button);
-        int debug = 1;
-        buttons.push_back(button.idCommand);
-    }
-    ArrangeControls();
+void CPlayerToolBar::SaveToolbarState() {
+    return;
+    if (!toolbarAdjustActive) {
+        auto& ctrl = GetToolBarCtrl();
+        std::vector<int> buttons;
+        for (int i = 0; i < ctrl.GetButtonCount(); i++) {
+            TBBUTTON button;
+            ctrl.GetButton(i, &button);
+            int debug = 1;
+            buttons.push_back(button.idCommand);
+        }
+        ArrangeControls();
 
-    Invalidate();
+        Invalidate();
+        AfxGetMyApp()->WriteProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence", buttons);
+    }
+}
+
+void CPlayerToolBar::OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult) {
+    SaveToolbarState();
     *pResult = 0;
-    AfxGetMyApp()->WriteProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence", buttons);
 }
 
 
 void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point) {
     mousePosition = point;
     CToolBar::OnMouseMove(nFlags, point);
+}
+
+
+void CPlayerToolBar::OnTbnGetButtonInfo(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
+    if (pNMTB->iItem < supportedSvgButtonsSeq.size()) {
+        int cmdid = supportedSvgButtonsSeq[pNMTB->iItem];
+        TBBUTTON t = GetStandardButton(cmdid);
+        t.iString = (INT_PTR)supportedSvgButtons[t.idCommand].text.GetString();
+        pNMTB->tbButton = t;
+        *pResult = TRUE;
+        return;
+    }
+    *pResult = 0;
+}
+
+
+void CPlayerToolBar::OnTbnInitCustomize(NMHDR* pNMHDR, LRESULT* pResult) {
+    *pResult = TBNRF_HIDEHELP;
+}
+
+
+void CPlayerToolBar::OnTbnBeginAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
+    toolbarAdjustActive = true;
+    *pResult = 0;
+}
+
+
+void CPlayerToolBar::OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
+    toolbarAdjustActive = false;
+    SaveToolbarState();
+    *pResult = 0;
 }

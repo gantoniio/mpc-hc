@@ -41,6 +41,7 @@ private:
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
+    TBBUTTON GetStandardButton(int cmdid);
     bool mouseDownL, mouseDownR;
     int rightButtonIndex=-1;
     CMPCThemeToolTipCtrl themedToolTip;
@@ -54,8 +55,9 @@ private:
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
     int volumeButtonIndex, dummySeparatorIndex, flexibleSpaceIndex;
-    int currentlyDraggingButton, mouseOverButton;
+    int currentlyDraggingButton;
     CPoint mousePosition;
+    bool toolbarAdjustActive;
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
@@ -101,6 +103,11 @@ public:
     afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
     afx_msg void OnTbnQueryDelete(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void SaveToolbarState();
+    void OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    afx_msg void OnTbnGetButtonInfo(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnTbnInitCustomize(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnTbnBeginAdjust(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult);
 };
