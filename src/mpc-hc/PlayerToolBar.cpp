@@ -717,7 +717,6 @@ void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
 
 void CPlayerToolBar::OnTbnQueryDelete(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
-    auto a = GetToolBarCtrl().GetButtonCount();
     if (pNMTB->iItem < 3 || pNMTB->iItem >= dummySeparatorIndex) {
         *pResult = FALSE;
         return;
@@ -765,25 +764,22 @@ void CPlayerToolBar::OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult) {
 
 
 void CPlayerToolBar::SaveToolbarState() {
-    return;
     if (!toolbarAdjustActive) {
         auto& ctrl = GetToolBarCtrl();
         std::vector<int> buttons;
         for (int i = 0; i < ctrl.GetButtonCount(); i++) {
             TBBUTTON button;
             ctrl.GetButton(i, &button);
-            int debug = 1;
             buttons.push_back(button.idCommand);
         }
-        ArrangeControls();
-
-        Invalidate();
         AfxGetMyApp()->WriteProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence", buttons);
     }
 }
 
 void CPlayerToolBar::OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult) {
     SaveToolbarState();
+    ArrangeControls();
+    Invalidate();
     *pResult = 0;
 }
 
