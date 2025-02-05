@@ -33,7 +33,7 @@ msgstr "&Deschide un fișier/ un URL..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "Deschidere disc &DVD/BD..."
+msgstr "Deschidere &DVD-ul/BD-ul..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
