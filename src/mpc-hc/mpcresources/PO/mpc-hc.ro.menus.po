@@ -125,7 +125,7 @@ msgstr "St&are"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Resincronizare su&btitluri"
+msgstr "Resincronizează su&btitrările"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
