@@ -1532,7 +1532,7 @@ msgstr "Deschide DVD-ul/BD-ul"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Eșuare la stabilirea nuanțatoarelor post-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor de post-redimensionare"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
