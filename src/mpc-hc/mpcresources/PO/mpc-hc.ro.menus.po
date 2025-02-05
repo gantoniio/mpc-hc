@@ -161,7 +161,7 @@ msgstr "Ecran comp&let (Pe tot ecranul)"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "&Scalare"
+msgstr "&Scalează"
 
 msgctxt "ID_VIEW_ZOOM_25"
 msgid "&25%"
