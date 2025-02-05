@@ -665,7 +665,7 @@ msgstr "Pista &audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "Pistă su&btitlu"
+msgstr "Pista de su&btitrări"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
