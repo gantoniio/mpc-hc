@@ -565,7 +565,7 @@ msgstr "&Lista de redare"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
-msgstr "A-B (&Restabilește)"
+msgstr "A-B (&Resetează)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"
