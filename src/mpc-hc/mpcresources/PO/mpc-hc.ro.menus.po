@@ -57,7 +57,7 @@ msgstr "Î&nchide"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "Salvare &copie..."
+msgstr "Salvează o &copie..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
