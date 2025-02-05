@@ -1512,7 +1512,7 @@ msgstr "Toate fișierele (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Fișiere audio (toate tipurile)"
+msgstr "Fișiere audio (de toate tipurile)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
