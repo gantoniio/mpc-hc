@@ -485,7 +485,7 @@ msgstr "Mută în &jos"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "Cen&trare"
+msgstr "Cen&trează"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
