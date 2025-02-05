@@ -393,7 +393,7 @@ msgstr "Atinge fereastra din &interior"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Scalare &1"
+msgstr "Scalează &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
