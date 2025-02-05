@@ -78,7 +78,7 @@ msgstr "Suprascrie toate stilurile"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr "Listă de redare"
+msgstr "Listă de redare/ Playlist"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
