@@ -225,7 +225,7 @@ msgstr "&Modul ecran complet D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "&Sprijinire ecran complet D3D în interfață"
+msgstr "Suport pentru ecranul complet D3D de tip &GUI"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
