@@ -120,7 +120,7 @@
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
 
-#define MIN_LOGO_WIDTH 400
+#define MIN_LOGO_WIDTH 360
 #define MIN_LOGO_HEIGHT 150
 
 #define PREV_CHAP_THRESHOLD 2
@@ -11363,7 +11363,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
         CSize logoSize = m_wndView.GetLogoSize();
         logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
-        logoSize.cy = std::max<LONG>(logoSize.cy, m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+        logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 32 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -11469,7 +11469,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 
             CSize logoSize = m_wndView.GetLogoSize();
             logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
-            logoSize.cy = std::max<LONG>(logoSize.cy, m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+            logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 32 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
