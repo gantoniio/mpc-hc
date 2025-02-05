@@ -1537,7 +1537,7 @@ msgstr "Eșuare la stabilirea nuanțatoarelor de post-redimensionare"
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
 msgstr ""
-"Eșuare la stabilirea nuanțatoarelor pre-redimensionare și post-"
+"Eșuare la stabilirea nuanțatoarelor de pre-redimensionare și de post-"
 "redimensionare"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
