@@ -753,7 +753,7 @@ msgstr "&Rădăcina meniului"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Meniu &subtitluri"
+msgstr "Meniul pentru &subtitrări"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
