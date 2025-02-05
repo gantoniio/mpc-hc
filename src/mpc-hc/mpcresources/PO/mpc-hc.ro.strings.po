@@ -1452,7 +1452,7 @@ msgstr "&Ascunde subtitrările"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
-msgstr "&Modificare..."
+msgstr "&Editare.."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
