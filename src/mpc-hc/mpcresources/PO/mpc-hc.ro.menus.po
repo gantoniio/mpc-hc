@@ -253,7 +253,7 @@ msgstr "Activează &corecția de timp a cadrelor"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "Gestionare &culori"
+msgstr "Gestionează &culorile"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
