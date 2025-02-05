@@ -1606,7 +1606,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
-msgstr "Adaugă dosar cu conținut"
+msgstr "Adaugă dosarul/folderul conținător"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
