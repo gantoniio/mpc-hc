@@ -41,11 +41,11 @@ msgstr "Deschide dis&pozitivul..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Deschidere dir&ector..."
+msgstr "Deschide dir&ectorul..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "De&schide disc"
+msgstr "De&schide discul"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
