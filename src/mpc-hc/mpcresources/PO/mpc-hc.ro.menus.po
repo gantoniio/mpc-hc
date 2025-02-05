@@ -365,7 +365,7 @@ msgstr "Resetează la setările &implicite ale randorului"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Restabilește la stabilirile &optime ale randorului"
+msgstr "Resetează la setările &optime ale randorului"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
