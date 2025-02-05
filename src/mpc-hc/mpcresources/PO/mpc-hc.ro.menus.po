@@ -129,7 +129,7 @@ msgstr "Resincronizează su&btitrările"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Listă de &redare"
+msgstr "Listă de &redare (Playlist)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
