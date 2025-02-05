@@ -505,7 +505,7 @@ msgstr "&Oglindește"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "Re&stabilește"
+msgstr "Re&setează"
 
 msgctxt "POPUP"
 msgid "On &Top"
