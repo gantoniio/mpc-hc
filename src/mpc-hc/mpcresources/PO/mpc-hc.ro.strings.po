@@ -1638,7 +1638,7 @@ msgstr "Salvează stilul personalizat"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "Educație/Știință/Subiecte de fapt"
+msgstr "Educație/Știință/Subiecte factuale"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
