@@ -1428,7 +1428,7 @@ msgstr "Capturare..."
 
 msgctxt "IDS_CONTROLS_OPENING"
 msgid "Opening..."
-msgstr "Deschidere..."
+msgstr "Se deschide..."
 
 msgctxt "IDS_CONTROLS_CLOSED"
 msgid "Closed"
