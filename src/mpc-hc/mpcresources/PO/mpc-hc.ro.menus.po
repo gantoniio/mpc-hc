@@ -649,7 +649,7 @@ msgstr "&Mărește rata de redare"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "R&estabilește rata de redare"
+msgstr "R&esetează rata de redare"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
