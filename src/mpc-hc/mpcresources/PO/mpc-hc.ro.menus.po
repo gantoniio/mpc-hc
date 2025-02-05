@@ -357,7 +357,7 @@ msgstr "&Așteaptă după curățări"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "R&estabilește"
+msgstr "R&esetează"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
