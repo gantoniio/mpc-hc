@@ -233,7 +233,7 @@ msgstr "Ieșire &RGB pe 10 biți"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Forțează &intrare RGB pe 10 biți"
+msgstr "Forțează &intrarea RGB pe 10 biți"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
