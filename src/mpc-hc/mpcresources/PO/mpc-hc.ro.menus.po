@@ -261,7 +261,7 @@ msgstr "&Activează"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "&Tip intrare"
+msgstr "&Tip de intrare"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
