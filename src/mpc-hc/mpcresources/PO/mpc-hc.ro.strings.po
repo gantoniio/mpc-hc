@@ -1634,7 +1634,7 @@ msgstr "Introdu-ți datele de autentificare pentru conectare"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr "Salvează stil personalizat"
+msgstr "Salvează stilul personalizat"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
