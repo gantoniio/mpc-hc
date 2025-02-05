@@ -37,7 +37,7 @@ msgstr "Deschidere &DVD-ul/BD-ul..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "Deschidere dis&pozitiv..."
+msgstr "Deschide dis&pozitivul..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
