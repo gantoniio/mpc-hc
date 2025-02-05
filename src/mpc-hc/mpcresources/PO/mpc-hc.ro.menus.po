@@ -241,7 +241,7 @@ msgstr "Procesare &completă în virgulă mobilă (pe 32 biți)"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Procesare pe &jumătate în virgulă mobilă (16 biți)"
+msgstr "Procesare pe &jumătate în virgulă mobilă (pe 16 biți)"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
