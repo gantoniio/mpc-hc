@@ -789,7 +789,7 @@ msgstr "&Comutatoare pentru linia de comandă"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Descărcare imagini pentru bara de ins&trumente"
+msgstr "Descarcă imagini pentru bara de ins&trumente"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
