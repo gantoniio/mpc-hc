@@ -777,7 +777,7 @@ msgstr "Aj&utor"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Pagină de pornire pentru MPC-HC"
+msgstr "&Pagina de pornire pentru MPC-HC"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
