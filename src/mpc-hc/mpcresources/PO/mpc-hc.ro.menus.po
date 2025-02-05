@@ -317,7 +317,7 @@ msgstr "Colorimetrică &absolută"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "Sincronizare &verticală"
+msgstr "Sincronizare &verticală (VSync)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
