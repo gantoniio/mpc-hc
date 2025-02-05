@@ -669,7 +669,7 @@ msgstr "Pista de su&btitrări"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
-msgstr "Pistă &video"
+msgstr "Pista &video"
 
 msgctxt "POPUP"
 msgid "&Volume"
