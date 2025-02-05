@@ -793,7 +793,7 @@ msgstr "Descarcă imagini pentru bara de ins&trumente"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "&Donare"
+msgstr "&Donează"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
