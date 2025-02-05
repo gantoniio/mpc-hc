@@ -757,7 +757,7 @@ msgstr "Meniul pentru &subtitrări"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Meniu &audio"
+msgstr "Meniul &audio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
