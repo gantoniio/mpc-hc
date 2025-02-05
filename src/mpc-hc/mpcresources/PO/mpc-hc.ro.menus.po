@@ -201,7 +201,7 @@ msgstr "Afișează &ora curentă"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr "Arată nume &fișier"
+msgstr "Afișează numele &fișierului"
 
 msgctxt "POPUP"
 msgid "&Output Range"
