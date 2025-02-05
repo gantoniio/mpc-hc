@@ -6594,7 +6594,7 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
 
     int i = 0;
     SubtitleInput* pSubInput = GetSubtitleInput(i, true);
-    if (!pSubInput) {
+    if (!pSubInput || !pSubInput->pSubStream) {
         return;
     }
 
