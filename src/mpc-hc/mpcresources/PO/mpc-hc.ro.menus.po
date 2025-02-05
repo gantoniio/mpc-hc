@@ -141,7 +141,7 @@ msgstr "Na&vigare"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Prestabiliri..."
+msgstr "&Presetări..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
