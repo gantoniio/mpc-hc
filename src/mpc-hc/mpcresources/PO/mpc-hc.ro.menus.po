@@ -749,7 +749,7 @@ msgstr "&Titlul meniului"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "Meniu &rădăcină"
+msgstr "&Rădăcina meniului"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
