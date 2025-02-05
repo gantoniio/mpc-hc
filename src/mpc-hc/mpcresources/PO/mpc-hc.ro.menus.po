@@ -205,7 +205,7 @@ msgstr "Afișează numele &fișierului"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "&Interval de ieșire"
+msgstr "&Intervalul de ieșire"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
