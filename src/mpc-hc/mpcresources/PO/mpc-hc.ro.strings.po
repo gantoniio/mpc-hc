@@ -86,7 +86,7 @@ msgstr "Fișiere"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr "Discuri DVD"
+msgstr "DVD-uri"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
