@@ -745,7 +745,7 @@ msgstr "&Du-te la..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr "Meniu &titlu"
+msgstr "&Titlul meniului"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
