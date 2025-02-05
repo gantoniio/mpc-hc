@@ -245,7 +245,7 @@ msgstr "Procesare pe &jumătate în virgulă mobilă (pe 16 biți)"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Dezactivează compoziție desktop (&Aero)"
+msgstr "Dezactivează compoziția desktop (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
