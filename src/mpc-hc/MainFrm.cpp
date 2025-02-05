@@ -2920,12 +2920,16 @@ void CMainFrame::GraphEventComplete()
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
+    if (GetLoadState() != MLS::LOADED && GetLoadState() != MLS::LOADING || m_fOpeningAborted || AfxGetMyApp()->m_fClosingState) {
+        return E_FAIL;
+    }
+
     CAppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
 
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
-    while (!m_fOpeningAborted && !AfxGetMyApp()->m_fClosingState && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
+    while (!m_fOpeningAborted && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
         if (evCode != EC_DVD_CURRENT_HMSF_TIME) {
             TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
@@ -19216,6 +19220,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
                         if (msg.message == WM_QUIT) {
                             processmsg = false;
+                        } else if (msg.message == WM_GRAPHNOTIFY) {
+                            // ignore
                         } else {
                             TranslateMessage(&msg);
                             DispatchMessage(&msg);
