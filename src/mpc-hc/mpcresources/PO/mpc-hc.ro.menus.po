@@ -321,7 +321,7 @@ msgstr "Sincronizare &verticală (VSync)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "Activează sincronizarea &verticală"
+msgstr "Sincronizare &verticală (VSync)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
