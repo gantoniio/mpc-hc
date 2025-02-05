@@ -29,7 +29,7 @@ msgstr "Deschide &rapid un fișier..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File/URL..."
-msgstr "&Deschidere fișier..."
+msgstr "&Deschide un fișier/ un URL..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
