@@ -1642,7 +1642,7 @@ msgstr "Educație/Știință/Subiecte factuale"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Ascunde controalele și panourile și în modul fereastră."
+msgstr "Ascunde controalele și panourile și în modul ferestre."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid ""
