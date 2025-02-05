@@ -637,7 +637,7 @@ msgstr "24 cps/fps"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS25"
 msgid "25 fps"
-msgstr "25 cps"
+msgstr "25 cps/fps"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
