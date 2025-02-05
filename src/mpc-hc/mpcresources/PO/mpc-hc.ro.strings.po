@@ -1622,7 +1622,7 @@ msgstr "Rata de redare"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr "&Copiază lista de filtre în zona de transfer"
+msgstr "&Copiază lista de filtre în clipboard"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
