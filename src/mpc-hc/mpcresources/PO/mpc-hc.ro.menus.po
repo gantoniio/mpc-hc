@@ -77,7 +77,7 @@ msgstr "Î&ncarcă subtitrări..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr "Salvare s&ubtitluri..."
+msgstr "Salvează s&ubtitrările..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
