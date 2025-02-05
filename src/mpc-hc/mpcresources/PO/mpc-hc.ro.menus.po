@@ -61,7 +61,7 @@ msgstr "Salvează o &copie..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Salvare &imagine..."
+msgstr "Salvează &imaginea..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
