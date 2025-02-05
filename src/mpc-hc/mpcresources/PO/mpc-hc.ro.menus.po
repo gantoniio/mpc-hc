@@ -237,7 +237,7 @@ msgstr "Forțează &intrarea RGB pe 10 biți"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Procesare &completă în virgulă mobilă (32 biți)"
+msgstr "Procesare &completă în virgulă mobilă (pe 32 biți)"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
