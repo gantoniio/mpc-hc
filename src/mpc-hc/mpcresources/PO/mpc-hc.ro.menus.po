@@ -349,7 +349,7 @@ msgstr "Curăță &GPU-ul înainte de sincronizarea verticală (VSync)"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Golește unitatea grafică &după prezentare"
+msgstr "Curăță GPU-ul &după prezentare"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
