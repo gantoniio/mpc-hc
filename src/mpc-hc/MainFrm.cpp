@@ -2925,7 +2925,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
-    while (!AfxGetMyApp()->m_fClosingState && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
+    while (!m_fOpeningAborted && !AfxGetMyApp()->m_fClosingState && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
         if (evCode != EC_DVD_CURRENT_HMSF_TIME) {
             TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
@@ -2941,10 +2941,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         switch (evCode) {
             case EC_PAUSED:
-                if (GetLoadState() == MLS::LOADED) {
-                    UpdateCachedMediaState();
-                }
-                if (m_audioTrackCount > 1 && GetLoadState() == MLS::LOADED) {
+                UpdateCachedMediaState();
+                if (m_audioTrackCount > 1) {
                     CheckSelectedAudioStream();
                 }
                 break;
@@ -19109,6 +19107,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
                             if (msg.message == WM_QUIT) {
                                 processmsg = false;
+                            } else if (msg.message == WM_GRAPHNOTIFY) {
+                                // ignore
                             } else {
                                 TranslateMessage(&msg);
                                 DispatchMessage(&msg);
