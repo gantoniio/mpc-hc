@@ -265,7 +265,7 @@ msgstr "&Tipul de intrare"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "&Autodetecție"
+msgstr "Detectare &automată"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
