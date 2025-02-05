@@ -761,7 +761,7 @@ msgstr "Meniul &audio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Meniu un&ghiuri"
+msgstr "Meniul un&ghiurilor"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
