@@ -345,7 +345,7 @@ msgstr "Controlul &GPU-ului"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "&Golește unitatea grafică înainte de sincronizarea verticală"
+msgstr "Curăță &GPU-ul înainte de sincronizarea verticală (VSync)"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
