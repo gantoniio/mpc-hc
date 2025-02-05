@@ -285,7 +285,7 @@ msgstr "&Lumină ambientală"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "L&uminos (2.2 Gamma)"
+msgstr "L&uminoasă (2.2 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
