@@ -19111,8 +19111,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
                             if (msg.message == WM_QUIT) {
                                 processmsg = false;
-                            } else if (msg.message == WM_GRAPHNOTIFY) {
+                            } else if (msg.message == WM_GRAPHNOTIFY || msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
                                 // ignore
+                                //TRACE(_T("Ignoring WM during graph abort: %d\n"), msg.message);
                             } else {
                                 TranslateMessage(&msg);
                                 DispatchMessage(&msg);
@@ -19220,8 +19221,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
                         if (msg.message == WM_QUIT) {
                             processmsg = false;
-                        } else if (msg.message == WM_GRAPHNOTIFY) {
+                        } else if (msg.message == WM_GRAPHNOTIFY || msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
                             // ignore
+                            //TRACE(_T("Ignoring WM during graph close: %d\n"), msg.message);
                         } else {
                             TranslateMessage(&msg);
                             DispatchMessage(&msg);
