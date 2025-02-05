@@ -1630,7 +1630,7 @@ msgstr "Introdu datele de autentificare ale serverului"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr "Introduceți datele dvs. de autentificare pentru conectare"
+msgstr "Introdu-ți datele de autentificare pentru conectare"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
