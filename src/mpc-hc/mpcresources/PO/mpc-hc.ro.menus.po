@@ -89,7 +89,7 @@ msgstr "Pr&oprietăți"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr "Deschide &locație fișier"
+msgstr "Deschide &locația fișierului"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
