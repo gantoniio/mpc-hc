@@ -185,7 +185,7 @@ msgstr "&Potrivire automată"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Stabiliri r&andor"
+msgstr "Setări pentru r&andor"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
