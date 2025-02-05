@@ -46,7 +46,7 @@ msgstr "Terminare..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Redă video"
+msgstr "Redă videoclipul"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
