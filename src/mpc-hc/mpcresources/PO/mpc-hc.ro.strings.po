@@ -1504,7 +1504,7 @@ msgstr "Comandă aplicație"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
-msgstr "Fișiere multimedia (toate tipurile)"
+msgstr "Fișiere multimedia (de toate tipurile)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
