@@ -101,7 +101,7 @@ msgstr "&Vizualizare"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Meniu && titlu"
+msgstr "Titlul și meniul"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
