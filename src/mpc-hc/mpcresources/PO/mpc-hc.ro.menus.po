@@ -341,7 +341,7 @@ msgstr "&Mărește decalajul sincronizării verticale"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "Control unitate &grafică"
+msgstr "Controlul &GPU-ului"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
