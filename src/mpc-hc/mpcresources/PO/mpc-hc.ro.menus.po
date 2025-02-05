@@ -81,7 +81,7 @@ msgstr "Salvează s&ubtitrările..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr "&Descărcare subtitluri..."
+msgstr "&Descarcă subtitrări..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
