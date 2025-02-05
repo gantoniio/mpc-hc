@@ -1626,7 +1626,7 @@ msgstr "&Copiază lista de filtre în clipboard"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr "Introduceți datele de autentificare pe servitor"
+msgstr "Introdu datele de autentificare ale serverului"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
