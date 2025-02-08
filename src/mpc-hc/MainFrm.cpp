@@ -2920,16 +2920,22 @@ void CMainFrame::GraphEventComplete()
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
-    if (GetLoadState() != MLS::LOADED && GetLoadState() != MLS::LOADING || m_fOpeningAborted || AfxGetMyApp()->m_fClosingState) {
-        return E_FAIL;
+    if (wParam != 0 || lParam != 0x4B00B1E5) {
+        ASSERT(false);
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted) {
+            if (CrashReporter::IsEnabled()) {
+                throw 1;
+            }
+        }
+#endif
+        return E_INVALIDARG;
     }
 
-    CAppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
-
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
-    while (!m_fOpeningAborted && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
+    while (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted && (GetLoadState() == MLS::LOADED || GetLoadState() == MLS::LOADING) && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
         if (evCode != EC_DVD_CURRENT_HMSF_TIME) {
             TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
@@ -2999,6 +3005,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_DOMAIN_CHANGE: {
+                CAppSettings& s = AfxGetAppSettings();
                 m_iDVDDomain = (DVD_DOMAIN)evParam1;
 
                 OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(m_lastOMD.m_p);
@@ -3197,6 +3204,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_CURRENT_HMSF_TIME: {
+                CAppSettings& s = AfxGetAppSettings();
                 s.MRU.UpdateCurrentDVDTimecode((DVD_HMSF_TIMECODE*)&evParam1);
             }
             break;
@@ -3281,9 +3289,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_DVD_PLAYBACK_RATE_CHANGE:
-                if (m_fCustomGraph && s.autoChangeFSMode.bEnabled &&
-                        (IsFullScreenMode()) && m_iDVDDomain == DVD_DOMAIN_Title) {
-                    AutoChangeMonitorMode();
+                if (m_fCustomGraph) {
+                    CAppSettings& s = AfxGetAppSettings();
+                    if (s.autoChangeFSMode.bEnabled && IsFullScreenMode() && m_iDVDDomain == DVD_DOMAIN_Title) {
+                        AutoChangeMonitorMode();
+                    }
                 }
                 break;
             case EC_CLOCK_CHANGED:
@@ -13240,7 +13250,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         throw (UINT)IDS_GRAPH_INTERFACES_ERROR;
     }
 
-    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
+    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0x4B00B1E5))) {
         throw (UINT)IDS_GRAPH_TARGET_WND_ERROR;
     }
 
