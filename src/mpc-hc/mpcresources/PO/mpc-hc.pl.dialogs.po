@@ -207,7 +207,7 @@ msgstr "O programie"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2024 clsid2 and others"
-msgstr "Wszelkie prawa zastrzeżone, 2002-2024; clsid2 i inni"
+msgstr "Wszelkie prawa zastrzeżone, 2002-2025; clsid2 i inni"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
