@@ -1941,7 +1941,7 @@ msgstr "Afișează când se mișcă cursorul, ascunde după:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr "Arată când se trece peste controale, ascunde după:"
+msgstr "Afișează când se trece cu mouse-ul peste controale, ascunde după:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
