@@ -1727,7 +1727,7 @@ msgstr "<not defined>"
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr "Vizualizează"
+msgstr "Urmărește"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
