@@ -1674,7 +1674,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Ține minte poziția în fișier și pentru fișiere audio."
+msgstr "Reține poziția fișierului și pentru fișierele audio."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
