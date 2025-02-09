@@ -1747,7 +1747,7 @@ msgstr "Elimină-le pe toate"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Ești sigur că vrei să ștergi toate canalele din listă?"
+msgstr "Ești sigur(ă) că vrei să ștergi toate canalele din listă?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
