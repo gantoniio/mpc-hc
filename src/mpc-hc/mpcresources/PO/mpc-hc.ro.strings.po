@@ -1937,7 +1937,7 @@ msgstr "Nu afișa niciodată"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr "Arată când se mișcă cursorul, ascunde după:"
+msgstr "Afișează când se mișcă cursorul, ascunde după:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
