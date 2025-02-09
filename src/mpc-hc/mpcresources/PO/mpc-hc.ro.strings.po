@@ -1682,7 +1682,7 @@ msgstr "Nu face nimic"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr "Redă următorul fișier din dosar"
+msgstr "Redă următorul fișier din dosar/folder"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
