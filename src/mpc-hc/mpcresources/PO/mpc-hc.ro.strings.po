@@ -1763,7 +1763,7 @@ msgstr "AR/RA %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr "Activează jurnalizare în fișier (necesită repornire)"
+msgstr "Activează înregistrarea în fișier (necesită repornire)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
