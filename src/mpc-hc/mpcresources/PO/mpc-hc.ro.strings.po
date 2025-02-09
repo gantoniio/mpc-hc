@@ -1759,7 +1759,7 @@ msgstr "Te rugăm să aștepți, analiza este în curs..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr "RA %d:%d"
+msgstr "AR/RA %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
