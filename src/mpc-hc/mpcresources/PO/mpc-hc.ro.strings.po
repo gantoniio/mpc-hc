@@ -1981,7 +1981,7 @@ msgstr "Un&ghi video"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr "Restabilește stabilirile"
+msgstr "Resetează setările"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid ""
