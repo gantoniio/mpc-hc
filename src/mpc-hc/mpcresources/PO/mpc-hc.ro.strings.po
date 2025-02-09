@@ -1053,7 +1053,7 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
-msgstr "Scanare prinzător"
+msgstr "Scanează prinzătorul/tunerul"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
