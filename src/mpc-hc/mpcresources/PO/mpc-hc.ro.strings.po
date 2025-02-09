@@ -1957,7 +1957,7 @@ msgstr "Corecție de timp a cadrelor: Dezactivată"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Decalaj sincronizare verticală vizată: %.1f"
+msgstr "Decalaj de sincronizare verticală (VSync) vizată: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
