@@ -1907,7 +1907,7 @@ msgstr "Activități pentru timpul liber"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr "Mută în Coșul de reciclare/Cpșul de gunoi"
+msgstr "Mută în Coșul de reciclare (Coșul de gunoi)"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
