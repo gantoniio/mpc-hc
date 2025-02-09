@@ -1879,7 +1879,7 @@ msgstr "Mărește rata"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Emisiune/Emisiune de concurs"
+msgstr "Spectacol/Emisiune de concurs"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
