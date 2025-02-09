@@ -1859,7 +1859,7 @@ msgstr "Redă"
 
 msgctxt "IDS_AG_STOP"
 msgid "Stop"
-msgstr "Oprire"
+msgstr "Oprește"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
