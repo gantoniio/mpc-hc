@@ -1871,7 +1871,7 @@ msgstr "Cadrul precedent"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
-msgstr "Du-te la"
+msgstr "Mergi la"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
