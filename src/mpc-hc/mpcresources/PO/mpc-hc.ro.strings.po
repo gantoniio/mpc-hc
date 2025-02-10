@@ -2534,7 +2534,7 @@ msgstr "Rată de cadre"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
-msgstr "Desenate: %d, pierdute: %d"
+msgstr "desenate: %d, pierdute: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
