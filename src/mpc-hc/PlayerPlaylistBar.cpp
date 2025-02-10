@@ -1775,13 +1775,18 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     if (pLVKeyDown->wVKey == VK_DELETE && !items.IsEmpty()) {
+        POSITION curplpos = m_pl.GetPos();
         pos = items.GetHeadPosition();
         while (pos) {
             int i = items.GetNext(pos);
-            if (m_pl.RemoveAt(FindPos(i))) {
-                m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+            POSITION remplpos = FindPos(i);
+            if (remplpos) {
+                if (remplpos == curplpos) {
+                    m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                }
+                m_pl.RemoveAt(remplpos);
+                m_list.DeleteItem(i);
             }
-            m_list.DeleteItem(i);
         }
 
         m_list.SetItemState(-1, 0, LVIS_SELECTED);
