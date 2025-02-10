@@ -2013,7 +2013,7 @@ msgstr ""
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Stabilirile au fost exportate cu succes."
+msgstr "Setările au fost exportate cu succes."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid ""
