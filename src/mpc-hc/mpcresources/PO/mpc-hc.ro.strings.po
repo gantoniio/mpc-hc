@@ -1989,7 +1989,7 @@ msgid ""
 "Be warned that ALL your current settings will be lost!"
 msgstr ""
 "Ești sigur(ă) că dorești să restaurezi MPC-HC la setările lui implicite?\n"
-"Trebuie să știi că TOATE setările tale actuale se vor pierde!"
+"Trebuie să știi că TOATE setările tale actuale vor fi pierdute!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid ""
