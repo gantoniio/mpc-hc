@@ -1996,7 +1996,7 @@ msgid ""
 "Please close all instances of MPC-HC so that the default settings can be "
 "restored."
 msgstr ""
-"Închideți toate instanțele programului MPC-HC pentru ca stabilirile "
+"Te rugăm să închizi toate instanțele programului MPC-HC pentru ca setările "
 "implicite să poată fi restaurate."
 
 msgctxt "IDS_EXPORT_SETTINGS"
