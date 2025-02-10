@@ -2024,7 +2024,7 @@ msgstr ""
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr "Eroare BDA (placa Tuner)"
+msgstr "Eroare BDA (placa tunerului)"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
