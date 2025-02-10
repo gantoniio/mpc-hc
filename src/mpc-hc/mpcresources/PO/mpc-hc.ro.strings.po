@@ -2019,7 +2019,7 @@ msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid ""
 "The export failed! This can happen when you don't have the correct rights."
 msgstr ""
-"Exportarea a eșuat! Acest lucru se poate întâmpla când nu aveți drepturile "
+"Exportarea a eșuat! Acest lucru se poate întâmpla când nu ai drepturile "
 "necesare."
 
 msgctxt "IDS_BDA_ERROR"
