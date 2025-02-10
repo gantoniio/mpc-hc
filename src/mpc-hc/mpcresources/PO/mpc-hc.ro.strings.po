@@ -2009,7 +2009,7 @@ msgid ""
 "Do you want to save them before exporting?"
 msgstr ""
 "Unele modificări nu au fost încă salvate.\n"
-"Doriți să le salvați înainte de exportare?"
+"Dorești să le salvezi înainte de a le exporta?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
