@@ -2001,7 +2001,7 @@ msgstr ""
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Exportă stabilirile"
+msgstr "Exportă setările"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid ""
