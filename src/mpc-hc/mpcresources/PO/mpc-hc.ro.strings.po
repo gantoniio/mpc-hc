@@ -2625,7 +2625,7 @@ msgstr "DVD: Regiuni de sistem și de decodor incompatibile"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
-msgstr "DVD: Regiuni disc și decodor incompatibile"
+msgstr "DVD: Regiuni de disc și de decodor incompatibile"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid ""
