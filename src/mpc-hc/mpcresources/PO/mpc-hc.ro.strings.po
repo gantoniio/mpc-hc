@@ -2350,7 +2350,7 @@ msgstr "Meniul DVD-ului pentru subtitrări"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "Meniu DVD pentru audio"
+msgstr "Meniul DVD-ului pentru audio"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
