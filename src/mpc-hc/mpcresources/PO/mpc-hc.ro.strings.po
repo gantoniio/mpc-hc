@@ -2617,7 +2617,7 @@ msgstr "DVD: Nivel parental scăzut"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
-msgstr "DVD: Eșuare la protecție copiere Macrovision"
+msgstr "DVD: Eșuare la ștergerea protecției copierii Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
