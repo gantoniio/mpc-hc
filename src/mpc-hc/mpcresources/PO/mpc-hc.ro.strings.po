@@ -2338,7 +2338,7 @@ msgstr "Volumul dat pe silențios/Mut"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "Meniu DVD pentru titlu"
+msgstr "Meniul DVD-ului pentru titluri"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
