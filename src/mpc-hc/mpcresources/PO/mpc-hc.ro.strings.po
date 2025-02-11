@@ -2466,7 +2466,7 @@ msgstr "OSD: Afișează ora actuală"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
-msgstr "Selectare director"
+msgstr "Selectează directorul"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
