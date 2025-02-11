@@ -2454,7 +2454,7 @@ msgstr "Subtitrarea următoare (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr "Subtitlul precedent (DVD)"
+msgstr "Subtitrarea precedentă (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
