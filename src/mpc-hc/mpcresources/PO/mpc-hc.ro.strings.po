@@ -2286,7 +2286,7 @@ msgstr "Întârzierea nu este validă"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Introduceți un număr între 1 și 365."
+msgstr "Te rugăm să introduci un număr între 1 și 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
