@@ -2342,7 +2342,7 @@ msgstr "Meniul DVD-ului pentru titluri"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "Meniu DVD principal"
+msgstr "Meniul principal al DVD-ul"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
