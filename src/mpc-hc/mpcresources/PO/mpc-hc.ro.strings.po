@@ -2621,7 +2621,7 @@ msgstr "DVD: Eșuare la ștergerea protecției copierii Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: Regiuni sistem și decodor incompatibile"
+msgstr "DVD: Regiuni de sistem și de decodor incompatibile"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
