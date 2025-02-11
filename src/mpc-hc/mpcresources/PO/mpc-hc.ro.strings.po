@@ -2274,7 +2274,7 @@ msgstr "Scalare: Automată (doar la cele mari)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr "Clic dublu pentru a deschide dosarul fișierului"
+msgstr "Dublu clic pentru a deschide dosarul/folderul fișierului"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
