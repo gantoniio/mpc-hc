@@ -2668,7 +2668,7 @@ msgstr "Raport de aspect"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
-msgstr ", Totale: %ld, Pierdute: %ld"
+msgstr ", Total: %ld, Pierdute: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
@@ -2700,7 +2700,7 @@ msgstr "Subtitrare: oprită"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
-msgstr "Subtirare: %s"
+msgstr "Subtitrare: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
