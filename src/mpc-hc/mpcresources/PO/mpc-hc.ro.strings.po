@@ -2394,7 +2394,7 @@ msgstr "Tasta Șef (Boss)"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr "Meniu player"
+msgstr "Meniul playerului"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
