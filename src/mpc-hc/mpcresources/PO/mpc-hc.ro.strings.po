@@ -2270,7 +2270,7 @@ msgstr "Potrivește automat scalarea (doar la cele mari)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Scalare: Automată (doar cele mari)"
+msgstr "Scalare: Automată (doar la cele mari)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
