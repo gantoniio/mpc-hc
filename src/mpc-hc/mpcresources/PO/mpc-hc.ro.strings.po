@@ -2648,7 +2648,7 @@ msgstr "Titlu: %02d/%02d"
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
 msgstr ""
-"Numele fișierului conține caractere nesprijinite (folosiți doar A-Z, 0-9)"
+"Numele fișierului conține caractere nesuportate (folosește doar A-Z, 0-9)"
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
