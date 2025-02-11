@@ -2266,7 +2266,7 @@ msgstr "Potrivire automată"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Potrivire automată scalare (doar cele mari)"
+msgstr "Potrivește automat scalarea (doar la cele mari)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
