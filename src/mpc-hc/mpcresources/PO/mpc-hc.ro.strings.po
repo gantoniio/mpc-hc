@@ -2318,7 +2318,7 @@ msgstr "Cadrul video în sus/ în dreapta"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr "Cadrul video în jos în stânga"
+msgstr "Cadrul video în jos/ în stânga"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
