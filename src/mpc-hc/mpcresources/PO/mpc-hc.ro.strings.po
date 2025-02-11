@@ -2354,7 +2354,7 @@ msgstr "Meniul DVD-ului pentru audio"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "Meniu DVD pentru unghiuri"
+msgstr "Meniul DVD-ului pentru unghiuri"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
