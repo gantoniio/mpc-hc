@@ -2278,7 +2278,7 @@ msgstr "Dublu clic pentru a deschide dosarul/folderul fișierului"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
-msgstr "Comută între timp trecut și timp rămas"
+msgstr "Comută între timpul trecut și timpul rămas"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
