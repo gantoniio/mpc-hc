@@ -393,7 +393,7 @@ msgstr "ウィンドウに内接させる(&I)"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "拡大 1(&1)"
+msgstr "ズーム 1(&1)"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
