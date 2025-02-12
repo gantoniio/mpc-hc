@@ -3685,7 +3685,7 @@ msgstr "閉じる(&C)"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "拡大: %.0lf%%"
+msgstr "ズーム: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
