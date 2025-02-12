@@ -3191,7 +3191,7 @@ msgstr "ズーム 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr "拡大 2"
+msgstr "ズーム 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
