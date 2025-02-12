@@ -3187,7 +3187,7 @@ msgstr "ウィンドウに内接させる"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "拡大 1"
+msgstr "ズーム 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
