@@ -3063,7 +3063,7 @@ msgstr "ビデオ フレーム: ズーム 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr "ビデオ フレーム: 拡大設定の切り替え"
+msgstr "ビデオ フレーム: ズーム設定の切り替え"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
