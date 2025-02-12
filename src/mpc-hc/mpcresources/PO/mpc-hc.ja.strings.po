@@ -2184,7 +2184,7 @@ msgstr "ズーム 自動調整 (超過のみ)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "拡大: 自動 (超過のみ)"
+msgstr "ズーム: 自動 (超過のみ)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
