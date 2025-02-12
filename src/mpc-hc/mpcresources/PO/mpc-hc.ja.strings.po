@@ -3689,7 +3689,7 @@ msgstr "ズーム: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "拡大: 自動"
+msgstr "ズーム: 自動"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
