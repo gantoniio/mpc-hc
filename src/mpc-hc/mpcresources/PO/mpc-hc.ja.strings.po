@@ -1341,7 +1341,7 @@ msgstr "16:9 TV 画面に合わせる,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "ワイド画面に拡大,%.3f,%.3f,%.3f,%.3f"
+msgstr "ワイド画面にズーム,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
