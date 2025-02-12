@@ -2094,7 +2094,7 @@ msgstr "全画面表示 (解像度変更なし)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "拡大 自動調整"
+msgstr "ズーム 自動調整"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
