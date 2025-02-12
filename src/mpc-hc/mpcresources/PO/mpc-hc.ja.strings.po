@@ -3043,7 +3043,7 @@ msgstr "ズーム ウィンドウ 拡大"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "ズーム ウィンドウ 縮小"
+msgstr "ズーム ウィンドウを縮小"
 
 msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
 msgid "Video Preview"
