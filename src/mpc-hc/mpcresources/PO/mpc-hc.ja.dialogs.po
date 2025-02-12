@@ -441,7 +441,7 @@ msgstr "再生終了後"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
-msgstr "拡大率と配置"
+msgstr "ズーム率と配置"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
