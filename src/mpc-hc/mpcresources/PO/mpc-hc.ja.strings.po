@@ -3031,7 +3031,7 @@ msgstr "エンコーディング:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr "拡大 25%"
+msgstr "ズーム 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
