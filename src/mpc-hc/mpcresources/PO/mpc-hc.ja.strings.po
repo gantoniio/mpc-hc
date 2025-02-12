@@ -2959,7 +2959,7 @@ msgstr "シェーダー デバッガーの表示"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "拡大 50%"
+msgstr "ズーム 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
