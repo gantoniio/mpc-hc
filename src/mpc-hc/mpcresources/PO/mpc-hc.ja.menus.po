@@ -397,7 +397,7 @@ msgstr "ズーム 1(&1)"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "拡大 2(&2)"
+msgstr "ズーム 2(&2)"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
