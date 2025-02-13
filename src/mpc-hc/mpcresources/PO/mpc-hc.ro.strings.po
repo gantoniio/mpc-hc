@@ -2803,7 +2803,7 @@ msgstr "Eroare: necesită Adobe Flash Player pentru IE cu patch-ul killswitch"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Obiectul pentru graficul filtrelor nu a putut fi creat"
+msgstr "Nu s-a putut crea obiectul grafic de filtru"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
