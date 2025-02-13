@@ -2823,7 +2823,7 @@ msgstr "Capitol: "
 
 msgctxt "IDS_VOLUME_OSD"
 msgid "Vol: %d%%"
-msgstr "Volum: %d%%"
+msgstr "Volumul: %d%%"
 
 msgctxt "IDS_BOOST_OSD"
 msgid "Boost: +%u%%"
