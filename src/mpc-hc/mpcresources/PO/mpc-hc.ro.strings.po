@@ -2543,7 +2543,7 @@ msgstr "Cadre"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
-msgstr "Preîncărcări"
+msgstr "Tampoane/Buffere"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
