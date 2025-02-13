@@ -22,6 +22,7 @@ CMPCThemeDialog::~CMPCThemeDialog()
 IMPLEMENT_DYNAMIC(CMPCThemeDialog, CDialog)
 
 BEGIN_MESSAGE_MAP(CMPCThemeDialog, CDialog)
+    ON_COMMAND_EX(IDOK, OnOK_EX)
     ON_WM_CTLCOLOR()
     ON_WM_HSCROLL()
 END_MESSAGE_MAP()
@@ -55,4 +56,12 @@ void CMPCThemeDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     if (ExternalPropertyPageWithAnalogCaptureSliders == specialCase && nSBCode == TB_THUMBPOSITION) {
         UpdateAnalogCaptureDeviceSlider(pScrollBar);
     }
+}
+
+BOOL CMPCThemeDialog::OnOK_EX(UINT nId) {
+    if (ToolbarCustomizeDialog == specialCase) { //the toolbar customize dialog has assigned 1==IDOK to the "add" button, which CDialog interprets as `EndDialog(IDOK)`
+        return FALSE;
+    }
+    __super::OnOK();
+    return TRUE;
 }

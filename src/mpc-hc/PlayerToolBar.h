@@ -23,12 +23,12 @@
 
 #include "VolumeCtrl.h"
 #include "CMPCThemeToolTipCtrl.h"
-
+#include "CMPCThemeUtil.h"
 #include <atlimage.h>
 
 class CMainFrame;
 
-class CPlayerToolBar : public CToolBar
+class CPlayerToolBar : public CToolBar, public CMPCThemeUtil
 {
     DECLARE_DYNAMIC(CPlayerToolBar)
 
@@ -110,4 +110,5 @@ public:
     afx_msg void OnTbnInitCustomize(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnBeginAdjust(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };

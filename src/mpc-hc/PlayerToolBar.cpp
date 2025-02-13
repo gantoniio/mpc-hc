@@ -417,6 +417,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_NOTIFY_REFLECT(TBN_INITCUSTOMIZE, &CPlayerToolBar::OnTbnInitCustomize)
     ON_NOTIFY_REFLECT(TBN_BEGINADJUST, &CPlayerToolBar::OnTbnBeginAdjust)
     ON_NOTIFY_REFLECT(TBN_ENDADJUST, &CPlayerToolBar::OnTbnEndAdjust)
+    ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -819,4 +820,10 @@ void CPlayerToolBar::OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
     toolbarAdjustActive = false;
     SaveToolbarState();
     *pResult = 0;
+}
+
+
+void CPlayerToolBar::OnLButtonDblClk(UINT nFlags, CPoint point) {
+    m_pMainFrame->enableDialogHook(this, CMainFrame::themableDialogTypes::toolbarCustomizeDialog);
+    CToolBar::OnLButtonDblClk(nFlags, point);
 }

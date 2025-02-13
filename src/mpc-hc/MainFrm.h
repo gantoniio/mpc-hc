@@ -1269,7 +1269,6 @@ public:
                 DWORD dwExStyle = 0,
                 CCreateContext* pContext = NULL);
     CMPCThemeMenu* defaultMPCThemeMenu = nullptr;
-    void enableFileDialogHook(CMPCThemeUtil* helper);
 
     bool isSafeZone(CPoint pt);
 
@@ -1390,9 +1389,17 @@ public:
     void MediaTransportControlSetMedia();
     void MediaTransportControlUpdateState(OAFilterState state);
 
+    enum themableDialogTypes {
+        None,
+        windowsFileDialog,
+        toolbarCustomizeDialog
+    };
+    void enableFileDialogHook(CMPCThemeUtil* helper);
+    void enableDialogHook(CMPCThemeUtil* helper, themableDialogTypes type);
 private:
-    bool watchingFileDialog;
-    CMPCThemeUtil* fileDialogHookHelper;
+    themableDialogTypes watchingDialog, foundDialog;
+    CMPCThemeUtil* dialogHookHelper;
+
 public:
     afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
     afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);

@@ -7,6 +7,7 @@
 IMPLEMENT_DYNAMIC(CMPCThemeListBox, CListBox)
 
 CMPCThemeListBox::CMPCThemeListBox()
+    :customizeToolBar(nullptr)
 {
     themedToolTipCid = (UINT_PTR) - 1;
     themedSBHelper = nullptr;
@@ -42,27 +43,44 @@ void CMPCThemeListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     }
     dc.Attach(lpDrawItemStruct->hDC);
 
+    int buttonID = (int16_t)LOWORD(lpDrawItemStruct->itemData);
+
+    CRect rc(lpDrawItemStruct->rcItem);
+
     COLORREF crOldTextColor = dc.GetTextColor();
     COLORREF crOldBkColor = dc.GetBkColor();
 
     if ((lpDrawItemStruct->itemAction | ODA_SELECT) && (lpDrawItemStruct->itemState & ODS_SELECTED)) {
         dc.SetTextColor(CMPCTheme::TextFGColor);
         dc.SetBkColor(CMPCTheme::ContentSelectedColor);
-        dc.FillSolidRect(&lpDrawItemStruct->rcItem, CMPCTheme::ContentSelectedColor);
+        dc.FillSolidRect(&rc, CMPCTheme::ContentSelectedColor);
     } else {
         dc.SetTextColor(CMPCTheme::TextFGColor);
         dc.SetBkColor(CMPCTheme::ContentBGColor);
-        dc.FillSolidRect(&lpDrawItemStruct->rcItem, CMPCTheme::ContentBGColor);
+        dc.FillSolidRect(&rc, CMPCTheme::ContentBGColor);
     }
 
-    lpDrawItemStruct->rcItem.left += 3;
+    if (customizeToolBar) {
+        if (buttonID != -1) {
+            auto list = customizeToolBar->GetToolBarCtrl().GetImageList();
+            IMAGEINFO ii;
+            list->GetImageInfo(buttonID, &ii);
+            CRect rci(ii.rcImage);
+            int border = (rc.Height() - rci.Height()) / 2;
+            border = border < 0 ? 0 : border;
+            list->Draw(&dc, buttonID, rc.TopLeft() + CPoint(border, border), ILD_NORMAL);
+        }
+        rc.left += rc.Height();
+    }
+
+    rc.left += 3;
 
     CString strText;
     GetText(lpDrawItemStruct->itemID, strText);
 
     CFont* font = GetFont();
     CFont* pOldFont = dc.SelectObject(font);
-    dc.DrawTextW(strText, strText.GetLength(), &lpDrawItemStruct->rcItem, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
+    dc.DrawTextW(strText, strText.GetLength(), &rc, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
 
     dc.SetTextColor(crOldTextColor);
     dc.SetBkColor(crOldBkColor);

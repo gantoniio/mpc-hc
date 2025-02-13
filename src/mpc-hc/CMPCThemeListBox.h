@@ -13,6 +13,7 @@ private:
     CMPCThemeToolTipCtrl themedToolTip;
     UINT_PTR themedToolTipCid;
     CMPCThemeScrollBarHelper* themedSBHelper;
+    CToolBar* customizeToolBar;
 protected:
     virtual void PreSubclassWindow();
 public:
@@ -31,5 +32,6 @@ public:
     void setIntegralHeight();
     afx_msg void OnSize(UINT nType, int cx, int cy);
     void EnsureVisible(int index);
+    void SetCustomizeToolbar(CToolBar* tb) { customizeToolBar = tb; };
 };
 
