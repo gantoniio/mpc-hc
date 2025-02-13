@@ -2763,7 +2763,7 @@ msgid ""
 msgstr ""
 "Miniaturile ar fi prea mici, imposibil de creat fișierul.\n"
 "\n"
-"Încercați să micșorați numărul de miniaturi sau să măriți dimensiunea totală."
+"Încearcă să reduci numărul de miniaturi sau să mărești dimensiunea totală."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid ""
