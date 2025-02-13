@@ -2879,7 +2879,7 @@ msgstr "Nu se poate randa fișierul"
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
-msgstr "Format de fișier nevalid"
+msgstr "Formatul de fișier nevalid"
 
 msgctxt "IDS_MAINFRM_90"
 msgid "File not found"
