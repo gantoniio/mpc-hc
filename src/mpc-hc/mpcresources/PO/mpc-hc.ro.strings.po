@@ -2851,7 +2851,7 @@ msgstr "Pauzează"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Comută meniu și titlu"
+msgstr "Comută titlul și meniul"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seekbar"
