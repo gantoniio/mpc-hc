@@ -832,7 +832,6 @@ void CPlayerToolBar::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 
 void CPlayerToolBar::OnTbnReset(NMHDR* pNMHDR, LRESULT* pResult) {
-    // TODO: Add your control notification handler code here
     CToolBarCtrl& tb = GetToolBarCtrl();
 
     for (int i = tb.GetButtonCount()-1; i >= 0; i--) {
