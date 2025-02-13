@@ -2871,7 +2871,7 @@ msgstr "Nu se pot conecta filtrele"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
-msgstr "Niciun filtru sursă nu poate fi încărcat"
+msgstr "Nu se poate încărca niciun filtru sursă"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
