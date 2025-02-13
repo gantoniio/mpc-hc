@@ -1705,6 +1705,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
     DeleteSurfaces();
 
     if (m_pD3DEx) {
+        m_pD3DDevEx.Release();
+        m_pD3DDev.Release();
         m_pD3DEx.Release();
         m_pD3D = nullptr;
         Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
