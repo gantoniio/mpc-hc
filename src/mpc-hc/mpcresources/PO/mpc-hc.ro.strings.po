@@ -685,7 +685,7 @@ msgstr "EVR (CP) - Randor video îmbunătățit (prezentator special)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr "Randor video Haali"
+msgstr "Randorul video Haali"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
