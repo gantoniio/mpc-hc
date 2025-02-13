@@ -2875,7 +2875,7 @@ msgstr "Nu se poate încărca niciun filtru sursă"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
-msgstr "Fișierul nu poate fi randat"
+msgstr "Nu se poate randa fișierul"
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
