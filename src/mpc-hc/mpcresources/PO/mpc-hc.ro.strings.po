@@ -2705,7 +2705,7 @@ msgstr "Subtitrare: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Selectați calea către DVD/BD:"
+msgstr "Selectează calea pentru DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
