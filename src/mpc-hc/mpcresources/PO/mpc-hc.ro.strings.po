@@ -2895,7 +2895,7 @@ msgstr "Flux incompatibil"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
-msgstr "Directorul DVD nu poate fi găsit"
+msgstr "Directorul DVD-ului nu poate fi găsit"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
