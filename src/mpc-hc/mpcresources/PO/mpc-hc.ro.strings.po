@@ -2775,7 +2775,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr "Fișiere de subtitrare"
+msgstr "Fișiere de subtitrări"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
