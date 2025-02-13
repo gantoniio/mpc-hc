@@ -2887,7 +2887,7 @@ msgstr "Fișierul nu a fost găsit"
 
 msgctxt "IDS_MAINFRM_91"
 msgid "Unknown file type"
-msgstr "Tip necunoscut de fișier"
+msgstr "Tip de fișiere necunoscut"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
