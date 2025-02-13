@@ -2745,7 +2745,7 @@ msgstr "Format de imagine nevalid, nu pot fi create miniaturi de %d bpp."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Dimensiune fișier: %s (%s octeți)\\N"
+msgstr "Dimensiunea fișierului: %s (%s octeți)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
