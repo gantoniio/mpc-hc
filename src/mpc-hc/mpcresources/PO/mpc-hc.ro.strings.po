@@ -877,7 +877,8 @@ msgstr ""
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
-msgstr "Suprafața video va fi alocată ca o suprafață normală offscreen."
+msgstr ""
+"Suprafața video va fi alocată ca o suprafață normală în afara ecranului."
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid ""
