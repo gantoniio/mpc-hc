@@ -2863,7 +2863,7 @@ msgstr "Comută bara de controale"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
-msgstr "Nume fișier nevalid"
+msgstr "Numele fișierului e invalid"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
