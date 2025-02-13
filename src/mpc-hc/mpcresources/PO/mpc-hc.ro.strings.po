@@ -2737,7 +2737,7 @@ msgstr "Preluarea dimensiunii cadrului video a eșuat"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "Memorie insuficientă, ar trebui să cumpărați mai multă!"
+msgstr "Memorie insuficientă, du-te și cumpără mai multă!"
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
