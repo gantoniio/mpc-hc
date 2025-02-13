@@ -58,7 +58,7 @@ msgstr "Redă un CD Audio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Redă filmul de pe discul DVD"
+msgstr "Redă filmul de pe DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
