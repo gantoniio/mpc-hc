@@ -2867,7 +2867,7 @@ msgstr "Numele fișierului e invalid"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
-msgstr "Filtrele nu pot fi conectate"
+msgstr "Nu se pot conecta filtrele"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
