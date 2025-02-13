@@ -456,6 +456,15 @@ bool CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_
     pCompositionObject->m_horizontal_position = pGBuffer->ReadShort();
     pCompositionObject->m_vertical_position = pGBuffer->ReadShort();
 
+    if (pCompositionObject->m_horizontal_position < 0) {
+        TRACE(_T("PGS - negative horizontal position.\n"));
+        pCompositionObject->m_horizontal_position = 0;
+    }
+    if (pCompositionObject->m_vertical_position < 0) {
+        TRACE(_T("PGS - negative vertical position.\n"));
+        pCompositionObject->m_vertical_position = 0;
+    }
+
     if (pCompositionObject->m_object_cropped_flag) {
         if (pGBuffer->RemainingSize() < 8) {
             ASSERT(FALSE);

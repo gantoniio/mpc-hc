@@ -1118,7 +1118,6 @@
 #define IDS_MFMT_FLV                    39011
 #define IDS_MFMT_OGM                    39012
 #define IDS_MFMT_RM                     39013
-#define IDS_MFMT_RT                     39014
 #define IDS_MFMT_WMV                    39015
 #define IDS_MFMT_BINK                   39018
 #define IDS_MFMT_FLIC                   39019

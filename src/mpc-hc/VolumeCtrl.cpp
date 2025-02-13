@@ -37,6 +37,7 @@ CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
     , m_bDrag(false)
     , m_bHover(false)
     , modernStyle(AfxGetAppSettings().bMPCTheme)
+    , showPercentage(AfxGetAppSettings().bShowVolumePercentage)
 {
 }
 
@@ -46,7 +47,7 @@ CVolumeCtrl::~CVolumeCtrl()
 
 bool CVolumeCtrl::Create(CWnd* pParentWnd)
 {
-    DWORD tooltipStyle = AppIsThemeLoaded() ? 0 : TBS_TOOLTIPS;
+    DWORD tooltipStyle = showPercentage && AppIsThemeLoaded() ? 0 : TBS_TOOLTIPS;
     if (!CSliderCtrl::Create(WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_HORZ | tooltipStyle, CRect(0, 0, 0, 0), pParentWnd, IDC_SLIDER1)) {
         return false;
     }
@@ -468,20 +469,22 @@ void CVolumeCtrl::OnPaint() {
         dcMem.FrameRect(r, &fb);
         fb.DeleteObject();
 
-        dcMem.SetTextColor(CMPCTheme::TextFGColor);
-        CFont f;
-        LOGFONT lf = { 0 };
-        lf.lfHeight = r.Height();
-        lf.lfQuality = CLEARTYPE_QUALITY;
-        wcscpy_s(lf.lfFaceName, L"Calibri");
-        f.CreateFontIndirectW(&lf);
-        CFont* oldFont = (CFont*)dcMem.SelectObject(&f);
-        int oldMode = dcMem.SetBkMode(TRANSPARENT);
-        CStringW str;
-        str.Format(IDS_VOLUME, GetPos());
-        dcMem.DrawTextW(str, r, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
-        dcMem.SelectObject(oldFont);
-        dcMem.SetBkMode(oldMode);
+        if (showPercentage) {
+            dcMem.SetTextColor(CMPCTheme::TextFGColor);
+            CFont f;
+            LOGFONT lf = { 0 };
+            lf.lfHeight = r.Height();
+            lf.lfQuality = CLEARTYPE_QUALITY;
+            wcscpy_s(lf.lfFaceName, L"Calibri");
+            f.CreateFontIndirectW(&lf);
+            CFont* oldFont = (CFont*)dcMem.SelectObject(&f);
+            int oldMode = dcMem.SetBkMode(TRANSPARENT);
+            CStringW str;
+            str.Format(IDS_VOLUME, GetPos());
+            dcMem.DrawTextW(str, r, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
+            dcMem.SelectObject(oldFont);
+            dcMem.SetBkMode(oldMode);
+        }
 
         CMPCThemeUtil::flushMemDC(&dc, dcMem, memRect);
     } else {

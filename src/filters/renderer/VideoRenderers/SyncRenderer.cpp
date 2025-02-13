@@ -3947,6 +3947,7 @@ void CSyncAP::RenderThread()
                     m_pcFramesDropped++;
                     stepForward = true;
                 } else if (pNewSample && (m_nStepCount > 0)) {
+                    SubPicSetTime();
                     Paint(pNewSample);
                     CompleteFrameStep(false);
                     m_pcFramesDrawn++;

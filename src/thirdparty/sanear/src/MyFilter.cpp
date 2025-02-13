@@ -174,7 +174,7 @@ namespace SaneAudioRenderer
 
         MyPropertyPage* pPage;
 
-        HRESULT result;
+        HRESULT result = E_OUTOFMEMORY;
 
         pPage = new(std::nothrow) MyPropertyPage(result, this);
 

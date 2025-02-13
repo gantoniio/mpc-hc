@@ -1364,14 +1364,24 @@ bool UnloadUnusedExternalObjects()
 
 void ExtendMaxPathLengthIfNeeded(CString& path, bool no_url /*= false */)
 {
+    if (!no_url && path.Find(_T("://")) >= 0) { // URL
+        return;
+    }
+
+    // Get long path if shortened
+    if (path.Find(L'~') > 0) {
+        wchar_t destbuf[4096];
+        DWORD len = GetLongPathName(path, destbuf, 4096);
+        if (len > 0 && len < 4096) {
+            path = destbuf;
+        }
+    }
     if (path.GetLength() >= MAX_PATH) {
-        if (no_url || path.Find(_T("://")) < 0) { // not URL
-            if (path.Left(4) != _T("\\\\?\\")) { // not already have long path prefix
-                if (path.Left(2) == _T("\\\\")) { // UNC
-                    path = _T("\\\\?\\UNC") + path.Mid(1);
-                } else { // normal
-                    path = _T("\\\\?\\") + path;
-                }
+        if (path.Left(4) != _T("\\\\?\\")) { // not already have long path prefix
+            if (path.Left(2) == _T("\\\\")) { // UNC
+                path = _T("\\\\?\\UNC") + path.Mid(1);
+            } else { // normal
+                path = _T("\\\\?\\") + path;
             }
         }
     }

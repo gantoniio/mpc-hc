@@ -3530,9 +3530,11 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             while (pos) {
                 CLine* l = s->GetNext(pos);
 
+                p.y += l->m_linePadding; // always zero for first line
                 p.x = (s->m_scrAlignment % 3) == 1 ? org.x
                     : (s->m_scrAlignment % 3) == 0 ? org.x - l->m_width
                     : org.x - (l->m_width / 2);
+
                 if (s->m_clipInverse) {
                     if (paintBG) {
                         bbox2 |= l->PaintShadow(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
@@ -3559,7 +3561,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                         bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
                     }
                 }
-                p.y += l->m_ascent + l->m_descent + l->m_linePadding;
+                p.y += l->m_ascent + l->m_descent;
             }
         }
     }

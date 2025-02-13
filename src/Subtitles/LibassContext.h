@@ -136,7 +136,7 @@ protected:
     CSimpleTextSubtitle* m_STS;
     IPin* m_pPin;
     std::unique_ptr<uint32_t[]> m_pixels;
-    CRect lastDirty;
+    CRect lastDirty, lastUncroppedDirty;
     CRect lastSPDRect;
     REFERENCE_TIME rtCurrent;
     bool curTimeInitialized;

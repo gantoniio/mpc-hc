@@ -121,7 +121,6 @@
 #define INCLUDE_MPCVR = true
 #else
 #define INCLUDE_MPCVR = false
-#bla
 #endif
 
 #ifexist mediainfo_dll
@@ -233,9 +232,6 @@ Name: custom;             Description: {cm:types_CustomInstallation};           
 
 [Components]
 Name: main;               Description: {#app_vername};             Types: default custom; Flags: fixed
-#if INCLUDE_MPCVR
-Name: mpcvr;              Description: MPC Video Renderer;         Types: default custom
-#endif
 Name: mpciconlib;         Description: {cm:comp_mpciconlib};       Types: default custom
 #if localize == "true"
 Name: mpcresources;       Description: {cm:comp_mpcresources};     Types: default custom; Flags: disablenouninstallwarning
@@ -278,7 +274,7 @@ Source: {#platform}\sendrpt.exe;                   DestDir: {app}\CrashReporter;
 Source: CrashReporter_LICENSE.txt;                 DestDir: {app}\CrashReporter;    Components: main;         Flags: ignoreversion
 	#endif
 	#if INCLUDE_MPCVR
-Source: ..\distrib\mpcvr\{#mpcvr_ax};              DestDir: {app}\MPCVR;            Components: mpcvr;        Flags: ignoreversion
+Source: ..\distrib\mpcvr\{#mpcvr_ax};              DestDir: {app}\MPCVR;            Components: main;         Flags: ignoreversion
 	#endif
 
 

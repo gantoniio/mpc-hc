@@ -2040,7 +2040,9 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             fRet = true;
             below_script_info = false;
         } else if (entry == L"language") {
-            ret.openTypeLangHint = WToA(GetStrW(pszBuff, nBuffLength));
+            if (nBuffLength) {
+                ret.openTypeLangHint = WToA(GetStrW(pszBuff, nBuffLength));
+            }
         } else if (entry == L"fontname") {
             LoadUUEFont(file);
         } else if (entry == L"ycbcr matrix") {

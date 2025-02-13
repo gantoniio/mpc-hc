@@ -36,7 +36,6 @@
     <ClCompile Include="libiconv-for-Windows\libiconv\libcharset\lib\localcharset.c" />
     <ClCompile Include="libiconv-for-Windows\libiconv\libcharset\lib\relocatable-stub.c" />
     <ClCompile Include="libiconv-for-Windows\libiconv\lib\iconv.c" />
-    <ClCompile Include="libiconv-for-Windows\libiconv\lib\relocatable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libiconv-for-Windows\include\iconv.h" />
@@ -232,7 +231,6 @@
     <ClInclude Include="libiconv-for-Windows\libiconv\lib\mulelao.h" />
     <ClInclude Include="libiconv-for-Windows\libiconv\lib\nextstep.h" />
     <ClInclude Include="libiconv-for-Windows\libiconv\lib\pt154.h" />
-    <ClInclude Include="libiconv-for-Windows\libiconv\lib\relocatable.h" />
     <ClInclude Include="libiconv-for-Windows\libiconv\lib\riscos1.h" />
     <ClInclude Include="libiconv-for-Windows\libiconv\lib\rk1048.h" />
     <ClInclude Include="libiconv-for-Windows\libiconv\lib\shift_jisx0213.h" />

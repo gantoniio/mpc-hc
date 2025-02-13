@@ -198,6 +198,33 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
     return sl.IsEmpty();
 }
 
+bool CFGManager::HasFilterOverride(CLSID clsid)
+{
+    POSITION pos = m_override.GetHeadPosition();
+    while (pos) {
+        CFGFilter* pFGF = m_transform.GetNext(pos);
+        if (pFGF->GetCLSID() == clsid) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CFGManager::HasFilterOverride(CStringW DisplayName)
+{
+    POSITION pos = m_override.GetHeadPosition();
+    while (pos) {
+        CFGFilter* pFGF = m_transform.GetNext(pos);
+        if (pFGF->GetCLSID() == CLSID_NULL) {
+            CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
+            if (pFGFR && pFGFR->GetDisplayName().CompareNoCase(DisplayName) == 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 CFGFilter* LookupFilterRegistry(const GUID& guid, CAtlList<CFGFilter*>& list, UINT64 fallback_merit = MERIT64_DO_USE)
 {
     POSITION pos = list.GetHeadPosition();
@@ -649,7 +676,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
     CheckPointer(pPinOut, E_POINTER);
 
     if (m_aborted) {
-        return VFW_E_CANNOT_RENDER;
+        return E_ABORT;
     }
 
     HRESULT hr;
@@ -820,7 +847,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
         pos = fl.GetHeadPosition();
         while (pos) {
             if (m_aborted) {
-                return VFW_E_CANNOT_RENDER;
+                return E_ABORT;
             }
 
             CFGFilter* pFGF = fl.GetNext(pos);
@@ -867,7 +894,8 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             CComPtr<IBaseFilter> pBF;
             CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
-            if (FAILED(pFGF->Create(&pBF, pUnks))) {
+            hr = pFGF->Create(&pBF, pUnks);
+            if (FAILED(hr)) {
                 TRACE(_T("FGM: Filter creation failed\n"));
                 if (!m_bIsCapture) {
                     // Check if selected video renderer fails to load
@@ -920,6 +948,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 TRACE(_T("FGM: Filter connected to %s\n"), CLSIDToString(clsid_pinout));
                 if (!IsStreamEnd(pBF)) {
                     fDeadEnd = false;
+                }
+
+                if (m_aborted) {
+                    return E_ABORT;
                 }
 
                 if (bContinueRender) {
@@ -1072,6 +1104,10 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
             RemoveFilter(pBF);
 
             deadends.Append(m_deadends);
+
+            if (hr == E_ABORT) {
+                break;
+            }
         } else if (pFG->GetCLSID() == __uuidof(CRARFileSource) && HRESULT_FACILITY(hr) == FACILITY_ITF) {
             hrRFS = hr;
         }
@@ -1123,7 +1159,10 @@ STDMETHODIMP CFGManager::Abort()
         return E_UNEXPECTED;
     }
 
-    // FIXME: this can hang
+    // When a filter (renderer) in the child thread (the graph thread) calls CreateWindow()
+    // then that call triggers an implicit call of SendMessage to the main window.
+    // This is a blocking call, meaning main thread must be able to process that window message.
+    // So we can not request a lock here when called from main thread since that would result in a deadlock.
     //CAutoLock cAutoLock(this);
 
     m_aborted = true;
@@ -1245,7 +1284,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
     CheckPointer(pBF, E_POINTER);
 
     if (m_aborted) {
-        return VFW_E_CANNOT_RENDER;
+        return E_ABORT;
     }
 
     if (pPinIn && S_OK != IsPinDirection(pPinIn, PINDIR_INPUT)) {
@@ -1448,7 +1487,7 @@ STDMETHODIMP CFGManager::RemoveFromROT()
         return S_FALSE;
     }
 
-    CAutoLock cAutoLock(this);
+    //CAutoLock cAutoLock(this);
 
     HRESULT hr;
     CComPtr<IRunningObjectTable> pROT;
@@ -2611,7 +2650,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 
     bool bOverrideBroadcom = false;
     CFGFilter* pFGF;
-    m_source;
 
     const bool* src = s.SrcFilters;
     const bool* tra = s.TraFilters;
@@ -2836,6 +2874,13 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         } else if (!SelAudioRenderer.IsEmpty()) {
             pFGF = DEBUG_NEW CFGFilterRegistry(SelAudioRenderer, renderer_merit);
             pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+            m_transform.AddTail(pFGF);
+        }
+
+        // Resampler DMO, add with lowest merit to handle unsupported samplerates with DirectSound/WaveOut renderers
+        CStringW filterid = L"@device:dmo:{F447B69E-1884-4A7E-8055-346F74D6EDB3}{F3602B3F-0592-48DF-A4CD-674721E7EBEB}";
+        if (!HasFilterOverride(filterid)) {
+            pFGF = DEBUG_NEW CFGFilterRegistry(filterid, MERIT64_LOWEST);
             m_transform.AddTail(pFGF);
         }
     } else {

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
+"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3162,10 +3162,6 @@ msgstr ""
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr ""
-
-msgctxt "IDS_MFMT_RT"
-msgid "Real Script"
 msgstr ""
 
 msgctxt "IDS_MFMT_WMV"

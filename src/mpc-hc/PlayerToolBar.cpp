@@ -163,6 +163,8 @@ void CPlayerToolBar::LoadToolbarImage()
     origImage.Destroy();
 }
 
+#define SPACING_INDEX 11
+
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
     VERIFY(__super::CreateEx(pParentWnd,
@@ -182,22 +184,25 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     SetMute(AfxGetAppSettings().fMute);
 
     UINT styles[] = {
-        TBBS_CHECKGROUP, TBBS_CHECKGROUP, TBBS_CHECKGROUP,
-        TBBS_SEPARATOR,
-        TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
-        TBBS_SEPARATOR,
-        TBBS_BUTTON,
-        TBBS_SEPARATOR,
-        TBBS_SEPARATOR, // variable spacing between the regular controls and mute button
-        TBBS_CHECKBOX,
+        TBBS_BUTTON | TBBS_DISABLED,     // play
+        TBBS_BUTTON | TBBS_DISABLED,     // pause
+        TBBS_CHECKGROUP | TBBS_DISABLED, // stop
+        TBBS_SEPARATOR | TBBS_HIDDEN,    // FIXME: remove hidden separators in image list
+        TBBS_BUTTON | TBBS_DISABLED,
+        TBBS_BUTTON | TBBS_DISABLED,
+        TBBS_BUTTON | TBBS_DISABLED,
+        TBBS_BUTTON | TBBS_DISABLED,
+        TBBS_SEPARATOR | TBBS_HIDDEN,
+        TBBS_BUTTON | TBBS_DISABLED,     // framestep
+        TBBS_SEPARATOR | TBBS_HIDDEN,
+        TBBS_SEPARATOR,                  // variable spacing between the regular controls and mute button
+        TBBS_CHECKBOX | TBBS_DISABLED,
     };
 
     for (int i = 0; i < _countof(styles); ++i) {
-        // This fixes missing separator in Win 7
         if (styles[i] & TBBS_SEPARATOR) {
+            // Strip images, this fixes draw issue on Win7
             SetButtonInfo(i, GetItemID(i), styles[i], -1);
-        } else {
-            SetButtonStyle(i, styles[i] | TBBS_DISABLED);
         }
     }
 
@@ -249,14 +254,19 @@ void CPlayerToolBar::ArrangeControls() {
     }
     m_volctrl.MoveWindow(vr);
 
-    CRect r10; // last normal separator
-    GetItemRect(10, &r10);
-    CRect r12; // mute button
-    GetItemRect(12, &r12);
+    CRect rbefore; // last visible button before spacing
+    int beforeidx = SPACING_INDEX - 1;
+    do {
+        GetItemRect(beforeidx, &rbefore);
+        // this skip hidden items
+    } while (--beforeidx >= 2 && rbefore.right == 0);
+
+    CRect rafter; // mute button
+    GetItemRect(SPACING_INDEX+1, &rafter);
 
     // adjust spacing between controls and mute
-    int spacing = vr.left - r10.right - r12.Width();
-    SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR, spacing);
+    int spacing = vr.left - rbefore.right - rafter.Width();
+    SetButtonInfo(SPACING_INDEX, GetItemID(SPACING_INDEX), TBBS_SEPARATOR, spacing);
 }
 
 void CPlayerToolBar::SetMute(bool fMute)
@@ -296,8 +306,9 @@ int CPlayerToolBar::GetVolume() const
 int CPlayerToolBar::GetMinWidth() const
 {
     // button widths are inflated by 7px
-    // 9 buttons + 3 separators + spacing + volume
-    return 9 * (m_nButtonHeight + 7) + 3 * 8 + 4 + m_volumeCtrlSize;
+    // buttons + spacing + volume
+    int buttons = 8;
+    return (m_nButtonHeight + 7) * buttons + 4 + m_volumeCtrlSize;
 }
 
 void CPlayerToolBar::SetVolume(int volume)
@@ -396,7 +407,7 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             CDC dc;
             dc.Attach(pTBCD->nmcd.hdc);
             RECT r;
-            GetItemRect(11, &r);
+            GetItemRect(SPACING_INDEX, &r);
             if (AppIsThemeLoaded()) {
                 dc.FillSolidRect(&r, CMPCTheme::PlayerBGColor);
             } else {
@@ -516,7 +527,7 @@ void CPlayerToolBar::OnRButtonDown(UINT nFlags, CPoint point) {
 
 int CPlayerToolBar::getHitButtonIdx(CPoint point)
 {
-    int hit = -1; // -1 means not on any buttons, mute button is 12/13, others < 10, 11 is empty space between
+    int hit = -1; // -1 means not on any button hit
     CRect r;
 
     for (int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++) {

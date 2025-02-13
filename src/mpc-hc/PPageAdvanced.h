@@ -235,6 +235,7 @@ private:
         PAUSE_WHILE_DRAGGING_SEEKBAR,
         CONFIRM_FILE_DELETE,
         LIBASS_FOR_SRT,
+        SHOW_VOLUME_PERCENTAGE,
     };
 
     enum {

@@ -120,8 +120,10 @@ void ParseSrtLine(std::string& srtLine, const STSStyle& style) {
                         } else if (attribute_name == "family") {
                         }
                         if (attribute_name == "size") {
-                            int font_size = (int)std::round(std::stod(attribute_value));
-                            subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
+                            try {
+                                int font_size = (int)std::round(std::stod(attribute_value));
+                                subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
+                            } catch (...) {}
                         } else if (attribute_name == "color") {
                             MatchColorSrt(attribute_value);
 
@@ -838,6 +840,7 @@ void LibassContext::LoadASSFont() {
             if (SUCCEEDED(bag->ResGet(i, &name.GetBSTR(), &desc.GetBSTR(), &mime.GetBSTR(), &pData, &len, nullptr))) {
                 if (wcscmp(mime.GetBSTR(), L"application/x-truetype-font") == 0 // see https://gitlab.com/mbunkus/mkvtoolnix/-/issues/3137
                     || wcscmp(mime.GetBSTR(), L"application/vnd.ms-opentype") == 0
+                    || wcscmp(mime.GetBSTR(), L"application/x-font-otf") == 0
                     || wcscmp(mime.GetBSTR(), L"application/x-font-ttf") == 0
                     || wcscmp(mime.GetBSTR(), L"application/font-sfnt") == 0
                     || wcscmp(mime.GetBSTR(), L"font/otf") == 0
@@ -916,9 +919,10 @@ STDMETHODIMP LibassContext::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbo
     return E_POINTER;
 }
 
-void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, BYTE* dst, int dst_pitch) {
+void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, int srcXOffset, int srcYOffset, BYTE* dst, int dst_pitch) {
+    src += srcYOffset * pitch;
     for (int i = 0; i < h; i++, src += pitch, dst += dst_pitch) {
-        const BYTE* s2 = src;
+        const BYTE* s2 = src + srcXOffset;
         const BYTE* s2end = s2 + w * 4;
         DWORD* d2 = (DWORD*)dst;
         for (; s2 < s2end; s2 += 4, d2++) {
@@ -942,6 +946,7 @@ bool LibassContext::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) 
     CRect curSPDRect = CRect(0, 0, spd.w, spd.h);
     if (changed || curSPDRect != lastSPDRect) {
         AssFlattenSSE2(image, spd, rcDirty);
+        lastUncroppedDirty = rcDirty;
         rcDirty.IntersectRect(rcDirty, curSPDRect);
 
         lastDirty = rcDirty;
@@ -951,7 +956,7 @@ bool LibassContext::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) 
     }
 
     BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
-    AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * rcDirty.Width(), pixelBytes, spd.pitch);
+    AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * lastUncroppedDirty.Width(), 4 * (rcDirty.left - lastUncroppedDirty.left), rcDirty.top - lastUncroppedDirty.top, pixelBytes, spd.pitch);
     return true;
 }
 
