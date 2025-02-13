@@ -110,6 +110,8 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale)
 
 void CPlayerToolBar::LoadToolbarImage()
 {
+    auto& s = AfxGetAppSettings();
+
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
     int targetsize = int(dpiScaling * AfxGetAppSettings().nDefaultToolbarSize);
@@ -167,7 +169,7 @@ void CPlayerToolBar::LoadToolbarImage()
             pOldSourceBmp = sourceDC.GetCurrentBitmap();
 
             int imageOffset = 0, imageDisabledOffset=height;
-            if (AppIsThemeLoaded()) {
+            if (AppIsThemeLoaded() && s.eModernThemeMode == CMPCTheme::ModernThemeMode::DARK) {
                 imageOffset = height * 2;
                 imageDisabledOffset = height * 3;
             }
