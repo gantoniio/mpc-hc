@@ -42,6 +42,7 @@ private:
     bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
     TBBUTTON GetStandardButton(int cmdid);
+    void PlaceButtons(bool loadSavedLayout);
     bool mouseDownL, mouseDownR;
     int rightButtonIndex=-1;
     CMPCThemeToolTipCtrl themedToolTip;
@@ -111,4 +112,5 @@ public:
     afx_msg void OnTbnBeginAdjust(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+    afx_msg void OnTbnReset(NMHDR* pNMHDR, LRESULT* pResult);
 };

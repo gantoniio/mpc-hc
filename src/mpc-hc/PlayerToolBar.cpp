@@ -238,25 +238,6 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     dummySeparatorIndex = -1;
     volumeButtonIndex = -1;
     flexibleSpaceIndex = -1;
-    buttonCount = 0;
-    sepCount = 0;
-
-    auto addButton = [&](int cmdid) {
-        auto& svgInfo = supportedSvgButtons[cmdid];
-        TBBUTTON button = GetStandardButton(cmdid);
-        tb.AddButtons(1, &button);
-        SetButtonStyle(tb.GetButtonCount() - 1, svgInfo.style | TBBS_DISABLED);
-        buttonCount++;
-    };
-
-    auto addSeparator = [&]() {
-        TBBUTTON button = { 0 };
-        button.iBitmap = -1;
-        button.iString = -1;
-        button.fsStyle = BTNS_SEP;
-        tb.AddButtons(1, &button);
-        sepCount++;
-    };
 
     for (auto& it : supportedSvgButtons) {
         if (it.second.svgIndex != -1) {
@@ -265,28 +246,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         }
     }
 
-    int sequence = 0;
-    std::vector<int> buttons = AfxGetMyApp()->GetProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence");
-
-    addButton(ID_PLAY_PLAY);
-    addButton(ID_PLAY_PAUSE);
-    addButton(ID_PLAY_STOP);
-
-    if (buttons.size() >= 5) { //it is required that the toolbar have the 5 standard items, otherwise this is invalid
-        for (int i = 3; i < buttons.size() - 2; i++) {
-            addButton(buttons[i]); //todo: validate these are allowed buttons
-        }
-    } else { //add standard dynamic items
-        addButton(ID_NAVIGATE_SKIPBACK);
-        addButton(ID_PLAY_DECRATE);
-        addButton(ID_PLAY_INCRATE);
-        addButton(ID_NAVIGATE_SKIPFORWARD);
-        addButton(ID_PLAY_FRAMESTEP);
-    }
-
-    addButton(ID_DUMMYSEPARATOR);
-    addButton(ID_VOLUME_MUTE);
-
+    PlaceButtons(true);
 
     // Should never be RTLed
     ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
@@ -309,6 +269,45 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     }
 
     return TRUE;
+}
+
+void CPlayerToolBar::PlaceButtons(bool loadSavedLayout) {
+    CToolBarCtrl& tb = GetToolBarCtrl();
+
+    buttonCount = 0;
+    sepCount = 0;
+
+    auto addButton = [&](int cmdid) {
+        auto& svgInfo = supportedSvgButtons[cmdid];
+        TBBUTTON button = GetStandardButton(cmdid);
+        tb.AddButtons(1, &button);
+        SetButtonStyle(tb.GetButtonCount() - 1, svgInfo.style | TBBS_DISABLED);
+        buttonCount++;
+    };
+
+    std::vector<int> buttons(0);
+    if (loadSavedLayout) {
+        buttons = AfxGetMyApp()->GetProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence");
+    }
+
+    addButton(ID_PLAY_PLAY);
+    addButton(ID_PLAY_PAUSE);
+    addButton(ID_PLAY_STOP);
+
+    if (buttons.size() >= 5) { //it is required that the toolbar have the 5 standard items, otherwise this is invalid
+        for (int i = 3; i < buttons.size() - 2; i++) {
+            addButton(buttons[i]); //todo: validate these are allowed buttons
+        }
+    } else { //add standard dynamic items
+        addButton(ID_NAVIGATE_SKIPBACK);
+        addButton(ID_PLAY_DECRATE);
+        addButton(ID_PLAY_INCRATE);
+        addButton(ID_NAVIGATE_SKIPFORWARD);
+        addButton(ID_PLAY_FRAMESTEP);
+    }
+
+    addButton(ID_DUMMYSEPARATOR);
+    addButton(ID_VOLUME_MUTE);
 }
 
 void CPlayerToolBar::ArrangeControls() {
@@ -420,6 +419,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_NOTIFY_REFLECT(TBN_BEGINADJUST, &CPlayerToolBar::OnTbnBeginAdjust)
     ON_NOTIFY_REFLECT(TBN_ENDADJUST, &CPlayerToolBar::OnTbnEndAdjust)
     ON_WM_LBUTTONDBLCLK()
+    ON_NOTIFY_REFLECT(TBN_RESET, &CPlayerToolBar::OnTbnReset)
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -828,4 +828,19 @@ void CPlayerToolBar::OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
 void CPlayerToolBar::OnLButtonDblClk(UINT nFlags, CPoint point) {
     m_pMainFrame->enableDialogHook(this, CMainFrame::themableDialogTypes::toolbarCustomizeDialog);
     CToolBar::OnLButtonDblClk(nFlags, point);
+}
+
+
+void CPlayerToolBar::OnTbnReset(NMHDR* pNMHDR, LRESULT* pResult) {
+    // TODO: Add your control notification handler code here
+    CToolBarCtrl& tb = GetToolBarCtrl();
+
+    for (int i = tb.GetButtonCount()-1; i >= 0; i--) {
+        tb.DeleteButton(i);
+    }
+    PlaceButtons(false);
+    ArrangeControls();
+    Invalidate();
+
+    *pResult = 0;
 }
