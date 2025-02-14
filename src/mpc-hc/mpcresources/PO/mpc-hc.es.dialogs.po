@@ -221,7 +221,7 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traducción: Adolfo, strel y otros."
+msgstr "Traducción: Covarrubias, Adolfo, strel y otros."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
