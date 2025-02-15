@@ -553,41 +553,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     HRESULT hr = S_OK;
 
-    /*// TODO : add NVIDIA PerfHUD !!!
-
-    // Set default settings
-    UINT AdapterToUse=D3DADAPTER_DEFAULT;
-    D3DDEVTYPE DeviceType=D3DDEVTYPE_HAL;
-
-    #if SHIPPING_VERSION
-    // When building a shipping version, disable PerfHUD (opt-out)
-    #else
-    // Look for 'NVIDIA PerfHUD' adapter
-    // If it is present, override default settings
-    for (UINT Adapter=0;Adapter<g_pD3D->GetAdapterCount();Adapter++)
-    {
-      D3DADAPTER_IDENTIFIER9 Identifier;
-      HRESULT Res;
-
-    Res = g_pD3D->GetAdapterIdentifier(Adapter,0,&Identifier);
-      if (strstr(Identifier.Description,"PerfHUD") != 0)
-     {
-      AdapterToUse=Adapter;
-      DeviceType=D3DDEVTYPE_REF;
-      break;
-     }
-    }
-    #endif
-
-    if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
-      D3DCREATE_HARDWARE_VERTEXPROCESSING,
-    &d3dpp, &g_pd3dDevice) ) )
-    {
-     return E_FAIL;
-    }
-    */
-
-
     //#define ENABLE_DDRAWSYNC
 #ifdef ENABLE_DDRAWSYNC
     hr = DirectDrawCreate(nullptr, &m_pDirectDraw, nullptr);
