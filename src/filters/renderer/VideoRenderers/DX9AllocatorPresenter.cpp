@@ -170,11 +170,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-    if (m_pD3DEx) {
-        m_pD3D = m_pD3DEx;
-    }
-
     const CRenderersSettings& r = GetRenderersSettings();
 
     if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
@@ -186,7 +181,14 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         m_bDesktopCompositionDisabled = false;
     }
 
-    hr = CreateDevice(_Error);
+    Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+    if (m_pD3DEx) {
+        m_pD3D = m_pD3DEx;
+        hr = CreateDevice(_Error);
+    } else {
+        _Error += L"Failed to create D3D9\n";
+        hr = E_UNEXPECTED;
+    }
 }
 #pragma warning(pop)
 
@@ -537,6 +539,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     CleanupRenderingEngine();
 
+    if (!m_pD3D) {
+        _Error += L"Failed to create D3D9\n";
+        return E_UNEXPECTED;
+    }
+
     UINT currentAdapter = GetAdapter(m_pD3D);
     bool bTryToReset = (currentAdapter == m_CurrentAdapter);
 
@@ -544,11 +551,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_pD3DDev = nullptr;
         m_pD3DDevEx = nullptr;
         m_CurrentAdapter = currentAdapter;
-    }
-
-    if (!m_pD3D) {
-        _Error += L"Failed to create D3D9\n";
-        return E_UNEXPECTED;
     }
 
     HRESULT hr = S_OK;
