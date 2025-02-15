@@ -377,7 +377,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     bool bRecalcLayout = false;
 
     bool bExclSeekbar = false;
-    if (m_pMainFrame->IsFullScreenMainFrame() && m_pMainFrame->m_pMVRS) {
+    if (m_pMainFrame->IsFullScreenMainFrame() && (mls == MLS::LOADED) && m_pMainFrame->m_pMVRS) {
         BOOL bOptExcl = FALSE, bOptExclSeekbar = FALSE;
         VERIFY(m_pMainFrame->m_pMVRS->SettingsGetBoolean(L"enableExclusive", &bOptExcl));
         VERIFY(m_pMainFrame->m_pMVRS->SettingsGetBoolean(L"enableSeekbar", &bOptExclSeekbar));
