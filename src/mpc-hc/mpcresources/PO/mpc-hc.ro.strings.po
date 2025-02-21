@@ -3483,7 +3483,7 @@ msgstr "True Audio"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr "Listă de redare"
+msgstr "Listă de redare (Playlist)"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
