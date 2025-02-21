@@ -3487,7 +3487,7 @@ msgstr "Listă de redare (Playlist)"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr "Listă de redare Blu-ray"
+msgstr "Listă de redare (Playlist) Blu-ray"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
