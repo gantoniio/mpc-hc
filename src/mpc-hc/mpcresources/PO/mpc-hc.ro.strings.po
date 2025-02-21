@@ -3283,7 +3283,7 @@ msgstr "Mărește/Micșorează (Scalează 1)"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr "Scalare 2"
+msgstr "Mărește/Micșorează (Scalează 2)"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
