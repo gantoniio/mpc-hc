@@ -3099,7 +3099,7 @@ msgstr "Video: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
-msgstr "Aplică"
+msgstr "Se aplică"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
