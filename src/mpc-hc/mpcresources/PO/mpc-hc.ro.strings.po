@@ -142,7 +142,7 @@ msgstr "Fluctuații"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Rată de biți"
+msgstr "Rata de biți"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
