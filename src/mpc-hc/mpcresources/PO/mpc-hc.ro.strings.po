@@ -3279,7 +3279,7 @@ msgstr "Atinge fereastra din interior"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "Scalare 1"
+msgstr "Mărește/Micșorează (Scalează 1)"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
