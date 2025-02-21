@@ -3583,7 +3583,7 @@ msgstr "Lumină ambientală: Întunecată (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Intenție de randare: Perceptual"
+msgstr "Intenție de randare: Perceptuală"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
