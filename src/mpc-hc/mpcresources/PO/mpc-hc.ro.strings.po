@@ -3555,7 +3555,7 @@ msgstr "Gestionarea culorilor: Oprită"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr "Tip de intrare: Autodetecție"
+msgstr "Tip de intrare: Detectare automată"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
