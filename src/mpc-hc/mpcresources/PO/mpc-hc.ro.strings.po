@@ -3031,7 +3031,7 @@ msgstr "Comută statisticile"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "Comută stare"
+msgstr "Comută starea"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
