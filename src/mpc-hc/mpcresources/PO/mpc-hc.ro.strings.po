@@ -3055,7 +3055,7 @@ msgstr "Scalează (Micșorează) cu 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "Scalare 100%"
+msgstr "Scalează (Mărește) cu 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
