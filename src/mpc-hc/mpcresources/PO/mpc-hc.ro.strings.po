@@ -3616,7 +3616,7 @@ msgstr "Golește GPU-ul după prezentare: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Golire unitate grafică după prezentare: Dezactivată"
+msgstr "Golește GPU-ul după prezentare: Dezactivată"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
