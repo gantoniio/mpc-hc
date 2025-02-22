@@ -3039,7 +3039,7 @@ msgstr "Comută bara de resincronizare a subtitrărilor"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Comută bara listei de redare"
+msgstr "Comută bara listei de redare (playlist-ului)"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
