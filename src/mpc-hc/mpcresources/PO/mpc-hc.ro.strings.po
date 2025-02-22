@@ -3692,7 +3692,7 @@ msgstr "Procesare completă în virgulă mobilă (pe 32 de biți): oprită"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Procesare pe jumătate în virgulă mobilă (pe 16 biți): oprită"
+msgstr "Procesare pe jumătate în virgulă mobilă (pe 16 biți): pornită"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
