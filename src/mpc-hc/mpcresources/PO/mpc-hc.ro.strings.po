@@ -2991,7 +2991,7 @@ msgstr "Format necunoscut"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Decalaj subtitlu: %ld ms"
+msgstr "Decalajul subtitrărilor: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
