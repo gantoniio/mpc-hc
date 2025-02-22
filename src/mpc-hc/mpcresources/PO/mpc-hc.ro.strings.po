@@ -2665,7 +2665,7 @@ msgstr "Lățimea imaginii:"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Raport de aspect"
+msgstr "Raportul de aspect"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
