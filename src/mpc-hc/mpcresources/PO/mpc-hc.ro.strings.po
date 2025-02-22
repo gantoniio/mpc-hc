@@ -3664,7 +3664,7 @@ msgstr "Compatibilitate cu ecranul complet D3D pentru GUI: Activată"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Asistare ecran complet D3D în interfață: Dezactivată"
+msgstr "Compatibilitate cu ecranul complet D3D pentru GUI: Dezactivată"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
