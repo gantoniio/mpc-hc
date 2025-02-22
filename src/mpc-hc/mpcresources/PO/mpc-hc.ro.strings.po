@@ -3612,7 +3612,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Golire unitate grafică după prezentare: Activată"
+msgstr "Golește GPU-ul după prezentare: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
