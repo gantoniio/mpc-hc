@@ -3543,7 +3543,7 @@ msgstr "Prezentare la cea mai apropiată sincronizare verticală: Pornită"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Prezentare la cel mai apropiată sincronizare verticală: Oprită"
+msgstr "Prezentare la cea mai apropiată sincronizare verticală: Oprită"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
