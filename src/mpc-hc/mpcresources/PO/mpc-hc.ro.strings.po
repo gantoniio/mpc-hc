@@ -3059,7 +3059,7 @@ msgstr "Scalează (Mărește) cu 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "Scalare 200%"
+msgstr "Scalează (Mărește) cu 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
