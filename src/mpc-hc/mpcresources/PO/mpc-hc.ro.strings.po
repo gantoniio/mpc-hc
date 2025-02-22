@@ -3135,7 +3135,7 @@ msgstr "Scalează/Mărește fereastra +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "Scalează fereastra -"
+msgstr "Scalează (Micșorează) fereastra -"
 
 msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
 msgid "Video Preview"
