@@ -3011,7 +3011,7 @@ msgstr "Amplificarea maximă a volumului"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]"
+msgstr "Utilizare: mpc-hc.exe \"numele căii\" [comutatoare]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid ""
