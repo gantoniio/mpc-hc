@@ -2995,7 +2995,7 @@ msgstr "Decalajul subtitrărilor: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Mărire amplificare volum"
+msgstr "Mărește amplificarea volumului"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
