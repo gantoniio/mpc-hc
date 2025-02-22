@@ -3007,7 +3007,7 @@ msgstr "Amplificarea minimă a volumului"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Amplificare volum maximă"
+msgstr "Amplificarea maximă a volumului"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
