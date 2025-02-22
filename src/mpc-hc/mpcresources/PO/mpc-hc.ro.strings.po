@@ -3652,7 +3652,7 @@ msgstr "Sincronizare verticală (VSync) alternativă: Dezactivată"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Stabilirile randorului restabilite la implicite"
+msgstr "Setările randorului revin la valorile implicite"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
