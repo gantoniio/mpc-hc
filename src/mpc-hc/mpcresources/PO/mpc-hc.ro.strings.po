@@ -3003,7 +3003,7 @@ msgstr "Micșorează amplificarea volumului"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Amplificare volum minimă"
+msgstr "Amplificarea minimă a volumului"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
