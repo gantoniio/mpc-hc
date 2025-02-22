@@ -3051,7 +3051,7 @@ msgstr "Comută depanatorul de nuanțatoare (shadere)"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Scalare 50%"
+msgstr "Scalează (Micșorează) cu 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
