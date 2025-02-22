@@ -3139,7 +3139,7 @@ msgstr "Scalează (Micșorează) fereastra -"
 
 msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
 msgid "Video Preview"
-msgstr "Previzionează videoclipul"
+msgstr "Previzualizează videoclipul"
 
 msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
 msgid "Seek Time"
