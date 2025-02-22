@@ -3127,7 +3127,7 @@ msgstr "Scalează (Micșorează) cu 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
-msgstr "Modificator maus"
+msgstr "Modificatorul mouse-ului"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
