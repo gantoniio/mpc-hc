@@ -3656,7 +3656,7 @@ msgstr "Setările randorului revin la valorile implicite"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Stabilirile randorului restabilite la optime"
+msgstr "Setările randorului revin la valorile optime"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
