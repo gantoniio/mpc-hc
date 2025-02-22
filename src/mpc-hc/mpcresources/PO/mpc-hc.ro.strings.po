@@ -3131,7 +3131,7 @@ msgstr "Modificatorul mouse-ului"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "Scalează fereastra +"
+msgstr "Scalează/Mărește fereastra +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
