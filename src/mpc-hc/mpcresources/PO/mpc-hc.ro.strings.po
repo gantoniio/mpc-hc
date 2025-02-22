@@ -3111,7 +3111,7 @@ msgstr "Revocare"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr "Dispunere"
+msgstr "Aspect"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
