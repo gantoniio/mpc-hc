@@ -2959,7 +2959,7 @@ msgstr " (Comentariile regizorului 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr " (Comentarii regizor 2)"
+msgstr " (Comentariile regizorului 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
