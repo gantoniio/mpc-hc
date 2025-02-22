@@ -3423,7 +3423,7 @@ msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
-msgstr "Audio-ul Monkey"
+msgstr "Audio Monkey"
 
 msgctxt "IDS_MFMT_AU"
 msgid "AU/SND"
