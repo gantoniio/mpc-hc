@@ -2955,7 +2955,7 @@ msgstr "Activează sincronizarea verticală"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr " (Comentarii regizor 1)"
+msgstr " (Comentariile regizorului 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
