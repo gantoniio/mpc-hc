@@ -3123,7 +3123,7 @@ msgstr "Codare:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr "Scalare 25%"
+msgstr "Scalează (Micșorează) cu 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
