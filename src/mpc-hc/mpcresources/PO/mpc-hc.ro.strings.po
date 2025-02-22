@@ -2899,7 +2899,7 @@ msgstr "Directorul DVD-ului nu poate fi găsit"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "Filtrul DVD Navigator nu poate fi creat"
+msgstr "Filtrul Navigatorul DVD-ului (DVD Navigator) nu poate fi creat"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
