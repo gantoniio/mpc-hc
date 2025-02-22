@@ -3047,7 +3047,7 @@ msgstr "Comută bara de captură"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Comută depanatorul de nuanțatoare"
+msgstr "Comută depanatorul de nuanțatoare (shadere)"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
