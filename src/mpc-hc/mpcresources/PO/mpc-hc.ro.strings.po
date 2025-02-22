@@ -3035,7 +3035,7 @@ msgstr "Comută starea"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Comută bara de resincronizare subtitluri"
+msgstr "Comută bara de resincronizare a subtitrărilor"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
