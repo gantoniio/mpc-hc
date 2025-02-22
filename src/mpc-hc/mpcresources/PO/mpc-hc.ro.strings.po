@@ -3027,7 +3027,7 @@ msgstr "Comută zona de informații"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "Comută statistici"
+msgstr "Comută statisticile"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
