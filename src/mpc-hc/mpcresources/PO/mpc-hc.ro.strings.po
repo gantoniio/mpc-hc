@@ -2939,7 +2939,7 @@ msgstr "&Proprietăți..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (pin) proprietăți..."
+msgstr "proprietăți (ale pinului)..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
