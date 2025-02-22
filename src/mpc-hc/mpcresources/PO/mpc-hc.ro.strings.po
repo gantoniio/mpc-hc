@@ -3620,7 +3620,7 @@ msgstr "Golește GPU-ul după prezentare: Dezactivată"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "Așteptare golire unitate grafică: Activată"
+msgstr "Se aștepată golirea GPU-ului: Activată"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
