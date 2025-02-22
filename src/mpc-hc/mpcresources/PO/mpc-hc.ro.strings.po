@@ -3644,7 +3644,7 @@ msgstr "Dezactivează compoziția desktop-ului (Aero): Oprit"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "Sincronizare verticală alternativă: Activată"
+msgstr "Sincronizare verticală (VSync) alternativă: Activată"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
