@@ -3367,7 +3367,7 @@ msgstr "Media DirectShow"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr "Format video Indeo"
+msgstr "Formatul video Indeo"
 
 msgctxt "IDS_MFMT_AVS"
 msgid "AviSynth Script"
