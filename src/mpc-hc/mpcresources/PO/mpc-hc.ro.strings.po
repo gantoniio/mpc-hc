@@ -3676,7 +3676,7 @@ msgstr "Ieșire RGB pe 10 biți: Dezactivată"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "Forțare intrare RGB pe 10 biți: Activată"
+msgstr "Forțează intrarea RGB-ului pe 10 biți: Activată"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
