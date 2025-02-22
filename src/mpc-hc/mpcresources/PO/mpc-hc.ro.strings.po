@@ -2927,7 +2927,7 @@ msgstr "Sunet"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
-msgstr "%s nu a fost găsit, inserați mediul conținând acest fișier."
+msgstr "%s nu a fost găsit, inserează mediul conținător al acestui fișier."
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
