@@ -3599,7 +3599,7 @@ msgstr "Intenție de randare: Colorimetrică absolută"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr "Interval de ieșire: %s"
+msgstr "Intervalul de ieșire: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
