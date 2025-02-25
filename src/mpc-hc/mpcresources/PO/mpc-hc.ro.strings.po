@@ -3735,7 +3735,7 @@ msgid ""
 "You are already using the latest stable version."
 msgstr ""
 "\n"
-"Folosiți deja ultima versiune stabilă."
+"Folosești deja ultima versiune stabilă."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid ""
