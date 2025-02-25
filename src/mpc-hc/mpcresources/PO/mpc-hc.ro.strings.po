@@ -3631,7 +3631,7 @@ msgstr "Ecran complet D3D: Activat"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Ecran complet D3D: Dezactivat"
+msgstr "Ecran complet D3D: Oprit"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
