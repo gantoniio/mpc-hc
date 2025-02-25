@@ -1208,7 +1208,7 @@ msgstr "Cu sonor"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
-msgstr "Fără audio"
+msgstr "Fără sunet"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid ""
