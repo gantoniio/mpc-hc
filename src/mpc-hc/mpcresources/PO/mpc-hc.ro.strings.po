@@ -3727,7 +3727,7 @@ msgstr "Scade saturația"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Restabilește stabilirile de culoare"
+msgstr "Restabilește setările de culoare"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid ""
