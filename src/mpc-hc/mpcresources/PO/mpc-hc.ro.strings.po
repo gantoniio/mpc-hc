@@ -3715,7 +3715,7 @@ msgstr "Mărire nuanță"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "Micșorare nuanță"
+msgstr "Scade nuanța"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
