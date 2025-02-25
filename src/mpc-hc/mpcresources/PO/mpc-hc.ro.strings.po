@@ -3743,7 +3743,7 @@ msgid ""
 "\n"
 "The latest stable version is v%s."
 msgstr ""
-"Versiunea dumneavoastră actuală este v%s.\n"
+"Versiunea ta actuală este v%s.\n"
 "\n"
 "Ultima versiune stabilă este v%s."
 
