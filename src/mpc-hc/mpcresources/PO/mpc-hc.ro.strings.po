@@ -3659,7 +3659,7 @@ msgstr "Setările randorului revin la valorile optime"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "Compatibilitatea cu ecranul complet D3D pentru GUI: Activată"
+msgstr "Compatibilitatea cu ecranul complet D3D pentru GUI: Pornită"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
