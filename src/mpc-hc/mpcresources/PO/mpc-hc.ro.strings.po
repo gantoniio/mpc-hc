@@ -3707,7 +3707,7 @@ msgstr "Crește contrastul"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr "Micșorare contrast"
+msgstr "Scade contrastul"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
