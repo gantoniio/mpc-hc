@@ -3503,7 +3503,7 @@ msgstr "Rezoluție"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Raport de aspect"
+msgstr "Raportul de aspect"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
