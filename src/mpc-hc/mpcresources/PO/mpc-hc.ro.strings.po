@@ -3773,7 +3773,7 @@ msgstr "În&chidere"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "Scalare: %.0lf%%"
+msgstr "Scalează: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
