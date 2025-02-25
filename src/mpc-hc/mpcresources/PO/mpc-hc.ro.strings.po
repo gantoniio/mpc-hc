@@ -3664,7 +3664,7 @@ msgstr "Compatibilitatea cu ecranul complet D3D pentru GUI: Activată"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Compatibilitatea cu ecranul complet D3D pentru GUI: Dezactivată"
+msgstr "Compatibilitatea cu ecranul complet D3D pentru GUI: Oprită"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3672,7 +3672,7 @@ msgstr "Ieșire RGB pe 10 biți: Activată"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "Ieșire RGB pe 10 biți: Dezactivată"
+msgstr "Ieșire RGB pe 10 biți: Oprită"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
