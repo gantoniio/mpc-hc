@@ -3607,8 +3607,7 @@ msgstr "Golește GPU-ul înainte de sincronizarea verticală (VSync): Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr ""
-"Golește GPU-ul înainte de sincronizarea verticală (VSync): Dezactivată"
+msgstr "Golește GPU-ul înainte de sincronizarea verticală (VSync): Oprită"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
@@ -3616,7 +3615,7 @@ msgstr "Golește GPU-ul după prezentare: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Golește GPU-ul după prezentare: Dezactivată"
+msgstr "Golește GPU-ul după prezentare: Oprită"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
