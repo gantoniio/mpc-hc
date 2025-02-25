@@ -3723,7 +3723,7 @@ msgstr "Crește saturația"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr "Micșorare saturație"
+msgstr "Scade saturația"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
