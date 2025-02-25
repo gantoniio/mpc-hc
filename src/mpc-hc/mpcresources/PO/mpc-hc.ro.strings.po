@@ -3615,7 +3615,7 @@ msgstr "Golește GPU-ul după prezentare: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Golește GPU-ul după prezentare: Oprită"
+msgstr "Golește GPU-ul după prezentare: Oprit"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
@@ -3623,7 +3623,7 @@ msgstr "Se așteaptă golirea GPU-ului: Activată"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Se așteaptă golirea GPU-ului: Dezactivată"
+msgstr "Se așteaptă golirea GPU-ului: Oprit"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
