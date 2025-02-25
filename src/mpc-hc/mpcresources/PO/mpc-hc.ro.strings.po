@@ -3719,7 +3719,7 @@ msgstr "Scade nuanța"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "Mărire saturație"
+msgstr "Crește saturația"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
