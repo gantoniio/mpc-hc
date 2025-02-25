@@ -1615,7 +1615,7 @@ msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr "Decodare software"
+msgstr "Decodarea software-ului"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
