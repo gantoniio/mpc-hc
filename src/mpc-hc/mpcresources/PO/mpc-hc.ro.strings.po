@@ -3648,7 +3648,7 @@ msgstr "Sincronizare verticală (VSync) alternativă: Activată"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Sincronizare verticală (VSync) alternativă: Dezactivată"
+msgstr "Sincronizare verticală (VSync) alternativă: Oprită"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
