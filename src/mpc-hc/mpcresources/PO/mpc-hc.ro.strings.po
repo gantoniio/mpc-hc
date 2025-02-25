@@ -1204,7 +1204,7 @@ msgstr "Mut"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
-msgstr "Activează sunet"
+msgstr "Cu sonor"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
