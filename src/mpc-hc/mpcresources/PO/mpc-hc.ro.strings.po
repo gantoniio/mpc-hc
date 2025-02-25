@@ -3699,7 +3699,7 @@ msgstr "Procesare pe jumătate în virgulă mobilă (pe 16 biți): Oprită"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Micșorează luminozitatea"
+msgstr "Scade luminozitatea"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
