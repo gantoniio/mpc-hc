@@ -1200,7 +1200,7 @@ msgstr ""
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "Tăcut"
+msgstr "Mut"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
