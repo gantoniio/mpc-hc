@@ -3703,7 +3703,7 @@ msgstr "Micșorează luminozitatea"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr "Mărire contrast"
+msgstr "Crește contrastul"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
