@@ -3627,7 +3627,7 @@ msgstr "Se așteaptă golirea GPU-ului: Oprit"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr "Ecran complet D3D: Activat"
+msgstr "Ecran complet D3D: Pornit"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
