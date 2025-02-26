@@ -3915,7 +3915,7 @@ msgstr "audio"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "Filtrul de preîncărcare %s nu poate fi adăugat la grafic."
+msgstr "Nu se poate adăuga filtrul tampon/buffer %s la grafic."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
