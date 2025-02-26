@@ -3817,7 +3817,7 @@ msgstr "Restabește volumul: Oprit"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr "octeți"
+msgstr "octeți/ bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
