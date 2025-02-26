@@ -3821,11 +3821,11 @@ msgstr "octeți"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr "KO"
+msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr "MO"
+msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
