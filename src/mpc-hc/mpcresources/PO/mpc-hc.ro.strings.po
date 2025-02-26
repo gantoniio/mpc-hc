@@ -3793,7 +3793,7 @@ msgstr "Repartizare particularizată a canalelor: Oprită"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
-msgstr "Comută normalizare"
+msgstr "Comută normalizarea"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
