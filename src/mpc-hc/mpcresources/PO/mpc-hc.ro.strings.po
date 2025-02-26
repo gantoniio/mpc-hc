@@ -3861,7 +3861,7 @@ msgstr "Tunerul nu a putut fi conectat."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr "Demultiplexorul nu poate fi creat."
+msgstr "Nu s-a putut crea demultiplexorul."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
