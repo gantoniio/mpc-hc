@@ -3849,7 +3849,7 @@ msgstr "Nu s-a putut crea receptorul."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr "Rețeaua și tunerul nu pot fi conectate."
+msgstr "Nu s-au putut conecta rețeaua și tunerul."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
