@@ -3865,7 +3865,7 @@ msgstr "Nu s-a putut crea demultiplexorul."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
-msgstr "Eroare la analizarea timpului introdus!"
+msgstr "Eroare la analizarea orei introduse!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
 msgid "Error parsing the entered text!"
