@@ -3857,7 +3857,7 @@ msgstr "Nu s-au putut conecta tunerul și receptorul."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
-msgstr "Tunerul nu poate fi conectat."
+msgstr "Tunerul nu a putut fi conectat."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
