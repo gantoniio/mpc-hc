@@ -3878,7 +3878,7 @@ msgstr "Eroare la analizarea ratei de cadre introduse!"
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
 msgstr ""
-"Nu se poate face deplasare cadru cu cadru, încercați un randor video "
+"Nu se poate face deplasare cadru cu cadru, încearcăi un randor video "
 "diferit."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
