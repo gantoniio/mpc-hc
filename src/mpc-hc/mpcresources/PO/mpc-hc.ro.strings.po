@@ -3903,7 +3903,7 @@ msgstr "Doriță să activați editorul EDL?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr "Eroare captură"
+msgstr "Eroare de captură"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
