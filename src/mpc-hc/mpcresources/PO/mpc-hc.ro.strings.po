@@ -4055,7 +4055,7 @@ msgstr "Anulează toate asocierile"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr "Stabiliri"
+msgstr "Setări"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
