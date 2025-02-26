@@ -3853,7 +3853,7 @@ msgstr "Nu s-au putut conecta rețeaua și tunerul."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr "Tunerul și receptorul nu pot fi conectate."
+msgstr "Nu s-au putut conecta tunerul și receptorul."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
