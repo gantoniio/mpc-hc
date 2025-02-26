@@ -4245,7 +4245,7 @@ msgstr "Încărcare eșuată."
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
-msgstr "Descarcă && Deschide"
+msgstr "Descarcă și deschide"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
