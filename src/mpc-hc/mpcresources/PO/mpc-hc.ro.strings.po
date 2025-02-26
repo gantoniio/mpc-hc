@@ -3845,7 +3845,7 @@ msgstr "Tunerul nu a putut fi creat."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
-msgstr "Receptorul nu poate fi creat."
+msgstr "Nu s-a putut crea receptorul."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
