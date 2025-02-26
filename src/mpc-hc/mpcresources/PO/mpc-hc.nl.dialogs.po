@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# mark van tilburg <markvantilburg@gmail.com>, 2020
 # Arne Bezuijen <transifex@arnage.nl>, 2021
 # xknat <321knat@gmail.com>, 2022
 # Renz Straatman <renz75@outlook.com>, 2023
+# mark van tilburg <markvantilburg@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
+"POT-Creation-Date: 2024-11-08 22:23:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Renz Straatman <renz75@outlook.com>, 2023\n"
+"Last-Translator: mark van tilburg <markvantilburg@gmail.com>, 2025\n"
 "Language-Team: Dutch (https://app.transifex.com/mpchc/teams/106126/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -410,7 +410,7 @@ msgstr "Bediening"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
-msgstr "Volumestap:"
+msgstr "Volume stap:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -418,7 +418,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
-msgstr "Snelheidsstap:"
+msgstr "Snelheid stap:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -458,11 +458,11 @@ msgstr "Autoaanpassingsfactor:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "min %"
-msgstr ""
+msgstr "minimum %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "max %"
-msgstr ""
+msgstr "maximum %"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
@@ -474,7 +474,7 @@ msgstr "Voorkeurssporen"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC8"
 msgid "Subtitles:"
-msgstr "Ondertiteling:"
+msgstr "Ondertitels:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC9"
 msgid "Audio:"
@@ -534,7 +534,7 @@ msgstr "Texture-instellingen (vereist opnieuw openen van video)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Aantal beeldplaatjes in buffer:"
+msgstr "Subafbeeldingen om te bufferen:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
@@ -777,7 +777,7 @@ msgstr "Toevoegen aan favorieten"
 
 msgctxt "IDD_FAVADD_IDC_STATIC1"
 msgid "Choose a name for your shortcut:"
-msgstr ""
+msgstr "Geef een naam voor je snelkoppeling:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -857,11 +857,11 @@ msgstr "&Opslaan"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC2"
 msgid "Pos: 0.0 -> 1.0"
-msgstr ""
+msgstr "Pos: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC3"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr ""
+msgstr "Zoom: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
@@ -961,7 +961,7 @@ msgstr "Rechthoek"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC5"
 msgid "Width"
-msgstr "Randbreedte"
+msgstr "Breedte"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC6"
 msgid "Shadow"
@@ -1041,23 +1041,23 @@ msgstr "Gebruik libass voor SSA/ASS"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Buttons"
-msgstr ""
+msgstr "Knoppen"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Click"
-msgstr ""
+msgstr "Klik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Double click"
-msgstr ""
+msgstr "Dubbelklik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Right click"
-msgstr ""
+msgstr "Rechtsklik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_BUTTON2"
 msgid "Default"
-msgstr ""
+msgstr "Standaard"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
@@ -1537,7 +1537,7 @@ msgstr "s"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK7"
 msgid "Allow separate control window"
-msgstr ""
+msgstr "Apart bedieningselementen venster toestaan"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
@@ -1588,7 +1588,7 @@ msgstr "Negeer bestanden met de volgende woorden:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Voorkeursvolgorde van talen:"
+msgstr "Talen in voorkeursvolgorde:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
@@ -1821,23 +1821,23 @@ msgstr "Automatisch afspelen"
 
 msgctxt "IDD_ADDCOMMAND_DLG_CAPTION"
 msgid "Select command"
-msgstr ""
+msgstr "Selecteer opdracht"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDC_STATIC"
 msgid "Filter:"
-msgstr ""
+msgstr "Filteren:"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
 msgid "Theme"
-msgstr ""
+msgstr "Thema"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
@@ -1849,11 +1849,11 @@ msgstr "Modern Thema kleur:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
 msgid "Control buttons size:"
-msgstr ""
+msgstr "Bedieningselementen knop grootte:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
 msgid "Seekbar"
-msgstr ""
+msgstr "Zoekbalk"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
@@ -1861,116 +1861,116 @@ msgstr "Modern Thema zoekbalk hoogte:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
-msgstr ""
+msgstr "Toon hoofdstuk markeringen op de zoekbalk"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
-msgstr ""
+msgstr "Zoekbalk Hover"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
-msgstr ""
+msgstr "Hover Positie:"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
-msgstr ""
+msgstr "Toon video voorbeeld"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK14"
 msgid "Show time"
-msgstr ""
+msgstr "Toon tijd"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
-msgstr ""
+msgstr "Voorbeeld breedte (% van het scherm)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
-msgstr ""
+msgstr "Status Balk Elementen"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
 msgid "Track Language"
-msgstr ""
+msgstr "Track Taal"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
-msgstr ""
+msgstr "Video Info"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
 msgid "Audio Info"
-msgstr ""
+msgstr "Audio Info"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
 msgid "A-B Marks"
-msgstr ""
+msgstr "A-B Markeringen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
 msgid "On Screen Display (OSD)"
-msgstr ""
+msgstr "Weergave op het scherm (OSD)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr ""
+msgstr "OSD weergeven (herstart vereist)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
 msgid "Font:"
-msgstr ""
+msgstr "Lettertype:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
 msgid "Font size:"
-msgstr ""
+msgstr "Lettergrootte:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current Time"
-msgstr ""
+msgstr "Toon huidige tijd"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"
-msgstr ""
+msgstr "Scherm Gedrag"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
 msgid "Limit window proportions on resize"
-msgstr ""
+msgstr "Limiteer vensterproporties bij wijzigen formaat"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
 msgid "Snap to desktop edges"
-msgstr ""
+msgstr "Venster vastklikken aan schermranden"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
 msgid "Hide Windowed Controls"
-msgstr ""
+msgstr "Verberg bedieningselementen in venster"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
-msgstr ""
+msgstr "Windows Integratie"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Gebruik uitgebreide taakbalk mogelijkheden"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
-msgstr ""
+msgstr "Bediening via Windows UI (SMTC)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
 msgid "Language"
-msgstr ""
+msgstr "Taal"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC5"
 msgid "Language:"
-msgstr ""
+msgstr "Taal:"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"
-msgstr ""
+msgstr "Media uit RAR bestand kiezen"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDOK"
 msgid "Select"
-msgstr ""
+msgstr "Selecteren"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDCANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
