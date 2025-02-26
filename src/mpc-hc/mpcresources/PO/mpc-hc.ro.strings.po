@@ -3829,7 +3829,7 @@ msgstr "MB"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr "GO"
+msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
