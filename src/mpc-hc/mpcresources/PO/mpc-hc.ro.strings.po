@@ -3805,7 +3805,7 @@ msgstr "Normalizare: Oprită"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
-msgstr "Comută restabilire volum"
+msgstr "Comută restabilirea volumului"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
