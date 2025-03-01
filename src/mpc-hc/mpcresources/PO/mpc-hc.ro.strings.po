@@ -3411,7 +3411,7 @@ msgstr "WavPack"
 
 msgctxt "IDS_MFMT_OPUS"
 msgid "Opus Audio Codec"
-msgstr "Codecul Audio Opus"
+msgstr "Codecul audio Opus"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
