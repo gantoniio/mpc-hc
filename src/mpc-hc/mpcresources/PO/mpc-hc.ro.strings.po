@@ -3919,7 +3919,7 @@ msgstr "Nu se poate adăuga filtrul tamponului/bufferului %s la grafic."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "Filtrul de preîncărcare %s nu poate fi conectat la grafic."
+msgstr "Filtrul de preîncărcare %s nu se poate conecta la grafic."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
