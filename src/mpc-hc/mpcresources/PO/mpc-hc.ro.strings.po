@@ -3923,7 +3923,7 @@ msgstr "Filtrul de preîncărcare %s nu se poate conecta la grafic."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Filtrul codor %s nu se poate adăuga la grafic."
+msgstr "Filtrul codificatorului %s nu se poate adăuga la grafic."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
