@@ -3936,7 +3936,7 @@ msgstr ""
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Fluxul %s nu poate fi conectat la filtrul multiplexor."
+msgstr "Fluxul %s nu se poate conecta la filtrul multiplexor."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
