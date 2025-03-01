@@ -3931,7 +3931,8 @@ msgstr "Filtrul codificatorului %s nu se poate conecta la grafic."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "Formatul de comprimare nu poate fi setat la filtrul codor %s."
+msgstr ""
+"Formatul de comprimare nu se poate seta la filtrul codificatorului %s."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
