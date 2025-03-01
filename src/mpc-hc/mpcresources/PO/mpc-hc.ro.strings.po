@@ -3984,7 +3984,7 @@ msgstr "După redare: Închide calculatorul"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "După redare: Închide sesiunea"
+msgstr "După redare: Deautentifică-te"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
