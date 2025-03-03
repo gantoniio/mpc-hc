@@ -201,8 +201,6 @@ void CMpcAudioRendererSettingsWnd::OnClickedWasapiMode()
 	int selected = m_cbWasapiMode.GetCurSel();
 	m_cbUseBitExactOutput.EnableWindow(selected == (int)MODE_WASAPI_EXCLUSIVE);
 	OnClickedBitExact();
-
-	m_cbReleaseDeviceIdle.EnableWindow(selected == (int)MODE_WASAPI_EXCLUSIVE);
 }
 
 void CMpcAudioRendererSettingsWnd::OnClickedBitExact()
@@ -220,7 +218,7 @@ void CMpcAudioRendererSettingsWnd::OnBnClickedReset()
 	m_cbUseBitExactOutput.SetCheck(BST_CHECKED);
 	m_cbUseSystemLayoutChannels.SetCheck(BST_CHECKED);
 	m_cbAltCheckFormat.SetCheck(BST_UNCHECKED);
-	m_cbReleaseDeviceIdle.SetCheck(BST_UNCHECKED);
+	m_cbReleaseDeviceIdle.SetCheck(BST_CHECKED);
 	m_cbUseCrossFeed.SetCheck(BST_UNCHECKED);
 	m_cbDummyChannels.SetCheck(BST_UNCHECKED);
 
