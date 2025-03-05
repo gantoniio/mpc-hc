@@ -4124,7 +4124,7 @@ msgstr "Stare"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
-msgstr "Pregătit..."
+msgstr "Gata..."
 
 msgctxt "IDS_CMD_PNS"
 msgid ""
