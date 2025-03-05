@@ -5814,7 +5814,8 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
     if (CComQIPtr<ISubPicProvider> pSubPicProvider = m_pCurrentSubInput.pSubStream) {
         const PBITMAPINFOHEADER bih = (PBITMAPINFOHEADER)pData;
         const int width = bih->biWidth;
-        const int height = bih->biHeight;
+        const int height = abs(bih->biHeight);
+        const bool topdown = bih->biHeight < 0;
 
         REFERENCE_TIME rtNow = 0;
         m_pMS->GetCurrentPosition(&rtNow);
@@ -5844,7 +5845,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
         
         spdRender.type = MSP_RGB32;
         spdRender.w = subWidth;
-        spdRender.h = abs(subHeight);
+        spdRender.h = subHeight;
         spdRender.bpp = 32;
         spdRender.pitch = subWidth * 4;
         spdRender.vidrect = { 0, 0, width, height };
@@ -5868,9 +5869,9 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
             spdTarget.w = width;
             spdTarget.h = height;
             spdTarget.bpp = 32;
-            spdTarget.pitch = -width * 4;
+            spdTarget.pitch = topdown ? width * 4 : -width * 4;
             spdTarget.vidrect = { 0, 0, width, height };
-            spdTarget.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
+            spdTarget.bits = topdown ? (BYTE*)bih : (BYTE*)(bih + 1) + (width * 4) * (height - 1);
 
             hr = memSubPic.AlphaBlt(&spdRender.vidrect, &spdTarget.vidrect, &spdTarget);
         }
