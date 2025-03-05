@@ -3944,7 +3944,7 @@ msgstr "Nu s-a găsit găsit niciun pin pentru capturi video."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "Nu a fost găsit niciun pin pentru captură audio."
+msgstr "Nu s-a găsit niciun pin pentru capturi audio."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
