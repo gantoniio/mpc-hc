@@ -4153,7 +4153,7 @@ msgstr "/debug\t\tArată informații de depanare în OSD"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\tDezactivează raportorul de defecte"
+msgstr "/nocrashreporter\tDezactivează raportorul de crăpare"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
