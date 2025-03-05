@@ -4116,7 +4116,7 @@ msgstr "Se abandonează căutarea pe Internet a subtitrărilor..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr "Nume de utilizator"
+msgstr "Numele de utilizator"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
