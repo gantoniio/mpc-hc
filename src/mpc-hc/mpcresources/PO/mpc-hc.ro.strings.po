@@ -3940,7 +3940,7 @@ msgstr "Fluxul %s nu se poate conecta la filtrul multiplexor."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "Nu a fost găsit niciun pin pentru capturi video."
+msgstr "Nu s-a găsit găsit niciun pin pentru capturi video."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
