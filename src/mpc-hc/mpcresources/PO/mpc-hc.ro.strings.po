@@ -4072,7 +4072,7 @@ msgstr "Furnizor"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr "Cu probleme de auz"
+msgstr "Deficiențe de auz"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
