@@ -3455,7 +3455,7 @@ msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr "Audio MPEG"
+msgstr "Fișier audio MPEG (MPEG audio)"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
