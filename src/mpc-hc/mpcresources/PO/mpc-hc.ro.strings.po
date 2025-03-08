@@ -4120,7 +4120,7 @@ msgstr "Numele de utilizator"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr "Stare"
+msgstr "Starea"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
