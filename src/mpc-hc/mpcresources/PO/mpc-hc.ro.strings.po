@@ -3371,7 +3371,7 @@ msgstr "Formatul video Indeo"
 
 msgctxt "IDS_MFMT_AVS"
 msgid "AviSynth Script"
-msgstr "Script AviSynth"
+msgstr "Script AviSynth (AviSynth Script)"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
