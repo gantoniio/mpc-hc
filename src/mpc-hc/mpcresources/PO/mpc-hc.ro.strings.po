@@ -3327,7 +3327,7 @@ msgstr "MP4"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
-msgstr "Film QuickTime"
+msgstr "Film QuickTime (QuickTime Movie)"
 
 msgctxt "IDS_MFMT_3GP"
 msgid "3GP"
