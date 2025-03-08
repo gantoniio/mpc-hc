@@ -3359,7 +3359,7 @@ msgstr "Videoclip Smacker/Bink"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
-msgstr "Animație FLIC"
+msgstr "Animație FLIC (FLIC Animation)"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
