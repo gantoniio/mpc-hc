@@ -3447,7 +3447,7 @@ msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr "Audio Matroska"
+msgstr "Fișier audio Matroska (Matroska audio)"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
