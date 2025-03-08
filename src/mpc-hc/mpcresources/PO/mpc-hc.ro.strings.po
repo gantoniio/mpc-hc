@@ -4157,7 +4157,7 @@ msgstr "/nocrashreporter\tDezactivează raportorul de crăpare"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent"
+msgstr "/slave \"hWnd\"\tFolosește MPC-HC ca slave"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid ""
