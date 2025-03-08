@@ -3375,7 +3375,7 @@ msgstr "Script AviSynth"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
-msgstr "Altul"
+msgstr "Altele"
 
 msgctxt "IDS_MFMT_SWF"
 msgid "Shockwave Flash"
