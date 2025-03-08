@@ -3339,7 +3339,7 @@ msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr "Videoclip Flash"
+msgstr "Videoclip Flash (Flash Video)"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
