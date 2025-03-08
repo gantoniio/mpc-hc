@@ -3347,7 +3347,7 @@ msgstr "Fișier media Ogg (Ogg Media)"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
-msgstr "Real Media"
+msgstr "Fișier media Real (Real Media)"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
