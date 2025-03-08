@@ -3479,7 +3479,7 @@ msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr "True Audio"
+msgstr "Fișier audio True (True Audio)"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
