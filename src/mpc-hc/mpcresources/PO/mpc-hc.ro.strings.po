@@ -3355,7 +3355,7 @@ msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr "Videoclip Smacker/Bink"
+msgstr "Videoclip Smacker/Bink (Smacker/Bink Video)"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
