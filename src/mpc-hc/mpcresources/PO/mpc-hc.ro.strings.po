@@ -3431,7 +3431,7 @@ msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr "Pistă CD audio"
+msgstr "Pistă pentru CD-uri audio"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
