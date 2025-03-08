@@ -3383,7 +3383,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr "Alt audio"
+msgstr "Alt tip de fișiere audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
