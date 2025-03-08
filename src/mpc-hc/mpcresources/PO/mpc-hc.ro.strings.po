@@ -3471,7 +3471,7 @@ msgstr "Ogg Vorbis"
 
 msgctxt "IDS_MFMT_RA"
 msgid "Real Audio"
-msgstr "Real Audio"
+msgstr "Fișier audio Real (Real Audio)"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
