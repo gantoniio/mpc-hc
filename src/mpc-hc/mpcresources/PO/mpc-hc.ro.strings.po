@@ -3343,7 +3343,7 @@ msgstr "Videoclip Flash (Flash Video)"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
-msgstr "Ogg Media"
+msgstr "Fișier media Ogg (Ogg Media)"
 
 msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
