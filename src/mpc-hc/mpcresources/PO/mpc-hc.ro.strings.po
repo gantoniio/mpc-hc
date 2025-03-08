@@ -3363,7 +3363,7 @@ msgstr "Animație FLIC"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr "Media DirectShow"
+msgstr "Fișier media DirectShow (DirectShow Media)"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
