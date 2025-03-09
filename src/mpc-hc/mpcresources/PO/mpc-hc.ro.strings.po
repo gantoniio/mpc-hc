@@ -4298,7 +4298,7 @@ msgstr "Încarcă subtitrări"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr "Sigur doriți să încărcați fișierul subtitlu „%s”?"
+msgstr "Ești sigur(ă) că vrei să încarci fișierul de subtitrări „%s”?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
