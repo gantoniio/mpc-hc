@@ -41,7 +41,6 @@ private:
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
-    TBBUTTON GetStandardButton(int cmdid);
     void PlaceButtons(bool loadSavedLayout);
     bool mouseDownL, mouseDownR;
     int rightButtonIndex=-1;
@@ -59,18 +58,35 @@ private:
     int currentlyDraggingButton;
     CPoint mousePosition;
     bool toolbarAdjustActive;
+
+    struct svgButtonInfo {
+        UINT style;
+        int svgIndex;
+        bool positionLocked = false;
+        CString text;
+    };
+
+    static std::map<int, svgButtonInfo> supportedSvgButtons;
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
     bool LoadExternalToolBar(CImage& image, float svgscale);
+    LPCWSTR GetStringFromID(int idCommand);
+    const std::map<int, svgButtonInfo> GetSupportedSvgButtons() {
+        return supportedSvgButtons;
+    }
 
     int GetVolume() const;
     int GetMinWidth() const;
     void SetVolume(int volume);
     __declspec(property(get = GetVolume, put = SetVolume)) int Volume;
 
+    TBBUTTON GetStandardButton(int cmdid);
     void ArrangeControls();
+    void ToolbarChange();
+    void ToolBarReset();
+
     CImage& GetVolumeImageOn() { return volumeOn; };
     CImage& GetVolumeImageOff() { return volumeOff; };
 
@@ -105,7 +121,7 @@ public:
     afx_msg void OnTbnQueryDelete(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void SaveToolbarState();
-    void OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg void OnTbnGetButtonInfo(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnInitCustomize(NMHDR* pNMHDR, LRESULT* pResult);
@@ -114,3 +130,5 @@ public:
     afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
     afx_msg void OnTbnReset(NMHDR* pNMHDR, LRESULT* pResult);
 };
+
+

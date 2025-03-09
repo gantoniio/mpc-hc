@@ -406,6 +406,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
             }
 
             if (IsWindowEnabled()) {
+                bool selected = false;
                 if (GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED && (nSubItem == 0 || fullRowSelect) && (GetStyle() & LVS_SHOWSELALWAYS || GetFocus() == this)) {
                     bgColor = selectedBGColor;
                     if (LVS_REPORT != dwStyle) { //in list mode we don't fill the "whole" column
@@ -413,6 +414,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                         dcMem.DrawTextW(text, tmp, textFormat | DT_CALCRECT); //end of string
                         rTextBG.right = tmp.right + (rText.left - rTextBG.left); //end of string plus same indent from the left side
                     }
+                    selected = true;
                 } else if (hasCheckedColors) {
                     if (isChecked && checkedBGClr != -1) {
                         bgColor = checkedBGClr;
@@ -426,11 +428,11 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                 }
                 dcMem.FillSolidRect(rTextBG, bgColor);
 
-                if (themeGridLines || nullptr != customThemeInterface) {
+                if (themeGridLines || (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid())) {
                     CRect rGrid = rect;
                     rGrid.bottom -= 1;
                     CPen gridPenV, gridPenH, *oldPen;
-                    if (nullptr != customThemeInterface) {
+                    if (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid()) {
                         COLORREF horzGridColor, vertGridColor;
                         customThemeInterface->GetCustomGridColors(nItem, horzGridColor, vertGridColor);
                         gridPenV.CreatePen(PS_SOLID, 1, vertGridColor);
@@ -457,6 +459,11 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     dcMem.SelectObject(oldPen);
                     gridPenV.DeleteObject();
                     gridPenH.DeleteObject();
+                } else if (selected) {
+                    CBrush borderBG;
+                    borderBG.CreateSolidBrush(CMPCTheme::ListCtrlDisabledBGColor);
+                    dcMem.FrameRect(rTextBG, &borderBG);
+                    borderBG.DeleteObject();
                 }
             }
 
@@ -533,7 +540,7 @@ BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC)
         }
         pDC->FillSolidRect(r, CMPCTheme::ContentBGColor);
 
-        if (themeGridLines || nullptr != customThemeInterface) {
+        if (themeGridLines || (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid())) {
 
             CPen gridPen, *oldPen;
             gridPen.CreatePen(PS_SOLID, 1, CMPCTheme::ListCtrlGridColor);
@@ -556,7 +563,7 @@ BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC)
                     {
                         CPen horzPen;
                         pDC->MoveTo(r.left, gr.bottom - 1);
-                        if (nullptr != customThemeInterface) {
+                        if (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid()) {
                             COLORREF horzGridColor, tmp;
                             customThemeInterface->GetCustomGridColors(y, horzGridColor, tmp);
                             horzPen.CreatePen(PS_SOLID, 1, horzGridColor);

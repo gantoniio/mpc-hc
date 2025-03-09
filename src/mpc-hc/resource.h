@@ -74,6 +74,7 @@
 #define IDF_SHADER_FINAL                702
 #define IDF_SVG_TOOLBAR                 703
 #define IDF_SVG_BUTTONS                 704
+#define IDF_SVG_ARROW                   705
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802
@@ -621,6 +622,7 @@
 #define IDD_PPAGEDPICALC                20018
 #define IDD_RAR_ENTRY_SELECTOR          20019
 #define IDD_ADDCOMMAND_DLG              20020
+#define IDD_PPAGETOOLBAR                20021
 #define IDB_DT_CB_96                    20050
 #define IDB_DT_CB_120                   20051
 #define IDB_DT_CB_144                   20052
@@ -1760,7 +1762,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20076
+#define _APS_NEXT_RESOURCE_VALUE        20077
 #define _APS_NEXT_COMMAND_VALUE         33462
 #define _APS_NEXT_CONTROL_VALUE         22094
 #define _APS_NEXT_SYMED_VALUE           24052

@@ -194,7 +194,7 @@ bool ImageGrayer::UpdateColor(const CImage& imgSource, CImage& imgDest, bool dis
         if (disabled) {
             themeColor = CMPCTheme::ImageDisabledColor;
         } else {
-            themeColor = CMPCTheme::TextFGColor;
+            themeColor = CMPCTheme::TextFGColorFade;
         }
         newColor.rgbRed = GetRValue(themeColor);
         newColor.rgbGreen = GetGValue(themeColor);

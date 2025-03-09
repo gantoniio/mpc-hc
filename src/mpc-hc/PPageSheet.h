@@ -23,6 +23,7 @@
 
 #include "mplayerc.h"
 #include "PPagePlayer.h"
+#include "PPageToolBar.h"
 #include "PPageTheme.h"
 #include "PPageFormats.h"
 #include "PPageAccelTbl.h"
@@ -92,6 +93,7 @@ private:
     CFont dpiButtonFont, dpiTabFont;
 
     CPPagePlayer m_player;
+    CPPageToolBar m_toolBar;
     CPPageTheme m_theme;
     CPPageFormats m_formats;
     CPPageAccelTbl m_acceltbl;

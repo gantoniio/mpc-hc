@@ -25,7 +25,7 @@ namespace ImageGrayer
     enum mpcColorStyle {
         classicGrayscale,
         mpcMono,
-        mpcGrayDisabled
+        mpcGrayDisabled,
     };
 
     bool Gray(const CImage& imgSource, CImage& imgDest, float brightness = 1.0f);

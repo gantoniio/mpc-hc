@@ -34,12 +34,6 @@
 
 // CPlayerToolBar
 
-struct svgButtonInfo {
-    UINT style;
-    int svgIndex;
-    CString text;
-};
-
 //svg has 30 positions
 //0-7 are standard mpc buttons
 //8-24 reserved for additional toolbar buttons
@@ -49,17 +43,17 @@ struct svgButtonInfo {
 #define VOLUMEBUTTON_SVG_INDEX 25
 #define VOLUME_SVG_INDEX 28
 
-static std::map<int, svgButtonInfo> supportedSvgButtons = {
-    {ID_PLAY_PLAY, {TBBS_CHECKGROUP,0}},
-    {ID_PLAY_PAUSE, {TBBS_CHECKGROUP,1}},
-    {ID_PLAY_STOP, {TBBS_CHECKGROUP,2}},
+std::map<int, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
+    {ID_PLAY_PLAY, {TBBS_CHECKGROUP,0,true}},
+    {ID_PLAY_PAUSE, {TBBS_CHECKGROUP,1,true}},
+    {ID_PLAY_STOP, {TBBS_CHECKGROUP,2,true}},
     {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON,3}},
     {ID_PLAY_DECRATE, {TBBS_BUTTON,4}},
     {ID_PLAY_INCRATE, {TBBS_BUTTON,5}},
     {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON,6}},
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON,7}},
-    {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR,-1}},
-    {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX}},
+    {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR,-1,true}},
+    {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX,true}},
 };
 
 static std::vector<int> supportedSvgButtonsSeq;
@@ -765,7 +759,6 @@ void CPlayerToolBar::OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult) {
     *pResult = TRUE;
 }
 
-
 void CPlayerToolBar::SaveToolbarState() {
     if (!toolbarAdjustActive) {
         auto& ctrl = GetToolBarCtrl();
@@ -779,26 +772,32 @@ void CPlayerToolBar::SaveToolbarState() {
     }
 }
 
-void CPlayerToolBar::OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult) {
+void CPlayerToolBar::ToolbarChange() {
     SaveToolbarState();
     ArrangeControls();
     Invalidate();
-    *pResult = 0;
 }
 
+void CPlayerToolBar::OnTbnToolbarChange(NMHDR* pNMHDR, LRESULT* pResult) {
+    ToolbarChange();
+    *pResult = 0;
+}
 
 void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point) {
     mousePosition = point;
     CToolBar::OnMouseMove(nFlags, point);
 }
 
+LPCWSTR CPlayerToolBar::GetStringFromID(int idCommand) {
+    return supportedSvgButtons[idCommand].text.GetString();
+}
 
 void CPlayerToolBar::OnTbnGetButtonInfo(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
     if (pNMTB->iItem < supportedSvgButtonsSeq.size()) {
         int cmdid = supportedSvgButtonsSeq[pNMTB->iItem];
         TBBUTTON t = GetStandardButton(cmdid);
-        t.iString = (INT_PTR)supportedSvgButtons[t.idCommand].text.GetString();
+        t.iString = (INT_PTR)GetStringFromID(t.idCommand);
         pNMTB->tbButton = t;
         *pResult = TRUE;
         return;
@@ -817,29 +816,32 @@ void CPlayerToolBar::OnTbnBeginAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
     *pResult = 0;
 }
 
-
 void CPlayerToolBar::OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
     toolbarAdjustActive = false;
     SaveToolbarState();
     *pResult = 0;
 }
 
-
 void CPlayerToolBar::OnLButtonDblClk(UINT nFlags, CPoint point) {
+//disabled to avoid the built-in customization dialog
+#if 0    
     m_pMainFrame->enableDialogHook(this, CMainFrame::themableDialogTypes::toolbarCustomizeDialog);
     CToolBar::OnLButtonDblClk(nFlags, point);
+#endif
 }
 
-
-void CPlayerToolBar::OnTbnReset(NMHDR* pNMHDR, LRESULT* pResult) {
+void CPlayerToolBar::ToolBarReset() {
     CToolBarCtrl& tb = GetToolBarCtrl();
 
-    for (int i = tb.GetButtonCount()-1; i >= 0; i--) {
+    for (int i = tb.GetButtonCount() - 1; i >= 0; i--) {
         tb.DeleteButton(i);
     }
     PlaceButtons(false);
     ArrangeControls();
     Invalidate();
+}
 
+void CPlayerToolBar::OnTbnReset(NMHDR* pNMHDR, LRESULT* pResult) {
+    ToolBarReset();
     *pResult = 0;
 }
