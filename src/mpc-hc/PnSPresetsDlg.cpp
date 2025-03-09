@@ -133,7 +133,7 @@ BEGIN_MESSAGE_MAP(CPnSPresetsDlg, CMPCThemeResizableDialog)
     ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButton2)
-    ON_BN_CLICKED(IDC_BUTTON3, MoveDown)
+    ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedButton6)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateButton6)
     ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedButton9)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateButton9)
@@ -183,7 +183,7 @@ void CPnSPresetsDlg::OnUpdateButton2(CCmdUI* pCmdUI)
     pCmdUI->Enable(str != _T("New"));
 }
 
-void CPnSPresetsDlg::MoveDown() // del
+void CPnSPresetsDlg::OnBnClickedButton6() // del
 {
     int i = m_list.GetCurSel();
     m_list.DeleteString(i);

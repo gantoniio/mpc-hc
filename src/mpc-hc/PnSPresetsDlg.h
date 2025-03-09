@@ -62,7 +62,7 @@ public:
     afx_msg void OnLbnSelchangeList1();
     afx_msg void OnBnClickedButton2();
     afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
-    afx_msg void MoveDown();
+    afx_msg void OnBnClickedButton6();
     afx_msg void OnUpdateButton6(CCmdUI* pCmdUI);
     afx_msg void OnBnClickedButton9();
     afx_msg void OnUpdateButton9(CCmdUI* pCmdUI);
