@@ -4254,7 +4254,7 @@ msgstr "Configurare"
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
-msgstr "Restabilește"
+msgstr "Resetează"
 
 msgctxt "IDS_SUBMENU_MOVEUP"
 msgid "Move Up"
