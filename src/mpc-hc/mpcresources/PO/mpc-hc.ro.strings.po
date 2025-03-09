@@ -4230,7 +4230,7 @@ msgstr "Subtitrările există deja."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr "Se descarcă subtitrările, te rugăm să aștepți..."
+msgstr "Se încarcă subtitrările, te rugăm să aștepți..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
