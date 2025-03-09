@@ -4286,7 +4286,7 @@ msgstr "Introdu-ți datele de autentificare pentru a te conecta la: "
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr "Raport de aspect: Presupune că pixelii sunt pătrați (SAR)"
+msgstr "Raport de aspect: Se presupune că pixelii sunt pătrați (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
