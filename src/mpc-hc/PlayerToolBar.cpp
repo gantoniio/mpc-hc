@@ -104,24 +104,26 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale)
     return false;
 }
 
-void CPlayerToolBar::LoadToolbarImage()
-{
+void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, std::unique_ptr<CImageList> &imageList) {
     auto& s = AfxGetAppSettings();
 
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
-    int targetsize = int(dpiScaling * AfxGetAppSettings().nDefaultToolbarSize);
+    int targetsize = int(dpiScaling * buttonSize);
     float svgscale = targetsize / 16.0f;
 
     CImage image;
 
-    m_pButtonsImages.reset();
-    m_pDisabledButtonsImages.reset();
+    imageList.reset();
+    if (!createCustomizeButtons) {
+        m_pDisabledButtonsImages.reset();
+    }
 
     bool buttonsImageLoaded = false;
-    if (LoadExternalToolBar(image, svgscale) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight()/4) == 0) {
+    if (LoadExternalToolBar(image, svgscale) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight() / 4) == 0) {
         buttonsImageLoaded = true;
     }
+
 
     if (buttonsImageLoaded || SUCCEEDED(SVGImage::Load(IDF_SVG_BUTTONS, image, svgscale))) {
         CImage imageDisabled;
@@ -132,28 +134,31 @@ void CPlayerToolBar::LoadToolbarImage()
         int height = image.GetHeight() / 4;
         int bpp = image.GetBPP();
         if (width % height == 0) { //todo: dynamically determine which buttons are supported by this toolbar, otherwise show generic buttons?
-            // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
-            SetSizes(CSize(height + 7, height + 6), CSize(height, height));
-
             int volumeIndex = VOLUME_SVG_INDEX;
-            volumeOn.Destroy();
-            volumeOff.Destroy();
-            volumeOn.Create(height * 2, height, bpp, CImage::createAlphaChannel);
-            volumeOff.Create(height * 2, height, bpp, CImage::createAlphaChannel);
 
-            m_pButtonsImages.reset(DEBUG_NEW CImageList());
-            m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
-            m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
-            m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
-            
+            imageList.reset(DEBUG_NEW CImageList());
+            imageList->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
             CImage dynamicToolbar, dynamicToolbarDisabled;
 
-            dynamicToolbar.Create(width, height, bpp, CImage::createAlphaChannel);
-            dynamicToolbarDisabled.Create(width, height, bpp, CImage::createAlphaChannel);
+            if (!createCustomizeButtons) {
+                // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
+                SetSizes(CSize(height + 7, height + 6), CSize(height, height));
+
+                volumeOn.Destroy();
+                volumeOff.Destroy();
+                volumeOn.Create(height * 2, height, bpp, CImage::createAlphaChannel);
+                volumeOff.Create(height * 2, height, bpp, CImage::createAlphaChannel);
+
+                m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
+                m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
+                dynamicToolbar.Create(width, height, bpp, CImage::createAlphaChannel);
+                dynamicToolbarDisabled.Create(width, height, bpp, CImage::createAlphaChannel);
+            } else {
+                dynamicToolbar.Create(width * 2, height, bpp, CImage::createAlphaChannel);
+            }
 
             CBitmap* pOldTargetBmp = nullptr;
             CBitmap* pOldSourceBmp = nullptr;
-            
 
             CDC targetDC;
             CDC sourceDC;
@@ -164,7 +169,7 @@ void CPlayerToolBar::LoadToolbarImage()
             pOldTargetBmp = targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
             pOldSourceBmp = sourceDC.GetCurrentBitmap();
 
-            int imageOffset = 0, imageDisabledOffset=height;
+            int imageOffset = 0, imageDisabledOffset = height;
             if (AppIsThemeLoaded() && s.eModernThemeMode == CMPCTheme::ModernThemeMode::DARK) {
                 imageOffset = height * 2;
                 imageDisabledOffset = height * 3;
@@ -173,19 +178,23 @@ void CPlayerToolBar::LoadToolbarImage()
             sourceDC.SelectObject(bmp);
             targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageOffset, SRCCOPY);
 
-            targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbarDisabled));
-            targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
+            if (!createCustomizeButtons) {
+                targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbarDisabled));
+                targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
 
-            targetDC.SelectObject(CBitmap::FromHandle(volumeOn));
-            targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageOffset, SRCCOPY);
-            targetDC.SelectObject(CBitmap::FromHandle(volumeOff));
-            targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageDisabledOffset, SRCCOPY);
+                targetDC.SelectObject(CBitmap::FromHandle(volumeOn));
+                targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageOffset, SRCCOPY);
+                targetDC.SelectObject(CBitmap::FromHandle(volumeOff));
+                targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageDisabledOffset, SRCCOPY);
+                //volumeOn.Save(L"c:\\temp\\vON.png", Gdiplus::ImageFormatPNG);
+                //volumeOff.Save(L"c:\\temp\\vOFF.png", Gdiplus::ImageFormatPNG);
 
-            //volumeOn.Save(L"c:\\temp\\vON.png", Gdiplus::ImageFormatPNG);
-            //volumeOff.Save(L"c:\\temp\\vOFF.png", Gdiplus::ImageFormatPNG);
-
-            ImageGrayer::PreMultiplyAlpha(volumeOn);
-            ImageGrayer::PreMultiplyAlpha(volumeOff);
+                ImageGrayer::PreMultiplyAlpha(volumeOn);
+                ImageGrayer::PreMultiplyAlpha(volumeOff);
+            } else {//we will add the disabled buttons to the end of the imagelist, so the customize page can access them
+                targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
+                targetDC.BitBlt(image.GetWidth(), 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
+            }
 
             sourceDC.SelectObject(pOldSourceBmp);
             targetDC.SelectObject(pOldTargetBmp);
@@ -195,20 +204,27 @@ void CPlayerToolBar::LoadToolbarImage()
 
             ReleaseDC(pDC);
 
-            m_pButtonsImages->Add(CBitmap::FromHandle(dynamicToolbar), nullptr);
+            imageList->Add(CBitmap::FromHandle(dynamicToolbar), nullptr);
             dynamicToolbar.Destroy();
 
-            m_pDisabledButtonsImages->Add(CBitmap::FromHandle(dynamicToolbarDisabled), nullptr);
-            dynamicToolbarDisabled.Destroy();
+            if (!createCustomizeButtons) {
+                m_pDisabledButtonsImages->Add(CBitmap::FromHandle(dynamicToolbarDisabled), nullptr);
+                dynamicToolbarDisabled.Destroy();
+                m_nButtonHeight = height;
 
-            m_nButtonHeight = height;
+                GetToolBarCtrl().SetImageList(imageList.get());
+                GetToolBarCtrl().SetDisabledImageList(m_pDisabledButtonsImages.get());
+            }
 
-            GetToolBarCtrl().SetImageList(m_pButtonsImages.get());
-            GetToolBarCtrl().SetDisabledImageList(m_pDisabledButtonsImages.get());
         }
     }
     image.Destroy();
-    
+}
+
+void CPlayerToolBar::LoadToolbarImage()
+{
+    MakeImageList(false, AfxGetAppSettings().nDefaultToolbarSize, m_pButtonsImages);
+    MakeImageList(true, 32, m_pCustomizeButtonImages);
 }
 
 TBBUTTON CPlayerToolBar::GetStandardButton(int cmdid) {

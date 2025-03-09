@@ -53,6 +53,7 @@ void CPPageToolBar::LoadToolBarButtons() {
     auto supportedButtons = tb.GetSupportedSvgButtons();
     std::set<int> idsAdded;
     bool foundFirst = false;
+    int disabledOffset = tb.GetCustomizeButtonImages()->GetImageCount() / 2;
     for (int i = 0; i < tbctrl.GetButtonCount(); i++) {
         TBBUTTON button;
         tbctrl.GetButton(i, &button);
@@ -60,7 +61,9 @@ void CPPageToolBar::LoadToolBarButtons() {
             int index = m_list_active.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i, tb.GetStringFromID(button.idCommand), 0, 0, button.iBitmap, button.idCommand);
             auto& buttonInfo = supportedButtons[button.idCommand];
 
-            if (!buttonInfo.positionLocked && !foundFirst) {
+            if (buttonInfo.positionLocked) {
+                m_list_active.SetItem(index, 0, LVIF_IMAGE, 0, button.iBitmap+disabledOffset, 0, 0, 0);
+            } else if (!foundFirst) {
                 m_list_active.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
                 m_list_active.SetSelectionMark(index);
                 foundFirst = true;
@@ -106,7 +109,7 @@ BOOL CPPageToolBar::OnInitDialog()
     CString col(StrRes(IDS_PPAGE_TOOLBAR_CUR_BUTTONS));
     m_list_active.InsertColumn(COL_BUTTON, col, LVCFMT_LEFT);
     m_list_active.SetColumnWidth(COL_BUTTON, LVSCW_AUTOSIZE_USEHEADER);
-    m_list_active.SetImageList(tbctrl.GetImageList(), LVSIL_SMALL);
+    m_list_active.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
     m_list_active.setColorInterface(this);
 
 
@@ -115,7 +118,7 @@ BOOL CPPageToolBar::OnInitDialog()
     CString col2(StrRes(IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS));
     m_list_inactive.InsertColumn(COL_BUTTON, col2, LVCFMT_LEFT);
     m_list_inactive.SetColumnWidth(COL_BUTTON, LVSCW_AUTOSIZE_USEHEADER);
-    m_list_inactive.SetImageList(tbctrl.GetImageList(), LVSIL_SMALL);
+    m_list_inactive.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
 
     LoadToolBarButtons();
 

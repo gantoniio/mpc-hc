@@ -55,6 +55,7 @@ private:
     int m_nButtonHeight;
     std::unique_ptr<CImageList> m_pButtonsImages;
     std::unique_ptr<CImageList> m_pDisabledButtonsImages;
+    std::unique_ptr<CImageList> m_pCustomizeButtonImages;
     int buttonCount, sepCount;
     int m_volumeCtrlSize;
 
@@ -78,9 +79,13 @@ public:
     virtual ~CPlayerToolBar();
 
     bool LoadExternalToolBar(CImage& image, float svgscale);
+    void MakeImageList(bool createCustomizeButtons, int buttonSize, std::unique_ptr<CImageList> &imageList);
     LPCWSTR GetStringFromID(int idCommand);
     const std::map<int, svgButtonInfo> GetSupportedSvgButtons() {
         return supportedSvgButtons;
+    }
+    std::unique_ptr<CImageList>& GetCustomizeButtonImages() {
+        return m_pCustomizeButtonImages;
     }
 
     int GetVolume() const;
