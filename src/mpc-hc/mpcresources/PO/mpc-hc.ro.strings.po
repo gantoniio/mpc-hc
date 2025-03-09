@@ -4352,7 +4352,7 @@ msgstr "/d3dfs\t\tÎncepe randarea în modul ecran complet (pe tot ecranul) D3D"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr "/sub \"subtitlu\"\tÎncarcă un fișier subtitlu adițional"
+msgstr "/sub \"subtitlu\"\tÎncarcă un fișier de subtitrări suplimentar"
 
 msgctxt "IDS_CMD_FILTER"
 msgid ""
