@@ -998,6 +998,7 @@ public:
 
     bool bCaptureDeinterlace;
     bool bConfirmFileDelete;
+    bool bShowVolumePercentage;
 
 private:
     struct FilterKey {

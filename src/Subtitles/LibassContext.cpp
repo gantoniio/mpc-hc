@@ -120,8 +120,10 @@ void ParseSrtLine(std::string& srtLine, const STSStyle& style) {
                         } else if (attribute_name == "family") {
                         }
                         if (attribute_name == "size") {
-                            int font_size = (int)std::round(std::stod(attribute_value));
-                            subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
+                            try {
+                                int font_size = (int)std::round(std::stod(attribute_value));
+                                subtitle_output.append("{\\fs" + std::to_string(font_size) + "}");
+                            } catch (...) {}
                         } else if (attribute_name == "color") {
                             MatchColorSrt(attribute_value);
 
@@ -838,6 +840,7 @@ void LibassContext::LoadASSFont() {
             if (SUCCEEDED(bag->ResGet(i, &name.GetBSTR(), &desc.GetBSTR(), &mime.GetBSTR(), &pData, &len, nullptr))) {
                 if (wcscmp(mime.GetBSTR(), L"application/x-truetype-font") == 0 // see https://gitlab.com/mbunkus/mkvtoolnix/-/issues/3137
                     || wcscmp(mime.GetBSTR(), L"application/vnd.ms-opentype") == 0
+                    || wcscmp(mime.GetBSTR(), L"application/x-font-otf") == 0
                     || wcscmp(mime.GetBSTR(), L"application/x-font-ttf") == 0
                     || wcscmp(mime.GetBSTR(), L"application/font-sfnt") == 0
                     || wcscmp(mime.GetBSTR(), L"font/otf") == 0

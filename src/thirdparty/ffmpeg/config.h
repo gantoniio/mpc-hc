@@ -702,7 +702,7 @@
 #define CC_IDENT "Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30038.1 for x64"
 #define EXTERN_ASM 
 #define EXTERN_PREFIX ""
-#define FFMPEG_CONFIGURATION "--toolchain=msvc --x86asmexe=yasm --enable-gpl --enable-version3 --enable-w32threads --enable-static --enable-libsoxr --disable-shared --disable-everything --disable-mediafoundation --disable-schannel --disable-dxva2 --disable-d3d11va --disable-programs --disable-doc --disable-avformat --disable-avdevice --disable-devices --disable-postproc --disable-swscale --enable-filter='abuffer,abuffersink,atempo,aresample' --arch=x86_64 --extra-cflags='-I../../../LAVFilters-min/src/thirdparty/64/include -I../../../zlib -I../../../soxr/libsoxr/src' --extra-ldflags='-LIBPATH:../../../LAVFilters-min/src/thirdparty/64/lib -LIBPATH:../../../../../bin/lib/Debug_x64 '"
+#define FFMPEG_CONFIGURATION "--toolchain=msvc --x86asmexe=nasm --enable-gpl --enable-version3 --enable-w32threads --enable-static --enable-libsoxr --disable-shared --disable-everything --disable-mediafoundation --disable-schannel --disable-dxva2 --disable-d3d11va --disable-programs --disable-doc --disable-avformat --disable-avdevice --disable-devices --disable-postproc --disable-swscale --enable-filter='abuffer,abuffersink,atempo,aresample' --arch=x86_64 --extra-cflags='-I../../../LAVFilters-min/src/thirdparty/64/include -I../../../zlib -I../../../soxr/libsoxr/src' --extra-ldflags='-LIBPATH:../../../LAVFilters-min/src/thirdparty/64/lib -LIBPATH:../../../../../bin/lib/Debug_x64 '"
 #define HAVE_ALIGNED_STACK 1
 #define HAVE_FAST_64BIT 1
 #define HAVE_FAST_CMOV 1
@@ -713,7 +713,7 @@
 #define CC_IDENT "Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30038.1 for x86"
 #define EXTERN_ASM _
 #define EXTERN_PREFIX "_"
-#define FFMPEG_CONFIGURATION "--toolchain=msvc --x86asmexe=yasm --enable-gpl --enable-version3 --enable-w32threads --enable-static --enable-libsoxr --disable-shared --disable-everything --disable-mediafoundation --disable-schannel --disable-dxva2 --disable-d3d11va --disable-programs --disable-doc --disable-avformat --disable-avdevice --disable-devices --disable-postproc --disable-swscale --enable-filter='abuffer,abuffersink,atempo,aresample' --arch=x86 --extra-cflags='-I../../../LAVFilters-min/src/thirdparty/32/include -I../../../zlib -I../../../soxr/libsoxr/src' --extra-ldflags='-LIBPATH:../../../LAVFilters-min/src/thirdparty/32/lib -LIBPATH:../../../../../bin/lib/Debug_Win32 '"
+#define FFMPEG_CONFIGURATION "--toolchain=msvc --x86asmexe=nasm --enable-gpl --enable-version3 --enable-w32threads --enable-static --enable-libsoxr --disable-shared --disable-everything --disable-mediafoundation --disable-schannel --disable-dxva2 --disable-d3d11va --disable-programs --disable-doc --disable-avformat --disable-avdevice --disable-devices --disable-postproc --disable-swscale --enable-filter='abuffer,abuffersink,atempo,aresample' --arch=x86 --extra-cflags='-I../../../LAVFilters-min/src/thirdparty/32/include -I../../../zlib -I../../../soxr/libsoxr/src' --extra-ldflags='-LIBPATH:../../../LAVFilters-min/src/thirdparty/32/lib -LIBPATH:../../../../../bin/lib/Debug_Win32 '"
 #define HAVE_ALIGNED_STACK 0
 #define HAVE_FAST_64BIT 0
 #define HAVE_FAST_CMOV 0

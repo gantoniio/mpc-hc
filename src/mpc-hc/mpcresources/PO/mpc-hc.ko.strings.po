@@ -3251,10 +3251,6 @@ msgctxt "IDS_MFMT_RM"
 msgid "Real Media"
 msgstr "리얼 미디어"
 
-msgctxt "IDS_MFMT_RT"
-msgid "Real Script"
-msgstr "리얼 스크립트"
-
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
 msgstr "윈도 미디어 비디오"

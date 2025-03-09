@@ -605,7 +605,7 @@ void CPlayerToolBar::OnRButtonDown(UINT nFlags, CPoint point) {
 
 int CPlayerToolBar::getHitButtonIdx(CPoint point)
 {
-    int hit = -1; // -1 means not on any buttons, mute button is 12/13, others < 10, 11 is empty space between (adipose: dynamic toolbar positions may differ)
+    int hit = -1; // -1 means not on any button hit
     CRect r;
 
     for (int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++) {

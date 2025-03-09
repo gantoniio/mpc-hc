@@ -265,10 +265,16 @@ void CPPageMisc::OnExportKeys()
         }
     }
 
-    CFileDialog fileSaveDialog(FALSE, _T("reg"), _T("mpc-hc-keys.reg"));
-
-    if (fileSaveDialog.DoModal() == IDOK) {
-        if (AfxGetMyApp()->ExportSettings(fileSaveDialog.GetPathName(), _T("Commands2"))) {
+    CFileDialog fileDialogKeys(FALSE, _T("reg"), _T("mpc-hc-keys.reg"));
+    if (fileDialogKeys.DoModal() == IDOK) {
+        if (AfxGetMyApp()->ExportSettings(fileDialogKeys.GetPathName(), _T("Commands2"))) {
+            // also export mouse settings from registry
+            if (!AfxGetMyApp()->IsIniValid()) {
+                CFileDialog fileDialogMouse(FALSE, _T("reg"), _T("mpc-hc-mouse.reg"));
+                if (fileDialogMouse.DoModal() == IDOK) {
+                    AfxGetMyApp()->ExportSettings(fileDialogMouse.GetPathName(), _T("Mouse"));
+                }
+            }
             CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
         } else {
             if (GetLastError() == ERROR_FILE_NOT_FOUND) {

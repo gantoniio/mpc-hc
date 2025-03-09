@@ -586,6 +586,14 @@ std::map<CStringW, CStringW> GetAudioDeviceList() {
                 CStringW frname(var.bstrVal);
                 var.Clear();
                 friendlyname = frname;
+                if (SUCCEEDED(pPB->Read(_T("WaveOutId"), &var, nullptr))) {
+                    DWORD dw = var.intVal;
+                    var.Clear();
+                    if (dw != -1) { // skip default waveout
+                        friendlyname = L"WaveOut: " + friendlyname;
+                    }
+                    friendlyname.Append(L"  [Deprecated]");
+                }
             }
         } else {
             friendlyname = dispname;
@@ -1476,7 +1484,7 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
     return nRet;
 }
 
-#define USE_DLL_BLOCKLIST 1
+#define USE_DLL_BLOCKLIST 0
 
 #if USE_DLL_BLOCKLIST
 #define STATUS_UNSUCCESSFUL ((NTSTATUS)0xC0000001L)
@@ -1535,6 +1543,7 @@ static blocked_module_t moduleblocklist[] = {
     // ASUS GPU TWEAK II OSD
     {_T("\\gtii-osd64.dll"), 15},
     {_T("\\gtii-osd64-vk.dll"), 18},
+    {_T("\\gtiii-osd64.dll"), 16},
     // Nahimic Audio
     {L"\\nahimicmsidevprops.dll", 23},
     {L"\\nahimicmsiosd.dll", 18},
@@ -1542,10 +1551,6 @@ static blocked_module_t moduleblocklist[] = {
     {_T("\\loilocap.dll"), 13},
     // Other
     {_T("\\tortoiseoverlays.dll"), 21},
-#if WIN64
-    // Sizer
-    {_T("\\hook64.dll"), 11},
-#endif
 };
 
 bool IsBlockedModule(wchar_t* modulename)

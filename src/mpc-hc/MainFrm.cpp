@@ -120,7 +120,7 @@
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
 
-#define MIN_LOGO_WIDTH 400
+#define MIN_LOGO_WIDTH 360
 #define MIN_LOGO_HEIGHT 150
 
 #define PREV_CHAP_THRESHOLD 2
@@ -1035,6 +1035,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         bResult = m_wndToolBar.Create(this);
     }
     if (bResult) {
+        m_wndToolBar.GetToolBarCtrl().HideButton(ID_PLAY_PAUSE);
+
         bResult = m_wndSeekBar.Create(this);
     }
     if (!bResult) {
@@ -2863,9 +2865,19 @@ void CMainFrame::GraphEventComplete()
 
     auto* pMRU = &s.MRU;
 
-
     if (m_bRememberFilePos) {
         pMRU->UpdateCurrentFilePosition(0, true);
+    }
+
+    if (m_fFrameSteppingActive) {
+        m_fFrameSteppingActive = false;
+        m_nStepForwardCount = 0;
+        MediaControlPause(true);
+        if (m_pBA) {
+            m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
+        }
+        m_fEndOfStream = true;
+        return;
     }
 
     bool bBreak = false;
@@ -2908,12 +2920,22 @@ void CMainFrame::GraphEventComplete()
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
-    CAppSettings& s = AfxGetAppSettings();
-    HRESULT hr = S_OK;
+    if (wParam != 0 || lParam != 0x4B00B1E5) {
+        ASSERT(false);
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted) {
+            if (CrashReporter::IsEnabled()) {
+                throw 1;
+            }
+        }
+#endif
+        return E_INVALIDARG;
+    }
 
+    HRESULT hr = S_OK;
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
-    while (!AfxGetMyApp()->m_fClosingState && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
+    while (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted && (GetLoadState() == MLS::LOADED || GetLoadState() == MLS::LOADING) && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
         if (evCode != EC_DVD_CURRENT_HMSF_TIME) {
             TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
@@ -2929,10 +2951,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         switch (evCode) {
             case EC_PAUSED:
-                if (GetLoadState() == MLS::LOADED) {
-                    UpdateCachedMediaState();
-                }
-                if (m_audioTrackCount > 1 && GetLoadState() == MLS::LOADED) {
+                UpdateCachedMediaState();
+                if (m_audioTrackCount > 1) {
                     CheckSelectedAudioStream();
                 }
                 break;
@@ -2985,6 +3005,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_DOMAIN_CHANGE: {
+                CAppSettings& s = AfxGetAppSettings();
                 m_iDVDDomain = (DVD_DOMAIN)evParam1;
 
                 OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(m_lastOMD.m_p);
@@ -3183,6 +3204,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_CURRENT_HMSF_TIME: {
+                CAppSettings& s = AfxGetAppSettings();
                 s.MRU.UpdateCurrentDVDTimecode((DVD_HMSF_TIMECODE*)&evParam1);
             }
             break;
@@ -3267,9 +3289,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_DVD_PLAYBACK_RATE_CHANGE:
-                if (m_fCustomGraph && s.autoChangeFSMode.bEnabled &&
-                        (IsFullScreenMode()) && m_iDVDDomain == DVD_DOMAIN_Title) {
-                    AutoChangeMonitorMode();
+                if (m_fCustomGraph) {
+                    CAppSettings& s = AfxGetAppSettings();
+                    if (s.autoChangeFSMode.bEnabled && IsFullScreenMode() && m_iDVDDomain == DVD_DOMAIN_Title) {
+                        AutoChangeMonitorMode();
+                    }
                 }
                 break;
             case EC_CLOCK_CHANGED:
@@ -4708,6 +4732,8 @@ void CMainFrame::OnFileOpenmedia()
     if (dlg.GetAppendToPlaylist()) {
         m_wndPlaylistBar.Append(filenames, dlg.HasMultipleFiles());
     } else {
+        SendStatusMessage(_T("Loading..."), 500);
+
         m_wndPlaylistBar.Open(filenames, dlg.HasMultipleFiles());
 
         OpenCurPlaylistItem();
@@ -5524,6 +5550,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
         return;
     }
+    bool topdown = (bih->biHeight < 0);
     int w = bih->biWidth;
     int h = abs(bih->biHeight);
     int srcpitch = w * (bpp >> 3);
@@ -5533,7 +5560,11 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
     const BYTE* src = pData + sizeof(*bih);
 
-    BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+    if (topdown) {
+        BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src, srcpitch, bpp);
+    } else {
+        BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+    }
 
     {
         Gdiplus::GdiplusStartupInput gdiplusStartupInput;
@@ -5783,7 +5814,8 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
     if (CComQIPtr<ISubPicProvider> pSubPicProvider = m_pCurrentSubInput.pSubStream) {
         const PBITMAPINFOHEADER bih = (PBITMAPINFOHEADER)pData;
         const int width = bih->biWidth;
-        const int height = bih->biHeight;
+        const int height = abs(bih->biHeight);
+        const bool topdown = bih->biHeight < 0;
 
         REFERENCE_TIME rtNow = 0;
         m_pMS->GetCurrentPosition(&rtNow);
@@ -5813,7 +5845,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
         
         spdRender.type = MSP_RGB32;
         spdRender.w = subWidth;
-        spdRender.h = abs(subHeight);
+        spdRender.h = subHeight;
         spdRender.bpp = 32;
         spdRender.pitch = subWidth * 4;
         spdRender.vidrect = { 0, 0, width, height };
@@ -5837,9 +5869,9 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
             spdTarget.w = width;
             spdTarget.h = height;
             spdTarget.bpp = 32;
-            spdTarget.pitch = -width * 4;
+            spdTarget.pitch = topdown ? width * 4 : -width * 4;
             spdTarget.vidrect = { 0, 0, width, height };
-            spdTarget.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
+            spdTarget.bits = topdown ? (BYTE*)bih : (BYTE*)(bih + 1) + (width * 4) * (height - 1);
 
             hr = memSubPic.AlphaBlt(&spdRender.vidrect, &spdTarget.vidrect, &spdTarget);
         }
@@ -6573,7 +6605,7 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
 
     int i = 0;
     SubtitleInput* pSubInput = GetSubtitleInput(i, true);
-    if (!pSubInput) {
+    if (!pSubInput || !pSubInput->pSubStream) {
         return;
     }
 
@@ -8948,6 +8980,22 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
             pCmdUI->m_nID == ID_PLAY_STOP && fs == State_Stopped ||
             pCmdUI->m_nID == ID_PLAY_PLAYPAUSE && (fs == State_Paused || fs == State_Running);
 
+        if (pCmdUI->m_nID == ID_PLAY_PLAY) {
+            CToolBarCtrl& toolbarCtrl = m_wndToolBar.GetToolBarCtrl();
+            int playbuttonstate = toolbarCtrl.GetState(ID_PLAY_PLAY);
+            if (fs == State_Running) {
+                if (!(playbuttonstate & TBSTATE_HIDDEN)) {
+                    toolbarCtrl.SetState(ID_PLAY_PLAY, TBSTATE_HIDDEN);
+                    toolbarCtrl.SetState(ID_PLAY_PAUSE, TBSTATE_ENABLED);
+                }
+            } else {
+                if (playbuttonstate & TBSTATE_HIDDEN) {
+                    toolbarCtrl.SetState(ID_PLAY_PLAY, TBSTATE_ENABLED);
+                    toolbarCtrl.SetState(ID_PLAY_PAUSE, TBSTATE_HIDDEN);
+                }
+            }
+        }
+
         if (fs >= 0) {
             if (GetPlaybackMode() == PM_FILE || IsPlaybackCaptureMode()) {
                 fEnable = true;
@@ -8970,6 +9018,15 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
         }
     } else if (GetLoadState() == MLS::CLOSED) {
         fEnable = (pCmdUI->m_nID == ID_PLAY_PLAY || pCmdUI->m_nID == ID_PLAY_PLAYPAUSE) && !IsPlaylistEmpty();
+
+        if (pCmdUI->m_nID == ID_PLAY_PLAY) {
+            CToolBarCtrl& toolbarCtrl = m_wndToolBar.GetToolBarCtrl();
+            int playbuttonstate = toolbarCtrl.GetState(ID_PLAY_PLAY);
+            if (playbuttonstate & TBSTATE_HIDDEN) {
+                toolbarCtrl.SetState(ID_PLAY_PLAY, TBSTATE_ENABLED);
+                toolbarCtrl.SetState(ID_PLAY_PAUSE, TBSTATE_HIDDEN);
+            }
+        }
     }
 
     pCmdUI->SetCheck(fCheck);
@@ -11317,7 +11374,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
         CSize logoSize = m_wndView.GetLogoSize();
         logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
-        logoSize.cy = std::max<LONG>(logoSize.cy, m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+        logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 32 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -11423,7 +11480,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 
             CSize logoSize = m_wndView.GetLogoSize();
             logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
-            logoSize.cy = std::max<LONG>(logoSize.cy, m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+            logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 32 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -13194,7 +13251,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         throw (UINT)IDS_GRAPH_INTERFACES_ERROR;
     }
 
-    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
+    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0x4B00B1E5))) {
         throw (UINT)IDS_GRAPH_TARGET_WND_ERROR;
     }
 
@@ -14546,7 +14603,7 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
                         rating = bstr.m_str;
                     }
                     bstr.Empty();
-                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length() > 0 && bstr.Length() < 512) {
                         description = bstr.m_str;
                     }
                     bstr.Empty();
@@ -18112,10 +18169,6 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     }
 
     if (GetPlaybackMode() == PM_FILE) {
-        if (fs == State_Stopped) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-        }
-
         //SleepEx(5000, False); // artificial slow seek for testing purposes
         if (FAILED(m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning))) {
             TRACE(_T("IMediaSeeking SetPositions failure\n"));
@@ -18124,6 +18177,9 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
             }
         }
         UpdateChapterInInfoBar();
+        if (fs == State_Stopped) {
+            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        }
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (fs == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -18700,6 +18756,10 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
     m_tempstatus_msg = msg;
     m_timerOneTime.Subscribe(timerId, [this] { m_tempstatus_msg.Empty(); }, nTimeOut);
 
+    if (!m_tempstatus_msg.IsEmpty()) {
+        m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
+    }
+
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
@@ -19041,23 +19101,34 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         if (m_bOpenedThroughThread) {
             BeginWaitCursor();
             MSG msg;
-            HANDLE h = m_evOpenPrivateFinished;
+            DWORD dwWait;
+            HANDLE handle = m_evOpenPrivateFinished;
             bool killprocess = true;
             bool processmsg = true;
             ULONGLONG start = GetTickCount64();
-            while (processmsg && (GetTickCount64() - start < 6000ULL)) {
-                DWORD res = MsgWaitForMultipleObjectsEx(1, &h, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
-                switch (res) {
+            ULONGLONG waitdur = 5000ULL;
+            bool extendedwait = false;
+            while (processmsg) {
+                dwWait = MsgWaitForMultipleObjectsEx(1, &handle, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+                switch (dwWait) {
                     case WAIT_OBJECT_0:
                         TRACE(_T("Graph abort successful\n"));
                         killprocess = false; // event has been signalled
                         processmsg = false;
+                        bGraphTerminated = true;
                         break;
                     case WAIT_OBJECT_0 + 1:
                         // we have a message - peek and dispatch it
                         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-                            TranslateMessage(&msg);
-                            DispatchMessage(&msg);
+                            if (msg.message == WM_QUIT) {
+                                processmsg = false;
+                            } else if (msg.message == WM_GRAPHNOTIFY || msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
+                                // ignore
+                                //TRACE(_T("Ignoring WM during graph abort: %d\n"), msg.message);
+                            } else {
+                                TranslateMessage(&msg);
+                                DispatchMessage(&msg);
+                            }
                         }
                         break;
                     case WAIT_TIMEOUT:
@@ -19065,6 +19136,20 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     default: // unexpected failure
                         processmsg = false;
                         break;
+                }
+                if (processmsg && (GetTickCount64() - start > waitdur)) {
+                    if (extendedwait || m_fFullScreen) {
+                        processmsg = false;
+                    } else {
+                        CString msg = L"Timeout while aborting filter graph creation.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                        if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                            processmsg = false;
+                        } else {
+                            extendedwait = true;
+                            start = GetTickCount64();
+                            waitdur = 15000ULL;
+                        }
+                    }
                 }
             }
             if (killprocess)
@@ -19136,7 +19221,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         bool processmsg = true;
         bool extendedwait = false;
         while (processmsg) {
-            dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, 1000, QS_SENDMESSAGE);
+            dwWait = MsgWaitForMultipleObjectsEx(1, &handle, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
             switch (dwWait) {
                 case WAIT_OBJECT_0:
                     processmsg = false; // event received
@@ -19144,7 +19229,17 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     break;
                 case WAIT_OBJECT_0 + 1:
                     MSG msg;
-                    PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE);
+                    if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+                        if (msg.message == WM_QUIT) {
+                            processmsg = false;
+                        } else if (msg.message == WM_GRAPHNOTIFY || msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
+                            // ignore
+                            //TRACE(_T("Ignoring WM during graph close: %d\n"), msg.message);
+                        } else {
+                            TranslateMessage(&msg);
+                            DispatchMessage(&msg);
+                        }
+                    }
                     break;
                 case WAIT_TIMEOUT:
                     break;

@@ -313,26 +313,29 @@ BOOL CPPageTheme::OnApply()
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
     }
 
-    s.fShowOSD = !!m_fShowOSD;
-    s.fShowCurrentTimeInOSD = !!m_fShowCurrentTimeInOSD;
-    s.bShowVideoInfoInStatusbar = !!m_bShowVideoInfoInStatusbar;
-    s.bShowAudioFormatInStatusbar = !!m_bShowAudioFormatInStatusbar;
-    s.bShowLangInStatusbar = !!m_bShowLangInStatusbar;
-    s.bShowFPSInStatusbar = !!m_bShowFPSInStatusbar;
-    s.bShowABMarksInStatusbar = !!m_bShowABMarksInStatusbar;
-    s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
-    s.fLimitWindowProportions = !!m_fLimitWindowProportions;
-    s.bHideWindowedControls = !!m_bHideWindowedControls;
+    s.fShowOSD = m_fShowOSD;
+    s.fShowCurrentTimeInOSD = m_fShowCurrentTimeInOSD;
+    s.bShowVideoInfoInStatusbar = m_bShowVideoInfoInStatusbar;
+    s.bShowAudioFormatInStatusbar = m_bShowAudioFormatInStatusbar;
+    s.bShowLangInStatusbar = m_bShowLangInStatusbar;
+    s.bShowFPSInStatusbar = m_bShowFPSInStatusbar;
+    s.bShowABMarksInStatusbar = m_bShowABMarksInStatusbar;
+    s.fSnapToDesktopEdges = m_fSnapToDesktopEdges;
+    s.fLimitWindowProportions = m_fLimitWindowProportions;
+    s.bHideWindowedControls = m_bHideWindowedControls;
 
-    s.bUseEnhancedTaskBar = !!m_bUseEnhancedTaskBar;
-    if (pFrame) {
-        if (m_bUseEnhancedTaskBar) {
-            pFrame->CreateThumbnailToolbar();
+    if (s.bUseEnhancedTaskBar != (bool)m_bUseEnhancedTaskBar) {
+        s.bUseEnhancedTaskBar = m_bUseEnhancedTaskBar;
+        if (pFrame) {
+            if (m_bUseEnhancedTaskBar) {
+                pFrame->CreateThumbnailToolbar();
+            } else {
+                pFrame->UpdateThumbarButton();
+            }
         }
-        pFrame->UpdateThumbarButton();
     }
 
-    s.bUseSMTC = !!m_bUseSMTC;
+    s.bUseSMTC = m_bUseSMTC;
 
     return __super::OnApply();
 }

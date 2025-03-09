@@ -77,7 +77,7 @@ BOOL CSaveDlg::OnInitDialog()
     CMPCThemeUtil::fulfillThemeReqs(&m_progress);
 
     if (FAILED(pGB.CoCreateInstance(CLSID_FilterGraph)) || !(pMC = pGB) || !(pME = pGB) || !(pMS = pGB)
-            || FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
+            || FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0x2B00B1E5))) {
         m_report.SetWindowText(_T("Error"));
         return FALSE;
     }

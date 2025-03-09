@@ -1328,6 +1328,9 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
                 delete pInputPin;
                 return E_FAIL;
             }
+            if (pInputPin == (CStreamSwitcherInputPin*)0x3) { // weird x86 bug
+                return E_FAIL;
+            }
             m_pInputs.AddTail(pInputPin);
         }
     }

@@ -198,6 +198,33 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
     return sl.IsEmpty();
 }
 
+bool CFGManager::HasFilterOverride(CLSID clsid)
+{
+    POSITION pos = m_override.GetHeadPosition();
+    while (pos) {
+        CFGFilter* pFGF = m_transform.GetNext(pos);
+        if (pFGF->GetCLSID() == clsid) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CFGManager::HasFilterOverride(CStringW DisplayName)
+{
+    POSITION pos = m_override.GetHeadPosition();
+    while (pos) {
+        CFGFilter* pFGF = m_transform.GetNext(pos);
+        if (pFGF->GetCLSID() == CLSID_NULL) {
+            CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
+            if (pFGFR && pFGFR->GetDisplayName().CompareNoCase(DisplayName) == 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 CFGFilter* LookupFilterRegistry(const GUID& guid, CAtlList<CFGFilter*>& list, UINT64 fallback_merit = MERIT64_DO_USE)
 {
     POSITION pos = list.GetHeadPosition();
@@ -867,7 +894,8 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             CComPtr<IBaseFilter> pBF;
             CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
-            if (FAILED(pFGF->Create(&pBF, pUnks))) {
+            hr = pFGF->Create(&pBF, pUnks);
+            if (FAILED(hr)) {
                 TRACE(_T("FGM: Filter creation failed\n"));
                 if (!m_bIsCapture) {
                     // Check if selected video renderer fails to load
@@ -2622,7 +2650,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 
     bool bOverrideBroadcom = false;
     CFGFilter* pFGF;
-    m_source;
 
     const bool* src = s.SrcFilters;
     const bool* tra = s.TraFilters;
@@ -2847,6 +2874,13 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
         } else if (!SelAudioRenderer.IsEmpty()) {
             pFGF = DEBUG_NEW CFGFilterRegistry(SelAudioRenderer, renderer_merit);
             pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+            m_transform.AddTail(pFGF);
+        }
+
+        // Resampler DMO, add with lowest merit to handle unsupported samplerates with DirectSound/WaveOut renderers
+        CStringW filterid = L"@device:dmo:{F447B69E-1884-4A7E-8055-346F74D6EDB3}{F3602B3F-0592-48DF-A4CD-674721E7EBEB}";
+        if (!HasFilterOverride(filterid)) {
+            pFGF = DEBUG_NEW CFGFilterRegistry(filterid, MERIT64_LOWEST);
             m_transform.AddTail(pFGF);
         }
     } else {

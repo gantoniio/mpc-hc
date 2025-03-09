@@ -21,6 +21,7 @@
 #pragma once
 
 #include "SampleFormat.h"
+#include "../DSUtil/SimpleBuffer.h"
 
 struct SwrContext;
 
@@ -44,6 +45,9 @@ private:
 
 	enum AVSampleFormat m_in_avsf;
 	enum AVSampleFormat m_out_avsf;
+
+	CSimpleBuffer<int32_t> m_Buffer1;
+	CSimpleBuffer<int32_t> m_Buffer2;
 
 public:
 	CMixer();
