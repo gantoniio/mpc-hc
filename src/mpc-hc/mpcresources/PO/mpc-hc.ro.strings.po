@@ -4173,7 +4173,7 @@ msgstr "/reset\t\tRestaurează setările implicite"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă"
+msgstr "/help /h /?\tArată ajutorul pentru comutatoarele din linia de comandă"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid ""
