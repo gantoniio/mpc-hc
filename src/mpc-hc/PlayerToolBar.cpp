@@ -44,16 +44,16 @@
 #define VOLUME_SVG_INDEX 28
 
 std::map<int, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
-    {ID_PLAY_PLAY, {TBBS_CHECKGROUP,0,true}},
-    {ID_PLAY_PAUSE, {TBBS_CHECKGROUP,1,true}},
-    {ID_PLAY_STOP, {TBBS_CHECKGROUP,2,true}},
+    {ID_PLAY_PLAY, {TBBS_CHECKGROUP,0,LOCK_LEFT}},
+    {ID_PLAY_PAUSE, {TBBS_CHECKGROUP,1,LOCK_LEFT}},
+    {ID_PLAY_STOP, {TBBS_CHECKGROUP,2,LOCK_LEFT}},
     {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON,3}},
     {ID_PLAY_DECRATE, {TBBS_BUTTON,4}},
     {ID_PLAY_INCRATE, {TBBS_BUTTON,5}},
     {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON,6}},
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON,7}},
-    {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR,-1,true}},
-    {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX,true}},
+    {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR,-1,LOCK_RIGHT}},
+    {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX,LOCK_RIGHT}},
 };
 
 static std::vector<int> supportedSvgButtonsSeq;
@@ -70,6 +70,8 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     , flexibleSpaceIndex(10)
     , currentlyDraggingButton(-1)
     , toolbarAdjustActive(false)
+    , buttonCount(0)
+    , sepCount(0)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,

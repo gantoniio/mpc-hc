@@ -236,21 +236,12 @@ bool CPPageToolBar::IsValidInsertPos(int destRow) {
     if (supportedButtons.count(tidCommand) == 0) { //this should never happen
         return false;
     }
-    if (destRow == 0) { //first
-        if (supportedButtons[tidCommand].positionLocked) {//can't insert before locked first button
-            return false;
-        }
-    } else if (destRow == m_list_active.GetItemCount() - 1) { //last--don't insert before if prior button locked
+    if (supportedButtons[tidCommand].positionLocked == CPlayerToolBar::LOCK_LEFT) {
+        return false;
+    } else {
         int priorIdCommand = (int)m_list_active.GetItemData(destRow - 1);
-        if (supportedButtons.count(priorIdCommand) == 0 || supportedButtons[priorIdCommand].positionLocked) {
+        if (supportedButtons.count(priorIdCommand) == 0 || CPlayerToolBar::LOCK_RIGHT == supportedButtons[priorIdCommand].positionLocked) {
             return false;
-        }
-    } else {//we have at least two rows.  if the insert point is between two locked rows we will not allow it
-        if (supportedButtons[tidCommand].positionLocked) {
-            int priorIdCommand = (int)m_list_active.GetItemData(destRow - 1);
-            if (supportedButtons.count(priorIdCommand) == 0 || supportedButtons[priorIdCommand].positionLocked) {
-                return false;
-            }
         }
     }
 }
@@ -281,8 +272,7 @@ bool CPPageToolBar::MoveButton(CMPCThemePlayerListCtrl& srcList, CMPCThemePlayer
     } else { //active
         if (destRow == -1) {
             for (destRow = 0; destRow < dstList.GetItemCount(); destRow++) {
-                beforeID = (int)dstList.GetItemData(destRow);
-                if (supportedButtons.count(beforeID) != 0 && !supportedButtons[beforeID].positionLocked) {
+                if (IsValidInsertPos(destRow)) {
                     break;
                 }
             }

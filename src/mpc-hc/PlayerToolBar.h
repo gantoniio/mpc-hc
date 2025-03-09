@@ -32,6 +32,12 @@ class CPlayerToolBar : public CToolBar, public CMPCThemeUtil
 {
     DECLARE_DYNAMIC(CPlayerToolBar)
 
+public:
+    enum PositionLock {
+        LOCK_NONE = 0,
+        LOCK_LEFT,
+        LOCK_RIGHT,
+    };
 private:
     CMainFrame* m_pMainFrame;
 
@@ -62,7 +68,7 @@ private:
     struct svgButtonInfo {
         UINT style;
         int svgIndex;
-        bool positionLocked = false;
+        PositionLock positionLocked = LOCK_NONE;
         CString text;
     };
 
