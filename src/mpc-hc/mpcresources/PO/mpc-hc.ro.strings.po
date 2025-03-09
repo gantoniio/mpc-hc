@@ -4364,7 +4364,9 @@ msgstr ""
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
-msgstr "/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul DVD-ului (opțional)"
+msgstr ""
+"/dvd\t\tRulează în modul DVD, \"numele căii\" înseamnă dosarul (folderul) "
+"DVD-ului (opțional)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
