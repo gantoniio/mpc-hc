@@ -4302,7 +4302,7 @@ msgstr "Ești sigur(ă) că vrei să încarci fișierul de subtitrări „%s”?
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr "Se obțin limbile sprijinite..."
+msgstr "Se preiau limbile acceptate..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid ""
