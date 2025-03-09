@@ -55,12 +55,17 @@ protected:
     CImage arrow;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
+    void OnUpdateLeft(CCmdUI* pCmdUI);
+    void OnUpdateRight(CCmdUI* pCmdUI);
+    void OnUpdateUp(CCmdUI* pCmdUI);
+    void OnUpdateDown(CCmdUI* pCmdUI);
     void LoadToolBarButtons();
     virtual BOOL OnInitDialog() override;
     virtual BOOL OnApply() override;
     bool InsertButton(int beforeID, int buttonID);
     bool DeleteButton(int buttonID);
     bool IsValidInsertPos(int destRow);
+    bool LeftSelectedButtonLocked();
     bool MoveButton(CMPCThemePlayerListCtrl& srcList, CMPCThemePlayerListCtrl& dstList);
     bool OrderButton(ButtonPosition pos);
 

@@ -133,7 +133,58 @@ BEGIN_MESSAGE_MAP(CPPageToolBar, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_BUTTON5, &CPPageToolBar::MoveUp)
     ON_BN_CLICKED(IDC_BUTTON6, &CPPageToolBar::MoveDown)
     ON_BN_CLICKED(IDC_BUTTON1, &CPPageToolBar::DefaultButtons)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateLeft)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateRight)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON5, OnUpdateUp)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON6, OnUpdateDown)
 END_MESSAGE_MAP()
+
+void CPPageToolBar::OnUpdateLeft(CCmdUI* pCmdUI) {
+    CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
+    CToolBarCtrl& tbctrl = tb.GetToolBarCtrl();
+    auto supportedButtons = tb.GetSupportedSvgButtons();
+
+    int selectedRowLeft = m_list_active.GetSelectionMark();
+    int selectedRowRight = m_list_inactive.GetSelectionMark();
+
+    if (IsValidInsertPos(selectedRowLeft) && -1 != selectedRowRight) {
+        pCmdUI->Enable(true);
+    } else {
+        pCmdUI->Enable(false);
+    }
+}
+
+bool CPPageToolBar::LeftSelectedButtonLocked() {
+    CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
+    CToolBarCtrl& tbctrl = tb.GetToolBarCtrl();
+    auto supportedButtons = tb.GetSupportedSvgButtons();
+
+    int selectedRowLeft = m_list_active.GetSelectionMark();
+
+    bool enable = false;
+    if (-1 != selectedRowLeft) {
+        int tidCommand = (int)m_list_active.GetItemData(selectedRowLeft);
+        if (supportedButtons.count(tidCommand) == 0 || supportedButtons[tidCommand].positionLocked) {
+            enable = false;
+        } else {
+            enable = true;
+        }
+    }
+    return enable;
+}
+
+void CPPageToolBar::OnUpdateRight(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(LeftSelectedButtonLocked());
+}
+
+void CPPageToolBar::OnUpdateUp(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(LeftSelectedButtonLocked());
+}
+
+void CPPageToolBar::OnUpdateDown(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(LeftSelectedButtonLocked());
+}
+
 
 bool CPPageToolBar::InsertButton(int beforeID, int buttonID) {
     CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
@@ -175,6 +226,7 @@ bool CPPageToolBar::IsValidInsertPos(int destRow) {
     if (destRow == -1 || destRow >= m_list_active.GetItemCount()) {
         return false;
     }
+
     //avoid inserting between two locked rows, or before first locked or after last locked
 
     CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
