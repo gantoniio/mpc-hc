@@ -40,8 +40,7 @@ public:
 private:
     enum { IDD = IDD_PPAGETOOLBAR };
     enum {
-        COL_IMAGE,
-        COL_TEXT,
+        COL_BUTTON,
     };
 
     enum ButtonPosition {

@@ -103,15 +103,18 @@ BOOL CPPageToolBar::OnInitDialog()
 
     m_list_active.SetExtendedStyle(m_list_active.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ /*| LVS_EX_DOUBLEBUFFER */ | LVS_EX_INFOTIP | LVS_ICON | LVS_SHAREIMAGELISTS);
     m_list_active.setAdditionalStyles(LVS_EX_FULLROWSELECT);
-    m_list_active.InsertColumn(COL_IMAGE, L"", LVCFMT_LEFT);
-    m_list_active.SetColumnWidth(COL_IMAGE, LVSCW_AUTOSIZE_USEHEADER);
+    CString col(StrRes(IDS_PPAGE_TOOLBAR_CUR_BUTTONS));
+    m_list_active.InsertColumn(COL_BUTTON, col, LVCFMT_LEFT);
+    m_list_active.SetColumnWidth(COL_BUTTON, LVSCW_AUTOSIZE_USEHEADER);
     m_list_active.SetImageList(tbctrl.GetImageList(), LVSIL_SMALL);
     m_list_active.setColorInterface(this);
 
+
     m_list_inactive.SetExtendedStyle(m_list_inactive.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ /*| LVS_EX_DOUBLEBUFFER */ | LVS_EX_INFOTIP | LVS_ICON | LVS_SHAREIMAGELISTS);
     m_list_inactive.setAdditionalStyles(LVS_EX_FULLROWSELECT);
-    m_list_inactive.InsertColumn(COL_IMAGE, L"", LVCFMT_LEFT);
-    m_list_inactive.SetColumnWidth(COL_IMAGE, LVSCW_AUTOSIZE_USEHEADER);
+    CString col2(StrRes(IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS));
+    m_list_inactive.InsertColumn(COL_BUTTON, col2, LVCFMT_LEFT);
+    m_list_inactive.SetColumnWidth(COL_BUTTON, LVSCW_AUTOSIZE_USEHEADER);
     m_list_inactive.SetImageList(tbctrl.GetImageList(), LVSIL_SMALL);
 
     LoadToolBarButtons();
