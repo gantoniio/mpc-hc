@@ -4169,7 +4169,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
-msgstr "/reset\t\tRestaurează stabilirile implicite"
+msgstr "/reset\t\tRestaurează setările implicite"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
