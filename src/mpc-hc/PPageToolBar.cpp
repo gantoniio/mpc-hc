@@ -286,6 +286,12 @@ bool CPPageToolBar::MoveButton(CMPCThemePlayerListCtrl& srcList, CMPCThemePlayer
     dstList.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, destRow, tb.GetStringFromID(buttonID), 0, 0, supportedButtons[buttonID].svgIndex, buttonID);
     srcList.DeleteItem(selectedRow);
 
+    //we'll select the next element, which after having deleted selectedRow, will be at selectedRow
+    if (selectedRow < srcList.GetItemCount()) {
+        srcList.SetItemState(selectedRow, LVIS_SELECTED, LVIS_SELECTED);
+        srcList.SetSelectionMark(selectedRow);
+    }
+
     if (addingButton) {
         InsertButton(beforeID, buttonID);
     } else {
