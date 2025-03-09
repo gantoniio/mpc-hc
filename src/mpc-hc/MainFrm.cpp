@@ -19412,6 +19412,10 @@ void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowIn
 
 LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
 {
+    if (GetLoadState() != MLS::LOADED) {
+        return 0;
+    }
+
     if (!m_pDVBState->bAbortInfo && m_pDVBState->infoData.valid()) {
         EventDescriptor& NowNext = m_pDVBState->NowNext;
         const auto infoData = m_pDVBState->infoData.get();
