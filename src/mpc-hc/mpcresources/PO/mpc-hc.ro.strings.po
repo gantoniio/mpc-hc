@@ -4409,7 +4409,7 @@ msgstr "/shutdown\tÎnchide sistemul de operare după redare"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr "/standby\t\tIntră în repaus după redare"
+msgstr "/standby\t\tPune sistemul de operare în modul de repaus după redare"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
