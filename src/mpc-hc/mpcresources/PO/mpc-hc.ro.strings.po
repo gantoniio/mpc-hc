@@ -4569,7 +4569,9 @@ msgstr ""
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr "/randomize\tRedă lista aleatoriu"
+msgstr ""
+"/randomize\tRedă în mod aleatoriu elementele din lista de redare (playlist-"
+"ul)"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
