@@ -4631,7 +4631,7 @@ msgid ""
 "\"Output\" settings)"
 msgstr ""
 "/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1 "
-"(vedeți setările \"Ieșire\")"
+"(vezi setările de \"Ieșire\")"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
