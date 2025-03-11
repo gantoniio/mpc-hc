@@ -4665,7 +4665,7 @@ msgstr "Clic din mijloc"
 
 msgctxt "IDS_MOUSE_CLICK_X1"
 msgid "X1 click"
-msgstr "Clic X1"
+msgstr "Clic pe X1"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
