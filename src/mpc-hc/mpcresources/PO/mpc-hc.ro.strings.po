@@ -4669,7 +4669,7 @@ msgstr "Clic pe X1"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
-msgstr "Clic X2"
+msgstr "Clic pe X2"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
