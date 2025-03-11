@@ -4709,7 +4709,8 @@ msgstr "Comută anularea stilului implicit"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
-msgstr "Revino la primul fișier din dosar după redarea ultimului fișier."
+msgstr ""
+"Revino la primul fișier din dosar (folder) după redarea ultimului fișier."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
 msgid ""
