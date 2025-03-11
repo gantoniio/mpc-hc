@@ -4591,7 +4591,7 @@ msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
 msgstr ""
 "/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere "
-"sprijinite"
+"acceptate"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
