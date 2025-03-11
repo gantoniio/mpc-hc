@@ -4421,7 +4421,7 @@ msgstr "/logoff\t\tDeconectează-te după redare"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr "/lock\t\tBlochează desktopul după redare"
+msgstr "/lock\t\tBlochează stația de lucru după redare"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
