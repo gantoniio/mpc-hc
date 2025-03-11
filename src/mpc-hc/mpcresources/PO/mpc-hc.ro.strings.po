@@ -4449,7 +4449,7 @@ msgstr "/volume N\tSetează volumul, unde N este un interval de la 0 la 100"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-msgstr "Youtube-dl nu s-a lansat. Asigurați-vă că youtube-dl este în PATH."
+msgstr "Youtube-dl nu s-a putut lansat Asigură-te că youtube-dl este în PATH."
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
