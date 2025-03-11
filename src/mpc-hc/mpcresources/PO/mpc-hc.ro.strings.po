@@ -4635,7 +4635,9 @@ msgstr ""
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr "/shaderpreset \"Pr\"\tPornește folosind prestabilirea „Pr” pentru nuanțator"
+msgstr ""
+"/shaderpreset \"Pr\"\tÎncepe folosind presetarea nuanțatorului (shader-ului)"
+" „Pr”."
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
