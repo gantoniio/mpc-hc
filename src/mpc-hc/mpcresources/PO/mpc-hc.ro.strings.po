@@ -4579,7 +4579,7 @@ msgstr "/regvid\t\tCreează asocieri de fișiere pentru fișierele video"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr "/regaud\t\tCreează asocieri de fișiere pentru fișiere audio"
+msgstr "/regaud\t\tCreează asocieri de fișiere pentru fișierele audio"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
