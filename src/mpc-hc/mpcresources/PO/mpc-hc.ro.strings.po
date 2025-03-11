@@ -4465,7 +4465,7 @@ msgstr "Aliniază la mijloc"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
-msgstr "Aliniază jos"
+msgstr "Aliniază în jos"
 
 msgctxt "IDS_PPAGEADVANCED_USE_YDL"
 msgid ""
