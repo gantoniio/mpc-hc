@@ -4457,7 +4457,7 @@ msgstr "Se apelează youtube-dl..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr "Aliniază sus"
+msgstr "Aliniază în sus"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
