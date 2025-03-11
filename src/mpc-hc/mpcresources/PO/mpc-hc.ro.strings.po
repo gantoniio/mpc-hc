@@ -4429,7 +4429,7 @@ msgstr "/monitoroff\tÎnchide monitorul după redare"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr "/playnext\t\tDeschide următorul fișier din dosar după redare"
+msgstr "/playnext\t\tDeschide următorul fișier din dosar (folder) după redare"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid ""
