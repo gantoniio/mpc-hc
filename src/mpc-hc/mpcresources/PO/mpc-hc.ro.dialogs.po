@@ -689,7 +689,7 @@ msgid ""
 "only one item in playlist"
 msgstr ""
 "Deschide precedentul/următorul fișier din dosar la comenzile „Sari "
-"înapoi/înainte” când este un singur element în lista de redare"
+"înapoi/înainte” când este un singur element în lista de redare (în playlist)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
