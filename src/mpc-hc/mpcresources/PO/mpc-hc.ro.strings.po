@@ -1058,7 +1058,7 @@ msgstr "Scanează tunerul pentru canale"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Subtitlurile nu sunt încărcate sau randorul este nesprijinit."
+msgstr "Subtitrările nu sunt încărcate sau redare neacceptată."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
