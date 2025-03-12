@@ -4641,7 +4641,7 @@ msgstr ""
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr "Revocare"
+msgstr "Anulează"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
