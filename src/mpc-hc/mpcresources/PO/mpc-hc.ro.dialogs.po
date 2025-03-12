@@ -861,7 +861,7 @@ msgstr "&Stabilește"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Renunță"
+msgstr "&Anulare"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
