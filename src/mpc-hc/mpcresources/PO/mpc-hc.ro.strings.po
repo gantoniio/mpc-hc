@@ -4786,7 +4786,7 @@ msgid ""
 "When save the subtitles file, the language code (if available) text will be "
 "added to suggested file name by default."
 msgstr ""
-"Când salvați fișierul de subtitrări, textul codului de limbaj (dacă este "
+"Când salvezi fișierul de subtitrări, textul codului de limbaj (dacă este "
 "disponibil) va fi adăugat  în mod implicit, la numele fișierului sugerat."
 
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
