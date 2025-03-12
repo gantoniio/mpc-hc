@@ -561,7 +561,7 @@ msgstr "Salvează miniaturi"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr "Mută subtitlul mai jost"
+msgstr "Mută subtitrarea în jos"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
