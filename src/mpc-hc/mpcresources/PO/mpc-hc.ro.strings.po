@@ -3107,7 +3107,7 @@ msgstr "Golește"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
-msgstr "Anulează"
+msgstr "Anulare"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
