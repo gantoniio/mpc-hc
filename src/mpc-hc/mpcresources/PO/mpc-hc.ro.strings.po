@@ -589,7 +589,7 @@ msgstr "Redare::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
-msgstr "Subtitluri"
+msgstr "Subtitrări"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
