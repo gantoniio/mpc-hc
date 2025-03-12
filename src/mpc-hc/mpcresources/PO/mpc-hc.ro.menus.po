@@ -561,7 +561,7 @@ msgstr "&Fișierul"
 
 msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
 msgid "&Playlist"
-msgstr "&Lista de redare"
+msgstr "&Lista de redare (Playlist)"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
