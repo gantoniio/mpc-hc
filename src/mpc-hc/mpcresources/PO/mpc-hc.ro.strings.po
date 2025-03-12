@@ -270,7 +270,7 @@ msgstr "Disc DVD adăugat la favorite"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Stabiliri captură"
+msgstr "Setări de captură"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
