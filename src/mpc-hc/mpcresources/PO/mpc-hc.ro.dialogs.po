@@ -919,7 +919,7 @@ msgstr "Salvare..."
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr "Renunță"
+msgstr "Anulare"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
