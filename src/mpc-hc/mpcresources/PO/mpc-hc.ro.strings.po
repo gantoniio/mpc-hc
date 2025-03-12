@@ -1010,7 +1010,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr "Descărcare subtitluri..."
+msgstr "Descărcare subtitrări..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
