@@ -361,7 +361,7 @@ msgstr "R&esetează"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Resetează la setările &implicite ale randorului"
+msgstr "Revino la setările &implicite ale randorului"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
