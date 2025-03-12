@@ -4886,7 +4886,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
-msgstr "Nu întrerupe redarea când se blochează ecranul."
+msgstr "Nu întrerupe redarea atunci când se blochează ecranul."
 
 msgctxt "IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE"
 msgid ""
