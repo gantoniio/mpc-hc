@@ -609,7 +609,7 @@ msgstr "Filtre externe"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Redare::Nuanțatoare"
+msgstr "Redare::Nuanțatoare (Shadere)"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
