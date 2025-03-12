@@ -201,7 +201,7 @@ msgstr "Anulare"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Adaugă la lista de redare fără a deschide"
+msgstr "Adaugă-l la lista de redare (la playlist) fără să-l deschizi"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
