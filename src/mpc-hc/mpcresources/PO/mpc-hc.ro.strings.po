@@ -2558,7 +2558,7 @@ msgstr "%s, %s %uHz %d biți %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "Adaugă la lista de redare a MPC-HC"
+msgstr "Adaugă la lista de redare a (la playlist-ul) MPC-HC"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
