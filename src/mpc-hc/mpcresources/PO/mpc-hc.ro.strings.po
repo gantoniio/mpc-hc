@@ -755,7 +755,7 @@ msgstr "Player::Mouse"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Subtitluri::Stil implicit"
+msgstr "Subtitrări::Stil implicit"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
