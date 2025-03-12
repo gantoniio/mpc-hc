@@ -2101,7 +2101,7 @@ msgstr "Du-te la subtitrarea anterioară"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Du-te la subtitlul următor"
+msgstr "Du-te la subtitrarea următoare"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
