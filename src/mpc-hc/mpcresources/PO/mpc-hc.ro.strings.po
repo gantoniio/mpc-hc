@@ -4853,7 +4853,7 @@ msgid ""
 "Leave empty to use default filename: youtube-dl.exe"
 msgstr ""
 "Calea completă a executabilului Youtube-DL.\n"
-"Doar numele fișierului este suficient în cazul în care se află în același folder ca MPC-HC.\n"
+"Doar numele fișierului este suficient în cazul în care se află în același folder (dosar) ca MPC-HC.\n"
 "Lasă liber ca să folosești numele fișierului implicit: youtube-dl.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
