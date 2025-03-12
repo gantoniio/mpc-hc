@@ -2000,4 +2000,4 @@ msgstr "Selectează"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_IDCANCEL"
 msgid "Cancel"
-msgstr "Revocare"
+msgstr "Anulare"
