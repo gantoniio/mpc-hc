@@ -2097,7 +2097,7 @@ msgstr "Comută ecranul complet (tot ecranul) Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Du-te la subtitlul anterior"
+msgstr "Du-te la subtitrarea anterioară"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
