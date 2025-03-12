@@ -4774,7 +4774,8 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
-msgstr "Afișează limba curentă pentru audio și subtitrare în bara de stare"
+msgstr ""
+"Afișează limba curentă pentru pista audio și subtitrări în bara de stare"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
 msgid "Display current fps and rate in status bar"
