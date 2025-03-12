@@ -630,7 +630,7 @@ msgstr "Director"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "Playlist"
-msgstr "Listă de redare"
+msgstr "Listă de redare (Playlist)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
