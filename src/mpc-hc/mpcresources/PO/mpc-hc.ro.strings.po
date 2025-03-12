@@ -719,7 +719,7 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "Liste de redare pentru &Blu-Ray"
+msgstr "Liste de redare (Playlist-uri) pentru &Blu-Ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
