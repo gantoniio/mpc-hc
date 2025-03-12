@@ -1936,7 +1936,7 @@ msgstr "Marcaje A-B"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
 msgid "On Screen Display (OSD)"
-msgstr "Afișează pe ecran (OSD)"
+msgstr "Afișează pe ecran (OSD/ On Screen Display)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
