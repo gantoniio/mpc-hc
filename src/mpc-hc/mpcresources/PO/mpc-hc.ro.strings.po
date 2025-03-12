@@ -1336,7 +1336,7 @@ msgstr "Introdu filtrul de deintercalare (amestecare) în modul de captură"
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr "Comută amestecarea listelor de redare"
+msgstr "Comută amestecarea/mixarea listelor de redare (playlist-urilor)"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
