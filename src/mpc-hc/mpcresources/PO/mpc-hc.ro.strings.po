@@ -541,7 +541,7 @@ msgstr "Opțiuni"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Selectează nuanțatoarele..."
+msgstr "&Selectează nuanțatoarele (shaderele)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
