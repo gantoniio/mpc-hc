@@ -569,7 +569,7 @@ msgstr "Mută subtitrarea în sus"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr "Scade dimensiunea subtitlului"
+msgstr "Redu dimensiunea textului subtitrărilor"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
