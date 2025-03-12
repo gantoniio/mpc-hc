@@ -2132,7 +2132,7 @@ msgstr "OSD: Afișează statisticile randorului"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr "OSD: Restabilire statistici randor"
+msgstr "OSD: Restabilește statisticile randorului"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
