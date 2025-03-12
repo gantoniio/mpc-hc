@@ -1389,7 +1389,7 @@ msgstr "Dispozitiv implicit"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
-msgstr "Analog"
+msgstr "Analogic"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
 msgid "Digital"
