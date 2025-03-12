@@ -405,7 +405,7 @@ msgstr "Efect"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
-msgstr "Listă de redare"
+msgstr "Listă de redare (Playlist)"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
