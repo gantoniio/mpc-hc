@@ -2116,7 +2116,7 @@ msgstr "Sari la început"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr "OSD: Arată numele fișierului"
+msgstr "OSD: Afișează numele fișierului"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
