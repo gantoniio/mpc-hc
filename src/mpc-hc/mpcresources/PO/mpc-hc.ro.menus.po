@@ -441,7 +441,7 @@ msgstr "&Corectează diferența RA Monitor/Desktop"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "Ajustează cadrele P&nS (Panoramare și Scanare)"
+msgstr "Ajustează cadrele pentru P&nS (Panoramare și Scanare)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
