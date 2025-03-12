@@ -4928,7 +4928,7 @@ msgstr "Partajată"
 
 msgctxt "IDS_ARS_BITEXACT_OUTPUT"
 msgid "Allow bit-exact output"
-msgstr "Permite ieșire exactă pe biți"
+msgstr "Permite ieșirea exactă pe biți"
 
 msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
 msgid "Use system layout channels"
