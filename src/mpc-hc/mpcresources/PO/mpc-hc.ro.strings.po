@@ -4804,7 +4804,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr "Întrerupe redarea în timp ce tragi bara de căutare."
+msgstr "Întrerupe redarea în timpul tragerii barei de căutare."
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
