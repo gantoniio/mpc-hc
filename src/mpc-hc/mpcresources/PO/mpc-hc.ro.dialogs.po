@@ -321,7 +321,7 @@ msgstr "Ține un istoric al ultimelor fișiere deschise"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Ține minte ultima listă de redare"
+msgstr "Reține ultima listă de redare (ultimul playlist)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
