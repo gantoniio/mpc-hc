@@ -440,7 +440,7 @@ msgstr "Коригувати &різницю співвідношення сто
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "Налаштувати розмір відео"
+msgstr "Налаштувати розмір"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
