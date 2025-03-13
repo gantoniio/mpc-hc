@@ -278,7 +278,7 @@ msgstr "Bară de Navigare"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Resincronizare subtitluri"
+msgstr "Resincronizarea subtitrărilor (Subresync)"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -2104,11 +2104,11 @@ msgstr "Du-te la subtitrarea următoare"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr "Resicronizare subtitlu: decalează -100ms"
+msgstr "Resincronizarea subtitrărilor: decalează cu -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr "Resicronizare subtitlu: decalează +100ms"
+msgstr "Resincronizarea subtitrărilor: decalează cu +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
