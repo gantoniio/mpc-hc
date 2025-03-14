@@ -727,9 +727,11 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
     }
 
     bool success = false;
+    CString extinf_title = L"";
 
     while (f.ReadString(str)) {
-        if (str.Trim().IsEmpty()) { continue; }
+        str = str.Trim();
+        if (str.IsEmpty()) { continue; }
 
         if (str.Find(_T("#")) == 0) {
             if (isExt && str.Find(_T("#EXTINF")) == 0) {
@@ -740,46 +742,23 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
                     CString value = sl.RemoveHead();
                     if (key == _T("#EXTINF")) {
                         int findDelim;
-                        if (-1 == (findDelim = value.Find(_T(",")))) {
-                            continue; // discard invalid EXTINF line
-                        }
-                        str = L"";
-                        while (f.ReadString(str) && str.Left(1) == L"#") {}
-                        if (!str. IsEmpty()) {
-                            pli = CPlaylistItem();
-                            pli.m_label = value.Mid(findDelim + 1);
-                            str = CombinePath(base, str, isurl);
-                            pli.m_fns.AddTail(str);
-                            if (PathUtils::IsURL(str) && CMainFrame::IsOnYDLWhitelist(str)) {
-                                pli.m_ydlSourceURL = str;
-                                pli.m_bYoutubeDL = true;
-                            }
-                            m_pl.AddTail(pli);
-                            success = true;
-                            continue;
-                        }
-                        else {
-                            break; // end of file
+                        if (-1 != (findDelim = value.Find(_T(",")))) {
+                            extinf_title = value.Mid(findDelim + 1);
                         }
                     }
                 }
-                else {
-                    continue; // discard invalid EXTINF line
-                }
-            }
-            else if (str.Find(_T("#EXT-X-STREAM-INF")) == 0 || str.Find(_T("#EXT-X-TARGETDURATION")) == 0 || str.Find(_T("#EXT-X-MEDIA-SEQUENCE")) == 0) {
+            } else if (str.Find(_T("#EXT-X-STREAM-INF")) == 0 || str.Find(_T("#EXT-X-TARGETDURATION")) == 0 || str.Find(_T("#EXT-X-MEDIA-SEQUENCE")) == 0) {
                 // HTTP Live Stream, let LAV Splitter handle this
                 *lav_fallback = true;
                 return false;
             }
-            else {                
-                continue; // ignore this line
-            }
+            continue;
         }
 
-        // parse as an entry without EXTINF
+        // file or url
         str = CombinePath(base, str, isurl);
         if (!isurl && !PathUtils::IsURL(str) && ContainsWildcard(str)) {
+            extinf_title = L"";
             // wildcard entry
             std::set<CString, CStringUtils::LogicalLess> filelist;
             if (m_pMainFrame->WildcardFileSearch(str, filelist, true)) {
@@ -799,6 +778,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
                 bool lav_fallback = false;
                 if (!PathUtils::IsURL(str) && ParseM3UPlayList(str, &lav_fallback)) {
                     success = true;
+                    extinf_title = L"";
                     continue;
                 }
             } else if (ext == L".pls") {
@@ -806,6 +786,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
                 ParsePlayList(str, nullptr, 1);
                 if (m_pl.GetCount() > count) {
                     success = true;
+                    extinf_title = L"";
                     continue;
                 }
             }
@@ -816,8 +797,12 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
                 pli.m_ydlSourceURL = str;
                 pli.m_bYoutubeDL = true;
             }
+            if (!extinf_title.IsEmpty()) {
+                pli.m_label = extinf_title;
+            }
             m_pl.AddTail(pli);
             success = true;
+            extinf_title = L"";
         }
     }
 
