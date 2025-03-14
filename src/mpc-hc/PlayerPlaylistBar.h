@@ -89,7 +89,7 @@ private:
     bool PlaylistCanStripPath(CString path);
     bool ParseMPCPlayList(CString fn);
     bool SaveMPCPlayList(CString fn, CTextFile::enc e);
-    bool ParseM3UPlayList(CString fn);
+    bool ParseM3UPlayList(CString fn, bool* lav_fallback);
     bool ParseCUESheet(CString fn);
     
     void SetupList();

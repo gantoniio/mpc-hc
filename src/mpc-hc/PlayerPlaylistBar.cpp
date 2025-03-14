@@ -463,15 +463,17 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     } else if (ct == _T("application/x-cue-sheet")) {
         ParseCUESheet(fns.GetHead());
         return;
-    } else if (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")) {
+    } else if (ydl_src.IsEmpty() && (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl"))) {
         auto fn = fns.GetHead();
-        if (ParseM3UPlayList(fn)) {
+        bool lav_fallback = false;
+        if (!ParseM3UPlayList(fn, &lav_fallback)) {
             ExternalPlayListLoaded(fn);
-            /* We have handled this one. If parsing fails it should fall through to AddItem below.
-               It returns false for HLS playlists, since we want those to be handled directly by LAV Splitter.
-            */
+            return;
+        } else if (!lav_fallback) {
+            /* invalid file or Internet connection failed */
             return;
         }
+        /* fall through to AddItem below, we do this for HLS playlist, since those should be handled directly by LAV Splitter */
     } else {
 #if INTERNAL_SOURCEFILTER_MPEG
         const CAppSettings& s = AfxGetAppSettings();
@@ -687,7 +689,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     return success;
 }
 
-bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
+bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
     CString str;
     CPlaylistItem pli;
     std::vector<int> idx;
@@ -767,6 +769,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
             }
             else if (str.Find(_T("#EXT-X-STREAM-INF")) == 0 || str.Find(_T("#EXT-X-TARGETDURATION")) == 0 || str.Find(_T("#EXT-X-MEDIA-SEQUENCE")) == 0) {
                 // HTTP Live Stream, let LAV Splitter handle this
+                *lav_fallback = true;
                 return false;
             }
             else {                
@@ -793,7 +796,8 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
             // check for nested playlist
             CString ext = GetFileExt(str);
             if (ext == L".m3u" || ext == L".m3u8") {
-                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str)) {
+                bool lav_fallback = false;
+                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str, &lav_fallback)) {
                     success = true;
                     continue;
                 }
