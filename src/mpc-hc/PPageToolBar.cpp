@@ -28,13 +28,20 @@ IMPLEMENT_DYNAMIC(CPPageToolBar, CMPCThemePPageBase)
 
 CPPageToolBar::CPPageToolBar()
     : CMPCThemePPageBase(IDD, IDD)
-
+, m_iDefaultToolbarSize(DEF_TOOLBAR_HEIGHT)
 {
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+    GetEventd().Connect(m_eventc, fires);
 }
 
 void CPPageToolBar::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
+    DDX_Text(pDX, IDC_EDIT1, m_iDefaultToolbarSize);
+    DDV_MinMaxInt(pDX, m_iDefaultToolbarSize, MIN_TOOLBAR_HEIGHT, MAX_TOOLBAR_HEIGHT);
+    DDX_Control(pDX, IDC_SPIN1, m_DefaultToolbarSizeCtrl);
+
     DDX_Control(pDX, IDC_LIST1, m_list_active);
     DDX_Control(pDX, IDC_LIST2, m_list_inactive);
     DDX_Control(pDX, IDC_BUTTON3, leftButton);
@@ -87,6 +94,10 @@ void CPPageToolBar::LoadToolBarButtons() {
 BOOL CPPageToolBar::OnInitDialog()
 {
     __super::OnInitDialog();
+    auto& s = AfxGetAppSettings();
+
+    m_DefaultToolbarSizeCtrl.SetRange32(MIN_TOOLBAR_HEIGHT, MAX_TOOLBAR_HEIGHT);
+    m_iDefaultToolbarSize = s.nDefaultToolbarSize;
 
     CRect brc;
     leftButton.GetWindowRect(brc);
@@ -122,13 +133,28 @@ BOOL CPPageToolBar::OnInitDialog()
 
     LoadToolBarButtons();
 
+    AdjustDynamicWidgetPair(this, IDC_STATIC3, IDC_EDIT1);
     SetRedraw(TRUE);
+
+    UpdateData(FALSE);
+
     return TRUE;
 }
 
 BOOL CPPageToolBar::OnApply()
 {
+    UpdateData();
     auto& s = AfxGetAppSettings();
+
+    int nOldDefaultToolbarSize = s.nDefaultToolbarSize;
+    s.nDefaultToolbarSize = m_iDefaultToolbarSize;
+    if (nOldDefaultToolbarSize != s.nDefaultToolbarSize) {
+        m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+            pMainFrame->RecalcLayout();
+        }
+    }
+
     return __super::OnApply();
 }
 

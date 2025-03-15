@@ -24,6 +24,7 @@
 #include "resource.h"
 #include "CMPCThemeSpinButtonCtrl.h"
 #include "CMPCThemePlayerListCtrl.h"
+#include "EventDispatcher.h"
 
 class CPPageToolBar : public CMPCThemePPageBase
     , public CMPCThemeListCtrlCustomInterface
@@ -36,6 +37,7 @@ public:
     virtual void DoCustomPrePaint() {};
     virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) {};
     virtual bool UseCustomGrid() { return false; };
+    EventClient m_eventc;
 
 private:
     enum { IDD = IDD_PPAGETOOLBAR };
@@ -52,6 +54,8 @@ protected:
     CMPCThemePlayerListCtrl m_list_active, m_list_inactive;
     CMPCThemeButton leftButton, rightButton, upButton, downButton;
     CImage arrow;
+    CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
+    int m_iDefaultToolbarSize;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
     void OnUpdateLeft(CCmdUI* pCmdUI);
