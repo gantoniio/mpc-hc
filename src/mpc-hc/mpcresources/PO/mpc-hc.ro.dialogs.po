@@ -1591,7 +1591,7 @@ msgstr "Căutare online a subtitrărilor"
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
 msgstr ""
-"Caută și descarcă automat subtitrări dacă nu este găsit niciunul local"
+"Caută și descarcă automat subtitrări dacă local nu este găsită niciuna"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
