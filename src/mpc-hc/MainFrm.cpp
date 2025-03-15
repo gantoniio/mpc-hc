@@ -13647,7 +13647,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             }
             EndEnumFilters;
 
-            ASSERT(m_pFSF);
+            ASSERT(m_pFSF || m_fCustomGraph);
 
             if (!bIsVideo) {
                 m_bUseSeekPreview = false;
