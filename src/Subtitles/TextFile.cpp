@@ -756,6 +756,9 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 
     try {
         CInternetSession is;
+        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+        is.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+        is.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
 
         CAutoPtr<CStdioFile> f(is.OpenURL(fn, 1, INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_EXISTING_CONNECT));
         if (!f) {

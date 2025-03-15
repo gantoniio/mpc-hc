@@ -358,6 +358,9 @@ SRESULT OpenSubtitles2::Login(const std::string& sUserName, const std::string& s
 
     CString userAgent(UserAgent().c_str());
     CInternetSession session(userAgent);
+    session.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+    session.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+    session.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
     CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
     CString url(_T("/api/v1/login"));
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_POST, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
@@ -416,6 +419,9 @@ SRESULT OpenSubtitles2::Search(const SubtitlesInfo& pFileInfo)
 
     CString userAgent(UserAgent().c_str());
     CInternetSession session(userAgent);
+    session.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+    session.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+    session.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
     CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
 
     CString url(_T("/api/v1/subtitles?"));
@@ -496,6 +502,9 @@ SRESULT OpenSubtitles2::Download(SubtitlesInfo& pSubtitlesInfo)
 
     CString userAgent(UserAgent().c_str());
     CInternetSession session(userAgent);
+    session.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+    session.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+    session.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
     CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
     CString url(_T("/api/v1/download"));
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_POST, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
@@ -539,6 +548,9 @@ SRESULT OpenSubtitles2::LogOut()
     if (!token.IsEmpty()) {
         CString userAgent(UserAgent().c_str());
         CInternetSession session(userAgent);
+        session.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+        session.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+        session.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
         CHttpConnection* con = session.GetHttpConnection(_T("api.opensubtitles.com"), (DWORD)INTERNET_FLAG_SECURE);
         CString url(_T("/api/v1/logout"));
         CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_DELETE, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);

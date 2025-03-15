@@ -620,6 +620,9 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
     data.clear();
     try {
         CInternetSession is;
+        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000); /* default=60000 */
+        is.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+        is.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
 
         std::string strHeaders;
         for (const auto& iter : headers) {
@@ -628,7 +631,6 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
             }
         }
 
-        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000 /*default=60000*/);
         CAutoPtr<CHttpFile> pHttpFile((CHttpFile*)is.OpenURL(UTF8To16(url.c_str()),
                                                              1,
                                                              INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_EXISTING_CONNECT | (bAutoRedirect ? INTERNET_FLAG_NO_AUTO_REDIRECT : NULL),
@@ -671,6 +673,9 @@ HRESULT SubtitlesProvidersUtils::StringUpload(const std::string& url, const stri
         }
 
         CInternetSession is;
+        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+        is.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+        is.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
         CAutoPtr<CHttpConnection> pHttpConnection(is.GetHttpConnection(strServer));
         CAutoPtr<CHttpFile> pHttpFile(pHttpConnection->OpenRequest(CHttpConnection::HTTP_VERB_POST, strObject, 0, 1, 0, 0, INTERNET_FLAG_KEEP_CONNECTION | (bAutoRedirect == FALSE ? INTERNET_FLAG_NO_AUTO_REDIRECT : NULL)));
 

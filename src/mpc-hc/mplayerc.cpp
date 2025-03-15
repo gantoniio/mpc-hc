@@ -388,6 +388,8 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
     if (ishttp) {
         CInternetSession internet;
         internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+        internet.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+        internet.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
         CString headers = _T("User-Agent: MPC-HC");
         CHttpFile* httpFile = NULL;
         try {
