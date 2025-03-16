@@ -14603,8 +14603,12 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
                         rating = bstr.m_str;
                     }
                     bstr.Empty();
-                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length() > 0 && bstr.Length() < 512) {
-                        description = bstr.m_str;
+                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                        if (bstr.Length() < 512) {
+                            description = bstr.m_str;
+                        } else if (bstr.m_str[0] != L'{') {
+                            description = CString(bstr.m_str).Left(511);
+                        }
                     }
                     bstr.Empty();
                 }
