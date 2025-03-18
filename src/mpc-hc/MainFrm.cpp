@@ -6361,8 +6361,12 @@ void CMainFrame::OnFileSaveImage()
         return;
     }
 
-    CPath psrc(s.strSnapshotPath);
-    psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
+    CPath psrc;
+    if (!s.strSnapshotPath.IsEmpty() && PathUtils::IsDir(s.strSnapshotPath)) {
+        psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
+    } else {
+        psrc = CPath(MakeSnapshotFileName(FALSE));        
+    }
 
     bool subtitleOptionSupported = !m_pMVRFG && s.fEnableSubtitles && s.IsISRAutoLoadEnabled();
 
@@ -6416,7 +6420,6 @@ void CMainFrame::OnFileSaveImageAuto()
 
     // If path doesn't exist, Save Image instead
     if (!PathUtils::IsDir(s.strSnapshotPath)) {
-        AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
         OnFileSaveImage();
         return;
     }
