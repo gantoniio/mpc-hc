@@ -440,7 +440,7 @@ msgstr "모니터/바탕 화면 종횡비 보정(&C)"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr "팬&n스캔 프레임 조정"
+msgstr "팬&&스캔 프레임 조정"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
