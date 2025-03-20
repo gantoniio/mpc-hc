@@ -466,7 +466,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     } else if (ydl_src.IsEmpty() && (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl"))) {
         auto fn = fns.GetHead();
         bool lav_fallback = false;
-        if (!ParseM3UPlayList(fn, &lav_fallback)) {
+        if (ParseM3UPlayList(fn, &lav_fallback)) {
             ExternalPlayListLoaded(fn);
             return;
         } else if (!lav_fallback) {
