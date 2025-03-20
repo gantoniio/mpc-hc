@@ -775,8 +775,8 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
             // check for nested playlist
             CString ext = GetFileExt(str);
             if (ext == L".m3u" || ext == L".m3u8") {
-                bool lav_fallback = false;
-                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str, &lav_fallback)) {
+                bool dummy = false;
+                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str, &dummy)) {
                     success = true;
                     extinf_title = L"";
                     continue;
