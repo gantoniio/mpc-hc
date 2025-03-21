@@ -1863,11 +1863,11 @@ msgstr "Oprește"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
-msgstr "Cadrul următor"
+msgstr "Pasul de cadru următor"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
-msgstr "Cadrul precedent"
+msgstr "Pasul de cadru precedent"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
