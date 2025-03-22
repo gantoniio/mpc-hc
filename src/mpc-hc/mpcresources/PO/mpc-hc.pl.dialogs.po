@@ -825,7 +825,7 @@ msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "PnS Frame Adjust Presets"
-msgstr "Ustawienia wstępne regulacji ramki PnS"
+msgstr "Predefiniowane ustawienia ramki"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
