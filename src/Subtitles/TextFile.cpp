@@ -748,6 +748,12 @@ CWebTextFile::CWebTextFile(CTextFile::enc e, LONGLONG llMaxSize)
 
 bool CWebTextFile::Open(LPCTSTR lpszFileName)
 {
+    DWORD dwError = 0;
+    return Open(lpszFileName, dwError);
+}
+
+bool CWebTextFile::Open(LPCTSTR lpszFileName, DWORD& dwError)
+{
     CString fn(lpszFileName);
 
     if (fn.Find(_T("://")) == -1) {
@@ -793,6 +799,7 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 
         f->Close(); // must close it because the desctructor doesn't seem to do it and we will get an exception when "is" is destroying
     } catch (CInternetException* ie) {
+        dwError = ie->m_dwError;
         ie->Delete();
         return false;
     }

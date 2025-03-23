@@ -465,13 +465,15 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         return;
     } else if (ydl_src.IsEmpty() && (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl"))) {
         auto fn = fns.GetHead();
-        bool lav_fallback = false;
-        if (ParseM3UPlayList(fn, &lav_fallback)) {
-            ExternalPlayListLoaded(fn);
-            return;
-        } else if (!lav_fallback) {
-            /* invalid file or Internet connection failed */
-            return;
+        if (!PathUtils::IsURL(fn) || fn.Find(L"/hls/") == -1) {
+            bool lav_fallback = false;
+            if (ParseM3UPlayList(fn, &lav_fallback)) {
+                ExternalPlayListLoaded(fn);
+                return;
+            } else if (!lav_fallback) {
+                /* invalid file or Internet connection failed */
+                return;
+            }
         }
         /* fall through to AddItem below, we do this for HLS playlist, since those should be handled directly by LAV Splitter */
     } else {
@@ -694,9 +696,20 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
     CPlaylistItem pli;
     std::vector<int> idx;
 
+    bool isurl = PathUtils::IsURL(fn);
+
     CWebTextFile f(CTextFile::UTF8);
     f.SetFallbackEncoding(CTextFile::ANSI);
-    if (!f.Open(fn) || !f.ReadString(str)) {
+
+    DWORD dwError = 0;
+    if (!f.Open(fn, dwError)) {
+        if (isurl && (dwError == 12029)) {
+            // connection failed, can sometimes happen (due to user-agent?), so try fallback
+            *lav_fallback = true;
+        }
+        return false;
+    }
+    if (!f.ReadString(str)) {
         return false;
     }
 
@@ -708,7 +721,6 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
     }
 
     CString base;
-    bool isurl = PathUtils::IsURL(fn);
     if (isurl) {
         int p = fn.Find(_T('?'));
         if (p > 0) {
