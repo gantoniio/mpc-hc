@@ -96,6 +96,7 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CMPCThemePPageBase)
     ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
+    ON_BN_CLICKED(IDC_CHECK1, OnClickCheck1)
     ON_WM_DRAWITEM()
     ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
     ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateAudioSwitcher)
@@ -223,6 +224,18 @@ BOOL CPPageAudioSwitcher::OnApply()
     }
 
     return __super::OnApply();
+}
+
+void CPPageAudioSwitcher::OnClickCheck1()
+{
+    UpdateData();
+
+    if (m_fCustomChannelMapping) {
+        if (IDNO == AfxMessageBox(_T("WARNING: Channel mapping is not the same as channel mixing. Normal users should not enable this functionality.\n\nIf you want to do channel mixing (such as 5.1 -> stereo) you need to go here:\nInternal Filters > Audio Decoder > Mixing\n\nAre you really sure that you want to enable channel mapping?"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+            m_fCustomChannelMapping = false;
+            UpdateData(FALSE);
+        }
+    }
 }
 
 void CPPageAudioSwitcher::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
