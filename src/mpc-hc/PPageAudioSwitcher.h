@@ -64,6 +64,8 @@ private:
     CMPCThemeSpinButtonCtrl m_tAudioTimeShiftSpin;
     BOOL m_fAudioTimeShift;
 
+    BOOL m_bBoostWarningShown = false;
+
     // tooltip for slidercontrol
     CToolTipCtrl m_tooltip;
 public:
