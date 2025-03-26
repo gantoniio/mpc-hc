@@ -17617,7 +17617,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
                 dwFlags = 0;
             }
             if (lcid && s.fEnableSubtitles) {
-                currentSubLang = ISOLang::GetLocaleStringCompat(lcid);
+                currentSubLang = ISOLang::LCIDToISO6392(lcid);
             } else {
                 currentSubLang.Empty();
             }
@@ -17639,7 +17639,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             LCID lcid = 0;
             pSubInput->pSubStream->GetStreamInfo(0, &pName, &lcid);
             if (lcid && s.fEnableSubtitles) {
-                currentSubLang = ISOLang::GetLocaleStringCompat(lcid);
+                currentSubLang = ISOLang::LCIDToISO6392(lcid);
             } else {
                 currentSubLang.Empty();
             }
