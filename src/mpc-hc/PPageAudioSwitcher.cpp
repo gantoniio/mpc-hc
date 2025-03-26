@@ -46,7 +46,6 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
     , m_nAudioMaxNormFactor(400)
     , m_fAudioNormalizeRecover(FALSE)
     , m_AudioBoostPos(0)
-    , m_fDownSampleTo441(FALSE)
     , m_fCustomChannelMapping(FALSE)
     , m_nChannels(0)
     , m_tAudioTimeShift(0)
@@ -74,7 +73,6 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK6, m_fAudioNormalizeRecover);
     DDX_Slider(pDX, IDC_SLIDER1, m_AudioBoostPos);
     DDX_Control(pDX, IDC_SLIDER1, m_AudioBoostCtrl);
-    DDX_Check(pDX, IDC_CHECK3, m_fDownSampleTo441);
     DDX_Check(pDX, IDC_CHECK1, m_fCustomChannelMapping);
     DDX_Control(pDX, IDC_EDIT1, m_nChannelsCtrl);
     DDX_Text(pDX, IDC_EDIT1, m_nChannels);
@@ -85,7 +83,6 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SPIN1, m_nChannelsSpinCtrl);
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Check(pDX, IDC_CHECK2, m_fEnableAudioSwitcher);
-    DDX_Control(pDX, IDC_CHECK3, m_fDownSampleTo441Ctrl);
     DDX_Control(pDX, IDC_CHECK1, m_fCustomChannelMappingCtrl);
     DDX_Control(pDX, IDC_EDIT2, m_tAudioTimeShiftCtrl);
     DDX_Control(pDX, IDC_SPIN2, m_tAudioTimeShiftSpin);
@@ -139,7 +136,6 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
     m_AudioBoostCtrl.SetRange(0, 300);
     m_AudioBoostCtrl.SetPageSize(10);
     m_AudioBoostPos = s.nAudioBoost;
-    m_fDownSampleTo441 = s.fDownSampleTo441;
     m_fAudioTimeShift = s.fAudioTimeShift;
     m_tAudioTimeShift = s.iAudioTimeShift;
     m_tAudioTimeShiftSpin.SetRange32(-1000 * 60 * 60 * 24, 1000 * 60 * 60 * 24);
@@ -187,8 +183,6 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
 
-    GetDlgItem(IDC_CHECK3)->ShowWindow(SW_HIDE); // Hide downsample checkbox, will remove relevant code in future
-
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -211,7 +205,6 @@ BOOL CPPageAudioSwitcher::OnApply()
     s.nAudioMaxNormFactor = m_nAudioMaxNormFactor;
     s.fAudioNormalizeRecover = !!m_fAudioNormalizeRecover;
     s.nAudioBoost = m_AudioBoostPos;
-    s.fDownSampleTo441 = !!m_fDownSampleTo441;
     s.fAudioTimeShift = !!m_fAudioTimeShift;
     s.iAudioTimeShift = m_tAudioTimeShift;
     s.fCustomChannelMapping = !!m_fCustomChannelMapping;

@@ -50,8 +50,6 @@ private:
     BOOL m_fAudioNormalizeRecover;
     int m_AudioBoostPos;
     CMPCThemeSliderCtrl m_AudioBoostCtrl;
-    BOOL m_fDownSampleTo441;
-    CMPCThemeRadioOrCheck m_fDownSampleTo441Ctrl;
     BOOL m_fCustomChannelMapping;
     CMPCThemeRadioOrCheck m_fCustomChannelMappingCtrl;
     CMPCThemeEdit m_nChannelsCtrl;
