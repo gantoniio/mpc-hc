@@ -129,12 +129,12 @@ BEGIN
     EDITTEXT        IDC_EDIT2,149,92,55,13,ES_AUTOHSCROLL,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,92,14,13
     CONTROL         "Enable custom channel mapping",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,112,343,8
-    LTEXT           "Speaker configuration for",IDC_STATIC1,6,128,138,8
+    LTEXT           "Speaker configuration for",IDC_STATIC_CM1,6,128,138,8
     EDITTEXT        IDC_EDIT1,149,126,35,13,ES_CENTER | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,169,126,14,13
-    LTEXT           "input channels:",IDC_STATIC2,188,128,161,8
+    LTEXT           "input channels:",IDC_STATIC_CM2,188,128,161,8
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,6,145,343,124
-    CTEXT           "Hold shift for immediate changes when clicking something",IDC_STATIC3,6,274,343,8
+    CTEXT           "Hold shift for immediate changes when clicking something",IDC_STATIC_CM3,6,274,343,8
 END
 
 IDD_GOTO_DLG DIALOGEX 0, 0, 186, 120

@@ -78,6 +78,8 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
+    void SetChannelMappingSW(int v);
+
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnClickCheck1();

@@ -120,6 +120,16 @@ BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CMPCThemePPageBase)
 END_MESSAGE_MAP()
 
 
+void CPPageAudioSwitcher::SetChannelMappingSW(int v)
+{
+    GetDlgItem(IDC_EDIT1)->ShowWindow(v);
+    GetDlgItem(IDC_SPIN1)->ShowWindow(v);
+    GetDlgItem(IDC_LIST1)->ShowWindow(v);
+    GetDlgItem(IDC_STATIC_CM1)->ShowWindow(v);
+    GetDlgItem(IDC_STATIC_CM2)->ShowWindow(v);
+    GetDlgItem(IDC_STATIC_CM3)->ShowWindow(v);
+}
+
 // CPPageAudioSwitcher message handlers
 
 BOOL CPPageAudioSwitcher::OnInitDialog()
@@ -183,6 +193,10 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
 
+    if (!m_fCustomChannelMapping) {
+        SetChannelMappingSW(SW_HIDE);
+    }
+
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -224,10 +238,15 @@ void CPPageAudioSwitcher::OnClickCheck1()
     UpdateData();
 
     if (m_fCustomChannelMapping) {
-        if (IDNO == AfxMessageBox(_T("WARNING: Channel mapping is not the same as channel mixing. Normal users should not enable this functionality.\n\nIf you want to do channel mixing (such as 5.1 -> stereo) you need to go here:\nInternal Filters > Audio Decoder > Mixing\n\nAre you really sure that you want to enable channel mapping?"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+        if (IDNO == AfxMessageBox(_T("WARNING: Channel mapping is not the same as channel mixing. Normal users should never enable this functionality.\n\nIf you want to do channel mixing (such as 5.1 -> stereo) you need to go here:\nInternal Filters > Audio Decoder > Mixing\n\nAre you really sure that you want to enable channel mapping?"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
             m_fCustomChannelMapping = false;
             UpdateData(FALSE);
+            SetChannelMappingSW(SW_HIDE);
+        } else {
+            SetChannelMappingSW(SW_SHOW);
         }
+    } else {
+        SetChannelMappingSW(SW_HIDE);
     }
 }
 
