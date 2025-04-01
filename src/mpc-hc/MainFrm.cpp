@@ -2951,9 +2951,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         switch (evCode) {
             case EC_PAUSED:
-                UpdateCachedMediaState();
-                if (m_audioTrackCount > 1) {
-                    CheckSelectedAudioStream();
+                if (m_eMediaLoadState == MLS::LOADED) {
+                    UpdateCachedMediaState();
+                    if (m_audioTrackCount > 1) {
+                        CheckSelectedAudioStream();
+                    }
                 }
                 break;
             case EC_COMPLETE:
@@ -11525,7 +11527,7 @@ CRect CMainFrame::GetInvisibleBorderSize() const
     return invisibleBorders;
 }
 
-OAFilterState CMainFrame::GetMediaStateDirect() const
+OAFilterState CMainFrame::GetMediaStateDirect()
 {
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
@@ -11534,7 +11536,7 @@ OAFilterState CMainFrame::GetMediaStateDirect() const
     return ret;
 }
 
-OAFilterState CMainFrame::GetMediaState() const
+OAFilterState CMainFrame::GetMediaState()
 {
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
@@ -11553,7 +11555,12 @@ OAFilterState CMainFrame::GetMediaState() const
 
 OAFilterState CMainFrame::UpdateCachedMediaState()
 {
-    m_CachedFilterState = GetMediaStateDirect();
+    if (m_eMediaLoadState == MLS::LOADED) {
+        m_CachedFilterState = -1;
+        m_pMC->GetState(0, &m_CachedFilterState);
+    } else {
+        m_CachedFilterState = -1;
+    }
     return m_CachedFilterState;
 }
 
@@ -18991,6 +18998,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         return;
     }
 
+    if (m_pME) {
+        m_pME->SetNotifyWindow(NULL, 0, 0);
+    }
+
     m_media_trans_control.close();
 
     if (m_bSettingUpMenus) {
@@ -19033,10 +19044,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     }
                 }
             }
-        }
-
-        if (m_pME) {
-            m_pME->SetNotifyWindow(NULL, 0, 0);
         }
 
         // save external subtitle
