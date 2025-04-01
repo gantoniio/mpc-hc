@@ -96,7 +96,7 @@ bool CFGFilterLAV::CheckVersion(CString filterPath)
         lav_version = fversion;
     }
 
-    return fversion >= LAV_FILTERS_VERSION(0, 68, 0, 0);
+    return fversion >= LAV_FILTERS_VERSION(0, 77, 0, 0);
 }
 
 CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
@@ -392,9 +392,7 @@ void CFGFilterLAVSplitterBase::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("MatroskaExternalSegments"), bMatroskaExternalSegments);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
-    }
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchRemoveAudio"), bStreamSwitchRemoveAudio);
 
@@ -449,11 +447,7 @@ bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pL
 
     bMatroskaExternalSegments = pLAVFSettings->GetLoadMatroskaExternalSegments();
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
-        bStreamSwitchReselectSubs = pLAVFSettings->GetStreamSwitchReselectSubtitles();
-    } else {
-        bStreamSwitchReselectSubs = FALSE;
-    }
+    bStreamSwitchReselectSubs = pLAVFSettings->GetStreamSwitchReselectSubtitles();
 
     bStreamSwitchRemoveAudio = pLAVFSettings->GetStreamSwitchRemoveAudio();
 
@@ -494,9 +488,7 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
 
     pLAVFSettings->SetLoadMatroskaExternalSegments(bMatroskaExternalSegments);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
-        pLAVFSettings->SetStreamSwitchReselectSubtitles(bStreamSwitchReselectSubs);
-    }
+    pLAVFSettings->SetStreamSwitchReselectSubtitles(bStreamSwitchReselectSubs);
 
     pLAVFSettings->SetStreamSwitchRemoveAudio(bStreamSwitchRemoveAudio);
 
@@ -769,29 +761,17 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     bHWFormats[HWCodec_HEVC] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
     bHWFormats[HWCodec_VP9] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
     bHWFormats[HWCodec_H264MVC] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("h264mvc"), bHWFormats[HWCodec_H264MVC]);
-    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 1, 87)) {
-        bHWFormats[HWCodec_AV1] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("av1"), bHWFormats[HWCodec_AV1]);
-    }
+    bHWFormats[HWCodec_AV1] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("av1"), bHWFormats[HWCodec_AV1]);
 
     dwHWAccelResFlags = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
-
     dwHWDeintMode = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintMode"), dwHWDeintMode);
-
     dwHWDeintOutput = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
-        dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
-        dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
-    }
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
-        dwHWAccelDeviceD3D11 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
-        dwHWAccelDeviceD3D11Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
-    }
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
-        bHWAccelCUVIDXVA = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
-    }
+    dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+    dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
+    dwHWAccelDeviceD3D11 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
+    dwHWAccelDeviceD3D11Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
+    bHWAccelCUVIDXVA = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
 }
 
 void CFGFilterLAVVideo::Settings::SaveSettings()
@@ -831,27 +811,16 @@ void CFGFilterLAVVideo::Settings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("h264mvc"), bHWFormats[HWCodec_H264MVC]);
-    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 1, 87)) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("av1"), bHWFormats[HWCodec_AV1]);
-    }
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("av1"), bHWFormats[HWCodec_AV1]);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintMode"), dwHWDeintMode);
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
-    }
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
-    }
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
-    }
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
 }
 
 bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVFSettings)
@@ -889,30 +858,12 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
     }
 
     dwHWAccelResFlags = pLAVFSettings->GetHWAccelResolutionFlags();
-
     dwHWDeintMode = pLAVFSettings->GetHWAccelDeintMode();
-
     dwHWDeintOutput = pLAVFSettings->GetHWAccelDeintOutput();
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
-        dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
-    } else {
-        dwHWAccelDeviceDXVA2 = LAVHWACCEL_DEVICE_DEFAULT;
-        dwHWAccelDeviceDXVA2Desc = 0;
-    }
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
-        dwHWAccelDeviceD3D11 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_D3D11, &dwHWAccelDeviceD3D11Desc);
-    } else {
-        dwHWAccelDeviceD3D11 = LAVHWACCEL_DEVICE_DEFAULT;
-        dwHWAccelDeviceD3D11Desc = 0;
-    }
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
-        bHWAccelCUVIDXVA = pLAVFSettings->GetHWAccelDeintHQ();
-    } else {
-        bHWAccelCUVIDXVA = TRUE;
-    }
+    dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
+    dwHWAccelDeviceD3D11 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_D3D11, &dwHWAccelDeviceD3D11Desc);
+    bHWAccelCUVIDXVA = pLAVFSettings->GetHWAccelDeintHQ();
 
     return true;
 }
@@ -952,20 +903,12 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
     }
 
     pLAVFSettings->SetHWAccelResolutionFlags(dwHWAccelResFlags);
-
     pLAVFSettings->SetHWAccelDeintMode((LAVHWDeintModes)dwHWDeintMode);
-
     pLAVFSettings->SetHWAccelDeintOutput((LAVDeintOutput)dwHWDeintOutput);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
-        pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
-    }
-    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
-        pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_D3D11, dwHWAccelDeviceD3D11, dwHWAccelDeviceD3D11Desc);
-    }
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
-        pLAVFSettings->SetHWAccelDeintHQ(bHWAccelCUVIDXVA);
-    }
+    pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
+    pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_D3D11, dwHWAccelDeviceD3D11, dwHWAccelDeviceD3D11Desc);
+    pLAVFSettings->SetHWAccelDeintHQ(bHWAccelCUVIDXVA);
 
     // Force RV1/2 and v210/v410 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);
@@ -1054,9 +997,7 @@ void CFGFilterLAVAudio::Settings::LoadSettings()
 
     bDTSHDFraming = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("DTSHDFraming"), bDTSHDFraming);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
-        bBitstreamingFallback = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
-    }
+    bBitstreamingFallback = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
 
     bAutoAVSync = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("AutoAVSync"), bAutoAVSync);
 
@@ -1112,9 +1053,7 @@ void CFGFilterLAVAudio::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("DTSHDFraming"), bDTSHDFraming);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
-    }
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("BitstreamingFallback"), bBitstreamingFallback);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("AutoAVSync"), bAutoAVSync);
 
@@ -1169,11 +1108,7 @@ bool CFGFilterLAVAudio::Settings::GetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     bDTSHDFraming = pLAVFSettings->GetDTSHDFraming();
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
-        bBitstreamingFallback = pLAVFSettings->GetBitstreamingFallback();
-    } else {
-        bBitstreamingFallback = FALSE;
-    }
+    bBitstreamingFallback = pLAVFSettings->GetBitstreamingFallback();
 
     bAutoAVSync = pLAVFSettings->GetAutoAVSync();
 
@@ -1222,10 +1157,8 @@ bool CFGFilterLAVAudio::Settings::SetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     pLAVFSettings->SetDTSHDFraming(bDTSHDFraming);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
-        pLAVFSettings->SetBitstreamingFallback(bBitstreamingFallback);
-    }
-
+    pLAVFSettings->SetBitstreamingFallback(bBitstreamingFallback);
+ 
     pLAVFSettings->SetAutoAVSync(bAutoAVSync);
 
     pLAVFSettings->SetExpandMono(bExpandMono);
