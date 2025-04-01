@@ -358,7 +358,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 int32_t maxpeak = 0;
                 if (wfe->wBitsPerSample == 8) {
                     for (size_t i = 0; i < samples; i++) {
-                        int32_t peak = abs((int8_t)(pDataOut[i] ^ 0x80));
+                        int32_t peak = (int8_t)(pDataOut[i] ^ 0x80);
                         if (peak > maxpeak) {
                             maxpeak = peak;
                         }
@@ -366,7 +366,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                     sample_max = (double)maxpeak / INT8_MAX;
                 } else if (wfe->wBitsPerSample == 16) {
                     for (size_t i = 0; i < samples; i++) {
-                        int32_t peak = abs(((int16_t*)pDataOut)[i]);
+                        int32_t peak = ((int16_t*)pDataOut)[i];
                         if (peak > maxpeak) {
                             maxpeak = peak;
                         }
@@ -379,7 +379,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                         p[1] = pDataOut[i * 3];
                         p[2] = pDataOut[i * 3 + 1];
                         p[3] = pDataOut[i * 3 + 2];
-                        peak = abs(peak);
+                        peak = peak;
                         if (peak > maxpeak) {
                             maxpeak = peak;
                         }
@@ -387,7 +387,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                     sample_max = (double)maxpeak / INT32_MAX;
                 } else if (wfe->wBitsPerSample == 32) {
                     for (size_t i = 0; i < samples; i++) {
-                        int32_t peak = abs(((int32_t*)pDataOut)[i]);
+                        int32_t peak = ((int32_t*)pDataOut)[i];
                         if (peak > maxpeak) {
                             maxpeak = peak;
                         }
@@ -397,14 +397,14 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
             } else if (fFloat) {
                 if (wfe->wBitsPerSample == 32) {
                     for (size_t i = 0; i < samples; i++) {
-                        double sample = (double)abs(((float*)pDataOut)[i]);
+                        double sample = ((float*)pDataOut)[i];
                         if (sample > sample_max) {
                             sample_max = sample;
                         }
                     }
                 } else if (wfe->wBitsPerSample == 64) {
                     for (size_t i = 0; i < samples; i++) {
-                        double sample = (double)abs(((double*)pDataOut)[i]);
+                        double sample = ((double*)pDataOut)[i];
                         if (sample > sample_max) {
                             sample_max = sample;
                         }
@@ -412,26 +412,35 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 }
             }
 
-            double normFact = 1.0 / sample_max;
-            if (m_normalizeFactor > normFact) {
-                m_normalizeFactor = normFact;
-            } else {
-                if (m_fNormalizeRecover) {
-                    // we don't regain if we are too close of the maximum
-                    if (sample_max * m_normalizeFactor < NORMALIZATION_REGAIN_THRESHOLD) {
-                        m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000; // the step is per second so we weight it with the duration
+            if (sample_max < 1.0) {
+                double normFact = 1.0 / sample_max;
+                if (m_normalizeFactor > normFact) {
+                    m_normalizeFactor = normFact;
+                } else {
+                    if (m_fNormalizeRecover) {
+                        // we don't regain if we are too close of the maximum
+                        if (sample_max * m_normalizeFactor < NORMALIZATION_REGAIN_THRESHOLD) {
+                            m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000; // the step is per second so we weight it with the duration
+                        }
                     }
-                } else if (m_normalizeFactor < 0.8 && normFact >= 1.0) {
-                    // recover from overflow situation (audio glitch?)
-                    m_normalizeFactor += NORMALIZATION_REGAIN_STEP * rtDur / 10000000;
                 }
+                if (m_normalizeFactor > m_nMaxNormFactor) {
+                    m_normalizeFactor = m_nMaxNormFactor;
+                }
+                sample_mul = m_normalizeFactor;
+                //TRACE(L"apply normalize, sample_max = %f, normalizeFactor = %f\n", sample_max, m_normalizeFactor);
+            } else {
+                if (m_normalizeFactor > 1.5) {
+                    m_normalizeFactor = std::min(1.5, m_nMaxNormFactor);
+                } else if (m_normalizeFactor > 1.0) {
+                    double step = NORMALIZATION_REGAIN_STEP * rtDur / 10000000;
+                    m_normalizeFactor -= step;
+                    if (m_normalizeFactor < 1.0) {
+                        m_normalizeFactor = 1.0;
+                    }
+                }
+                //TRACE(L"Skipping normalize, sample_max = %f, normalizeFactor = %f\n", sample_max, m_normalizeFactor);
             }
-
-            if (m_normalizeFactor > m_nMaxNormFactor) {
-                m_normalizeFactor = m_nMaxNormFactor;
-            }
-
-            sample_mul = m_normalizeFactor;
         }
 
         if (m_boostFactor > 1.0) {
