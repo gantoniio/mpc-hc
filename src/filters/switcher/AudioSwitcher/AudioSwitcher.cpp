@@ -33,7 +33,7 @@
 #endif
 #include "moreuuids.h"
 
-#define NORMALIZATION_REGAIN_STEP      0.06 // +6%/s
+#define NORMALIZATION_REGAIN_STEP      0.05
 #define NORMALIZATION_REGAIN_THRESHOLD 0.75
 
 #ifdef STANDALONE_FILTER
@@ -412,8 +412,8 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                 }
             }
 
-            if (sample_max < 1.0) {
-                double normFact = 1.0 / sample_max;
+            if (sample_max < 0.98) {
+                double normFact = sample_max < 0.1 ? 10.0 : 0.98 / sample_max;
                 if (m_normalizeFactor > normFact) {
                     m_normalizeFactor = normFact;
                 } else {
