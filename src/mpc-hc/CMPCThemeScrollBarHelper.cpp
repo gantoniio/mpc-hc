@@ -6,6 +6,7 @@
 CMPCThemeScrollBarHelper::CMPCThemeScrollBarHelper(CWnd* scrollWindow)
     :helperInfo(nullptr)
     ,setWindowRegionActive(false)
+    ,regionCreated(false)
 {
     window = scrollWindow;
     pParent = nullptr;
@@ -52,6 +53,7 @@ void CMPCThemeScrollBarHelper::setWindowRegionExclusive(HRGN h) {
         setWindowRegionActive = true;
     }
     window->SetWindowRgn(h, false);
+    regionCreated = (NULL != h);
     {
         std::lock_guard<std::recursive_mutex> lck(helperMutex);
         setWindowRegionActive = false;
@@ -62,6 +64,12 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
 {
 
     if (!CMPCThemeUtil::IsWindowVisibleAndRendered(window)) {
+        if (IsWindow(vertSB.m_hWnd)) {
+            vertSB.ShowWindow(SW_HIDE);
+        }
+        if (IsWindow(horzSB.m_hWnd)) {
+            horzSB.ShowWindow(SW_HIDE);
+        }
         return;
     }
 
@@ -112,7 +120,7 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
         }
     }
     if (needsRegion) {
-        if (windowChanged) {
+        if (windowChanged || !regionCreated) {
             HRGN contentRgn = CreateRectRgn(wr.left, wr.top, wr.right, wr.bottom);
             if (!vertRect.IsRectEmpty()) {
                 ::MapWindowPoints(pParent->GetSafeHwnd(), window->GetSafeHwnd(), (LPPOINT)&vertRect, 2);

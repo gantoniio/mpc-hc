@@ -33,7 +33,7 @@ protected:
     CMPCThemeScrollBar vertSB, horzSB;
     ScrollBarHelperInfo helperInfo;
     std::recursive_mutex helperMutex;
-    bool setWindowRegionActive;
+    bool setWindowRegionActive, regionCreated;
     static void doNcPaint(CWnd* window);
 public:
     CMPCThemeScrollBarHelper(CWnd* scrollWindow);
