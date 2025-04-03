@@ -188,7 +188,7 @@ msgstr "Repetă pentru totdeauna: Oprit"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "Repetă la nesfârșit"
+msgstr "Repetă pentru totdeauna"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
