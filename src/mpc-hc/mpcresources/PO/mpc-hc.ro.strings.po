@@ -2632,7 +2632,7 @@ msgid ""
 "\n"
 "Do you really want to activate this option?"
 msgstr ""
-"Această opțiune a fost proiectată pentru a evita efectul de rupere (tearing). Cu toate acestea, va împiedica de asemenea MPC-HC să afișeze meniul contextual și orice căsuță de dialog în timpul redării.\n"
+"Această opțiune a fost proiectată pentru a evita efectul de rupere. Cu toate acestea, va împiedica de asemenea MPC-HC să afișeze meniul contextual și orice căsuță de dialog în timpul redării.\n"
 "\n"
 "Ești sigur(ă) că dorești să activezi această opțiune?"
 
