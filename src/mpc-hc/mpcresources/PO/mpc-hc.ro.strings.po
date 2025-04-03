@@ -1199,7 +1199,7 @@ msgstr ""
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "Mut"
+msgstr "Mut (Silențios)"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
