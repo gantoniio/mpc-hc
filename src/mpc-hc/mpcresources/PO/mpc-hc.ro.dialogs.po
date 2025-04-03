@@ -434,7 +434,7 @@ msgstr "Redă"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "Repetă la nesfârșit"
+msgstr "Repetă pentru totdeauna"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
