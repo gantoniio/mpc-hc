@@ -189,7 +189,7 @@ msgstr "Setări pentru r&andor"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Test de rupere (de tearing)"
+msgstr "&Test de rupere"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
