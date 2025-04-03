@@ -180,7 +180,7 @@ msgstr "Mod de repetare: Fișier"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "Repetare la nesfârșit: Pornită"
+msgstr "Repetă pentru totdeauna: Pornit"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
