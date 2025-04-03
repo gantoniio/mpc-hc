@@ -1395,7 +1395,7 @@ msgstr "Rotește cadrul video Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Test de rupere/ de tearing"
+msgstr "Test de rupere"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
