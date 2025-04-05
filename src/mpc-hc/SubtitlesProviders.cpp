@@ -518,6 +518,7 @@ SRESULT SubtitlesProvider::DownloadInternal(std::string url, std::string referer
         case 200:
             return SR_SUCCEEDED;
         default:
+            SUBTITLES_LOG(L"FAILED, server response code = %d\n", dwStatusCode);
             return SR_FAILED;
     }
 }

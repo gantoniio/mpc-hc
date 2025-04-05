@@ -56,7 +56,7 @@ void SubtitlesProviders::RegisterProviders()
     //Register<OpenSubtitles>(this);
     Register<OpenSubtitles2>(this);
     Register<podnapisi>(this);
-    Register<Napisy24>(this);
+    //Register<Napisy24>(this);
 }
 
 /******************************************************************************
@@ -911,6 +911,7 @@ const std::set<std::string>& podnapisi::Languages() const
 ** Napisy24
 ******************************************************************************/
 
+#if 0
 SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
 {
     if (!pFileInfo.manualSearchString.IsEmpty()) {
@@ -1018,3 +1019,4 @@ const std::set<std::string>& Napisy24::Languages() const
     static std::set<std::string> result = {"pl"};
     return result;
 }
+#endif
