@@ -14005,7 +14005,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
             performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
-            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
+            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("FLAC") || str.Right(4) == _T("AIFF")) { // We just support audio file.
                 cue_index++;
             }
         }

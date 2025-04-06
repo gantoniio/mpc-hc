@@ -40,7 +40,7 @@ struct CueTrackMeta {
     CString title;
     CString performer;
     int trackID = 0;
-    REFERENCE_TIME time;
+    REFERENCE_TIME time = 0;
 };
 
 class CPlayerPlaylistBar : public CMPCThemePlayerBar, public CDropClient
