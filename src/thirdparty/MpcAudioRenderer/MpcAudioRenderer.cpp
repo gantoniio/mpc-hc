@@ -2889,8 +2889,7 @@ void CMpcAudioRenderer::CheckBufferStatus()
 		return;
 	}
 
-	const size_t nWasapiQueueSize = WasapiQueueSize();
-	if (nWasapiQueueSize < m_nMaxWasapiQueueSize || !m_pRenderClient) {
+	if (!m_pRenderClient || !m_bIsAudioClientStarted || WasapiQueueSize() < m_nMaxWasapiQueueSize) {
 		SetEvent(m_hRendererNeedMoreData);
 	} else {
 		ResetEvent(m_hRendererNeedMoreData);
