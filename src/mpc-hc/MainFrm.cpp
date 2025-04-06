@@ -13954,7 +13954,7 @@ void CMainFrame::SetupChapters()
     UpdateSeekbarChapterBag();
 }
 
-void CMainFrame::SetupCueChapters(CString fn) {
+void CMainFrame::SetupCueChapters(CString cuefn) {
     CString str;
     int cue_index(-1);
 
@@ -13966,25 +13966,25 @@ void CMainFrame::SetupCueChapters(CString fn) {
 
     CWebTextFile f(CTextFile::UTF8);
     f.SetFallbackEncoding(CTextFile::ANSI);
-    if (!f.Open(fn) || !f.ReadString(str)) {
+    if (!f.Open(cuefn) || !f.ReadString(str)) {
         return;
     }
     f.Seek(0, CFile::SeekPosition::begin);
 
     CString base;
-    bool isurl = PathUtils::IsURL(fn);
+    bool isurl = PathUtils::IsURL(cuefn);
     if (isurl) {
-        int p = fn.Find(_T('?'));
+        int p = cuefn.Find(_T('?'));
         if (p > 0) {
-            fn = fn.Left(p);
+            cuefn = cuefn.Left(p);
         }
-        p = fn.ReverseFind(_T('/'));
+        p = cuefn.ReverseFind(_T('/'));
         if (p > 0) {
-            base = fn.Left(p + 1);
+            base = cuefn.Left(p + 1);
         }
     }
     else {
-        CPath basefilepath(fn);
+        CPath basefilepath(cuefn);
         basefilepath.RemoveFileSpec();
         basefilepath.AddBackslash();
         base = basefilepath.m_strPath;
@@ -13995,6 +13995,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
     CAtlList<CueTrackMeta> trackl;
     CueTrackMeta track;
     int trackID(0);
+    CString lastfile;
 
     while (f.ReadString(str)) {
         str.Trim();
@@ -14005,8 +14006,17 @@ void CMainFrame::SetupCueChapters(CString fn) {
             performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
-            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("FLAC") || str.Right(4) == _T("AIFF")) { // We just support audio file.
-                cue_index++;
+            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("FLAC") || str.Right(4) == _T("AIFF")) {
+                CString file_entry;
+                if (str.Right(3) == _T("MP3")) {
+                    file_entry = str.Mid(5, str.GetLength() - 9).Trim(_T("\""));
+                } else {
+                    file_entry = str.Mid(5, str.GetLength() - 10).Trim(_T("\""));
+                }
+                if (file_entry != lastfile) {
+                    cue_index++;
+                    lastfile = file_entry;
+                }
             }
         }
         else if (cue_index >= 0) {
@@ -14019,6 +14029,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
                     track = CueTrackMeta();
                 }
                 track.trackID = trackID;
+                track.fileID = cue_index;
             }
             else if (str.Left(5) == _T("TITLE")) {
                 track.title = str.Mid(6).Trim(_T("\""));
@@ -14040,17 +14051,15 @@ void CMainFrame::SetupCueChapters(CString fn) {
         trackl.AddTail(track);
     }
 
-    if ((cue_index == 0 && trackl.GetCount() == 1) || cue_index > 1) pli.m_cue = false; // avoid unnecessary parsing of cue again later
-
     if (trackl.GetCount() >= 1) {
         POSITION p = trackl.GetHeadPosition();
         bool b(true);
         do {
             if (p == trackl.GetTailPosition()) b = false;
             CueTrackMeta c(trackl.GetNext(p));
-            if (cue_index == 0 || (cue_index > 0 && c.trackID == (pli.m_cue_index + 1))) {
+            if (cue_index == 0 || (cue_index > 0 && c.fileID == pli.m_cue_index)) {
                 CString label;
-                if (c.trackID != 0 && !c.title.IsEmpty()) {
+                if (!c.title.IsEmpty()) {
                     label = c.title;
                     if (!c.performer.IsEmpty()) {
                         label += (_T(" - ") + c.performer);
@@ -14059,9 +14068,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
                         label += (_T(" - ") + performer);
                     }
                 }
-                REFERENCE_TIME time(c.time);
-                if (cue_index > 0) time = 0; // We don't support gap.
-                m_pCB->ChapAppend(time, label);
+                m_pCB->ChapAppend(c.time, label);
             }
         } while (b);
     }

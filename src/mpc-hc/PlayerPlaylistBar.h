@@ -39,6 +39,7 @@ class CMainFrame;
 struct CueTrackMeta {
     CString title;
     CString performer;
+    int fileID = 0;
     int trackID = 0;
     REFERENCE_TIME time = 0;
 };
