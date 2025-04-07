@@ -1749,37 +1749,39 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
     *pResult = FALSE;
 
-    CList<int> items;
-    POSITION pos = m_list.GetFirstSelectedItemPosition();
-    while (pos) {
-        items.AddHead(m_list.GetNextSelectedItem(pos));
+    int selected = (int)m_list.GetFirstSelectedItemPosition();
+    if (!selected) {
+        return;
     }
+    selected--; // actual list index
 
-    if (pLVKeyDown->wVKey == VK_DELETE && !items.IsEmpty()) {
+    if (pLVKeyDown->wVKey == VK_DELETE) {
+        POSITION remplpos = FindPos(selected);
+        CPlaylistItem pli = m_pl.GetAt(remplpos);
         POSITION curplpos = m_pl.GetPos();
-        pos = items.GetHeadPosition();
-        while (pos) {
-            int i = items.GetNext(pos);
-            POSITION remplpos = FindPos(i);
-            if (remplpos) {
-                if (remplpos == curplpos) {
-                    m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-                }
-                m_pl.RemoveAt(remplpos);
-                m_list.DeleteItem(i);
+        if (!remplpos) {
+            ASSERT(FALSE);
+            return;
+        }
+        if (remplpos == curplpos) {
+            m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+        }
+        m_pl.RemoveAt(remplpos);
+        m_list.DeleteItem(selected);
+
+        if (m_list.GetItemCount() > 0) {
+            if (selected < m_list.GetItemCount()) {
+                m_list.SetItemState(selected, LVIS_SELECTED, LVIS_SELECTED);
+            } else {
+                m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
             }
         }
-
-        m_list.SetItemState(-1, 0, LVIS_SELECTED);
-        m_list.SetItemState(
-            std::max(std::min(items.GetTail(), m_list.GetItemCount() - 1), 0),
-            LVIS_SELECTED, LVIS_SELECTED);
 
         ResizeListColumn();
 
         *pResult = TRUE;
-    } else if (pLVKeyDown->wVKey == VK_SPACE && items.GetCount() == 1) {
-        m_pl.SetPos(FindPos(items.GetHead()));
+    } else if (pLVKeyDown->wVKey == VK_SPACE) {
+        m_pl.SetPos(FindPos(selected));
         m_list.Invalidate();
         m_pMainFrame->OpenCurPlaylistItem();
         m_pMainFrame->SetFocus();
