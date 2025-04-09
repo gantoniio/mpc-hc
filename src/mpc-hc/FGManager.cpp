@@ -2803,8 +2803,6 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
             case VIDRNDT_DS_MPCVR:
                 if (!m_bIsCapture) {
                     m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_MPCVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_MPCVR), renderer_merit));
-                } else {
-                    m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, StrRes(IDS_PPAGE_OUTPUT_EVR), renderer_merit));
                 }
                 break;
             case VIDRNDT_DS_NULL_COMP:
@@ -2817,6 +2815,14 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
                 pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
                 m_transform.AddTail(pFGF);
                 break;
+        }
+        // add fallback
+        if (s.iDSVideoRendererType == VIDRNDT_DS_MPCVR || s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
+            if (IsCLSIDRegistered(CLSID_EnhancedVideoRenderer)) {
+                m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, StrRes(IDS_PPAGE_OUTPUT_EVR), renderer_merit - 1));
+            } else {
+                m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, StrRes(IDS_PPAGE_OUTPUT_VMR9WINDOWED), renderer_merit - 1));
+            }
         }
     } else {
         bool preview_evrcp = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || (s.iDSVideoRendererType == VIDRNDT_DS_SYNC) || (s.iDSVideoRendererType == VIDRNDT_DS_MADVR) || (s.iDSVideoRendererType == VIDRNDT_DS_MPCVR);
