@@ -50,8 +50,6 @@ private:
     BOOL m_fAudioNormalizeRecover;
     int m_AudioBoostPos;
     CMPCThemeSliderCtrl m_AudioBoostCtrl;
-    BOOL m_fDownSampleTo441;
-    CMPCThemeRadioOrCheck m_fDownSampleTo441Ctrl;
     BOOL m_fCustomChannelMapping;
     CMPCThemeRadioOrCheck m_fCustomChannelMappingCtrl;
     CMPCThemeEdit m_nChannelsCtrl;
@@ -63,6 +61,8 @@ private:
     CMPCThemeIntEdit m_tAudioTimeShiftCtrl;
     CMPCThemeSpinButtonCtrl m_tAudioTimeShiftSpin;
     BOOL m_fAudioTimeShift;
+
+    BOOL m_bBoostWarningShown = false;
 
     // tooltip for slidercontrol
     CToolTipCtrl m_tooltip;
@@ -78,8 +78,11 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
+    void SetChannelMappingSW(int v);
+
     DECLARE_MESSAGE_MAP()
 
+    afx_msg void OnClickCheck1();
     afx_msg void OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
     afx_msg void OnEnChangeEdit1();

@@ -85,6 +85,7 @@ public:
     CWebTextFile(CTextFile::enc e = DEFAULT_ENCODING, LONGLONG llMaxSize = 64 * 1024 * 1024);
 
     bool Open(LPCTSTR lpszFileName);
+    bool Open(LPCTSTR lpszFileName, DWORD& dwError);
     bool Save(LPCTSTR lpszFileName, enc e /*= DEFAULT_ENCODING*/);
     void Close();
 };

@@ -170,11 +170,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-    if (m_pD3DEx) {
-        m_pD3D = m_pD3DEx;
-    }
-
     const CRenderersSettings& r = GetRenderersSettings();
 
     if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
@@ -186,7 +181,14 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         m_bDesktopCompositionDisabled = false;
     }
 
-    hr = CreateDevice(_Error);
+    Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+    if (m_pD3DEx) {
+        m_pD3D = m_pD3DEx;
+        hr = CreateDevice(_Error);
+    } else {
+        _Error += L"Failed to create D3D9\n";
+        hr = E_UNEXPECTED;
+    }
 }
 #pragma warning(pop)
 
@@ -537,6 +539,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     CleanupRenderingEngine();
 
+    if (!m_pD3D) {
+        _Error += L"Failed to create D3D9\n";
+        return E_UNEXPECTED;
+    }
+
     UINT currentAdapter = GetAdapter(m_pD3D);
     bool bTryToReset = (currentAdapter == m_CurrentAdapter);
 
@@ -546,47 +553,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_CurrentAdapter = currentAdapter;
     }
 
-    if (!m_pD3D) {
-        _Error += L"Failed to create D3D9\n";
-        return E_UNEXPECTED;
-    }
-
     HRESULT hr = S_OK;
-
-    /*// TODO : add NVIDIA PerfHUD !!!
-
-    // Set default settings
-    UINT AdapterToUse=D3DADAPTER_DEFAULT;
-    D3DDEVTYPE DeviceType=D3DDEVTYPE_HAL;
-
-    #if SHIPPING_VERSION
-    // When building a shipping version, disable PerfHUD (opt-out)
-    #else
-    // Look for 'NVIDIA PerfHUD' adapter
-    // If it is present, override default settings
-    for (UINT Adapter=0;Adapter<g_pD3D->GetAdapterCount();Adapter++)
-    {
-      D3DADAPTER_IDENTIFIER9 Identifier;
-      HRESULT Res;
-
-    Res = g_pD3D->GetAdapterIdentifier(Adapter,0,&Identifier);
-      if (strstr(Identifier.Description,"PerfHUD") != 0)
-     {
-      AdapterToUse=Adapter;
-      DeviceType=D3DDEVTYPE_REF;
-      break;
-     }
-    }
-    #endif
-
-    if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
-      D3DCREATE_HARDWARE_VERTEXPROCESSING,
-    &d3dpp, &g_pd3dDevice) ) )
-    {
-     return E_FAIL;
-    }
-    */
-
 
     //#define ENABLE_DDRAWSYNC
 #ifdef ENABLE_DDRAWSYNC
@@ -1705,6 +1672,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
     DeleteSurfaces();
 
     if (m_pD3DEx) {
+        m_pD3DDevEx.Release();
+        m_pD3DDev.Release();
         m_pD3DEx.Release();
         m_pD3D = nullptr;
         Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);

@@ -463,15 +463,19 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     } else if (ct == _T("application/x-cue-sheet")) {
         ParseCUESheet(fns.GetHead());
         return;
-    } else if (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")) {
+    } else if (ydl_src.IsEmpty() && (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl"))) {
         auto fn = fns.GetHead();
-        if (ParseM3UPlayList(fn)) {
-            ExternalPlayListLoaded(fn);
-            /* We have handled this one. If parsing fails it should fall through to AddItem below.
-               It returns false for HLS playlists, since we want those to be handled directly by LAV Splitter.
-            */
-            return;
+        if (!PathUtils::IsURL(fn) || fn.Find(L"/hls/") == -1) {
+            bool lav_fallback = false;
+            if (ParseM3UPlayList(fn, &lav_fallback)) {
+                ExternalPlayListLoaded(fn);
+                return;
+            } else if (!lav_fallback) {
+                /* invalid file or Internet connection failed */
+                return;
+            }
         }
+        /* fall through to AddItem below, we do this for HLS playlist, since those should be handled directly by LAV Splitter */
     } else {
 #if INTERNAL_SOURCEFILTER_MPEG
         const CAppSettings& s = AfxGetAppSettings();
@@ -531,32 +535,32 @@ bool CPlayerPlaylistBar::ParseBDMVPlayList(CString fn)
     return !m_pl.IsEmpty();
 }
 
-bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
+bool CPlayerPlaylistBar::ParseCUESheet(CString cuefn) {
     CString str;
     std::vector<int> idx;
     int cue_index(0);
 
     CWebTextFile f(CTextFile::UTF8);
     f.SetFallbackEncoding(CTextFile::ANSI);
-    if (!f.Open(fn) || !f.ReadString(str)) {
+    if (!f.Open(cuefn) || !f.ReadString(str)) {
         return false;
     }
     f.Seek(0, CFile::SeekPosition::begin);
 
     CString base;
-    bool isurl = PathUtils::IsURL(fn);
+    bool isurl = PathUtils::IsURL(cuefn);
     if (isurl) {
-        int p = fn.Find(_T('?'));
+        int p = cuefn.Find(_T('?'));
         if (p > 0) {
-            fn = fn.Left(p);
+            cuefn = cuefn.Left(p);
         }
-        p = fn.ReverseFind(_T('/'));
+        p = cuefn.ReverseFind(_T('/'));
         if (p > 0) {
-            base = fn.Left(p + 1);
+            base = cuefn.Left(p + 1);
         }
     }
     else {
-        CPath basefilepath(fn);
+        CPath basefilepath(cuefn);
         basefilepath.RemoveFileSpec();
         basefilepath.AddBackslash();
         base = basefilepath.m_strPath;
@@ -569,6 +573,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     CAtlList<CPlaylistItem> pl;
     CueTrackMeta track;
     int trackID(0);
+    CString lastfile;
 
     while(f.ReadString(str)) {
         str.Trim();
@@ -579,18 +584,24 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
             performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
-            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
-                CPlaylistItem pli;
-                CString filen;
-                if (str.Right(3) == _T("MP3")) filen = str.Mid(5, str.GetLength() - 9).Trim(_T("\""));
-                else filen = str.Mid(5, str.GetLength() - 10).Trim(_T("\""));
-                filen = CombinePath(base, filen, isurl);
-                pli.m_cue = true;
-                pli.m_cue_index = cue_index;
-                pli.m_cue_filename = fn;
-                pli.m_fns.AddTail(filen);
-                pl.AddTail(pli);
-                cue_index++;
+            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("FLAC") || str.Right(4) == _T("AIFF")) {
+                CString file_entry;
+                if (str.Right(3) == _T("MP3")) {
+                    file_entry = str.Mid(5, str.GetLength() - 9).Trim(_T("\""));
+                } else {
+                    file_entry = str.Mid(5, str.GetLength() - 10).Trim(_T("\""));
+                }
+                if (file_entry != lastfile) {
+                    CPlaylistItem pli;
+                    lastfile = file_entry;
+                    file_entry = CombinePath(base, file_entry, isurl);
+                    pli.m_cue = true;
+                    pli.m_cue_index = cue_index;
+                    pli.m_cue_filename = cuefn;
+                    pli.m_fns.AddTail(file_entry);
+                    pl.AddTail(pli);
+                    cue_index++;
+                }
             }
         }
         else if (cue_index > 0) {
@@ -603,6 +614,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
                     track = CueTrackMeta();
                 }
                 track.trackID = trackID;
+                track.fileID = cue_index - 1;
             }
             else if (str.Left(5) == _T("TITLE")) {
                 track.title = str.Mid(6).Trim(_T("\""));
@@ -617,7 +629,7 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
         trackl.AddTail(track);
     }
 
-    CPath cp(fn);
+    CPath cp(cuefn);
     CString fn_no_ext;
     CString fdir;
     if (cp.FileExists()) {
@@ -629,72 +641,55 @@ bool CPlayerPlaylistBar::ParseCUESheet(CString fn) {
     bool currentCoverIsFileArt(false);
     CString cover(CoverArt::FindExternal(fn_no_ext, fdir, _T(""), currentCoverIsFileArt));
 
-    if (pl.GetCount() == 1) {
-        CPlaylistItem tpl = pl.GetHead();
-        CString label;
-        if (!title.IsEmpty()) {
-            label = title;
-            if (!performer.IsEmpty()) {
-                label += (_T(" - ") + performer);
+    int fileid = 0;
+    int filecount = pl.GetCount();
+    POSITION p = pl.GetHeadPosition();
+    while (p) {
+        CPlaylistItem pli = pl.GetNext(p);
+        if (performer.IsEmpty()) {
+            if (!title.IsEmpty()) {
+                pli.m_label = title;
+                if (filecount > 1) {
+                    pli.m_label.AppendFormat(L" [%d/%d]", ++fileid, filecount);
+                }
+            }
+        } else {
+            if (title.IsEmpty()) {
+                pli.m_label = performer;
+            } else {
+                pli.m_label = title + _T(" - ") + performer;
+            }
+            if (filecount > 1) {
+                pli.m_label.AppendFormat(L" [%d/%d]", ++fileid, filecount);
             }
         }
-        if (!label.IsEmpty()) tpl.m_label = label;
-        if (!cover.IsEmpty()) tpl.m_cover = cover;
-        m_pl.AddTail(tpl);
+        if (!cover.IsEmpty()) pli.m_cover = cover;
+        m_pl.AddTail(pli);
         success = true;
-    }
-    else if (pl.GetCount() > 1) {
-        POSITION p = pl.GetHeadPosition();
-        POSITION p2 = trackl.GetHeadPosition();
-        bool b(true), b2(false);
-        if (trackl.GetCount() > 0) b2 = true;
-        do {
-            if (p == pl.GetTailPosition()) b = false;
-            CueTrackMeta c;
-            if (b2 && p2 == trackl.GetTailPosition()) {
-                b2 = false;
-                c = trackl.GetNext(p2);
-            }
-            if (b2) c = trackl.GetNext(p2);
-            CPlaylistItem tpl(pl.GetNext(p));
-            CString label;
-            if (c.trackID != 0 && !c.title.IsEmpty()) {
-                label = c.title;
-                if (!c.performer.IsEmpty()) {
-                    label += (_T(" - ") + c.performer);
-                }
-                else if (!performer.IsEmpty()) {
-                    label += (_T(" - ") + performer);
-                }
-            }
-            else if (!title.IsEmpty()) {
-                label = title;
-                if (!performer.IsEmpty()) {
-                    label += (_T(" - ") + performer);
-                }
-                CString tmp;
-                tmp.Format(_T(" - File %d"), tpl.m_cue_index + 1);
-                label += tmp;
-            }
-            if (!label.IsEmpty()) tpl.m_label = label;
-            tpl.m_cue = false; // avoid unnecessary parsing of cue again later
-            if (!cover.IsEmpty()) tpl.m_cover = cover;
-            m_pl.AddTail(tpl);
-            success = true;
-        } while (b);
     }
     
     return success;
 }
 
-bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
+bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn, bool* lav_fallback) {
     CString str;
     CPlaylistItem pli;
     std::vector<int> idx;
 
+    bool isurl = PathUtils::IsURL(fn);
+
     CWebTextFile f(CTextFile::UTF8);
     f.SetFallbackEncoding(CTextFile::ANSI);
-    if (!f.Open(fn) || !f.ReadString(str)) {
+
+    DWORD dwError = 0;
+    if (!f.Open(fn, dwError)) {
+        if (isurl && (dwError == 12029)) {
+            // connection failed, can sometimes happen (due to user-agent?), so try fallback
+            *lav_fallback = true;
+        }
+        return false;
+    }
+    if (!f.ReadString(str)) {
         return false;
     }
 
@@ -706,7 +701,6 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
     }
 
     CString base;
-    bool isurl = PathUtils::IsURL(fn);
     if (isurl) {
         int p = fn.Find(_T('?'));
         if (p > 0) {
@@ -725,9 +719,11 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
     }
 
     bool success = false;
+    CString extinf_title = L"";
 
     while (f.ReadString(str)) {
-        if (str.Trim().IsEmpty()) { continue; }
+        str = str.Trim();
+        if (str.IsEmpty()) { continue; }
 
         if (str.Find(_T("#")) == 0) {
             if (isExt && str.Find(_T("#EXTINF")) == 0) {
@@ -738,45 +734,23 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
                     CString value = sl.RemoveHead();
                     if (key == _T("#EXTINF")) {
                         int findDelim;
-                        if (-1 == (findDelim = value.Find(_T(",")))) {
-                            continue; // discard invalid EXTINF line
-                        }
-                        str = L"";
-                        while (f.ReadString(str) && str.Left(1) == L"#") {}
-                        if (!str. IsEmpty()) {
-                            pli = CPlaylistItem();
-                            pli.m_label = value.Mid(findDelim + 1);
-                            str = CombinePath(base, str, isurl);
-                            pli.m_fns.AddTail(str);
-                            if (PathUtils::IsURL(str) && CMainFrame::IsOnYDLWhitelist(str)) {
-                                pli.m_ydlSourceURL = str;
-                                pli.m_bYoutubeDL = true;
-                            }
-                            m_pl.AddTail(pli);
-                            success = true;
-                            continue;
-                        }
-                        else {
-                            break; // end of file
+                        if (-1 != (findDelim = value.Find(_T(",")))) {
+                            extinf_title = value.Mid(findDelim + 1);
                         }
                     }
                 }
-                else {
-                    continue; // discard invalid EXTINF line
-                }
-            }
-            else if (str.Find(_T("#EXT-X-STREAM-INF")) == 0 || str.Find(_T("#EXT-X-TARGETDURATION")) == 0 || str.Find(_T("#EXT-X-MEDIA-SEQUENCE")) == 0) {
+            } else if (str.Find(_T("#EXT-X-STREAM-INF")) == 0 || str.Find(_T("#EXT-X-TARGETDURATION")) == 0 || str.Find(_T("#EXT-X-MEDIA-SEQUENCE")) == 0) {
                 // HTTP Live Stream, let LAV Splitter handle this
+                *lav_fallback = true;
                 return false;
             }
-            else {                
-                continue; // ignore this line
-            }
+            continue;
         }
 
-        // parse as an entry without EXTINF
+        // file or url
         str = CombinePath(base, str, isurl);
         if (!isurl && !PathUtils::IsURL(str) && ContainsWildcard(str)) {
+            extinf_title = L"";
             // wildcard entry
             std::set<CString, CStringUtils::LogicalLess> filelist;
             if (m_pMainFrame->WildcardFileSearch(str, filelist, true)) {
@@ -793,8 +767,10 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
             // check for nested playlist
             CString ext = GetFileExt(str);
             if (ext == L".m3u" || ext == L".m3u8") {
-                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str)) {
+                bool dummy = false;
+                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str, &dummy)) {
                     success = true;
+                    extinf_title = L"";
                     continue;
                 }
             } else if (ext == L".pls") {
@@ -802,6 +778,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
                 ParsePlayList(str, nullptr, 1);
                 if (m_pl.GetCount() > count) {
                     success = true;
+                    extinf_title = L"";
                     continue;
                 }
             }
@@ -812,8 +789,12 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
                 pli.m_ydlSourceURL = str;
                 pli.m_bYoutubeDL = true;
             }
+            if (!extinf_title.IsEmpty()) {
+                pli.m_label = extinf_title;
+            }
             m_pl.AddTail(pli);
             success = true;
+            extinf_title = L"";
         }
     }
 
@@ -1768,32 +1749,39 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
     *pResult = FALSE;
 
-    CList<int> items;
-    POSITION pos = m_list.GetFirstSelectedItemPosition();
-    while (pos) {
-        items.AddHead(m_list.GetNextSelectedItem(pos));
+    int selected = (int)m_list.GetFirstSelectedItemPosition();
+    if (!selected) {
+        return;
     }
+    selected--; // actual list index
 
-    if (pLVKeyDown->wVKey == VK_DELETE && !items.IsEmpty()) {
-        pos = items.GetHeadPosition();
-        while (pos) {
-            int i = items.GetNext(pos);
-            if (m_pl.RemoveAt(FindPos(i))) {
-                m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-            }
-            m_list.DeleteItem(i);
+    if (pLVKeyDown->wVKey == VK_DELETE) {
+        POSITION remplpos = FindPos(selected);
+        CPlaylistItem pli = m_pl.GetAt(remplpos);
+        POSITION curplpos = m_pl.GetPos();
+        if (!remplpos) {
+            ASSERT(FALSE);
+            return;
         }
+        if (remplpos == curplpos) {
+            m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+        }
+        m_pl.RemoveAt(remplpos);
+        m_list.DeleteItem(selected);
 
-        m_list.SetItemState(-1, 0, LVIS_SELECTED);
-        m_list.SetItemState(
-            std::max(std::min(items.GetTail(), m_list.GetItemCount() - 1), 0),
-            LVIS_SELECTED, LVIS_SELECTED);
+        if (m_list.GetItemCount() > 0) {
+            if (selected < m_list.GetItemCount()) {
+                m_list.SetItemState(selected, LVIS_SELECTED, LVIS_SELECTED);
+            } else {
+                m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+            }
+        }
 
         ResizeListColumn();
 
         *pResult = TRUE;
-    } else if (pLVKeyDown->wVKey == VK_SPACE && items.GetCount() == 1) {
-        m_pl.SetPos(FindPos(items.GetHead()));
+    } else if (pLVKeyDown->wVKey == VK_SPACE) {
+        m_pl.SetPos(FindPos(selected));
         m_list.Invalidate();
         m_pMainFrame->OpenCurPlaylistItem();
         m_pMainFrame->SetFocus();

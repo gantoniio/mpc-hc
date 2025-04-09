@@ -2951,9 +2951,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         switch (evCode) {
             case EC_PAUSED:
-                UpdateCachedMediaState();
-                if (m_audioTrackCount > 1) {
-                    CheckSelectedAudioStream();
+                if (m_eMediaLoadState == MLS::LOADED) {
+                    UpdateCachedMediaState();
+                    if (m_audioTrackCount > 1) {
+                        CheckSelectedAudioStream();
+                    }
                 }
                 break;
             case EC_COMPLETE:
@@ -5814,7 +5816,8 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
     if (CComQIPtr<ISubPicProvider> pSubPicProvider = m_pCurrentSubInput.pSubStream) {
         const PBITMAPINFOHEADER bih = (PBITMAPINFOHEADER)pData;
         const int width = bih->biWidth;
-        const int height = bih->biHeight;
+        const int height = abs(bih->biHeight);
+        const bool topdown = bih->biHeight < 0;
 
         REFERENCE_TIME rtNow = 0;
         m_pMS->GetCurrentPosition(&rtNow);
@@ -5844,7 +5847,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
         
         spdRender.type = MSP_RGB32;
         spdRender.w = subWidth;
-        spdRender.h = abs(subHeight);
+        spdRender.h = subHeight;
         spdRender.bpp = 32;
         spdRender.pitch = subWidth * 4;
         spdRender.vidrect = { 0, 0, width, height };
@@ -5868,9 +5871,9 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
             spdTarget.w = width;
             spdTarget.h = height;
             spdTarget.bpp = 32;
-            spdTarget.pitch = -width * 4;
+            spdTarget.pitch = topdown ? width * 4 : -width * 4;
             spdTarget.vidrect = { 0, 0, width, height };
-            spdTarget.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
+            spdTarget.bits = topdown ? (BYTE*)bih : (BYTE*)(bih + 1) + (width * 4) * (height - 1);
 
             hr = memSubPic.AlphaBlt(&spdRender.vidrect, &spdTarget.vidrect, &spdTarget);
         }
@@ -6360,8 +6363,12 @@ void CMainFrame::OnFileSaveImage()
         return;
     }
 
-    CPath psrc(s.strSnapshotPath);
-    psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
+    CPath psrc;
+    if (!s.strSnapshotPath.IsEmpty() && PathUtils::IsDir(s.strSnapshotPath)) {
+        psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
+    } else {
+        psrc = CPath(MakeSnapshotFileName(FALSE));        
+    }
 
     bool subtitleOptionSupported = !m_pMVRFG && s.fEnableSubtitles && s.IsISRAutoLoadEnabled();
 
@@ -6415,7 +6422,6 @@ void CMainFrame::OnFileSaveImageAuto()
 
     // If path doesn't exist, Save Image instead
     if (!PathUtils::IsDir(s.strSnapshotPath)) {
-        AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
         OnFileSaveImage();
         return;
     }
@@ -11521,7 +11527,7 @@ CRect CMainFrame::GetInvisibleBorderSize() const
     return invisibleBorders;
 }
 
-OAFilterState CMainFrame::GetMediaStateDirect() const
+OAFilterState CMainFrame::GetMediaStateDirect()
 {
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
@@ -11530,7 +11536,7 @@ OAFilterState CMainFrame::GetMediaStateDirect() const
     return ret;
 }
 
-OAFilterState CMainFrame::GetMediaState() const
+OAFilterState CMainFrame::GetMediaState()
 {
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
@@ -11549,7 +11555,12 @@ OAFilterState CMainFrame::GetMediaState() const
 
 OAFilterState CMainFrame::UpdateCachedMediaState()
 {
-    m_CachedFilterState = GetMediaStateDirect();
+    if (m_eMediaLoadState == MLS::LOADED) {
+        m_CachedFilterState = -1;
+        m_pMC->GetState(0, &m_CachedFilterState);
+    } else {
+        m_CachedFilterState = -1;
+    }
     return m_CachedFilterState;
 }
 
@@ -13646,7 +13657,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             }
             EndEnumFilters;
 
-            ASSERT(m_pFSF);
+            ASSERT(m_pFSF || m_fCustomGraph);
 
             if (!bIsVideo) {
                 m_bUseSeekPreview = false;
@@ -13943,7 +13954,7 @@ void CMainFrame::SetupChapters()
     UpdateSeekbarChapterBag();
 }
 
-void CMainFrame::SetupCueChapters(CString fn) {
+void CMainFrame::SetupCueChapters(CString cuefn) {
     CString str;
     int cue_index(-1);
 
@@ -13955,25 +13966,25 @@ void CMainFrame::SetupCueChapters(CString fn) {
 
     CWebTextFile f(CTextFile::UTF8);
     f.SetFallbackEncoding(CTextFile::ANSI);
-    if (!f.Open(fn) || !f.ReadString(str)) {
+    if (!f.Open(cuefn) || !f.ReadString(str)) {
         return;
     }
     f.Seek(0, CFile::SeekPosition::begin);
 
     CString base;
-    bool isurl = PathUtils::IsURL(fn);
+    bool isurl = PathUtils::IsURL(cuefn);
     if (isurl) {
-        int p = fn.Find(_T('?'));
+        int p = cuefn.Find(_T('?'));
         if (p > 0) {
-            fn = fn.Left(p);
+            cuefn = cuefn.Left(p);
         }
-        p = fn.ReverseFind(_T('/'));
+        p = cuefn.ReverseFind(_T('/'));
         if (p > 0) {
-            base = fn.Left(p + 1);
+            base = cuefn.Left(p + 1);
         }
     }
     else {
-        CPath basefilepath(fn);
+        CPath basefilepath(cuefn);
         basefilepath.RemoveFileSpec();
         basefilepath.AddBackslash();
         base = basefilepath.m_strPath;
@@ -13984,6 +13995,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
     CAtlList<CueTrackMeta> trackl;
     CueTrackMeta track;
     int trackID(0);
+    CString lastfile;
 
     while (f.ReadString(str)) {
         str.Trim();
@@ -13994,8 +14006,17 @@ void CMainFrame::SetupCueChapters(CString fn) {
             performer = str.Mid(10).Trim(_T("\""));
         }
         else if (str.Left(4) == _T("FILE")) {
-            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("AIFF")) { // We just support audio file.
-                cue_index++;
+            if (str.Right(4) == _T("WAVE") || str.Right(3) == _T("MP3") || str.Right(4) == _T("FLAC") || str.Right(4) == _T("AIFF")) {
+                CString file_entry;
+                if (str.Right(3) == _T("MP3")) {
+                    file_entry = str.Mid(5, str.GetLength() - 9).Trim(_T("\""));
+                } else {
+                    file_entry = str.Mid(5, str.GetLength() - 10).Trim(_T("\""));
+                }
+                if (file_entry != lastfile) {
+                    cue_index++;
+                    lastfile = file_entry;
+                }
             }
         }
         else if (cue_index >= 0) {
@@ -14008,6 +14029,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
                     track = CueTrackMeta();
                 }
                 track.trackID = trackID;
+                track.fileID = cue_index;
             }
             else if (str.Left(5) == _T("TITLE")) {
                 track.title = str.Mid(6).Trim(_T("\""));
@@ -14029,17 +14051,15 @@ void CMainFrame::SetupCueChapters(CString fn) {
         trackl.AddTail(track);
     }
 
-    if ((cue_index == 0 && trackl.GetCount() == 1) || cue_index > 1) pli.m_cue = false; // avoid unnecessary parsing of cue again later
-
     if (trackl.GetCount() >= 1) {
         POSITION p = trackl.GetHeadPosition();
         bool b(true);
         do {
             if (p == trackl.GetTailPosition()) b = false;
             CueTrackMeta c(trackl.GetNext(p));
-            if (cue_index == 0 || (cue_index > 0 && c.trackID == (pli.m_cue_index + 1))) {
+            if (cue_index == 0 || (cue_index > 0 && c.fileID == pli.m_cue_index)) {
                 CString label;
-                if (c.trackID != 0 && !c.title.IsEmpty()) {
+                if (!c.title.IsEmpty()) {
                     label = c.title;
                     if (!c.performer.IsEmpty()) {
                         label += (_T(" - ") + c.performer);
@@ -14048,9 +14068,7 @@ void CMainFrame::SetupCueChapters(CString fn) {
                         label += (_T(" - ") + performer);
                     }
                 }
-                REFERENCE_TIME time(c.time);
-                if (cue_index > 0) time = 0; // We don't support gap.
-                m_pCB->ChapAppend(time, label);
+                m_pCB->ChapAppend(c.time, label);
             }
         } while (b);
     }
@@ -14602,8 +14620,12 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
                         rating = bstr.m_str;
                     }
                     bstr.Empty();
-                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length() > 0 && bstr.Length() < 512) {
-                        description = bstr.m_str;
+                    if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
+                        if (bstr.Length() < 512) {
+                            description = bstr.m_str;
+                        } else if (bstr.m_str[0] != L'{') {
+                            description = CString(bstr.m_str).Left(511);
+                        }
                     }
                     bstr.Empty();
                 }
@@ -17609,7 +17631,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
                 dwFlags = 0;
             }
             if (lcid && s.fEnableSubtitles) {
-                currentSubLang = ISOLang::GetLocaleStringCompat(lcid);
+                currentSubLang = ISOLang::LCIDToISO6392(lcid);
             } else {
                 currentSubLang.Empty();
             }
@@ -17631,7 +17653,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
             LCID lcid = 0;
             pSubInput->pSubStream->GetStreamInfo(0, &pName, &lcid);
             if (lcid && s.fEnableSubtitles) {
-                currentSubLang = ISOLang::GetLocaleStringCompat(lcid);
+                currentSubLang = ISOLang::LCIDToISO6392(lcid);
             } else {
                 currentSubLang.Empty();
             }
@@ -18983,6 +19005,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         return;
     }
 
+    if (m_pME) {
+        m_pME->SetNotifyWindow(NULL, 0, 0);
+    }
+
     m_media_trans_control.close();
 
     if (m_bSettingUpMenus) {
@@ -19025,10 +19051,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     }
                 }
             }
-        }
-
-        if (m_pME) {
-            m_pME->SetNotifyWindow(NULL, 0, 0);
         }
 
         // save external subtitle
@@ -19102,13 +19124,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
             MSG msg;
             DWORD dwWait;
             HANDLE handle = m_evOpenPrivateFinished;
+            ULONGLONG waitdur = 6000ULL;
+            ULONGLONG tckill = GetTickCount64() + waitdur;
             bool killprocess = true;
             bool processmsg = true;
-            ULONGLONG start = GetTickCount64();
-            ULONGLONG waitdur = 5000ULL;
             bool extendedwait = false;
             while (processmsg) {
-                dwWait = MsgWaitForMultipleObjectsEx(1, &handle, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+                dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, waitdur, QS_POSTMESSAGE | QS_SENDMESSAGE);
                 switch (dwWait) {
                     case WAIT_OBJECT_0:
                         TRACE(_T("Graph abort successful\n"));
@@ -19121,9 +19143,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
                             if (msg.message == WM_QUIT) {
                                 processmsg = false;
-                            } else if (msg.message == WM_GRAPHNOTIFY || msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
+                            } else if (msg.message == WM_GRAPHNOTIFY) {
                                 // ignore
-                                //TRACE(_T("Ignoring WM during graph abort: %d\n"), msg.message);
                             } else {
                                 TranslateMessage(&msg);
                                 DispatchMessage(&msg);
@@ -19136,17 +19157,22 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                         processmsg = false;
                         break;
                 }
-                if (processmsg && (GetTickCount64() - start > waitdur)) {
-                    if (extendedwait || m_fFullScreen) {
-                        processmsg = false;
+                if (processmsg) {
+                    ULONGLONG cur = GetTickCount64();
+                    if (tckill > cur) {
+                        waitdur = tckill - cur;
                     } else {
-                        CString msg = L"Timeout while aborting filter graph creation.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                        if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                        if (extendedwait || m_fFullScreen) {
                             processmsg = false;
                         } else {
-                            extendedwait = true;
-                            start = GetTickCount64();
-                            waitdur = 15000ULL;
+                            CString msg = L"Timeout while aborting filter graph creation.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                            if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                                processmsg = false;
+                            } else {
+                                extendedwait = true;
+                                waitdur = 15000ULL;
+                                tckill = GetTickCount64() + waitdur;
+                            }
                         }
                     }
                 }
@@ -19214,13 +19240,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
 
         HANDLE handle = m_evClosePrivateFinished;
         DWORD dwWait;
-        ULONGLONG start = GetTickCount64();
-        ULONGLONG waitdur = 10000ULL;
+        ULONGLONG waitdur = 6000ULL;
+        ULONGLONG tckill = GetTickCount64() + waitdur;
         bool killprocess = true;
         bool processmsg = true;
         bool extendedwait = false;
         while (processmsg) {
-            dwWait = MsgWaitForMultipleObjectsEx(1, &handle, 1000, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+            dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, waitdur, QS_POSTMESSAGE | QS_SENDMESSAGE);
             switch (dwWait) {
                 case WAIT_OBJECT_0:
                     processmsg = false; // event received
@@ -19231,10 +19257,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
                         if (msg.message == WM_QUIT) {
                             processmsg = false;
-                        } else if (msg.message == WM_GRAPHNOTIFY || msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
+                        } else if (msg.message == WM_GRAPHNOTIFY) {
                             // ignore
-                            //TRACE(_T("Ignoring WM during graph close: %d\n"), msg.message);
                         } else {
+                            TRACE(_T("Dispatch WM during graph close: %d\n"), msg.message);
                             TranslateMessage(&msg);
                             DispatchMessage(&msg);
                         }
@@ -19247,27 +19273,32 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     break;
             }
 
-            if (processmsg && (GetTickCount64() - start > waitdur)) {
-                if (extendedwait || m_fFullScreen) {
-                    processmsg = false;
+            if (processmsg) {
+                ULONGLONG cur = GetTickCount64();
+                if (tckill > cur) {
+                    waitdur = tckill - cur;
                 } else {
-                     CString msg;
-                    if (!m_pGB && m_pGB_preview) {
-#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10) && 0
-                        if (CrashReporter::IsEnabled()) {
-                            throw 1;
-                        }
-#endif
-                        msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                    } else {
-                        msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                    }
-                    if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                    if (extendedwait || m_fFullScreen) {
                         processmsg = false;
                     } else {
-                        extendedwait = true;
-                        start = GetTickCount64();
-                        waitdur = 15000ULL;
+                        CString msg;
+                        if (!m_pGB && m_pGB_preview) {
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10) && 0
+                            if (CrashReporter::IsEnabled()) {
+                                throw 1;
+                            }
+#endif
+                            msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                        } else {
+                            msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                        }
+                        if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+                            processmsg = false;
+                        } else {
+                            extendedwait = true;
+                            waitdur = 15000ULL;
+                            tckill = GetTickCount64() + waitdur;
+                        }
                     }
                 }
             }
@@ -19411,6 +19442,10 @@ void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowIn
 
 LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
 {
+    if (GetLoadState() != MLS::LOADED) {
+        return 0;
+    }
+
     if (!m_pDVBState->bAbortInfo && m_pDVBState->infoData.valid()) {
         EventDescriptor& NowNext = m_pDVBState->NowNext;
         const auto infoData = m_pDVBState->infoData.get();
@@ -21094,7 +21129,6 @@ void CMainFrame::UpdateAudioSwitcher()
 
     if (pASF) {
         pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
-        pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
         pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64 * s.iAudioTimeShift : 0);
         pASF->SetNormalizeBoost2(s.fAudioNormalize, s.nAudioMaxNormFactor, s.fAudioNormalizeRecover, s.nAudioBoost);
     }
