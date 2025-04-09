@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Hack茶ん, 2024
+# Hack茶ん, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2024-11-08 22:23:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hack茶ん, 2024\n"
+"Last-Translator: Hack茶ん, 2025\n"
 "Language-Team: Korean (https://app.transifex.com/mpchc/teams/106126/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,7 +100,7 @@ msgstr "증폭 :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "오디오 시간 조절(밀리 초) :"
+msgstr "오디오 시간 조절(밀리초) :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -196,7 +196,7 @@ msgstr "정보"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2025 clsid2 and others"
-msgstr "Copyright 2002-2025 clsid2 외"
+msgstr "저작권 2002-2025 clsid2 등"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -513,7 +513,7 @@ msgstr "지연 단계"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr "밀리 초"
+msgstr "밀리초"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
@@ -632,7 +632,7 @@ msgstr "오디오 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "이동 간격(최소/중간/최대 간격을 밀리 초 단위로)"
+msgstr "이동 간격(최소/중간/최대 간격을 밀리초 단위로)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -1211,7 +1211,7 @@ msgstr "CGI 핸들러 : (.확장자1=경로1;.확장자2=경로2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Download subtitles"
-msgstr "자막 다운로드"
+msgstr "자막 내려받기"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
@@ -1219,7 +1219,7 @@ msgstr "지금 로드한 자막과 대체"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr "다운로드"
+msgstr "내려받기"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
@@ -1435,7 +1435,7 @@ msgstr "목표 싱크 오프셋 :"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
-msgstr "밀리 초"
+msgstr "밀리초"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
@@ -1447,7 +1447,7 @@ msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
-msgstr "밀리 초"
+msgstr "밀리초"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
@@ -1463,7 +1463,7 @@ msgstr "전체 화면에서 컨트롤 숨기기"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
-msgstr "밀리 초"
+msgstr "밀리초"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
@@ -1551,7 +1551,7 @@ msgstr "온라인 자막 검색"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "자막이 없는 경우 자동으로 자막 검색 및 다운로드"
+msgstr "자막이 없는 경우 자동으로 자막 검색하여 내려받기"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
@@ -1569,7 +1569,7 @@ msgstr "선호하는 언어 순 정렬 :"
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
-msgstr "다운로드한 자막을 1번째 자동 로드 경로 폴더에 자동 저장"
+msgstr "내려받은 자막을 1번째 자동 불러오기 경로 폴더에 자동 저장"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1577,7 +1577,7 @@ msgstr "업데이트 검사"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "지금 다운로드"
+msgstr "지금 내려받기(&D)"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Hack茶ん, 2024
+# Hack茶ん, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
+"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hack茶ん, 2024\n"
+"Last-Translator: Hack茶ん, 2025\n"
 "Language-Team: Korean (https://app.transifex.com/mpchc/teams/106126/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -132,7 +132,7 @@ msgstr "동기화 오프셋"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "평균 : %d 밀리 초, 편차 : %d 밀리 초"
+msgstr "평균 : %d 밀리초, 편차 : %d 밀리초"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -269,7 +269,7 @@ msgstr "탐색 표시줄"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "하위 동기화"
+msgstr "자막 동기화"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -973,11 +973,11 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr "자막 다운로드..."
+msgstr "자막 내려받기..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr "지연(밀리 초) :"
+msgstr "지연(밀리초) :"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
@@ -1226,7 +1226,7 @@ msgstr "비율 표시"
 
 msgctxt "IDS_SUBDL_DLG_FAILED_DL"
 msgid "Subtitle download failed."
-msgstr "자막을 다운로드하지 못했습니다."
+msgstr "자막을 내려받지 못했습니다."
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_PLAYLIST"
 msgid "Remember playback position in local M3U and MPCPL playlist files."
@@ -1944,11 +1944,11 @@ msgstr "초기화 속도"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr "오디오 10밀리 초 느리게"
+msgstr "오디오 0.01초 느리게"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "오디오 10밀리 초 빠르게"
+msgstr "오디오 0.01초 빠르게"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -2012,11 +2012,11 @@ msgstr "다음 자막으로 이동"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr "자막 100밀리 초 빠르게"
+msgstr "자막 0.1초 빠르게"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr "자막 100밀리 초 느리게"
+msgstr "자막 0.1초 느리게"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2132,7 +2132,7 @@ msgstr "비디오 프레임 디코딩 높이"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr "[%s] \"%s\" 다운로드 중"
+msgstr "[%s] \"%s\" 내려받는 중"
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2543,7 +2543,7 @@ msgstr ""
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "자막 지연 : %ld 밀리 초"
+msgstr "자막 지연 : %ld밀리초"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2689,7 +2689,7 @@ msgstr "종횡비 : 기본값(DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "오디오 지연 : %I64d밀리 초"
+msgstr "오디오 지연 : %I64d밀리초"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -3655,9 +3655,9 @@ msgid ""
 "\n"
 "Do you want to visit MPC-HC's website to download it?"
 msgstr ""
-"MPC-HC v%s는 현재 사용 가능합니다. v%s를 사용하고 있습니다.\n"
+"MPC-HC v%s은(는) 현재 사용 가능합니다. v%s을(를) 사용하고 있습니다.\n"
 "\n"
-"MPC-HC 웹사이트를 방문하여 다운로드하시겠습니까?"
+"MPC-HC 웹사이트를 방문하여 내려받으시겠습니까?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid ""
@@ -3973,7 +3973,7 @@ msgstr "청각 장애"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr "다운로드"
+msgstr "내려받기"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
@@ -4074,12 +4074,12 @@ msgid ""
 "be loaded, lower values could result in incorrect subtitles being loaded, "
 "but there is no one perfect value. Pick one that works best for you."
 msgstr ""
-"자동으로 다운로드될 자막 점수의 임계값입니다. 값이 클수록 더 정확하게 일치하는 자막이 로드되고, 값이 낮을수록 잘못된 자막이 로드될 수"
-" 있지만 완벽한 값은 아닙니다. 가장 적합한 것을 선택하십시오."
+"자동으로 내려받 자막 점수의 임계값입니다. 값이 클수록 더 정확하게 일치하는 자막이고, 값이 낮을수록 다른 자막일 수 있지만 확인이 "
+"필요합니다. 가장 적합한 것을 선택하십시오."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
-msgstr "오디오 지연(밀리 초)"
+msgstr "오디오 지연(밀리초)"
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
@@ -4179,7 +4179,7 @@ msgstr "종횡비 : 정사각형 픽셀 가정(SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr "다운로드 [%s] \"%s\" 완료"
+msgstr "내려받기 [%s] \"%s\" 완료"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
@@ -4212,7 +4212,7 @@ msgid ""
 "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\n"
 "For example, type: \"private dir\\videos|work\\\"."
 msgstr ""
-"경로에 여기에 입력된 패턴이 포함된 모든 미디어 파일에 대해 자동 검색 및 다운로드가 비활성화됩니다.\n"
+"경로에 여기에 입력된 패턴이 포함된 모든 미디어 파일에 대해 자동 검색하여 내려받기가 비활성화됩니다.\n"
 "예를 들어 \"private dir\\videos|work\\\"를 입력합니다."
 
 msgctxt "IDS_CMD_PATHNAME"
@@ -4403,7 +4403,7 @@ msgid ""
 "-f bestvideo+bestaudio\n"
 "-o \"C:\\downloads\\%(title)s.%(ext)s"
 msgstr ""
-"youtube-dl.exe로 다운로드(\"사본 저장\")하기 위한 명령줄 매개변수\n"
+"youtube-dl.exe로 내려받기(\"사본 저장\")하기 위한 명령줄 매개변수\n"
 "예 :\n"
 "-f 최고[높이←1080]\n"
 "-f 최상비디오+최상오디오\n"
@@ -4580,7 +4580,7 @@ msgid ""
 "don't show a dragger at current position, but instead are filled from left "
 "to right."
 msgstr ""
-"다크 테마가 요구됩니다. 사용 설정하면 시간 탐색 표시줄 및 볼륨 표시기가 현재 위치에 드래거를 표시하지 않고 대신 왼쪽에서 오른쪽으로 "
+"다크 모드가 요구됩니다. 사용 설정하면 시간 탐색 표시줄 및 볼륨 표시기가 현재 위치에 드래거를 표시하지 않고 대신 왼쪽에서 오른쪽으로 "
 "채워집니다."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"

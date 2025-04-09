@@ -9,14 +9,14 @@
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
 # Mirosław Żylewicz, 2021
 # Krzysztof Marcinek, 2024
-# Łukasz Janik, 2024
+# Łukasz Janik, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
+"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Łukasz Janik, 2024\n"
+"Last-Translator: Łukasz Janik, 2025\n"
 "Language-Team: Polish (https://app.transifex.com/mpchc/teams/106126/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1160,7 +1160,7 @@ msgid ""
 "Pause\n"
 "Pause"
 msgstr ""
-"Wstrzymano\n"
+"Zatrzymanie\n"
 "Wstrzymaj odtwarzanie"
 
 msgctxt "ID_PLAY_STOP"
@@ -1249,7 +1249,7 @@ msgstr "Odtwarzanie"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "Wstrzymano"
+msgstr "Zatrzymanie"
 
 msgctxt "IDS_SUBTITLE_RENDERER_NONE"
 msgid "None"
@@ -4868,7 +4868,7 @@ msgid ""
 "disable reload after hibernate/sleep."
 msgstr ""
 "Przeładuj plik wideo przed wznowieniem odtwarzania, jeśli został wstrzymany "
-"na dłużej niż X minut. Użyj 0, aby wyłączyć autom. ładowanie pliku po "
+"na dłużej niż X minut. Użyj 0, aby wyłączyć automatyczne ładowanie pliku po "
 "wstrzymaniu. Użyj -1, aby wyłączyć przeładowywanie po hibernacji/uśpieniu."
 
 msgctxt "IDS_PPAGEADVANCED_REDIRECT_OPEN_TO_APPEND_THRESHOLD"

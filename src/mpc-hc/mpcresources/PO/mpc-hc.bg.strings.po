@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-03-28 16:29:05+0000\n"
+"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Андрей Станков <astankov84@gmail.com>, 2024\n"
 "Language-Team: Bulgarian (https://app.transifex.com/mpchc/teams/106126/bg/)\n"
@@ -68,11 +68,11 @@ msgstr "Файл"
 
 msgctxt "IDS_SUB_OVERRIDE_DEFAULT_STYLE"
 msgid "Override Default Style"
-msgstr ""
+msgstr "Заместване на стил по подразбиране"
 
 msgctxt "IDS_SUB_OVERRIDE_ALL_STYLES"
 msgid "Override All Styles"
-msgstr ""
+msgstr "Заместване на всички стилове "
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -702,6 +702,9 @@ msgid ""
 "Use three letter ISO 639-2 languages codes.\n"
 "For example: eng spa ger fre rus pob jpn chi"
 msgstr ""
+"Въведете предпочитан език тук.\n"
+"Ползвайте трибуквени ISO 639-2 кодове.\n"
+"Например: eng spa ger fre rus pob jpn chi"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -745,7 +748,7 @@ msgstr "Плейър::Бутони"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
-msgstr ""
+msgstr "Плейър::Мишка"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -1084,7 +1087,7 @@ msgstr "Отвори местоположението на файла"
 
 msgctxt "IDS_AG_OPENDIRECTORY"
 msgid "Open Directory"
-msgstr ""
+msgstr "Отвори папка"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1320,11 +1323,11 @@ msgstr "Вмъкване на deinterlace filter (blend) при режим на 
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr ""
+msgstr "Управ. на повторението на плейлист"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
-msgstr ""
+msgstr "Управ. на аудио закъснението"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -1432,7 +1435,7 @@ msgstr "&Презареди"
 
 msgctxt "IDS_SUBTITLES_HIDE"
 msgid "&Hide Subtitles"
-msgstr ""
+msgstr "&Скриване на субтитри"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -2731,7 +2734,7 @@ msgid ""
 "{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: "
 "%dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr ""
-"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Име на файл;: %s\\N%sРезолюция: "
+"{\\an7\\1c&H000000&\\fs%d\\b0\\bord0\\shad0}Име на файл: %s\\N%sРезолюция: "
 "%dx%d %s\\NПродължителност: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
@@ -3349,7 +3352,7 @@ msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_AVS"
 msgid "AviSynth Script"
-msgstr ""
+msgstr "AviSynth скрипт"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -4569,17 +4572,19 @@ msgstr "/startpos hh:mm:ss\tЗапочва изпълнение от позиц�
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
-msgstr ""
+msgstr "/ab_start hh:mm:ss\tA-B повт. начална позиция"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr ""
+msgstr "/ab_end hh:mm:ss\tA-B повт. крайна позиция"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
 msgstr ""
+"/fixedsize w,h[,x,y]\tЗадаване фисиран размер на прозореца; по желание "
+"задаване на горна лява позиция"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
@@ -4619,43 +4624,43 @@ msgstr "Да"
 
 msgctxt "IDS_MOUSE_CLICK_MIDDLE"
 msgid "Middle click"
-msgstr ""
+msgstr "Среден бутон"
 
 msgctxt "IDS_MOUSE_CLICK_X1"
 msgid "X1 click"
-msgstr ""
+msgstr "X1 щракване"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
-msgstr ""
+msgstr "X2 щракване"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
-msgstr ""
+msgstr "Колело нагоре"
 
 msgctxt "IDS_MOUSE_WHEEL_DOWN"
 msgid "Wheel Down"
-msgstr ""
+msgstr "Колело надолу"
 
 msgctxt "IDS_MOUSE_WHEEL_LEFT"
 msgid "Wheel Left"
-msgstr ""
+msgstr "Колело наляво"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
-msgstr ""
+msgstr "Колело надясно"
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 msgctxt "IDS_MOUSE_COMMAND"
 msgid "Command"
-msgstr ""
+msgstr "Команда"
 
 msgctxt "IDS_MOUSE_RIGHT_BUTTON"
 msgid "Right button"
-msgstr ""
+msgstr "Десен бутон"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
@@ -4663,7 +4668,7 @@ msgstr "&Продължи"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Override Default Style"
-msgstr ""
+msgstr "Упр. заместване на стил по подразбиране"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
@@ -4759,17 +4764,19 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr ""
+msgstr "Паузиране възпр. при влачене в лентата за време"
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
-msgstr ""
+msgstr "Искане на потвърждение при изтриване на файл"
 
 msgctxt "IDS_PPAGEADVANCED_LIBASS_FOR_SRT"
 msgid ""
 "Use libass (instead of standard renderer) for SRT subtitles. NOT "
 "recommended."
 msgstr ""
+"Ползване на libass (вместо стандартен рендер) за SRT субтитри. НЕ СЕ "
+"препоръчва."
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4967,4 +4974,4 @@ msgstr "По подразбиране"
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
-msgstr ""
+msgstr "/thumbnails\tСъздаване на миниатюри"

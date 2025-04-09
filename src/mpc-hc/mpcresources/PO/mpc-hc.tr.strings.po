@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
+"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2024\n"
 "Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
@@ -4592,11 +4592,11 @@ msgstr "/startpos sa:dk:sn\tYürütmeyi sa:dk:sn'den başlat"
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
-msgstr "/ab_start hh:mm:ss\tA-B tekrarı başlangıç konumu"
+msgstr "/ab_start sa:dk:sn\tA-B tekrarı başlangıç konumu"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
-msgstr "/ab_end hh:mm:ss\tA-B tekrarı bitiş konumu"
+msgstr "/ab_end sa:dk:sn\tA-B tekrarı bitiş konumu"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
