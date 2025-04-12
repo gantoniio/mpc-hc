@@ -1443,7 +1443,6 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
     CRect bbox(0, 0, 0, 0);
 
     POSITION pos = GetHeadPosition();
-
     while (pos) {
         CWord* w = GetNext(pos);
 
