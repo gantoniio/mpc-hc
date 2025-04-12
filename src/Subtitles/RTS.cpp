@@ -129,12 +129,6 @@ CWord::CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
 
 }
 
-CText::CText(RenderingCaches& renderingCaches)
-    :CWord(renderingCaches)
-    ,m_RTS(nullptr)
-{
-}
-
 
 CWord::CWord(RenderingCaches& renderingCaches)
     : m_fDrawn(false)
@@ -629,6 +623,12 @@ CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
     m_ascent  = (int)(m_style.fontScaleY / 100 * m_ascent);
     m_descent = (int)(m_style.fontScaleY / 100 * m_descent);
     m_width   = (int)(m_style.fontScaleX / 100 * m_width + 4) >> 3;
+}
+
+//null constructor for use by CLineBG
+CText::CText(RenderingCaches& renderingCaches)
+    :CWord(renderingCaches)
+    , m_RTS(nullptr) {
 }
 
 CWord* CText::Copy()
