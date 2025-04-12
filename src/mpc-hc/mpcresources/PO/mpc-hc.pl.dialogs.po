@@ -179,7 +179,7 @@ msgstr "Przeglądaj..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
-msgstr "Dub:"
+msgstr "Dubbing:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
