@@ -98,7 +98,7 @@ msgstr "Powtarzanie A-B: Zresetuj znaczniki"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
-msgstr "A-B"
+msgstr "Tryb A-B"
 
 msgctxt "IDS_PLAYLOOPMODE_AB_MARK_A"
 msgid "A-B Repeat: Mark A Position"
