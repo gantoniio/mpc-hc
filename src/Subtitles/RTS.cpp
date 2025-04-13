@@ -820,13 +820,13 @@ std::shared_ptr<CLineBG> CLineBG::CLineBGFactory(CLine const* line, RenderingCac
             //check style
             STSStyle s1(lineBG->m_style);
             STSStyle s2(w->m_style);
-            //everything in style must match expect these properties
+            //everything in style must match except these properties
             s2.fontWeight = s1.fontWeight;
             s2.fItalic = s1.fItalic;
             s2.fUnderline = s1.fUnderline;
             s2.fStrikeOut = s1.fStrikeOut;
 
-            if (s2 != s1) { //everything in style must match expect these properties
+            if (s2 != s1) {
                 return nullptr;
             }
             lineBG->m_width += w->m_width;
