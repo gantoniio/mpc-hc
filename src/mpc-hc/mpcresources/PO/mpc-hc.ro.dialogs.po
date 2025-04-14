@@ -341,7 +341,7 @@ msgstr "Ține minte ultima scalare a panoramării trunchiate"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Acțiuni pentru meniul „Deschide disc DVD/BD”"
+msgstr "Acțiuni pentru meniul „Deschide DVD-ul/BD-ul”"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
