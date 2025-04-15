@@ -216,7 +216,7 @@ msgstr ""
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
 msgstr ""
-"Între anii 2024-2025 traducătorul este Andrei Valentin Miloiu. În trecut, au"
+"Între anii 2024-2025 traducătorul este Andrei-Valentin Miloiu. În trecut, au"
 " tradus Daniel Alămiță şi lordkag."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
