@@ -658,7 +658,7 @@ msgstr "&Filtre"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "&Nuanțatoare"
+msgstr "&Nuanțatoare (Shadere)"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
