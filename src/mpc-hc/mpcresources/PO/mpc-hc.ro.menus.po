@@ -698,7 +698,7 @@ msgstr "&Nicio acțiune"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "Redă &următorul fișier din dosar/folder"
+msgstr "Redă &următorul fișier din dosar (folder)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
