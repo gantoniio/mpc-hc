@@ -1351,7 +1351,7 @@ msgstr "&Curăță lista"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "Sigur doriți să ștergeți lista de fișiere recente?"
+msgstr "Ești sigur(ă) că vrei să ștergi lista de fișiere recente?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
