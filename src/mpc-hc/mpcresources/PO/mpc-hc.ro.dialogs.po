@@ -1314,7 +1314,7 @@ msgstr "Verifică la fiecare:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr "zi(le)"
+msgstr "zi (zile)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
