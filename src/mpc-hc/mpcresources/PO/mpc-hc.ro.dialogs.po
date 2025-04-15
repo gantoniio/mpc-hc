@@ -920,7 +920,7 @@ msgstr "Anulare"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "Alege filtru"
+msgstr "Alege filtrul"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
