@@ -435,7 +435,7 @@ msgstr "Repetă pentru totdeauna"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "dată(ori)"
+msgstr "dată (ori)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
