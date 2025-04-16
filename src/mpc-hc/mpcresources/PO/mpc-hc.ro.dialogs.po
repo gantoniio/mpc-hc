@@ -1640,7 +1640,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Adaugă un fișier nuanțator"
+msgstr "Adaugă un fișier nuanțator (shader)"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1656,7 +1656,7 @@ msgstr "Adaugă după redimensionare"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Presetări ale nuanțatorului"
+msgstr "Presetări ale nuanțatorului (shaderului)"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
