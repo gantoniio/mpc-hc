@@ -1676,7 +1676,7 @@ msgstr "Nuanțatoarele (Shaderele) de pre-redimensionare active"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Nuanțatoare post-redimensionare active"
+msgstr "Nuanțatoare (Shaderele) de post-redimensionare active"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC5"
 msgid ""
