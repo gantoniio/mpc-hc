@@ -1560,7 +1560,7 @@ msgid ""
 "work."
 msgstr ""
 "Nu se pot găsi punctele de intrare ale funcției necesare în %s, "
-"nuanțatoarele de pixeli nu vor funcționa."
+"nuanțatoarele (shaderele) de pixeli nu vor funcționa."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
