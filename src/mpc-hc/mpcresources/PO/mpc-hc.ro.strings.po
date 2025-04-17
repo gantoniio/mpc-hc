@@ -1550,7 +1550,9 @@ msgstr ""
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "Nu se poate încărca %s, nuanțatoarele de pixeli nu vor funcționa."
+msgstr ""
+"Nu se poate încărca %s, nuanțatoarele (shaderele) de pixeli nu vor "
+"funcționa."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid ""
