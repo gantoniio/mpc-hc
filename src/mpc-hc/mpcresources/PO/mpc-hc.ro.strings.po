@@ -4767,7 +4767,7 @@ msgstr "Postredimensionează nuanțatoarele (shaderele) de pixeli: oprit"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
-msgstr "Activează nuanțatoarele de pixeli de postredimensionare"
+msgstr "Activează nuanțatoarele (shaderele) de pixeli de postredimensionare"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
