@@ -1688,7 +1688,7 @@ msgstr ""
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Depanează nuanțatoarele"
+msgstr "Depanează nuanțatoarele (shaderele)"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
