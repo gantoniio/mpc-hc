@@ -4763,7 +4763,7 @@ msgstr "Postredimensionează nuanțatoarele (shaderele) de pixeli: pornit"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
-msgstr "Postredimensionează nuanțatoarele de pixeli: oprit"
+msgstr "Postredimensionează nuanțatoarele (shaderele) de pixeli: oprit"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
