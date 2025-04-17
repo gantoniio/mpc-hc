@@ -1869,7 +1869,7 @@ msgstr "Folosește tema modernă"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
-msgstr "Culoarea temei moderne:"
+msgstr "Culoare temă modernă:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
 msgid "Control buttons size:"
