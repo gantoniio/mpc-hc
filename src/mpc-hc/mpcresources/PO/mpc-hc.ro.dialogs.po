@@ -1973,7 +1973,7 @@ msgstr "Integrare în Windows"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "Folosește func. îmbunătățite ale barei de activități"
+msgstr "Folosește func. îmbunăt. ale barei de activități"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
 msgid "Control via Windows UI (SMTC)"
