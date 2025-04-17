@@ -1196,7 +1196,7 @@ msgstr "Preîncărcări EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "Salvează în cache nuanțatoarele compilate."
+msgstr "Salvează în cache nuanțatoarele (shaderele) compilate."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
