@@ -1947,7 +1947,8 @@ msgstr "Afișează când se trece cu mouse-ul peste controale, ascunde după:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Eșuare la stabilirea nuanțatoarelor pre-redimensionare"
+msgstr ""
+"Eșuare la stabilirea nuanțatoarelor (shaderului) de pre-redimensionare"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
