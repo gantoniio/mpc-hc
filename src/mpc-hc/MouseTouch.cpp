@@ -416,23 +416,25 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
     TRACE(L"InternalOnLButtonUp\n");
 #endif
     ReleaseCapture();
-    if (!MVRUp(nFlags, point) && m_bLeftDown) {
+    if (!MVRUp(nFlags, point)) {
         bool bIsOnFS = IsOnFullscreenWindow();
         if (!(bIsOnFS && (m_bD3DFS || m_pMainFrame->IsFullScreenMainFrameExclusiveMPCVR()) && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point))) {
-            UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
-            if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
-                ASSERT(!m_bLeftUpDelayed);
-                m_bLeftUpDelayed = true;
-                m_LeftUpPoint = point;
-                SetTimer(GetWnd(), (UINT_PTR)this, std::min(delay, GetDoubleClickTime()), OnTimerLeftUp);
+            if (m_bLeftDown) {
+                UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
+                if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
+                    ASSERT(!m_bLeftUpDelayed);
+                    m_bLeftUpDelayed = true;
+                    m_LeftUpPoint = point;
+                    SetTimer(GetWnd(), (UINT_PTR)this, std::min(delay, GetDoubleClickTime()), OnTimerLeftUp);
+                } else {
+                    OnButton(wmcmd::LUP, point);
+                }
             } else {
-                OnButton(wmcmd::LUP, point);
+                #if TRACE_LEFTCLICKS
+                TRACE(L"skipped LEFT UP\n");
+                #endif
             }
         }
-    } else {
-#if TRACE_LEFTCLICKS
-        TRACE(L"skipped LEFT UP\n");
-#endif
     }
 
     m_drag = Drag::NO_DRAG;
