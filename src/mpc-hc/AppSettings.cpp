@@ -147,6 +147,7 @@ CAppSettings::CAppSettings()
     , nAudioMaxNormFactor(400)
     , fAudioNormalizeRecover(true)
     , nAudioBoost(0)
+    , bAudioBoostWarned(false)
     , fAudioTimeShift(false)
     , iAudioTimeShift(0)
     , fCustomChannelMapping(false)
@@ -1044,6 +1045,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, nAudioMaxNormFactor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, fAudioNormalizeRecover);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoost);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOSTWARNED, bAudioBoostWarned);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, nSpeakerChannels);
 
@@ -1918,6 +1920,7 @@ void CAppSettings::LoadSettings()
     nAudioMaxNormFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, 400);
     fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
     nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, 0);
+    bAudioBoostWarned = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOSTWARNED, FALSE);
 
     nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
