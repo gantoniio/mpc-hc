@@ -4043,7 +4043,7 @@ msgstr "/nofocus\t\tバックグラウンドで MPC-HC を開く"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\t指定したポート上でウェブ インターフェイスを開始する"
+msgstr "/webport N\t指定したポートでウェブ インターフェイスを開始する"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
