@@ -311,7 +311,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     GetClientRect(cr);
     const CSize s(cr.Width(), 250);
     SetMinTrackSize(s);
-    EnableSaveRestore(IDS_R_DLG_SUBTITLEDL, TRUE);
+    EnableSaveRestoreKey(IDS_R_DLG_SUBTITLEDL, TRUE);
 
     return TRUE;
 }

@@ -9,8 +9,7 @@ END_MESSAGE_MAP()
 CModelessResizableDialog::CModelessResizableDialog(UINT nIDTemplate, CWnd* pParent) : CMPCThemeResizableDialog(nIDTemplate, pParent) {
 }
 
-BOOL CModelessResizableDialog::Create(UINT nIDTemplate, CWnd* pParentWnd, bool showOnWindowPlacement /* = true */) {
-    this->showOnWindowPlacement = showOnWindowPlacement;
+BOOL CModelessResizableDialog::Create(UINT nIDTemplate, CWnd* pParentWnd) {
     return CDialog::Create(nIDTemplate, pParentWnd);
 }
 
