@@ -9653,7 +9653,6 @@ void CMainFrame::FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent) {
     if (ps.GetPageCount() > 0) {
         CMPCThemeComPropertyPage::SetDialogType(clsid);
         ps.DoModal();
-        OpenSetupStatusBar();
 
         if (bIsInternalLAV) {
             if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
