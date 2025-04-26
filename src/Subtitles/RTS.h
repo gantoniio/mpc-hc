@@ -123,9 +123,12 @@ struct CTextDims {
 };
 
 class CPolygon;
+class CLineBG;
 
 class CWord : public Rasterizer
 {
+    friend class CLineBG;
+
     bool m_fDrawn;
     CPoint m_p;
 
@@ -159,6 +162,7 @@ public:
     // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
     CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
           RenderingCaches& renderingCaches);
+    CWord(RenderingCaches& renderingCaches);
     virtual ~CWord();
 
     virtual CWord* Copy() = 0;
@@ -178,10 +182,22 @@ protected:
 public:
     CText(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
           RenderingCaches& renderingCaches);
+    CText(RenderingCaches& renderingCaches);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
     void SetRts(CRenderedTextSubtitle* RTS) { m_RTS = RTS; };
+};
+
+class CLine;
+class CLineBG : public CText
+{
+public:
+    CLineBG(RenderingCaches& renderingCaches);
+    static std::shared_ptr<CLineBG> CLineBGFactory(CLine const* line, RenderingCaches& renderingCaches);
+    CRect PaintLineShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha);
+    CRect PaintLineOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha);
+    virtual CLineBG* Copy() { return nullptr; }; //not used
 };
 
 class CPolygon : public CWord
