@@ -138,6 +138,7 @@ CMainFrame::PlaybackRateMap CMainFrame::filePlaybackRates = {
     { ID_PLAY_PLAYBACKRATE_110, 1.10f},
     { ID_PLAY_PLAYBACKRATE_125, 1.25f},
     { ID_PLAY_PLAYBACKRATE_150, 1.50f},
+    { ID_PLAY_PLAYBACKRATE_175, 1.75f},
     { ID_PLAY_PLAYBACKRATE_200, 2.00f},
     { ID_PLAY_PLAYBACKRATE_300, 3.00f},
     { ID_PLAY_PLAYBACKRATE_400, 4.00f},
@@ -9349,9 +9350,12 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
         } else if (nID > ID_PLAY_PLAYBACKRATE_START && nID < ID_PLAY_PLAYBACKRATE_END) {
             if (filePlaybackRates.count(nID) != 0) {
                 SetPlayingRate(filePlaybackRates[nID]);
-            } else if (nID == ID_PLAY_PLAYBACKRATE_FPS24 || nID == ID_PLAY_PLAYBACKRATE_FPS25) {
+            } else if (nID >= ID_PLAY_PLAYBACKRATE_FPS23 || nID <= ID_PLAY_PLAYBACKRATE_FPS59) {
                 if (m_pCAP) {
-                    float target = (nID == ID_PLAY_PLAYBACKRATE_FPS24 ? 24.0f : 25.0f);
+                    float target = 25.0f;
+                    if (nID == ID_PLAY_PLAYBACKRATE_FPS24) target = 24.0f;
+                    else if (nID == ID_PLAY_PLAYBACKRATE_FPS23) target = 23.976f;
+                    else if (nID == ID_PLAY_PLAYBACKRATE_FPS59) target = 59.94f;
                     SetPlayingRate(target / m_pCAP->GetFPS());
                 }
             }
@@ -9435,10 +9439,13 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
                     if (filePlaybackRates[pCmdUI->m_nID] == m_dSpeedRate) {
                         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_PLAY_PLAYBACKRATE_START, ID_PLAY_PLAYBACKRATE_END, pCmdUI->m_nID, MF_BYCOMMAND);
                     }
-                } else if (pCmdUI->m_nID == ID_PLAY_PLAYBACKRATE_FPS24 || pCmdUI->m_nID == ID_PLAY_PLAYBACKRATE_FPS25) {
+                } else if (pCmdUI->m_nID >= ID_PLAY_PLAYBACKRATE_FPS23 || pCmdUI->m_nID <= ID_PLAY_PLAYBACKRATE_FPS59) {
                     fEnable = true;
                     if (m_pCAP) {
-                        float target = (pCmdUI->m_nID == ID_PLAY_PLAYBACKRATE_FPS24 ? 24.0f : 25.0f);
+                        float target = 25.0f;
+                        if (pCmdUI->m_nID == ID_PLAY_PLAYBACKRATE_FPS24) target = 24.0f;
+                        else if (pCmdUI->m_nID == ID_PLAY_PLAYBACKRATE_FPS23) target = 23.976f;
+                        else if (pCmdUI->m_nID == ID_PLAY_PLAYBACKRATE_FPS59) target = 59.94f;
                         if (target / m_pCAP->GetFPS() == m_dSpeedRate) {
                             bool found = false;
                             for (auto const& [key, rate] : filePlaybackRates) { //make sure it wasn't a standard rate already
