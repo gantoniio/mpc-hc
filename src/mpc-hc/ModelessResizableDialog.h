@@ -3,7 +3,7 @@
 class CModelessResizableDialog : public CMPCThemeResizableDialog {
 public:
     CModelessResizableDialog(UINT nIDTemplate, CWnd* pParent);
-    virtual BOOL Create(UINT nIDTemplate, CWnd* pParentWnd, bool showOnWindowPlacement = true);
+    virtual BOOL Create(UINT nIDTemplate, CWnd* pParentWnd);
     void HideDialog(INT_PTR ret);
     DECLARE_MESSAGE_MAP()
 protected:
