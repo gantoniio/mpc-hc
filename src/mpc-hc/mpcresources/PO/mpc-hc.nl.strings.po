@@ -4768,7 +4768,7 @@ msgstr "Toon de video-eigenschappen (codec en resolutie) in de statusbalk."
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr "Afspelen pauzeren tijdens gebruik van zoekbalk"
+msgstr "Afspelen pauzeren tijdens gebruik van tijdlijn"
 
 msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
 msgid "Show confirmation prompt before deleting file"
