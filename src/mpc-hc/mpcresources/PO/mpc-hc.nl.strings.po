@@ -4724,7 +4724,7 @@ msgstr "Pixelshaders vóór schaling inschakelen"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
-msgstr "Post-Resize Pixel Shaders: aan"
+msgstr "Pixelshaders na schaling: aan"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
