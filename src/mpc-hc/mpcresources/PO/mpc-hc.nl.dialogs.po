@@ -1857,7 +1857,7 @@ msgstr "Tijdlijn hoogte:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
-msgstr "Toon hoofdstuk markeringen op de zoekbalk"
+msgstr "Toon hoofdstukmarkeringen op de tijdlijn"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
