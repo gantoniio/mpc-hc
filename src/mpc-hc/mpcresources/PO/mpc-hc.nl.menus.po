@@ -65,7 +65,7 @@ msgstr "Snapshot maken..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Mozaïekweergave maken..."
+msgstr "Maak mozaïekweergave..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
