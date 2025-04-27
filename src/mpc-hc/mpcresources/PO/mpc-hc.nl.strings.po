@@ -1523,7 +1523,7 @@ msgstr "Aanpassen post-resize shaders mislukt"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "Aanpassen van zowel pre-resize als post-resize shaders mislukt."
+msgstr "Aanpassen van pixelshaders zowel vóór als na schaling mislukt"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
