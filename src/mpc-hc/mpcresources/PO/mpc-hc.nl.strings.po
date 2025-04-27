@@ -1519,7 +1519,7 @@ msgstr "DVD / BD openen"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Aanpassen post-resize shaders mislukt"
+msgstr "Instellen van pixelshaders vóór schaling mislukt"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
