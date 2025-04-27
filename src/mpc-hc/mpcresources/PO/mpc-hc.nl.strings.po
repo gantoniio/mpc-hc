@@ -1542,7 +1542,7 @@ msgid ""
 "Cannot find necessary function entry points in %s, pixel shaders will not "
 "work."
 msgstr ""
-"Kan benodigde ingangspunten van %s niet vinden, pixel shaders zullen niet "
+"Kan benodigde ingangspunten van %s niet vinden, pixelshaders zullen niet "
 "werken."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
