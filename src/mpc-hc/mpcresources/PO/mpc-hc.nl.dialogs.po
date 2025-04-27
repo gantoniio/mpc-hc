@@ -1937,7 +1937,7 @@ msgstr "Venster vastklikken aan schermranden"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
 msgid "Hide Windowed Controls"
-msgstr "Verberg bedieningselementen in venster"
+msgstr "Verberg alle bedieningselementen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
