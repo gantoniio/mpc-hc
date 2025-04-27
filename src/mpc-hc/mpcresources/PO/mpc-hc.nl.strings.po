@@ -409,7 +409,7 @@ msgstr "Afspeellijst"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "Aan / Uit"
+msgstr "Inschakelen"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
