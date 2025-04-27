@@ -25,7 +25,7 @@ msgstr "&Bestand"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "Snel &bestand openen..."
+msgstr "Snel openen..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File/URL..."
