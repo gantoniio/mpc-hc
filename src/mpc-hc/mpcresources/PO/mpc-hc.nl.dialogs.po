@@ -1520,7 +1520,7 @@ msgstr "Beeldscherminstellingen terugzetten bij verlaten volledig scherm"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Herstel resolutie bij afsluiten"
+msgstr "Beeldscherminstellingen terugzetten bij afsluiten"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
