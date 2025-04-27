@@ -1853,7 +1853,7 @@ msgstr "Zoekbalk"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
-msgstr "Modern Thema zoekbalk hoogte:"
+msgstr "Zoekbalk hoogte:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"
