@@ -45,7 +45,7 @@ msgstr "Open map..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Schijf openen"
+msgstr "Open schijf..."
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
