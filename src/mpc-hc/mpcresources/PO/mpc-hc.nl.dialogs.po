@@ -1841,7 +1841,7 @@ msgstr "Gebruik Modern Thema"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
-msgstr "Modern Thema kleur:"
+msgstr "Kleur:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
 msgid "Control buttons size:"
