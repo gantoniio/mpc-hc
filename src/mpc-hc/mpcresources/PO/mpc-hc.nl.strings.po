@@ -2133,7 +2133,7 @@ msgstr "Titelbalken en menu's weergeven..."
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Verberg menubalk..."
+msgstr "Menubalk verbergen..."
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
