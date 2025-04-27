@@ -593,7 +593,7 @@ msgstr "Ondertiteling"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
-msgstr "Speler::Formaten"
+msgstr "Speler::Bestandsformaten"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
