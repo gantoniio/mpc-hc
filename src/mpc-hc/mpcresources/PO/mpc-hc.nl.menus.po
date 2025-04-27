@@ -41,7 +41,7 @@ msgstr "Open apparaat..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "&Map openen..."
+msgstr "Open map..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
