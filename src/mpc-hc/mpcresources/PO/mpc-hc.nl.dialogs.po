@@ -1865,7 +1865,7 @@ msgstr "Tijdlijn bij aanwijzen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
-msgstr "Hover Positie:"
+msgstr "Positie:"
 
 msgctxt "IDD_PPAGETHEME_IDC_SEEK_PREVIEW"
 msgid "Show video preview"
