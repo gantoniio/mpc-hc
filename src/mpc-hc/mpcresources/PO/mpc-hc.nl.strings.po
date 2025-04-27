@@ -775,7 +775,7 @@ msgstr "Afspelen::Uitvoer"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "Speler::Web interface"
+msgstr "Speler::Webinterface"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
