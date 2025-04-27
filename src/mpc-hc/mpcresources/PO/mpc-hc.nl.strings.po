@@ -4716,7 +4716,7 @@ msgstr "Pixelshaders vóór schaling: aan"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "Pre-Resize Pixel Shaders: uit"
+msgstr "Pixelshaders vóór schaling: uit"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
