@@ -1927,7 +1927,7 @@ msgstr "Toon na zweven over bediening, verberg na:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Instellen van pre-resize-shaders mislukt"
+msgstr "Instellen van pixelshaders vóór schaling mislukt"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
