@@ -413,11 +413,11 @@ msgstr "Aan / Uit"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
-msgstr "Van (FPS)"
+msgstr "Van FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To (FPS)"
-msgstr "Tot (FPS)"
+msgstr "Tot FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
