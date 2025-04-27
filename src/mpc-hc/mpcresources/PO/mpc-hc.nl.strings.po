@@ -767,7 +767,7 @@ msgstr "Speler::Logo"
 
 msgctxt "IDD_PPAGETHEME"
 msgid "Player::User Interface"
-msgstr "Speler::Gebruikers Interface"
+msgstr "Speler::Interface"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
