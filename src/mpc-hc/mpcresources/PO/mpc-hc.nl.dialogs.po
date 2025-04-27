@@ -1885,7 +1885,7 @@ msgstr "Statusbalk elementen"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
 msgid "Track Language"
-msgstr "Track Taal"
+msgstr "Taal"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
