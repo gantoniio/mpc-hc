@@ -1941,7 +1941,7 @@ msgstr "Verberg bedieningselementen in venster"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Windows Integration"
-msgstr "Windows Integratie"
+msgstr "Integratie met Windows"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
