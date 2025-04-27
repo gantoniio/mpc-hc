@@ -747,7 +747,7 @@ msgstr "Video Mixing Renderer 7 (VMR-7)"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
-msgstr "Speler::Toetsen"
+msgstr "Speler::Toetsenbord"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
