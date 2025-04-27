@@ -1881,7 +1881,7 @@ msgstr "Voorbeeld breedte (% van scherm)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
-msgstr "Status Balk Elementen"
+msgstr "Statusbalk elementen"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
 msgid "Track Language"
