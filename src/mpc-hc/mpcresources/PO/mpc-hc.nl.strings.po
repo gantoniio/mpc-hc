@@ -1535,7 +1535,7 @@ msgstr ""
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "Kan %s niet laden, pixel shaders zullen niet werken."
+msgstr "Kan %s niet laden, pixelshaders zullen niet werken."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid ""
