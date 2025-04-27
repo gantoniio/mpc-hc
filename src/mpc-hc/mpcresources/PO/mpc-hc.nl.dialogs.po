@@ -1889,7 +1889,7 @@ msgstr "Taal"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
 msgid "Video Info"
-msgstr "Video Info"
+msgstr "Video-informatie"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
 msgid "Audio Info"
