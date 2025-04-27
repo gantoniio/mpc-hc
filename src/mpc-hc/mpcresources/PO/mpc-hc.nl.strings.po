@@ -1515,7 +1515,7 @@ msgstr "Bestand openen"
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
-msgstr "DVD / BD openen"
+msgstr "Open DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
