@@ -1861,7 +1861,7 @@ msgstr "Toon hoofdstuk markeringen op de zoekbalk"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
-msgstr "Zoekbalk Hover"
+msgstr "Tijdlijn Hover"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC11"
 msgid "Hover Position:"
