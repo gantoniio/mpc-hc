@@ -4732,7 +4732,7 @@ msgstr "Pixelshaders na schaling: uit"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
-msgstr "Post-Resize Pixel Shaders inschakelen"
+msgstr "Pixelshaders na schaling inschakelen"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
