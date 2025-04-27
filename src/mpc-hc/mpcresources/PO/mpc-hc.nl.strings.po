@@ -585,7 +585,7 @@ msgstr "Speler"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
-msgstr "Afspelen::DVD"
+msgstr "Afspelen::DVD en Blu-ray"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
