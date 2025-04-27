@@ -545,7 +545,7 @@ msgstr "&Stoppen"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Fra&me Step"
-msgstr "Frame vooruit"
+msgstr "1 frame vooruit"
 
 msgctxt "POPUP"
 msgid "&Repeat"
