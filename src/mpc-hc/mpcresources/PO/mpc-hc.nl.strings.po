@@ -3674,7 +3674,7 @@ msgstr "Halve Floating Point-verwerking: aan"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
-msgstr "Halve zwevendekommagetal uitvoering: Uit"
+msgstr "Halve Floating Point-verwerking: uit"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
