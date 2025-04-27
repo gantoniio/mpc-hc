@@ -61,7 +61,7 @@ msgstr "&Opslaan als..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Maak snapshot..."
+msgstr "Maak afbeelding..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
