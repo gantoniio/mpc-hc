@@ -1877,7 +1877,7 @@ msgstr "Toon tijd"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
-msgstr "Voorbeeld breedte (in %)"
+msgstr "Voorbeeld breedte (% van scherm)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
 msgid "Status Bar Elements"
