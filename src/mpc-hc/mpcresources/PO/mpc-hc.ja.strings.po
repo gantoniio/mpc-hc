@@ -1907,7 +1907,7 @@ msgid ""
 "Be warned that ALL your current settings will be lost!"
 msgstr ""
 "MPC-HC を既定の設定に戻しますか？\n"
-"現在の設定がすべて失われることに注意してください！"
+"現在の設定がすべて失われるため、注意してください！"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid ""
