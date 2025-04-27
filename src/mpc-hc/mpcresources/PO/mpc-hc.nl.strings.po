@@ -3662,7 +3662,7 @@ msgstr "Forceer 10-bit RGB invoer: Uit"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr "Volledig zwevendekommagetal uitvoering: Aan"
+msgstr "Volledige Floating Point-verwerking: Aan"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
