@@ -2121,7 +2121,7 @@ msgstr "Ondertiteling::Overige"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "Verberg titelbalk..."
+msgstr "Titelbalk verbergen..."
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
