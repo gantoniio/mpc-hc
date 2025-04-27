@@ -1516,7 +1516,7 @@ msgstr "Omlaag"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Beeldscherminstellingen herstellen bij verlaten volledig scherm"
+msgstr "Beeldscherminstellingen terugzetten bij verlaten volledig scherm"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
