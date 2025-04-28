@@ -4647,7 +4647,7 @@ msgstr "Anulare"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
-msgstr "&Anulează"
+msgstr "&Abandonează"
 
 msgctxt "IDS_MESSAGEBOX_RETRY"
 msgid "&Retry"
