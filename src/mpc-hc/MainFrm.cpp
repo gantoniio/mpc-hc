@@ -6603,11 +6603,12 @@ void CMainFrame::OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI)
 
 void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
 {
-    if (lastOpenFile.IsEmpty()) {
+    if (GetLoadState() != MLS::LOADED) {
         return;
     }
-
-    CAppSettings& s = AfxGetAppSettings();
+    if (GetPlaybackMode() != PM_FILE && GetPlaybackMode() != PM_DVD) {
+        return;
+    }
 
     int i = 0;
     SubtitleInput* pSubInput = GetSubtitleInput(i, true);
@@ -6620,8 +6621,14 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
         return;
     }
 
+    bool format_rts    = (clsid == __uuidof(CRenderedTextSubtitle));
+    bool format_vobsub = (clsid == __uuidof(CVobSubFile));
+    if (!format_rts && !format_vobsub) {
+        AfxMessageBox(_T("This operation is not supported.\r\nThe current subtitle can not be saved."), MB_ICONEXCLAMATION | MB_OK);
+    }
+
     CString suggestedFileName;
-    if (PathUtils::IsURL(lastOpenFile)) {
+    if (lastOpenFile.IsEmpty() || PathUtils::IsURL(lastOpenFile)) {
         if (silent) {
             return;
         }
@@ -6648,8 +6655,9 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
         }
     }
 
+    CAppSettings& s = AfxGetAppSettings();
     bool isSaved = false;
-    if (clsid == __uuidof(CVobSubFile)) {
+    if (format_vobsub) {
         CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubInput->pSubStream;
 
         // remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
@@ -6666,7 +6674,7 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
             }
         }
     }
-    else if (clsid == __uuidof(CRenderedTextSubtitle)) {
+    else if (format_rts) {
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
 
         if (s.bAddLangCodeWhenSaveSubtitles && pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
@@ -6728,9 +6736,6 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
                 isSaved = pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding(), fd.GetSaveExternalStyleFile());
             }
         }
-    }
-    else {
-        AfxMessageBox(_T("This operation is not supported.\r\nThe selected subtitles cannot be saved."), MB_ICONEXCLAMATION | MB_OK);
     }
 
     if (isSaved && s.fKeepHistory) {
