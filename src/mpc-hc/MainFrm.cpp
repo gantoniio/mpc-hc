@@ -4885,6 +4885,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         if (p) {
             p->path = s.slFiles.GetHead();
             p->subs.AddTailList(&s.slSubs);
+            m_wndPlaylistBar.OpenDVD(p->path);
         }
         OpenMedia(p);
         s.nCLSwitches &= ~CLSW_DVD;
@@ -4936,6 +4937,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             if (p) {
                 p->path = s.slFiles.GetHead();
                 p->subs.AddTailList(&s.slSubs);
+                m_wndPlaylistBar.OpenDVD(p->path);
             }
             OpenMedia(p);
         } else {
@@ -5057,10 +5059,12 @@ void CMainFrame::OpenDVDOrBD(CStringW path) {
         AfxGetAppSettings().strDVDPath = path;
         if (!OpenBD(path)) {
             CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
-            p->path = path;
-            p->path.Replace(_T('/'), _T('\\'));
-            p->path = ForceTrailingSlash(p->path);
-
+            if (p) {
+                p->path = path;
+                p->path.Replace(_T('/'), _T('\\'));
+                p->path = ForceTrailingSlash(p->path);
+                m_wndPlaylistBar.OpenDVD(p->path);
+            }
             OpenMedia(p);
         }
     }
@@ -11293,6 +11297,7 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
     if (p) {
         p->path = fn;
         p->pDvdState = pDvdState;
+        m_wndPlaylistBar.OpenDVD(p->path);
     }
     OpenMedia(p);
 }
