@@ -3258,6 +3258,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 const bool bWasAudioOnly = m_fAudioOnly;
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
                 OnVideoSizeChanged(bWasAudioOnly);
+                m_statusbarVideoSize.Format(_T("%dx%d"), size.cx, size.cy);
+                UpdateDXVAStatus();
             }
             break;
             case EC_LENGTH_CHANGED: {
@@ -14493,23 +14495,22 @@ void CMainFrame::OpenCustomizeGraph()
     CleanGraph();
 }
 
-// Called from GraphThread
-void CMainFrame::OpenSetupVideo()
+CSize CMainFrame::OpenSetupGetVideoSize()
 {
+    CSize vs = CSize(0,0);
     m_fAudioOnly = true;
-
-    CSize vs;
 
     if (m_pMFVDC) { // EVR
         m_fAudioOnly = false;
         m_pMFVDC->GetNativeVideoSize(&vs, nullptr);
     } else if (m_pCAP) {
         vs = m_pCAP->GetVideoSize(false);
-        m_fAudioOnly = (vs.cx <= 0 || vs.cy <= 0);
+        if (vs.cx > 0 && vs.cy > 0) {
+            m_fAudioOnly = false;
+        }
     } else {
         if (CComQIPtr<IBasicVideo> pBV = m_pGB) {
             pBV->GetVideoSize(&vs.cx, &vs.cy);
-
             if (vs.cx > 0 && vs.cy > 0) {
                 m_fAudioOnly = false;
             }
@@ -14526,6 +14527,13 @@ void CMainFrame::OpenSetupVideo()
         }
     }
 
+    return vs;
+}
+
+// Called from GraphThread
+void CMainFrame::OpenSetupVideo()
+{
+    CSize vs = OpenSetupGetVideoSize();
     if (m_fShockwaveGraph) {
         m_fAudioOnly = false;
     }
@@ -14549,7 +14557,9 @@ void CMainFrame::OpenSetupVideo()
         if (HasDedicatedFSVideoWindow() && !AfxGetAppSettings().bFullscreenSeparateControls) { //DedicateFSWindow allowed for audio
             m_pDedicatedFSVideoWnd->DestroyWindow();
         }
-    } else {
+    }
+
+    if (!m_fAudioOnly && !m_fShockwaveGraph) {
         m_statusbarVideoSize.Format(_T("%dx%d"), vs.cx, vs.cy);
         UpdateDXVAStatus();
     }
@@ -14745,6 +14755,10 @@ void CMainFrame::OpenSetupStatsBar()
 
 void CMainFrame::CheckSelectedAudioStream()
 {
+    if (m_fCustomGraph) {
+        return;
+    }
+
     int nChannels = 0;
     int audiostreamcount = 0;
     UINT audiobitmapid = IDB_AUDIOTYPE_NOAUDIO;
@@ -14855,51 +14869,57 @@ void CMainFrame::CheckSelectedAudioStream()
     m_wndStatusBar.SetStatusBitmap(audiobitmapid);
 }
 
+void CMainFrame::CheckSelectedVideoStream()
+{
+    if (m_fCustomGraph) {
+        return;
+    }
+
+    CString fcc;
+    // Find video output pin of the source filter or splitter
+    BeginEnumFilters(m_pGB, pEF, pBF) {
+        CLSID clsid = GetCLSID(pBF);
+        bool splitter = (clsid == GUID_LAVSplitterSource || clsid == GUID_LAVSplitter);
+        // only process filters that might be splitters
+        if (splitter || clsid != __uuidof(CAudioSwitcherFilter) && clsid != GUID_LAVVideo && clsid != GUID_LAVAudio) {
+            int input_pins = 0;
+            BeginEnumPins(pBF, pEP, pPin) {
+                PIN_DIRECTION dir;
+                CMediaTypeEx mt;
+                if (SUCCEEDED(pPin->QueryDirection(&dir)) && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    if (dir == PINDIR_OUTPUT) {
+                        if (mt.majortype == MEDIATYPE_Video) {
+                            GetVideoFormatNameFromMediaType(mt.subtype, fcc);
+                            if (splitter) {
+                                break;
+                            }
+                        }
+                    } else {
+                        input_pins++;
+                        splitter = (mt.majortype == MEDIATYPE_Stream);
+                    }
+                }
+            }
+            EndEnumPins;
+
+            if ((input_pins == 0 || splitter) && !fcc.IsEmpty()) {
+                break;
+            }
+        }
+    }
+    EndEnumFilters;
+
+    if (!fcc.IsEmpty()) {
+        m_statusbarVideoFormat = fcc;
+    }
+}
+
 void CMainFrame::OpenSetupStatusBar()
 {
     m_wndStatusBar.ShowTimer(true);
 
-    if (!m_fCustomGraph) {
-        CString fcc;
-        // Find video output pin of the source filter or splitter
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            CLSID clsid = GetCLSID(pBF);
-            bool splitter = (clsid == GUID_LAVSplitterSource || clsid == GUID_LAVSplitter);
-            // only process filters that might be splitters
-            if (splitter || clsid != __uuidof(CAudioSwitcherFilter) && clsid != GUID_LAVVideo && clsid != GUID_LAVAudio) {
-                int input_pins = 0;
-                BeginEnumPins(pBF, pEP, pPin) {
-                    PIN_DIRECTION dir;
-                    CMediaTypeEx mt;
-                    if (SUCCEEDED(pPin->QueryDirection(&dir)) && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-                        if (dir == PINDIR_OUTPUT) {
-                            if (mt.majortype == MEDIATYPE_Video) {
-                                GetVideoFormatNameFromMediaType(mt.subtype, fcc);
-                                if (splitter) {
-                                    break;
-                                }
-                            }
-                        } else {
-                            input_pins++;
-                            splitter = (mt.majortype == MEDIATYPE_Stream);
-                        }
-                    }
-                }
-                EndEnumPins;
-
-                if ((input_pins == 0 || splitter) && !fcc.IsEmpty()) {
-                    break;
-                }
-            }
-        }
-        EndEnumFilters;
-
-        if (!fcc.IsEmpty()) {
-            m_statusbarVideoFormat = fcc;
-        }
-
-        CheckSelectedAudioStream();        
-    }
+    CheckSelectedVideoStream();
+    CheckSelectedAudioStream();
 }
 
 // Called from GraphThread
@@ -16888,7 +16908,7 @@ DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwS
 {
     bool bAddSeparator = false;
     DWORD selected = -1;
-    bool streams_found = false;
+    int stream_count = 0;
 
     auto addStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
         DWORD cStreams;
@@ -16929,6 +16949,8 @@ DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwS
                 selected = id;
             }
 
+            stream_count++;
+
             if (bAddSeparator) {
                 VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
                 bAddSeparator = false;
@@ -16941,17 +16963,16 @@ DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwS
 
         if (bAdded) {
             bAddSeparator = true;
-            streams_found = true;
         }
     };
 
     if (m_pSplitterSS) {
         addStreamSelectFilter(m_pSplitterSS);
     }
-    if (!streams_found && m_pOtherSS[0]) {
+    if (!stream_count && m_pOtherSS[0]) {
         addStreamSelectFilter(m_pOtherSS[0]);
     }
-    if (!streams_found && m_pOtherSS[1]) {
+    if (!stream_count && m_pOtherSS[1]) {
         addStreamSelectFilter(m_pOtherSS[1]);
     }
 
@@ -16960,7 +16981,7 @@ DWORD CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwS
 
 void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
 {
-    bool streams_found = false;
+    int stream_count = 0;
 
     auto processStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
         bool bSelected = false;
@@ -16981,7 +17002,7 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
                     continue;
                 }
 
-                streams_found = true;
+                stream_count++;
 
                 if (id == 0) {
                     pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
@@ -16993,16 +17014,20 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
             }
         }
 
+        if (bSelected && (stream_count > 1) && dwSelGroup == 0) {
+            CheckSelectedVideoStream();
+        }
+
         return bSelected;
     };
 
     if (m_pSplitterSS) {
         if (processStreamSelectFilter(m_pSplitterSS)) return;
     }
-    if (!streams_found && m_pOtherSS[0]) {
+    if (!stream_count && m_pOtherSS[0]) {
         if (processStreamSelectFilter(m_pOtherSS[0])) return;
     }
-    if (!streams_found && m_pOtherSS[1]) {
+    if (!stream_count && m_pOtherSS[1]) {
         if (processStreamSelectFilter(m_pOtherSS[1])) return;
     }
 }
