@@ -205,12 +205,15 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 
     CRect r = CRect(CPoint(0, 0), bounds.Size());
     pTC->AdjustRect(TRUE, r);
+
+    CSize diff = r.Size() - tws;
+    MoveWindow(CRect(wr.TopLeft(), ws + diff));
+
     r.SetRect(twr.TopLeft(), twr.TopLeft() + r.Size());
     ScreenToClient(r);
     pTC->MoveWindow(r);
     pTC->ModifyStyle(TCS_MULTILINE, TCS_SINGLELINE);
-
-    CSize diff = r.Size() - tws;
+    pTC->GetWindowRect(twr);
 
     if (!bounds.IsRectEmpty()) {
         if (CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
@@ -231,7 +234,6 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
         }
     }
 
-    MoveWindow(CRect(wr.TopLeft(), ws + diff));
 
     Invalidate();
 }
