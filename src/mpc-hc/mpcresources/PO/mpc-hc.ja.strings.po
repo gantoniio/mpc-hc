@@ -41,7 +41,7 @@ msgstr "チャプター"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "完了中..."
+msgstr "完了しています..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
