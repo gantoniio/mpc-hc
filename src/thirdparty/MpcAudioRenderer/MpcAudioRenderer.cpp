@@ -2055,7 +2055,9 @@ again:
 									}
 								}
 							}
-						}
+                        } else {
+                            return hr;
+                        }
 					}
 
 					if (bInitNeed
