@@ -21,6 +21,9 @@ CMPCThemeDockBar::~CMPCThemeDockBar()
 
 BOOL CMPCThemeDockBar::OnEraseBkgnd(CDC* pDC)
 {
+    if (!pDC) {
+        return TRUE;
+    }
     if (!AppIsThemeLoaded()) {
         return __super::OnEraseBkgnd(pDC);
     }
