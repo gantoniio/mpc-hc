@@ -133,7 +133,6 @@ LANGID Translations::SetDefaultLanguage()
 }
 
 bool Translations::IsLangRTL(LANGID localeID) {
-    return true;
     //arabic or hebrew
     if (localeID == 1025 || localeID == 1037) {
         return true;
