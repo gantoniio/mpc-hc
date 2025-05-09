@@ -2056,7 +2056,13 @@ again:
 								}
 							}
                         } else {
-                            return hr;
+                            if (bForceUseDefaultDevice) {
+                                return hr;
+                            } else {
+                                ReleaseAudio(true);
+                                bForceUseDefaultDevice = TRUE;
+                                goto again;
+                            }
                         }
 					}
 
