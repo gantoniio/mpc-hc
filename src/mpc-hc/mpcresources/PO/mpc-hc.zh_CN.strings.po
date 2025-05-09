@@ -1672,8 +1672,11 @@ msgid "AR %d:%d"
 msgstr "高宽比 %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file (requires restart)"
-msgstr "启用日志记录到文件中。(需要重新启动)"
+msgid ""
+"Enables logging to file (requires restart).\n"
+"This only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\n"
+"Do not enable this during normal use!"
+msgstr ""
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

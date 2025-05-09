@@ -610,6 +610,10 @@ msgctxt "ID_PLAY_PLAYBACKRATE_150"
 msgid "1.50 x"
 msgstr "1.50 x"
 
+msgctxt "ID_PLAY_PLAYBACKRATE_175"
+msgid "1.75 x"
+msgstr ""
+
 msgctxt "ID_PLAY_PLAYBACKRATE_200"
 msgid "2.00 x"
 msgstr "2.00 x"
@@ -630,6 +634,10 @@ msgctxt "ID_PLAY_PLAYBACKRATE_800"
 msgid "8.00 x"
 msgstr "8.00 x"
 
+msgctxt "ID_PLAY_PLAYBACKRATE_FPS23"
+msgid "23.976 fps"
+msgstr ""
+
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS24"
 msgid "24 fps"
 msgstr "24 FPS"
@@ -637,6 +645,10 @@ msgstr "24 FPS"
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS25"
 msgid "25 fps"
 msgstr "25 FPS"
+
+msgctxt "ID_PLAY_PLAYBACKRATE_FPS59"
+msgid "59.94 fps"
+msgstr ""
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"

@@ -1753,9 +1753,11 @@ msgid "AR %d:%d"
 msgstr "EBO %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file (requires restart)"
+msgid ""
+"Enables logging to file (requires restart).\n"
+"This only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\n"
+"Do not enable this during normal use!"
 msgstr ""
-"Dosyaya günlük kaydı tutmayı etkinleştir (yeniden başlatma gerektirir)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

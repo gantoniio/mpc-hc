@@ -83,7 +83,7 @@ BOOL CmdLineHelpDlg::OnInitDialog()
     AddAnchor(IDC_EDIT1, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDOK, BOTTOM_RIGHT);
 
-    EnableSaveRestore(IDS_R_DLG_CMD_LINE_HELP);
+    EnableSaveRestoreKey(IDS_R_DLG_CMD_LINE_HELP);
     fulfillThemeReqs();
 
     return FALSE;

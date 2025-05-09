@@ -607,12 +607,14 @@ protected:
     void OpenCapture(OpenDeviceData* pODD);
     HRESULT OpenBDAGraph();
     void OpenCustomizeGraph();
+    CSize OpenSetupGetVideoSize();
     void OpenSetupVideo();
     void OpenSetupAudio();
     void OpenSetupInfoBar(bool bClear = true);
     void UpdateChapterInInfoBar();
     void OpenSetupStatsBar();
     void CheckSelectedAudioStream();
+    void CheckSelectedVideoStream();
     void OpenSetupStatusBar();
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(bool reset = false);

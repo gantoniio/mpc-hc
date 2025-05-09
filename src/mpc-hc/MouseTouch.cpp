@@ -598,9 +598,10 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         ASSERT(!IsOnFullscreenWindow());
         CRect r;
         GetWnd().GetWindowRect(r);
-        int maxDim = std::max(r.Width(), r.Height()) / (m_pMainFrame->IsZoomed() ? 10 : 25);
+        int maxDiffX = r.Width() / (m_pMainFrame->IsZoomed() ? 16 : 40);
+        int maxDiffY = r.Height() / (m_pMainFrame->IsZoomed() ? 16 : 40);
         CPoint diff = screenPoint - m_beginDragPoint;
-        bool checkDrag = (diff.x * diff.x + diff.y * diff.y) > maxDim*maxDim; // if dragged 10%/4% of screen maxDim start dragging
+        bool checkDrag = abs(diff.x) > maxDiffX || abs(diff.y) > maxDiffY;
 
         if (checkDrag) {
             bool bUpAssigned = !!AssignedMouseToCmd(wmcmd::LUP,0);

@@ -1716,13 +1716,16 @@ BEGIN
             MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
             MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
             MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+            MENUITEM "1.75 x",                      ID_PLAY_PLAYBACKRATE_175
             MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
             MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
             MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
             MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
             MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+            MENUITEM "23.976 fps",                  ID_PLAY_PLAYBACKRATE_FPS23
             MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
             MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
+            MENUITEM "59.94 fps",                   ID_PLAY_PLAYBACKRATE_FPS59
         END
         MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
         MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -2237,13 +2240,16 @@ BEGIN
                 MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
                 MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
                 MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+                MENUITEM "1.75 x",                      ID_PLAY_PLAYBACKRATE_175
                 MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
                 MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
                 MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
                 MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
                 MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+                MENUITEM "23.976 fps",                  ID_PLAY_PLAYBACKRATE_FPS23
                 MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
                 MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
+                MENUITEM "59.94 fps",                   ID_PLAY_PLAYBACKRATE_FPS59
             END
             MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
             MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -3089,7 +3095,7 @@ BEGIN
     IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
     IDS_ASPECT_RATIO_FMT    "AR %d:%d"
-    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart)"
+    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart).\nThis only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\nDo not enable this during normal use!"
     IDS_TIMER_REMAINING_TIME "Remaining time"
     IDS_TIMER_HIGH_PRECISION "High precision"
     IDS_AFTERPLAYBACK_REWIND "After Playback: Rewind current file"

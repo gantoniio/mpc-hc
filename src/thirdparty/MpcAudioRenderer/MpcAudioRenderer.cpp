@@ -2055,7 +2055,15 @@ again:
 									}
 								}
 							}
-						}
+                        } else {
+                            if (bForceUseDefaultDevice) {
+                                return hr;
+                            } else {
+                                ReleaseAudio(true);
+                                bForceUseDefaultDevice = TRUE;
+                                goto again;
+                            }
+                        }
 					}
 
 					if (bInitNeed

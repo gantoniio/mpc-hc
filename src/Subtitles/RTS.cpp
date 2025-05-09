@@ -129,6 +129,28 @@ CWord::CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
 
 }
 
+
+CWord::CWord(RenderingCaches& renderingCaches)
+    : m_fDrawn(false)
+    , m_p(INT_MAX, INT_MAX)
+    , m_renderingCaches(renderingCaches)
+    , m_scalex(0)
+    , m_scaley(0)
+    , m_str(L"")
+    , m_fWhiteSpaceChar(false)
+    , m_fLineBreak(false)
+    , m_style()
+    , m_pOpaqueBox(nullptr)
+    , m_ktype(0)
+    , m_kstart(0)
+    , m_kend(0)
+    , m_width(0)
+    , m_ascent(0)
+    , m_descent(0)
+{
+}
+
+
 CWord::~CWord()
 {
     delete m_pOpaqueBox;
@@ -603,6 +625,12 @@ CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int ken
     m_width   = (int)(m_style.fontScaleX / 100 * m_width + 4) >> 3;
 }
 
+//null constructor for use by CLineBG
+CText::CText(RenderingCaches& renderingCaches)
+    :CWord(renderingCaches)
+    , m_RTS(nullptr) {
+}
+
 CWord* CText::Copy()
 {
     return DEBUG_NEW CText(*this);
@@ -745,6 +773,118 @@ bool CText::CreatePath()
     SelectFont(g_hDC, hOldFont);
 
     return true;
+}
+
+
+CLineBG::CLineBG(RenderingCaches& renderingCaches)
+    : CText(renderingCaches) {
+}
+
+std::shared_ptr<CLineBG> CLineBG::CLineBGFactory(CLine const* line, RenderingCaches& renderingCaches) {
+    if (!line || line->GetCount() < 2) { //single word does not have need of a combining algorithm
+        return nullptr;
+    }
+
+
+    std::shared_ptr<CLineBG> lineBG = std::make_shared<CLineBG>(renderingCaches);
+
+    bool first = true;
+    POSITION pos = line->GetHeadPosition();
+    while (pos) {
+        CWord* w = line->GetNext(pos);
+        if (first) {
+            if (w->m_style.borderStyle == 0) {
+                return nullptr;
+            }
+
+            lineBG->m_scalex = w->m_scalex;
+            lineBG->m_scaley = w->m_scaley;
+            lineBG->m_str = w->m_str;
+            lineBG->m_style = w->m_style;
+            lineBG->m_ktype = w->m_ktype;
+            lineBG->m_kstart = w->m_kstart;
+            lineBG->m_kend = w->m_kend;
+            lineBG->m_width = w->m_width;
+            lineBG->m_ascent = w->m_ascent;
+            lineBG->m_descent = w->m_descent;
+            first = false;
+        } else if (lineBG->m_scalex != w->m_scalex ||
+            lineBG->m_scaley != w->m_scaley ||
+            lineBG->m_ktype != w->m_ktype ||
+            lineBG->m_kstart != w->m_kstart ||
+            lineBG->m_kend != w->m_kend ||
+            lineBG->m_ascent != w->m_ascent ||
+            lineBG->m_descent != w->m_descent) {
+            return nullptr; //to combine words into one line, we currently restrict it to words who have identical properties
+        } else {
+            //check style
+            STSStyle s1(lineBG->m_style);
+            STSStyle s2(w->m_style);
+            //everything in style must match except these properties
+            s2.fontWeight = s1.fontWeight;
+            s2.fItalic = s1.fItalic;
+            s2.fUnderline = s1.fUnderline;
+            s2.fStrikeOut = s1.fStrikeOut;
+
+            if (s2 != s1) {
+                return nullptr;
+            }
+            lineBG->m_width += w->m_width;
+        }
+    }
+    return lineBG;
+}
+
+//see CLine::PaintShadow
+CRect CLineBG::PaintLineShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha) {
+    CRect bbox(0, 0, 0, 0);
+
+    if (m_style.shadowDepthX != 0 || m_style.shadowDepthY != 0) {
+        int x = p.x + (int)(m_style.shadowDepthX + 0.5);
+        int y = p.y + m_ascent - m_ascent + (int)(m_style.shadowDepthY + 0.5);
+
+        DWORD a = 0xff - m_style.alpha[3];
+        if (alpha > 0) {
+            a = a * (0xff - static_cast<DWORD>(alpha)) / 0xff;
+        }
+        COLORREF shadow = revcolor(m_style.colors[3]) | (a << 24);
+        DWORD sw[6] = { shadow, DWORD_MAX };
+        sw[0] = ColorConvTable::ColorCorrection(sw[0]);
+
+        Paint(CPoint(x, y), org);
+
+        if (m_style.borderStyle == 1 && m_pOpaqueBox) {
+            bbox |= m_pOpaqueBox->Draw(spd, clipRect, pAlphaMask, x, y, sw, true, false);
+        }
+    }
+
+    return bbox;
+}
+
+
+//see CLine::PaintOutline
+CRect CLineBG::PaintLineOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha) {
+    CRect bbox(0, 0, 0, 0);
+
+    bool has_outline = m_style.outlineWidthX + m_style.outlineWidthY > 0.0;
+    if ((has_outline || m_style.borderStyle == 1) && !(m_ktype == 2 && time < m_kstart)) {
+        int x = p.x;
+        int y = p.y + m_ascent - m_ascent;
+        DWORD aoutline = m_style.alpha[2];
+        if (alpha > 0) {
+            aoutline += alpha * (0xff - m_style.alpha[2]) / 0xff;
+        }
+        COLORREF outline = revcolor(has_outline ? m_style.colors[2] : m_style.colors[3]) | ((0xff - aoutline) << 24);
+        DWORD sw[6] = { outline, DWORD_MAX };
+        sw[0] = ColorConvTable::ColorCorrection(sw[0]);
+
+        Paint(CPoint(x, y), org);
+        if (m_style.borderStyle == 1 && m_pOpaqueBox) {
+            bbox |= m_pOpaqueBox->Draw(spd, clipRect, pAlphaMask, x, y, sw, true, false);
+        }
+    }
+
+    return bbox;
 }
 
 // CPolygon
@@ -1255,6 +1395,7 @@ void CLine::Compact()
     }
 }
 
+//note that CLineBG::PaintLineShadow is derived from this code and should be updated if this is changed
 CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha)
 {
     CRect bbox(0, 0, 0, 0);
@@ -1296,6 +1437,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
     return bbox;
 }
 
+//note that CLineBG::PaintLineOutline is derived from this code and should be updated if this is changed
 CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha)
 {
     CRect bbox(0, 0, 0, 0);
@@ -3554,8 +3696,14 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                     }
                 } else {
                     if (paintBG) {
-                        bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
-                        bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                        auto lineBG = CLineBG::CLineBGFactory(l, m_renderingCaches);
+                        if (lineBG) {
+                            bbox2 |= lineBG->PaintLineShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                            bbox2 |= lineBG->PaintLineOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                        } else {
+                            bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                            bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+                        }
                     }
                     if (paintBody) {
                         bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);

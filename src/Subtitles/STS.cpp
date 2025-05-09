@@ -1678,9 +1678,10 @@ static bool LoadFont(const CString& font)
     return true;
 }
 
-static bool LoadUUEFont(CTextFile* file)
+static bool LoadUUEFont(CTextFile* file, CString firstfontname)
 {
     CString s, font;
+    bool skip_ui_font = firstfontname.Find(_T("segoe") >= 0);
     while (file->ReadString(s)) {
         FastTrim(s);
         if (s.IsEmpty()) {
@@ -1707,15 +1708,18 @@ static bool LoadUUEFont(CTextFile* file)
             }
         }
         if (s.Find(_T("fontname:")) == 0) {
-            LoadFont(font);
+            if (!skip_ui_font && !font.IsEmpty()) {
+                LoadFont(font);
+            }
             font.Empty();
+            skip_ui_font = s.Find(_T("segoe")) > 0;
             continue;
         }
 
         font += s;
     }
 
-    if (!font.IsEmpty()) {
+    if (!skip_ui_font && !font.IsEmpty()) {
         LoadFont(font);
     }
 
@@ -2044,7 +2048,8 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                 ret.openTypeLangHint = WToA(GetStrW(pszBuff, nBuffLength));
             }
         } else if (entry == L"fontname") {
-            LoadUUEFont(file);
+            CString fontName = GetStrW(pszBuff, nBuffLength);
+            LoadUUEFont(file, fontName);
         } else if (entry == L"ycbcr matrix") {
             if (nBuffLength) {
                 ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
@@ -2234,7 +2239,8 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 return false;
             }
         } else if (entry == L"fontname") {
-            LoadUUEFont(file);
+            CString fontName = GetStrW(pszBuff, nBuffLength);
+            LoadUUEFont(file, fontName);
         }
     }
 
