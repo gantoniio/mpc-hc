@@ -3095,7 +3095,7 @@ BEGIN
     IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
     IDS_ASPECT_RATIO_FMT    "AR %d:%d"
-    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart)"
+    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart).\nThis only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\nDo not enable this during normal use!"
     IDS_TIMER_REMAINING_TIME "Remaining time"
     IDS_TIMER_HIGH_PRECISION "High precision"
     IDS_AFTERPLAYBACK_REWIND "After Playback: Rewind current file"

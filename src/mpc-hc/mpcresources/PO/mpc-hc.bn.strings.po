@@ -1722,8 +1722,11 @@ msgid "AR %d:%d"
 msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file (requires restart)"
-msgstr "ফাইলে নিবন্ধন করা সক্রিয়করণ।(বন্ধ করে পুনরায় চালনা করতে হবে)"
+msgid ""
+"Enables logging to file (requires restart).\n"
+"This only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\n"
+"Do not enable this during normal use!"
+msgstr ""
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
