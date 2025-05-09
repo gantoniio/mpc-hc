@@ -15602,27 +15602,37 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             }
 
             defaultVideoAngle = 0;
-            if (m_pFSF && (m_pCAP2 || m_pCAP3)) {
+            if (m_pFSF && (m_pCAP2 || m_pCAP3 || m_pAudioSwitcherSS)) {
                 CComQIPtr<IBaseFilter> pBF = m_pFSF;
                 if (GetCLSID(pBF) == GUID_LAVSplitter || GetCLSID(pBF) == GUID_LAVSplitterSource) {
                     if (CComQIPtr<IPropertyBag> pPB = pBF) {
                         CComVariant var;
-                        if (SUCCEEDED(pPB->Read(_T("rotation"), &var, nullptr)) && var.vt == VT_BSTR) {
-                            int rotatevalue = _wtoi(var.bstrVal);
-                            if (rotatevalue == 90 || rotatevalue == 180 || rotatevalue == 270) {
-                                m_iDefRotation = rotatevalue;
-                                if (m_pCAP3) {
-                                    m_pCAP3->SetRotation(rotatevalue);
-                                } else {
-                                    m_pCAP2->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad(360 - rotatevalue)));
-                                }
-                                if (m_pCAP2_preview) {
-                                    defaultVideoAngle = 360 - rotatevalue;
-                                    m_pCAP2_preview->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad(defaultVideoAngle)));
+                        if (m_pCAP2 || m_pCAP3) {
+                            if (SUCCEEDED(pPB->Read(_T("rotation"), &var, nullptr)) && var.vt == VT_BSTR) {
+                                int rotatevalue = _wtoi(var.bstrVal);
+                                if (rotatevalue == 90 || rotatevalue == 180 || rotatevalue == 270) {
+                                    m_iDefRotation = rotatevalue;
+                                    if (m_pCAP3) {
+                                        m_pCAP3->SetRotation(rotatevalue);
+                                    } else {
+                                        m_pCAP2->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad(360 - rotatevalue)));
+                                    }
+                                    if (m_pCAP2_preview) {
+                                        defaultVideoAngle = 360 - rotatevalue;
+                                        m_pCAP2_preview->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad(defaultVideoAngle)));
+                                    }
                                 }
                             }
+                            var.Clear();
                         }
-                        var.Clear();
+                        if (m_pAudioSwitcherSS) {
+                            if (SUCCEEDED(pPB->Read(_T("replaygain_track_gain"), &var, nullptr)) && var.vt == VT_BSTR) {
+                                // ToDo: parse value, add function to audio switcher filter to set replaygain value, apply it similar to boost and skip normalize (and regular boost?)
+                                var.Clear();
+                            } else if (SUCCEEDED(pPB->Read(_T("replaygain_album_gain"), &var, nullptr)) && var.vt == VT_BSTR) {
+                                var.Clear();
+                            }
+                        }
                     }
                 }
             }
