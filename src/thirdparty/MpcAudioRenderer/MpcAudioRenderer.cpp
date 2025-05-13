@@ -2428,6 +2428,7 @@ HRESULT CMpcAudioRenderer::CreateRenderClient(WAVEFORMATEX *pWaveFormatEx, const
 	hr = m_pAudioClient->GetService(IID_PPV_ARGS(&m_pAudioClock));
 	if (FAILED(hr)) {
 		TRACE(L"CMpcAudioRenderer::CreateRenderClient() - IAudioClient::GetService(IAudioClock) failed: (0x%08x)\n", hr);
+        return hr;
 	}
 
 	if (!m_bReleased) {
