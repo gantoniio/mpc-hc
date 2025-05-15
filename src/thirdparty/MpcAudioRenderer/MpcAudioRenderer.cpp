@@ -2055,15 +2055,19 @@ again:
 									}
 								}
 							}
-                        } else {
-                            if (bForceUseDefaultDevice) {
-                                return hr;
-                            } else {
-                                ReleaseAudio(true);
-                                bForceUseDefaultDevice = TRUE;
-                                goto again;
-                            }
-                        }
+						} else {
+							if (!m_bUseDefaultDevice) {
+								TRACE(L"CMpcAudioRenderer::CheckAudioClient() - InitAudioClient() failed: (0x%08x), trying default\n", hr);
+
+								ReleaseAudio(true);
+								bForceUseDefaultDevice = TRUE;
+
+								goto again;
+							}
+
+							TRACE(L"CMpcAudioRenderer::CheckAudioClient() - InitAudioClient() failed: (0x%08x)\n", hr);
+							return hr;
+						}
 					}
 
 					if (bInitNeed
@@ -2428,25 +2432,24 @@ HRESULT CMpcAudioRenderer::CreateRenderClient(WAVEFORMATEX *pWaveFormatEx, const
 	hr = m_pAudioClient->GetService(IID_PPV_ARGS(&m_pAudioClock));
 	if (FAILED(hr)) {
 		TRACE(L"CMpcAudioRenderer::CreateRenderClient() - IAudioClient::GetService(IAudioClock) failed: (0x%08x)\n", hr);
-        return hr;
 	}
 
 	if (!m_bReleased) {
 		WasapiFlush();
 	}
 
-	auto GetAudioPosition = [&] {
-		UINT64 deviceClockFrequency, deviceClockPosition;
-		if (SUCCEEDED(m_pAudioClock->GetFrequency(&deviceClockFrequency))
-				&& SUCCEEDED(m_pAudioClock->GetPosition(&deviceClockPosition, nullptr))) {
-			return llMulDiv(deviceClockPosition, UNITS, deviceClockFrequency, 0);
-		}
-
-		return 0LL;
-	};
-
 	m_rtEstimateSlavingJitter = 0;
-	if (m_filterState == State_Running) {
+	if (m_filterState == State_Running && m_pAudioClock) {
+		auto GetAudioPosition = [&] {
+			UINT64 deviceClockFrequency, deviceClockPosition;
+			if (SUCCEEDED(m_pAudioClock->GetFrequency(&deviceClockFrequency))
+				&& SUCCEEDED(m_pAudioClock->GetPosition(&deviceClockPosition, nullptr))) {
+				return llMulDiv(deviceClockPosition, UNITS, deviceClockFrequency, 0);
+			}
+
+			return 0LL;
+		};
+
 		if (!m_bReleased) {
 			m_rtEstimateSlavingJitter = m_rtLastReceivedSampleTimeEnd - (m_pSyncClock->GetPrivateTime() - m_rtStartTime) + GetAudioPosition();
 			if (m_rtEstimateSlavingJitter < 0 || m_rtEstimateSlavingJitter > UNITS) {
