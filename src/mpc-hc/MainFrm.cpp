@@ -5880,7 +5880,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
             spdTarget.bpp = 32;
             spdTarget.pitch = topdown ? width * 4 : -width * 4;
             spdTarget.vidrect = { 0, 0, width, height };
-            spdTarget.bits = topdown ? (BYTE*)bih : (BYTE*)(bih + 1) + (width * 4) * (height - 1);
+            spdTarget.bits = (BYTE*)(bih + 1) + (topdown ? 0 : (width * 4) * (height - 1));
 
             hr = memSubPic.AlphaBlt(&spdRender.vidrect, &spdTarget.vidrect, &spdTarget);
         }
