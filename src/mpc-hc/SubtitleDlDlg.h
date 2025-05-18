@@ -131,6 +131,6 @@ public:
     void DoCompleted(SRESULT _result, SubtitlesList& _subtitlesList);
     void DoFinished(BOOL _bAborted, BOOL _bShowDialog);
     void DoSearchFailed();
-    void DoDownloadFailed();
+    void DoDownloadFailed(DWORD statuscode);
     void DoClear();
 };
