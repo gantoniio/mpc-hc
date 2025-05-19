@@ -52,7 +52,7 @@ namespace
         return _T("youtubedl.log");
     }
 
-    void WriteToFile(FILE* f, LPCSTR function, LPCSTR file, int line, _In_z_ _Printf_format_string_ LPCTSTR fmt, va_list& args)
+    void WriteToFile(FILE* f, LPCSTR function, _In_z_ _Printf_format_string_ LPCTSTR fmt, va_list& args)
     {
         SYSTEMTIME local_time;
         GetLocalTime(&local_time);
@@ -60,7 +60,7 @@ namespace
         _ftprintf_s(f, _T("%.2hu:%.2hu:%.2hu.%.3hu - %S: "), local_time.wHour, local_time.wMinute,
                     local_time.wSecond, local_time.wMilliseconds, function);
         _vftprintf_s(f, fmt, args);
-        _ftprintf_s(f, _T(" (%S:%d)\n"), file, line);
+        _ftprintf_s(f, _T("\n"));
     }
     void WriteToFile2(FILE* f, _In_z_ _Printf_format_string_ LPCTSTR fmt, va_list& args)
     {
@@ -76,7 +76,7 @@ namespace
 
 template<LogTargets TARGET>
 struct Logger final {
-    static void Log(LPCSTR function, LPCSTR file, int line, LPCTSTR fmt, ...) {
+    static void Log(LPCSTR function, LPCTSTR fmt, ...) {
         static Logger logger;
 
         if (!logger.m_file) {
@@ -85,7 +85,7 @@ struct Logger final {
 
         va_list args;
         va_start(args, fmt);
-        WriteToFile(logger.m_file, function, file, line, fmt, args);
+        WriteToFile(logger.m_file, function, fmt, args);
         va_end(args);
     }
     static void Log2(LPCTSTR fmt, ...) {
@@ -132,7 +132,7 @@ private:
 };
 
 
-#define MPCHC_LOG(TARGET, fmt, ...)  Logger<LogTargets::TARGET>::Log(__FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
+#define MPCHC_LOG(TARGET, fmt, ...)  Logger<LogTargets::TARGET>::Log(__FUNCTION__, fmt, __VA_ARGS__)
 #define MPCHC_LOG2(TARGET, fmt, ...) Logger<LogTargets::TARGET>::Log2(fmt, __VA_ARGS__)
 
 #define BDA_LOG(...) MPCHC_LOG(BDA, __VA_ARGS__)

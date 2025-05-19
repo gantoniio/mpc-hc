@@ -217,7 +217,7 @@ static const std::regex regex_pattern[] = {
 };
 
 static constexpr LPCTSTR log_format =
-    _T("GetFileInfo(): Deducing video information from file path\n")  \
+    _T("Deducing video information from file path\n") \
     // file properties
     _T("filePath=\"%S\"\n")                                           \
     _T("fileName=\"%S\"\n")                                           \
@@ -517,7 +517,7 @@ SRESULT SubtitlesProvider::DownloadInternal(std::string url, std::string referer
         case 200:
             return SR_SUCCEEDED;
         default:
-            SUBTITLES_LOG(L"FAILED, server response code = %d\n", m_dwLastStatusCode);
+            SUBTITLES_LOG(L"FAILED, server response code = %lu\n", m_dwLastStatusCode);
             return SR_FAILED;
     }
 }
