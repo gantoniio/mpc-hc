@@ -4721,6 +4721,8 @@ void CMainFrame::OnFileOpenmedia()
             }
             return;
         } else if (IsOnYDLWhitelist(dlg.GetFileNames().GetHead())) {
+            m_closingmsg = L"Failed to extract stream URL with yt-dlp/youtube-dl";
+            m_wndStatusBar.SetStatusMessage(m_closingmsg);
             // don't bother trying to open this website URL directly
             return;
         }
@@ -5363,6 +5365,8 @@ void CMainFrame::OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect)
             }
             return;
         } else if (IsOnYDLWhitelist(slFiles.GetHead())) {
+            m_closingmsg = L"Failed to extract stream URL with yt-dlp/youtube-dl";
+            m_wndStatusBar.SetStatusMessage(m_closingmsg);
             // don't bother trying to open this website URL directly
             return;
         }
@@ -11238,6 +11242,8 @@ void CMainFrame::OnRecentFile(UINT nID)
             OpenCurPlaylistItem();
             return;
         } else if (IsOnYDLWhitelist(fns.GetHead())) {
+            m_closingmsg = L"Failed to extract stream URL with yt-dlp/youtube-dl";
+            m_wndStatusBar.SetStatusMessage(m_closingmsg);
             // don't bother trying to open this website URL directly
             return;
         }
@@ -20001,6 +20007,8 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
                     OpenCurPlaylistItem();
                     return;
                 } else if (IsOnYDLWhitelist(fn)) {
+                    m_closingmsg = L"Failed to extract stream URL with yt-dlp/youtube-dl";
+                    m_wndStatusBar.SetStatusMessage(m_closingmsg);
                     return;
                 }
             }
@@ -20029,6 +20037,8 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
                 if (ProcessYoutubeDLURL(fn, true)) {
                     return;
                 } else if (IsOnYDLWhitelist(fn)) {
+                    m_closingmsg = L"Failed to extract stream URL with yt-dlp/youtube-dl";
+                    m_wndStatusBar.SetStatusMessage(m_closingmsg);
                     return;
                 }
             }
@@ -21873,7 +21883,19 @@ static const CString ydl_whitelist[] = {
     _T("youtube.com/"),
     _T("youtu.be/"),
     _T("twitch.tv/"),
-    _T("twitch.com/")
+    _T("twitch.com/"),
+    _T("instagram.com/"),
+    _T("facebook.com/"),
+    _T("tiktok.com/"),
+    _T("vimeo.com/"),
+    _T("dailymotion.com/"),
+    _T("crunchyroll.com/"),
+    _T("bbc.co.uk/"),
+    _T("pornhub.com/"),
+    _T("xvideos.com/"),
+    _T("xhamster.com/"),
+    _T("youporn.com/"),
+    _T("tnaflix.com/"),
 };
 
 static const CString ydl_blacklist[] = {
@@ -22082,7 +22104,7 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
 
     if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, false, 0,
                        NULL, NULL, &startup_info, &proc_info)) {
-        AfxMessageBox(_T("An error occurred while attempting to run Youtube-DL"), MB_ICONERROR, 0);
+        AfxMessageBox(_T("An error occurred while attempting to run yt-dlp/youtube-dl"), MB_ICONERROR, 0);
         return false;
     }
 
