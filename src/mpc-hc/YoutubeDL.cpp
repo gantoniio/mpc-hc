@@ -130,7 +130,9 @@ bool CYoutubeDLInstance::Run(CString url)
                        NULL, NULL, &startup_info, &proc_info)) {
         YDL_LOG(_T("Failed to create process for YDL"));
         if (!s.sYDLExePath.IsEmpty()) {
-            AfxMessageBox(L"Failed running yt-dlp/youtube-dl.\n\nYour YDLExepath value in advanced settings might be incorrect.", MB_ICONERROR, 0);
+            AfxMessageBox(L"Failed to create process for yt-dlp/youtube-dl.\n\nYour YDLExepath value in advanced settings might be incorrect.", MB_ICONERROR, 0);
+        } else if (url.Find(L"youtube.com") > 0) {
+            AfxMessageBox(L"Failed to create process for yt-dlp.\n\nTo watch Youtube videos with MPC-HC you need to put \"yt-dlp.exe\" in the MPC-HC installation folder.\n\nhttps://github.com/yt-dlp/yt-dlp/releases", MB_ICONERROR, 0);
         }
         return false;
     }
