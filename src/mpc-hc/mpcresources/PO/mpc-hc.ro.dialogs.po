@@ -786,7 +786,7 @@ msgstr "Adăugare la favorite"
 
 msgctxt "IDD_FAVADD_IDC_STATIC1"
 msgid "Choose a name for your shortcut:"
-msgstr "Alege un nume pentru comanda rapidă (scurtătură):"
+msgstr "Alege un nume pentru comanda ta rapidă (pentru scurtătura ta):"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
