@@ -648,6 +648,10 @@ msgctxt "ID_PLAY_PLAYBACKRATE_FPS25"
 msgid "25 fps"
 msgstr "25 fps (cadre pe secundă)"
 
+msgctxt "ID_PLAY_PLAYBACKRATE_FPS59"
+msgid "59.94 fps"
+msgstr ""
+
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
 msgstr "&Micșorează rata de redare"
