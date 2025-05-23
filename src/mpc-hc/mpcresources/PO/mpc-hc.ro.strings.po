@@ -707,7 +707,7 @@ msgid ""
 msgstr ""
 "Scrie-ți limba preferată aici.\n"
 "Folosește coduri de limbi ISO 639-2 din trei litere.\n"
-"De exemplu: eng spa ger fre rus pob jpn chi"
+"De exemplu: rum eng spa ger fre rus pob jpn chi"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
