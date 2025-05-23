@@ -1681,7 +1681,7 @@ static bool LoadFont(const CString& font)
 static bool LoadUUEFont(CTextFile* file, CString firstfontname)
 {
     CString s, font;
-    bool skip_ui_font = firstfontname.Find(_T("segoe") >= 0);
+    bool skip_ui_font = firstfontname.Find(_T("segoe")) >= 0;
     while (file->ReadString(s)) {
         FastTrim(s);
         if (s.IsEmpty()) {
