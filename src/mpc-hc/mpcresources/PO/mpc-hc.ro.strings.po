@@ -1007,7 +1007,7 @@ msgid ""
 msgstr ""
 "Pentru a vedea o resursă încorporată în browser-ul tău trebuie să activezi interfața web.\n"
 "\n"
-"Folosiți butonul „Salvează ca” dacă vrei doar să salvezi informațiile."
+"Folosește butonul „Salvează ca” dacă vrei doar să salvezi informațiile."
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
