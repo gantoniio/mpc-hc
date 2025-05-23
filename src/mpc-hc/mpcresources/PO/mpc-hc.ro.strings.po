@@ -4867,7 +4867,7 @@ msgid ""
 msgstr ""
 "Calea completă a executabilului yt-dlp (sau youtube-dl).\n"
 "Doar numele fișierului este suficient în cazul în care se află în același folder (dosar) ca MPC-HC.\n"
-"Las[ câmpul gol pentru folosirea numelui implicit al fișierului: yt-dlp.exe"
+"Lasă câmpul gol pentru folosirea numelui implicit al fișierului: yt-dlp.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
 msgid ""
