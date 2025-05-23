@@ -17020,13 +17020,17 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
 
                 stream_count++;
 
-                if (id == 0) {
-                    pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
-                    bSelected = true;
-                    break;
-                }
+                if (!bSelected) {
+                    if (id == 0) {
+                        pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
+                        bSelected = true;
+                        if (dwSelGroup != 0) {
+                            break;
+                        }
+                     }
 
-                id--;
+                    id--;
+                }
             }
         }
 
