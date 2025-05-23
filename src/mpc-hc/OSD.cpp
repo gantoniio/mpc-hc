@@ -298,6 +298,7 @@ void COSD::Stop()
     m_bFlyBarVisible        = false;
     m_bMouseOverExitButton  = false;
     m_bMouseOverCloseButton = false;
+    m_lastMovePosX = -1;
 
     ClearMessage();
 
@@ -621,8 +622,11 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
     if (m_pMFVMB) {
         if (m_bCursorMoving) {
             bRet = true;
-            UpdateSeekBarPos(point);
-            InvalidateBitmapOSD();
+            if (m_lastMovePosX != point.x) {
+                m_lastMovePosX = point.x;
+                UpdateSeekBarPos(point);
+                InvalidateBitmapOSD();
+            }
         } else if (m_bShowSeekBar && m_rectSeekBar.PtInRect(point)) {
             bRet = true;
             if (!m_bSeekBarVisible) {
@@ -676,6 +680,7 @@ void COSD::OnMouseLeave()
     m_bFlyBarVisible        = false;
     m_bMouseOverExitButton  = false;
     m_bMouseOverCloseButton = false;
+    m_lastMovePosX          = -1;
 
     if (bHideBars) {
         // Add new timer for removing any messages
@@ -692,14 +697,18 @@ bool COSD::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (m_pMFVMB) {
         if (m_rectCursor.PtInRect(point)) {
-            m_bCursorMoving     = true;
-            bRet                = true;
+            m_bCursorMoving = true;
+            m_lastMovePosX = point.x;
+            bRet  = true;
         } else if (m_rectExitButton.PtInRect(point) || m_rectCloseButton.PtInRect(point)) {
-            bRet                = true;
+            bRet = true;
         } else if (m_rectSeekBar.PtInRect(point)) {
-            m_bSeekBarVisible   = true;
-            bRet                = true;
+            m_bSeekBarVisible = true;
+            m_bCursorMoving = true;
+            m_lastMovePosX = point.x;
+            bRet = true;
             UpdateSeekBarPos(point);
+            InvalidateBitmapOSD();
         }
     }
 
@@ -712,6 +721,7 @@ bool COSD::OnLButtonUp(UINT nFlags, CPoint point)
 
     if (m_pMFVMB) {
         m_bCursorMoving = false;
+        m_lastMovePosX = -1;
 
         if (m_rectFlyBar.PtInRect(point)) {
             if (m_rectExitButton.PtInRect(point)) {

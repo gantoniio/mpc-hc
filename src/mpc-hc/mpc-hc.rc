@@ -1716,13 +1716,16 @@ BEGIN
             MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
             MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
             MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+            MENUITEM "1.75 x",                      ID_PLAY_PLAYBACKRATE_175
             MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
             MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
             MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
             MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
             MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+            MENUITEM "23.976 fps",                  ID_PLAY_PLAYBACKRATE_FPS23
             MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
             MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
+            MENUITEM "59.94 fps",                   ID_PLAY_PLAYBACKRATE_FPS59
         END
         MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
         MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -2237,13 +2240,16 @@ BEGIN
                 MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
                 MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
                 MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+                MENUITEM "1.75 x",                      ID_PLAY_PLAYBACKRATE_175
                 MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
                 MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
                 MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
                 MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
                 MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+                MENUITEM "23.976 fps",                  ID_PLAY_PLAYBACKRATE_FPS23
                 MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
                 MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
+                MENUITEM "59.94 fps",                   ID_PLAY_PLAYBACKRATE_FPS59
             END
             MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
             MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -3089,7 +3095,7 @@ BEGIN
     IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
     IDS_ASPECT_RATIO_FMT    "AR %d:%d"
-    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart)"
+    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart).\nThis only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\nDo not enable this during normal use!"
     IDS_TIMER_REMAINING_TIME "Remaining time"
     IDS_TIMER_HIGH_PRECISION "High precision"
     IDS_AFTERPLAYBACK_REWIND "After Playback: Rewind current file"
@@ -3973,8 +3979,8 @@ BEGIN
     IDS_CMD_VIEWPRESET      "/viewpreset N\tStart with specific preset,\n\t\twhere N is either ""1"" Minimal, ""2"" Compact or ""3"" Normal"
     IDS_CMD_MUTE            "/mute\t\tMute the audio"
     IDS_CMD_VOLUME          "/volume N\tSet Volume, where N is a range from 0 to 100"
-    IDS_YOUTUBEDL_NOT_FOUND "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-    IDS_CONTROLS_YOUTUBEDL  "Calling youtube-dl..."
+    IDS_YOUTUBEDL_NOT_FOUND "Youtube-DL failed to launch. Make sure yt-dlp.exe or youtube-dl.exe is located in MPC-HC folder or in PATH."
+    IDS_CONTROLS_YOUTUBEDL  "Calling yt-dlp/youtube-dl..."
     IDS_VERTICAL_ALIGN_VIDEO_TOP "Align Top"
     IDS_VERTICAL_ALIGN_VIDEO_MIDDLE "Align Middle"
     IDS_VERTICAL_ALIGN_VIDEO_BOTTOM "Align Bottom"
@@ -3987,7 +3993,7 @@ BEGIN
     IDS_PPAGEADVANCED_YDL_AUDIO_ONLY 
                             "Instructs Youtube-DL to prefer an audio-only stream (if available)"
     IDS_PPAGEADVANCED_YDL_COMMAND_LINE 
-                            "Command line parameters for downloading (""save a copy"") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o ""C:\\downloads\\%(title)s.%(ext)s"""
+                            "Command line parameters for downloading (""save a copy"") with yt-dlp.exe (or youtube-dl.exe)\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o ""C:\\downloads\\%(title)s.%(ext)s"""
     IDS_PPAGEADVANCED_SAVEIMAGE_POSITION "Include video position in filename"
     IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME "Include current time in filename"
     IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK 
@@ -4100,7 +4106,7 @@ BEGIN
                             "Keep main window controls visible on current monitor when going fullscreen on another monitor."
     IDS_PPAGEADVANCED_BLOCKRDP "Block use of RDP Redirection Filter"
     IDS_PPAGEADVANCED_YDL_EXEPATH 
-                            "Full path of the Youtube-DL executable.\nJust the filename is enough in case it is located in same folder as MPC-HC.\nLeave empty to use default filename: youtube-dl.exe"
+                            "Full path of the yt-dlp (or youtube-dl) executable.\nJust the filename is enough in case it is located in same folder as MPC-HC.\nLeave empty to use default filename: yt-dlp.exe"
     IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE 
                             "The language preference for loading subtitle streams extracted by Youtube-DL.\nIf empty, no subtitles are loaded.\nUse ISO639-1 two letter language code(s).\nExample: en de es pl zh ja nl"
     IDS_PPAGEADVANCED_USE_AUTOMATIC_CAPTIONS 

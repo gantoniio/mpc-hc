@@ -147,6 +147,7 @@ CAppSettings::CAppSettings()
     , nAudioMaxNormFactor(400)
     , fAudioNormalizeRecover(true)
     , nAudioBoost(0)
+    , bAudioBoostWarned(false)
     , fAudioTimeShift(false)
     , iAudioTimeShift(0)
     , fCustomChannelMapping(false)
@@ -1044,6 +1045,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, nAudioMaxNormFactor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, fAudioNormalizeRecover);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoost);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOSTWARNED, bAudioBoostWarned);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, nSpeakerChannels);
 
@@ -1918,6 +1920,7 @@ void CAppSettings::LoadSettings()
     nAudioMaxNormFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, 400);
     fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
     nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, 0);
+    bAudioBoostWarned = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOSTWARNED, FALSE);
 
     nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
@@ -1950,6 +1953,8 @@ void CAppSettings::LoadSettings()
         m_pnspresets.Add(str2);
         str2.Format(IDS_SCALE_ULTRAWIDE, 0.5, 0.5, _235p1 / _4p3, _235p1 / _4p3);
         m_pnspresets.Add(str2);
+        m_pnspresets.Add(L"3D SBS > 2D,1.0,0.5,2.0,1.0");
+        m_pnspresets.Add(L"3D TB  > 2D,0.5,1.0,1.0,2.0");
     }
 
     for (int i = 0; i < wmcmds.GetCount(); i++) {

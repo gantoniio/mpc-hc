@@ -343,7 +343,7 @@ public: // overridden
     std::list<std::string> GetLanguagesIntersection() const;
     std::list<std::string> GetLanguagesIntersection(std::list<std::string>&& userSelectedLangauges) const;
     bool SupportsUserSelectedLanguages() const;
-    SRESULT DownloadInternal(std::string url, std::string referer, std::string& data) const;
+    SRESULT DownloadInternal(std::string url, std::string referer, std::string& data);
     static void Set(SubtitlesInfo& pSubtitlesInfo);
     static bool IsAborting();
 
@@ -375,6 +375,8 @@ private:
     int m_nIconIndex;
 protected:
     SubtitlesProviderLogin m_nLoggedIn;
+public:
+    DWORD m_dwLastStatusCode;
 };
 
 class SubtitlesProviders final

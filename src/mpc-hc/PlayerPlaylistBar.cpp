@@ -1132,6 +1132,44 @@ void CPlayerPlaylistBar::Open(CStringW vdn, CStringW adn, int vinput, int vchann
     Append(vdn, adn, vinput, vchannel, ainput);
 }
 
+void CPlayerPlaylistBar::OpenDVD(CString fn)
+{
+    Empty();
+    m_playListPath.Empty();
+
+    CString fnifo;
+    if (fn.Find(L".ifo") == -1) {
+        if (CPath(fn).IsDirectory()) {
+            fn = ForceTrailingSlash(fn);
+            fnifo = fn + L"VIDEO_TS.IFO";
+            if (!CPath(fnifo).FileExists()) {
+                fnifo = fn + L"VIDEO_TS\\VIDEO_TS.IFO";
+                if (!CPath(fnifo).FileExists()) {
+                    fnifo = fn + L"AUDIO_TS.IFO";
+                    if (!CPath(fnifo).FileExists()) {
+                        fnifo = fn + L"AUDIO_TS\\AUDIO_TS.IFO";
+                        if (!CPath(fnifo).FileExists()) {
+                            return;
+                        }
+                    }
+                }
+            }
+        } else {
+            return;
+        }
+    } else {
+        if (CPath(fn).FileExists()) {
+            fnifo = fn;
+        } else {
+            return;
+        }
+    }
+
+    CAtlList<CString> fns;
+    fns.AddHead(fnifo);
+    Append(fns, false);    
+}
+
 void CPlayerPlaylistBar::Append(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput)
 {
     CPlaylistItem pli;

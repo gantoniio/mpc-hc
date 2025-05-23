@@ -108,6 +108,7 @@ class COSD : public CWnd
     bool    m_bFlyBarVisible  = false;
     bool    m_bMouseOverCloseButton = false;
     bool    m_bMouseOverExitButton  = false;
+    int     m_lastMovePosX = -1;
 
     bool    m_bShowMessage = true;
 

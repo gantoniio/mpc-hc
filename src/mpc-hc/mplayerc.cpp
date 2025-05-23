@@ -387,9 +387,9 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
     // Get content type by getting the header response from server
     if (ishttp) {
         CInternetSession internet;
-        internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
-        internet.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
-        internet.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
+        internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT,  5000);
+        internet.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 10000);
+        internet.SetOption(INTERNET_OPTION_SEND_TIMEOUT,    10000);
         CString headers = _T("User-Agent: MPC-HC");
         CHttpFile* httpFile = NULL;
         try {

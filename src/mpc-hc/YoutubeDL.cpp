@@ -128,7 +128,15 @@ bool CYoutubeDLInstance::Run(CString url)
 
     if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, true, 0,
                        NULL, NULL, &startup_info, &proc_info)) {
-        YDL_LOG(_T("Failed to create process for YDL"));
+        DWORD err = GetLastError();
+        CString errmsg;
+        errmsg.Format(_T("Failed to create process for yt-dlp/youtube-dl, error %lu"), err);
+        YDL_LOG(errmsg);
+        if (!s.sYDLExePath.IsEmpty()) {
+            AfxMessageBox(errmsg + L"\n\nYour YDLExepath value in advanced settings might be incorrect.", MB_ICONERROR, 0);
+        } else if (url.Find(L"youtube.com") > 0) {
+            AfxMessageBox(errmsg + L"\n\nTo watch Youtube videos with MPC-HC you need to put \"yt-dlp.exe\" in the MPC-HC installation folder.\n\nhttps://github.com/yt-dlp/yt-dlp/releases", MB_ICONERROR, 0);
+        }
         return false;
     }
 
@@ -200,16 +208,16 @@ bool CYoutubeDLInstance::Run(CString url)
         CString err = buf_err;
         if (err.IsEmpty()) {
             if (exitcode == 0xC0000135) {
-                err.Format(_T("An error occurred while running Youtube-DL\n\nYou probably forgot to install this required runtime:\nMicrosoft Visual C++ 2010 Service Pack 1 Redistributable Package (x86)"));
+                err.Format(_T("An error occurred while running yt-dlp/youtube-dl\n\nYou probably forgot to install this required runtime:\nMicrosoft Visual C++ 2010 Service Pack 1 Redistributable Package (x86)"));
             } else {
-                err.Format(_T("An error occurred while running Youtube-DL\n\nprocess exitcode = 0x%08x"), exitcode);
+                err.Format(_T("An error occurred while running yt-dlp/youtube-dl\n\nprocess exitcode = 0x%08x"), exitcode);
             }
         } else {
             if (err.Find(_T("ERROR: Unsupported URL")) >= 0) {
                 // abort without showing error message
                 return false;
             }
-            err = _T("Youtube-DL error message:\n\n") + err;
+            err = _T("yt-dlp/youtube-dl error message:\n\n") + err;
         }
         AfxMessageBox(err, MB_ICONERROR, 0);
     }

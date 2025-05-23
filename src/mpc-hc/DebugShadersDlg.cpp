@@ -72,7 +72,7 @@ CDebugShadersDlg::CDebugShadersDlg()
     AddAnchor(IDC_RADIO2, TOP_RIGHT);
     AddAnchor(IDC_RADIO3, TOP_RIGHT);
     AddAnchor(IDC_RADIO4, TOP_RIGHT);
-    EnableSaveRestore(IDS_R_DEBUG_SHADERS);
+    EnableSaveRestoreKey(IDS_R_DEBUG_SHADERS);
 
     CWinApp* pApp = AfxGetApp();
 

@@ -73,7 +73,7 @@ BOOL RarEntrySelectorDialog::OnInitDialog() {
         m_list.SetCurSel(0);
     }
 
-    EnableSaveRestore(IDS_R_DLG_RAR_ENTRY_SELECTOR);
+    EnableSaveRestoreKey(IDS_R_DLG_RAR_ENTRY_SELECTOR);
     AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDOK, BOTTOM_RIGHT);
     AddAnchor(IDCANCEL, BOTTOM_RIGHT);

@@ -164,6 +164,7 @@ public:
     void ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs = nullptr, CString label = _T(""), CString ydl_src = _T(""), CString ydl_ua = _T(""), CString cue = _T(""), CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs = nullptr);
     void AddSubtitleToCurrent(CString fn);
 
+    void OpenDVD(CString fn);
     void Open(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
     void Append(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
 

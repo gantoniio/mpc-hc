@@ -311,7 +311,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     GetClientRect(cr);
     const CSize s(cr.Width(), 250);
     SetMinTrackSize(s);
-    EnableSaveRestore(IDS_R_DLG_SUBTITLEDL, TRUE);
+    EnableSaveRestoreKey(IDS_R_DLG_SUBTITLEDL, TRUE);
 
     return TRUE;
 }
@@ -781,9 +781,11 @@ afx_msg LRESULT CSubtitleDlDlg::OnFailedSearch(WPARAM /*wParam*/, LPARAM /*lPara
     return S_OK;
 }
 
-afx_msg LRESULT CSubtitleDlDlg::OnFailedDownload(WPARAM /*wParam*/, LPARAM /*lParam*/)
+afx_msg LRESULT CSubtitleDlDlg::OnFailedDownload(WPARAM wParam, LPARAM /*lParam*/)
 {
-    SetStatusText(StrRes(IDS_SUBDL_DLG_FAILED_DL));
+    CString status = StrRes(IDS_SUBDL_DLG_FAILED_DL);
+    status.AppendFormat(L" (error %lu)", (DWORD)wParam);
+    SetStatusText(status);
 
     return S_OK;
 }
@@ -837,9 +839,9 @@ void CSubtitleDlDlg::DoSearchFailed()
 {
     SendMessage(UWM_FAILED_SEARCH, (WPARAM)nullptr, (LPARAM)nullptr);
 }
-void CSubtitleDlDlg::DoDownloadFailed()
+void CSubtitleDlDlg::DoDownloadFailed(DWORD statuscode)
 {
-    SendMessage(UWM_FAILED_DOWNLOAD, (WPARAM)nullptr, (LPARAM)nullptr);
+    SendMessage(UWM_FAILED_DOWNLOAD, (WPARAM)statuscode, (LPARAM)nullptr);
 }
 void CSubtitleDlDlg::DoClear()
 {

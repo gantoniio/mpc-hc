@@ -415,11 +415,12 @@ void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
         return;
     }
     if (*pScrollBar == m_AudioBoostCtrl) {
+        CAppSettings& s = AfxGetAppSettings();
         int cur = m_AudioBoostPos;
         UpdateData();
-        if (!m_bBoostWarningShown && m_AudioBoostPos > cur && m_AudioBoostPos > 20) {
-            m_bBoostWarningShown = true;
-            AfxMessageBox(_T("WARNING: Boosting audio volume can have a negative effect on audio quality due to overflow.\n\nThere are two better and safer methods for increasing volume:\n1) Enabling mixing in the internal audio decoder settings.\nInternal Filters > Audio Decoder > Mixing\nThis is recommended if you have stereo speakers or headphones.\nTo increase loudness of voices, set center mix level to 1.0 in the mixing settings.\n2) Enable Normalize"), MB_ICONEXCLAMATION | MB_OK, 0);
+        if (!s.bAudioBoostWarned && m_AudioBoostPos > cur && m_AudioBoostPos > 20) {
+            s.bAudioBoostWarned = true;
+            AfxMessageBox(_T("WARNING: Boosting audio volume can in some situations have a negative effect on audio quality due to overflow.\n\nThere are two better and safer methods for increasing volume:\n1) Enabling mixing in the internal audio decoder settings.\nInternal Filters > Audio Decoder > Mixing\nThis is recommended if you have stereo speakers or headphones.\nTo increase loudness of voices, set center mix level to 1.0 in the mixing settings.\n2) Enable Normalize"), MB_ICONEXCLAMATION | MB_OK, 0);
         }
         ((CMainFrame*)GetParentFrame())->SetVolumeBoost(m_AudioBoostPos); // nice shortcut...
     }

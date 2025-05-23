@@ -55,3 +55,6 @@
 [submodule "src/thirdparty/stb"]
 	path = src/thirdparty/stb
 	url = https://github.com/nothings/stb.git
+[submodule "src/thirdparty/ResizableLib/ResizableLib"]
+	path = src/thirdparty/ResizableLib/ResizableLib
+	url = https://github.com/ppescher/resizablelib
