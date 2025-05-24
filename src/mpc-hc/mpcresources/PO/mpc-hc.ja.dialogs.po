@@ -421,7 +421,7 @@ msgstr "再生"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "連続再生 (無限)"
+msgstr "常時繰り返し"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
