@@ -709,7 +709,7 @@ msgstr "Para baixo"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Adicionar tipo de ficheiro multimédia..."
+msgstr "Adicionar tipo de ficheiro"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
