@@ -1086,7 +1086,7 @@ msgid ""
 "If you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
 msgstr ""
 "Folosește filtrele LAV Filters. Dezactivate implicit deoarece filtrele Microsoft sunt de obicei mai stabile pentru aceste formate.\n"
-"Dacă alegeți să folosiți filtrele interne, activați-le atât pentru sursă cât și pentru decodare pentru a avea o experiență mai bună de redare."
+"Dacă alegi să folosești filtrele interne, activează-le atât pentru sursă cât și pentru decodare pentru a avea o experiență mai bună de redare."
 
 msgctxt "IDS_AG_OPEN_FILE_LOCATION"
 msgid "Open File Location"
