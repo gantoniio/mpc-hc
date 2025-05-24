@@ -4822,7 +4822,7 @@ msgid ""
 "Leave empty to use default filename: yt-dlp.exe"
 msgstr ""
 "Úplná cesta k spustiteľnému súboru yt-dlp (alebo youtube-dl).\n"
-"Ak je umiestnený v rovnakom priečinku ako MPC-HC, postačuje len názov súboru.\n"
+"Ak sa nachádza v rovnakom priečinku ako MPC-HC, postačuje len názov súboru.\n"
 "Ak ponecháte prázdne, použije sa predvolený názov súboru yt-dlp.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
