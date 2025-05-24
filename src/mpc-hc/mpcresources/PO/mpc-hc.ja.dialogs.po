@@ -429,7 +429,7 @@ msgstr "回"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
-msgstr "繰り返し再生モード:"
+msgstr "繰り返しモード:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
