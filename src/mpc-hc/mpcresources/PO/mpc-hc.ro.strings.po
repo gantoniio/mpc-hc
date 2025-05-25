@@ -2788,7 +2788,7 @@ msgstr "Fișiere de subtitrări"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "Raport de aspect: %ld:%ld"
+msgstr "Raportul de aspect (AR-ul/RA-ul): %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
