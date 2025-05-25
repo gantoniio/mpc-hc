@@ -1715,7 +1715,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Setări avansate, nu le edita decât dacă știii ce faci."
+msgstr "Setări avansate, nu le edita decât dacă știi ce faci."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
