@@ -3308,7 +3308,7 @@ msgstr "Redeschide fișierul"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
-msgstr "AVI"
+msgstr "AVI (Audio Video Interleave / Intercalare audio-video)"
 
 msgctxt "IDS_MFMT_MPEG"
 msgid "MPEG"
