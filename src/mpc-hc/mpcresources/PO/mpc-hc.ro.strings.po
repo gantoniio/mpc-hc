@@ -3425,7 +3425,9 @@ msgstr "Codecul audio Opus"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr "DTS/DTS-HD"
+msgstr ""
+"DTS/DTS-HD (Digital Theater Systems / Digital Theater Systems - High "
+"Definition)"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
