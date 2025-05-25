@@ -2860,7 +2860,7 @@ msgstr "Pauzează"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Comută titlul și meniul"
+msgstr "Comută subtitrările și meniul"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seekbar"
