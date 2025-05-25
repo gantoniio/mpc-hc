@@ -4792,7 +4792,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR"
 msgid "Display current fps and rate in status bar"
-msgstr "Afișează fps-urile/ cadrele pe secundă curente în bara de stare"
+msgstr "Afișează fps-urile (cadrele pe secundă) curente în bara de stare"
 
 msgctxt "IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES"
 msgid ""
