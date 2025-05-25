@@ -2166,7 +2166,7 @@ msgstr "Ascunde &meniul"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr "Avansat (Complex)"
+msgstr "Avansat"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
