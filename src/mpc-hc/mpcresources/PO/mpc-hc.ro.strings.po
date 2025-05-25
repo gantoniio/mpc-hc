@@ -677,7 +677,7 @@ msgstr "VMR-9 - Randor amestecare video 9 (fără randare)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Randorul video îmbunătățit (EVR)"
+msgstr "Randorul video îmbunătățit - EVR"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
