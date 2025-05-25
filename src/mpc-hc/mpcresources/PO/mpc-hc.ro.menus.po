@@ -405,7 +405,7 @@ msgstr "Atinge fereastra din exteri&or"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr "Raport de &aspect"
+msgstr "Raportul de &aspect (AR-ul/RA-ul)"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
