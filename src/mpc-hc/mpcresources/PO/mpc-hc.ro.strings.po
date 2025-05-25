@@ -3332,7 +3332,7 @@ msgstr "WebM"
 
 msgctxt "IDS_MFMT_MP4"
 msgid "MP4"
-msgstr "MP4"
+msgstr "MP4 (MPEG-4 Part 14 / MPEG-4 Partea a 14-a)"
 
 msgctxt "IDS_MFMT_MOV"
 msgid "QuickTime Movie"
