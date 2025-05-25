@@ -3489,7 +3489,9 @@ msgstr "Fișier audio Real (Real Audio)"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr "TAK"
+msgstr ""
+"TAK (TAK Lossless Compressed Audio file / Fișier audio comprimat fără "
+"pierderi TAK)"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
