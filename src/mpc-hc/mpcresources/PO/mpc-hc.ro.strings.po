@@ -3465,7 +3465,7 @@ msgstr "Fișier audio Matroska (Matroska audio)"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
-msgstr "MP3"
+msgstr "MP3 (MPEG-1 Audio Layer III / MPEG-2 Audio Layer III)"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
