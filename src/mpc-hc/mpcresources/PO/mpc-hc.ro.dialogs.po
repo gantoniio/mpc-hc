@@ -685,7 +685,7 @@ msgid ""
 "Open previous/next file in folder on \"Skip back/forward\" when there is "
 "only one item in playlist"
 msgstr ""
-"Deschide fișier precedent/următor din dosar (din folder) la comenzile „Sari "
+"Deschide fișier anterior/următor din dosar (din folder) la comenzile „Sari "
 "înapoi/înainte” când este un singur element în lista de redare (în playlist)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
