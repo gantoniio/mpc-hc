@@ -1942,7 +1942,7 @@ msgstr "Afișează OSD-ul (necesită repornire)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
 msgid "Font:"
-msgstr "Font:"
+msgstr "Font (Scris)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
 msgid "Font size:"
