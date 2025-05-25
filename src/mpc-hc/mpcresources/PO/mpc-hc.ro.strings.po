@@ -3455,7 +3455,9 @@ msgstr "Fișier audio MPEG-4 (MPEG-4 Audio)"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
-msgstr "MIDI"
+msgstr ""
+"MIDI (Musical Instrument Digital Interface / Interfață digitală pentru "
+"instrumente muzicale)"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
