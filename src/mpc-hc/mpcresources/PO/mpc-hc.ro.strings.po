@@ -3316,7 +3316,7 @@ msgstr "MPEG"
 
 msgctxt "IDS_MFMT_MPEGTS"
 msgid "MPEG-TS"
-msgstr "MPEG-TS"
+msgstr "MPEG-TS (MPEG transport stream / Flux de transport MPEG)"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
