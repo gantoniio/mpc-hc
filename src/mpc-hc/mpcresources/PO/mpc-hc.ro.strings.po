@@ -3447,7 +3447,7 @@ msgstr "Pistă pentru CD-uri audio"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
-msgstr "FLAC"
+msgstr "FLAC (Free Lossless Audio Codec / Codec audio fără pierderi gratuit)"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
