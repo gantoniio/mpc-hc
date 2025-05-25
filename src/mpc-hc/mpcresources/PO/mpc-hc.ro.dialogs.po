@@ -1946,7 +1946,7 @@ msgstr "Font (Scris)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
 msgid "Font size:"
-msgstr "Dimensiunea fontului:"
+msgstr "Dimensiunea scrisului (fontului):"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current Time"
