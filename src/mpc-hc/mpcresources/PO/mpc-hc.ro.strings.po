@@ -3414,7 +3414,7 @@ msgstr ""
 
 msgctxt "IDS_MFMT_WMA"
 msgid "Windows Media Audio"
-msgstr "Windows Media Audio"
+msgstr "Fișier audio Windows Media (Windows Media Audio)"
 
 msgctxt "IDS_MFMT_WV"
 msgid "WavPack"
