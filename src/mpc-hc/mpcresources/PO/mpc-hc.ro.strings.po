@@ -3400,7 +3400,8 @@ msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
-msgstr "AIFF"
+msgstr ""
+"AIFF (Audio Interchange File Format / Format de fișiere de schimb audio)"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
