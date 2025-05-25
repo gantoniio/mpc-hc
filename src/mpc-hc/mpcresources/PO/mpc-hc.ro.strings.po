@@ -3360,7 +3360,7 @@ msgstr "Fișier media Real (Real Media)"
 
 msgctxt "IDS_MFMT_WMV"
 msgid "Windows Media Video"
-msgstr "Windows Media Video"
+msgstr "Videoclip Windows Media (Windows Media Video)"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
