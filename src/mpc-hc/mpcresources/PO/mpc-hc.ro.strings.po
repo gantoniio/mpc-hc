@@ -126,7 +126,7 @@ msgstr "Canal"
 
 msgctxt "IDS_INFOBAR_TIME"
 msgid "Time"
-msgstr "Durată"
+msgstr "Durata"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
