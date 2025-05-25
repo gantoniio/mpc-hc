@@ -573,7 +573,8 @@ msgstr "Schema randorului"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Aplică compensare raport de aspect pentru videouri anamorfice"
+msgstr ""
+"Aplică compensarea raportului de aspect pentru videoclipurile anamorfice"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
