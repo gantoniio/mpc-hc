@@ -2269,7 +2269,7 @@ msgstr "Kliknij dwukrotnie, aby otworzyć lokalizację pliku"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
-msgstr "Kliknij, aby przełączyć pomiędzy czasem, który upłynął a pozostałym"
+msgstr "Przełącz między czasem, który upłynął, a pozostałym"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
