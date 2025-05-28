@@ -709,7 +709,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG ulFrequency, ULONG ulBandwidth, U
     CheckPointer(m_pBDAFreq, E_FAIL);
 
     CheckAndLogBDA(m_pBDAControl->StartChanges(), _T("  SetFrequency StartChanges"));
-    if (ulSymbolRate != 0) {
+    if (ulSymbolRate != 0 && m_pBDADemodulator) {
         CheckAndLogBDANoRet(m_pBDADemodulator->put_SymbolRate(&ulSymbolRate), _T(" SetFrequency put_SymbolRate"));
     }
     CheckAndLogBDANoRet(m_pBDAFreq->put_FrequencyMultiplier(1000), _T("  SetFrequency put_FrequencyMultiplier"));

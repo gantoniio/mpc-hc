@@ -64,6 +64,9 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion, bo
 
     try {
         CInternetSession internet;
+        internet.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000);
+        internet.SetOption(INTERNET_OPTION_RECEIVE_TIMEOUT, 5000);
+        internet.SetOption(INTERNET_OPTION_SEND_TIMEOUT, 5000);
 
 #pragma warning(push)
 #pragma warning(disable: 4996)

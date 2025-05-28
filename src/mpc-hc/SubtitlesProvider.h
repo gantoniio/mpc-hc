@@ -92,9 +92,11 @@ SRESULT Login(const std::string& sUserName, const std::string& sPassword) overri
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 
+#if 0
 DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "Napisy24", "https://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
+#endif
 
 static const struct {
     const char* code;

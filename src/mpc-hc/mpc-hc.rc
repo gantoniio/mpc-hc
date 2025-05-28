@@ -117,26 +117,24 @@ BEGIN
     CONTROL         "Enable built-in audio switcher filter (requires restart)",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,6,343,8
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,6,20,343,1
-    GROUPBOX        "",IDC_STATIC,6,24,343,30
-    CONTROL         "Normalize",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,18,25,82,8
-    LTEXT           "Max amplification:",IDC_STATIC4,14,37,132,8
+    CONTROL         "Normalize",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,6,25,82,8
+    LTEXT           "Max amplification:",IDC_STATIC4,6,37,132,8
     EDITTEXT        IDC_EDIT3,149,35,43,13,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,178,35,14,13
     LTEXT           "%",IDC_STATIC5,194,37,14,8
     CONTROL         "Regain volume",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,212,37,130,8
     LTEXT           "Boost:",IDC_STATIC6,6,59,66,8
     CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | TBS_TOOLTIPS | WS_TABSTOP | TBS_DOWNISLEFT,72,55,132,15
-    CONTROL         "Down-sample to 44100 Hz",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,78,343,8
     CONTROL         "Audio time shift (ms):",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,95,138,8
     EDITTEXT        IDC_EDIT2,149,92,55,13,ES_AUTOHSCROLL,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,92,14,13
     CONTROL         "Enable custom channel mapping",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,112,343,8
-    LTEXT           "Speaker configuration for",IDC_STATIC1,6,128,138,8
+    LTEXT           "Speaker configuration for",IDC_STATIC_CM1,6,128,138,8
     EDITTEXT        IDC_EDIT1,149,126,35,13,ES_CENTER | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,169,126,14,13
-    LTEXT           "input channels:",IDC_STATIC2,188,128,161,8
+    LTEXT           "input channels:",IDC_STATIC_CM2,188,128,161,8
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,6,145,343,124
-    CTEXT           "Hold shift for immediate changes when clicking something",IDC_STATIC3,6,274,343,8
+    CTEXT           "Hold shift for immediate changes when clicking something",IDC_STATIC_CM3,6,274,343,8
 END
 
 IDD_GOTO_DLG DIALOGEX 0, 0, 186, 120
@@ -1731,13 +1729,16 @@ BEGIN
             MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
             MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
             MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+            MENUITEM "1.75 x",                      ID_PLAY_PLAYBACKRATE_175
             MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
             MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
             MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
             MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
             MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+            MENUITEM "23.976 fps",                  ID_PLAY_PLAYBACKRATE_FPS23
             MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
             MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
+            MENUITEM "59.94 fps",                   ID_PLAY_PLAYBACKRATE_FPS59
         END
         MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
         MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -2252,13 +2253,16 @@ BEGIN
                 MENUITEM "1.10 x",                      ID_PLAY_PLAYBACKRATE_110
                 MENUITEM "1.25 x",                      ID_PLAY_PLAYBACKRATE_125
                 MENUITEM "1.50 x",                      ID_PLAY_PLAYBACKRATE_150
+                MENUITEM "1.75 x",                      ID_PLAY_PLAYBACKRATE_175
                 MENUITEM "2.00 x",                      ID_PLAY_PLAYBACKRATE_200
                 MENUITEM "3.00 x",                      ID_PLAY_PLAYBACKRATE_300
                 MENUITEM "4.00 x",                      ID_PLAY_PLAYBACKRATE_400
                 MENUITEM "6.00 x",                      ID_PLAY_PLAYBACKRATE_600
                 MENUITEM "8.00 x",                      ID_PLAY_PLAYBACKRATE_800
+                MENUITEM "23.976 fps",                  ID_PLAY_PLAYBACKRATE_FPS23
                 MENUITEM "24 fps",                      ID_PLAY_PLAYBACKRATE_FPS24
                 MENUITEM "25 fps",                      ID_PLAY_PLAYBACKRATE_FPS25
+                MENUITEM "59.94 fps",                   ID_PLAY_PLAYBACKRATE_FPS59
             END
             MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
             MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -3111,7 +3115,7 @@ BEGIN
     IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
     IDS_ASPECT_RATIO_FMT    "AR %d:%d"
-    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart)"
+    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart).\nThis only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\nDo not enable this during normal use!"
     IDS_TIMER_REMAINING_TIME "Remaining time"
     IDS_TIMER_HIGH_PRECISION "High precision"
     IDS_AFTERPLAYBACK_REWIND "After Playback: Rewind current file"
@@ -3995,8 +3999,8 @@ BEGIN
     IDS_CMD_VIEWPRESET      "/viewpreset N\tStart with specific preset,\n\t\twhere N is either ""1"" Minimal, ""2"" Compact or ""3"" Normal"
     IDS_CMD_MUTE            "/mute\t\tMute the audio"
     IDS_CMD_VOLUME          "/volume N\tSet Volume, where N is a range from 0 to 100"
-    IDS_YOUTUBEDL_NOT_FOUND "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-    IDS_CONTROLS_YOUTUBEDL  "Calling youtube-dl..."
+    IDS_YOUTUBEDL_NOT_FOUND "Youtube-DL failed to launch. Make sure yt-dlp.exe or youtube-dl.exe is located in MPC-HC folder or in PATH."
+    IDS_CONTROLS_YOUTUBEDL  "Calling yt-dlp/youtube-dl..."
     IDS_VERTICAL_ALIGN_VIDEO_TOP "Align Top"
     IDS_VERTICAL_ALIGN_VIDEO_MIDDLE "Align Middle"
     IDS_VERTICAL_ALIGN_VIDEO_BOTTOM "Align Bottom"
@@ -4009,7 +4013,7 @@ BEGIN
     IDS_PPAGEADVANCED_YDL_AUDIO_ONLY 
                             "Instructs Youtube-DL to prefer an audio-only stream (if available)"
     IDS_PPAGEADVANCED_YDL_COMMAND_LINE 
-                            "Command line parameters for downloading (""save a copy"") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o ""C:\\downloads\\%(title)s.%(ext)s"""
+                            "Command line parameters for downloading (""save a copy"") with yt-dlp.exe (or youtube-dl.exe)\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o ""C:\\downloads\\%(title)s.%(ext)s"""
     IDS_PPAGEADVANCED_SAVEIMAGE_POSITION "Include video position in filename"
     IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME "Include current time in filename"
     IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK 
@@ -4122,7 +4126,7 @@ BEGIN
                             "Keep main window controls visible on current monitor when going fullscreen on another monitor."
     IDS_PPAGEADVANCED_BLOCKRDP "Block use of RDP Redirection Filter"
     IDS_PPAGEADVANCED_YDL_EXEPATH 
-                            "Full path of the Youtube-DL executable.\nJust the filename is enough in case it is located in same folder as MPC-HC.\nLeave empty to use default filename: youtube-dl.exe"
+                            "Full path of the yt-dlp (or youtube-dl) executable.\nJust the filename is enough in case it is located in same folder as MPC-HC.\nLeave empty to use default filename: yt-dlp.exe"
     IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE 
                             "The language preference for loading subtitle streams extracted by Youtube-DL.\nIf empty, no subtitles are loaded.\nUse ISO639-1 two letter language code(s).\nExample: en de es pl zh ja nl"
     IDS_PPAGEADVANCED_USE_AUTOMATIC_CAPTIONS 

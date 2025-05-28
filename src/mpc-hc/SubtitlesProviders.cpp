@@ -217,7 +217,7 @@ static const std::regex regex_pattern[] = {
 };
 
 static constexpr LPCTSTR log_format =
-    _T("GetFileInfo(): Deducing video information from file path\n")  \
+    _T("Deducing video information from file path\n") \
     // file properties
     _T("filePath=\"%S\"\n")                                           \
     _T("fileName=\"%S\"\n")                                           \
@@ -442,7 +442,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 ******************************************************************************/
 
 SubtitlesProvider::SubtitlesProvider(SubtitlesProviders* pOwner)
-    : m_bSearch(FALSE), m_pOwner(pOwner), m_nIconIndex(0), m_nLoggedIn(SPL_UNDEFINED)
+    : m_bSearch(FALSE), m_pOwner(pOwner), m_nIconIndex(0), m_nLoggedIn(SPL_UNDEFINED), m_dwLastStatusCode(0)
 {
 }
 
@@ -504,20 +504,20 @@ bool SubtitlesProvider::IsAborting()
     return pThread.IsThreadAborting();
 }
 
-SRESULT SubtitlesProvider::DownloadInternal(std::string url, std::string referer, std::string& data) const
+SRESULT SubtitlesProvider::DownloadInternal(std::string url, std::string referer, std::string& data)
 {
     stringMap headers({
         { "User-Agent", UserAgent() },
         { "Referer", referer },
     });
 
-    DWORD dwStatusCode;
-    StringDownload(url, headers, data, true, &dwStatusCode);
+    StringDownload(url, headers, data, true, &m_dwLastStatusCode);
 
-    switch (dwStatusCode) {
+    switch (m_dwLastStatusCode) {
         case 200:
             return SR_SUCCEEDED;
         default:
+            SUBTITLES_LOG(L"FAILED, server response code = %lu\n", m_dwLastStatusCode);
             return SR_FAILED;
     }
 }
@@ -855,7 +855,7 @@ void SubtitlesThread::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
             }
         }
     } else {
-        m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoDownloadFailed();
+        m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoDownloadFailed(pSubtitlesInfo.Provider()->m_dwLastStatusCode);
     }
 }
 

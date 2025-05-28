@@ -305,7 +305,9 @@ LRESULT CPPageSheet::OnDpiChanged(WPARAM wParam, LPARAM lParam) {
         //set dpi aware main frame pos/size
         if (m_pFrame) {
             CopyWindowPosition(m_pFrame->GetWnd(), dummy.GetTabControl(), &dummy);
-            m_pFrame->SetCaptionHeight(dummy.m_pFrame->GetCaptionHeight());
+            if (dummy.m_pFrame) {
+                m_pFrame->SetCaptionHeight(dummy.m_pFrame->GetCaptionHeight());
+            }
         }
 
         CWnd* pChild = GetWindow(GW_CHILD);

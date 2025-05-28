@@ -6,6 +6,7 @@
 CMPCThemeScrollBarHelper::CMPCThemeScrollBarHelper(CWnd* scrollWindow)
     :helperInfo(nullptr)
     ,setWindowRegionActive(false)
+    ,regionCreated(false)
 {
     window = scrollWindow;
     pParent = nullptr;
@@ -30,6 +31,7 @@ void CMPCThemeScrollBarHelper::createThemedScrollBars()
         if (i.canHSB && !IsWindow(horzSB.m_hWnd)) {
             VERIFY(horzSB.Create(SBS_HORZ | WS_CHILD |
                                  WS_VISIBLE, CRect(0, 0, 0, 0), pParent, 0));
+            horzSB.ModifyStyleEx(WS_EX_LAYOUTRTL, 0); //don't inherit RTL--GetScrollInfo already gives us the correct positions from an RTL window
             horzSB.setScrollWindow(window); //we want messages from this SB
         }
     }
@@ -52,6 +54,7 @@ void CMPCThemeScrollBarHelper::setWindowRegionExclusive(HRGN h) {
         setWindowRegionActive = true;
     }
     window->SetWindowRgn(h, false);
+    regionCreated = (NULL != h);
     {
         std::lock_guard<std::recursive_mutex> lck(helperMutex);
         setWindowRegionActive = false;
@@ -62,6 +65,12 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
 {
 
     if (!CMPCThemeUtil::IsWindowVisibleAndRendered(window)) {
+        if (IsWindow(vertSB.m_hWnd)) {
+            vertSB.ShowWindow(SW_HIDE);
+        }
+        if (IsWindow(horzSB.m_hWnd)) {
+            horzSB.ShowWindow(SW_HIDE);
+        }
         return;
     }
 
@@ -112,7 +121,7 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
         }
     }
     if (needsRegion) {
-        if (windowChanged) {
+        if (windowChanged || !regionCreated) {
             HRGN contentRgn = CreateRectRgn(wr.left, wr.top, wr.right, wr.bottom);
             if (!vertRect.IsRectEmpty()) {
                 ::MapWindowPoints(pParent->GetSafeHwnd(), window->GetSafeHwnd(), (LPPOINT)&vertRect, 2);
@@ -284,7 +293,7 @@ ScrollBarHelperInfo::ScrollBarHelperInfo(CWnd* w):
         wr.OffsetRect(-wr.left, -wr.top);
 
         sbThickness = GetSystemMetrics(SM_CXVSCROLL);
-        clientOffset = CMPCThemeUtil::GetRegionOffset(w);
+        clientOffset = CMPCThemeUtil::GetClientRectOffset(w);
         borderThickness = clientOffset.x;
 
         auto style = w->GetStyle();
@@ -294,7 +303,11 @@ ScrollBarHelperInfo::ScrollBarHelperInfo(CWnd* w):
         canVSB = 0 != (style & WS_VSCROLL) && sbThickness < wr.Width() - borderThickness * 2;
         canHSB = 0 != (style & WS_HSCROLL) && sbThickness < wr.Height() - borderThickness * 2;
         needsSBCorner = (style & (WS_VSCROLL | WS_HSCROLL)) == (WS_VSCROLL | WS_HSCROLL) && canVSB && canHSB;
-        corner = { wr.right - sbThickness - borderThickness, wr.bottom - sbThickness - borderThickness,  wr.right - borderThickness, wr.bottom - borderThickness };
+        if (CMPCThemeUtil::IsRTL(w)) {
+            corner = { wr.left + borderThickness, wr.bottom - sbThickness - borderThickness, wr.left + sbThickness + borderThickness,  wr.bottom - borderThickness };
+        } else {
+            corner = { wr.right - sbThickness - borderThickness, wr.bottom - sbThickness - borderThickness,  wr.right - borderThickness, wr.bottom - borderThickness };
+        }
     }
 }
 

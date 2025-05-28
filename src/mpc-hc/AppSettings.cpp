@@ -148,7 +148,7 @@ CAppSettings::CAppSettings()
     , nAudioMaxNormFactor(400)
     , fAudioNormalizeRecover(true)
     , nAudioBoost(0)
-    , fDownSampleTo441(false)
+    , bAudioBoostWarned(false)
     , fAudioTimeShift(false)
     , iAudioTimeShift(0)
     , fCustomChannelMapping(false)
@@ -1041,13 +1041,13 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, fEnableAudioSwitcher);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, fAudioTimeShift);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOTIMESHIFT, iAudioTimeShift);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, fDownSampleTo441);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, fCustomChannelMapping);
     pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, (BYTE*)pSpeakerToChannelMap, sizeof(pSpeakerToChannelMap));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, fAudioNormalize);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, nAudioMaxNormFactor);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, fAudioNormalizeRecover);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoost);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOSTWARNED, bAudioBoostWarned);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, nSpeakerChannels);
 
@@ -1878,13 +1878,12 @@ void CAppSettings::LoadSettings()
     }
     iVerticalAlignVideo = static_cast<verticalAlignVideoType>(tVertAlign);
 
-    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
+    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|podnapisi|||0|0|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
     bSubtitleOverrideDefaultStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_DEFAULT_STYLE, FALSE);
     bSubtitleOverrideAllStyles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_ALL_STYLES, FALSE);
 
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
-    fDownSampleTo441 = false; //!!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
     fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, FALSE);
 
     BOOL bResult = pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, &ptr, &len);
@@ -1923,6 +1922,7 @@ void CAppSettings::LoadSettings()
     nAudioMaxNormFactor = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOMAXNORMFACTOR, 400);
     fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
     nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, 0);
+    bAudioBoostWarned = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOSTWARNED, FALSE);
 
     nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
@@ -1955,6 +1955,8 @@ void CAppSettings::LoadSettings()
         m_pnspresets.Add(str2);
         str2.Format(IDS_SCALE_ULTRAWIDE, 0.5, 0.5, _235p1 / _4p3, _235p1 / _4p3);
         m_pnspresets.Add(str2);
+        m_pnspresets.Add(L"3D SBS > 2D,1.0,0.5,2.0,1.0");
+        m_pnspresets.Add(L"3D TB  > 2D,0.5,1.0,1.0,2.0");
     }
 
     for (int i = 0; i < wmcmds.GetCount(); i++) {

@@ -46,7 +46,6 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
     , m_nAudioMaxNormFactor(400)
     , m_fAudioNormalizeRecover(FALSE)
     , m_AudioBoostPos(0)
-    , m_fDownSampleTo441(FALSE)
     , m_fCustomChannelMapping(FALSE)
     , m_nChannels(0)
     , m_tAudioTimeShift(0)
@@ -74,7 +73,6 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK6, m_fAudioNormalizeRecover);
     DDX_Slider(pDX, IDC_SLIDER1, m_AudioBoostPos);
     DDX_Control(pDX, IDC_SLIDER1, m_AudioBoostCtrl);
-    DDX_Check(pDX, IDC_CHECK3, m_fDownSampleTo441);
     DDX_Check(pDX, IDC_CHECK1, m_fCustomChannelMapping);
     DDX_Control(pDX, IDC_EDIT1, m_nChannelsCtrl);
     DDX_Text(pDX, IDC_EDIT1, m_nChannels);
@@ -85,7 +83,6 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SPIN1, m_nChannelsSpinCtrl);
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Check(pDX, IDC_CHECK2, m_fEnableAudioSwitcher);
-    DDX_Control(pDX, IDC_CHECK3, m_fDownSampleTo441Ctrl);
     DDX_Control(pDX, IDC_CHECK1, m_fCustomChannelMappingCtrl);
     DDX_Control(pDX, IDC_EDIT2, m_tAudioTimeShiftCtrl);
     DDX_Control(pDX, IDC_SPIN2, m_tAudioTimeShiftSpin);
@@ -96,6 +93,7 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CMPCThemePPageBase)
     ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
+    ON_BN_CLICKED(IDC_CHECK1, OnClickCheck1)
     ON_WM_DRAWITEM()
     ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
     ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateAudioSwitcher)
@@ -122,6 +120,16 @@ BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CMPCThemePPageBase)
 END_MESSAGE_MAP()
 
 
+void CPPageAudioSwitcher::SetChannelMappingSW(int v)
+{
+    GetDlgItem(IDC_EDIT1)->ShowWindow(v);
+    GetDlgItem(IDC_SPIN1)->ShowWindow(v);
+    GetDlgItem(IDC_LIST1)->ShowWindow(v);
+    GetDlgItem(IDC_STATIC_CM1)->ShowWindow(v);
+    GetDlgItem(IDC_STATIC_CM2)->ShowWindow(v);
+    GetDlgItem(IDC_STATIC_CM3)->ShowWindow(v);
+}
+
 // CPPageAudioSwitcher message handlers
 
 BOOL CPPageAudioSwitcher::OnInitDialog()
@@ -138,7 +146,6 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
     m_AudioBoostCtrl.SetRange(0, 300);
     m_AudioBoostCtrl.SetPageSize(10);
     m_AudioBoostPos = s.nAudioBoost;
-    m_fDownSampleTo441 = s.fDownSampleTo441;
     m_fAudioTimeShift = s.fAudioTimeShift;
     m_tAudioTimeShift = s.iAudioTimeShift;
     m_tAudioTimeShiftSpin.SetRange32(-1000 * 60 * 60 * 24, 1000 * 60 * 60 * 24);
@@ -186,7 +193,9 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
 
-    GetDlgItem(IDC_CHECK3)->ShowWindow(SW_HIDE); // Hide downsample checkbox, will remove relevant code in future
+    if (!m_fCustomChannelMapping) {
+        SetChannelMappingSW(SW_HIDE);
+    }
 
     UpdateData(FALSE);
 
@@ -210,7 +219,6 @@ BOOL CPPageAudioSwitcher::OnApply()
     s.nAudioMaxNormFactor = m_nAudioMaxNormFactor;
     s.fAudioNormalizeRecover = !!m_fAudioNormalizeRecover;
     s.nAudioBoost = m_AudioBoostPos;
-    s.fDownSampleTo441 = !!m_fDownSampleTo441;
     s.fAudioTimeShift = !!m_fAudioTimeShift;
     s.iAudioTimeShift = m_tAudioTimeShift;
     s.fCustomChannelMapping = !!m_fCustomChannelMapping;
@@ -223,6 +231,23 @@ BOOL CPPageAudioSwitcher::OnApply()
     }
 
     return __super::OnApply();
+}
+
+void CPPageAudioSwitcher::OnClickCheck1()
+{
+    UpdateData();
+
+    if (m_fCustomChannelMapping) {
+        if (IDNO == AfxMessageBox(_T("WARNING: Channel mapping is not the same as channel mixing. Normal users should never enable this functionality.\n\nIf you want to do channel mixing (such as 5.1 -> stereo) you need to go here:\nInternal Filters > Audio Decoder > Mixing\n\nAre you really sure that you want to enable channel mapping?"), MB_ICONEXCLAMATION | MB_YESNO, 0)) {
+            m_fCustomChannelMapping = false;
+            UpdateData(FALSE);
+            SetChannelMappingSW(SW_HIDE);
+        } else {
+            SetChannelMappingSW(SW_SHOW);
+        }
+    } else {
+        SetChannelMappingSW(SW_HIDE);
+    }
 }
 
 void CPPageAudioSwitcher::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
@@ -390,7 +415,13 @@ void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
         return;
     }
     if (*pScrollBar == m_AudioBoostCtrl) {
+        CAppSettings& s = AfxGetAppSettings();
+        int cur = m_AudioBoostPos;
         UpdateData();
+        if (!s.bAudioBoostWarned && m_AudioBoostPos > cur && m_AudioBoostPos > 20) {
+            s.bAudioBoostWarned = true;
+            AfxMessageBox(_T("WARNING: Boosting audio volume can in some situations have a negative effect on audio quality due to overflow.\n\nThere are two better and safer methods for increasing volume:\n1) Enabling mixing in the internal audio decoder settings.\nInternal Filters > Audio Decoder > Mixing\nThis is recommended if you have stereo speakers or headphones.\nTo increase loudness of voices, set center mix level to 1.0 in the mixing settings.\n2) Enable Normalize"), MB_ICONEXCLAMATION | MB_OK, 0);
+        }
         ((CMainFrame*)GetParentFrame())->SetVolumeBoost(m_AudioBoostPos); // nice shortcut...
     }
     RedrawDialogTooltipIfVisible(); //if the scroll is caused by a wheel or arrows, the default tooltip may be active due to hover, in which case, we want to update

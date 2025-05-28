@@ -618,8 +618,13 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
                                                 std::string& data, bool bAutoRedirect, DWORD* dwStatusCode)
 {
     data.clear();
+    if (dwStatusCode) {
+        *dwStatusCode = 0;
+    }
+
     try {
         CInternetSession is;
+        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 10000); /* default=60000 */
 
         std::string strHeaders;
         for (const auto& iter : headers) {
@@ -628,7 +633,6 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
             }
         }
 
-        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000 /*default=60000*/);
         CAutoPtr<CHttpFile> pHttpFile((CHttpFile*)is.OpenURL(UTF8To16(url.c_str()),
                                                              1,
                                                              INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_EXISTING_CONNECT | (bAutoRedirect ? INTERNET_FLAG_NO_AUTO_REDIRECT : NULL),
@@ -649,10 +653,13 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
         }
 
         pHttpFile->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
-    } catch (CInternetException* ie) {
-        HRESULT hr = HRESULT_FROM_WIN32(ie->m_dwError);
-        TRACE("File transfer failed - %lx - %s\n", hr, url.c_str());
-        ie->Delete();
+    } catch (CInternetException* pEx) {
+        HRESULT hr = HRESULT_FROM_WIN32(pEx->m_dwError);
+        if (dwStatusCode) {
+            *dwStatusCode = pEx->m_dwError;
+        }
+        TRACE("File transfer failed - 0x%lx - %s\n", hr, url.c_str());
+        pEx->Delete();
         return hr;
     }
     return S_OK;
@@ -671,6 +678,7 @@ HRESULT SubtitlesProvidersUtils::StringUpload(const std::string& url, const stri
         }
 
         CInternetSession is;
+        is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 10000);
         CAutoPtr<CHttpConnection> pHttpConnection(is.GetHttpConnection(strServer));
         CAutoPtr<CHttpFile> pHttpFile(pHttpConnection->OpenRequest(CHttpConnection::HTTP_VERB_POST, strObject, 0, 1, 0, 0, INTERNET_FLAG_KEEP_CONNECTION | (bAutoRedirect == FALSE ? INTERNET_FLAG_NO_AUTO_REDIRECT : NULL)));
 

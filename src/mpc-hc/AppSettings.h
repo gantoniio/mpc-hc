@@ -771,7 +771,7 @@ public:
     UINT            nAudioMaxNormFactor;
     bool            fAudioNormalizeRecover;
     UINT            nAudioBoost;
-    bool            fDownSampleTo441;
+    bool            bAudioBoostWarned;
     bool            fAudioTimeShift;
     int             iAudioTimeShift;
     bool            fCustomChannelMapping;

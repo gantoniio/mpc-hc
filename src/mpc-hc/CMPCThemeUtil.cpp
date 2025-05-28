@@ -1161,13 +1161,35 @@ void CMPCThemeUtil::PreDoModalRTL(LPPROPSHEETHEADERW m_psh) {
     m_psh->pfnCallback = PropSheetCallBackRTL;
 }
 
+bool CMPCThemeUtil::IsRTL(CWnd* window) {
+    if (window->GetExStyle() & WS_EX_LAYOUTRTL) return true;
+    CWnd* parent = window;
+    while (parent = parent->GetParent()) {
+        DWORD styleEx = parent->GetExStyle();
+
+        if (styleEx & WS_EX_NOINHERITLAYOUT) { //child does not inherit layout, so we can drop out
+            break;
+        }
+
+        if (styleEx & WS_EX_LAYOUTRTL) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 //Regions are relative to upper left of WINDOW rect (not client)
-CPoint CMPCThemeUtil::GetRegionOffset(CWnd* window) {
+//Note: RTL calculation of offset is from the right
+CPoint CMPCThemeUtil::GetClientRectOffset(CWnd* window) {
     CRect twr, tcr;
     window->GetWindowRect(twr);
     window->GetClientRect(tcr);
-    ::MapWindowPoints(window->GetSafeHwnd(), nullptr, (LPPOINT)&tcr, 2);
+    ::MapWindowPoints(window->GetSafeHwnd(), HWND_DESKTOP, (LPPOINT)&tcr, 2);
     CPoint offset = tcr.TopLeft() - twr.TopLeft();
+    if (IsRTL(window)) {
+        offset.x = twr.right - tcr.right; //if the window is RTL, the client offset in absolute screen coordinates must be measured from the right of the rects
+    }
     return offset;
 }
 

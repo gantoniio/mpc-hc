@@ -607,12 +607,14 @@ protected:
     void OpenCapture(OpenDeviceData* pODD);
     HRESULT OpenBDAGraph();
     void OpenCustomizeGraph();
+    CSize OpenSetupGetVideoSize();
     void OpenSetupVideo();
     void OpenSetupAudio();
     void OpenSetupInfoBar(bool bClear = true);
     void UpdateChapterInInfoBar();
     void OpenSetupStatsBar();
     void CheckSelectedAudioStream();
+    void CheckSelectedVideoStream();
     void OpenSetupStatusBar();
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(bool reset = false);
@@ -682,9 +684,9 @@ public:
     void RepaintVideo(const bool bForceRepaint = false);
     void HideVideoWindow(bool fHide);
 
-    OAFilterState GetMediaStateDirect() const;
-    OAFilterState GetMediaState() const;
-    OAFilterState CMainFrame::UpdateCachedMediaState();
+    OAFilterState GetMediaStateDirect();
+    OAFilterState GetMediaState();
+    OAFilterState UpdateCachedMediaState();
     bool MediaControlRun(bool waitforcompletion = false);
     bool MediaControlPause(bool waitforcompletion = false);
     bool MediaControlStop(bool waitforcompletion = false);

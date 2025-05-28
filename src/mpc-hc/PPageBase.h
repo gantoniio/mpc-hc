@@ -22,6 +22,7 @@
 #pragma once
 
 #include "ResizableLib/ResizableDialog.h"
+#include "../../CmdUI/CmdUI.h"
 #include "CMPCThemeToolTipCtrl.h"
 #include "SVGImage.h"
 

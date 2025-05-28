@@ -442,8 +442,8 @@ namespace
         { "Scottish Gaelic", "gla", "gd",        MAKELCID(MAKELANGID(LANG_GALICIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Selkup", "sel", "" },
         { "Semitic (Other)", "sem", "" },
-        { "Serbian", "scc", "sr",                MAKELCID(LANG_SERBIAN_NEUTRAL, SORT_DEFAULT) },
-        { "Serbian", "srp", "sr",                MAKELCID(LANG_SERBIAN_NEUTRAL, SORT_DEFAULT) },
+        { "Serbian", "scc", "sr",                MAKELCID(MAKELANGID(LANG_SERBIAN, SUBLANG_SERBIAN_SERBIA_CYRILLIC), SORT_DEFAULT) },
+        { "Serbian", "srp", "sr",                MAKELCID(MAKELANGID(LANG_SERBIAN_NEUTRAL, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Serer", "srr", "" },
         { "Shan", "shn", "" },
         { "Shona", "sna", "sn" },
@@ -659,6 +659,16 @@ CString ISOLang::LCIDToLanguage(LCID lcid)
         }
     }
     return _T("");
+}
+
+CString ISOLang::LCIDToISO6392(LCID lcid)
+{
+    for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
+        if (lcid == s_isolangs[i].lcid) {
+            return CString(s_isolangs[i].iso6392);
+        }
+    }
+    return _T("unk");
 }
 
 LCID ISOLang::ISO6391ToLcid(LPCSTR code)

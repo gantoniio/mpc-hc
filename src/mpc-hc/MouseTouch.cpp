@@ -416,23 +416,25 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
     TRACE(L"InternalOnLButtonUp\n");
 #endif
     ReleaseCapture();
-    if (!MVRUp(nFlags, point) && m_bLeftDown) {
+    if (!MVRUp(nFlags, point)) {
         bool bIsOnFS = IsOnFullscreenWindow();
         if (!(bIsOnFS && (m_bD3DFS || m_pMainFrame->IsFullScreenMainFrameExclusiveMPCVR()) && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point))) {
-            UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
-            if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
-                ASSERT(!m_bLeftUpDelayed);
-                m_bLeftUpDelayed = true;
-                m_LeftUpPoint = point;
-                SetTimer(GetWnd(), (UINT_PTR)this, std::min(delay, GetDoubleClickTime()), OnTimerLeftUp);
+            if (m_bLeftDown) {
+                UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
+                if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
+                    ASSERT(!m_bLeftUpDelayed);
+                    m_bLeftUpDelayed = true;
+                    m_LeftUpPoint = point;
+                    SetTimer(GetWnd(), (UINT_PTR)this, std::min(delay, GetDoubleClickTime()), OnTimerLeftUp);
+                } else {
+                    OnButton(wmcmd::LUP, point);
+                }
             } else {
-                OnButton(wmcmd::LUP, point);
+                #if TRACE_LEFTCLICKS
+                TRACE(L"skipped LEFT UP\n");
+                #endif
             }
         }
-    } else {
-#if TRACE_LEFTCLICKS
-        TRACE(L"skipped LEFT UP\n");
-#endif
     }
 
     m_drag = Drag::NO_DRAG;
@@ -596,9 +598,10 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         ASSERT(!IsOnFullscreenWindow());
         CRect r;
         GetWnd().GetWindowRect(r);
-        int maxDim = std::max(r.Width(), r.Height()) / (m_pMainFrame->IsZoomed() ? 10 : 25);
+        int maxDiffX = r.Width() / (m_pMainFrame->IsZoomed() ? 16 : 40);
+        int maxDiffY = r.Height() / (m_pMainFrame->IsZoomed() ? 16 : 40);
         CPoint diff = screenPoint - m_beginDragPoint;
-        bool checkDrag = (diff.x * diff.x + diff.y * diff.y) > maxDim*maxDim; // if dragged 10%/4% of screen maxDim start dragging
+        bool checkDrag = abs(diff.x) > maxDiffX || abs(diff.y) > maxDiffY;
 
         if (checkDrag) {
             bool bUpAssigned = !!AssignedMouseToCmd(wmcmd::LUP,0);

@@ -39,8 +39,9 @@ class CMainFrame;
 struct CueTrackMeta {
     CString title;
     CString performer;
+    int fileID = 0;
     int trackID = 0;
-    REFERENCE_TIME time;
+    REFERENCE_TIME time = 0;
 };
 
 class CPlayerPlaylistBar : public CMPCThemePlayerBar, public CDropClient
@@ -89,7 +90,7 @@ private:
     bool PlaylistCanStripPath(CString path);
     bool ParseMPCPlayList(CString fn);
     bool SaveMPCPlayList(CString fn, CTextFile::enc e);
-    bool ParseM3UPlayList(CString fn);
+    bool ParseM3UPlayList(CString fn, bool* lav_fallback);
     bool ParseCUESheet(CString fn);
     
     void SetupList();
@@ -163,6 +164,7 @@ public:
     void ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs = nullptr, CString label = _T(""), CString ydl_src = _T(""), CString ydl_ua = _T(""), CString cue = _T(""), CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs = nullptr);
     void AddSubtitleToCurrent(CString fn);
 
+    void OpenDVD(CString fn);
     void Open(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
     void Append(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
 

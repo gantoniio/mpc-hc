@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Sonozaki Shion <mskt01a@gmail.com>, 2021
-# ever_green, 2024
+# ever_green, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
+"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: ever_green, 2024\n"
+"Last-Translator: ever_green, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -322,7 +322,7 @@ msgstr "ライブ"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "グラフに ビデオ キャプチャ フィルターを追加できません"
+msgstr "グラフにビデオ キャプチャ フィルターを追加できません"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
@@ -342,7 +342,7 @@ msgstr "編集リスト エディター"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "入力された時間がファイルの再生時間よりも長くなっています。"
+msgstr "入力された時間がファイルの長さを超えています。"
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid ""
@@ -1341,11 +1341,11 @@ msgstr "16:9 TV 画面に合わせる,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "ワイド画面に拡大,%.3f,%.3f,%.3f,%.3f"
+msgstr "ワイド画面にズーム,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "ウルトラワイド画面に拡大,%.3f,%.3f,%.3f,%.3f"
+msgstr "ウルトラワイド画面にズーム,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
@@ -1685,8 +1685,11 @@ msgid "AR %d:%d"
 msgstr "縦横比 %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file (requires restart)"
-msgstr "ファイルへのログ記録を有効にします。 (再起動が必要)"
+msgid ""
+"Enables logging to file (requires restart).\n"
+"This only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\n"
+"Do not enable this during normal use!"
+msgstr ""
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
@@ -2094,7 +2097,7 @@ msgstr "全画面表示 (解像度変更なし)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "拡大 自動調整"
+msgstr "ズーム 自動調整"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
@@ -2180,11 +2183,11 @@ msgstr "自動調整"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "拡大 自動調整 (超過のみ)"
+msgstr "ズーム 自動調整 (超過のみ)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "拡大: 自動 (超過のみ)"
+msgstr "ズーム: 自動 (超過のみ)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -2959,15 +2962,15 @@ msgstr "シェーダー デバッガーの表示"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "拡大 50%"
+msgstr "ズーム 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "拡大 100%"
+msgstr "ズーム 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "拡大 200%"
+msgstr "ズーム 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -3031,7 +3034,7 @@ msgstr "エンコーディング:"
 
 msgctxt "IDS_AG_ZOOM_25"
 msgid "Zoom 25%"
-msgstr "拡大 25%"
+msgstr "ズーム 25%"
 
 msgctxt "IDS_AG_MOUSE_MODIFIER"
 msgid "Mouse Modifier"
@@ -3039,11 +3042,11 @@ msgstr "マウス 修飾キー"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr "ズーム ウィンドウ +"
+msgstr "ズーム ウィンドウを拡大"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr "ズーム ウィンドウ -"
+msgstr "ズーム ウィンドウを縮小"
 
 msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
 msgid "Video Preview"
@@ -3055,15 +3058,15 @@ msgstr "シーク タイム"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr "ビデオ フレーム: 拡大 1"
+msgstr "ビデオ フレーム: ズーム 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr "ビデオ フレーム: 拡大 2"
+msgstr "ビデオ フレーム: ズーム 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr "ビデオ フレーム: 拡大設定の切り替え"
+msgstr "ビデオ フレーム: ズーム設定の切り替え"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3187,11 +3190,11 @@ msgstr "ウィンドウに内接させる"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "拡大 1"
+msgstr "ズーム 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr "拡大 2"
+msgstr "ズーム 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
@@ -3681,11 +3684,11 @@ msgstr "閉じる(&C)"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "拡大: %.0lf%%"
+msgstr "ズーム: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "拡大: 自動"
+msgstr "ズーム: 自動"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -4337,12 +4340,14 @@ msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
 msgstr "/volume N\t音量を設定する, N は 0 ～ 100 の範囲内で指定する"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
-msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-msgstr "youtube-dl の起動に失敗しました。youtube-dl が PATH にあることを確認してください。"
+msgid ""
+"Youtube-DL failed to launch. Make sure yt-dlp.exe or youtube-dl.exe is "
+"located in MPC-HC folder or in PATH."
+msgstr ""
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
-msgid "Calling youtube-dl..."
-msgstr "youtube-dl を呼び出しています..."
+msgid "Calling yt-dlp/youtube-dl..."
+msgstr ""
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
@@ -4402,17 +4407,12 @@ msgstr "YouTube-DL にオーディオのみのストリームを優先するよ�
 
 msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
 msgid ""
-"Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\n"
+"Command line parameters for downloading (\"save a copy\") with yt-dlp.exe (or youtube-dl.exe)\n"
 "Examples:\n"
 "-f best[height<=1080]\n"
 "-f bestvideo+bestaudio\n"
 "-o \"C:\\downloads\\%(title)s.%(ext)s"
 msgstr ""
-"youtube-dl.exe を使用してダウンロード (「コピーを保存」) するためのコマンド ライン パラメータ\n"
-"例:\n"
-"-f best[height<=1080]\n"
-"-f bestvideo+bestaudio\n"
-"-o \"C:\\downloads\\%(title)s.%(ext)s"
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
 msgid "Include video position in filename"
@@ -4695,13 +4695,10 @@ msgstr "RDP リダイレクト フィルターの使用をブロックします"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_EXEPATH"
 msgid ""
-"Full path of the Youtube-DL executable.\n"
+"Full path of the yt-dlp (or youtube-dl) executable.\n"
 "Just the filename is enough in case it is located in same folder as MPC-HC.\n"
-"Leave empty to use default filename: youtube-dl.exe"
+"Leave empty to use default filename: yt-dlp.exe"
 msgstr ""
-"Youtube-DL 実行可能ファイルのフルパス。\n"
-"MPC-HC と同じフォルダーにある場合は、ファイル名だけで十分です。\n"
-"既定のファイル名を使用するには、空のままにしておく: youtube-dl.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
 msgid ""

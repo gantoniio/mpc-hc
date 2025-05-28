@@ -133,7 +133,7 @@
 #define IDS_RS_AUDIOMAXNORMFACTOR           _T("AudioMaxNormFactor")
 #define IDS_RS_AUDIONORMALIZERECOVER        _T("AudioNormalizeRecover")
 #define IDS_RS_AUDIOBOOST                   _T("AudioBoost")
-#define IDS_RS_DOWNSAMPLETO441              _T("DownSampleTo441")
+#define IDS_RS_AUDIOBOOSTWARNED             _T("AudioBoostWarned")
 #define IDS_RS_ENABLEAUDIOTIMESHIFT         _T("EnableAudioTimeShift")
 #define IDS_RS_AUDIOTIMESHIFT               _T("AudioTimeShift")
 #define IDS_RS_CUSTOMCHANNELMAPPING         _T("CustomChannelMapping")
