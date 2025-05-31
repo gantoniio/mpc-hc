@@ -40,18 +40,34 @@
 //25-27 are volume mute variants
 //28-29 reserved for volume svg
 
-#define VOLUMEBUTTON_SVG_INDEX 25
-#define VOLUME_SVG_INDEX 28
+#define VOLUMEBUTTON_SVG_INDEX 24
+#define VOLUME_SVG_INDEX 27
 
 std::map<int, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
     {ID_PLAY_PLAY, {TBBS_CHECKGROUP,0,LOCK_LEFT}},
     {ID_PLAY_PAUSE, {TBBS_CHECKGROUP,1,LOCK_LEFT}},
     {ID_PLAY_STOP, {TBBS_CHECKGROUP,2,LOCK_LEFT}},
     {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON,3}},
-    {ID_PLAY_DECRATE, {TBBS_BUTTON,4}},
-    {ID_PLAY_INCRATE, {TBBS_BUTTON,5}},
-    {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON,6}},
-    {ID_PLAY_FRAMESTEP, {TBBS_BUTTON,7}},
+    {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON,4}},
+    {ID_AUDIOS, {TBBS_BUTTON | TBSTYLE_DROPDOWN,5}},
+    {ID_SUBTITLES, {TBBS_BUTTON | TBSTYLE_DROPDOWN,6}},
+    {ID_PLAY_DECRATE, {TBBS_BUTTON,7}},
+    {ID_PLAY_INCRATE, {TBBS_BUTTON,8}},
+    {ID_PLAY_FRAMESTEP, {TBBS_BUTTON,9}},
+    {ID_FILE_OPENMEDIA, {TBBS_BUTTON,10}},
+    {ID_VIEW_OPTIONS, {TBBS_BUTTON,11}},
+    {ID_VIEW_FULLSCREEN, {TBBS_BUTTON,12}},
+    {ID_VIEW_PLAYLIST, {TBBS_BUTTON,13}},
+    {ID_PLAYLIST_TOGGLE_SHUFFLE, {TBBS_BUTTON,14}},
+    {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON,15}},
+    {ID_PLAY_SEEKFORWARDMED, {TBBS_BUTTON,16}},
+    {ID_PLAY_SEEKBACKWARDMED, {TBBS_BUTTON,17}},
+    {ID_FILE_PROPERTIES, {TBBS_BUTTON,18}},
+    {ID_FILE_EXIT, {TBBS_BUTTON,19}},
+    {ID_CUSTOM_ACTION1, {TBBS_BUTTON,20}},
+    {ID_CUSTOM_ACTION2, {TBBS_BUTTON,21}},
+    {ID_CUSTOM_ACTION3, {TBBS_BUTTON,22}},
+    {ID_CUSTOM_ACTION4, {TBBS_BUTTON,23}},
     {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR,-1,LOCK_RIGHT}},
     {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX,LOCK_RIGHT}},
 };
@@ -253,7 +269,13 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
     for (auto& it : supportedSvgButtons) {
         if (it.second.svgIndex != -1) {
-            it.second.text.LoadString(s.CommandIDToWMCMD[it.first]->dwname);
+            DWORD dwname;
+            if (s.CommandIDToWMCMD.count(it.first) > 0) {
+                dwname = s.CommandIDToWMCMD[it.first]->dwname;
+            } else {
+                dwname = it.first;
+            }
+            it.second.text.LoadString(dwname);
             supportedSvgButtonsSeq.push_back(it.first);
         }
     }
@@ -672,8 +694,6 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         strTipText.LoadString(ID_VOLUME_MUTE);
     } else if (bi.iImage == VOLUMEBUTTON_SVG_INDEX +1 ) {
         strTipText.LoadString(ID_VOLUME_MUTE_OFF);
-    } else if (bi.iImage == VOLUMEBUTTON_SVG_INDEX + 2) {
-        strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
     } else {
         return FALSE;
     }

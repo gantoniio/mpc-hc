@@ -749,6 +749,11 @@ static constexpr wmcmd_base default_wmcmds[] = {
 
     { ID_PLAYLIST_TOGGLE_SHUFFLE,           0, 0,                 IDS_PLAYLIST_TOGGLE_SHUFFLE },
     { ID_AUDIOSHIFT_ONOFF,                  0, 0,                 IDS_AUDIOSHIFT_ONOFF },
+
+    { ID_CUSTOM_ACTION1,                    0, 0,                 IDS_CUSTOM_ACTION1 },
+    { ID_CUSTOM_ACTION2,                    0, 0,                 IDS_CUSTOM_ACTION2 },
+    { ID_CUSTOM_ACTION3,                    0, 0,                 IDS_CUSTOM_ACTION3 },
+    { ID_CUSTOM_ACTION4,                    0, 0,                 IDS_CUSTOM_ACTION4 },
 };
 
 void CAppSettings::CreateCommands()

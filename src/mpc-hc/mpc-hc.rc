@@ -4178,6 +4178,12 @@ END
 STRINGTABLE
 BEGIN
     IDS_CMD_THUMBNAILS      "/thumbnails\tCreate thumbnails"
+    IDS_CUSTOM_ACTION1      "Custom Action 1"
+    IDS_CUSTOM_ACTION2      "Custom Action 2"
+    IDS_CUSTOM_ACTION3      "Custom Action 3"
+    IDS_CUSTOM_ACTION4      "Custom Action 4"
+    ID_AUDIOS               "Audio Track"
+    ID_SUBTITLES            "Subtitle Track"
 END
 
 #endif    // English (United States) resources

@@ -622,6 +622,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
     ON_WM_POWERBROADCAST()
 
+    // Support toolbar dropdown buttons
+    ON_NOTIFY(TBN_DROPDOWN, AFX_IDW_TOOLBAR, OnToolbarDropDown)
+    ON_UPDATE_COMMAND_UI(ID_AUDIOS, OnUpdateAudiosButton)
+    ON_UPDATE_COMMAND_UI(ID_SUBTITLES, OnUpdateSubtitlesButton)
+
     // Navigation panel
     ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
     ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
@@ -4406,6 +4411,36 @@ void CMainFrame::OnBossKey()
     // Enable animation
     AnimationInfo.iMinAnimate = m_WindowAnimationType;
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
+}
+
+void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
+    CRect r;
+    CMPCThemeMenu* subMenu = nullptr;
+    m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(pNMTB->iItem), r);
+    m_wndToolBar.ClientToScreen(r);
+    if (pNMTB->iItem == ID_AUDIOS) {
+        SetupAudioSubMenu();
+        subMenu = &m_audiosMenu;
+    } else if (pNMTB->iItem == ID_SUBTITLES) {
+        SetupSubtitlesSubMenu();
+        subMenu = &m_subtitlesMenu;
+    }
+
+    if (subMenu) {
+        if (AppNeedsThemedControls()) {
+            subMenu->fulfillThemeReqs();
+        }
+        subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN, r.left, r.top, this);
+    }
+}
+
+void CMainFrame::OnUpdateAudiosButton(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(GetLoadState() != MLS::LOADING && m_audiosMenu.GetMenuItemCount() > 0);
+}
+
+void CMainFrame::OnUpdateSubtitlesButton(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(GetLoadState() != MLS::LOADING && m_subtitlesMenu.GetMenuItemCount() > 0);
 }
 
 void CMainFrame::OnStreamAudio(UINT nID)

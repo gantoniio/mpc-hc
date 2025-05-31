@@ -318,6 +318,10 @@
 #define ID_PLAYLIST_TOGGLE_SHUFFLE      5030
 #define ID_CMDLINE_SAVE_THUMBNAILS      5031
 #define ID_MOUSE_ADD_CMD                5032
+#define ID_CUSTOM_ACTION1               5033
+#define ID_CUSTOM_ACTION2               5034
+#define ID_CUSTOM_ACTION3               5035
+#define ID_CUSTOM_ACTION4               5036
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
@@ -1764,6 +1768,10 @@
 #define IDS_ARS_TIP_ALT_CHECK_FORMAT    57721
 #define IDS_FILTER_RESET_SETTINGS       57722
 #define IDS_AG_DEFAULT                  57723
+#define IDS_CUSTOM_ACTION1              57724
+#define IDS_CUSTOM_ACTION2              57725
+#define IDS_CUSTOM_ACTION3              57726
+#define IDS_CUSTOM_ACTION4              57727
 
 // Next default values for new objects
 // 

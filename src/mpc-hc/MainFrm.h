@@ -916,6 +916,10 @@ public:
 
     afx_msg void OnBossKey();
 
+    afx_msg void OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnUpdateAudiosButton(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateSubtitlesButton(CCmdUI* pCmdUI);
+
     afx_msg void OnStreamAudio(UINT nID);
     afx_msg void OnStreamSub(UINT nID);
     afx_msg void OnStreamSubOnOff();
