@@ -3842,7 +3842,7 @@ msgstr "KB"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr "MB"
+msgstr "MB (MO)"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
