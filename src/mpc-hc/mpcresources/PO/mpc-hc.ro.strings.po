@@ -262,7 +262,7 @@ msgstr "GB/s (GO/s)"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Fișier adăugat la favorite"
+msgstr "Fișierul a fost adăugat la favorite"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
