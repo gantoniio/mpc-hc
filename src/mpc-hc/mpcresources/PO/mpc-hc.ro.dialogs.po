@@ -797,7 +797,7 @@ msgstr "Memorează poziția"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr "Ține minte marcările pentru repetarea A-B"
+msgstr "Reține semnele de repetiție A-B"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
