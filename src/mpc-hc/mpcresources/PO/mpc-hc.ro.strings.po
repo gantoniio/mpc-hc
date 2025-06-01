@@ -3838,7 +3838,7 @@ msgstr "octeți/ bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr "KB"
+msgstr "KB (KO)"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
