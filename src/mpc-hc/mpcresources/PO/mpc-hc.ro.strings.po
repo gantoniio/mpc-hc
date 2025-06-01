@@ -2682,7 +2682,7 @@ msgstr ", Total: %ld, Pierdute: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
-msgstr ", Mărime: %I64dKB"
+msgstr ", Mărime: %I64d KB (KO)"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64d MB"
