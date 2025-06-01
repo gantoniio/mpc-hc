@@ -2694,7 +2694,7 @@ msgstr ", Liberă: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
-msgstr ", Liberă: %I64dMB"
+msgstr ", Liberă: %I64d MB (MO)"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
