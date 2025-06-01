@@ -325,7 +325,7 @@ msgstr "Reține poziția în fișier"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "Ține minte poziția pe DVD"
+msgstr "Reține poziția pe DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
