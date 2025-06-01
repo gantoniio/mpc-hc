@@ -3846,7 +3846,7 @@ msgstr "MB (MO)"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr "GB"
+msgstr "GB (GO)"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
