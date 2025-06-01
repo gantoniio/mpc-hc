@@ -22,7 +22,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Locație"
+msgstr "Locația"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
