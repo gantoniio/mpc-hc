@@ -2690,7 +2690,7 @@ msgstr ", Mărime: %I64d MB (MO)"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64d KB"
-msgstr ", Liberă: %I64dKB"
+msgstr ", Liberă: %I64d KB (KO)"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
