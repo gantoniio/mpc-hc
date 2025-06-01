@@ -3850,7 +3850,7 @@ msgstr "GB (GO)"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr "KB/s"
+msgstr "KB/s (KO/s)"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
