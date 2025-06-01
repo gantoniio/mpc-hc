@@ -321,7 +321,7 @@ msgstr "Reține ultima listă de redare (ultimul playlist)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Ține minte poziția în fișier"
+msgstr "Reține poziția în fișier"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
