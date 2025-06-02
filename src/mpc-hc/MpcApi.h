@@ -84,7 +84,7 @@ typedef enum MPCAPI_COMMAND :
     unsigned int {
     // ==== Commands from MPC-HC to host
 
-    // Send after connection
+    // Send after connection made to host
     // Parameter 1: MPC-HC window handle (commands must be sent to this hWnd)
     CMD_CONNECT             = 0x50000000,
 
@@ -92,7 +92,7 @@ typedef enum MPCAPI_COMMAND :
     // Parameter 1: current state (see MPC_LOADSTATE enum)
     CMD_STATE               = 0x50000001,
 
-    // Send when playing, pausing or closing file
+    // Send when playing, pausing or closing a file
     // Parameter 1: current play mode (see MPC_PLAYSTATE enum)
     CMD_PLAYMODE            = 0x50000002,
 
