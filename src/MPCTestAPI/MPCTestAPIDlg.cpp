@@ -242,7 +242,7 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     STARTUPINFO         StartupInfo;
     PROCESS_INFORMATION ProcessInfo;
 
-    strExec.Format(_T("%s /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
+    strExec.Format(_T("\"%s\" /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
     UpdateData(TRUE);
 
     ZeroMemory(&StartupInfo, sizeof(StartupInfo));
