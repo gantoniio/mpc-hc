@@ -10043,6 +10043,8 @@ void CMainFrame::OnPlayVolume(UINT nID)
     }
 
     m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
+
+    SendCurrentVolumeToApi();
 }
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
@@ -20107,6 +20109,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_GETCURRENTPOSITION:
             SendCurrentPositionToApi();
             break;
+        case CMD_GETVOLUME:
+            SendCurrentVolumeToApi();
+            break;
         case CMD_GETNOWPLAYING:
             SendNowPlayingToApi();
             break;
@@ -20529,6 +20534,20 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 
         SendAPICommand(fNotifySeek ? CMD_NOTIFYSEEK : CMD_CURRENTPOSITION, strPos);
     }
+}
+
+void CMainFrame::SendCurrentVolumeToApi()
+{
+    if (!AfxGetAppSettings().hMasterWnd) {
+        return;
+    }
+
+    CString buff, volumelevel, muted;
+    volumelevel.Format(_T("%d"), m_wndToolBar.m_volctrl.GetPos());
+    muted.Format(_T("%d"), m_wndToolBar.Volume == -10000 ? 1 : 0);
+    buff.Format(L"%s|%s", volumelevel, muted);
+
+    SendAPICommand(CMD_CURRENTVOLUME, L"%s", static_cast<LPCWSTR>(buff));
 }
 
 void CMainFrame::ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData)

@@ -136,7 +136,8 @@ typedef enum MPCAPI_COMMAND :
     CMD_CURRENTPOSITION     = 0x50000007,
 
     // Send current volume when changed or in response
-    // Parameter 1: current volume
+    // Parameter 1: current volume (0-100)
+    // Parameter 2: muted state
     CMD_CURRENTVOLUME       = 0x5000000E,
 
     // Send the current playback position after a jump.
