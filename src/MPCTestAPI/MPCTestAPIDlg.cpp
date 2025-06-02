@@ -50,6 +50,8 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
             return _T("CMD_NOTIFYSEEK");
         case CMD_VERSION:
             return _T("CMD_VERSION");
+        case CMD_NOTIFYENDOFSTREAM:
+            return _T("CMD_NOTIFYENDOFSTREAM");
         default:
             // Missing a COMMAND from MpcApi.h file
             static CString strResult;
