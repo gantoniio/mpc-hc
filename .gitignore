@@ -32,6 +32,7 @@ _*.bat
 /src/mpc-hc/mpcresources/*.rc
 /src/mpc-hc/mpcresources/tx.exe
 /src/mpc-hc/res/mpc-hc.exe.manifest
+/src/MPCTestAPI/.vs
 /src/MPCTestAPI/bin
 /src/MPCTestAPI/bin17
 /src/thirdparty/DoctorDump/obj
