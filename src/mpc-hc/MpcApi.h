@@ -85,7 +85,7 @@ typedef enum MPCAPI_COMMAND :
     // ==== Commands from MPC-HC to host
 
     // Send after connection
-    // Parameter 1: MPC-HC window handle (command should be sent to this HWnd)
+    // Parameter 1: MPC-HC window handle (commands must be sent to this hWnd)
     CMD_CONNECT             = 0x50000000,
 
     // Send when opening or closing file
