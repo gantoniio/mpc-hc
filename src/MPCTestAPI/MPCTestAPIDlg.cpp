@@ -46,6 +46,8 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
             return _T("CMD_LISTAUDIOTRACKS");
         case CMD_PLAYLIST:
             return _T("CMD_PLAYLIST");
+        case CMD_NOTIFYSEEK:
+            return _T("CMD_NOTIFYSEEK");
         default:
             // Missing a COMMAND from MpcApi.h file
             static CString strResult;
