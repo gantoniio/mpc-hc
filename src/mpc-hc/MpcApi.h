@@ -135,6 +135,10 @@ typedef enum MPCAPI_COMMAND :
     // Parameter 1: current position in seconds
     CMD_CURRENTPOSITION     = 0x50000007,
 
+    // Send current volume when changed or in response
+    // Parameter 1: current volume
+    CMD_CURRENTVOLUME       = 0x5000000E,
+
     // Send the current playback position after a jump.
     // (Automatically sent after a seek event).
     // Parameter 1: new playback position (in seconds).
@@ -145,7 +149,7 @@ typedef enum MPCAPI_COMMAND :
     // Parameter 1: none.
     CMD_NOTIFYENDOFSTREAM   = 0x50000009,
 
-    // Send version str
+    // Send version string
     // Parameter 1: MPC-HC's version
     CMD_VERSION             = 0x5000000A,
 
@@ -221,16 +225,20 @@ typedef enum MPCAPI_COMMAND :
     // return a CMD_LISTSUBTITLETRACKS
     CMD_GETSUBTITLETRACKS   = 0xA0003000,
 
-    // Ask for the current playback position,
-    // see CMD_CURRENTPOSITION.
-    // Parameter 1: current position in seconds
+    // Ask for the current playback position
+    // return a CMD_CURRENTPOSITION
     CMD_GETCURRENTPOSITION  = 0xA0003004,
+
+    // Ask for the current volume value
+    // return a CMD_CURRENTVOLUME
+    CMD_GETVOLUME           = 0xA0003009,
 
     // Jump forward/backward of N seconds,
     // Parameter 1: seconds (negative values for backward)
     CMD_JUMPOFNSECONDS      = 0xA0003005,
 
-    // Ask slave for version
+    // Ask for the MPC-HC's version string
+    // return a CMD_VERSION
     CMD_GETVERSION          = 0xA0003006,
 
     // Ask for a list of the audio tracks of the file
