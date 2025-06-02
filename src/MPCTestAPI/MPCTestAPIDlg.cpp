@@ -48,6 +48,8 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
             return _T("CMD_PLAYLIST");
         case CMD_NOTIFYSEEK:
             return _T("CMD_NOTIFYSEEK");
+        case CMD_VERSION:
+            return _T("CMD_VERSION");
         default:
             // Missing a COMMAND from MpcApi.h file
             static CString strResult;
@@ -294,6 +296,7 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
 
     if (pCopyDataStruct->dwData == CMD_CONNECT) {
         m_hWndMPC = (HWND)IntToPtr(_ttoi((LPCTSTR)pCopyDataStruct->lpData));
+        Senddata(CMD_GETVERSION, _T(""));
     }
 
     strMsg.Format(_T("%s : %s"), GetMPCCommandName((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);
