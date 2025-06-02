@@ -248,10 +248,22 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     ZeroMemory(&StartupInfo, sizeof(StartupInfo));
     StartupInfo.cb = sizeof(StartupInfo);
     GetStartupInfo(&StartupInfo);
-    if (CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo)) {
-        CloseHandle(ProcessInfo.hProcess);
-        CloseHandle(ProcessInfo.hThread);
+
+    if (!CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo)) {
+        CString strError;
+        DWORD dwError = GetLastError();
+        LPTSTR lpMsgBuf = nullptr;
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, dwError, 0, (LPTSTR)&lpMsgBuf, 0, nullptr);
+        if (lpMsgBuf) {
+            strError.Format(_T("Failed to start MPC-HC process.\nError: %s"), lpMsgBuf);
+            LocalFree(lpMsgBuf);
+            AfxMessageBox(strError, MB_ICONERROR | MB_OK);
+        }
+        return;
     }
+
+    CloseHandle(ProcessInfo.hProcess);
+    CloseHandle(ProcessInfo.hThread);
 }
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
