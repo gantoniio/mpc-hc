@@ -257,14 +257,19 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     STARTUPINFO         StartupInfo;
     PROCESS_INFORMATION ProcessInfo;
 
-    strExec.Format(_T("\"%s\" /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
     UpdateData(TRUE);
+
+    strExec.Format(_T("\"%s\" /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
 
     ZeroMemory(&StartupInfo, sizeof(StartupInfo));
     StartupInfo.cb = sizeof(StartupInfo);
     GetStartupInfo(&StartupInfo);
 
-    if (!CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo)) {
+    LPTSTR cmdLine = strExec.GetBuffer();
+    BOOL bResult = CreateProcess(nullptr, cmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo);
+    strExec.ReleaseBuffer();
+
+    if (!bResult) {
         CString strError;
         DWORD dwError = GetLastError();
         LPTSTR lpMsgBuf = nullptr;
@@ -272,8 +277,10 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
         if (lpMsgBuf) {
             strError.Format(_T("Failed to start MPC-HC process.\nError: %s"), lpMsgBuf);
             LocalFree(lpMsgBuf);
-            AfxMessageBox(strError, MB_ICONERROR | MB_OK);
+        } else {
+            strError.Format(_T("Failed to start MPC-HC process.\nError code: %lu"), dwError);
         }
+        AfxMessageBox(strError, MB_ICONERROR | MB_OK);
         return;
     }
 
@@ -389,5 +396,18 @@ void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
         case 24:
             Senddata(CMD_CLOSEAPP, m_txtCommand);
             break;
+    }
+}
+
+void CRegisterCopyDataDlg::OnOK()
+{
+    CWnd* pFocus = GetFocus();
+    if (pFocus->GetDlgCtrlID() == IDC_EDIT1)
+    {
+        OnButtonFindwindow();
+    }
+    if (pFocus->GetDlgCtrlID() == IDC_EDIT2 || pFocus->GetDlgCtrlID() == IDC_COMBO1)
+    {
+        OnBnClickedButtonSendcommand();
     }
 }
