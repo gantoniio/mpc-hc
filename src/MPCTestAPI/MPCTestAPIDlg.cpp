@@ -32,6 +32,8 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
     switch (nCmd) {
         case CMD_CONNECT:
             return _T("CMD_CONNECT");
+        case CMD_DISCONNECT:
+            return _T("CMD_DISCONNECT");
         case CMD_STATE:
             return _T("CMD_STATE");
         case CMD_PLAYMODE:
@@ -45,7 +47,12 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
         case CMD_PLAYLIST:
             return _T("CMD_PLAYLIST");
         default:
-            return _T("CMD_UNK");
+            // Missing a COMMAND from MpcApi.h file
+            static CString strResult;
+            LPCTSTR pszName = nullptr;
+            pszName = _T("UNKNOWN");
+            strResult.Format(_T("%s (0x%08X)"), pszName, (unsigned int)nCmd);
+            return strResult;
     }
 }
 
