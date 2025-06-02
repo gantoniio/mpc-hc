@@ -10033,16 +10033,16 @@ void CMainFrame::OnPlayVolume(UINT nID)
         m_pBA->put_Volume(m_wndToolBar.Volume);
 
         //strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
-        if (m_wndToolBar.Volume == -10000) {
+        if (IsMuted()) {
             strVolume.Format(IDS_VOLUME_OSD, 0);
         } else {
-            strVolume.Format(IDS_VOLUME_OSD, m_wndToolBar.m_volctrl.GetPos());
+            strVolume.Format(IDS_VOLUME_OSD, GetVolume());
         }
         m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
         //SendStatusMessage(strVolume, 3000); // Now the volume is displayed in three places at once.
     }
 
-    m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
+    m_Lcd.SetVolume((!IsMuted() ? GetVolume() : 1));
 
     SendCurrentVolumeToApi();
 }
@@ -20543,9 +20543,9 @@ void CMainFrame::SendCurrentVolumeToApi()
     }
 
     CString buff, volumelevel, muted;
-    volumelevel.Format(_T("%d"), m_wndToolBar.m_volctrl.GetPos());
-    muted.Format(_T("%d"), m_wndToolBar.Volume == -10000 ? 1 : 0);
-    buff.Format(L"%s|%s", volumelevel, muted);
+    volumelevel.Format(_T("%d"), GetVolume());
+    muted.Format(_T("%d"), IsMuted() ? 1 : 0);
+    buff.Format(L"%s|%s", volumelevel.GetString(), muted.GetString());
 
     SendAPICommand(CMD_CURRENTVOLUME, L"%s", static_cast<LPCWSTR>(buff));
 }
