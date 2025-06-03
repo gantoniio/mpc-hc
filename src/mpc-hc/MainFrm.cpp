@@ -20542,12 +20542,10 @@ void CMainFrame::SendCurrentVolumeToApi()
         return;
     }
 
-    CString buff, volumelevel, muted;
-    volumelevel.Format(_T("%d"), GetVolume());
-    muted.Format(_T("%d"), IsMuted() ? 1 : 0);
-    buff.Format(L"%s|%s", volumelevel.GetString(), muted.GetString());
+    CStringW strVol;
+    strVol.Format(L"%d|%d", GetVolume(), IsMuted() ? 1 : 0);
 
-    SendAPICommand(CMD_CURRENTVOLUME, L"%s", static_cast<LPCWSTR>(buff));
+    SendAPICommand(CMD_CURRENTVOLUME, L"%s", static_cast<LPCWSTR>(strVol));
 }
 
 void CMainFrame::ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData)
