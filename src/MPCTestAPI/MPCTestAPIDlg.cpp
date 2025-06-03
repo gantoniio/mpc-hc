@@ -58,8 +58,7 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
             // Missing a COMMAND from MpcApi.h file
             static CString strResult;
             LPCTSTR pszName = nullptr;
-            pszName = _T("UNKNOWN");
-            strResult.Format(_T("%s (0x%08X)"), pszName, (unsigned int)nCmd);
+            strResult.Format(_T("%s (0x%08X)"), _T("UNKNOWN"), (unsigned int)nCmd);
             return strResult;
     }
 }
