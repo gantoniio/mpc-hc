@@ -3260,6 +3260,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 OnVideoSizeChanged(bWasAudioOnly);
                 m_statusbarVideoSize.Format(_T("%dx%d"), size.cx, size.cy);
                 UpdateDXVAStatus();
+                CheckSelectedVideoStream();
             }
             break;
             case EC_LENGTH_CHANGED: {
