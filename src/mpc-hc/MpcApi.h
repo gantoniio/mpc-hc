@@ -234,6 +234,12 @@ typedef enum MPCAPI_COMMAND :
     // return a CMD_CURRENTVOLUME
     CMD_GETVOLUME           = 0xA0003009,
 
+    // Set the current volume to a specified value, and/or change the muted state
+    // (both parameters are optional, if not specified, the current value is kept)
+    // Parameter 1: current volume (0-100)
+    // Parameter 2: muted state (0 or 1)
+    CMD_SETVOLUME           = 0xA0003010,
+
     // Jump forward/backward of N seconds,
     // Parameter 1: seconds (negative values for backward)
     CMD_JUMPOFNSECONDS      = 0xA0003005,

@@ -387,12 +387,15 @@ void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
             Senddata(CMD_GETVOLUME, m_txtCommand);
             break;
         case 22:
-            Senddata(CMD_GETVERSION, m_txtCommand);
+            Senddata(CMD_SETVOLUME, m_txtCommand);
             break;
         case 23:
-            //Senddata(CMD_SHADER_TOGGLE, m_txtCommand);
+            Senddata(CMD_GETVERSION, m_txtCommand);
             break;
         case 24:
+            //Senddata(CMD_SHADER_TOGGLE, m_txtCommand);
+            break;
+        case 25:
             Senddata(CMD_CLOSEAPP, m_txtCommand);
             break;
     }

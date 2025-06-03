@@ -20073,6 +20073,32 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             // show current position overridden by play command
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
             break;
+        case CMD_SETVOLUME: {
+            fn = CString((LPCWSTR)pCDS->lpData);
+            int sep = fn.Find(L'|');
+            CString vol = fn, muted = "";
+            bool updated = false;
+            if (fn.Find(L'|') >= 0) {
+                muted = fn.Mid(sep + 1);
+                vol = fn.Left(sep);
+            }
+            if (!muted.IsEmpty()) {
+                if (muted == L"0" || muted == L"1") {
+                    m_wndToolBar.Mute = muted == L"1";
+                    updated = true;
+                }
+            }
+            if (!vol.IsEmpty()) {
+                wchar_t* endptr = nullptr;
+                long volume = wcstol(vol, &endptr, 10);
+                if (endptr != vol && *endptr == 0) {
+                    m_wndToolBar.Volume = std::min(std::max((int)volume, 0), 100);
+                    updated = true;
+                }
+            }
+            if (updated) OnPlayVolume(0);
+            break;
+        }
         case CMD_SETAUDIODELAY:
             rtPos = (REFERENCE_TIME)_wtol((LPCWSTR)pCDS->lpData) * 10000;
             SetAudioDelay(rtPos);

@@ -413,7 +413,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
                 if (_stscanf_s(arg, _T("%f"), &percent) == 1) {
                     m_pMainFrame->SeekTo((REFERENCE_TIME)(percent / 100 * m_pMainFrame->GetDur()));
                 }
-            } else if (arg == _T(CMD_SETVOLUME) && m_request.Lookup("volume", arg)) {
+            } else if (arg == _T(CMD_SETVOL) && m_request.Lookup("volume", arg)) {
                 int volume = _tcstol(arg, nullptr, 10);
                 m_pMainFrame->m_wndToolBar.Volume = std::min(std::max(volume, 0), 100);
                 m_pMainFrame->OnPlayVolume(0);
