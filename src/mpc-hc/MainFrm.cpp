@@ -16799,12 +16799,13 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
     if (GetPlaybackMode() == PM_FILE) {
         if (m_MPLSPlaylist.size() > 1) {
             menuStartRadioSection();
+            CString pl_label = m_wndPlaylistBar.m_pl.GetHead().GetLabel();
             for (auto& Item : m_MPLSPlaylist) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
                 CString name = PathUtils::StripPathOrUrl(Item.m_strFileName);
 
-                if (name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
+                if (!pl_label.IsEmpty() && name == pl_label) {
                     idSelected = id;
                 }
 
