@@ -3260,6 +3260,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 OnVideoSizeChanged(bWasAudioOnly);
                 m_statusbarVideoSize.Format(_T("%dx%d"), size.cx, size.cy);
                 UpdateDXVAStatus();
+                CheckSelectedVideoStream();
             }
             break;
             case EC_LENGTH_CHANGED: {
@@ -11403,7 +11404,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
         CSize logoSize = m_wndView.GetLogoSize();
         logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
-        logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 32 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+        logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 && !s.fRememberWindowSize && s.fRememberZoomLevel ? 0 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -11509,7 +11510,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 
             CSize logoSize = m_wndView.GetLogoSize();
             logoSize.cx = std::max<LONG>(logoSize.cx, m_dpi.ScaleX(MIN_LOGO_WIDTH));
-            logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 ? 32 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
+            logoSize.cy = std::max<LONG>(logoSize.cy, s.nLogoId == IDF_LOGO0 && !s.fRememberWindowSize && s.fRememberZoomLevel ? 0 : m_dpi.ScaleY(MIN_LOGO_HEIGHT));
 
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -16798,12 +16799,13 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
     if (GetPlaybackMode() == PM_FILE) {
         if (m_MPLSPlaylist.size() > 1) {
             menuStartRadioSection();
+            CString pl_label = m_wndPlaylistBar.m_pl.GetHead().GetLabel();
             for (auto& Item : m_MPLSPlaylist) {
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
                 CString name = PathUtils::StripPathOrUrl(Item.m_strFileName);
 
-                if (name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
+                if (!pl_label.IsEmpty() && name == pl_label) {
                     idSelected = id;
                 }
 
@@ -18865,6 +18867,7 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen /* = fa
     }
 
     if (pli.m_bYoutubeDL && (reopen || pli.m_fns.GetHead() == pli.m_ydlSourceURL && m_sydlLastProcessURL != pli.m_ydlSourceURL)) {
+        CloseMediaBeforeOpen();
         if (ProcessYoutubeDLURL(pli.m_ydlSourceURL, false, true)) {
             OpenCurPlaylistItem(rtStart, false);
             return;
@@ -19035,7 +19038,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMediaBeforeOpen()
 {
-    if (GetLoadState() != MLS::CLOSED) {
+    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING) {
         CloseMedia(true);
     }
 }
