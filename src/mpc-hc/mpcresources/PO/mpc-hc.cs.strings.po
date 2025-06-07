@@ -1815,7 +1815,7 @@ msgstr "Vlastnosti"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
-msgstr "Konec"
+msgstr "Ukončit"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
