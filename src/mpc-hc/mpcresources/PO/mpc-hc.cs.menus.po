@@ -713,7 +713,7 @@ msgstr "Přehrát &další soubor v adresáři"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "Vypnout &monitor"
+msgstr "Vypnout &obrazovku"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
