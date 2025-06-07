@@ -1496,7 +1496,7 @@ msgstr "Monitor pro zobrazení na celou obrazovku:"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Automatická změna režimu monitoru pro režim na celou obrazovku"
+msgstr "Automatická změna režimu obrazovky pro režim na celou obrazovku"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
