@@ -3931,7 +3931,7 @@ msgstr "Než budete moci nová nastavení vyzkoušet, musíte je aplikovat."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Po přehrání: Zavřít přehrávač"
+msgstr "Po přehrání: Ukončit přehrávač"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
