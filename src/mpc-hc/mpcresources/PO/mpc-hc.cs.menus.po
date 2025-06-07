@@ -437,7 +437,7 @@ msgstr "Předpokládat č&tvercové pixely (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "O&pravit rozdíl poměru stran monitoru a plochy"
+msgstr "&Opravit rozdíl poměru stran obrazovky a plochy"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
