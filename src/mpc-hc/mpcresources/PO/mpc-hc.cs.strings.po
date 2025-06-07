@@ -1498,7 +1498,7 @@ msgstr "Otevřít soubor / URL"
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
-msgstr "Otevřít DVD/BD"
+msgstr "Otevřít DVD / BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
@@ -2669,7 +2669,7 @@ msgstr "Titulky: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Zadejte cestu k DVD/BD:"
+msgstr "Zadejte cestu k DVD / BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
