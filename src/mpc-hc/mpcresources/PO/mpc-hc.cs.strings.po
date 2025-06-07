@@ -4789,7 +4789,7 @@ msgid ""
 "Keep main window controls visible on current monitor when going fullscreen "
 "on another monitor."
 msgstr ""
-"Zachovat viditelnost ovládacích prvků na aktuálním monitoru při přechodu na "
+"Zachovat viditelnost ovládacích prvků na současné obrazovce při přechodu na "
 "celou obrazovku na jiném monitoru."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCKRDP"
