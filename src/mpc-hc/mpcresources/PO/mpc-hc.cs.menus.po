@@ -717,7 +717,7 @@ msgstr "Vypnout &monitor"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "&Zavřít přehrávač"
+msgstr "&Ukončit přehrávač"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
