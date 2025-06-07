@@ -1096,7 +1096,7 @@ msgstr "Externí:"
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr "Nastavit barevný profil monitoru"
+msgstr "Nastavit barevný profil obrazovky"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
