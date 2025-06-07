@@ -334,7 +334,7 @@ msgstr "Pamatovat si zvětšení Pan a Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Chování funkce \"Otevřít DVD/BD\""
+msgstr "Chování funkce \"Otevřít DVD / BD\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
