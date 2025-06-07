@@ -3955,7 +3955,7 @@ msgstr "Po přehrání: Uzamknout počítač"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Po přehrání: Vypnout monitor"
+msgstr "Po přehrání: Vypnout obrazovku"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
