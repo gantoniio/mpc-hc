@@ -8060,6 +8060,7 @@ void CMainFrame::OnViewFullscreen()
     } else {
         ToggleFullscreen(true, true);
     }
+    m_wndToolBar.SetFullscreen(m_fFullScreen);
 }
 
 void CMainFrame::OnViewFullscreenSecondary()
@@ -8071,11 +8072,12 @@ void CMainFrame::OnViewFullscreenSecondary()
     } else {
         ToggleFullscreen(true, false);
     }
+    m_wndToolBar.SetFullscreen(m_fFullScreen);
 }
 
 void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED || m_fFullScreen);
+    pCmdUI->Enable(true);
     pCmdUI->SetCheck(m_fFullScreen);
 }
 

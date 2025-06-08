@@ -1772,6 +1772,8 @@
 #define IDS_CUSTOM_ACTION2              57725
 #define IDS_CUSTOM_ACTION3              57726
 #define IDS_CUSTOM_ACTION4              57727
+#define IDS_AUDIOS                      57728
+#define IDS_SUBTITLES                   57729
 
 // Next default values for new objects
 // 

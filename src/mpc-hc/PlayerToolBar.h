@@ -69,11 +69,12 @@ private:
     struct svgButtonInfo {
         UINT style;
         int svgIndex;
+        UINT strID = 0;
         PositionLock positionLocked = LOCK_NONE;
         CString text;
     };
 
-    static std::map<int, svgButtonInfo> supportedSvgButtons;
+    static std::map<WORD, svgButtonInfo> supportedSvgButtons;
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
@@ -81,7 +82,7 @@ public:
     bool LoadExternalToolBar(CImage& image, float svgscale);
     void MakeImageList(bool createCustomizeButtons, int buttonSize, std::unique_ptr<CImageList> &imageList);
     LPCWSTR GetStringFromID(int idCommand);
-    const std::map<int, svgButtonInfo> GetSupportedSvgButtons() {
+    const std::map<WORD, svgButtonInfo> GetSupportedSvgButtons() {
         return supportedSvgButtons;
     }
     std::unique_ptr<CImageList>& GetCustomizeButtonImages() {
@@ -102,6 +103,8 @@ public:
     CImage& GetVolumeImageOff() { return volumeOff; };
 
     CVolumeCtrl m_volctrl;
+
+    void SetFullscreen(bool isFS);
 
     // Overrides
     // ClassWizard generated virtual function overrides

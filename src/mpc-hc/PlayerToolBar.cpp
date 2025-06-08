@@ -36,40 +36,41 @@
 
 //svg has 30 positions
 //0-7 are standard mpc buttons
-//8-24 reserved for additional toolbar buttons
-//25-27 are volume mute variants
-//28-29 reserved for volume svg
+//8-23 reserved for additional toolbar buttons
+//24-25 are volume on/mute (disabled are low volume and no audio)
+//27-28 reserved for volume svg
 
 #define VOLUMEBUTTON_SVG_INDEX 24
+#define FULLSCREEN_SVG_INDEX 12
 #define VOLUME_SVG_INDEX 27
 
-std::map<int, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
-    {ID_PLAY_PLAY, {TBBS_CHECKGROUP,0,LOCK_LEFT}},
-    {ID_PLAY_PAUSE, {TBBS_CHECKGROUP,1,LOCK_LEFT}},
-    {ID_PLAY_STOP, {TBBS_CHECKGROUP,2,LOCK_LEFT}},
-    {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON,3}},
-    {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON,4}},
-    {ID_AUDIOS, {TBBS_BUTTON | TBSTYLE_DROPDOWN,5}},
-    {ID_SUBTITLES, {TBBS_BUTTON | TBSTYLE_DROPDOWN,6}},
-    {ID_PLAY_DECRATE, {TBBS_BUTTON,7}},
-    {ID_PLAY_INCRATE, {TBBS_BUTTON,8}},
-    {ID_PLAY_FRAMESTEP, {TBBS_BUTTON,9}},
-    {ID_FILE_OPENMEDIA, {TBBS_BUTTON,10}},
-    {ID_VIEW_OPTIONS, {TBBS_BUTTON,11}},
-    {ID_VIEW_FULLSCREEN, {TBBS_BUTTON,12}},
-    {ID_VIEW_PLAYLIST, {TBBS_BUTTON,13}},
-    {ID_PLAYLIST_TOGGLE_SHUFFLE, {TBBS_BUTTON,14}},
-    {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON,15}},
-    {ID_PLAY_SEEKFORWARDMED, {TBBS_BUTTON,16}},
-    {ID_PLAY_SEEKBACKWARDMED, {TBBS_BUTTON,17}},
-    {ID_FILE_PROPERTIES, {TBBS_BUTTON,18}},
-    {ID_FILE_EXIT, {TBBS_BUTTON,19}},
-    {ID_CUSTOM_ACTION1, {TBBS_BUTTON,20}},
-    {ID_CUSTOM_ACTION2, {TBBS_BUTTON,21}},
-    {ID_CUSTOM_ACTION3, {TBBS_BUTTON,22}},
-    {ID_CUSTOM_ACTION4, {TBBS_BUTTON,23}},
-    {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR,-1,LOCK_RIGHT}},
-    {ID_VOLUME_MUTE, {TBBS_CHECKBOX,VOLUMEBUTTON_SVG_INDEX,LOCK_RIGHT}},
+std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
+    {ID_PLAY_PLAY, {TBBS_CHECKGROUP, 0, 0, LOCK_LEFT}},
+    {ID_PLAY_PAUSE, {TBBS_CHECKGROUP, 1, 0, LOCK_LEFT}},
+    {ID_PLAY_STOP, {TBBS_CHECKGROUP, 2, 0, LOCK_LEFT}},
+    {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON, 3}},
+    {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON, 4}},
+    {ID_AUDIOS, {TBBS_BUTTON | TBSTYLE_DROPDOWN, 5, IDS_AUDIOS}},
+    {ID_SUBTITLES, {TBBS_BUTTON | TBSTYLE_DROPDOWN, 6, IDS_SUBTITLES}},
+    {ID_PLAY_DECRATE, {TBBS_BUTTON, 7}},
+    {ID_PLAY_INCRATE, {TBBS_BUTTON, 8}},
+    {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
+    {ID_FILE_OPENMEDIA, {TBBS_BUTTON, 10}},
+    {ID_VIEW_OPTIONS, {TBBS_BUTTON, 11}},
+    {ID_VIEW_FULLSCREEN, {TBBS_BUTTON, FULLSCREEN_SVG_INDEX}},
+    {ID_VIEW_PLAYLIST, {TBBS_BUTTON, 13}},
+    {ID_PLAYLIST_TOGGLE_SHUFFLE, {TBBS_BUTTON, 14}},
+    {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON, 15}},
+    {ID_PLAY_SEEKFORWARDMED, {TBBS_BUTTON, 16}},
+    {ID_PLAY_SEEKBACKWARDMED, {TBBS_BUTTON, 17}},
+    {ID_FILE_PROPERTIES, {TBBS_BUTTON, 18}},
+    {ID_FILE_EXIT, {TBBS_BUTTON, 19}},
+    {ID_CUSTOM_ACTION1, {TBBS_BUTTON, 20, IDS_CUSTOM_ACTION1}},
+    {ID_CUSTOM_ACTION2, {TBBS_BUTTON, 21, IDS_CUSTOM_ACTION2}},
+    {ID_CUSTOM_ACTION3, {TBBS_BUTTON, 22, IDS_CUSTOM_ACTION3}},
+    {ID_CUSTOM_ACTION4, {TBBS_BUTTON, 23, IDS_CUSTOM_ACTION4}},
+    {ID_DUMMYSEPARATOR, {TBBS_SEPARATOR, -1, 0, LOCK_RIGHT}},
+    {ID_VOLUME_MUTE, {TBBS_CHECKBOX, VOLUMEBUTTON_SVG_INDEX, 0, LOCK_RIGHT}},
 };
 
 static std::vector<int> supportedSvgButtonsSeq;
@@ -167,7 +168,7 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
 
                 m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
                 m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
-                dynamicToolbar.Create(width, height, bpp, CImage::createAlphaChannel);
+                dynamicToolbar.Create(width*2, height, bpp, CImage::createAlphaChannel);
                 dynamicToolbarDisabled.Create(width, height, bpp, CImage::createAlphaChannel);
             } else {
                 dynamicToolbar.Create(width * 2, height, bpp, CImage::createAlphaChannel);
@@ -207,10 +208,11 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
 
                 ImageGrayer::PreMultiplyAlpha(volumeOn);
                 ImageGrayer::PreMultiplyAlpha(volumeOff);
-            } else {//we will add the disabled buttons to the end of the imagelist, so the customize page can access them
-                targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
-                targetDC.BitBlt(image.GetWidth(), 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
             }
+
+            //we will add the disabled buttons to the end of the imagelist, for customize page and "toggle" buttons with extra icons (e.g., fullscreen)
+            targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbar));
+            targetDC.BitBlt(image.GetWidth(), 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
 
             sourceDC.SelectObject(pOldSourceBmp);
             targetDC.SelectObject(pOldTargetBmp);
@@ -273,9 +275,9 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
             if (s.CommandIDToWMCMD.count(it.first) > 0) {
                 dwname = s.CommandIDToWMCMD[it.first]->dwname;
             } else {
-                dwname = it.first;
+                dwname = it.second.strID;
             }
-            it.second.text.LoadString(dwname);
+            it.second.text.LoadStringW(dwname);
             supportedSvgButtonsSeq.push_back(it.first);
         }
     }
@@ -381,6 +383,14 @@ void CPlayerToolBar::SetMute(bool fMute) {
     bi.iImage = VOLUMEBUTTON_SVG_INDEX + (fMute ? 1:0);
     tb.SetButtonInfo(ID_VOLUME_MUTE, &bi);
     AfxGetAppSettings().fMute = fMute;
+}
+
+void CPlayerToolBar::SetFullscreen(bool isFS) {
+    CToolBarCtrl& tb = GetToolBarCtrl();
+    TBBUTTONINFO bi = { sizeof(bi) };
+    bi.dwMask = TBIF_IMAGE;
+    bi.iImage = FULLSCREEN_SVG_INDEX + (isFS ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
+    tb.SetButtonInfo(ID_VIEW_FULLSCREEN, &bi);
 }
 
 bool CPlayerToolBar::IsMuted() const
@@ -686,14 +696,14 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     static CString strTipText;
     if (nID != ID_VOLUME_MUTE) { 
         if (s.CommandIDToWMCMD.count(nID) > 0) {
-            strTipText.LoadString(s.CommandIDToWMCMD[nID]->dwname);
+            strTipText.LoadStringW(s.CommandIDToWMCMD[nID]->dwname);
         } else {
             return FALSE;
         }
     } else if (bi.iImage == VOLUMEBUTTON_SVG_INDEX) {
-        strTipText.LoadString(ID_VOLUME_MUTE);
+        strTipText.LoadStringW(ID_VOLUME_MUTE);
     } else if (bi.iImage == VOLUMEBUTTON_SVG_INDEX +1 ) {
-        strTipText.LoadString(ID_VOLUME_MUTE_OFF);
+        strTipText.LoadStringW(ID_VOLUME_MUTE_OFF);
     } else {
         return FALSE;
     }
