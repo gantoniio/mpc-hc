@@ -2522,7 +2522,7 @@ msgstr "Nie można zapisać napisów."
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Klatkaż"
+msgstr "Klatki na sekundę"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
