@@ -1250,7 +1250,7 @@ msgstr "Odtwarzanie"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "Wstrzymano"
+msgstr "Pauza"
 
 msgctxt "IDS_SUBTITLE_RENDERER_NONE"
 msgid "None"
