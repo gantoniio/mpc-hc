@@ -1161,7 +1161,7 @@ msgid ""
 "Pause\n"
 "Pause"
 msgstr ""
-"Zatrzymanie\n"
+"Wstrzymano\n"
 "Wstrzymaj odtwarzanie"
 
 msgctxt "ID_PLAY_STOP"
