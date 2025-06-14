@@ -59,7 +59,7 @@ msgid ""
 msgstr ""
 "Bản dựng MPC-HC này yêu cầu CPU có hỗ trợ tiện ích mở rộng SSE2.\n"
 "\n"
-"CPU của bạn không có khả năng này."
+"CPU của bạn không có những khả năng đó."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
