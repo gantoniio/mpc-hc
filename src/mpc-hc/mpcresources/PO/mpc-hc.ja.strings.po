@@ -4036,7 +4036,7 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
-"/pns \"名前または値\"\t使用するビデオ フレームのプリセット名を指定するか、位置とズームの値を\n"
+"/pns \"名前か値\"\t使用するビデオ フレームのプリセット名を指定するか、位置とズームの値を\n"
 "\t\t\"px,py,zx,zy\" の形式で指定する"
 
 msgctxt "IDS_CMD_ICONASSOC"
