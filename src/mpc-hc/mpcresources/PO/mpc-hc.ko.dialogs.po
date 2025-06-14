@@ -1869,7 +1869,7 @@ msgstr "음향 정보"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
-msgstr "FPS"
+msgstr "초당 프레임"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
 msgid "A-B Marks"
