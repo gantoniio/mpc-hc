@@ -648,7 +648,7 @@ msgstr "초당 25프레임"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS59"
 msgid "59.94 fps"
-msgstr "59.94 초당 프레임"
+msgstr "초당 59.94 프레임"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
