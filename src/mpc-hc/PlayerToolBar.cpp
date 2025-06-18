@@ -57,7 +57,7 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
     {ID_FILE_OPENMEDIA, {TBBS_BUTTON, 10}},
     {ID_VIEW_OPTIONS, {TBBS_BUTTON, 11}},
-    {ID_VIEW_FULLSCREEN, {TBBS_BUTTON, FULLSCREEN_SVG_INDEX}},
+    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, FULLSCREEN_SVG_INDEX}},
     {ID_VIEW_PLAYLIST, {TBBS_BUTTON, 13}},
     {ID_PLAYLIST_TOGGLE_SHUFFLE, {TBBS_BUTTON, 14}},
     {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON, 15}},
@@ -378,7 +378,7 @@ void CPlayerToolBar::ArrangeControls() {
 
 void CPlayerToolBar::SetMute(bool fMute) {
     CToolBarCtrl& tb = GetToolBarCtrl();
-    TBBUTTONINFO bi = { sizeof(bi) };
+    TBBUTTONINFOW bi = { sizeof(bi) };
     bi.dwMask = TBIF_IMAGE;
     bi.iImage = VOLUMEBUTTON_SVG_INDEX + (fMute ? 1:0);
     tb.SetButtonInfo(ID_VOLUME_MUTE, &bi);
@@ -386,11 +386,15 @@ void CPlayerToolBar::SetMute(bool fMute) {
 }
 
 void CPlayerToolBar::SetFullscreen(bool isFS) {
-    CToolBarCtrl& tb = GetToolBarCtrl();
-    TBBUTTONINFO bi = { sizeof(bi) };
-    bi.dwMask = TBIF_IMAGE;
-    bi.iImage = FULLSCREEN_SVG_INDEX + (isFS ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
-    tb.SetButtonInfo(ID_VIEW_FULLSCREEN, &bi);
+    if (lastFullscreen != isFS) {
+        CToolBarCtrl& tb = GetToolBarCtrl();
+        TBBUTTONINFOW bi = { sizeof(bi) };
+        bi.dwMask = TBIF_IMAGE | TBIF_STYLE;
+        bi.iImage = FULLSCREEN_SVG_INDEX + (isFS ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
+        bi.fsStyle = TBBS_BUTTON;
+        tb.SetButtonInfo(ID_BUTTON_FULLSCREEN, &bi);
+        lastFullscreen = isFS;
+    }
 }
 
 bool CPlayerToolBar::IsMuted() const
@@ -445,8 +449,10 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_MESSAGE_VOID(WM_INITIALUPDATE, OnInitialUpdate)
     ON_COMMAND_EX(ID_VOLUME_MUTE, OnVolumeMute)
     ON_UPDATE_COMMAND_UI(ID_VOLUME_MUTE, OnUpdateVolumeMute)
+    ON_UPDATE_COMMAND_UI(ID_BUTTON_FULLSCREEN, OnUpdateFullscreen)
     ON_COMMAND_EX(ID_VOLUME_UP, OnVolumeUp)
     ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
+    ON_COMMAND_EX(ID_BUTTON_FULLSCREEN, OnFullscreenButton)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
     ON_WM_RBUTTONDOWN()
@@ -515,6 +521,7 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             {
                 if (AppIsThemeLoaded()) {
                     lr |= TBCDRF_NOBACKGROUND;
+                    
                     if (pTBCD->nmcd.uItemState & CDIS_CHECKED) {
                         drawButtonBG(pTBCD->nmcd, CMPCTheme::PlayerButtonCheckedColor);
                     } else if (pTBCD->nmcd.uItemState & CDIS_HOT) {
@@ -566,6 +573,12 @@ void CPlayerToolBar::OnUpdateVolumeMute(CCmdUI* pCmdUI)
     pCmdUI->SetCheck(IsMuted());
 }
 
+//note, this differs from CMainFrame::OnUpdateViewFullscreen in order to avoid "checking" the button state
+void CPlayerToolBar::OnUpdateFullscreen(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(true);
+    SetFullscreen(m_pMainFrame->m_fFullScreen);
+}
+
 BOOL CPlayerToolBar::OnVolumeUp(UINT nID)
 {
     m_volctrl.IncreaseVolume();
@@ -575,6 +588,11 @@ BOOL CPlayerToolBar::OnVolumeUp(UINT nID)
 BOOL CPlayerToolBar::OnVolumeDown(UINT nID)
 {
     m_volctrl.DecreaseVolume();
+    return FALSE;
+}
+
+BOOL CPlayerToolBar::OnFullscreenButton(UINT nID) {
+    m_pMainFrame->OnViewFullscreen();
     return FALSE;
 }
 

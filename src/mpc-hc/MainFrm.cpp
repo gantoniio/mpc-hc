@@ -8078,7 +8078,7 @@ void CMainFrame::OnViewFullscreenSecondary()
 
 void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(true);
+    pCmdUI->Enable(GetLoadState() == MLS::LOADED || m_fFullScreen);
     pCmdUI->SetCheck(m_fFullScreen);
 }
 

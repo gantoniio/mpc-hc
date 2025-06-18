@@ -25,6 +25,7 @@
 #include "CMPCThemeToolTipCtrl.h"
 #include "CMPCThemeUtil.h"
 #include <atlimage.h>
+#include <optional>
 
 class CMainFrame;
 
@@ -104,6 +105,7 @@ public:
 
     CVolumeCtrl m_volctrl;
 
+    std::optional<bool> lastFullscreen = std::nullopt;
     void SetFullscreen(bool isFS);
 
     // Overrides
@@ -111,6 +113,7 @@ public:
     //{{AFX_VIRTUAL(CPlayerToolBar)
     virtual BOOL Create(CWnd* pParentWnd);
     //}}AFX_VIRTUAL
+
 
     // Generated message map functions
 protected:
@@ -120,8 +123,10 @@ protected:
     afx_msg void OnInitialUpdate();
     afx_msg BOOL OnVolumeMute(UINT nID);
     afx_msg void OnUpdateVolumeMute(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateFullscreen(CCmdUI* pCmdUI);
     afx_msg BOOL OnVolumeUp(UINT nID);
     afx_msg BOOL OnVolumeDown(UINT nID);
+    afx_msg BOOL OnFullscreenButton(UINT nID);
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
