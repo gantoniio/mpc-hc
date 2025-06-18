@@ -242,7 +242,7 @@ private:
     friend class CPPageFileInfoSheet;
     friend class CPPageLogo;
     friend class CMouse;
-    friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked()
+    friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked(), m_pMainFrame->m_CachedFilterState, m_pMainFrame->m_pGB_preview
     friend class CChildView; // for accessing m_controls.DelayShowNotLoaded()
     friend class CFullscreenWnd; // for accessing m_controls.DelayShowNotLoaded()
     friend class CMouseWndWithArtView; // for accessing m_controls.DelayShowNotLoaded()
@@ -979,6 +979,7 @@ public:
     afx_msg void OnUpdateViewControlBar(CCmdUI* pCmdUI);
     afx_msg void OnViewSubresync();
     afx_msg void OnUpdateViewSubresync(CCmdUI* pCmdUI);
+    void UpdatePlaylistButton();
     afx_msg void OnViewPlaylist();
     afx_msg void OnPlaylistToggleShuffle();
     afx_msg void OnUpdateViewPlaylist(CCmdUI* pCmdUI);
@@ -1200,6 +1201,7 @@ public:
     afx_msg void OnHelpDonate();
 
     afx_msg void OnClose();
+
 
     bool FilterSettingsByClassID(CLSID clsid, CWnd* parent);
     void FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent);

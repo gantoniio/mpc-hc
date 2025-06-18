@@ -42,6 +42,7 @@
 
 #define VOLUMEBUTTON_SVG_INDEX 24
 #define FULLSCREEN_SVG_INDEX 12
+#define PLAYLIST_SVG_INDEX 13
 #define VOLUME_SVG_INDEX 27
 
 std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
@@ -57,8 +58,8 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
     {ID_FILE_OPENMEDIA, {TBBS_BUTTON, 10}},
     {ID_VIEW_OPTIONS, {TBBS_BUTTON, 11}},
-    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, FULLSCREEN_SVG_INDEX}},
-    {ID_VIEW_PLAYLIST, {TBBS_BUTTON, 13}},
+    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, FULLSCREEN_SVG_INDEX, IDS_AG_FULLSCREEN}},
+    {ID_BUTTON_PLAYLIST, {TBBS_BUTTON, PLAYLIST_SVG_INDEX, IDS_AG_TOGGLE_PLAYLIST}},
     {ID_PLAYLIST_TOGGLE_SHUFFLE, {TBBS_BUTTON, 14}},
     {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON, 15}},
     {ID_PLAY_SEEKFORWARDMED, {TBBS_BUTTON, 16}},
@@ -397,6 +398,18 @@ void CPlayerToolBar::SetFullscreen(bool isFS) {
     }
 }
 
+void CPlayerToolBar::SetPlaylist(bool isVisible) {
+    if (lastPlaylist != isVisible) {
+        CToolBarCtrl& tb = GetToolBarCtrl();
+        TBBUTTONINFOW bi = { sizeof(bi) };
+        bi.dwMask = TBIF_IMAGE | TBIF_STYLE;
+        bi.iImage = PLAYLIST_SVG_INDEX + (isVisible ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
+        bi.fsStyle = TBBS_BUTTON;
+        tb.SetButtonInfo(ID_BUTTON_PLAYLIST, &bi);
+        lastPlaylist = isVisible;
+    }
+}
+
 bool CPlayerToolBar::IsMuted() const
 {
     CToolBarCtrl& tb = GetToolBarCtrl();
@@ -450,9 +463,11 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_COMMAND_EX(ID_VOLUME_MUTE, OnVolumeMute)
     ON_UPDATE_COMMAND_UI(ID_VOLUME_MUTE, OnUpdateVolumeMute)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_FULLSCREEN, OnUpdateFullscreen)
+    ON_UPDATE_COMMAND_UI(ID_BUTTON_PLAYLIST, OnUpdatePlaylist)
     ON_COMMAND_EX(ID_VOLUME_UP, OnVolumeUp)
     ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
     ON_COMMAND_EX(ID_BUTTON_FULLSCREEN, OnFullscreenButton)
+    ON_COMMAND_EX(ID_BUTTON_PLAYLIST, OnPlaylistButton)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
     ON_WM_RBUTTONDOWN()
@@ -579,6 +594,12 @@ void CPlayerToolBar::OnUpdateFullscreen(CCmdUI* pCmdUI) {
     SetFullscreen(m_pMainFrame->m_fFullScreen);
 }
 
+//note, this differs from CMainFrame::OnUpdateViewPlaylist in order to avoid "checking" the button state
+void CPlayerToolBar::OnUpdatePlaylist(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(true);
+    m_pMainFrame->UpdatePlaylistButton();
+}
+
 BOOL CPlayerToolBar::OnVolumeUp(UINT nID)
 {
     m_volctrl.IncreaseVolume();
@@ -593,6 +614,11 @@ BOOL CPlayerToolBar::OnVolumeDown(UINT nID)
 
 BOOL CPlayerToolBar::OnFullscreenButton(UINT nID) {
     m_pMainFrame->OnViewFullscreen();
+    return FALSE;
+}
+
+BOOL CPlayerToolBar::OnPlaylistButton(UINT nID) {
+    m_pMainFrame->OnViewPlaylist();
     return FALSE;
 }
 
@@ -700,7 +726,9 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     }
     const auto& s = AfxGetAppSettings();
     if (nID != ID_VOLUME_MUTE && s.CommandIDToWMCMD.count(nID) == 0) {
-        return FALSE;
+        if (supportedSvgButtons.count(nID) == 0 || !supportedSvgButtons[nID].strID) {
+            return FALSE;
+        }
     }
     CToolBarCtrl& tb = GetToolBarCtrl();
 
@@ -715,6 +743,8 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     if (nID != ID_VOLUME_MUTE) { 
         if (s.CommandIDToWMCMD.count(nID) > 0) {
             strTipText.LoadStringW(s.CommandIDToWMCMD[nID]->dwname);
+        } else if (supportedSvgButtons.count(nID) > 0) {
+            strTipText.LoadStringW(supportedSvgButtons[nID].strID);
         } else {
             return FALSE;
         }

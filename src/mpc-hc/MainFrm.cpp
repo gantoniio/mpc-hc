@@ -7877,10 +7877,15 @@ void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
     pCmdUI->Enable(enabled);
 }
 
+void CMainFrame::UpdatePlaylistButton() {
+    m_wndToolBar.SetPlaylist(m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST));
+}
+
 void CMainFrame::OnViewPlaylist()
 {
     m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
     m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
+    UpdatePlaylistButton();
 }
 
 void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
