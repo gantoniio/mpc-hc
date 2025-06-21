@@ -4340,7 +4340,7 @@ msgstr "/mute\t\tオーディオをミュートする"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr "/volume N\t音量を設定する, N は 0 ～ 100 の範囲内で指定する"
+msgstr "/volume N\t音量を設定する (N は 0 ～ 100 の範囲)"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid ""
