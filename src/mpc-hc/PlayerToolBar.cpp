@@ -41,9 +41,6 @@
 //27-28 reserved for volume svg
 
 #define VOLUMEBUTTON_SVG_INDEX 24
-#define FULLSCREEN_SVG_INDEX 12
-#define PLAYLIST_SVG_INDEX 13
-#define SHUFFLE_SVG_INDEX 14
 #define VOLUME_SVG_INDEX 27
 
 std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
@@ -59,9 +56,9 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
     {ID_FILE_OPENMEDIA, {TBBS_BUTTON, 10}},
     {ID_VIEW_OPTIONS, {TBBS_BUTTON, 11}},
-    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, FULLSCREEN_SVG_INDEX, IDS_AG_FULLSCREEN}},
-    {ID_BUTTON_PLAYLIST, {TBBS_BUTTON, PLAYLIST_SVG_INDEX, IDS_AG_TOGGLE_PLAYLIST}},
-    {ID_BUTTON_SHUFFLE, {TBBS_BUTTON, SHUFFLE_SVG_INDEX, IDS_PLAYLIST_TOGGLE_SHUFFLE}},
+    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, 12, IDS_AG_FULLSCREEN}},
+    {ID_BUTTON_PLAYLIST, {TBBS_BUTTON, 13, IDS_AG_TOGGLE_PLAYLIST}},
+    {ID_BUTTON_SHUFFLE, {TBBS_BUTTON, 14, IDS_PLAYLIST_TOGGLE_SHUFFLE}},
     {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON, 15}},
     {ID_PLAY_SEEKFORWARDMED, {TBBS_BUTTON, 16}},
     {ID_PLAY_SEEKBACKWARDMED, {TBBS_BUTTON, 17}},
@@ -387,40 +384,27 @@ void CPlayerToolBar::SetMute(bool fMute) {
     AfxGetAppSettings().fMute = fMute;
 }
 
-void CPlayerToolBar::SetFullscreen(bool isFS) {
-    if (lastFullscreen != isFS) {
+void CPlayerToolBar::ToggleButton(int buttonID, bool isActive, std::optional<bool> &lastBool) {
+    if (lastBool != isActive && supportedSvgButtons.count(buttonID) > 0) {
         CToolBarCtrl& tb = GetToolBarCtrl();
         TBBUTTONINFOW bi = { sizeof(bi) };
-        bi.dwMask = TBIF_IMAGE | TBIF_STYLE;
-        bi.iImage = FULLSCREEN_SVG_INDEX + (isFS ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
-        bi.fsStyle = TBBS_BUTTON;
-        tb.SetButtonInfo(ID_BUTTON_FULLSCREEN, &bi);
-        lastFullscreen = isFS;
+        bi.dwMask = TBIF_IMAGE;
+        bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
+        tb.SetButtonInfo(buttonID, &bi);
+        lastBool = isActive;
     }
+}
+
+void CPlayerToolBar::SetFullscreen(bool isFS) {
+    ToggleButton(ID_BUTTON_FULLSCREEN, isFS, lastFullscreen);
 }
 
 void CPlayerToolBar::SetPlaylist(bool isVisible) {
-    if (lastPlaylist != isVisible) {
-        CToolBarCtrl& tb = GetToolBarCtrl();
-        TBBUTTONINFOW bi = { sizeof(bi) };
-        bi.dwMask = TBIF_IMAGE | TBIF_STYLE;
-        bi.iImage = PLAYLIST_SVG_INDEX + (isVisible ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
-        bi.fsStyle = TBBS_BUTTON;
-        tb.SetButtonInfo(ID_BUTTON_PLAYLIST, &bi);
-        lastPlaylist = isVisible;
-    }
+    ToggleButton(ID_BUTTON_PLAYLIST, isVisible, lastPlaylist);
 }
 
 void CPlayerToolBar::SetShuffle(bool isEnabled) {
-    if (lastShuffle != isEnabled) {
-        CToolBarCtrl& tb = GetToolBarCtrl();
-        TBBUTTONINFOW bi = { sizeof(bi) };
-        bi.dwMask = TBIF_IMAGE | TBIF_STYLE;
-        bi.iImage = SHUFFLE_SVG_INDEX + (isEnabled ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
-        bi.fsStyle = TBBS_BUTTON;
-        tb.SetButtonInfo(ID_BUTTON_SHUFFLE, &bi);
-        lastPlaylist = isEnabled;
-    }
+    ToggleButton(ID_BUTTON_SHUFFLE, isEnabled, lastShuffle);
 }
 
 bool CPlayerToolBar::IsMuted() const

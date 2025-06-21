@@ -113,6 +113,10 @@ public:
 
     std::optional<bool> lastShuffle = std::nullopt;
     void SetShuffle(bool isEnabled);
+private:
+    void ToggleButton(int buttonID, bool isActive, std::optional<bool>& lastBool);
+
+public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
