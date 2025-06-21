@@ -73,7 +73,7 @@ msgstr "既定のスタイルを上書き"
 
 msgctxt "IDS_SUB_OVERRIDE_ALL_STYLES"
 msgid "Override All Styles"
-msgstr "すべてのスタイルの上書き"
+msgstr "すべてのスタイルを上書き"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
