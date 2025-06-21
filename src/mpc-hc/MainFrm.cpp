@@ -7897,6 +7897,7 @@ void CMainFrame::OnPlaylistToggleShuffle() {
     CAppSettings& s = AfxGetAppSettings();
     s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
     m_wndPlaylistBar.m_pl.SetShuffle(s.bShufflePlaylistItems);
+    m_wndToolBar.SetShuffle(s.bShufflePlaylistItems);
 }
 
 void CMainFrame::OnViewEditListEditor()

@@ -111,6 +111,9 @@ public:
     std::optional<bool> lastPlaylist = std::nullopt;
     void SetPlaylist(bool isVisible);
 
+    std::optional<bool> lastShuffle = std::nullopt;
+    void SetShuffle(bool isEnabled);
+
     // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CPlayerToolBar)
@@ -128,10 +131,12 @@ protected:
     afx_msg void OnUpdateVolumeMute(CCmdUI* pCmdUI);
     afx_msg void OnUpdateFullscreen(CCmdUI* pCmdUI);
     afx_msg void OnUpdatePlaylist(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateShuffle(CCmdUI* pCmdUI);
     afx_msg BOOL OnVolumeUp(UINT nID);
     afx_msg BOOL OnVolumeDown(UINT nID);
     afx_msg BOOL OnFullscreenButton(UINT nID);
     afx_msg BOOL OnPlaylistButton(UINT nID);
+    afx_msg BOOL OnShuffleButton(UINT nID);
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);

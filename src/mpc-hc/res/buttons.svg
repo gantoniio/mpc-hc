@@ -115,10 +115,6 @@
 <rect x="148" y="20" style="fill:#7F7F7F;" width="2" height="7"/>
 <path style="fill:#7F7F7F;" d="M153,27h-1v-7h1V27z M157,23.5l-4,3.5v-7L157,23.5z"/>
 <rect id="rect4165_3_" x="84" y="38.4" style="fill:#C8C8C8;" width="1.2" height="2.2"/>
-<rect id="rect4165_15_" x="228" y="35" style="fill:#C8C8C8;" width="8" height="9"/>
-<rect id="rect4165_14_" x="228" y="51" style="fill:#646464;" width="8" height="9"/>
-<rect x="228" y="3" width="8" height="9"/>
-<rect x="228" y="19" style="fill:#7F7F7F;" width="8" height="9"/>
 <rect id="rect4165_13_" x="244" y="35" style="fill:#C8C8C8;" width="8" height="9"/>
 <rect id="rect4165_12_" x="244" y="51" style="fill:#646464;" width="8" height="9"/>
 <rect x="244" y="3" width="8" height="9"/>
@@ -287,4 +283,28 @@
 <rect id="rect4165_98_" x="212" y="26" width="4.9" height="1"/>
 <rect id="rect4165_97_" x="218.1" y="25" transform="matrix(0.7071 -0.7071 0.7071 0.7071 45.2799 162.3153)" width="1" height="3"/>
 <rect id="rect4165_10_" x="217.1" y="26" transform="matrix(0.7071 -0.7071 0.7071 0.7071 45.2799 162.3153)" width="3" height="1"/>
+<rect id="rect4165_110_" x="228" y="21.5" width="2.7" height="1"/>
+<rect id="rect4165_112_" x="233.3" y="24.5" width="1.2" height="1"/>
+<polygon points="236,25 234.4,26.4 234.4,23.6 "/>
+<rect id="rect4165_114_" x="231.5" y="21.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 51.3357 170.9352)" width="1" height="4.7"/>
+<rect id="rect4165_115_" x="228" y="24.5" width="2.7" height="1"/>
+<rect id="rect4165_113_" x="233.3" y="21.5" width="1.2" height="1"/>
+<rect id="rect4165_111_" x="229.7" y="23" transform="matrix(0.7071 -0.7071 0.7071 0.7071 51.3356 170.9352)" width="4.7" height="1"/>
+<polygon points="236,22 234.4,23.4 234.4,20.6 "/>
+<rect id="rect4165_125_" x="228" y="5.5" width="6.4" height="1"/>
+<polygon points="236,9 234.4,10.4 234.4,7.6 "/>
+<rect id="rect4165_122_" x="228" y="8.5" width="6.4" height="1"/>
+<polygon points="236,6 234.4,7.4 234.4,4.6 "/>
+<rect id="rect4165_121_" x="228" y="53.5" style="fill:#C8C8C8;" width="2.7" height="1"/>
+<rect id="rect4165_120_" x="233.3" y="56.5" style="fill:#C8C8C8;" width="1.2" height="1"/>
+<polygon style="fill:#C8C8C8;" points="236,57 234.4,58.4 234.4,55.6 "/>
+<rect id="rect4165_119_" x="231.5" y="53.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 28.7082 180.3078)" style="fill:#C8C8C8;" width="1" height="4.7"/>
+<rect id="rect4165_118_" x="228" y="56.5" style="fill:#C8C8C8;" width="2.7" height="1"/>
+<rect id="rect4165_117_" x="233.3" y="53.5" style="fill:#C8C8C8;" width="1.2" height="1"/>
+<rect id="rect4165_116_" x="229.7" y="55" transform="matrix(0.7071 -0.7071 0.7071 0.7071 28.7082 180.3077)" style="fill:#C8C8C8;" width="4.7" height="1"/>
+<polygon style="fill:#C8C8C8;" points="236,54 234.4,55.4 234.4,52.6 "/>
+<rect id="rect4165_129_" x="228" y="37.5" style="fill:#C8C8C8;" width="6.4" height="1"/>
+<polygon style="fill:#C8C8C8;" points="236,41 234.4,42.4 234.4,39.6 "/>
+<rect id="rect4165_128_" x="228" y="40.5" style="fill:#C8C8C8;" width="6.4" height="1"/>
+<polygon style="fill:#C8C8C8;" points="236,38 234.4,39.4 234.4,36.6 "/>
 </svg>
