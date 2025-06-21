@@ -69,7 +69,7 @@ msgstr "ファイル"
 
 msgctxt "IDS_SUB_OVERRIDE_DEFAULT_STYLE"
 msgid "Override Default Style"
-msgstr "既定のスタイルの上書き"
+msgstr "既定のスタイルを上書き"
 
 msgctxt "IDS_SUB_OVERRIDE_ALL_STYLES"
 msgid "Override All Styles"
