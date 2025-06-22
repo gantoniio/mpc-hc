@@ -12356,8 +12356,8 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
 
             // Position video frame
             // left and top parts are allowed to be negative
-            videoRect.left   = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
-            videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + vertAlignOffset);
+            videoRect.left = lround((dWRWidth - dScaledVRWidth) / 2 * (m_PosX + 0.5));
+            videoRect.top  = lround((dWRHeight - dScaledVRHeight) / 2 * (m_PosY + 0.5));
             // right and bottom parts are always at picture center or beyond, so never negative
             videoRect.right  = lround(videoRect.left + dScaledVRWidth);
             videoRect.bottom = lround(videoRect.top  + dScaledVRHeight);
@@ -12462,7 +12462,7 @@ void CMainFrame::SetPreviewVideoPosition() {
             h = MulDiv(w, arxy.cy, arxy.cx);
         }
 
-        const CPoint pos(int(m_PosX * (wr.Width() * 3 - w) - wr.Width()), int(m_PosY * (wr.Height() * 3 - h) - wr.Height()));
+        const CPoint pos(int((wr.Width() - w) / 2 * (m_PosX + 0.5)), int((wr.Height() - h) /2 * (m_PosY + 0.5)));
         const CRect vr(pos, CSize(w, h));
         
         if (m_pMFVDC_preview) {
