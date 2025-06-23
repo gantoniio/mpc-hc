@@ -3934,7 +3934,7 @@ msgstr "色の設定が復元されました"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "カラー コントロールはサポートされていません"
+msgstr "カラー コントロールには対応していません"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
