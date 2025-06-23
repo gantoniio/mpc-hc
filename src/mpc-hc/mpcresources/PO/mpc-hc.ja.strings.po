@@ -2564,7 +2564,7 @@ msgstr "タイトル: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
-msgstr "ファイル名にサポートされていない文字が使用されています (A-Z, 0-9 のみ使用可)"
+msgstr "ファイル名に使用できない文字が含まれています (A-Z, 0-9 のみ使用可)"
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
