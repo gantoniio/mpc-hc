@@ -891,7 +891,7 @@ msgstr ""
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "高品質のレンダラーで、D3D9 以降をサポートする GPU が必要です。"
+msgstr "高品質なレンダラーであり、D3D9 以降に対応した GPU が必要です。"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
