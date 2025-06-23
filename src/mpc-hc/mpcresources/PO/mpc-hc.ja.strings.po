@@ -4801,7 +4801,7 @@ msgstr "デバイス バッファー:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr "形式のサポートを確認しない"
+msgstr "形式の対応状況を確認しない"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
