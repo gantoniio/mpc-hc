@@ -836,7 +836,7 @@ msgctxt "IDC_DSEVR_CUSTOM"
 msgid ""
 "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling "
 "and postprocessing. Recommended."
-msgstr "EVR と同じですが、字幕作成と後処理に HPC-HC のアロケーター プレゼンターを使用します。(推奨)"
+msgstr "EVR と同様ですが、字幕表示と後処理に MPC-HC の Allocator-Presenter を使用します。(推奨)"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
