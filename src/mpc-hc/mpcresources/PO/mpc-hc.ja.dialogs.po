@@ -653,7 +653,7 @@ msgstr "「再生中」 のファイル情報を Skype のムード メッセー
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Logitech LCD のサポートを有効にする (試験的)"
+msgstr "Logitech LCD サポートを有効にする (試験的)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
