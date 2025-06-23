@@ -214,7 +214,7 @@ msgstr "異なるビデオ ストリーム間の切り替え時以外は速い�
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "できれば使用しない (最速だが、ほとんどのフィルターでサポートされていない)"
+msgstr "できるだけ使用しない (最速ですが、多くのフィルターでは対応していません)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
