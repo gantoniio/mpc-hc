@@ -1218,7 +1218,7 @@ msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
 "Use FreeType for subtitle rendering.  Enables support for per-language "
 "glyphs."
-msgstr "字幕のレンダリングには FreeType を使用します。言語ごとのグリフのサポートを有効にします。"
+msgstr "字幕の描画に FreeType を使用します。これにより、言語ごとの文字（グリフ）に対応できます。"
 
 msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
