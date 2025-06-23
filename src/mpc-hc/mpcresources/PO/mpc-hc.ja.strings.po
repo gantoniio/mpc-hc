@@ -4476,7 +4476,7 @@ msgstr "/regpl\t\t再生リスト ファイルに関連付ける"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr "/regall\t\tサポートされているすべてのファイルの種類に関連付ける"
+msgstr "/regall\t\tすべての対応ファイル形式に関連付ける"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
