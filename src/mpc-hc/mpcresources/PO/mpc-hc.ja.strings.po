@@ -2806,7 +2806,7 @@ msgstr "不明なファイルの種類です"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "サポートされていないストリームです"
+msgstr "対応していないストリーム形式です"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
