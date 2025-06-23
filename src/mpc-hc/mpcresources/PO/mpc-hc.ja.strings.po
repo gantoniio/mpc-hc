@@ -1021,7 +1021,7 @@ msgstr "チューナー検出"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "字幕が読み込まれていないか、サポートされていないレンダラーです。"
+msgstr "字幕が読み込まれていないか、使用中のレンダラーが字幕に対応していません。"
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
