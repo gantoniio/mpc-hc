@@ -859,6 +859,7 @@ public:
 
     afx_msg LRESULT OnSkypeAttach(WPARAM wParam, LPARAM lParam);
 
+    afx_msg void SetInitialPos();
     afx_msg void OnSetFocus(CWnd* pOldWnd);
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
     afx_msg void OnMove(int x, int y);
