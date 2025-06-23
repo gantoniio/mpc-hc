@@ -1010,6 +1010,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     const CAppSettings& s = AfxGetAppSettings();
 
+    SetInitialPos();
+    
     // Create OSD Window
     CreateOSDBar();
 
