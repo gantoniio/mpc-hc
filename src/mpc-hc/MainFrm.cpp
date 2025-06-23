@@ -1601,6 +1601,23 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     OSDBarSetPos();
 }
 
+void CMainFrame::SetInitialPos()
+{
+    auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
+    if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
+        m_PosY = -0.5;
+    }
+    else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
+        m_PosY = 1.5;
+    }
+    else
+    {
+        m_PosY = 0.5;
+    }
+
+    m_PosX = 0.5;
+}
+
 void CMainFrame::OnMove(int x, int y)
 {
     __super::OnMove(x, y);
@@ -4310,7 +4327,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     if (!s.fSavePnSZoom) {
         m_AngleX = m_AngleY = m_AngleZ = 0;
         m_ZoomX = m_ZoomY = 1.0;
-        m_PosX = m_PosY = 0.5;
+        SetInitialPos();
     }
 
     if (m_closingmsg.IsEmpty()) {
@@ -8176,7 +8193,7 @@ void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
 {
     AfxGetAppSettings().iDefaultVideoSize = nID - ID_VIEW_VF_HALF;
     m_ZoomX = m_ZoomY = 1;
-    m_PosX = m_PosY = 0.5;
+    SetInitialPos();
     MoveVideoWindow();
 }
 
@@ -8225,7 +8242,7 @@ void CMainFrame::OnViewSwitchVideoFrame()
     }
     s.iDefaultVideoSize = vs;
     m_ZoomX = m_ZoomY = 1;
-    m_PosX = m_PosY = 0.5;
+    SetInitialPos();
     MoveVideoWindow();
 }
 
@@ -8265,7 +8282,7 @@ void CMainFrame::OnViewPanNScan(UINT nID)
             ResetSubtitlePosAndSize(true);
             // Pan&Scan
             m_ZoomX = m_ZoomY = 1.0;
-            m_PosX = m_PosY = 0.5;
+            SetInitialPos();
             m_AngleX = m_AngleY = m_AngleZ = 0;
             PerformFlipRotate();
             break;
@@ -8398,8 +8415,7 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
         return;
     }
 
-    m_PosX = 0.5;
-    m_PosY = 0.5;
+    SetInitialPos();
     m_ZoomX = 1.0;
     m_ZoomY = 1.0;
 
@@ -12345,14 +12361,6 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             // Scale video frame
             double dScaledVRWidth  = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
-
-            auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
-            double vertAlignOffset = 0;
-            if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
-                vertAlignOffset = -(dWRHeight - dScaledVRHeight) / 2;
-            } else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
-                vertAlignOffset = (dWRHeight - dScaledVRHeight) / 2;
-            }
 
             // Position video frame
             // left and top parts are allowed to be negative
