@@ -1033,7 +1033,7 @@ msgstr "VTS_xx_x.vob ファイルをまとめて読み込むには VTS_xx_0.ifo 
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "RARFileSource に基づいており、圧縮ファイルをサポートしていません"
+msgstr "RARFileSource をベースにしていますが、圧縮されたファイルには対応していません"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
