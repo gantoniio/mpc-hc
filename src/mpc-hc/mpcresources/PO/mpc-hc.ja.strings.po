@@ -997,7 +997,7 @@ msgstr "アーカイブ内にメディア ファイルが見つかりません�
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "圧縮ファイルはサポートされていません"
+msgstr "圧縮ファイルには対応していません"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
