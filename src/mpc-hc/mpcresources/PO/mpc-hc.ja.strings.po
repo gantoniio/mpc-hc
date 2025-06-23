@@ -808,7 +808,7 @@ msgid ""
 "MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" "
 "desktop color space recommended."
 msgstr ""
-"VMR-9（ウィンドウ表示）と同様ですが、字幕表示には MPC-HC の Allocator-Presenter "
+"VMR-9 (ウィンドウ表示) と同様ですが、字幕表示には MPC-HC の Allocator-Presenter "
 "プラグインを使用します。オーバーレイによる映像ミラーリングが動作する可能性があります。また、デスクトップのカラーモードは「True "
 "Color」に設定することを推奨します。"
 
