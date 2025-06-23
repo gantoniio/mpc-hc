@@ -204,7 +204,7 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid ""
 "Not supported by some devices. Two video decoders always present in the "
 "filter graph."
-msgstr "一部のデバイスでは対応していません。フィルター グラフには常に 2 つのビデオ デコーダーが含まれます"
+msgstr "一部のデバイスでは対応していません。フィルター グラフには常に 2 つのビデオ デコーダーが含まれます。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid ""
