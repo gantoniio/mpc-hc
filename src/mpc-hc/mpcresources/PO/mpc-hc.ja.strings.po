@@ -1001,7 +1001,7 @@ msgstr "圧縮ファイルには対応していません"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "暗号化されたファイルはサポートされていません"
+msgstr "暗号化されたファイルには対応していません"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
