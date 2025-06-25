@@ -6714,7 +6714,7 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
 
             isSaved = pRTS->SaveAs(
                 suggestedFileName, type, m_pCAP->GetFPS(), m_pCAP->GetSubtitleDelay(),
-                CTextFile::DEFAULT_ENCODING, s.bSubSaveExternalStyleFile);
+                pRTS->m_encoding, s.bSubSaveExternalStyleFile);
         } else {
             const std::vector<Subtitle::SubType> types = {
                 Subtitle::SRT,
