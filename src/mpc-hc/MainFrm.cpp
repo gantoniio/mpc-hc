@@ -414,8 +414,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PANNSCAN_PRESETS_START, ID_PANNSCAN_PRESETS_END, OnUpdateViewPanNScanPresets)
     ON_COMMAND_RANGE(ID_PANSCAN_ROTATEXP, ID_PANSCAN_ROTATEZM, OnViewRotate)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PANSCAN_ROTATEXP, ID_PANSCAN_ROTATEZM, OnUpdateViewRotate)
-    ON_COMMAND_RANGE(ID_PANSCAN_ROTATEZ270, ID_PANSCAN_ROTATEZ270, OnViewRotate)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_PANSCAN_ROTATEZ270, ID_PANSCAN_ROTATEZ270, OnUpdateViewRotate)
+    ON_COMMAND_RANGE(ID_PANSCAN_ROTATEZ270_OLD, ID_PANSCAN_ROTATEZ270_OLD, OnViewRotate)
     ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
     ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
@@ -8550,13 +8549,14 @@ void CMainFrame::OnViewRotate(UINT nID)
             m_AngleZ = 0;
         }
         break;
-    case ID_PANSCAN_ROTATEZP:
+    case ID_PANSCAN_ROTATEZP2:
         if (!m_pCAP3) {
             m_AngleZ += 2;
             break;
         }
         [[fallthrough]];
     case ID_PANSCAN_ROTATEZ270:
+    case ID_PANSCAN_ROTATEZ270_OLD:
         if (m_AngleZ < 90) {
             m_AngleZ = 90;
         } else if (m_AngleZ >= 270) {
