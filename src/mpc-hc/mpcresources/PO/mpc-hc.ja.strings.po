@@ -886,7 +886,7 @@ msgid ""
 "its property page will work and it will use a separate worker thread to "
 "renderer frames."
 msgstr ""
-"VMR-9 (レンダリングなし) をミキサーモードに切り替えます。これにより、プロパティ "
+"VMR-9 (レンダーレス) をミキサーモードに切り替えます。これにより、プロパティ "
 "ページ上のほとんどのコントロールが使用可能になり、フレームの描画には専用のワーカースレッドが使用されます。"
 
 msgctxt "IDC_DSMPCVR"
