@@ -423,9 +423,17 @@
 <rect id="rect4165_27_" x="276" y="59" style="fill:#646464;" width="1" height="1"/>
 <rect id="rect4165_26_" x="274" y="59" style="fill:#646464;" width="1" height="1"/>
 <rect x="288" y="-16" width="16" height="16"/>
-<rect x="289" y="1" width="14" height="14"/>
 <text transform="matrix(1 0 0 1 294.6953 12.1602)" style="fill:#FFFFFF; font-family:'MyriadPro-Regular'; font-size:11.0396px;">i</text>
 <path style="fill:#C8C8C8;" d="M296,44h-1v-1h1V44z M294,44h-1v-1h1V44z M298,42h-1v-1h1V42z M296,42h-1v-1h1V42z M294,42h-1v-1h1
 	V42z M300,42h-1v-1h1V42z M294,40h-1v-1h1V40z M298,44h-1v-1h1V44z M296,38h-1v-1h1V38z M294,38h-1v-1h1V38z M291,46h-1V35h1V46z
 	 M298,34v1h-8v-1H298z M303,47h-1v-8h1V47z M302,46v1h-12v-1H302z M299,38h-1v-4h1V38z M303,38v1h-5v-1H303z M299,38v-4l4,4H299z"/>
+<path d="M296,12h-1v-1h1V12z M294,12h-1v-1h1V12z M298,10h-1V9h1V10z M296,10h-1V9h1V10z M294,10h-1V9h1V10z M300,10h-1V9h1V10z
+	 M294,8h-1V7h1V8z M298,12h-1v-1h1V12z M296,6h-1V5h1V6z M294,6h-1V5h1V6z M291,14h-1V3h1V14z M298,2v1h-8V2H298z M303,15h-1V7h1V15
+	z M302,14v1h-12v-1H302z M299,6h-1V2h1V6z M303,6v1h-5V6H303z M299,6V2l4,4H299z"/>
+<path style="fill:#7F7F7F;" d="M296,28h-1v-1h1V28z M294,28h-1v-1h1V28z M298,26h-1v-1h1V26z M296,26h-1v-1h1V26z M294,26h-1v-1h1
+	V26z M300,26h-1v-1h1V26z M294,24h-1v-1h1V24z M298,28h-1v-1h1V28z M296,22h-1v-1h1V22z M294,22h-1v-1h1V22z M291,30h-1V19h1V30z
+	 M298,18v1h-8v-1H298z M303,31h-1v-8h1V31z M302,30v1h-12v-1H302z M299,22h-1v-4h1V22z M303,22v1h-5v-1H303z M299,22v-4l4,4H299z"/>
+<path style="fill:#646464;" d="M296,60h-1v-1h1V60z M294,60h-1v-1h1V60z M298,58h-1v-1h1V58z M296,58h-1v-1h1V58z M294,58h-1v-1h1
+	V58z M300,58h-1v-1h1V58z M294,56h-1v-1h1V56z M298,60h-1v-1h1V60z M296,54h-1v-1h1V54z M294,54h-1v-1h1V54z M291,62h-1V51h1V62z
+	 M298,50v1h-8v-1H298z M303,63h-1v-8h1V63z M302,62v1h-12v-1H302z M299,54h-1v-4h1V54z M303,54v1h-5v-1H303z M299,54v-4l4,4H299z"/>
 </svg>
