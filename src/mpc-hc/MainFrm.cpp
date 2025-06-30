@@ -12347,18 +12347,31 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             double dScaledVRWidth  = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
 
-            auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
             double vertAlignOffset = 0;
-            if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
-                vertAlignOffset = -(dWRHeight - dScaledVRHeight) / 2;
-            } else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
-                vertAlignOffset = (dWRHeight - dScaledVRHeight) / 2;
+            if (dWRHeight > dScaledVRHeight) {
+                auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
+                if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
+                    vertAlignOffset = -(dWRHeight - dScaledVRHeight) / 2.0;
+                } else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
+                    vertAlignOffset = (dWRHeight - dScaledVRHeight) / 2.0;
+                }
             }
 
             // Position video frame
             // left and top parts are allowed to be negative
-            videoRect.left   = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
-            videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + vertAlignOffset);
+            if (dScaledVRWidth <= 2.5 * dWRWidth) {
+                videoRect.left = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
+            } else {
+                double dWDiff = dWRWidth - dScaledVRWidth;
+                videoRect.left = lround(((1.5 - m_PosX) * dWDiff) / 2.0);
+            }
+            if (dScaledVRHeight <= 2.5 * dWRHeight) {
+                videoRect.top  = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + vertAlignOffset);
+            } else {
+                double dHDiff = dWRHeight - dScaledVRHeight;
+                videoRect.top  = lround(((1.5 - m_PosY) * dHDiff) / 2.0 + vertAlignOffset);
+            }
+
             // right and bottom parts are always at picture center or beyond, so never negative
             videoRect.right  = lround(videoRect.left + dScaledVRWidth);
             videoRect.bottom = lround(videoRect.top  + dScaledVRHeight);
@@ -12462,10 +12475,7 @@ void CMainFrame::SetPreviewVideoPosition() {
             w = int(minw + (maxw - minw) * scale);
             h = MulDiv(w, arxy.cy, arxy.cx);
         }
-
-        const CPoint pos(int(m_PosX * (wr.Width() * 3 - w) - wr.Width()), int(m_PosY * (wr.Height() * 3 - h) - wr.Height()));
-        const CRect vr(pos, CSize(w, h));
-        
+     
         if (m_pMFVDC_preview) {
             m_pMFVDC_preview->SetVideoPosition(nullptr, wr);
             m_pMFVDC_preview->SetAspectRatioMode(MFVideoARMode_PreservePicture);
@@ -12477,10 +12487,9 @@ void CMainFrame::SetPreviewVideoPosition() {
         if (m_pCAP2_preview) {
             m_pCAP2_preview->SetPosition(wr, wr);
         }
-
         if (m_pBV_preview) {
             m_pBV_preview->SetDefaultSourcePosition();
-            m_pBV_preview->SetDestinationPosition(vr.left, vr.top, vr.Width(), vr.Height());
+            m_pBV_preview->SetDestinationPosition(0, 0, w, h);
         }
         if (m_pVW_preview) {
             m_pVW_preview->SetWindowPosition(wr.left, wr.top, wr.Width(), wr.Height());
@@ -20277,28 +20286,28 @@ void CMainFrame::SendSubtitleTracksToApi()
             if (m_pDVDI && SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
                 && ulStreamsAvailable > 0) {
                 LCID DefLanguage;
-                int i = 0, iSelected = -1;
+                int iSelected = -1;
 
                 DVD_SUBPICTURE_LANG_EXT ext;
                 if (FAILED(m_pDVDI->GetDefaultSubpictureLanguage(&DefLanguage, &ext))) {
                     return;
                 }
 
-                for (i = 0; i < ulStreamsAvailable; i++) {
+                for (ULONG i = 0; i < ulStreamsAvailable; i++) {
                     LCID Language;
                     if (FAILED(m_pDVDI->GetSubpictureLanguage(i, &Language))) {
                         continue;
                     }
 
                     if (i == ulCurrentStream) {
-                        iSelected = i;
+                        iSelected = (int)i;
                     }
 
                     CString str;
                     if (Language) {
                         GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
                     } else {
-                        str.Format(IDS_AG_UNKNOWN, i + 1);
+                        str.Format(IDS_AG_UNKNOWN, int(i + 1));
                     }
 
                     DVD_SubpictureAttributes ATR;
