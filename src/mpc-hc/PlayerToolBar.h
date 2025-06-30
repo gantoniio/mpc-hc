@@ -50,7 +50,7 @@ private:
     void LoadToolbarImage();
     void PlaceButtons(bool loadSavedLayout);
     bool mouseDownL, mouseDownR;
-    int rightButtonIndex=-1;
+    int rightButtonIndex=-1, leftButtonIndex=-1;
     CMPCThemeToolTipCtrl themedToolTip;
 
     int m_nButtonHeight;

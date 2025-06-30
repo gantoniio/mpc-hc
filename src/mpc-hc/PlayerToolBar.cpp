@@ -690,6 +690,7 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
         ClientToScreen(&point);
         m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     } else {
+        leftButtonIndex = i;
         __super::OnLButtonDown(nFlags, point);
     }
 }
@@ -776,8 +777,16 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
     mouseDownL = false;
+
+    //rare crash restoring focus after close
+    int buttonId = getHitButtonIdx(point);
+    bool doRestoreFocus = (buttonId < 0 || buttonId != leftButtonIndex || GetItemID(buttonId) != ID_FILE_EXIT);
+
     CToolBar::OnLButtonUp(nFlags, point);
-    m_pMainFrame->RestoreFocus();
+
+    if (doRestoreFocus) {
+        m_pMainFrame->RestoreFocus();
+    }
 }
 
 void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
