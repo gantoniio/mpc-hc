@@ -21971,6 +21971,9 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
         int p = baseurl.ReverseFind(_T('.'));
         if (p > 0 && (q - p <= 6)) {
             CString ext = baseurl.Mid(p);
+            if (ext == L".m3u8" || ext == L".mpd") {
+                return false;
+            }
             if (AfxGetAppSettings().m_Formats.FindExt(ext)) {
                 return false;
             }
