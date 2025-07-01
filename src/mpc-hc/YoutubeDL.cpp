@@ -391,22 +391,28 @@ void GetAudioScore(YDLStreamDetails& details) {
 
     if (s.iYDLAudioFormat > 0) {
         if (s.iYDLAudioFormat == YDL_FORMAT_AAC) {
-            if (acodec == L"mp4a") score += 32;
+            if (acodec == L"mp4a") score += 64;
         } else {
-            if (acodec == L"opus") score += 32;
+            if (acodec == L"opus") score += 64;
         }
     }
 
     if (details.lang_pref > 9) {
-        score += 128;
+        score += 256;
     } else if (details.lang_pref > 0) {
-        score += 64;
+        score += 128;
+    }
+
+    if (details.protocol == L"https") {
+        score += 32;
     }
 
     // Youtube formats
-    if (!details.has_video && !details.format_id.IsEmpty()) {
-        CString fid = details.format_id;
-        int p = fid.Find(L"-");
+    if (!details.has_video && !details.format.IsEmpty()) {
+        CString fid = details.format;
+        bool isdef = fid.Find(L"default") >= 0;
+        bool ishigh = fid.Find(L"high") >= 0;
+        int p = fid.FindOneOf(L"- ");
         if (p > 0) {
             fid = fid.Left(p);
         }
@@ -442,8 +448,10 @@ void GetAudioScore(YDLStreamDetails& details) {
             score += 7;
         } else if (fid == L"325") { // DTSE 384 Kbps 5.1
             score += 1;
-        } else if (fid == L"233" || details.format_id == L"234") { // Unknown
-            score += 2;
+        } else if (fid == L"233") { // same as 139 but native HLS
+            score += 5;
+        } else if (fid == L"234") { // same as 140 but native HLS
+            score += 8;
         } else {
             //ASSERT(false);
         }
