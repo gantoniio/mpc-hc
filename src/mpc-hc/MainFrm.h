@@ -684,6 +684,7 @@ public:
     void RepaintVideo(const bool bForceRepaint = false);
     void HideVideoWindow(bool fHide);
 
+    CCritSec lockGraphAccess;
     OAFilterState GetMediaStateDirect();
     OAFilterState GetMediaState();
     OAFilterState UpdateCachedMediaState();

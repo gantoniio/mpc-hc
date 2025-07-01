@@ -2933,6 +2933,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         return E_INVALIDARG;
     }
 
+    CAutoLock ga(&lockGraphAccess);
+
     HRESULT hr = S_OK;
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
@@ -11581,6 +11583,8 @@ OAFilterState CMainFrame::GetMediaState()
 
 OAFilterState CMainFrame::UpdateCachedMediaState()
 {
+    CAutoLock ga(&lockGraphAccess);
+
     if (m_eMediaLoadState == MLS::LOADED) {
         m_CachedFilterState = -1;
         m_pMC->GetState(0, &m_CachedFilterState);
@@ -19281,6 +19285,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     // we are on the way
     m_bSettingUpMenus = true;
     SetLoadState(MLS::CLOSING);
+
+    CAutoLock ga(&lockGraphAccess);
 
     if (m_pGB_preview) {
         PreviewWindowHide();
