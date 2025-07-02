@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-11-08 22:23:47+0000\n"
+"POT-Creation-Date: 2025-04-05 10:29:28+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Gianni Chedda <gianni.chedda0@gmail.com>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/mpchc/teams/106126/it/)\n"
@@ -112,15 +112,17 @@ msgstr "Attiva la mappatura personalizzata dei canali"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC_CM1"
 msgid "Speaker configuration for"
-msgstr ""
+msgstr "Configurazione altoparlanti per"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC_CM2"
 msgid "input channels:"
-msgstr ""
+msgstr "canali di input:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC_CM3"
 msgid "Hold shift for immediate changes when clicking something"
 msgstr ""
+"Premi Shift per applicare immediatamente i cambiamenti cliccando su un "
+"elemento"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
