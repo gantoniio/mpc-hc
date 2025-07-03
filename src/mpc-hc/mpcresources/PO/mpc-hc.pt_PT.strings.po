@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Hugo Simões <hugo.simoes.1984@gmail.com>, 2021
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2024
+# Blackspirits <blackspirits@gmail.com>, 2025
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-12-16 13:01:31+0000\n"
+"POT-Creation-Date: 2025-05-21 22:58:36+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2024\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2025\n"
 "Language-Team: Portuguese (Portugal) (https://app.transifex.com/mpchc/teams/106126/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1749,6 +1750,9 @@ msgid ""
 "This only logs a few very specific things, such as DVB scanning, subtitle search, and yt-dlp data parsing.\n"
 "Do not enable this during normal use!"
 msgstr ""
+"Ativa o registo em ficheiro (requer reinício).\n"
+"Isto apenas regista algumas coisas muito específicas, tais como a digitalização DVB, a pesquisa de legendas e a análise de dados yt-dlp.\n"
+"Não ative isso durante o uso normal!"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
@@ -1958,7 +1962,7 @@ msgstr "Miniaturas guardadas com sucesso"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
-msgstr "Faixa de Víde&o"
+msgstr "Faixa do víde&o"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -3154,7 +3158,7 @@ msgstr "Autor desconhecido. Contacte-nos se fez este logo!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Não existem mais ficheiros de media na pasta atual."
+msgstr "Não existem mais ficheiros multimédia na pasta atual."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -4435,10 +4439,12 @@ msgid ""
 "Youtube-DL failed to launch. Make sure yt-dlp.exe or youtube-dl.exe is "
 "located in MPC-HC folder or in PATH."
 msgstr ""
+"Não foi possível iniciar o Youtube-DL. Certifique-se de que yt-dlp.exe ou "
+"youtube-dl.exe está localizado na pasta MPC-HC ou no CAMINHO."
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling yt-dlp/youtube-dl..."
-msgstr ""
+msgstr "A chamar o yt-dlp/youtube-dl..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
@@ -4509,6 +4515,11 @@ msgid ""
 "-f bestvideo+bestaudio\n"
 "-o \"C:\\downloads\\%(title)s.%(ext)s"
 msgstr ""
+"Parâmetros da linha de comandos para descarregar (\"guardar uma cópia\") com o yt-dlp.exe (ou youtube-dl.exe)\n"
+"Exemplos:\n"
+"-f best[height<=1080]\n"
+"-f bestvideo+bestaudio\n"
+"-o \"C:\\downloads\\.%(title)s.%(ext)s"
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
 msgid "Include video position in filename"
@@ -4825,6 +4836,9 @@ msgid ""
 "Just the filename is enough in case it is located in same folder as MPC-HC.\n"
 "Leave empty to use default filename: yt-dlp.exe"
 msgstr ""
+"Caminho completo do executável yt-dlp (ou youtube-dl).\n"
+"Apenas o nome do ficheiro é suficiente, caso esteja localizado na mesma pasta que o MPC-HC.\n"
+"Deixe em branco para usar o nome de ficheiro predefinido: yt-dlp.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
 msgid ""
