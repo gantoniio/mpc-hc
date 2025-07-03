@@ -4838,7 +4838,7 @@ msgid ""
 msgstr ""
 "Caminho completo do executável yt-dlp (ou youtube-dl).\n"
 "Apenas o nome do ficheiro é suficiente, caso esteja localizado na mesma pasta que o MPC-HC.\n"
-"Deixe em branco para usar o nome de ficheiro predefinido: yt-dlp.exe"
+"Deixe em branco para utilizar o nome de ficheiro predefinido: yt-dlp.exe"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
 msgid ""
