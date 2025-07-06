@@ -60,6 +60,11 @@ IsWindows11OrGreater() {
 
 #endif
 
+VERSIONHELPERAPI
+IsWindows11v24H2OrGreater() {
+    return IsWindowsVersionOrGreaterBuild(HIBYTE(_WIN32_WINNT_WINTHRESHOLD), LOBYTE(_WIN32_WINNT_WINTHRESHOLD), 26100);
+}
+
 typedef LONG NTSTATUS, * PNTSTATUS;
 #define STATUS_SUCCESS (0x00000000)
 
