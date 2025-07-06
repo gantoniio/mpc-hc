@@ -56,7 +56,7 @@ msgid ""
 "\n"
 "Your CPU does not have those capabilities."
 msgstr ""
-"このバージョンの MPC-HC を実行するには、SSE2 拡張命令に対応した CPU が必要です。\n"
+"このバージョンの MPC-HC を実行するには、SSE2 拡張機能に対応した CPU が必要です。\n"
 "\n"
 "お使いの CPU はこの機能に対応していません。"
 
