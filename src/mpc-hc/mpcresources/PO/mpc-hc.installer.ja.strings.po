@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "これにより、[name] がコンピューターにインストールされます。\n"
 "\n"
-"続行する前に他のすべてのアプリケーションを閉じることを推奨します。"
+"続行する前に、他のすべてのアプリケーションを閉じることを推奨します。"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
