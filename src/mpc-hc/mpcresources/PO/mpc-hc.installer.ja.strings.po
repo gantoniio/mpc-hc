@@ -70,7 +70,7 @@ msgstr "すべてのユーザーにインストールする"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
-msgstr "現在実行しているユーザーにのみインストールする"
+msgstr "現在のユーザーにのみインストールする"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
