@@ -74,7 +74,7 @@ msgstr "現在のユーザーにのみインストールする"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
-msgstr "その他のタスク:"
+msgstr "他のタスク:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
