@@ -2203,6 +2203,8 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
         return L"RT29";
     } else if (pmt->subtype == MEDIASUBTYPE_MPEG_LOAS) {
         return L"LOAS";
+    } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC4) {
+        return L"AC4";
     }
 
     if (_IsFourCC(pmt->subtype)) {
