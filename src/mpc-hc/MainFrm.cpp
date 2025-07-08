@@ -1263,6 +1263,8 @@ void CMainFrame::OnClose()
 
     SendAPICommand(CMD_DISCONNECT, L"\0");  // according to CMD_NOTIFYENDOFSTREAM (ctrl+f it here), you're not supposed to send NULL here
 
+    CAutoLock ga(&lockGraphAccess);
+
     AfxGetMyApp()->SetClosingState();
 
     __super::OnClose();
