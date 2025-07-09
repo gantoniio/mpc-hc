@@ -1903,7 +1903,7 @@ msgstr "Geri Dönüşüm Kutusuna gönder"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr "Kopya kaydet"
+msgstr "Kopyasını kaydet"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
