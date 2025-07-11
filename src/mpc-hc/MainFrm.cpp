@@ -19104,6 +19104,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         // abort sub search
         m_pSubtitlesProviders->Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
         m_wndSubtitlesDownloadDialog.DoClear();
+        m_wndSubtitlesDownloadDialog.ShowWindow(SW_HIDE);
 
         // save playback position
         if (s.fKeepHistory && !bPendingFileDelete) {
