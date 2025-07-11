@@ -147,7 +147,7 @@ msgstr "Drganie"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Przepływność"
+msgstr "Szybkość transmisji"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
