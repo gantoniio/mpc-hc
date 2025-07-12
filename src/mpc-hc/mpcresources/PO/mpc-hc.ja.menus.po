@@ -313,7 +313,7 @@ msgstr "彩度(&S)"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "絶対カラーメトリック(&A)"
+msgstr "絶対的色域(&A)"
 
 msgctxt "POPUP"
 msgid "&VSync"
