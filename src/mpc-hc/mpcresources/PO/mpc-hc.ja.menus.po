@@ -801,7 +801,7 @@ msgstr "コマンド ライン スイッチ(&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "ツール バーの画像をダウンロード(&T)"
+msgstr "ツールバー画像をダウンロード(&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
