@@ -489,7 +489,7 @@ msgstr "中央へ戻す(&T)"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
-msgstr "時計回りに回転(&K)"
+msgstr "90 度時計回りに回転(&K)"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
