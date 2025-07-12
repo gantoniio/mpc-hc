@@ -1029,6 +1029,7 @@
 #define IDS_AG_PNS_ROTATEZ_P            33235
 #define IDS_AG_PNS_ROTATEZ_M            33236
 #define IDS_AG_TEARING_TEST             33237
+#define IDS_AG_PNS_ROTATEZ_P2           33238
 #define IDS_SCALE_16_9                  33239
 #define IDS_SCALE_WIDESCREEN            33240
 #define IDS_SCALE_ULTRAWIDE             33241

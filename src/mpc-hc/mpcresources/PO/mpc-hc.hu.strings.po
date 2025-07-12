@@ -1389,6 +1389,10 @@ msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
 msgstr "Videó képkocka forgatás Z+"
 
+msgctxt "IDS_AG_PNS_ROTATEZ_P2"
+msgid "Video Frame Rotate Z+ (2 degrees)"
+msgstr ""
+
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
 msgstr "Videó képkocka forgatás Z-"

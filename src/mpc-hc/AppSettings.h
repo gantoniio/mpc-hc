@@ -349,11 +349,7 @@ public:
     }
 
     CString GetName() const {
-        CString n = ResStr(dwname);
-        if (cmd == ID_PANSCAN_ROTATEZP2) {
-            n.Replace(L"+", L"+2");
-        }
-        return n;
+        return ResStr(dwname);
     }
 
     void Restore() {

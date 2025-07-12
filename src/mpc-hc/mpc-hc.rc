@@ -2966,6 +2966,7 @@ BEGIN
     IDS_AG_PNS_ROTATEY_P    "Video Frame Rotate Y+"
     IDS_AG_PNS_ROTATEY_M    "Video Frame Rotate Y-"
     IDS_AG_PNS_ROTATEZ_P    "Video Frame Rotate Z+"
+    IDS_AG_PNS_ROTATEZ_P2   "Video Frame Rotate Z+ (2 degrees)"
     IDS_AG_PNS_ROTATEZ_M    "Video Frame Rotate Z-"
     IDS_AG_TEARING_TEST     "Tearing Test"
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
