@@ -305,7 +305,7 @@ msgstr "知覚的(&P)"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "相対カラーメトリック(&R)"
+msgstr "相対的色域(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
