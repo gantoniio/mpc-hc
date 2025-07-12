@@ -1263,11 +1263,9 @@ void CMainFrame::OnClose()
 
     SendAPICommand(CMD_DISCONNECT, L"\0");  // according to CMD_NOTIFYENDOFSTREAM (ctrl+f it here), you're not supposed to send NULL here
 
-    {
-        CAutoLock ga(&lockGraphAccess);
-
-        AfxGetMyApp()->SetClosingState();
-    }
+    lockGraphAccess.Lock();
+    AfxGetMyApp()->SetClosingState();
+    lockGraphAccess.Unlock();
 
     __super::OnClose();
 }
@@ -2927,17 +2925,14 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
     if (wParam != 0 || lParam != 0x4B00B1E5) {
         ASSERT(false);
-#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
-        if (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted) {
-            if (CrashReporter::IsEnabled()) {
-                throw 1;
-            }
-        }
-#endif
         return E_INVALIDARG;
     }
 
-    CAutoLock ga(&lockGraphAccess);
+    if (AfxGetMyApp()->m_fClosingState) {
+        return S_OK;
+    }
+
+    lockGraphAccess.Lock();
 
     HRESULT hr = S_OK;
     LONG evCode = 0;
@@ -3297,7 +3292,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                     m_closingmsg = !str.IsEmpty() ? str : CString(_T("Unspecified graph error"));
                     m_wndPlaylistBar.SetCurValid(false);
-                    return hr;
                 }
                 break;
             case EC_DVD_PLAYBACK_RATE_CHANGE:
@@ -3336,6 +3330,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 TRACE(_T("Unhandled graph event\n"));
         }
     }
+
+    if (!AfxGetMyApp()->m_fClosingState) {
+        lockGraphAccess.Unlock();
+    }    
 
     return hr;
 }
