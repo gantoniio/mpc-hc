@@ -18529,10 +18529,6 @@ bool CMainFrame::BuildToCapturePreviewPin(
 
 bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPreview, bool fACapture)
 {
-    if (!m_pCGB) {
-        return false;
-    }
-
     OAFilterState fs = GetMediaState();
 
     if (fs != State_Stopped) {
@@ -18655,7 +18651,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         }
 
         m_pAMDF.Release();
-        if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF)))) {
+        if (m_pCGB && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF)))) {
             TRACE(_T("Warning: No IAMDroppedFrames interface for vidcap capture"));
         }
     }
@@ -18712,7 +18708,9 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     }
 
     REFERENCE_TIME stop = MAX_TIME;
-    hr = m_pCGB->ControlStream(&PIN_CATEGORY_CAPTURE, nullptr, nullptr, nullptr, &stop, 0, 0); // stop in the infinite
+    if (m_pCGB) {
+        hr = m_pCGB->ControlStream(&PIN_CATEGORY_CAPTURE, nullptr, nullptr, nullptr, &stop, 0, 0); // stop in the infinite
+    }
 
     CleanGraph();
 
