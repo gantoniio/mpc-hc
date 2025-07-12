@@ -253,7 +253,7 @@ msgstr "フレーム時間補正の有効化(&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "色の管理(&C)"
+msgstr "カラー マネジメント(&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
