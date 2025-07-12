@@ -297,7 +297,7 @@ msgstr "暗い (ガンマ 2.4)(&A)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "レンダリングの目的(&R)"
+msgstr "レンダリング インテント(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
