@@ -281,7 +281,7 @@ msgstr "SDTV PAL(&P)"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "環境光(&L)"
+msgstr "アンビエント ライト(&L)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
