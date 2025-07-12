@@ -365,7 +365,7 @@ msgstr "既定の設定にリセット(&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "最適なレンダラーの設定にリセット(&O)"
+msgstr "最適な設定にリセット(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
