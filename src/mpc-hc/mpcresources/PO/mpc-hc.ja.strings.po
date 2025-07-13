@@ -1330,7 +1330,7 @@ msgstr "ビデオ フレーム: 回転 Z+ (反時計回り)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr "ビデオ フレーム: 回転 Z- (90 度時計回り)"
+msgstr "ビデオ フレーム: 回転 Z- (時計回り)"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
