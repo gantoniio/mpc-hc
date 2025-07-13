@@ -351,6 +351,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_WTV
     SrcFiltersKeys[SRC_WTV] = FilterKey(_T("SRC_WTV"), true);
 #endif
+#if INTERNAL_SOURCEFILTER_APE
+    SrcFiltersKeys[SRC_APE] = FilterKey(_T("SRC_APE"), true);
+#endif
 #if INTERNAL_SOURCEFILTER_CDDA
     SrcFiltersKeys[SRC_CDDA] = FilterKey(_T("SRC_CDDA"), true);
 #endif
@@ -433,6 +436,9 @@ CAppSettings::CAppSettings()
 #endif
 #if INTERNAL_DECODER_G729
     TraFiltersKeys[TRA_G729] = FilterKey(_T("TRA_G729"), true);
+#endif
+#if INTERNAL_DECODER_AC4
+    TraFiltersKeys[TRA_AC4] = FilterKey(_T("TRA_AC4"), true);
 #endif
 #if INTERNAL_DECODER_OTHERAUDIO
     TraFiltersKeys[TRA_OTHERAUDIO] = FilterKey(_T("TRA_OTHERAUDIO"), true);
