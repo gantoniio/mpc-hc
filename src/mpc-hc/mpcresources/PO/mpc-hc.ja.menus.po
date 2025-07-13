@@ -493,7 +493,7 @@ msgstr "時計回りに回転(&K)"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
-msgstr "90 度反時計回りに回転(&W)"
+msgstr "反時計回りに回転(&W)"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
