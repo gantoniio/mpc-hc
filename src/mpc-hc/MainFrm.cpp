@@ -11388,6 +11388,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     CSize windowSize;
     bool tRememberPos = s.fRememberWindowPos;
     MINMAXINFO mmi;
+    ZeroMemory(&mmi, sizeof(mmi));
     OnGetMinMaxInfo(&mmi);
 
     if (s.HasFixedWindowSize()) {
@@ -21013,7 +21014,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         ASSERT(false);
         return 0;
     }
-    if (message == WM_ACTIVATE || message == WM_SETFOCUS) {
+    if (message == WM_ACTIVATE || message == WM_SETFOCUS || message == WM_GETMINMAXINFO) {
         if (AfxGetMyApp()->m_fClosingState) {
             TRACE(_T("Dropped WindowProc: message %u value %d\n"), message, LOWORD(wParam));
             return 0;
