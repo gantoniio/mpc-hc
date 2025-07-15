@@ -3502,7 +3502,7 @@ msgstr "レンダリング インテント: 相対的色域補正"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "レンダリングの目的: 彩度"
+msgstr "レンダリング インテント: 彩度"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
