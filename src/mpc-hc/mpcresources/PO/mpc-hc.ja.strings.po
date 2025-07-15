@@ -3494,7 +3494,7 @@ msgstr "環境光: 暗い (ガンマ 2.4)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "レンダリングの目的: 知覚的"
+msgstr "レンダリング インテント: 知覚的"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
