@@ -3801,7 +3801,7 @@ msgid ""
 "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\n"
 "Change the video renderer in MPC's output options and reopen the file."
 msgstr ""
-"「画像を保存」および「サムネイルを保存 」の機能は、オーバーレイ ミキサー ビデオ レンダラーでは動作しません。\n"
+"「画像を保存」 および 「サムネイルを保存 」 の機能は、オーバーレイ ミキサー ビデオ レンダラーでは動作しません。\n"
 "MPC-HC の出力オプションでビデオ レンダラーを変更してファイルを開き直してください。"
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
