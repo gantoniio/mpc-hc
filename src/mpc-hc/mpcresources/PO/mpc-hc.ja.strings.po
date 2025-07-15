@@ -2726,7 +2726,7 @@ msgstr "開く処理を中止しました"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "ファイルのレンダリングに失敗しました"
+msgstr "ファイルの描画に失敗しました"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
