@@ -3498,7 +3498,7 @@ msgstr "レンダリング インテント: 知覚的"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "レンダリングの目的: 相対カラーメトリック"
+msgstr "レンダリング インテント: 相対的色域補正"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
