@@ -217,7 +217,7 @@ msgstr "できるだけ使用しない (最速ですが、多くのフィルタ�
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
-msgstr "異なるビデオ タイプに切り替える場合のみ"
+msgstr "異なる種類の動画に切り替える場合のみ"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
