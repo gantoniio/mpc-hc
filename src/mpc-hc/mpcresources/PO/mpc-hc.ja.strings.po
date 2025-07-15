@@ -193,7 +193,7 @@ msgstr "なし"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr "異なるビデオ タイプに切り替える場合のみ"
+msgstr "異なる種類の動画に切り替える場合のみ"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
