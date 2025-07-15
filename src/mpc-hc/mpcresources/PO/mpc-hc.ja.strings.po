@@ -4604,7 +4604,7 @@ msgstr "ビデオを全画面表示するまでの遅延です。表示の不具
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
 msgid "Render subtitles onto screenshots"
-msgstr "スクリーンショットに字幕をレンダリングします"
+msgstr "スクリーンショットに字幕を描画します"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION"
 msgid ""
