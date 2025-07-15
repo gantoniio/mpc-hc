@@ -4849,7 +4849,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
 msgid "The renderer will try to initialize the device skipping some checks."
-msgstr "レンダラーは、いくつかのチェックをスキップしてデバイスの初期化を試みます。"
+msgstr "レンダラーは一部のチェックを省略してデバイスの初期化を試みます。"
 
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
