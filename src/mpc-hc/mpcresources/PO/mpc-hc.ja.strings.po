@@ -45,7 +45,7 @@ msgstr "完了しています..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "ビデオの再生"
+msgstr "動画の再生"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
