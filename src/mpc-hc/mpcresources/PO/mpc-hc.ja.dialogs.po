@@ -269,7 +269,7 @@ msgstr "ファイル名のみ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "プログラム名"
+msgstr "プログラム名のみ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
