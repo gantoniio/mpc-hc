@@ -196,7 +196,7 @@ msgstr "バージョン情報"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2025 clsid2 and others"
-msgstr "著作権 2002-2025 clsid2 およびその他"
+msgstr "著作権 2002-2025 clsid2 および他の貢献者"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
