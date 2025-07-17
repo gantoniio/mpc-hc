@@ -437,6 +437,8 @@ private:
     bool m_fCustomGraph;
     bool m_fShockwaveGraph;
 
+    int m_iGraphID;
+
     CComPtr<ISubClock> m_pSubClock;
 
     bool m_fFrameSteppingActive;
