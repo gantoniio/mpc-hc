@@ -2451,7 +2451,7 @@ void CMPlayerCApp::OnAppAbout()
 void CMPlayerCApp::SetClosingState()
 {
     m_fClosingState = true;
-#if USE_DRDUMP_CRASH_REPORTER & (MPC_VERSION_REV < 10)
+#if USE_DRDUMP_CRASH_REPORTER & ((MPC_VERSION_REV < 10) || MPC_VERSION_PATCH == 1)
     DisableCrashReporter();
 #endif
 }
