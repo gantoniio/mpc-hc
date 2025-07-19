@@ -431,7 +431,7 @@ msgstr "再生に必要なインターフェイスの取得に失敗しました
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "グラフの通知用のターゲット ウィンドウを設定できませんでした"
+msgstr "グラフ通知の対象ウィンドウを設定できませんでした"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
