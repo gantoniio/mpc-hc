@@ -2091,9 +2091,14 @@ CStringW GetChannelStrFromMediaType(AM_MEDIA_TYPE* pmt, int& channels) {
             } else if (pmt->formattype == FORMAT_VorbisFormat2) {
                 channels = ((VORBISFORMAT2*)pmt->pbFormat)->Channels;
                 return ChannelsToStr(channels);
+            } else if (pmt->formattype == FORMAT_WaveFormatExFFMPEG) {
+                WAVEFORMATEXFFMPEG* wfeff = (WAVEFORMATEXFFMPEG*)pmt->pbFormat;
+                WAVEFORMATEX wfe = wfeff->wfex;
+                channels = wfe.nChannels;
+                return ChannelsToStr(channels);
             } else {
                 channels = 2;
-              }
+            }
         } else if (pmt->majortype == MEDIATYPE_Midi) {
             channels = 2;
             return L"";
@@ -2205,6 +2210,16 @@ CStringW GetShortAudioNameFromMediaType(AM_MEDIA_TYPE* pmt) {
         return L"LOAS";
     } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC4) {
         return L"AC4";
+    }
+
+    if (pmt->subtype == MEDIASUBTYPE_FFMPEG_AUDIO) {
+        if (pmt->formattype == FORMAT_WaveFormatExFFMPEG) {
+            WAVEFORMATEXFFMPEG* wfeff = (WAVEFORMATEXFFMPEG*)pmt->pbFormat;
+            int nCodecId = wfeff->nCodecId;
+            if (nCodecId == 0x15067) {
+                return L"AC4";
+            }
+        }
     }
 
     if (_IsFourCC(pmt->subtype)) {
