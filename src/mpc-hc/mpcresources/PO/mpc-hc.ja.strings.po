@@ -1589,7 +1589,7 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid ""
 "Maximum number of files shown in the \"Recent files\" menu and for which the"
 " position is potentially saved."
-msgstr "「最近使ったファイル」 のメニューに表示され、再生位置が保存される可能性のあるファイルの最大数です。"
+msgstr "「最近使ったファイル」 のメニューに表示され、再生位置が保存される可能性があるファイルの最大数です。"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
