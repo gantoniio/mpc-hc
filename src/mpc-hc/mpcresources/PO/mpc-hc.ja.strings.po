@@ -1238,7 +1238,7 @@ msgctxt "IDS_PPAGEADVANCED_FILEPOS_TRACK_SELECTION"
 msgid ""
 "Remember the selected audio and subtitle track (when file history is "
 "enabled)."
-msgstr "選択したオーディオ トラックと字幕トラックを記憶します (ファイル履歴が有効になっている場合)。"
+msgstr "選択した音声トラックと字幕トラックを記憶します (ファイル履歴が有効な場合)。"
 
 msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_FORMAT"
 msgid ""
