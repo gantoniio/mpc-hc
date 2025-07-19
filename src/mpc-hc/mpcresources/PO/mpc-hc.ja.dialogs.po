@@ -1533,7 +1533,7 @@ msgstr "スキャン"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "強制字幕トラックや既定の字幕トラックを優先する"
+msgstr "強制字幕および/または既定の字幕を優先する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
