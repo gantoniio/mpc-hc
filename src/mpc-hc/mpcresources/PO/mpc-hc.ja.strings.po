@@ -313,7 +313,7 @@ msgstr "DVD ナビゲーター フィルターの一部のピンを描画でき�
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "DVD の再生に必要なインターフェイスの問合せに失敗しました"
+msgstr "DVD の再生に必要なインターフェイスの取得に失敗しました"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -427,7 +427,7 @@ msgstr "システムの既定"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "再生に必要なインターフェイスの問合せに失敗しました"
+msgstr "再生に必要なインターフェイスの取得に失敗しました"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
