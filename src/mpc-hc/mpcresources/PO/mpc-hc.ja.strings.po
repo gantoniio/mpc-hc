@@ -293,7 +293,7 @@ msgstr "Cell ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
-msgstr "強制"
+msgstr "強制字幕"
 
 msgctxt "IDS_SUBRESYNC_CLN_TEXT"
 msgid "Text"
