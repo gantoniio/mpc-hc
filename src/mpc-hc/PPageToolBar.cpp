@@ -22,6 +22,7 @@
 #include "PPageToolBar.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
+#include "AddCommandDlg.h"
 
 
 IMPLEMENT_DYNAMIC(CPPageToolBar, CMPCThemePPageBase)
@@ -48,6 +49,12 @@ void CPPageToolBar::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BUTTON4, rightButton);
     DDX_Control(pDX, IDC_BUTTON5, upButton);
     DDX_Control(pDX, IDC_BUTTON6, downButton);
+
+    DDX_Control(pDX, IDC_COMBO1, m_cmbAction1);
+    DDX_Control(pDX, IDC_COMBO2, m_cmbAction2);
+    DDX_Control(pDX, IDC_COMBO3, m_cmbAction3);
+    DDX_Control(pDX, IDC_COMBO4, m_cmbAction4);
+
 }
 
 void CPPageToolBar::LoadToolBarButtons() {
@@ -88,6 +95,59 @@ void CPPageToolBar::LoadToolBarButtons() {
                 m_list_inactive.SetSelectionMark(index);
             }
         }
+    }
+}
+
+void CPPageToolBar::AddCmdToAction(WORD id, CMPCThemeComboBox &actCombo) {
+    auto& s = AfxGetAppSettings();
+
+    AddStringData(actCombo, CString(StrRes(IDS_AG_NONE)), ID_MENU_NONE);
+    AddStringData(actCombo, L"<...>", ID_COMBO_ADD_CMD);
+    if (id && s.CommandIDToWMCMD.count(id) > 0) {
+        size_t idx = actCombo.GetCount();
+        auto wc = s.CommandIDToWMCMD[id];
+        idx = actCombo.InsertString(idx - 1, ResStr(wc->dwname));
+        actCombo.SetItemData(idx, id);
+        actCombo.SelectByItemData(id);
+    } else {
+        actCombo.SelectByItemData(ID_MENU_NONE);
+    }
+}
+
+void CPPageToolBar::OnActionChange1() {
+    OnActionChange(m_cmbAction1);
+}
+void CPPageToolBar::OnActionChange2() {
+    OnActionChange(m_cmbAction2);
+}
+void CPPageToolBar::OnActionChange3() {
+    OnActionChange(m_cmbAction3);
+}
+void CPPageToolBar::OnActionChange4() {
+    OnActionChange(m_cmbAction4);
+}
+
+void CPPageToolBar::OnActionChange(CMPCThemeComboBox& actCombo) {
+    int curSel = actCombo.GetCurSel();
+    if (curSel != CB_ERR && actCombo.GetItemData(curSel) == ID_COMBO_ADD_CMD) {
+        CAddCommandDlg dlg(this);
+        if (dlg.DoModal() == IDOK) {
+            const WORD id = dlg.GetSelectedCommandID();
+            size_t idx;
+            for (idx = 0; idx < actCombo.GetCount(); idx++) {
+                if (id == actCombo.GetItemData(idx)) {
+                    break;
+                }
+            }
+
+            if (idx == actCombo.GetCount()) {
+                AddCmdToAction(id, actCombo);
+            }
+            actCombo.SelectByItemData(id);
+        } else {
+            actCombo.SelectByItemData(ID_MENU_NONE);
+        }
+        SetModified();
     }
 }
 
@@ -134,6 +194,12 @@ BOOL CPPageToolBar::OnInitDialog()
     LoadToolBarButtons();
 
     AdjustDynamicWidgetPair(this, IDC_STATIC3, IDC_EDIT1);
+
+    AddCmdToAction(s.nToolbarAction1, m_cmbAction1);
+    AddCmdToAction(s.nToolbarAction2, m_cmbAction2);
+    AddCmdToAction(s.nToolbarAction3, m_cmbAction3);
+    AddCmdToAction(s.nToolbarAction4, m_cmbAction4);
+
     SetRedraw(TRUE);
 
     UpdateData(FALSE);
@@ -155,6 +221,19 @@ BOOL CPPageToolBar::OnApply()
         }
     }
 
+    auto persistAction = [](UINT& nAction, CMPCThemeComboBox& cmbAction) {
+        UINT itemData = (UINT)GetCurItemData(cmbAction);
+        if (CB_ERR == itemData || ID_MENU_NONE == itemData) {
+            itemData = 0;
+        }
+        nAction = itemData;
+    };
+
+    persistAction(s.nToolbarAction1, m_cmbAction1);
+    persistAction(s.nToolbarAction2, m_cmbAction2);
+    persistAction(s.nToolbarAction3, m_cmbAction3);
+    persistAction(s.nToolbarAction4, m_cmbAction4);
+
     return __super::OnApply();
 }
 
@@ -169,6 +248,10 @@ BEGIN_MESSAGE_MAP(CPPageToolBar, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateRight)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON5, OnUpdateUp)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON6, OnUpdateDown)
+    ON_CBN_SELENDOK(IDC_COMBO1, OnActionChange1)
+    ON_CBN_SELENDOK(IDC_COMBO2, OnActionChange2)
+    ON_CBN_SELENDOK(IDC_COMBO3, OnActionChange3)
+    ON_CBN_SELENDOK(IDC_COMBO4, OnActionChange4)
 END_MESSAGE_MAP()
 
 void CPPageToolBar::OnUpdateLeft(CCmdUI* pCmdUI) {

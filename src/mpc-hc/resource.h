@@ -320,7 +320,7 @@
 #define ID_PLAY_PLAYBACKRATE_END        5029
 #define ID_PLAYLIST_TOGGLE_SHUFFLE      5030
 #define ID_CMDLINE_SAVE_THUMBNAILS      5031
-#define ID_MOUSE_ADD_CMD                5032
+#define ID_COMBO_ADD_CMD                5032
 #define ID_CUSTOM_ACTION1               5033
 #define ID_CUSTOM_ACTION2               5034
 #define ID_CUSTOM_ACTION3               5035
@@ -781,6 +781,7 @@
 #define ID_SUBRESYNC_SHIFT_UP           32783
 #define ID_VIEW_DISPLAY_RENDERER_STATS  32784
 #define ID_VIEW_RESET_RENDERER_STATS    32785
+#define ID_MENU_NONE                    32786
 #define IDS_AG_CLOSE                    32830
 #define IDS_AG_NONE                     32832
 #define IDS_AG_COMMAND                  32833

@@ -322,7 +322,7 @@ void CPlayerToolBar::PlaceButtons(bool loadSavedLayout) {
 
     std::vector<int> buttons(0);
     if (loadSavedLayout) {
-        buttons = AfxGetMyApp()->GetProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence");
+        buttons = AfxGetMyApp()->GetProfileVectorInt(IDS_R_PLAYERTOOLBAR, L"ButtonSequence");
     }
 
     addButton(ID_PLAY_PLAY);
@@ -462,6 +462,8 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_FULLSCREEN, OnUpdateFullscreen)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_PLAYLIST, OnUpdatePlaylist)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_SHUFFLE, OnUpdateShuffle)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_CUSTOM_ACTION1, ID_CUSTOM_ACTION4, OnUpdateCustomAction)
+    ON_COMMAND_EX_RANGE(ID_CUSTOM_ACTION1, ID_CUSTOM_ACTION4, OnCustomAction)
     ON_COMMAND_EX(ID_VOLUME_UP, OnVolumeUp)
     ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
     ON_COMMAND_EX(ID_BUTTON_FULLSCREEN, OnFullscreenButton)
@@ -604,6 +606,41 @@ void CPlayerToolBar::OnUpdateShuffle(CCmdUI* pCmdUI) {
     SetShuffle(AfxGetAppSettings().bShufflePlaylistItems);
 }
 
+void CPlayerToolBar::OnUpdateCustomAction(CCmdUI* pCmdUI) {
+    const auto& s = AfxGetAppSettings();
+
+    if (pCmdUI->m_nID == ID_CUSTOM_ACTION1 && s.nToolbarAction1
+        || pCmdUI->m_nID == ID_CUSTOM_ACTION2 && s.nToolbarAction2
+        || pCmdUI->m_nID == ID_CUSTOM_ACTION3 && s.nToolbarAction3
+        || pCmdUI->m_nID == ID_CUSTOM_ACTION4 && s.nToolbarAction4)
+    {
+        pCmdUI->Enable(true);
+    }
+}
+
+BOOL CPlayerToolBar::OnCustomAction(UINT nID) {
+    const auto& s = AfxGetAppSettings();
+    UINT cmd = 0;
+    switch (nID) {
+        case ID_CUSTOM_ACTION1:
+            cmd = s.nToolbarAction1;
+            break;
+        case ID_CUSTOM_ACTION2:
+            cmd = s.nToolbarAction2;
+            break;
+        case ID_CUSTOM_ACTION3:
+            cmd = s.nToolbarAction3;
+            break;
+        case ID_CUSTOM_ACTION4:
+            cmd = s.nToolbarAction4;
+            break;
+    }
+    if (cmd) {
+        m_pMainFrame->PostMessage(WM_COMMAND, cmd);
+    }
+
+    return TRUE;
+}
 
 BOOL CPlayerToolBar::OnVolumeUp(UINT nID)
 {
@@ -883,7 +920,7 @@ void CPlayerToolBar::SaveToolbarState() {
             ctrl.GetButton(i, &button);
             buttons.push_back(button.idCommand);
         }
-        AfxGetMyApp()->WriteProfileVectorInt(L"Toolbars\\PlayerToolBar", L"ButtonSequence", buttons);
+        AfxGetMyApp()->WriteProfileVectorInt(IDS_R_PLAYERTOOLBAR, L"ButtonSequence", buttons);
     }
 }
 

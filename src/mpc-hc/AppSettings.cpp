@@ -115,6 +115,10 @@ CAppSettings::CAppSettings()
     , nVolumeStep(5)
     , nSpeedStep(0)
     , nDefaultToolbarSize(24)
+    , nToolbarAction1(0)
+    , nToolbarAction2(0)
+    , nToolbarAction3(0)
+    , nToolbarAction4(0)
     , eAfterPlayback(AfterPlayback::DO_NOTHING)
     , fUseDVDPath(false)
     , idMenuLang(0)
@@ -1278,7 +1282,14 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
                                  static_cast<int>(eSubtitleRenderer)));
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, nDefaultToolbarSize);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_DEFAULTTOOLBARSIZE, nDefaultToolbarSize);
+
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION1, nToolbarAction1);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION2, nToolbarAction2);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION3, nToolbarAction3);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION4, nToolbarAction4);
+
+
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, bSaveImagePosition);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, bSaveImageCurrentTime);
@@ -2213,7 +2224,12 @@ void CAppSettings::LoadSettings()
         bRenderSSAUsingLibass = true;
     }
 
-    nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, 24);
+    nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_DEFAULTTOOLBARSIZE, 24);
+
+    nToolbarAction1 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION1, 0);
+    nToolbarAction2 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION2, 0);
+    nToolbarAction3 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION3, 0);
+    nToolbarAction4 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION4, 0);
 
     bSaveImagePosition = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, TRUE);
     bSaveImageCurrentTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, FALSE);

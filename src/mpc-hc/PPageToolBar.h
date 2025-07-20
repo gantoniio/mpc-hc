@@ -25,6 +25,7 @@
 #include "CMPCThemeSpinButtonCtrl.h"
 #include "CMPCThemePlayerListCtrl.h"
 #include "EventDispatcher.h"
+#include "CMPCThemeComboBox.h"
 
 class CPPageToolBar : public CMPCThemePPageBase
     , public CMPCThemeListCtrlCustomInterface
@@ -55,6 +56,8 @@ protected:
     CMPCThemeButton leftButton, rightButton, upButton, downButton;
     CImage arrow;
     CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
+    CMPCThemeComboBox m_cmbAction1, m_cmbAction2, m_cmbAction3, m_cmbAction4;
+
     int m_iDefaultToolbarSize;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
@@ -63,6 +66,12 @@ protected:
     void OnUpdateUp(CCmdUI* pCmdUI);
     void OnUpdateDown(CCmdUI* pCmdUI);
     void LoadToolBarButtons();
+    void AddCmdToAction(WORD id, CMPCThemeComboBox& actCombo);
+    afx_msg void OnActionChange1();
+    afx_msg void OnActionChange2();
+    afx_msg void OnActionChange3();
+    afx_msg void OnActionChange4();
+    void OnActionChange(CMPCThemeComboBox& actCombo);
     virtual BOOL OnInitDialog() override;
     virtual BOOL OnApply() override;
     bool InsertButton(int beforeID, int buttonID);

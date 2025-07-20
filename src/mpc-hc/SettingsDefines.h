@@ -89,6 +89,11 @@
 //#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
 #define IDS_RS_DEFAULTTOOLBARSIZE           _T("DefaultToolbarSize")
+#define IDS_R_PLAYERTOOLBAR                 L"Toolbars\\PlayerToolBar"
+#define IDS_RS_TOOLBARACTION1                L"ToolbarAction1"
+#define IDS_RS_TOOLBARACTION2                L"ToolbarAction2"
+#define IDS_RS_TOOLBARACTION3                L"ToolbarAction3"
+#define IDS_RS_TOOLBARACTION4                L"ToolbarAction4"
 #define IDS_RS_SAVEIMAGE_POSITION           _T("SaveImagePosition")
 #define IDS_RS_SAVEIMAGE_CURRENTTIME        _T("SaveImageCurrentTime")
 #define IDS_RS_ALLOW_INACCURATE_FASTSEEK    _T("AllowInaccurateFastseek")

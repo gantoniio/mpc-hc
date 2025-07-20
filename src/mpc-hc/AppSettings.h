@@ -648,6 +648,13 @@ public:
     MOUSE_ASSIGNMENT MouseWheelLeft;
     MOUSE_ASSIGNMENT MouseWheelRight;
 
+    // Toolbar Actions
+    UINT            nToolbarAction1;
+    UINT            nToolbarAction2;
+    UINT            nToolbarAction3;
+    UINT            nToolbarAction4;
+
+
     // Logo
     int             nLogoId;
     bool            fLogoExternal;

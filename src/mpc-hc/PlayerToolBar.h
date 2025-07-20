@@ -136,6 +136,8 @@ protected:
     afx_msg void OnUpdateFullscreen(CCmdUI* pCmdUI);
     afx_msg void OnUpdatePlaylist(CCmdUI* pCmdUI);
     afx_msg void OnUpdateShuffle(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateCustomAction(CCmdUI* pCmdUI);
+    afx_msg BOOL OnCustomAction(UINT nID);
     afx_msg BOOL OnVolumeUp(UINT nID);
     afx_msg BOOL OnVolumeDown(UINT nID);
     afx_msg BOOL OnFullscreenButton(UINT nID);
