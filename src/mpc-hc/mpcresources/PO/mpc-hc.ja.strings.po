@@ -1208,7 +1208,7 @@ msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
-msgstr "動画クリック時のマウス左ボタン解放までの最大遅延時間(ミリ秒)。"
+msgstr "動画クリック時のマウス左ボタン解放までの最大遅延時間 (ミリ秒)。"
 
 msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
