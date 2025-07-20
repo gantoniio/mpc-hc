@@ -1220,7 +1220,7 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
-msgstr "再生リストに項目を追加するときにファイルの長さを読み込みます (MediaInfo を使用し、結果は異なる場合があります)"
+msgstr "再生リストに項目を追加するときにファイルの再生時間を読み込みます (MediaInfo を使用し、結果は異なる場合があります)"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
