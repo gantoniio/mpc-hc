@@ -47,7 +47,7 @@ private:
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
-    void LoadToolbarImage();
+    void LoadToolbarImage(bool tbArtChanged = false);
     void PlaceButtons(bool loadSavedLayout);
     bool mouseDownL, mouseDownR;
     int rightButtonIndex=-1, leftButtonIndex=-1;

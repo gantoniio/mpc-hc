@@ -238,10 +238,12 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
     image.Destroy();
 }
 
-void CPlayerToolBar::LoadToolbarImage()
+void CPlayerToolBar::LoadToolbarImage(bool tbArtChanged /* = false */)
 {
     MakeImageList(false, AfxGetAppSettings().nDefaultToolbarSize, m_pButtonsImages);
-    MakeImageList(true, 32, m_pCustomizeButtonImages);
+    if (!m_pCustomizeButtonImages || tbArtChanged) {
+        MakeImageList(true, 32, m_pCustomizeButtonImages);
+    }
 }
 
 TBBUTTON CPlayerToolBar::GetStandardButton(int cmdid) {
