@@ -360,7 +360,7 @@ msgstr "&Скінуць"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Скінуць налады рэндэрэнгу па змаўчанні"
+msgstr "Скінуць налады &рэндэрэнгу па змаўчанні"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
