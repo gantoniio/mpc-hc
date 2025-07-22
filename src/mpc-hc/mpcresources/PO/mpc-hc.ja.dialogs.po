@@ -1754,7 +1754,7 @@ msgstr "クラッシュ レポート"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr "申し訳ありません。 MPC-HC がクラッシュしました。"
+msgstr "申し訳ありません。MPC-HC がクラッシュしました。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
