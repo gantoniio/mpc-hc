@@ -1437,7 +1437,7 @@ msgstr "最も近い垂直同期で表示する"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "目標同期オフセット:"
+msgstr "同期オフセット目標値:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
