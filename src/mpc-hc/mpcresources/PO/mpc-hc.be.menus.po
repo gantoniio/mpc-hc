@@ -344,7 +344,7 @@ msgstr "GPU Кантроль"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Ачышчаць буфер GPU перад верт. сінх."
+msgstr "Ачышчаць буфер GPU &перад верт. сінх."
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
