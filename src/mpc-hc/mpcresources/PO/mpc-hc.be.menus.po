@@ -296,7 +296,7 @@ msgstr "&Цёмнае (Гама 2.4)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&Мэта апрацоўкі"
+msgstr "&Метад апрацоўкі"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
