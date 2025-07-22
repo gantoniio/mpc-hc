@@ -356,7 +356,7 @@ msgstr "Чакаць ачышчэння буфера"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "Скінуць"
+msgstr "&Скінуць"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
