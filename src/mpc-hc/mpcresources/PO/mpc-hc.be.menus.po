@@ -348,7 +348,7 @@ msgstr "Ачышчаць буфер GPU &перад верт. сінх."
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Ачышчаць буфер GPU пасля паказу"
+msgstr "Ачышчаць буфер GPU п&асля паказу"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
