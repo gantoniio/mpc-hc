@@ -1766,7 +1766,7 @@ msgstr "任意の情報"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr "電子メール:"
+msgstr "メールアドレス:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid ""
