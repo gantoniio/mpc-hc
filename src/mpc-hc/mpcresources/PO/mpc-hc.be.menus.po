@@ -300,7 +300,7 @@ msgstr "&Мэта апрацоўкі"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "Па ўспрыманню"
+msgstr "&Перцэпцы́йны"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
