@@ -312,7 +312,7 @@ msgstr "&Насычанасць"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "Абсалютная каларыметрыя"
+msgstr "&Абсалютны каларыметрычны"
 
 msgctxt "POPUP"
 msgid "&VSync"
