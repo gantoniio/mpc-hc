@@ -1878,7 +1878,7 @@ msgstr "フレーム時間補正: オフ"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "垂直同期オフセットの目標値: %.1f"
+msgstr "垂直同期オフセット目標値: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
