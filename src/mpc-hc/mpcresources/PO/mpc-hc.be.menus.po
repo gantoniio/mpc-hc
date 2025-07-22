@@ -496,7 +496,7 @@ msgstr "Павярнуць &супраць гадзіннікавай стрэл
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
-msgstr "Адлюстраваць па &вертыкалі"
+msgstr "Пера&вярнуць"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
