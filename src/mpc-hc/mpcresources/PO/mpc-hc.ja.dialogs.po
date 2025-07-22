@@ -1776,7 +1776,7 @@ msgstr "メールアドレスの入力は任意です。開発者が追加情報
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr "問題の詳細 (英語のみを使用してください):"
+msgstr "問題の詳細 (英語のみ):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
