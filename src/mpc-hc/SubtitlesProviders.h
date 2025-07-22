@@ -194,6 +194,7 @@ public:
     }
     void AbortThread() {
         if (IsThreadRunning()) {
+            CAutoLock tlock(&m_csThreadLock);
             m_bAbort = true;
         }
     }
@@ -202,6 +203,9 @@ public:
             ::WaitForSingleObjectEx(*m_pThread, INFINITE, TRUE);
         }
     }
+
+protected:
+    CCritSec m_csThreadLock;
 
 private:
     static UINT _ThreadProc(LPVOID pThreadParams) {
@@ -262,21 +266,18 @@ public:
     }
 
     void InsertThread(SubtitlesThread* pThread) {
-        CAutoLock cAutoLock(&m_csThreads);
+        CAutoLock tlock(&m_csThreadLock);
         m_pThreads.push_back(pThread);
     }
 
     void RemoveThread(SubtitlesThread* pThread) {
-        {
-            CAutoLock cAutoLock(&m_csThreads);
-            m_pThreads.remove(pThread);
-        }
+        CAutoLock tlock(&m_csThreadLock);
+        m_pThreads.remove(pThread);
         delete pThread;
     }
 
     void Abort() {
-        if(!this) return;
-        CAutoLock cAutoLock(&m_csThreads);
+        CAutoLock tlock(&m_csThreadLock);
         for (auto& iter : m_pThreads) {
             iter->AbortThread();
         }
@@ -288,7 +289,6 @@ private:
 
     CMainFrame* m_pMainFrame;
     std::list<SubtitlesThread*> m_pThreads;
-    CCritSec m_csThreads;
     CCritSec m_csDownload;
 
     SubtitlesInfo m_pFileInfo;
@@ -413,12 +413,12 @@ public:
     void Abort(SubtitlesThreadType nType);
 
     void InsertTask(SubtitlesTask* pTask) {
-        CAutoLock cAutoLock(&m_csTasks);
+        //CAutoLock tasklock(&m_csTasks);
         m_pTasks.push_back(pTask);
     }
 
     void RemoveTask(SubtitlesTask* pTask) {
-        CAutoLock cAutoLock(&m_csTasks);
+        CAutoLock tasklock(&m_csTasks);
         if(!m_pTasks.empty()) {
             m_pTasks.remove(pTask);
         }

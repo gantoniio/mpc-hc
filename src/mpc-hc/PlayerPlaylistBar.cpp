@@ -278,6 +278,8 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
 
 void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString ydl_ua, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
 {
+    CAutoLock pledit(&m_plEditLock);
+
     CPlaylistItem* pli = GetCur();
     if (pli == nullptr) {
         AddItem(fns, subs, label, ydl_src, ydl_ua, cue);
@@ -1062,6 +1064,8 @@ void CPlayerPlaylistBar::PlayListChanged() {
 
 bool CPlayerPlaylistBar::Empty()
 {
+    CAutoLock pledit(&m_plEditLock);
+
     bool bWasPlaying = m_pl.RemoveAll();
     m_list.DeleteAllItems();
     m_SaveDelayed = true;
@@ -1540,6 +1544,8 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
 
 bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
 {
+    CAutoLock pledit(&m_plEditLock);
+
     auto& s = AfxGetAppSettings();
     CString filename = m_pl.GetAt(pos).m_fns.GetHead();
     bool candeletefile = false;
@@ -1786,6 +1792,8 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLVKEYDOWN pLVKeyDown = reinterpret_cast<LPNMLVKEYDOWN>(pNMHDR);
 
     *pResult = FALSE;
+
+    CAutoLock pledit(&m_plEditLock);
 
     int selected = (int)m_list.GetFirstSelectedItemPosition();
     if (!selected) {
@@ -2271,6 +2279,8 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 
 void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 {
+    CAutoLock pledit(&m_plEditLock);
+
     LVHITTESTINFO lvhti;
 
     bool bOnItem;

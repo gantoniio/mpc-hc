@@ -265,9 +265,12 @@
 #define ID_NORMALIZE                    994
 #define ID_REGAIN_VOLUME                995
 #define ID_PLAY_SEEKSET                 996
-#define ID_PANSCAN_ROTATEZ270           997
+#define ID_PANSCAN_ROTATEZ270_OLD       997
+ // same as ID_PANSCAN_ROTATEZP
+#define ID_PANSCAN_ROTATEZ270           881
 #define ID_PRESIZE_SHADERS_TOGGLE       998
 #define ID_POSTSIZE_SHADERS_TOGGLE      999
+#define ID_PANSCAN_ROTATEZP2            1000
 #define ID_BUTTON_FULLSCREEN            1001
 #define ID_BUTTON_PLAYLIST              1002
 #define ID_BUTTON_SHUFFLE               1003
@@ -1037,6 +1040,7 @@
 #define IDS_AG_PNS_ROTATEZ_P            33235
 #define IDS_AG_PNS_ROTATEZ_M            33236
 #define IDS_AG_TEARING_TEST             33237
+#define IDS_AG_PNS_ROTATEZ_P2           33238
 #define IDS_SCALE_16_9                  33239
 #define IDS_SCALE_WIDESCREEN            33240
 #define IDS_SCALE_ULTRAWIDE             33241

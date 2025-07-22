@@ -1762,6 +1762,13 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_APE
+    if (src[SRC_APE] || IsPreview) {
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".ape"));
+        pFGLAVSplitterSource->AddEnabledFormat("ape");
+    }
+#endif
+
 #if INTERNAL_SOURCEFILTER_MISC
     // ToDo: split into separate options
     if (src[SRC_MISC] || IsPreview) {
@@ -1787,13 +1794,11 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
         pFGLAVSplitterSource->AddEnabledFormat("rawvideo");
         // audio
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".amr"));
-        pFGLAVSplitterSource->m_extensions.AddTail(_T(".ape"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".mpc"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".w64"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".wav"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".wv"));
         pFGLAVSplitterSource->AddEnabledFormat("amr");
-        pFGLAVSplitterSource->AddEnabledFormat("ape");
         pFGLAVSplitterSource->AddEnabledFormat("mpc");
         pFGLAVSplitterSource->AddEnabledFormat("mpc8");
         pFGLAVSplitterSource->AddEnabledFormat("w64");
@@ -2454,6 +2459,11 @@ void CFGManagerCustom::InsertLAVAudio()
     pFGF = tra[TRA_G729] ? pFGLAVAudio : pFGLAVAudioLM;
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_G729);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_729A);
+#endif
+
+#if INTERNAL_DECODER_AC4
+    pFGF = tra[TRA_AC4] ? pFGLAVAudio : pFGLAVAudioLM;
+    pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_AC4);
 #endif
 
 #if INTERNAL_DECODER_OTHERAUDIO
