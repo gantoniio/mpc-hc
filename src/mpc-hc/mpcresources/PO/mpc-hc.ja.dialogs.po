@@ -1772,7 +1772,7 @@ msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid ""
 "Your email address is optional and will only be used if the developers need "
 "to contact you for more information."
-msgstr "電子メールのアドレスは任意であり、開発者がより多くの情報を得るために連絡する必要がある場合にのみ使用されます。"
+msgstr "メールアドレスの入力は任意です。開発者が追加情報の確認を行う場合にのみ使用されます。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
