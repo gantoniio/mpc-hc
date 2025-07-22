@@ -1758,7 +1758,7 @@ msgstr "申し訳ありません。MPC-HC がクラッシュしました。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr "問題の診断と修正に役立てるためにバグ レポートを送信する。"
+msgstr "問題の診断と修正のためにバグレポートを送信する。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
