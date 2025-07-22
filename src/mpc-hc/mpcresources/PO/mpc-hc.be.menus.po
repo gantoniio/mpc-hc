@@ -340,7 +340,7 @@ msgstr "Па&вялічыць зрух VSync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "GPU Кантроль"
+msgstr "&Кіраванне GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
