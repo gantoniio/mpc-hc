@@ -308,7 +308,7 @@ msgstr "Адносны каларыметрычны"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "Насычанасць"
+msgstr "&Насычанасць"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
