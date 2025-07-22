@@ -244,7 +244,7 @@ msgstr "Палавінная апрацоўка лікаў з нефіксава
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Адкл. эфекты прац. стала"
+msgstr "Адкл. эфекты прац. ст&ала (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
