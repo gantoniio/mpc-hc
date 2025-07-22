@@ -292,7 +292,7 @@ msgstr "&Прыцемненае (Гама 2.35)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "Цёмнае (Гама 2.4)"
+msgstr "&Цёмнае (Гама 2.4)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
