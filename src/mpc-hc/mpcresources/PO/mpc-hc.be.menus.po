@@ -304,7 +304,7 @@ msgstr "&Перцэпцы́йны"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "Адносны каларыметрычны"
+msgstr "Адносны &каларыметрычны"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
