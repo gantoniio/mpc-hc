@@ -352,7 +352,7 @@ msgstr "Ачышчаць буфер GPU пасля паказу"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Чакаць ачышчэння буфера"
+msgstr "&Чакаць ачышчэння буфера"
 
 msgctxt "POPUP"
 msgid "R&eset"
