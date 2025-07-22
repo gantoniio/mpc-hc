@@ -1762,7 +1762,7 @@ msgstr "問題の診断と修正のためにバグレポートを送信する。
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr "任意の情報"
+msgstr "任意情報"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
