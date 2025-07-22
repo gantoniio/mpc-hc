@@ -217,7 +217,7 @@ msgstr "16 - 235(&1)"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "表示(&P)"
+msgstr "描画処理(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
