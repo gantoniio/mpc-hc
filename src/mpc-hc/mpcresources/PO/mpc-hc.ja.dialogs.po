@@ -128,7 +128,7 @@ msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
 "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
 " You do not need to enter the separators explicitly."
-msgstr "指定時間にジャンプするには、[hh:]mm:ss.ms の形式でタイムコードを入力してください。区切り記号を入力する必要はありません。"
+msgstr "指定時間にジャンプするには、[hh:]mm:ss.ms の形式でタイムコードを入力してください。区切り記号は省略可能です。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
