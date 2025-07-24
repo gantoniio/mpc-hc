@@ -668,7 +668,7 @@ msgstr "再生リストに項目が 1 つしかない場合、 「戻る/進む�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "高速シーク (キーフレームに)"
+msgstr "高速シーク (キーフレーム単位)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
