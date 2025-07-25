@@ -31,6 +31,8 @@
 #include "SVGImage.h"
 #include "ImageGrayer.h"
 #include "CMPCTheme.h"
+#include "stb/stb_image.h"
+#include "stb/stb_image_resize2.h"
 
 // CPlayerToolBar
 
@@ -99,7 +101,7 @@ CPlayerToolBar::~CPlayerToolBar()
 {
 }
 
-bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale)
+bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale, CStringW resolutionPostfix)
 {
     // Paths and extensions to try (by order of preference)
     std::vector<CString> paths({ PathUtils::GetProgramPath() });
@@ -108,11 +110,27 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale)
         paths.emplace_back(appDataPath);
     }
     CString basetbname;
-    basetbname = _T("buttons.");
+    basetbname = L"toolbarButtons/buttons" + resolutionPostfix + L".";
 
     // Try loading the external toolbar
     for (const auto& path : paths) {
-        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, basetbname + _T("svg")), image, svgscale))) {
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, basetbname + "svg"), image, svgscale))) {
+            return true;
+        }
+        CImage src;
+        if (SUCCEEDED(src.Load(PathUtils::CombinePaths(path, basetbname + "png")))) {
+            if (src.GetBPP() != 32) {
+                return false; //only 32 bit allowed
+            }
+
+            int width = src.GetWidth() * svgscale;
+            int height = src.GetHeight() * svgscale;
+
+            image.Destroy();
+            image.Create(width, height, src.GetBPP(), CImage::createAlphaChannel);
+
+            stbir_resize(static_cast<BYTE*>(src.GetBits()), src.GetWidth(), src.GetHeight(), src.GetPitch(), static_cast<BYTE*>(image.GetBits()), width, height, image.GetPitch(), STBIR_BGRA, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, STBIR_FILTER_DEFAULT);
+
             return true;
         }
     }
@@ -126,7 +144,27 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
     int targetsize = int(dpiScaling * buttonSize);
-    float svgscale = targetsize / 16.0f;
+    float svgscale;
+
+    UINT resourceID;
+    CStringW resolutionPostfix;
+    if (targetsize < 32) {
+        resolutionPostfix = L"24";
+        resourceID = IDF_SVG_BUTTONS24;
+        svgscale = targetsize / 24.0f;
+    } else if (targetsize < 48) {
+        resolutionPostfix = L"32";
+        resourceID = IDF_SVG_BUTTONS32;
+        svgscale = targetsize / 32.0f;
+    } else if (targetsize < 64) {
+        resolutionPostfix = L"48";
+        resourceID = IDF_SVG_BUTTONS48;
+        svgscale = targetsize / 48.0f;
+    } else {
+        resolutionPostfix = L"64";
+        resourceID = IDF_SVG_BUTTONS64;
+        svgscale = targetsize / 64.0f;
+    }
 
     CImage image;
 
@@ -136,12 +174,12 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
     }
 
     bool buttonsImageLoaded = false;
-    if (LoadExternalToolBar(image, svgscale) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight() / 4) == 0) {
+    if (LoadExternalToolBar(image, svgscale, resolutionPostfix) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight() / 4) == 0) {
         buttonsImageLoaded = true;
     }
 
 
-    if (buttonsImageLoaded || SUCCEEDED(SVGImage::Load(IDF_SVG_BUTTONS, image, svgscale))) {
+    if (buttonsImageLoaded || SUCCEEDED(SVGImage::Load(resourceID, image, svgscale))) {
         CImage imageDisabled;
         CBitmap* bmp = CBitmap::FromHandle(image);
 

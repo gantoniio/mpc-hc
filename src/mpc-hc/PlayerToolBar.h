@@ -80,7 +80,7 @@ public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
-    bool LoadExternalToolBar(CImage& image, float svgscale);
+    bool LoadExternalToolBar(CImage& image, float svgscale, CStringW resolutionPostfix);
     void MakeImageList(bool createCustomizeButtons, int buttonSize, std::unique_ptr<CImageList> &imageList);
     LPCWSTR GetStringFromID(int idCommand);
     const std::map<WORD, svgButtonInfo> GetSupportedSvgButtons() {
