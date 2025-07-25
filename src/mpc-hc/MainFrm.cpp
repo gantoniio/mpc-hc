@@ -13242,6 +13242,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
     m_fCustomGraph = false;
     m_fShockwaveGraph = false;
+    m_iGraphID++;
 
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -13357,7 +13358,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         throw (UINT)IDS_GRAPH_INTERFACES_ERROR;
     }
 
-    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, (LPARAM)(++m_iGraphID)))) {
+    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, (LPARAM)m_iGraphID))) {
         throw (UINT)IDS_GRAPH_TARGET_WND_ERROR;
     }
 
