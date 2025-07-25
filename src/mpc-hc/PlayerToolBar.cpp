@@ -120,18 +120,22 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale, CStringW
         CImage src;
         if (SUCCEEDED(src.Load(PathUtils::CombinePaths(path, basetbname + "png")))) {
             if (src.GetBPP() != 32) {
-                return false; //only 32 bit allowed
+                return false; //only 32 bit png allowed
             }
+            if (svgscale != 1.0) {
+                int width = src.GetWidth() * svgscale;
+                int height = src.GetHeight() * svgscale;
 
-            int width = src.GetWidth() * svgscale;
-            int height = src.GetHeight() * svgscale;
+                image.Destroy();
+                image.Create(width, height, src.GetBPP(), CImage::createAlphaChannel);
 
-            image.Destroy();
-            image.Create(width, height, src.GetBPP(), CImage::createAlphaChannel);
+                auto success = stbir_resize(static_cast<BYTE*>(src.GetBits()), src.GetWidth(), src.GetHeight(), src.GetPitch(), static_cast<BYTE*>(image.GetBits()), width, height, image.GetPitch(), STBIR_BGRA, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, STBIR_FILTER_DEFAULT);
 
-            stbir_resize(static_cast<BYTE*>(src.GetBits()), src.GetWidth(), src.GetHeight(), src.GetPitch(), static_cast<BYTE*>(image.GetBits()), width, height, image.GetPitch(), STBIR_BGRA, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, STBIR_FILTER_DEFAULT);
-
-            return true;
+                return nullptr != success;
+            } else {
+                image.Attach(src.Detach());
+                return true;
+            }
         }
     }
 
