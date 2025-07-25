@@ -479,6 +479,9 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
     }
     if (format.HasMember(_T("protocol")) && format[_T("protocol")].IsString()) {
         details.protocol = CString(format[_T("protocol")].GetString()).MakeLower();
+        if (details.protocol == _T("mhtml")) {
+            return false;
+        }
     }
     if (format.HasMember(_T("vcodec")) && format[_T("vcodec")].IsString()) {
         details.vcodec = CString(format[_T("vcodec")].GetString()).MakeLower();
@@ -533,9 +536,6 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
         }
     }
 
-    if (canuse && details.protocol == _T("mhtml")) {
-        canuse = false;
-    }
     if (canuse && require_video && !details.has_video) {
         canuse = false;
     }
@@ -547,10 +547,15 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
     if (details.vbr == 0 && details.has_video) {
         details.vbr = format.HasMember(_T("tbr")) && format[_T("tbr")].IsFloat() ? (int)format[_T("tbr")].GetFloat() : 0;
     }
-    details.fps = format.HasMember(_T("fps")) && format[_T("fps")].IsDouble() ? (int)format[_T("fps")].GetDouble() : 0;
     details.abr = details.has_audio && format.HasMember(_T("abr")) && format[_T("abr")].IsFloat() ? (int)format[_T("abr")].GetFloat() : 0;
     if (details.abr == 0 && details.has_audio) {
         details.abr = format.HasMember(_T("tbr")) && format[_T("tbr")].IsFloat() ? (int)format[_T("tbr")].GetFloat() : 0;
+    }
+    details.fps = format.HasMember(_T("fps")) && format[_T("fps")].IsDouble() ? (int)format[_T("fps")].GetDouble() : 0;
+    if (details.has_video && details.fps == 0) {
+        if (details.format_id.Find(L"p60") > 0) {
+            details.fps = 60;
+        }
     }
 
     if (canuse && details.has_video) {
