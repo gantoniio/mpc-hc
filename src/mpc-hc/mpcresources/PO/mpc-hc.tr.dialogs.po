@@ -776,7 +776,7 @@ msgstr "Açıklama:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Gözdeyi ekle"
+msgstr "Favorilere ekle"
 
 msgctxt "IDD_FAVADD_IDC_STATIC1"
 msgid "Choose a name for your shortcut:"
@@ -804,7 +804,7 @@ msgstr "İptal"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Gözdeleri düzenle"
+msgstr "Favorileri düzenle"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
