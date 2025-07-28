@@ -658,7 +658,7 @@ msgstr "Logitech LCD サポートを有効にする (試験的)"
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
 "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "既定以外のモニターでの全画面表示中にプレーヤーの最小化を防止する"
+msgstr "既定以外のモニターでの全画面表示中にプレーヤーの最小化を防ぐ"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
