@@ -1575,7 +1575,7 @@ msgstr "ウィンドウ モードでもコントロールとパネルを隠し�
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid ""
 "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "内部字幕レンダラーを使用している場合は、外部字幕レンダラーの読み込みを防止します。"
+msgstr "内部字幕レンダラーを使用している場合は、外部字幕レンダラーの読み込みを防ぎます。"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
