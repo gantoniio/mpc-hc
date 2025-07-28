@@ -1007,7 +1007,7 @@ msgstr "すべてのアーカイブ ボリュームを見つけられません�
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "テアリングを減らしますが、ツールバーが表示せれません。"
+msgstr "テアリングを軽減しますが、ツールバーは表示されなくなります。"
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
