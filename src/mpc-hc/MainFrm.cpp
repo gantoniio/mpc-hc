@@ -19100,9 +19100,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         return;
     }
 
+    m_iGraphID++;
     if (m_pME) {
+        m_pME->SetNotifyFlags(AM_MEDIAEVENT_NONOTIFY);
         m_pME->SetNotifyWindow(NULL, 0, 0);
     }
+
+    CAutoLock ga(&lockGraphAccess);
 
     m_media_trans_control.close();
 
@@ -19303,8 +19307,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     // we are on the way
     m_bSettingUpMenus = true;
     SetLoadState(MLS::CLOSING);
-
-    CAutoLock ga(&lockGraphAccess);
 
     if (m_pGB_preview) {
         PreviewWindowHide();
