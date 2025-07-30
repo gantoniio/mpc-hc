@@ -2400,7 +2400,7 @@ msgstr "Следующая дорожка субтитров"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr "Следующая дорожка субтитров"
+msgstr "Предыдущая дорожка субтитров"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
