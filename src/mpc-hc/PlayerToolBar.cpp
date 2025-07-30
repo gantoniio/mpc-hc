@@ -147,7 +147,8 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
 
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
-    int targetsize = int(dpiScaling * buttonSize);
+    int targetsize = int(dpiScaling * buttonSize / 4 + 0.5) * 4; //we need this to be divisible by 4
+
     float svgscale;
 
     UINT resourceID;
@@ -191,7 +192,7 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
         int width = image.GetWidth();
         int height = image.GetHeight() / 4;
         int bpp = image.GetBPP();
-        if (width % height == 0) { //todo: dynamically determine which buttons are supported by this toolbar, otherwise show generic buttons?
+        if (width % height == 0) {
             int volumeIndex = VOLUME_SVG_INDEX;
 
             imageList.reset(DEBUG_NEW CImageList());
@@ -429,11 +430,12 @@ void CPlayerToolBar::SetMute(bool fMute) {
 }
 
 void CPlayerToolBar::ToggleButton(int buttonID, bool isActive, std::optional<bool> &lastBool) {
-    if (lastBool != isActive && supportedSvgButtons.count(buttonID) > 0) {
+    auto& imgPtr = GetCustomizeButtonImages();
+    if (lastBool != isActive && supportedSvgButtons.count(buttonID) > 0 && imgPtr) {
         CToolBarCtrl& tb = GetToolBarCtrl();
         TBBUTTONINFOW bi = { sizeof(bi) };
         bi.dwMask = TBIF_IMAGE;
-        bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? GetCustomizeButtonImages()->GetImageCount() / 2 : 0);
+        bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? imgPtr->GetImageCount() / 2 : 0);
         tb.SetButtonInfo(buttonID, &bi);
         lastBool = isActive;
     }
