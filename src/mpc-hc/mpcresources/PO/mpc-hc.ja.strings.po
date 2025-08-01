@@ -2938,7 +2938,7 @@ msgstr "ファイル情報の表示"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "統計情報の表示／非表示"
+msgstr "統計情報の表示"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
