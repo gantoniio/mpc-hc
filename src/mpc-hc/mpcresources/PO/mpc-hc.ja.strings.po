@@ -1055,7 +1055,7 @@ msgstr "ディレクトリを開く"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "ナビゲーション バーの表示"
+msgstr "ナビゲーション バーの表示／非表示"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -1298,7 +1298,7 @@ msgstr "フレーム時間補正を有効にする"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "EDL ウィンドウの表示"
+msgstr "EDL ウィンドウの表示／非表示"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
@@ -2762,15 +2762,15 @@ msgstr "一時停止"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "タイトルとメニューの表示"
+msgstr "タイトルとメニューの表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seekbar"
-msgstr "シークバーの表示"
+msgstr "シークバーの表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "コントロールの表示"
+msgstr "コントロールの表示／非表示"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
@@ -2934,31 +2934,31 @@ msgstr ""
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "ファイル情報の表示"
+msgstr "ファイル情報の表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "統計情報の表示"
+msgstr "統計情報の表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "ステータスの表示"
+msgstr "ステータスの表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "字幕調整バーの表示"
+msgstr "字幕調整バーの表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "再生リスト バーの表示"
+msgstr "再生リスト バーの表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "キャプチャ バーの表示"
+msgstr "キャプチャ バーの表示／非表示"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "シェーダー デバッガーの表示"
+msgstr "シェーダー デバッガーの表示／非表示"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
