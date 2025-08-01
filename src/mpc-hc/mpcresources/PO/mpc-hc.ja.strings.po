@@ -2942,7 +2942,7 @@ msgstr "統計情報の表示"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "ステータスの表示／非表示"
+msgstr "ステータスの表示"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
