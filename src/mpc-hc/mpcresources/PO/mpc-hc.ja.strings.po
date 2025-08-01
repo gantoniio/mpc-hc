@@ -2770,7 +2770,7 @@ msgstr "シークバーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "コントロールの表示／非表示"
+msgstr "コントロールの表示"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
