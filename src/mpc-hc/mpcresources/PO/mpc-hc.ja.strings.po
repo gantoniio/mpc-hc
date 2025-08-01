@@ -1055,7 +1055,7 @@ msgstr "ディレクトリを開く"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "ナビゲーション バーの表示／非表示"
+msgstr "ナビゲーション バーの表示"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
