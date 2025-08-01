@@ -2946,7 +2946,7 @@ msgstr "ステータスの表示"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "字幕調整バーの表示／非表示"
+msgstr "字幕調整バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
