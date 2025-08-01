@@ -2954,7 +2954,7 @@ msgstr "再生リスト バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "キャプチャ バーの表示／非表示"
+msgstr "キャプチャ バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
