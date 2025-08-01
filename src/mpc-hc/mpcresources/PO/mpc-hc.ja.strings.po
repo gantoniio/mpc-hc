@@ -2762,11 +2762,11 @@ msgstr "一時停止"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "タイトルとメニューの表示／非表示"
+msgstr "タイトルとメニューの表示"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seekbar"
-msgstr "シークバーの表示／非表示"
+msgstr "シークバーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
