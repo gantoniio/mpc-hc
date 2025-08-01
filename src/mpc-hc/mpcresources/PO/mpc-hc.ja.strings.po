@@ -1298,7 +1298,7 @@ msgstr "フレーム時間補正を有効にする"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "EDL ウィンドウの表示／非表示"
+msgstr "EDL ウィンドウの表示"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
