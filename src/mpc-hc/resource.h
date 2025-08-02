@@ -74,10 +74,11 @@
 #define IDF_SHADER_FINAL                702
 #define IDF_SVG_TOOLBAR                 703
 #define IDF_SVG_ARROW                   704
-#define IDF_SVG_BUTTONS24               705
-#define IDF_SVG_BUTTONS32               706
-#define IDF_SVG_BUTTONS48               707
-#define IDF_SVG_BUTTONS64               708
+#define IDF_SVG_BUTTONS16               705
+#define IDF_SVG_BUTTONS24               706
+#define IDF_SVG_BUTTONS32               707
+#define IDF_SVG_BUTTONS48               708
+#define IDF_SVG_BUTTONS64               709
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802

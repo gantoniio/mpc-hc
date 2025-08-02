@@ -153,7 +153,11 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
 
     UINT resourceID;
     CStringW resolutionPostfix;
-    if (targetsize < 32) {
+    if (targetsize < 24) {
+        resolutionPostfix = L"16";
+        resourceID = IDF_SVG_BUTTONS16;
+        svgscale = targetsize / 16.0f;
+    } else if (targetsize < 32) {
         resolutionPostfix = L"24";
         resourceID = IDF_SVG_BUTTONS24;
         svgscale = targetsize / 24.0f;
@@ -435,7 +439,7 @@ void CPlayerToolBar::ToggleButton(int buttonID, bool isActive, std::optional<boo
         CToolBarCtrl& tb = GetToolBarCtrl();
         TBBUTTONINFOW bi = { sizeof(bi) };
         bi.dwMask = TBIF_IMAGE;
-        bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? imgPtr->GetImageCount() / 2 : 0);
+        bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? 0 : imgPtr->GetImageCount() / 2);
         tb.SetButtonInfo(buttonID, &bi);
         lastBool = isActive;
     }
