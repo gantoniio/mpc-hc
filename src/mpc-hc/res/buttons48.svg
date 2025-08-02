@@ -158,7 +158,8 @@
 <rect id="rect4165_48_" x="546" y="30" width="9" height="3"/>
 <rect id="rect4165_49_" x="558" y="24" width="9" height="3"/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="675,64.5 684.3,64.5 698.7,82.5 708,82.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" points="675,64.5 684.3,64.5 698.7,82.5 
+		708,82.5 	"/>
 </g>
 <path id="path4276_2_" inkscape:connector-curvature="0" style="fill:none;stroke:#000000;" d="M730.5,58.5l27,27"/>
 <rect id="rect4165_103_" x="633" y="108" style="fill:#C8C8C8;" width="30" height="3"/>
@@ -271,15 +272,18 @@
 <path style="fill:#646464;" d="M516,165v3h-24v-3H516z M504,153l12,12h-24L504,153z"/>
 <polygon points="717,82.5 708,90 708,75 "/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="708,64.5 698.7,64.5 684.3,82.5 675,82.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" points="708,64.5 698.7,64.5 684.3,82.5 
+		675,82.5 	"/>
 </g>
 <polygon points="708,72 708,57 717,64.5 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="675,160.5 684.3,160.5 698.7,178.5 708,178.5 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-width:3;stroke-miterlimit:10;" points="675,160.5 684.3,160.5 698.7,178.5 
+		708,178.5 	"/>
 </g>
 <polygon style="fill:#C8C8C8;" points="717,178.5 708,186 708,171 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="708,160.5 698.7,160.5 684.3,178.5 675,178.5 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-width:3;stroke-miterlimit:10;" points="708,160.5 698.7,160.5 684.3,178.5 
+		675,178.5 	"/>
 </g>
 <polygon style="fill:#C8C8C8;" points="708,168 708,153 717,160.5 "/>
 <path d="M675,15h33v3h-33V15z M708,24V9l9,7.5L708,24z"/>
@@ -421,14 +425,14 @@
 	h-3v-3h3V174z M900,174h-3v-3h3V174z M882,168h-3v-3h3V168z M894,180h-3v-3h3V180z M888,162h-3v-3h3V162z M882,162h-3v-3h3V162z
 	 M873,186h-3v-33h3V186z M894,150v3h-24v-3H894z M909,189h-3v-24h3V189z M906,186v3h-36v-3H906z M897,162h-3v-12h3V162z M909,162v3
 	h-15v-3H909z M897,162v-12l12,12H897z"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="921" y1="39" x2="951" y2="9"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="921" y1="9" x2="951" y2="39"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="921" y1="135" x2="951" y2="105"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="921" y1="105" x2="951" y2="135"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="921" y1="87" x2="951" y2="57"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="921" y1="57" x2="951" y2="87"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="921" y1="183" x2="951" y2="153"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="921" y1="153" x2="951" y2="183"/>
+<line style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="39" x2="951" y2="9"/>
+<line style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="9" x2="951" y2="39"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="135" x2="951" y2="105"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="105" x2="951" y2="135"/>
+<line style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="87" x2="951" y2="57"/>
+<line style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="57" x2="951" y2="87"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="183" x2="951" y2="153"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:3;stroke-miterlimit:10;" x1="921" y1="153" x2="951" y2="183"/>
 <path style="fill:#C8C8C8;" d="M1143,105h-33v-3h33V105z M1143,138h-33v-3h33V138z M1113,135h-3v-30h3V135z M1146,138h-3v-36h3V138z
 	 M1131,135h-3v-30h3V135z M1128,135h-3v-30h3V135z M1113,123v-3h30v3H1113z M1113,120v-3h30v3H1113z M1116,135h-3v-30h3V135z
 	 M1143,135h-3v-30h3V135z M1113,108v-3h30v3H1113z M1113,135v-3h30v3H1113z"/>

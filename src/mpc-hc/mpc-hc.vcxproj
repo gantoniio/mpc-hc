@@ -276,6 +276,7 @@
     <ClCompile Include="PPageSync.cpp" />
     <ClCompile Include="PPageTheme.cpp" />
     <ClCompile Include="PPageToolBar.cpp" />
+    <ClCompile Include="PPageToolBarLayout.cpp" />
     <ClCompile Include="PPageTweaks.cpp" />
     <ClCompile Include="PPageWebServer.cpp" />
     <ClCompile Include="RarEntrySelectorDialog.cpp" />
@@ -475,6 +476,7 @@
     <ClInclude Include="PPageSync.h" />
     <ClInclude Include="PPageTheme.h" />
     <ClInclude Include="PPageToolBar.h" />
+    <ClInclude Include="PPageToolBarLayout.h" />
     <ClInclude Include="PPageTweaks.h" />
     <ClInclude Include="PPageWebServer.h" />
     <ClInclude Include="RarEntrySelectorDialog.h" />

@@ -28,66 +28,38 @@
 #include "CMPCThemeComboBox.h"
 
 class CPPageToolBar : public CMPCThemePPageBase
-    , public CMPCThemeListCtrlCustomInterface
 {
     DECLARE_DYNAMIC(CPPageToolBar)
 public:
     CPPageToolBar();
     virtual ~CPPageToolBar() = default;
-    virtual void GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk, bool& overrideSelectedBG);
-    virtual void DoCustomPrePaint() {};
-    virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) {};
-    virtual bool UseCustomGrid() { return false; };
     EventClient m_eventc;
 
 private:
     enum { IDD = IDD_PPAGETOOLBAR };
-    enum {
-        COL_BUTTON,
-    };
-
-    enum ButtonPosition {
-        PREVIOUS_POSITION,
-        NEXT_POSITION,
-    };
 
 protected:
-    CMPCThemePlayerListCtrl m_list_active, m_list_inactive;
-    CMPCThemeButton leftButton, rightButton, upButton, downButton;
-    CImage arrow;
     CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
     CMPCThemeComboBox m_cmbAction1, m_cmbAction2, m_cmbAction3, m_cmbAction4;
+    CMPCThemeComboBox m_cmbRightAction1, m_cmbRightAction2, m_cmbRightAction3, m_cmbRightAction4;
 
     int m_iDefaultToolbarSize;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
-    void OnUpdateLeft(CCmdUI* pCmdUI);
-    void OnUpdateRight(CCmdUI* pCmdUI);
-    void OnUpdateUp(CCmdUI* pCmdUI);
-    void OnUpdateDown(CCmdUI* pCmdUI);
-    void LoadToolBarButtons();
     void AddCmdToAction(WORD id, CMPCThemeComboBox& actCombo);
     afx_msg void OnActionChange1();
     afx_msg void OnActionChange2();
     afx_msg void OnActionChange3();
     afx_msg void OnActionChange4();
+    afx_msg void OnRightActionChange1();
+    afx_msg void OnRightActionChange2();
+    afx_msg void OnRightActionChange3();
+    afx_msg void OnRightActionChange4();
     void OnActionChange(CMPCThemeComboBox& actCombo);
     virtual BOOL OnInitDialog() override;
     virtual BOOL OnApply() override;
-    bool InsertButton(int beforeID, int buttonID);
-    bool DeleteButton(int buttonID);
-    bool IsValidInsertPos(int destRow);
-    bool LeftSelectedButtonLocked();
-    bool MoveButton(CMPCThemePlayerListCtrl& srcList, CMPCThemePlayerListCtrl& dstList);
-    bool OrderButton(ButtonPosition pos);
 
     DECLARE_MESSAGE_MAP()
 public:
-    afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void MoveLeft();
-    afx_msg void MoveRight();
-    afx_msg void MoveUp();
-    afx_msg void MoveDown();
-    afx_msg void DefaultButtons();
 };
 

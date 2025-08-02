@@ -653,6 +653,10 @@ public:
     UINT            nToolbarAction2;
     UINT            nToolbarAction3;
     UINT            nToolbarAction4;
+    UINT            nToolbarRightAction1;
+    UINT            nToolbarRightAction2;
+    UINT            nToolbarRightAction3;
+    UINT            nToolbarRightAction4;
 
 
     // Logo

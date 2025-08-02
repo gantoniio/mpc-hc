@@ -24,6 +24,7 @@
 #include "mplayerc.h"
 #include "PPagePlayer.h"
 #include "PPageToolBar.h"
+#include "PPageToolBarLayout.h"
 #include "PPageTheme.h"
 #include "PPageFormats.h"
 #include "PPageAccelTbl.h"
@@ -94,6 +95,7 @@ private:
 
     CPPagePlayer m_player;
     CPPageToolBar m_toolBar;
+    CPPageToolBarLayout m_toolBarLayout;
     CPPageTheme m_theme;
     CPPageFormats m_formats;
     CPPageAccelTbl m_acceltbl;

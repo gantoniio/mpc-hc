@@ -158,15 +158,15 @@
 <rect id="rect4165_48_" x="728" y="40" width="12" height="4"/>
 <rect id="rect4165_49_" x="744" y="32" width="12" height="4"/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="900,86 912.4,86 931.6,110 944,110 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;" points="900,86 912.4,86 931.6,110 944,110 	"/>
 </g>
 <path id="path4276_2_" inkscape:connector-curvature="0" style="fill:none;stroke:#000000;" d="M974,78l36,36"/>
 <rect id="rect4165_103_" x="844" y="144" style="fill:#C8C8C8;" width="40" height="4"/>
 <rect id="rect4165_102_" x="844" y="156" style="fill:#C8C8C8;" width="40" height="4"/>
 <rect id="rect4165_97_" x="844" y="168" style="fill:#C8C8C8;" width="20" height="4"/>
 <polygon style="fill:#C8C8C8;" points="884,172 872,180 872,164 "/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="870" y1="230" x2="882" y2="242"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="870" y1="242" x2="882" y2="230"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:2;stroke-miterlimit:10;" x1="870" y1="230" x2="882" y2="242"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:2;stroke-miterlimit:10;" x1="870" y1="242" x2="882" y2="230"/>
 <rect id="rect4165_17_" x="844" y="208" style="fill:#C8C8C8;" width="40" height="4"/>
 <rect id="rect4165_16_" x="844" y="220" style="fill:#C8C8C8;" width="40" height="4"/>
 <rect id="rect4165_10_" x="844" y="232" style="fill:#C8C8C8;" width="20" height="4"/>
@@ -174,8 +174,8 @@
 <rect id="rect4165_104_" x="844" y="28" width="40" height="4"/>
 <rect id="rect4165_101_" x="844" y="40" width="20" height="4"/>
 <polygon points="884,44 872,52 872,36 "/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="870" y1="102" x2="882" y2="114"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="870" y1="114" x2="882" y2="102"/>
+<line style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;" x1="870" y1="102" x2="882" y2="114"/>
+<line style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;" x1="870" y1="114" x2="882" y2="102"/>
 <rect id="rect4165_100_" x="844" y="80" width="40" height="4"/>
 <rect id="rect4165_99_" x="844" y="92" width="40" height="4"/>
 <rect id="rect4165_98_" x="844" y="104" width="20" height="4"/>
@@ -271,15 +271,17 @@
 <path style="fill:#646464;" d="M688,220v4h-32v-4H688z M672,204l16,16h-32L672,204z"/>
 <polygon points="956,110 944,120 944,100 "/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="944,86 931.6,86 912.4,110 900,110 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;" points="944,86 931.6,86 912.4,110 900,110 	"/>
 </g>
 <polygon points="944,96 944,76 956,86 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="900,214 912.4,214 931.6,238 944,238 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-width:4;stroke-miterlimit:10;" points="900,214 912.4,214 931.6,238 944,238 	
+		"/>
 </g>
 <polygon style="fill:#C8C8C8;" points="956,238 944,248 944,228 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="944,214 931.6,214 912.4,238 900,238 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-width:4;stroke-miterlimit:10;" points="944,214 931.6,214 912.4,238 900,238 	
+		"/>
 </g>
 <polygon style="fill:#C8C8C8;" points="944,224 944,204 956,214 "/>
 <path d="M900,20h44v4h-44V20z M944,32V12l12,10L944,32z"/>
@@ -425,14 +427,14 @@
 	 M1176,232h-4v-4h4V232z M1200,232h-4v-4h4V232z M1176,224h-4v-4h4V224z M1192,240h-4v-4h4V240z M1184,216h-4v-4h4V216z M1176,216
 	h-4v-4h4V216z M1164,248h-4v-44h4V248z M1192,200v4h-32v-4H1192z M1212,252h-4v-32h4V252z M1208,248v4h-48v-4H1208z M1196,216h-4
 	v-16h4V216z M1212,216v4h-20v-4H1212z M1196,216v-16l16,16H1196z"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="1228" y1="52" x2="1268" y2="12"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="1228" y1="12" x2="1268" y2="52"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="1228" y1="180" x2="1268" y2="140"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="1228" y1="140" x2="1268" y2="180"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="1228" y1="116" x2="1268" y2="76"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="1228" y1="76" x2="1268" y2="116"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="1228" y1="244" x2="1268" y2="204"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="1228" y1="204" x2="1268" y2="244"/>
+<line style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="52" x2="1268" y2="12"/>
+<line style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="12" x2="1268" y2="52"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="180" x2="1268" y2="140"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="140" x2="1268" y2="180"/>
+<line style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="116" x2="1268" y2="76"/>
+<line style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="76" x2="1268" y2="116"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="244" x2="1268" y2="204"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:4;stroke-miterlimit:10;" x1="1228" y1="204" x2="1268" y2="244"/>
 <path style="fill:#C8C8C8;" d="M1524,140h-44v-4h44V140z M1524,184h-44v-4h44V184z M1484,180h-4v-40h4V180z M1528,184h-4v-48h4V184z
 	 M1508,180h-4v-40h4V180z M1504,180h-4v-40h4V180z M1484,164v-4h40v4H1484z M1484,160v-4h40v4H1484z M1488,180h-4v-40h4V180z
 	 M1524,180h-4v-40h4V180z M1484,144v-4h40v4H1484z M1484,180v-4h40v4H1484z"/>

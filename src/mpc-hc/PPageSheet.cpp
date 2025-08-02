@@ -48,6 +48,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     SetTreeWidth(216);
     AddPage(&m_player);
     AddPage(&m_toolBar);
+    AddPage(&m_toolBarLayout);
     AddPage(&m_theme);
     AddPage(&m_formats);
     AddPage(&m_acceltbl);

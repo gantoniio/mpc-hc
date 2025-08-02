@@ -119,6 +119,10 @@ CAppSettings::CAppSettings()
     , nToolbarAction2(0)
     , nToolbarAction3(0)
     , nToolbarAction4(0)
+    , nToolbarRightAction1(0)
+    , nToolbarRightAction2(0)
+    , nToolbarRightAction3(0)
+    , nToolbarRightAction4(0)
     , eAfterPlayback(AfterPlayback::DO_NOTHING)
     , fUseDVDPath(false)
     , idMenuLang(0)
@@ -1296,6 +1300,10 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION3, nToolbarAction3);
     pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION4, nToolbarAction4);
 
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION1, nToolbarRightAction1);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION2, nToolbarRightAction2);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION3, nToolbarRightAction3);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION4, nToolbarRightAction4);
 
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, bSaveImagePosition);
@@ -2237,6 +2245,11 @@ void CAppSettings::LoadSettings()
     nToolbarAction2 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION2, 0);
     nToolbarAction3 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION3, 0);
     nToolbarAction4 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION4, 0);
+
+    nToolbarRightAction1 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION1, 0);
+    nToolbarRightAction2 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION2, 0);
+    nToolbarRightAction3 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION3, 0);
+    nToolbarRightAction4 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION4, 0);
 
     bSaveImagePosition = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, TRUE);
     bSaveImageCurrentTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, FALSE);

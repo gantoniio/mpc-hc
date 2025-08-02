@@ -158,7 +158,8 @@
 <rect id="rect4165_48_" x="273" y="15" width="4.5" height="1.5"/>
 <rect id="rect4165_49_" x="279" y="12" width="4.5" height="1.5"/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="337.5,32.2 342.1,32.2 349.3,41.2 354,41.2 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-width:1.5;stroke-miterlimit:10;" points="337.5,32.2 342.1,32.2 349.3,41.2 
+		354,41.2 	"/>
 </g>
 <path id="path4276_2_" inkscape:connector-curvature="0" style="fill:none;stroke:#000000;" d="M365.2,29.2l13.5,13.5"/>
 <rect id="rect4165_103_" x="316.5" y="54" style="fill:#C8C8C8;" width="15" height="1.5"/>
@@ -271,15 +272,18 @@
 <path style="fill:#646464;" d="M258,82.5V84h-12v-1.5H258z M252,76.5l6,6h-12L252,76.5z"/>
 <polygon points="358.5,41.2 354,45 354,37.5 "/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="354,32.2 349.3,32.2 342.1,41.2 337.5,41.2 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-width:1.5;stroke-miterlimit:10;" points="354,32.2 349.3,32.2 342.1,41.2 
+		337.5,41.2 	"/>
 </g>
 <polygon points="354,36 354,28.5 358.5,32.2 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="337.5,80.2 342.1,80.2 349.3,89.2 354,89.2 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-width:1.5;stroke-miterlimit:10;" points="337.5,80.2 342.1,80.2 349.3,89.2 
+		354,89.2 	"/>
 </g>
 <polygon style="fill:#C8C8C8;" points="358.5,89.2 354,93 354,85.5 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="354,80.2 349.3,80.2 342.1,89.2 337.5,89.2 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-width:1.5;stroke-miterlimit:10;" points="354,80.2 349.3,80.2 342.1,89.2 
+		337.5,89.2 	"/>
 </g>
 <polygon style="fill:#C8C8C8;" points="354,84 354,76.5 358.5,80.2 "/>
 <path d="M337.5,7.5H354V9h-16.5V7.5z M354,12V4.5l4.5,3.8L354,12z"/>
@@ -429,14 +433,14 @@
 	h1.5V87z M441,87h-1.5v-1.5h1.5V87z M450,87h-1.5v-1.5h1.5V87z M441,84h-1.5v-1.5h1.5V84z M447,90h-1.5v-1.5h1.5V90z M444,81h-1.5
 	v-1.5h1.5V81z M441,81h-1.5v-1.5h1.5V81z M436.5,93H435V76.5h1.5V93z M447,75v1.5h-12V75H447z M454.5,94.5H453v-12h1.5V94.5z
 	 M453,93v1.5h-18V93H453z M448.5,81H447v-6h1.5V81z M454.5,81v1.5H447V81H454.5z M448.5,81v-6l6,6H448.5z"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="460.5" y1="19.5" x2="475.5" y2="4.5"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="460.5" y1="4.5" x2="475.5" y2="19.5"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="460.5" y1="67.5" x2="475.5" y2="52.5"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="460.5" y1="52.5" x2="475.5" y2="67.5"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="460.5" y1="43.5" x2="475.5" y2="28.5"/>
-<line style="fill:none;stroke:#000000;stroke-miterlimit:10;" x1="460.5" y1="28.5" x2="475.5" y2="43.5"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="460.5" y1="91.5" x2="475.5" y2="76.5"/>
-<line style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" x1="460.5" y1="76.5" x2="475.5" y2="91.5"/>
+<line style="fill:none;stroke:#000000;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="19.5" x2="475.5" y2="4.5"/>
+<line style="fill:none;stroke:#000000;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="4.5" x2="475.5" y2="19.5"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="67.5" x2="475.5" y2="52.5"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="52.5" x2="475.5" y2="67.5"/>
+<line style="fill:none;stroke:#000000;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="43.5" x2="475.5" y2="28.5"/>
+<line style="fill:none;stroke:#000000;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="28.5" x2="475.5" y2="43.5"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="91.5" x2="475.5" y2="76.5"/>
+<line style="fill:none;stroke:#C8C8C8;stroke-width:1.5;stroke-miterlimit:10;" x1="460.5" y1="76.5" x2="475.5" y2="91.5"/>
 <path style="fill:#C8C8C8;" d="M571.5,52.5H555V51h16.5V52.5z M571.5,69H555v-1.5h16.5V69z M556.5,67.5H555v-15h1.5V67.5z M573,69
 	h-1.5V51h1.5V69z M565.5,67.5H564v-15h1.5V67.5z M564,67.5h-1.5v-15h1.5V67.5z M556.5,61.5V60h15v1.5H556.5z M556.5,60v-1.5h15V60
 	H556.5z M558,67.5h-1.5v-15h1.5V67.5z M571.5,67.5H570v-15h1.5V67.5z M556.5,54v-1.5h15V54H556.5z M556.5,67.5V66h15v1.5H556.5z"/>

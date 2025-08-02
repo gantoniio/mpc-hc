@@ -627,6 +627,9 @@
     <ClCompile Include="PPageToolBar.cpp">
       <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClCompile>
+    <ClCompile Include="PPageToolBarLayout.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1189,6 +1192,9 @@
       <Filter>Modal Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="PPageToolBar.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageToolBarLayout.h">
       <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
   </ItemGroup>

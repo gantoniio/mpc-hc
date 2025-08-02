@@ -642,6 +642,7 @@
 #define IDD_RAR_ENTRY_SELECTOR          20019
 #define IDD_ADDCOMMAND_DLG              20020
 #define IDD_PPAGETOOLBAR                20021
+#define IDD_PPAGETOOLBARLAYOUT          20022
 #define IDB_DT_CB_96                    20050
 #define IDB_DT_CB_120                   20051
 #define IDB_DT_CB_144                   20052

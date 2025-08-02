@@ -874,6 +874,8 @@ void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
     CToolBar::OnRButtonUp(nFlags, point);
+
+    const auto& s = AfxGetAppSettings();
     mouseDownR = false;
 
     int buttonId = getHitButtonIdx(point);
@@ -900,6 +902,18 @@ void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
                 break;
             case ID_VOLUME_MUTE:
                 messageId = ID_STREAM_AUDIO_NEXT;
+                break;
+            case ID_CUSTOM_ACTION1:
+                messageId = s.nToolbarRightAction1;
+                break;
+            case ID_CUSTOM_ACTION2:
+                messageId = s.nToolbarRightAction2;
+                break;
+            case ID_CUSTOM_ACTION3:
+                messageId = s.nToolbarRightAction3;
+                break;
+            case ID_CUSTOM_ACTION4:
+                messageId = s.nToolbarRightAction4;
                 break;
         }
 
