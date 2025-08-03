@@ -161,7 +161,11 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
 
     UINT resourceID;
     CStringW resolutionPostfix;
-    if (targetsize < 24 && s.nToolbarType != CAppSettings::EXTERNAL_TOOLBAR_NO_16) {
+    if (targetsize < 24) {
+        if (s.nToolbarType == CAppSettings::EXTERNAL_TOOLBAR_NO_16) { //force it to internal if they are trying to use a toolbar without 16px for small buttons
+            s.nToolbarType = CAppSettings::INTERNAL_TOOLBAR;
+            s.strToolbarName = L"";
+        }
         resolutionPostfix = L"16";
         resourceID = IDF_SVG_BUTTONS16;
         svgscale = targetsize / 16.0f;
