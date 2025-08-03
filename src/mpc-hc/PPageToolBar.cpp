@@ -23,7 +23,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "AddCommandDlg.h"
-
+#include "PathUtils.h"
 
 IMPLEMENT_DYNAMIC(CPPageToolBar, CMPCThemePPageBase)
 
@@ -51,6 +51,7 @@ void CPPageToolBar::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO6, m_cmbRightAction2);
     DDX_Control(pDX, IDC_COMBO7, m_cmbRightAction3);
     DDX_Control(pDX, IDC_COMBO8, m_cmbRightAction4);
+    DDX_Control(pDX, IDC_COMBO9, m_cmbActiveTheme);
 
 }
 
@@ -95,6 +96,9 @@ void CPPageToolBar::OnRightActionChange4() {
     OnActionChange(m_cmbRightAction4);
 }
 
+void CPPageToolBar::OnChangeTheme() {
+}
+
 void CPPageToolBar::OnActionChange(CMPCThemeComboBox& actCombo) {
     int curSel = actCombo.GetCurSel();
     if (curSel != CB_ERR && actCombo.GetItemData(curSel) == ID_COMBO_ADD_CMD) {
@@ -137,10 +141,94 @@ BOOL CPPageToolBar::OnInitDialog()
     AddCmdToAction(s.nToolbarRightAction2, m_cmbRightAction2);
     AddCmdToAction(s.nToolbarRightAction3, m_cmbRightAction3);
     AddCmdToAction(s.nToolbarRightAction4, m_cmbRightAction4);
+    PopulateThemes();
 
     UpdateData(FALSE);
 
     return TRUE;
+}
+
+CAppSettings::TOOLBAR_TYPE CPPageToolBar::ExternalTBType(CStringW tbPath) {
+    static std::vector<CStringW> postFix = {
+        L"buttons16",
+        L"buttons24",
+        L"buttons32",
+        L"buttons48",
+        L"buttons64",
+    };
+
+    bool svgExists = true, svg16 = true;
+    for (const auto& pf : postFix) {
+        if (!PathUtils::Exists(PathUtils::CombinePaths(tbPath, pf + L".svg"))) {
+            if (pf == L"buttons16") {
+                svg16 = false; //it's ok, we will keep going
+            } else {
+                svgExists = false;
+                break;
+            }
+        }
+    }
+
+    if (svgExists) {
+        if (svg16) {
+            return CAppSettings::EXTERNAL_TOOLBAR_WITH_16;
+        } else {
+            return CAppSettings::EXTERNAL_TOOLBAR_NO_16;
+        }
+    }
+
+    bool pngExists = true, png16 = true;
+    for (const auto& pf : postFix) {
+        if (!PathUtils::Exists(PathUtils::CombinePaths(tbPath, pf + L".png"))) {
+            if (pf == L"buttons16") {
+                png16 = false; //it's ok, we will keep going
+            } else {
+                pngExists = false;
+                break;
+            }
+        }
+    }
+    if (pngExists) {
+        if (png16) {
+            return CAppSettings::EXTERNAL_TOOLBAR_WITH_16;
+        } else {
+            return CAppSettings::EXTERNAL_TOOLBAR_NO_16;
+        }
+    }
+    return CAppSettings::INVALID_TOOLBAR;
+}
+
+void CPPageToolBar::PopulateThemes() {
+    auto& s = AfxGetAppSettings();
+
+    AddStringData(m_cmbActiveTheme, CString(StrRes(IDS_AG_BUILTIN_TOOLBAR)), 0);
+    m_cmbActiveTheme.SelectByItemData(0);
+
+    CStringW dirPostfix = L"toolbars/*";
+    std::vector<CString> paths({ PathUtils::CombinePaths(PathUtils::GetProgramPath(), dirPostfix) });
+    CString appDataPath;
+    if (AfxGetMyApp()->GetAppDataPath(appDataPath)) {
+        paths.emplace_back(PathUtils::CombinePaths(appDataPath, dirPostfix));
+    }
+
+    CFileFind finder;
+    for (const auto& path : paths) {
+        BOOL next = finder.FindFile(path);
+        while (next) {
+            next = finder.FindNextFile();
+            CString tbPath = finder.GetFilePath();
+            if (!finder.IsDots() && finder.IsDirectory()) {
+
+                CAppSettings::TOOLBAR_TYPE tbType = ExternalTBType(tbPath);
+                if (tbType > 0) {
+                    AddStringData(m_cmbActiveTheme, finder.GetFileName(), tbType);
+                    if (finder.GetFileName() == s.strToolbarName && s.nToolbarType > 0) {
+                        m_cmbActiveTheme.SetCurSel(m_cmbActiveTheme.GetCount() - 1);
+                    }
+                }
+            }
+        }
+    }
 }
 
 BOOL CPPageToolBar::OnApply()
@@ -148,9 +236,19 @@ BOOL CPPageToolBar::OnApply()
     UpdateData();
     auto& s = AfxGetAppSettings();
 
+    int idx = m_cmbActiveTheme.GetCurSel();
+    CStringW oldTBName = s.strToolbarName;
+    if (idx == 0 || idx == CB_ERR) {
+        s.nToolbarType = CAppSettings::INTERNAL_TOOLBAR;
+        s.strToolbarName = L"";
+    } else {
+        s.nToolbarType = (CAppSettings::TOOLBAR_TYPE)m_cmbActiveTheme.GetItemData(idx);
+        m_cmbActiveTheme.GetLBText(idx, s.strToolbarName);
+    }
+
     int nOldDefaultToolbarSize = s.nDefaultToolbarSize;
     s.nDefaultToolbarSize = m_iDefaultToolbarSize;
-    if (nOldDefaultToolbarSize != s.nDefaultToolbarSize) {
+    if (nOldDefaultToolbarSize != s.nDefaultToolbarSize || s.strToolbarName != oldTBName) {
         m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
         if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             pMainFrame->RecalcLayout();
@@ -187,4 +285,5 @@ BEGIN_MESSAGE_MAP(CPPageToolBar, CMPCThemePPageBase)
     ON_CBN_SELENDOK(IDC_COMBO6, OnRightActionChange2)
     ON_CBN_SELENDOK(IDC_COMBO7, OnRightActionChange3)
     ON_CBN_SELENDOK(IDC_COMBO8, OnRightActionChange4)
+    ON_CBN_SELENDOK(IDC_COMBO9, OnChangeTheme)
 END_MESSAGE_MAP()

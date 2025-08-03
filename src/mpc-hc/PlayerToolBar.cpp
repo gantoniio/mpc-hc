@@ -103,22 +103,30 @@ CPlayerToolBar::~CPlayerToolBar()
 
 bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale, CStringW resolutionPostfix)
 {
+    auto& s = AfxGetAppSettings();
+
+    if (s.nToolbarType <= 0 || s.strToolbarName.IsEmpty()) {
+        return false;
+    }
+
     // Paths and extensions to try (by order of preference)
-    std::vector<CString> paths({ PathUtils::GetProgramPath() });
-    CString appDataPath;
+    std::vector<CStringW> paths({ PathUtils::GetProgramPath() });
+    CStringW appDataPath;
     if (AfxGetMyApp()->GetAppDataPath(appDataPath)) {
         paths.emplace_back(appDataPath);
     }
-    CString basetbname;
-    basetbname = L"toolbarButtons/buttons" + resolutionPostfix + L".";
+    CStringW basetbname;
+    basetbname = L"buttons" + resolutionPostfix + L".";
 
     // Try loading the external toolbar
     for (const auto& path : paths) {
-        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, basetbname + "svg"), image, svgscale))) {
+        CStringW tbPath = PathUtils::CombinePaths(path, L"toolbars");
+        tbPath = PathUtils::CombinePaths(tbPath, s.strToolbarName);
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(tbPath, basetbname + "svg"), image, svgscale))) {
             return true;
         }
         CImage src;
-        if (SUCCEEDED(src.Load(PathUtils::CombinePaths(path, basetbname + "png")))) {
+        if (SUCCEEDED(src.Load(PathUtils::CombinePaths(tbPath, basetbname + "png")))) {
             if (src.GetBPP() != 32) {
                 return false; //only 32 bit png allowed
             }
@@ -153,7 +161,7 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
 
     UINT resourceID;
     CStringW resolutionPostfix;
-    if (targetsize < 24) {
+    if (targetsize < 24 && s.nToolbarType != CAppSettings::EXTERNAL_TOOLBAR_NO_16) {
         resolutionPostfix = L"16";
         resourceID = IDF_SVG_BUTTONS16;
         svgscale = targetsize / 16.0f;
@@ -185,6 +193,9 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
     bool buttonsImageLoaded = false;
     if (LoadExternalToolBar(image, svgscale, resolutionPostfix) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight() / 4) == 0) {
         buttonsImageLoaded = true;
+    } else {
+        s.nToolbarType = CAppSettings::INTERNAL_TOOLBAR;
+        s.strToolbarName = L"";
     }
 
 

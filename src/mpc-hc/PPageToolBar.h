@@ -26,6 +26,7 @@
 #include "CMPCThemePlayerListCtrl.h"
 #include "EventDispatcher.h"
 #include "CMPCThemeComboBox.h"
+#include "AppSettings.h"
 
 class CPPageToolBar : public CMPCThemePPageBase
 {
@@ -34,12 +35,14 @@ public:
     CPPageToolBar();
     virtual ~CPPageToolBar() = default;
     EventClient m_eventc;
+    static CAppSettings::TOOLBAR_TYPE ExternalTBType(CStringW tbPath);
 
 private:
     enum { IDD = IDD_PPAGETOOLBAR };
 
 protected:
     CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
+    CMPCThemeComboBox m_cmbActiveTheme;
     CMPCThemeComboBox m_cmbAction1, m_cmbAction2, m_cmbAction3, m_cmbAction4;
     CMPCThemeComboBox m_cmbRightAction1, m_cmbRightAction2, m_cmbRightAction3, m_cmbRightAction4;
 
@@ -55,8 +58,10 @@ protected:
     afx_msg void OnRightActionChange2();
     afx_msg void OnRightActionChange3();
     afx_msg void OnRightActionChange4();
+    afx_msg void OnChangeTheme();
     void OnActionChange(CMPCThemeComboBox& actCombo);
     virtual BOOL OnInitDialog() override;
+    void PopulateThemes();
     virtual BOOL OnApply() override;
 
     DECLARE_MESSAGE_MAP()

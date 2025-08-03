@@ -648,7 +648,7 @@ public:
     MOUSE_ASSIGNMENT MouseWheelLeft;
     MOUSE_ASSIGNMENT MouseWheelRight;
 
-    // Toolbar Actions
+    // Toolbar
     UINT            nToolbarAction1;
     UINT            nToolbarAction2;
     UINT            nToolbarAction3;
@@ -658,6 +658,15 @@ public:
     UINT            nToolbarRightAction3;
     UINT            nToolbarRightAction4;
 
+    enum TOOLBAR_TYPE {
+        INTERNAL_TOOLBAR = 0,
+        EXTERNAL_TOOLBAR_NO_16,
+        EXTERNAL_TOOLBAR_WITH_16,
+        INVALID_TOOLBAR = 0xFFFFFFFF
+    };
+
+    TOOLBAR_TYPE nToolbarType;
+    CStringW strToolbarName;
 
     // Logo
     int             nLogoId;

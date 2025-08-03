@@ -98,6 +98,8 @@
 #define IDS_RS_TOOLBARRIGHTACTION2           L"ToolbarRightAction2"
 #define IDS_RS_TOOLBARRIGHTACTION3           L"ToolbarRightAction3"
 #define IDS_RS_TOOLBARRIGHTACTION4           L"ToolbarRightAction4"
+#define IDS_RS_TOOLBAR_TYPE                  L"ToolbarType"
+#define IDS_RS_TOOLBAR_NAME                  L"ToolbarName"
 #define IDS_RS_SAVEIMAGE_POSITION           _T("SaveImagePosition")
 #define IDS_RS_SAVEIMAGE_CURRENTTIME        _T("SaveImageCurrentTime")
 #define IDS_RS_ALLOW_INACCURATE_FASTSEEK    _T("AllowInaccurateFastseek")

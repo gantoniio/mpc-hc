@@ -796,6 +796,7 @@
 #define IDS_AG_KEY                      32834
 #define IDS_AG_MOUSE                    32836
 #define IDS_AG_APP_COMMAND              32838
+#define IDS_AG_BUILTIN_TOOLBAR          32839
 #define IDS_AG_MEDIAFILES               32871
 #define IDS_AG_ALLFILES                 32872
 #define IDS_AG_AUDIOFILES               32873
