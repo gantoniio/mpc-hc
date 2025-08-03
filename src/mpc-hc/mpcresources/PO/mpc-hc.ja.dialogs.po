@@ -1485,7 +1485,7 @@ msgstr "全画面表示モニター"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "全画面表示時に表示モードを自動変更する"
+msgstr "全画面表示時にモニター モードを自動変更する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
