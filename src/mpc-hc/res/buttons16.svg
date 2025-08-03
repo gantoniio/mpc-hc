@@ -158,7 +158,7 @@
 <rect id="rect4165_48_" x="182" y="10" width="3" height="1"/>
 <rect id="rect4165_49_" x="186" y="8" width="3" height="1"/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="225,21.5 228.1,21.5 232.9,27.5 236,27.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="225,5.5 228.1,5.5 232.9,11.5 236,11.5 	"/>
 </g>
 <path id="path4276_2_" inkscape:connector-curvature="0" style="fill:none;stroke:#000000;" d="M243.5,19.5l9,9"/>
 <rect id="rect4165_103_" x="211" y="52" style="fill:#C8C8C8;" width="10" height="1"/>
@@ -269,23 +269,23 @@
 <path style="fill:#C8C8C8;" d="M172,39v1h-8v-1H172z M168,35l4,4h-8L168,35z"/>
 <rect x="164" y="58" style="fill:#646464;" width="8" height="2"/>
 <path style="fill:#646464;" d="M172,55v1h-8v-1H172z M168,51l4,4h-8L168,51z"/>
-<polygon points="239,27.5 236,30 236,25 "/>
+<polygon points="239,11.5 236,14 236,9 "/>
 <g>
-	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="236,21.5 232.9,21.5 228.1,27.5 225,27.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="236,5.5 232.9,5.5 228.1,11.5 225,11.5 	"/>
 </g>
-<polygon points="236,24 236,19 239,21.5 "/>
+<polygon points="236,8 236,3 239,5.5 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="225,53.5 228.1,53.5 232.9,59.5 236,59.5 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="225,37.5 228.1,37.5 232.9,43.5 236,43.5 	"/>
 </g>
-<polygon style="fill:#C8C8C8;" points="239,59.5 236,62 236,57 "/>
+<polygon style="fill:#C8C8C8;" points="239,43.5 236,46 236,41 "/>
 <g>
-	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="236,53.5 232.9,53.5 228.1,59.5 225,59.5 	"/>
+	<polyline style="fill:none;stroke:#C8C8C8;stroke-miterlimit:10;" points="236,37.5 232.9,37.5 228.1,43.5 225,43.5 	"/>
 </g>
-<polygon style="fill:#C8C8C8;" points="236,56 236,51 239,53.5 "/>
-<path d="M225,5h11v1h-11V5z M236,8V3l3,2.5L236,8z"/>
-<path d="M225,11h11v1h-11V11z M239,11.5l-3,2.5V9L239,11.5z"/>
-<path style="fill:#C8C8C8;" d="M225,37h11v1h-11V37z M236,40v-5l3,2.5L236,40z"/>
-<path style="fill:#C8C8C8;" d="M225,43h11v1h-11V43z M239,43.5l-3,2.5v-5L239,43.5z"/>
+<polygon style="fill:#C8C8C8;" points="236,40 236,35 239,37.5 "/>
+<path d="M225,21h11v1h-11V21z M236,24v-5l3,2.5L236,24z"/>
+<path d="M225,27h11v1h-11V27z M239,27.5l-3,2.5v-5L239,27.5z"/>
+<path style="fill:#C8C8C8;" d="M225,53h11v1h-11V53z M236,56v-5l3,2.5L236,56z"/>
+<path style="fill:#C8C8C8;" d="M225,59h11v1h-11V59z M239,59.5l-3,2.5v-5L239,59.5z"/>
 <path d="M247,11h7v1h-7V11z M253,5h1v6h-1V5z M252,4h2v1h-2V4z M247,9v5l-3-2.5L247,9z"/>
 <path d="M242,11h2v1h-2V11z M242,4h7v1h-7V4z M249,7V2l3,2.5L249,7z M242,5h1v6h-1V5z"/>
 <path style="fill:#C8C8C8;" d="M247,43h7v1h-7V43z M253,37h1v6h-1V37z M252,36h2v1h-2V36z M247,41v5l-3-2.5L247,41z"/>
