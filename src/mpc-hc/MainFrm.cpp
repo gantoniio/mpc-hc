@@ -11571,8 +11571,6 @@ CRect CMainFrame::GetInvisibleBorderSize() const
 
 OAFilterState CMainFrame::GetMediaStateDirect()
 {
-    CAutoLock ga(&lockGraphAccess);
-
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
         m_pMC->GetState(0, &ret);
@@ -11582,8 +11580,6 @@ OAFilterState CMainFrame::GetMediaStateDirect()
 
 OAFilterState CMainFrame::GetMediaState()
 {
-    CAutoLock ga(&lockGraphAccess);
-
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
         if (m_CachedFilterState != -1) {
@@ -11601,8 +11597,6 @@ OAFilterState CMainFrame::GetMediaState()
 
 OAFilterState CMainFrame::UpdateCachedMediaState()
 {
-    CAutoLock ga(&lockGraphAccess);
-
     if (m_eMediaLoadState == MLS::LOADED) {
         m_CachedFilterState = -1;
         m_pMC->GetState(0, &m_CachedFilterState);
