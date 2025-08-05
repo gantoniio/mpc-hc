@@ -25,7 +25,7 @@ msgstr "&Dosya"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "&Tez dosya aç..."
+msgstr "&Hızlı dosya aç..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File/URL..."
@@ -57,7 +57,7 @@ msgstr "&Kapat"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "K&opya kaydet..."
+msgstr "K&opyasını kaydet..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
