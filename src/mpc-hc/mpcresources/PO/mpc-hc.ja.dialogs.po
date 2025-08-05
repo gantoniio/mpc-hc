@@ -832,7 +832,7 @@ msgstr "下へ"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
 msgid "&Set"
-msgstr "設定(&S)"
+msgstr "反映(&S)"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
