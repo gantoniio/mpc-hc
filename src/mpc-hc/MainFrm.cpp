@@ -3317,9 +3317,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_CLOCK_CHANGED:
+                /*
                 if (m_pBA && !m_fFrameSteppingActive) {
                     m_pBA->put_Volume(m_wndToolBar.Volume);
                 }
+                */
                 break;
             case 0xfa17:
                 // madVR changed graph state
