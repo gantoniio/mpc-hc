@@ -2179,8 +2179,6 @@ BOOL CMPlayerCApp::InitInstance()
         UpdateChecker::CheckForUpdate(true);
     }
 
-    if (!m_pMainWnd) return false;
-
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();
 
