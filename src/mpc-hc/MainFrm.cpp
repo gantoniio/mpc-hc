@@ -2931,6 +2931,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     if (AfxGetMyApp()->m_fClosingState) {
         return S_OK;
     }
+    if (lParam != m_iGraphID) {
+        ASSERT(false);
+        return E_INVALIDARG;
+    }
 
     lockGraphAccess.Lock();
 
@@ -2938,7 +2942,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         ASSERT(false);
         return S_OK;
     }
-
     if (lParam != m_iGraphID) {
         lockGraphAccess.Unlock();
         ASSERT(false);
