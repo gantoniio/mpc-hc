@@ -3178,7 +3178,7 @@ msgstr "すべての映像デコーダーを有効化"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "すべてのビデオ デコーダーを無効にする"
+msgstr "すべての映像デコーダーを無効化"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
