@@ -1073,7 +1073,7 @@ msgstr "映像デコーダー"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "オーディオ デコーダー"
+msgstr "音声デコーダー"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
