@@ -3166,7 +3166,7 @@ msgstr "すべてのフィルターを無効化(&D)"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "すべての音声デコーダーを有効化"
+msgstr "すべての音声デコーダーを有効にする"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
