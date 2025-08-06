@@ -4622,7 +4622,7 @@ msgstr "リサイズ前のピクセル シェーダー: オフ"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
-msgstr "リサイズ前のピクセル シェーダーを有効化"
+msgstr "リサイズ前のピクセル シェーダーを有効にする"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
@@ -4634,7 +4634,7 @@ msgstr "リサイズ後のピクセル シェーダー: オフ"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
-msgstr "リサイズ後のピクセル シェーダーを有効化"
+msgstr "リサイズ後のピクセル シェーダーを有効にする"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
