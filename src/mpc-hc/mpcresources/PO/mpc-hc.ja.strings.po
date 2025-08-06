@@ -3070,7 +3070,7 @@ msgstr "ビデオ フレーム: ズーム設定の切り替え"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "すべてのフィルターを有効にする(&E)"
+msgstr "すべてのフィルターを有効化(&E)"
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
