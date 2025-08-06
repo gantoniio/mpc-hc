@@ -4622,7 +4622,7 @@ msgstr "リサイズ前のピクセル シェーダー: オフ"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
-msgstr "リサイズ前のピクセル シェーダーを有効化"
+msgstr "リサイズ前のピクセル シェーダーの有効化"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
