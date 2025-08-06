@@ -3170,7 +3170,7 @@ msgstr "すべての音声デコーダーを有効にする"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "すべての音声デコーダーを無効化"
+msgstr "すべての音声デコーダーを無効にする"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
