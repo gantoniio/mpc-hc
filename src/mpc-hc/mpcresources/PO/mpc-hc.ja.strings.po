@@ -1294,7 +1294,7 @@ msgstr "EDL 保存"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "フレーム時間補正を有効化"
+msgstr "フレーム時間補正を有効にする"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
