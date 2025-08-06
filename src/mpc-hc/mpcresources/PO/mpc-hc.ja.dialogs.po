@@ -1872,7 +1872,7 @@ msgstr "ビデオ情報"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK12"
 msgid "Audio Info"
-msgstr "オーディオ情報"
+msgstr "音声情報"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
 msgid "FPS"
