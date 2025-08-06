@@ -3162,7 +3162,7 @@ msgstr "トップ リア 右"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
-msgstr "すべてのフィルターを無効にする(&D)"
+msgstr "すべてのフィルターを無効化(&D)"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
