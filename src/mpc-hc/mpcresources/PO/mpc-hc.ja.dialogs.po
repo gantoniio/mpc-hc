@@ -1605,7 +1605,7 @@ msgstr "シェーダー ファイルを追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
-msgstr "消去"
+msgstr "除去"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
