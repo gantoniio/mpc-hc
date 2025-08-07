@@ -4216,6 +4216,10 @@ BEGIN
     IDS_AUDIOS              "Audio Track"
     IDS_SUBTITLES           "Subtitle Track"
     IDS_AG_EXIT_FULLSCREEN  "Exit Fullscreen"
+    IDS_AG_SHOW_PLAYLIST    "Show Playlist"
+    IDS_AG_HIDE_PLAYLIST    "Hide Playlist"
+    IDS_AG_ENABLE_SHUFFLE   "Enable Shuffle"
+    IDS_AG_DISABLE_SHUFFLE  "Disable Shuffle"
 END
 
 #endif    // English (United States) resources
