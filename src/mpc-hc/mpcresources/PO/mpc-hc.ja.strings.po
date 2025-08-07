@@ -447,7 +447,7 @@ msgstr "追加(&D)"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
-msgstr "消去(&R)"
+msgstr "除去(&R)"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
