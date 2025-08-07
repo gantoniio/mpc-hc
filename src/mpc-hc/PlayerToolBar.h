@@ -72,6 +72,7 @@ private:
         int svgIndex;
         UINT strID = 0;
         PositionLock positionLocked = LOCK_NONE;
+        UINT activeStrID = 0;
         CString text;
     };
 

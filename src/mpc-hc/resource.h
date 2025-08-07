@@ -905,6 +905,7 @@
 #define IDS_OSD_SHOW_FILENAME           32983
 #define IDS_PLAY_DVD                    32984
 #define IDS_PLAY_BD                     32985
+#define IDS_AG_EXIT_FULLSCREEN          32986
 #define IDS_PPAGEWEBSERVER_0            32996
 #define IDS_MAINFRM_2                   33014
 #define IDS_AG_SUBTITLES_SAVED          33015

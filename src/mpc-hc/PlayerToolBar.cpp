@@ -58,7 +58,7 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
     {ID_FILE_OPENMEDIA, {TBBS_BUTTON, 10}},
     {ID_VIEW_OPTIONS, {TBBS_BUTTON, 11}},
-    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, 12, IDS_AG_FULLSCREEN}},
+    {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, 12, IDS_AG_FULLSCREEN, LOCK_NONE, IDS_AG_EXIT_FULLSCREEN}},
     {ID_BUTTON_PLAYLIST, {TBBS_BUTTON, 13, IDS_AG_TOGGLE_PLAYLIST}},
     {ID_BUTTON_SHUFFLE, {TBBS_BUTTON, 14, IDS_PLAYLIST_TOGGLE_SHUFFLE}},
     {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON, 15}},
@@ -857,7 +857,11 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         if (s.CommandIDToWMCMD.count(nID) > 0) {
             strTipText.LoadStringW(s.CommandIDToWMCMD[nID]->dwname);
         } else if (supportedSvgButtons.count(nID) > 0) {
-            strTipText.LoadStringW(supportedSvgButtons[nID].strID);
+            if (bi.iImage == supportedSvgButtons[nID].svgIndex && supportedSvgButtons[nID].activeStrID) {
+                strTipText.LoadStringW(supportedSvgButtons[nID].activeStrID);
+            } else {
+                strTipText.LoadStringW(supportedSvgButtons[nID].strID);
+            }
         } else {
             return FALSE;
         }

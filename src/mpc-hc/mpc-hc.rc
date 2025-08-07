@@ -4215,6 +4215,7 @@ BEGIN
     IDS_CUSTOM_ACTION4      "Custom Action 4"
     IDS_AUDIOS              "Audio Track"
     IDS_SUBTITLES           "Subtitle Track"
+    IDS_AG_EXIT_FULLSCREEN  "Exit Fullscreen"
 END
 
 #endif    // English (United States) resources
