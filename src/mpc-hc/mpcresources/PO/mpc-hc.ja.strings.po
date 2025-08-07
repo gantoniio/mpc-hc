@@ -1663,7 +1663,7 @@ msgstr "LCN で並べ替え"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr "すべて削除"
+msgstr "すべて除去"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
