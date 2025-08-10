@@ -2211,7 +2211,7 @@ msgstr "映像フレーム: 中央へ戻す"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr "ビデオ フレーム: 左へ移動"
+msgstr "映像フレーム: 左へ移動"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
