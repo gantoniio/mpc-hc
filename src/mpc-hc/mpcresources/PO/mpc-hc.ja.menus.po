@@ -369,7 +369,7 @@ msgstr "最適な設定にリセット(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "ビデオ フレーム(&F)"
+msgstr "映像フレーム(&F)"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
