@@ -525,7 +525,7 @@ msgstr "再生中(&P)"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "ビデオの再生中(&V)"
+msgstr "動画の再生中(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
