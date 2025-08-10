@@ -1254,7 +1254,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_PREVENT_DISPLAY_SLEEP"
 msgid "Disable screen saver and monitor sleep mode during video playback."
-msgstr "ビデオ再生中にスクリーン セーバーとモニターのスリープ モードを無効にします。"
+msgstr "動画再生中にスクリーン セーバーとモニターのスリープ モードを無効にします。"
 
 msgctxt "IDS_PPAGEADVANCED_STILL_VIDEO_DURATION"
 msgid ""
