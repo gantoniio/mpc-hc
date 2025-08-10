@@ -1671,7 +1671,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "高度な設定は、自分が何をしているのかわからない限り編集しないでください。"
+msgstr "高度な設定: 内容を十分に理解している場合のみ編集してください。"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
