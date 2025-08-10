@@ -521,7 +521,7 @@ msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "テクスチャの設定 (変更を有効にするにはビデオを開き直してください)"
+msgstr "テクスチャの設定 (変更を有効にするには動画を開き直してください)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
