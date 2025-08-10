@@ -2231,7 +2231,7 @@ msgstr "映像フレーム: 左上へ移動"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr "ビデオ フレーム: 右上へ移動"
+msgstr "映像フレーム: 右上へ移動"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
