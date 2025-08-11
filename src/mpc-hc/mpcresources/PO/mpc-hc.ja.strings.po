@@ -1354,7 +1354,7 @@ msgstr "停止"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
-msgstr "バッファ中... (%d%%)"
+msgstr "バッファリング中... (%d%%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
