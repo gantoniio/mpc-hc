@@ -1077,7 +1077,7 @@ msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid ""
 "Increasing the number of buffered subpictures should in general improve the "
 "rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "バッファーされた字幕画像の数を増やすことで、一般的に描画パフォーマンスは向上しますが、その分 GPU のビデオ メモリ使用量が増加します。"
+msgstr "バッファされた字幕画像の数を増やすことで、一般的に描画パフォーマンスは向上しますが、その分 GPU のビデオ メモリ使用量が増加します。"
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid ""
