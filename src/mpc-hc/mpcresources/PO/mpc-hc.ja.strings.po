@@ -860,7 +860,7 @@ msgid ""
 "which can allocate 32-bit, RGBA, non-power-of-two sized textures and at "
 "least in the resolution of the video."
 msgstr ""
-"映像サーフェスはテクスチャとして割り当てられますが、描画には 2D 関数を使用してバックバッファへコピーおよび拡大・縮小されます。この機能には、32 "
+"映像サーフェスはテクスチャとして割り当てられますが、描画には 2D 関数を使用してバックバッファーへコピーおよび拡大・縮小されます。この機能には、32 "
 "ビット  RGBA 形式の非 2 の累乗サイズ テクスチャを、映像の解像度以上で割り当て可能なビデオ カードが必要です。"
 
 msgctxt "IDC_TEXTURESURF3D"
