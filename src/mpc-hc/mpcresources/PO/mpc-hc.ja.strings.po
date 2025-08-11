@@ -2600,7 +2600,7 @@ msgstr ", フリー: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ", フリー V/A バッファー: %03d/%03d"
+msgstr ", フリー V/A バッファ: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
