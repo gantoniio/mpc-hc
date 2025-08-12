@@ -2722,7 +2722,7 @@ msgstr "Nie można utworzyć miniatur dla plików o zerowej długości."
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Nie udało się pozyskać rozmiaru obrazu"
+msgstr "Nie udało się pobrać rozmiaru klatki wideo"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
