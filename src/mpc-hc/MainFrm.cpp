@@ -6595,9 +6595,9 @@ void CMainFrame::OnFileSubtitlesLoad()
     // Set the current file directory as default folder
     CString curfile = m_wndPlaylistBar.GetCurFileName();
     if (!PathUtils::IsURL(curfile)) {
-        CPath defaultDir(curfile);
+        CPathW defaultDir(curfile);
         defaultDir.RemoveFileSpec();
-        if (!defaultDir.m_strPath.IsEmpty()) {
+        if (!defaultDir.m_strPath.IsEmpty() && defaultDir.IsDirectory()) {
             ofn.lpstrInitialDir = defaultDir.m_strPath;
         }
     }
