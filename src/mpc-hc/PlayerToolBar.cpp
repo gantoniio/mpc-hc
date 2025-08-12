@@ -1028,7 +1028,8 @@ void CPlayerToolBar::SaveToolbarState() {
 
 void CPlayerToolBar::ToolbarChange() {
     SaveToolbarState();
-    m_pMainFrame->RecalcLayout(); //will trigger ArrangeControls
+    m_pMainFrame->RecalcLayout();
+    ArrangeControls();
     Invalidate();
 }
 
