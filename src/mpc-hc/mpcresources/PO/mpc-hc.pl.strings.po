@@ -2298,7 +2298,7 @@ msgstr "Klatka wideo – w górę"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr "Klatka na dole"
+msgstr "Klatka wideo – w dół"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
