@@ -57,7 +57,6 @@ private:
     std::unique_ptr<CImageList> m_pButtonsImages;
     std::unique_ptr<CImageList> m_pDisabledButtonsImages;
     std::unique_ptr<CImageList> m_pCustomizeButtonImages;
-    int buttonCount, sepCount;
     int m_volumeCtrlSize;
 
     EventClient m_eventc;

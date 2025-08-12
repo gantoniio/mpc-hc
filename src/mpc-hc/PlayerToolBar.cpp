@@ -88,8 +88,6 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     , flexibleSpaceIndex(10)
     , currentlyDraggingButton(-1)
     , toolbarAdjustActive(false)
-    , buttonCount(0)
-    , sepCount(0)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -373,15 +371,11 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 void CPlayerToolBar::PlaceButtons(bool loadSavedLayout) {
     CToolBarCtrl& tb = GetToolBarCtrl();
 
-    buttonCount = 0;
-    sepCount = 0;
-
     auto addButton = [&](int cmdid) {
         auto& svgInfo = supportedSvgButtons[cmdid];
         TBBUTTON button = GetStandardButton(cmdid);
         tb.AddButtons(1, &button);
         SetButtonStyle(tb.GetButtonCount() - 1, svgInfo.style | TBBS_DISABLED);
-        buttonCount++;
     };
 
     std::vector<int> buttons(0);
@@ -510,8 +504,8 @@ int CPlayerToolBar::GetVolume() const
 int CPlayerToolBar::GetMinWidth() const
 {
     // button widths are inflated by 7px
-    // 9 buttons + 3 separators + spacing + volume
-    return buttonCount * (m_nButtonHeight + 1 + 7) + sepCount * (1 + 7) + 4 + m_volumeCtrlSize;
+    // x buttons + 3 separators + spacing + volume
+    return GetToolBarCtrl().GetButtonCount() * (m_nButtonHeight + 1 + 7) + 4 + m_volumeCtrlSize;
 }
 
 void CPlayerToolBar::SetVolume(int volume)
@@ -1034,7 +1028,7 @@ void CPlayerToolBar::SaveToolbarState() {
 
 void CPlayerToolBar::ToolbarChange() {
     SaveToolbarState();
-    ArrangeControls();
+    m_pMainFrame->RecalcLayout(); //will trigger ArrangeControls
     Invalidate();
 }
 
