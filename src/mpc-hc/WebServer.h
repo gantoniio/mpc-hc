@@ -28,7 +28,7 @@
 #define UTF8(str)     UTF16To8(TToW(str))
 #define UTF8Arg(str)  UrlEncode(UTF8(str))
 #define CMD_SETPOS    "-1"
-#define CMD_SETVOLUME "-2"
+#define CMD_SETVOL    "-2"
 
 
 class CWebServerSocket;

@@ -10055,16 +10055,18 @@ void CMainFrame::OnPlayVolume(UINT nID)
         m_pBA->put_Volume(m_wndToolBar.Volume);
 
         //strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
-        if (m_wndToolBar.Volume == -10000) {
+        if (IsMuted()) {
             strVolume.Format(IDS_VOLUME_OSD, 0);
         } else {
-            strVolume.Format(IDS_VOLUME_OSD, m_wndToolBar.m_volctrl.GetPos());
+            strVolume.Format(IDS_VOLUME_OSD, GetVolume());
         }
         m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
         //SendStatusMessage(strVolume, 3000); // Now the volume is displayed in three places at once.
     }
 
-    m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
+    m_Lcd.SetVolume((!IsMuted() ? GetVolume() : 1));
+
+    SendCurrentVolumeToApi();
 }
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
@@ -20112,6 +20114,32 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             // show current position overridden by play command
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
             break;
+        case CMD_SETVOLUME: {
+            fn = CString((LPCWSTR)pCDS->lpData);
+            int sep = fn.Find(L'|');
+            CString vol = fn, muted = "";
+            bool updated = false;
+            if (fn.Find(L'|') >= 0) {
+                muted = fn.Mid(sep + 1);
+                vol = fn.Left(sep);
+            }
+            if (!muted.IsEmpty()) {
+                if (muted == L"0" || muted == L"1") {
+                    m_wndToolBar.Mute = muted == L"1";
+                    updated = true;
+                }
+            }
+            if (!vol.IsEmpty()) {
+                wchar_t* endptr = nullptr;
+                long volume = wcstol(vol, &endptr, 10);
+                if (endptr != vol && *endptr == 0) {
+                    m_wndToolBar.Volume = std::min(std::max((int)volume, 0), 100);
+                    updated = true;
+                }
+            }
+            if (updated) OnPlayVolume(0);
+            break;
+        }
         case CMD_SETAUDIODELAY:
             rtPos = (REFERENCE_TIME)_wtol((LPCWSTR)pCDS->lpData) * 10000;
             SetAudioDelay(rtPos);
@@ -20147,6 +20175,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             break;
         case CMD_GETCURRENTPOSITION:
             SendCurrentPositionToApi();
+            break;
+        case CMD_GETVOLUME:
+            SendCurrentVolumeToApi();
             break;
         case CMD_GETNOWPLAYING:
             SendNowPlayingToApi();
@@ -20570,6 +20601,18 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 
         SendAPICommand(fNotifySeek ? CMD_NOTIFYSEEK : CMD_CURRENTPOSITION, strPos);
     }
+}
+
+void CMainFrame::SendCurrentVolumeToApi()
+{
+    if (!AfxGetAppSettings().hMasterWnd) {
+        return;
+    }
+
+    CStringW strVol;
+    strVol.Format(L"%d|%d", GetVolume(), IsMuted() ? 1 : 0);
+
+    SendAPICommand(CMD_CURRENTVOLUME, L"%s", static_cast<LPCWSTR>(strVol));
 }
 
 void CMainFrame::ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData)

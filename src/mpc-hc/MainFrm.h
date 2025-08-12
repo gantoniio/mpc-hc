@@ -1255,6 +1255,7 @@ public:
     afx_msg void OnFileOpendirectory();
 
     void        SendCurrentPositionToApi(bool fNotifySeek = false);
+    void        SendCurrentVolumeToApi();
     void        ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData);
     void        JumpOfNSeconds(int seconds);
 

@@ -84,15 +84,15 @@ typedef enum MPCAPI_COMMAND :
     unsigned int {
     // ==== Commands from MPC-HC to host
 
-    // Send after connection
-    // Parameter 1: MPC-HC window handle (command should be sent to this HWnd)
+    // Send after connection made to host
+    // Parameter 1: MPC-HC window handle (commands must be sent to this hWnd)
     CMD_CONNECT             = 0x50000000,
 
     // Send when opening or closing file
     // Parameter 1: current state (see MPC_LOADSTATE enum)
     CMD_STATE               = 0x50000001,
 
-    // Send when playing, pausing or closing file
+    // Send when playing, pausing or closing a file
     // Parameter 1: current play mode (see MPC_PLAYSTATE enum)
     CMD_PLAYMODE            = 0x50000002,
 
@@ -135,6 +135,11 @@ typedef enum MPCAPI_COMMAND :
     // Parameter 1: current position in seconds
     CMD_CURRENTPOSITION     = 0x50000007,
 
+    // Send current volume when changed or in response
+    // Parameter 1: current volume (0-100)
+    // Parameter 2: muted state
+    CMD_CURRENTVOLUME       = 0x5000000E,
+
     // Send the current playback position after a jump.
     // (Automatically sent after a seek event).
     // Parameter 1: new playback position (in seconds).
@@ -145,7 +150,7 @@ typedef enum MPCAPI_COMMAND :
     // Parameter 1: none.
     CMD_NOTIFYENDOFSTREAM   = 0x50000009,
 
-    // Send version str
+    // Send version string
     // Parameter 1: MPC-HC's version
     CMD_VERSION             = 0x5000000A,
 
@@ -221,16 +226,26 @@ typedef enum MPCAPI_COMMAND :
     // return a CMD_LISTSUBTITLETRACKS
     CMD_GETSUBTITLETRACKS   = 0xA0003000,
 
-    // Ask for the current playback position,
-    // see CMD_CURRENTPOSITION.
-    // Parameter 1: current position in seconds
+    // Ask for the current playback position
+    // return a CMD_CURRENTPOSITION
     CMD_GETCURRENTPOSITION  = 0xA0003004,
+
+    // Ask for the current volume value
+    // return a CMD_CURRENTVOLUME
+    CMD_GETVOLUME           = 0xA0003009,
+
+    // Set the current volume to a specified value, and/or change the muted state
+    // (both parameters are optional, if not specified, the current value is kept)
+    // Parameter 1: current volume (0-100)
+    // Parameter 2: muted state (0 or 1)
+    CMD_SETVOLUME           = 0xA0003010,
 
     // Jump forward/backward of N seconds,
     // Parameter 1: seconds (negative values for backward)
     CMD_JUMPOFNSECONDS      = 0xA0003005,
 
-    // Ask slave for version
+    // Ask for the MPC-HC's version string
+    // return a CMD_VERSION
     CMD_GETVERSION          = 0xA0003006,
 
     // Ask for a list of the audio tracks of the file

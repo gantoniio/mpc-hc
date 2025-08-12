@@ -477,7 +477,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
         body.Replace("[indexpath]", "/index.html");
         body.Replace("[path]", pClient->m_path);
         body.Replace("[setposcommand]", CMD_SETPOS);
-        body.Replace("[setvolumecommand]", CMD_SETVOLUME);
+        body.Replace("[setvolumecommand]", CMD_SETVOL);
         body.Replace("[wmcname]", "wm_command");
         // TODO: add more general tags to replace
     }

@@ -32,6 +32,8 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
     switch (nCmd) {
         case CMD_CONNECT:
             return _T("CMD_CONNECT");
+        case CMD_DISCONNECT:
+            return _T("CMD_DISCONNECT");
         case CMD_STATE:
             return _T("CMD_STATE");
         case CMD_PLAYMODE:
@@ -44,8 +46,20 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
             return _T("CMD_LISTAUDIOTRACKS");
         case CMD_PLAYLIST:
             return _T("CMD_PLAYLIST");
+        case CMD_NOTIFYSEEK:
+            return _T("CMD_NOTIFYSEEK");
+        case CMD_CURRENTVOLUME:
+            return _T("CMD_CURRENTVOLUME");
+        case CMD_VERSION:
+            return _T("CMD_VERSION");
+        case CMD_NOTIFYENDOFSTREAM:
+            return _T("CMD_NOTIFYENDOFSTREAM");
         default:
-            return _T("CMD_UNK");
+            // Missing a COMMAND from MpcApi.h file
+            static CString strResult;
+            LPCTSTR pszName = nullptr;
+            strResult.Format(_T("%s (0x%08X)"), _T("UNKNOWN"), (unsigned int)nCmd);
+            return strResult;
     }
 }
 
@@ -242,16 +256,35 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     STARTUPINFO         StartupInfo;
     PROCESS_INFORMATION ProcessInfo;
 
-    strExec.Format(_T("%s /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
     UpdateData(TRUE);
+
+    strExec.Format(_T("\"%s\" /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
 
     ZeroMemory(&StartupInfo, sizeof(StartupInfo));
     StartupInfo.cb = sizeof(StartupInfo);
     GetStartupInfo(&StartupInfo);
-    if (CreateProcess(nullptr, (LPTSTR)(LPCTSTR)strExec, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo)) {
-        CloseHandle(ProcessInfo.hProcess);
-        CloseHandle(ProcessInfo.hThread);
+
+    LPTSTR cmdLine = strExec.GetBuffer();
+    BOOL bResult = CreateProcess(nullptr, cmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo, &ProcessInfo);
+    strExec.ReleaseBuffer();
+
+    if (!bResult) {
+        CString strError;
+        DWORD dwError = GetLastError();
+        LPTSTR lpMsgBuf = nullptr;
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, dwError, 0, (LPTSTR)&lpMsgBuf, 0, nullptr);
+        if (lpMsgBuf) {
+            strError.Format(_T("Failed to start MPC-HC process.\nError: %s"), lpMsgBuf);
+            LocalFree(lpMsgBuf);
+        } else {
+            strError.Format(_T("Failed to start MPC-HC process.\nError code: %lu"), dwError);
+        }
+        AfxMessageBox(strError, MB_ICONERROR | MB_OK);
+        return;
     }
+
+    CloseHandle(ProcessInfo.hProcess);
+    CloseHandle(ProcessInfo.hThread);
 }
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
@@ -273,6 +306,7 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
 
     if (pCopyDataStruct->dwData == CMD_CONNECT) {
         m_hWndMPC = (HWND)IntToPtr(_ttoi((LPCTSTR)pCopyDataStruct->lpData));
+        Senddata(CMD_GETVERSION, _T(""));
     }
 
     strMsg.Format(_T("%s : %s"), GetMPCCommandName((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);
@@ -350,10 +384,32 @@ void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
             Senddata(CMD_DECREASEVOLUME, m_txtCommand);
             break;
         case 21:
-            //Senddata(CMD_SHADER_TOGGLE, m_txtCommand);
+            Senddata(CMD_GETVOLUME, m_txtCommand);
             break;
         case 22:
+            Senddata(CMD_SETVOLUME, m_txtCommand);
+            break;
+        case 23:
+            Senddata(CMD_GETVERSION, m_txtCommand);
+            break;
+        case 24:
+            //Senddata(CMD_SHADER_TOGGLE, m_txtCommand);
+            break;
+        case 25:
             Senddata(CMD_CLOSEAPP, m_txtCommand);
             break;
+    }
+}
+
+void CRegisterCopyDataDlg::OnOK()
+{
+    CWnd* pFocus = GetFocus();
+    if (pFocus->GetDlgCtrlID() == IDC_EDIT1)
+    {
+        OnButtonFindwindow();
+    }
+    if (pFocus->GetDlgCtrlID() == IDC_EDIT2 || pFocus->GetDlgCtrlID() == IDC_COMBO1)
+    {
+        OnBnClickedButtonSendcommand();
     }
 }

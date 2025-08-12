@@ -35,8 +35,6 @@ class CPlayerToolBar : public CToolBar
 private:
     CMainFrame* m_pMainFrame;
 
-    bool IsMuted() const;
-    void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
@@ -58,6 +56,9 @@ public:
 
     bool LoadExternalToolBar(CImage& image, bool useColor);
 
+    bool IsMuted() const;
+    void SetMute(bool fMute = true);
+    __declspec(property(get = IsMuted, put = SetMute)) bool Mute;
     int GetVolume() const;
     int GetMinWidth() const;
     void SetVolume(int volume);
