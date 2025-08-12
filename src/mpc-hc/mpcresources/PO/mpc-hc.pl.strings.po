@@ -2204,7 +2204,7 @@ msgstr "Klatka wideo - powiększ wysokość "
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr "Rozmiar dziesiętny klatki wideo"
+msgstr "Klatka wideo - zmniejsz rozmiar"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
