@@ -437,4 +437,5 @@ void CPPageToolBarLayout::DefaultButtons() {
     CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
     tb.ToolBarReset();
     LoadToolBarButtons();
+    tb.ToolbarChange();
 }
