@@ -4222,7 +4222,7 @@ msgid ""
 "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\n"
 "For example, type: \"private dir\\videos|work\\\"."
 msgstr ""
-"自動検索とダウンロードは、ここに入力されたパターンのいずれかがそのパスに含まれているすべてのメディア ファイルで無効になります。\n"
+"自動検索とダウンロードは、パスにここで指定したパターンのいずれかが含まれるメディアファイルすべてで無効になります。\n"
 "例: \"private dir\\videos|work\\\" のように入力します。"
 
 msgctxt "IDS_CMD_PATHNAME"
