@@ -278,6 +278,7 @@
 #define ID_BUTTON_FULLSCREEN            1001
 #define ID_BUTTON_PLAYLIST              1002
 #define ID_BUTTON_SHUFFLE               1003
+#define ID_BUTTON_REPEAT                1004
 #define ID_FILTERS_COPY_TO_CLIPBOARD    1999
 #define ID_FILTERS_SUBITEM_START        2000
 #define ID_FILTERS_SUBITEM_END          2099
@@ -909,7 +910,9 @@
 #define IDS_AG_SHOW_PLAYLIST            32987
 #define IDS_AG_HIDE_PLAYLIST            32988
 #define IDS_AG_ENABLE_SHUFFLE           32989
-#define IDS_AG_DISABLE_SHUFFLE          39990
+#define IDS_AG_DISABLE_SHUFFLE          32990
+#define IDS_AG_ENABLE_REPEAT            32991
+#define IDS_AG_DISABLE_REPEAT           32992
 #define IDS_PPAGEWEBSERVER_0            32996
 #define IDS_MAINFRM_2                   33014
 #define IDS_AG_SUBTITLES_SAVED          33015

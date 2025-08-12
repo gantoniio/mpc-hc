@@ -114,6 +114,9 @@ public:
 
     std::optional<bool> lastShuffle = std::nullopt;
     void SetShuffle(bool isEnabled);
+
+    std::optional<bool> lastRepeat = std::nullopt;
+    void SetRepeat(bool isEnabled);
 private:
     void ToggleButton(int buttonID, bool isActive, std::optional<bool>& lastBool);
 
@@ -137,6 +140,7 @@ protected:
     afx_msg void OnUpdateFullscreen(CCmdUI* pCmdUI);
     afx_msg void OnUpdatePlaylist(CCmdUI* pCmdUI);
     afx_msg void OnUpdateShuffle(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateRepeat(CCmdUI* pCmdUI);
     afx_msg void OnUpdateCustomAction(CCmdUI* pCmdUI);
     afx_msg BOOL OnCustomAction(UINT nID);
     afx_msg BOOL OnVolumeUp(UINT nID);
@@ -144,6 +148,7 @@ protected:
     afx_msg BOOL OnFullscreenButton(UINT nID);
     afx_msg BOOL OnPlaylistButton(UINT nID);
     afx_msg BOOL OnShuffleButton(UINT nID);
+    afx_msg BOOL OnRepeatButton(UINT nID);
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);

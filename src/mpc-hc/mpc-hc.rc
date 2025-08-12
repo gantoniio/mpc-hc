@@ -4220,6 +4220,8 @@ BEGIN
     IDS_AG_HIDE_PLAYLIST    "Hide Playlist"
     IDS_AG_ENABLE_SHUFFLE   "Enable Shuffle"
     IDS_AG_DISABLE_SHUFFLE  "Disable Shuffle"
+    IDS_AG_ENABLE_REPEAT    "Enable Repeat"
+    IDS_AG_DISABLE_REPEAT   "Disable Repeat"
 END
 
 #endif    // English (United States) resources

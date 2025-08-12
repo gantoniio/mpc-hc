@@ -61,7 +61,7 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, 12, IDS_AG_FULLSCREEN, LOCK_NONE, IDS_AG_EXIT_FULLSCREEN}},
     {ID_BUTTON_PLAYLIST, {TBBS_BUTTON, 13, IDS_AG_SHOW_PLAYLIST, LOCK_NONE, IDS_AG_HIDE_PLAYLIST}},
     {ID_BUTTON_SHUFFLE, {TBBS_BUTTON, 14, IDS_AG_ENABLE_SHUFFLE, LOCK_NONE, IDS_AG_DISABLE_SHUFFLE}},
-    {ID_PLAY_REPEAT_FOREVER, {TBBS_BUTTON, 15}},
+    {ID_BUTTON_REPEAT, {TBBS_BUTTON, 15, IDS_AG_ENABLE_REPEAT, LOCK_NONE, IDS_AG_DISABLE_REPEAT}},
     {ID_PLAY_SEEKBACKWARDMED, {TBBS_BUTTON, 16}},
     {ID_PLAY_SEEKFORWARDMED, {TBBS_BUTTON, 17}},
     {ID_FILE_PROPERTIES, {TBBS_BUTTON, 18}},
@@ -455,6 +455,10 @@ void CPlayerToolBar::ToggleButton(int buttonID, bool isActive, std::optional<boo
         TBBUTTONINFOW bi = { sizeof(bi) };
         bi.dwMask = TBIF_IMAGE;
         bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? 0 : imgPtr->GetImageCount() / 2);
+        if (buttonID == ID_BUTTON_SHUFFLE || buttonID == ID_BUTTON_REPEAT) {
+            bi.dwMask |= TBIF_STATE;
+            bi.fsState = isActive ? TBSTATE_CHECKED : 0;
+        }
         tb.SetButtonInfo(buttonID, &bi);
         lastBool = isActive;
     }
@@ -470,6 +474,10 @@ void CPlayerToolBar::SetPlaylist(bool isVisible) {
 
 void CPlayerToolBar::SetShuffle(bool isEnabled) {
     ToggleButton(ID_BUTTON_SHUFFLE, isEnabled, lastShuffle);
+}
+
+void CPlayerToolBar::SetRepeat(bool isEnabled) {
+    ToggleButton(ID_BUTTON_REPEAT, isEnabled, lastRepeat);
 }
 
 bool CPlayerToolBar::IsMuted() const
@@ -527,6 +535,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_FULLSCREEN, OnUpdateFullscreen)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_PLAYLIST, OnUpdatePlaylist)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_SHUFFLE, OnUpdateShuffle)
+    ON_UPDATE_COMMAND_UI(ID_BUTTON_REPEAT, OnUpdateRepeat)
     ON_UPDATE_COMMAND_UI_RANGE(ID_CUSTOM_ACTION1, ID_CUSTOM_ACTION4, OnUpdateCustomAction)
     ON_COMMAND_EX_RANGE(ID_CUSTOM_ACTION1, ID_CUSTOM_ACTION4, OnCustomAction)
     ON_COMMAND_EX(ID_VOLUME_UP, OnVolumeUp)
@@ -534,6 +543,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_COMMAND_EX(ID_BUTTON_FULLSCREEN, OnFullscreenButton)
     ON_COMMAND_EX(ID_BUTTON_PLAYLIST, OnPlaylistButton)
     ON_COMMAND_EX(ID_BUTTON_SHUFFLE, OnShuffleButton)
+    ON_COMMAND_EX(ID_BUTTON_REPEAT, OnRepeatButton)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
     ON_WM_RBUTTONDOWN()
@@ -671,6 +681,11 @@ void CPlayerToolBar::OnUpdateShuffle(CCmdUI* pCmdUI) {
     SetShuffle(AfxGetAppSettings().bShufflePlaylistItems);
 }
 
+void CPlayerToolBar::OnUpdateRepeat(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(true);
+    SetRepeat(AfxGetAppSettings().fLoopForever);
+}
+
 void CPlayerToolBar::OnUpdateCustomAction(CCmdUI* pCmdUI) {
     const auto& s = AfxGetAppSettings();
 
@@ -731,6 +746,11 @@ BOOL CPlayerToolBar::OnPlaylistButton(UINT nID) {
 
 BOOL CPlayerToolBar::OnShuffleButton(UINT nID) {
     m_pMainFrame->OnPlaylistToggleShuffle();
+    return FALSE;
+}
+
+BOOL CPlayerToolBar::OnRepeatButton(UINT nID) {
+    m_pMainFrame->OnPlayRepeatForever();
     return FALSE;
 }
 
