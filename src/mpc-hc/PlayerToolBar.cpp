@@ -395,7 +395,12 @@ void CPlayerToolBar::PlaceButtons(bool loadSavedLayout) {
 
     if (buttons.size() >= 5) { //it is required that the toolbar have the 5 standard items, otherwise this is invalid
         for (int i = 3; i < buttons.size() - 2; i++) {
-            addButton(buttons[i]); //todo: validate these are allowed buttons
+            if (supportedSvgButtons.count(buttons[i])) {
+                auto& btn = supportedSvgButtons[buttons[i]];
+                if (!btn.positionLocked) {
+                    addButton(buttons[i]);
+                }
+            }
         }
     } else { //add standard dynamic items
         addButton(ID_NAVIGATE_SKIPBACK);
