@@ -55,6 +55,7 @@ protected:
     CImage arrow;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
+    int DescriptiveIcon(int idCommand, int iBitmap);
     void OnUpdateLeft(CCmdUI* pCmdUI);
     void OnUpdateRight(CCmdUI* pCmdUI);
     void OnUpdateUp(CCmdUI* pCmdUI);

@@ -43,6 +43,20 @@ void CPPageToolBarLayout::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BUTTON6, downButton);
 }
 
+int CPPageToolBarLayout::DescriptiveIcon(int idCommand, int iBitmap) {
+    CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
+    auto supportedButtons = tb.GetSupportedSvgButtons();
+    int disabledOffset = tb.GetCustomizeButtonImages()->GetImageCount() / 2;
+
+    auto& buttonInfo = supportedButtons[idCommand];
+    if (buttonInfo.positionLocked
+        || idCommand == ID_BUTTON_FULLSCREEN || idCommand == ID_BUTTON_PLAYLIST) { //for these buttons, inactive state is a better representation of the icon
+        return iBitmap + disabledOffset;
+    } else {
+        return iBitmap;
+    }
+}
+
 void CPPageToolBarLayout::LoadToolBarButtons() {
     m_list_active.DeleteAllItems();
     m_list_inactive.DeleteAllItems();
@@ -52,18 +66,12 @@ void CPPageToolBarLayout::LoadToolBarButtons() {
 
     auto supportedButtons = tb.GetSupportedSvgButtons();
     std::set<int> idsAdded;
-    int disabledOffset = tb.GetCustomizeButtonImages()->GetImageCount() / 2;
 
     for (int i = 0; i < tbctrl.GetButtonCount(); i++) {
         TBBUTTON button;
         tbctrl.GetButton(i, &button);
         if (button.fsStyle != TBBS_SEPARATOR && supportedButtons.count(button.idCommand)) {
-            int index = m_list_active.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i, tb.GetStringFromID(button.idCommand), 0, 0, button.iBitmap, button.idCommand);
-            auto& buttonInfo = supportedButtons[button.idCommand];
-
-            if (buttonInfo.positionLocked) {
-                m_list_active.SetItem(index, 0, LVIF_IMAGE, 0, button.iBitmap+disabledOffset, 0, 0, 0);
-            }
+            int index = m_list_active.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i, tb.GetStringFromID(button.idCommand), 0, 0, DescriptiveIcon(button.idCommand, button.iBitmap), button.idCommand);
             idsAdded.insert(button.idCommand);
         }
     }
@@ -84,7 +92,7 @@ void CPPageToolBarLayout::LoadToolBarButtons() {
     int i = 0;
     for (auto &[index, id] : idsSortedByIndex) {
         auto& bInfo = supportedButtons[id];
-        int index = m_list_inactive.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i++, tb.GetStringFromID(id), 0, 0, bInfo.svgIndex, id);
+        int index = m_list_inactive.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i++, tb.GetStringFromID(id), 0, 0, DescriptiveIcon(id, bInfo.svgIndex), id);
         if (index == 0) {
             m_list_inactive.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
             m_list_inactive.SetSelectionMark(index);
@@ -302,7 +310,7 @@ bool CPPageToolBarLayout::MoveButton(CMPCThemePlayerListCtrl& srcList, CMPCTheme
         beforeID = (int)dstList.GetItemData(destRow);
     }
 
-    dstList.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, destRow, tb.GetStringFromID(buttonID), 0, 0, supportedButtons[buttonID].svgIndex, buttonID);
+    dstList.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, destRow, tb.GetStringFromID(buttonID), 0, 0, DescriptiveIcon(buttonID, supportedButtons[buttonID].svgIndex), buttonID);
     srcList.DeleteItem(selectedRow);
 
     //we'll select the next element, which after having deleted selectedRow, will be at selectedRow
