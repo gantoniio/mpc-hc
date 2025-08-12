@@ -53,6 +53,7 @@ void CPPageToolBarLayout::LoadToolBarButtons() {
     auto supportedButtons = tb.GetSupportedSvgButtons();
     std::set<int> idsAdded;
     int disabledOffset = tb.GetCustomizeButtonImages()->GetImageCount() / 2;
+
     for (int i = 0; i < tbctrl.GetButtonCount(); i++) {
         TBBUTTON button;
         tbctrl.GetButton(i, &button);
@@ -73,14 +74,20 @@ void CPPageToolBarLayout::LoadToolBarButtons() {
         m_list_active.SetSelectionMark(index);
     }
 
+    std::map<int, WORD> idsSortedByIndex;
+    for (auto &[id, bInfo] : supportedButtons) {
+        if (0 == idsAdded.count(id) && bInfo.style != TBBS_SEPARATOR) {
+            idsSortedByIndex[bInfo.svgIndex] = id;
+        }
+    }
+
     int i = 0;
-    for (auto& it : supportedButtons) {
-        if (0 == idsAdded.count(it.first) && it.second.style != TBBS_SEPARATOR) {
-            int index = m_list_inactive.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i++, tb.GetStringFromID(it.first), 0, 0, it.second.svgIndex, it.first);
-            if (index == 0) {
-                m_list_inactive.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
-                m_list_inactive.SetSelectionMark(index);
-            }
+    for (auto &[index, id] : idsSortedByIndex) {
+        auto& bInfo = supportedButtons[id];
+        int index = m_list_inactive.InsertItem(LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM, i++, tb.GetStringFromID(id), 0, 0, bInfo.svgIndex, id);
+        if (index == 0) {
+            m_list_inactive.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
+            m_list_inactive.SetSelectionMark(index);
         }
     }
 }
