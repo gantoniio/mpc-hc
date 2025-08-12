@@ -2495,7 +2495,7 @@ msgid ""
 "We are 100% spyware free, there are no advertisements or toolbars."
 msgstr ""
 "MPC-HC は、Windows 向けの非常に軽量なオープン ソースのメディア "
-"プレーヤーです。一般的なすべての動画・音声ファイル形式の再生に対応しています。スパイウェアは一切含まれておらず、広告やツールバーも表示されません。"
+"プレーヤーです。一般的なすべての動画・音声ファイル形式の再生に対応しています。スパイウェアは一切含まれておらず、広告やツールバーもありません。"
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
