@@ -2290,7 +2290,7 @@ msgstr "Klatka wideo – w lewo"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr "Klatka po prawej"
+msgstr "Klatka wideo – w prawo"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
