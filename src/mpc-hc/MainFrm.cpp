@@ -4194,13 +4194,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
     s.nCLSwitches &= ~CLSW_OPEN;  
 
-    // Ensure the dynamically added menu items are updated
-    SetupFiltersSubMenu();
-    SetupAudioSubMenu();
-    SetupSubtitlesSubMenu();
-    SetupVideoStreamsSubMenu();
-    SetupJumpToSubMenus();
-    SetupRecentFilesSubMenu();
+    LoadDynamicMenus();
 
     // notify listeners
     if (GetPlaybackMode() != PM_DIGITAL_CAPTURE) {
@@ -16189,6 +16183,17 @@ void CMainFrame::DestroyDynamicMenus()
     VERIFY(m_shadersMenu.DestroyMenu());
     VERIFY(m_recentFilesMenu.DestroyMenu());
     m_nJumpToSubMenusCount = 0;
+    recentFilesMenuFromMRUSequence = -1;
+}
+
+void CMainFrame::LoadDynamicMenus() {
+    // Ensure the dynamically added menu items are updated
+    SetupFiltersSubMenu();
+    SetupAudioSubMenu();
+    SetupSubtitlesSubMenu();
+    SetupVideoStreamsSubMenu();
+    SetupJumpToSubMenus();
+    SetupRecentFilesSubMenu();
 }
 
 void CMainFrame::SetupOpenCDSubMenu()
@@ -21422,10 +21427,7 @@ void CMainFrame::ReloadMenus() {
 
     // Reload the dynamic menus
     CreateDynamicMenus();
-
-    //Reload audio and subs to ensure toolbar button context menus are available
-    SetupAudioSubMenu();
-    SetupSubtitlesSubMenu();
+    LoadDynamicMenus();
 }
 
 
