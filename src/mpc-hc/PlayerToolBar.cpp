@@ -505,7 +505,8 @@ int CPlayerToolBar::GetMinWidth() const
 {
     // button widths are inflated by 7px
     // x buttons + 3 separators + spacing + volume
-    return GetToolBarCtrl().GetButtonCount() * (m_nButtonHeight + 1 + 7) + 4 + m_volumeCtrlSize;
+    int buttonCount = GetToolBarCtrl().GetButtonCount() - 1; //minus 1 because of play/pause being combined
+    return buttonCount * (m_nButtonHeight + 1 + 7) + 4 + m_volumeCtrlSize;
 }
 
 void CPlayerToolBar::SetVolume(int volume)
@@ -1030,6 +1031,7 @@ void CPlayerToolBar::ToolbarChange() {
     SaveToolbarState();
     m_pMainFrame->RecalcLayout();
     ArrangeControls();
+    OnUpdateCmdUI(m_pMainFrame, FALSE); //useful for making sure button states are updated while in the options dialog
     Invalidate();
 }
 
@@ -1088,10 +1090,18 @@ void CPlayerToolBar::OnLButtonDblClk(UINT nFlags, CPoint point) {
 void CPlayerToolBar::ToolBarReset() {
     CToolBarCtrl& tb = GetToolBarCtrl();
 
+    int playState = tb.GetState(ID_PLAY_PLAY);
+    int pauseState = tb.GetState(ID_PLAY_PAUSE);
+
     for (int i = tb.GetButtonCount() - 1; i >= 0; i--) {
         tb.DeleteButton(i);
     }
     PlaceButtons(false);
+
+    //this is done to restore the states used for feature 'Hide play or pause button based on playback state'
+    tb.SetState(ID_PLAY_PLAY, playState);
+    tb.SetState(ID_PLAY_PAUSE, pauseState);
+
     ArrangeControls();
     Invalidate();
 }
