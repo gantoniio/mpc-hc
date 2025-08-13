@@ -21422,6 +21422,10 @@ void CMainFrame::ReloadMenus() {
 
     // Reload the dynamic menus
     CreateDynamicMenus();
+
+    //Reload audio and subs to ensure toolbar button context menus are available
+    SetupAudioSubMenu();
+    SetupSubtitlesSubMenu();
 }
 
 
