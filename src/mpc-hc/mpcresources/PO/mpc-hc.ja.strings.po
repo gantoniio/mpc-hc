@@ -2494,7 +2494,7 @@ msgid ""
 "It supports all common video and audio file formats available for playback. "
 "We are 100% spyware free, there are no advertisements or toolbars."
 msgstr ""
-"MPC-HC は、Windows 向けの非常に軽量なオープン ソースのメディア "
+"MPC-HC は、Windows 用の非常に軽量なオープン ソースのメディア "
 "プレーヤーです。一般的なすべての動画・音声ファイル形式の再生に対応しています。スパイウェアは一切含まれておらず、広告やツールバーもありません。"
 
 msgctxt "IDS_MAINFRM_12"
