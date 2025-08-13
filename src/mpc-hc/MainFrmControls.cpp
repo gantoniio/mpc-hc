@@ -354,9 +354,14 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     m_pMainFrame->ScreenToClient(&clientPoint);
 
     const MLS mls = m_pMainFrame->GetLoadState();
+
+    GUITHREADINFO guiInfo = { sizeof(GUITHREADINFO) };
+    GetGUIThreadInfo(NULL, &guiInfo);
+
     const bool bCanAutoHide = s.bHideFullscreenControls && (mls == MLS::LOADED || m_bDelayShowNotLoaded) &&
                               (m_pMainFrame->IsFullScreenMainFrame() || s.bHideWindowedControls && !m_pMainFrame->IsFullScreenSeparate()) &&
-                              ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER;
+                              ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER &&
+                              NULL == guiInfo.hwndMenuOwner; //context menu from toolbar active?
     const bool bCanHideDockedPanels = s.bHideFullscreenDockedPanels;
 
     bool bEnumedPanelZones = false;
