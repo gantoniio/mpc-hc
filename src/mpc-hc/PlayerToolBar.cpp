@@ -51,8 +51,8 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_STOP, {TBBS_CHECKGROUP, 2, 0, LOCK_LEFT}},
     {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON, 3}},
     {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON, 4}},
-    {ID_AUDIOS, {TBBS_BUTTON | TBSTYLE_DROPDOWN, 5, IDS_AUDIOS}},
-    {ID_SUBTITLES, {TBBS_BUTTON | TBSTYLE_DROPDOWN, 6, IDS_SUBTITLES}},
+    {ID_AUDIOS, {TBBS_BUTTON | TBBS_DROPDOWN, 5, IDS_AUDIOS}},
+    {ID_SUBTITLES, {TBBS_BUTTON | TBBS_DROPDOWN, 6, IDS_SUBTITLES}},
     {ID_PLAY_DECRATE, {TBBS_BUTTON, 7}},
     {ID_PLAY_INCRATE, {TBBS_BUTTON, 8}},
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
@@ -312,6 +312,7 @@ TBBUTTON CPlayerToolBar::GetStandardButton(int cmdid) {
     button.iBitmap = svgInfo.svgIndex;
     button.idCommand = cmdid;
     button.iString = -1;
+    button.fsStyle = svgInfo.style;
     return button;
 }
 

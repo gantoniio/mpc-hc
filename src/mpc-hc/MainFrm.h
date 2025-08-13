@@ -382,6 +382,7 @@ private:
 
     void CreateDynamicMenus();
     void DestroyDynamicMenus();
+    void LoadDynamicMenus();
     void SetupOpenCDSubMenu();
     void SetupFiltersSubMenu();
     void SetupAudioSubMenu();
