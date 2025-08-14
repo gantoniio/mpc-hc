@@ -1802,28 +1802,33 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
     selected--; // actual list index
 
     if (pLVKeyDown->wVKey == VK_DELETE) {
-        POSITION remplpos = FindPos(selected);
-        CPlaylistItem pli = m_pl.GetAt(remplpos);
-        POSITION curplpos = m_pl.GetPos();
-        if (!remplpos) {
-            ASSERT(FALSE);
-            return;
-        }
-        if (remplpos == curplpos) {
-            m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-        }
-        m_pl.RemoveAt(remplpos);
-        m_list.DeleteItem(selected);
+        if (m_pl.GetCount() > 1) {
+            POSITION remplpos = FindPos(selected);
+            CPlaylistItem pli = m_pl.GetAt(remplpos);
+            POSITION curplpos = m_pl.GetPos();
+            if (!remplpos) {
+                ASSERT(FALSE);
+                return;
+            }
+            if (remplpos == curplpos) {
+                m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+            }
+            m_pl.RemoveAt(remplpos);
+            m_list.DeleteItem(selected);
 
-        if (m_list.GetItemCount() > 0) {
-            if (selected < m_list.GetItemCount()) {
-                m_list.SetItemState(selected, LVIS_SELECTED, LVIS_SELECTED);
-            } else {
-                m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+            if (m_list.GetItemCount() > 0) {
+                if (selected < m_list.GetItemCount()) {
+                    m_list.SetItemState(selected, LVIS_SELECTED, LVIS_SELECTED);
+                } else {
+                    m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+                }
+            }
+            ResizeListColumn();
+        } else {
+           if (Empty()) {
+                m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             }
         }
-
-        ResizeListColumn();
 
         *pResult = TRUE;
     } else if (pLVKeyDown->wVKey == VK_SPACE) {
@@ -2383,10 +2388,16 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             m_pl.SetPos(m_pl.GetTailPosition());
             break;
         case M_REMOVE:
-            if (m_pl.RemoveAt(pos)) {
-                m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+            if (m_pl.GetCount() > 1) {
+                if (m_pl.RemoveAt(pos)) {
+                    m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                }
+                m_list.DeleteItem(lvhti.iItem);
+            } else {
+                if (Empty()) {
+                    m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                }
             }
-            m_list.DeleteItem(lvhti.iItem);
             SavePlaylist(true);
             break;
         case M_RECYCLE:
