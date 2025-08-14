@@ -3023,6 +3023,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                     SetupDVDChapters();
                 }
+                SetupSubtitlesSubMenu();
+                SetupAudioSubMenu();
             }
             break;
             case EC_DVD_DOMAIN_CHANGE: {
