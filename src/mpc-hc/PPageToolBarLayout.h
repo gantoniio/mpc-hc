@@ -37,6 +37,7 @@ public:
     virtual void DoCustomPrePaint() {};
     virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) {};
     virtual bool UseCustomGrid() { return false; };
+    void ReloadImageLists();
 
 private:
     enum { IDD = IDD_PPAGETOOLBARLAYOUT };

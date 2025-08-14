@@ -120,7 +120,8 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
         MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED,
-    }, std::bind(&CPlayerToolBar::EventCallback, this, std::placeholders::_1));
+        MpcEvent::TOOLBAR_THEME_CHANGED,
+}, std::bind(&CPlayerToolBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerToolBar::~CPlayerToolBar()
@@ -537,6 +538,9 @@ void CPlayerToolBar::EventCallback(MpcEvent ev)
         case MpcEvent::DPI_CHANGED:
         case MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED:
             LoadToolbarImage();
+            break;
+        case MpcEvent::TOOLBAR_THEME_CHANGED:
+            LoadToolbarImage(true);
             break;
         default:
             UNREACHABLE_CODE();

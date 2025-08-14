@@ -100,6 +100,13 @@ void CPPageToolBarLayout::LoadToolBarButtons() {
     }
 }
 
+void CPPageToolBarLayout::ReloadImageLists() {
+    CPlayerToolBar& tb = AfxGetMainFrame()->m_wndToolBar;
+
+    m_list_active.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
+    m_list_inactive.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
+}
+
 BOOL CPPageToolBarLayout::OnInitDialog()
 {
     __super::OnInitDialog();
@@ -126,7 +133,6 @@ BOOL CPPageToolBarLayout::OnInitDialog()
     CString col(StrRes(IDS_PPAGE_TOOLBAR_CUR_BUTTONS));
     m_list_active.InsertColumn(COL_BUTTON, col, LVCFMT_LEFT);
     m_list_active.SetColumnWidth(COL_BUTTON, LVSCW_AUTOSIZE_USEHEADER);
-    m_list_active.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
     m_list_active.setColorInterface(this);
 
 
@@ -135,7 +141,8 @@ BOOL CPPageToolBarLayout::OnInitDialog()
     CString col2(StrRes(IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS));
     m_list_inactive.InsertColumn(COL_BUTTON, col2, LVCFMT_LEFT);
     m_list_inactive.SetColumnWidth(COL_BUTTON, LVSCW_AUTOSIZE_USEHEADER);
-    m_list_inactive.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
+
+    ReloadImageLists();
 
     LoadToolBarButtons();
 

@@ -24,6 +24,7 @@
 #include "MainFrm.h"
 #include "AddCommandDlg.h"
 #include "PathUtils.h"
+#include "PPageToolBarLayout.h"
 
 IMPLEMENT_DYNAMIC(CPPageToolBar, CMPCThemePPageBase)
 
@@ -33,6 +34,7 @@ CPPageToolBar::CPPageToolBar()
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+    fires.insert(MpcEvent::TOOLBAR_THEME_CHANGED);
     GetEventd().Connect(m_eventc, fires);
 }
 
@@ -249,7 +251,15 @@ BOOL CPPageToolBar::OnApply()
     int nOldDefaultToolbarSize = s.nDefaultToolbarSize;
     s.nDefaultToolbarSize = m_iDefaultToolbarSize;
     if (nOldDefaultToolbarSize != s.nDefaultToolbarSize || s.strToolbarName != oldTBName) {
-        m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+        if (s.strToolbarName != oldTBName) {
+            m_eventc.FireEvent(MpcEvent::TOOLBAR_THEME_CHANGED); //updates toolbar and customize images
+            CPPageToolBarLayout* tbl = static_cast<CPPageToolBarLayout*>(FindSiblingPage(RUNTIME_CLASS(CPPageToolBarLayout)));
+            if (tbl) {
+                tbl->ReloadImageLists();
+            }
+        } else {
+            m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED); //updates toolbar only
+        }
         if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             pMainFrame->RecalcLayout();
         }
