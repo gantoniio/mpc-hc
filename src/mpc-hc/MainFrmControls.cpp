@@ -360,8 +360,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     const bool bCanAutoHide = s.bHideFullscreenControls && (mls == MLS::LOADED || m_bDelayShowNotLoaded) &&
                               (m_pMainFrame->IsFullScreenMainFrame() || s.bHideWindowedControls && !m_pMainFrame->IsFullScreenSeparate()) &&
-                              ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER &&
-                              NULL == guiInfo.hwndMenuOwner; //context menu from toolbar active?
+                              ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER;
     const bool bCanHideDockedPanels = s.bHideFullscreenDockedPanels;
 
     bool bEnumedPanelZones = false;
@@ -398,7 +397,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
         // hide completely
         mask.hide(maskAll);
     } else if (bCanAutoHide) {
-        if (m_pMainFrame->m_wndSeekBar.DraggingThumb()) {
+        if (m_pMainFrame->m_wndSeekBar.DraggingThumb() || guiInfo.hwndMenuOwner) {
             // show bottom while dragging the seekbar thumb
             mask.show(DOCK_BOTTOM);
         } else {
