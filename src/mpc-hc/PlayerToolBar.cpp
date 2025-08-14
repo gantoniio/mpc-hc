@@ -521,8 +521,8 @@ int CPlayerToolBar::GetVolume() const
 int CPlayerToolBar::GetMinWidth() const
 {
     // button widths are inflated by 7px
-    // x buttons + 3 separators + spacing + volume
-    int buttonCount = GetToolBarCtrl().GetButtonCount() - 1; //minus 1 because of play/pause being combined
+    // x buttons + spacing + volume
+    int buttonCount = GetToolBarCtrl().GetButtonCount() - 2; //minus 2 because of play/pause being combined, dynamic spacer
     return buttonCount * (m_nButtonHeight + 1 + 7) + 4 + m_volumeCtrlSize;
 }
 
