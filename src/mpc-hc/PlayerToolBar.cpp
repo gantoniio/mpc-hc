@@ -246,7 +246,7 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
             pOldSourceBmp = sourceDC.GetCurrentBitmap();
 
             int imageOffset = 0, imageDisabledOffset = height;
-            if (AppIsThemeLoaded() && s.eModernThemeMode == CMPCTheme::ModernThemeMode::DARK) {
+            if (AppIsThemeLoaded() && CMPCTheme::EffectiveThemeMode() == CMPCTheme::ModernThemeMode::DARK) {
                 imageOffset = height * 2;
                 imageDisabledOffset = height * 3;
             }

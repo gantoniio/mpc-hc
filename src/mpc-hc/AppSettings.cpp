@@ -2318,7 +2318,7 @@ void CAppSettings::LoadSettings()
     iMouseLeftUpDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, 0);
 
     if (bMPCTheme) {
-        CMPCTheme::InitializeColors(eModernThemeMode);
+        CMPCTheme::InitializeColors();
     }
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;
