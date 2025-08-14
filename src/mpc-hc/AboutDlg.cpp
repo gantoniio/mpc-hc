@@ -92,9 +92,11 @@ BOOL CAboutDlg::OnInitDialog()
 
     if (osVersion.dwMajorVersion == 10 && osVersion.dwMinorVersion == 0) {
         if (IsWindowsServer()) {
-            if (osVersion.dwBuildNumber > 20348) {
+            if (osVersion.dwBuildNumber > 26100) {
                 m_OSName = _T("Windows Server");
-            } else if (osVersion.dwBuildNumber == 20348) {
+            } else if (osVersion.dwBuildNumber == 26100) {
+                m_OSName = _T("Windows Server 2025");
+            } else if (osVersion.dwBuildNumber >= 20348) {
                 m_OSName = _T("Windows Server 2022");
             } else if (osVersion.dwBuildNumber >= 19042) {
                 m_OSName = _T("Windows Server, version 20H2");
@@ -110,9 +112,13 @@ BOOL CAboutDlg::OnInitDialog()
                 m_OSName = _T("Windows Server 2016");
             }
         } else {
-            if (osVersion.dwBuildNumber > 22631) {
+            if (osVersion.dwBuildNumber > 26200) {
                 m_OSName = _T("Windows 11");
-            } else if (osVersion.dwBuildNumber == 22631) {
+            } else if (osVersion.dwBuildNumber == 26200) {
+                m_OSName = _T("Windows 11 (Build 25H2)");
+            } else if (osVersion.dwBuildNumber >= 26100) {
+                m_OSName = _T("Windows 11 (Build 24H2)");
+            } else if (osVersion.dwBuildNumber >= 22631) {
                 m_OSName = _T("Windows 11 (Build 23H2)");
             } else if (osVersion.dwBuildNumber >= 22621) {
                 m_OSName = _T("Windows 11 (Build 22H2)");
