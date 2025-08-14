@@ -4445,10 +4445,10 @@ void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
             subMenu->fulfillThemeReqs();
         }
         m_bTBDropdownActive = true;
-        BOOL clicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
+        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
 
         //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
-        if (0 == clicked && IsLeftMouseButtonDown()) {
+        if (0 == idClicked && IsLeftMouseButtonDown()) {
             CPoint p;
             CRect tbRect;
             ::GetCursorPos(&p);
