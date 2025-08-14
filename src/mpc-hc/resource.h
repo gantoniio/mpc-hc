@@ -667,7 +667,6 @@
 #define IDB_GRIPPER_144                 20071
 #define IDB_GRIPPER_192                 20073
 #define IDB_GRIPPER_96                  20074
-#define IDB_PNG1                        20075
 #define IDB_GRIPPER_120                 20075
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
@@ -1801,7 +1800,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20077
+#define _APS_NEXT_RESOURCE_VALUE        20076
 #define _APS_NEXT_COMMAND_VALUE         33462
 #define _APS_NEXT_CONTROL_VALUE         22094
 #define _APS_NEXT_SYMED_VALUE           24052
