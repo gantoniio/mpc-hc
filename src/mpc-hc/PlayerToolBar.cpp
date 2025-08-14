@@ -457,7 +457,7 @@ void CPlayerToolBar::ToggleButton(int buttonID, bool isActive, std::optional<boo
         bi.iImage = supportedSvgButtons[buttonID].svgIndex + (isActive ? 0 : imgPtr->GetImageCount() / 2);
         if (buttonID == ID_BUTTON_SHUFFLE || buttonID == ID_BUTTON_REPEAT) {
             bi.dwMask |= TBIF_STATE;
-            bi.fsState = isActive ? TBSTATE_CHECKED : 0;
+            bi.fsState = TBSTATE_ENABLED | (isActive ? TBSTATE_CHECKED : 0);
         }
         tb.SetButtonInfo(buttonID, &bi);
         lastBool = isActive;
@@ -1029,9 +1029,16 @@ void CPlayerToolBar::SaveToolbarState() {
 }
 
 void CPlayerToolBar::ToolbarChange() {
+    //clear these to ensure states are updated for new or moved buttons
+    lastFullscreen = std::nullopt;
+    lastPlaylist = std::nullopt;
+    lastShuffle = std::nullopt;
+    lastRepeat = std::nullopt;
+
     SaveToolbarState();
     m_pMainFrame->RecalcLayout();
     ArrangeControls();
+
     OnUpdateCmdUI(m_pMainFrame, FALSE); //useful for making sure button states are updated while in the options dialog
     Invalidate();
 }
