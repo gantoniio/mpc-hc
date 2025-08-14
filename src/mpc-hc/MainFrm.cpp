@@ -4445,7 +4445,19 @@ void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
             subMenu->fulfillThemeReqs();
         }
         m_bTBDropdownActive = true;
-        subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN, r.left, r.top, this);
+        BOOL clicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
+
+        //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
+        if (0 == clicked && IsLeftMouseButtonDown()) {
+            CPoint p;
+            CRect tbRect;
+            ::GetCursorPos(&p);
+            m_wndToolBar.GetWindowRect(tbRect);
+            if (PtInRect(&tbRect, p)) {
+                m_wndToolBar.ScreenToClient(&p);
+                m_wndToolBar.PostMessageW(WM_LBUTTONDOWN, 0, MAKELPARAM(p.x, p.y));
+            }
+        }
         m_bTBDropdownActive = false;
     }
 }
