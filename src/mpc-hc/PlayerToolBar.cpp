@@ -35,15 +35,43 @@
 #include "stb/stb_image_resize2.h"
 
 // CPlayerToolBar
+/*
+Each toolbar image contains 4 rows of 26 buttons.
+Row 1: buttons for light theme, enabled/active state
+Row 2: buttons for light theme, disabled/inactive state
+Row 3: buttons for dark theme, enabled/active state
+Row 4: buttons for dark theme, disabled/inactive state
 
-//svg has 30 positions
-//0-7 are standard mpc buttons
-//8-23 reserved for additional toolbar buttons
-//24-25 are volume on/mute (disabled are low volume and no audio)
-//27-28 reserved for volume svg
+
+Play
+Pause
+Stop
+Previous(file / chapter)
+Next(file / chapter)
+Audio(stream selection)
+Subtitles(stream selection)
+Decrease playback speed
+Increase playback speed
+Framestep
+Open(file / url)
+Options
+Toggle fullscreen
+Toggle playlist
+Toggle shuffle
+Toggle repeat
+Seek backwards
+Seek forwards
+Information
+Close player
+Generic button 1 (these buttons are reserved for future ability of assigning custom actions)
+Generic button 2 (these buttons can have number 1 - 4, letters A - D, or just some other unique icon)
+Generic button 3
+Generic button 4
+Sound enabled(active state) + Sound enabled(low volume) (inactive state)
+Sound muted(active state) + Sound unavailable(inactive state)
+*/
 
 #define VOLUMEBUTTON_SVG_INDEX 24
-#define VOLUME_SVG_INDEX 27
 
 std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButtons = {
     {ID_PLAY_PLAY, {TBBS_CHECKGROUP, 0, 0, LOCK_LEFT}},
@@ -210,8 +238,6 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
         int height = image.GetHeight() / 4;
         int bpp = image.GetBPP();
         if (width % height == 0) {
-            int volumeIndex = VOLUME_SVG_INDEX;
-
             imageList.reset(DEBUG_NEW CImageList());
             imageList->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 64);
             CImage dynamicToolbar, dynamicToolbarDisabled;
@@ -257,16 +283,6 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
             if (!createCustomizeButtons) {
                 targetDC.SelectObject(CBitmap::FromHandle(dynamicToolbarDisabled));
                 targetDC.BitBlt(0, 0, image.GetWidth(), height, &sourceDC, 0, imageDisabledOffset, SRCCOPY);
-
-                targetDC.SelectObject(CBitmap::FromHandle(volumeOn));
-                targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageOffset, SRCCOPY);
-                targetDC.SelectObject(CBitmap::FromHandle(volumeOff));
-                targetDC.BitBlt(0, 0, height * 2, height, &sourceDC, volumeIndex * height, imageDisabledOffset, SRCCOPY);
-                //volumeOn.Save(L"c:\\temp\\vON.png", Gdiplus::ImageFormatPNG);
-                //volumeOff.Save(L"c:\\temp\\vOFF.png", Gdiplus::ImageFormatPNG);
-
-                ImageGrayer::PreMultiplyAlpha(volumeOn);
-                ImageGrayer::PreMultiplyAlpha(volumeOff);
             }
 
             //we will add the disabled buttons to the end of the imagelist, for customize page and "toggle" buttons with extra icons (e.g., fullscreen)
