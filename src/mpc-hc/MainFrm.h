@@ -508,6 +508,8 @@ private:
     bool m_bOpenMediaActive;
     int m_OpenMediaFailedCount;
 
+    bool m_bTBDropdownActive;
+
     REFTIME GetAvgTimePerFrame() const;
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
 

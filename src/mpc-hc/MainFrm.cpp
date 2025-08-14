@@ -923,6 +923,7 @@ CMainFrame::CMainFrame()
     , defaultVideoAngle(0)
     , m_media_trans_control()
     , recentFilesMenuFromMRUSequence(-1)
+    , m_bTBDropdownActive(false)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -4441,7 +4442,9 @@ void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
         if (AppNeedsThemedControls()) {
             subMenu->fulfillThemeReqs();
         }
+        m_bTBDropdownActive = true;
         subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN, r.left, r.top, this);
+        m_bTBDropdownActive = false;
     }
 }
 
