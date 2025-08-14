@@ -19,7 +19,6 @@ public:
     DECLARE_MESSAGE_MAP()
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     BOOL PreTranslateMessage(MSG* pMsg);
-    virtual BOOL OnOK_EX(UINT nId);
 private:
     bool isDummy = false;
     CMPCThemeUtil::SpecialThemeCases specialCase = NoSpecialCase;

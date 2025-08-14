@@ -1109,10 +1109,6 @@ void CPlayerToolBar::OnTbnEndAdjust(NMHDR* pNMHDR, LRESULT* pResult) {
 
 void CPlayerToolBar::OnLButtonDblClk(UINT nFlags, CPoint point) {
 //disabled to avoid the built-in customization dialog
-#if 0    
-    m_pMainFrame->enableDialogHook(this, CMainFrame::themableDialogTypes::toolbarCustomizeDialog);
-    CToolBar::OnLButtonDblClk(nFlags, point);
-#endif
 }
 
 void CPlayerToolBar::ToolBarReset() {

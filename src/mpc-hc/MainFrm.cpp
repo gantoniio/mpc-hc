@@ -21140,9 +21140,6 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     } else if (message == WM_GETICON && foundDialog == themableDialogTypes::windowsFileDialog && nullptr != dialogHookHelper && nullptr != dialogHookHelper->themableDialogHandle) {
         dialogHookHelper->subClassFileDialog(this);
         foundDialog = themableDialogTypes::None;
-    } else if (message == WM_ENTERIDLE && foundDialog == themableDialogTypes::toolbarCustomizeDialog && nullptr != dialogHookHelper && nullptr != dialogHookHelper->themableDialogHandle) {
-        dialogHookHelper->subClassTBCustomizeDialog(this, &m_wndToolBar);
-        foundDialog = themableDialogTypes::None;
     }
 
     if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION && !m_pMVRSR) {

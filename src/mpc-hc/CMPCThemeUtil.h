@@ -18,7 +18,6 @@ public:
         NoSpecialCase = 0,
         ExternalPropertyPageWithDefaultButton,
         ExternalPropertyPageWithAnalogCaptureSliders,
-        ToolbarCustomizeDialog
     };
 
     enum WidgetPairType {
@@ -51,7 +50,6 @@ public:
     void subClassFileDialog(CWnd* wnd);
     void subClassFileDialogWidgets(HWND widget, HWND parent, wchar_t* childWindowClass);
     void redrawAllThemedWidgets();
-    void subClassTBCustomizeDialog(CWnd* wnd, CToolBar* tb);
 protected:
     int dialogProminentControlStringID = 0;
 
@@ -59,7 +57,7 @@ protected:
     static NONCLIENTMETRICS nonClientMetrics;
     std::vector<CWnd*> allocatedWindows;
 
-    void fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase = SpecialThemeCases::NoSpecialCase, CWnd* otherWindow = nullptr);
+    void fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase = SpecialThemeCases::NoSpecialCase);
     static void initHelperObjects();
     void makeThemed(CWnd* pObject, CWnd* tChild);
 

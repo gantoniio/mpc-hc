@@ -1407,7 +1407,6 @@ public:
     enum themableDialogTypes {
         None,
         windowsFileDialog,
-        toolbarCustomizeDialog
     };
     void enableFileDialogHook(CMPCThemeUtil* helper);
     void enableDialogHook(CMPCThemeUtil* helper, themableDialogTypes type);

@@ -7,7 +7,6 @@
 IMPLEMENT_DYNAMIC(CMPCThemeListBox, CListBox)
 
 CMPCThemeListBox::CMPCThemeListBox()
-    :customizeToolBar(nullptr)
 {
     themedToolTipCid = (UINT_PTR) - 1;
     themedSBHelper = nullptr;
@@ -58,19 +57,6 @@ void CMPCThemeListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
         dc.SetTextColor(CMPCTheme::TextFGColor);
         dc.SetBkColor(CMPCTheme::ContentBGColor);
         dc.FillSolidRect(&rc, CMPCTheme::ContentBGColor);
-    }
-
-    if (customizeToolBar) {
-        if (buttonID != -1) {
-            auto list = customizeToolBar->GetToolBarCtrl().GetImageList();
-            IMAGEINFO ii;
-            list->GetImageInfo(buttonID, &ii);
-            CRect rci(ii.rcImage);
-            int border = (rc.Height() - rci.Height()) / 2;
-            border = border < 0 ? 0 : border;
-            list->Draw(&dc, buttonID, rc.TopLeft() + CPoint(border, border), ILD_NORMAL);
-        }
-        rc.left += rc.Height();
     }
 
     rc.left += 3;

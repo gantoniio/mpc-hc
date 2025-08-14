@@ -35,25 +35,7 @@ CMPCThemeUtil::~CMPCThemeUtil()
     }
 }
 
-void CMPCThemeUtil::subClassTBCustomizeDialog(CWnd* wnd, CToolBar* customizeToolBar)
-{
-    CWnd* c = CWnd::FromHandle(themableDialogHandle);
-    CMPCThemeDialog* pObject = DEBUG_NEW CMPCThemeDialog();
-    pObject->SetSpecialCase(ToolbarCustomizeDialog);
-    makeThemed(pObject, c);
-    fulfillThemeReqs(c, ToolbarCustomizeDialog, customizeToolBar);
-
-    ::RedrawWindow(themableDialogHandle, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE);
-
-    if (AfxGetAppSettings().bWindows10DarkThemeActive) {
-        enableWindows10DarkFrame(pObject);
-        //force titlebar redraw
-        c->SendMessage(WM_NCACTIVATE, FALSE);
-        c->SendMessage(WM_NCACTIVATE, TRUE);
-    }
-}
-
-void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /* = 0 */, CWnd* otherWindow /* = nullptr */)
+void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /* = 0 */)
 {
     if (AppIsThemeLoaded()) {
 
@@ -149,9 +131,6 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                 } else if (0 == _tcsicmp(windowClass, WC_LISTBOX)) {
                     CMPCThemeListBox* pObject = DEBUG_NEW CMPCThemeListBox();
                     makeThemed(pObject, tChild);
-                    if (specialCase == ToolbarCustomizeDialog) {
-                        pObject->SetCustomizeToolbar ((CToolBar*)otherWindow);
-                    }
                 } else if (0 == _tcsicmp(windowClass, TRACKBAR_CLASS)) {
                     CMPCThemeSliderCtrl* pObject = DEBUG_NEW CMPCThemeSliderCtrl();
                     makeThemed(pObject, tChild);
