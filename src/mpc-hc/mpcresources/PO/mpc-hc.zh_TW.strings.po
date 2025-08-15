@@ -599,6 +599,22 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "播放::著色器"
 
+msgctxt "IDD_PPAGETOOLBAR"
+msgid "Player::ToolBar"
+msgstr ""
+
+msgctxt "IDD_PPAGETOOLBARLAYOUT"
+msgid "Player::ToolBar Layout"
+msgstr ""
+
+msgctxt "IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS"
+msgid "Available Buttons"
+msgstr ""
+
+msgctxt "IDS_PPAGE_TOOLBAR_CUR_BUTTONS"
+msgid "Current Buttons"
+msgstr ""
+
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
 msgstr "資源"
@@ -1423,6 +1439,10 @@ msgstr "滑鼠"
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
 msgstr "程式指令"
+
+msgctxt "IDS_AG_BUILTIN_TOOLBAR"
+msgid "Built-in ToolBar"
+msgstr ""
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -4820,3 +4840,55 @@ msgstr "預設值"
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
 msgstr "/thumbnails\t建立縮圖"
+
+msgctxt "IDS_CUSTOM_ACTION1"
+msgid "Custom Action 1"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_ACTION2"
+msgid "Custom Action 2"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_ACTION3"
+msgid "Custom Action 3"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_ACTION4"
+msgid "Custom Action 4"
+msgstr ""
+
+msgctxt "IDS_AUDIOS"
+msgid "Audio Track"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES"
+msgid "Subtitle Track"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT_FULLSCREEN"
+msgid "Exit Fullscreen"
+msgstr ""
+
+msgctxt "IDS_AG_SHOW_PLAYLIST"
+msgid "Show Playlist"
+msgstr ""
+
+msgctxt "IDS_AG_HIDE_PLAYLIST"
+msgid "Hide Playlist"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLE_SHUFFLE"
+msgid "Enable Shuffle"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLE_SHUFFLE"
+msgid "Disable Shuffle"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLE_REPEAT"
+msgid "Enable Repeat"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLE_REPEAT"
+msgid "Disable Repeat"
+msgstr ""
