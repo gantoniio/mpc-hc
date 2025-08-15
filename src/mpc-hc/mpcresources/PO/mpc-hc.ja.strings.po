@@ -4330,7 +4330,7 @@ msgid ""
 "\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
 msgstr ""
 "/viewpreset N\t指定した表示プリセットで開始する,\n"
-"\t\t(N には \"1\" 最小, \"2\" コンパクト, \"3\" 標準)"
+"\t\t(N は \"1\" 最小, \"2\" コンパクト, \"3\" 標準)"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
