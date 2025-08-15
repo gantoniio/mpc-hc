@@ -3943,7 +3943,7 @@ msgid ""
 "If \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
 msgstr ""
 "「直前のキーフレーム」 を選択すると、シーク位置より前にある最初のキーフレームに移動します。\n"
-"「最も近いキーフレーム」 を選択すると、シーク位置の前後にあるキーフレームのうち、最も近いものに移動します。"
+"「最も近いキーフレーム」 を選択すると、シーク位置の前後にあるキーフレームのうち、位置がより近い方に移動します。"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
