@@ -11415,7 +11415,7 @@ void CMainFrame::OnHelpCheckForUpdate()
 
 void CMainFrame::OnHelpToolbarImages()
 {
-    ShellExecute(m_hWnd, _T("open"), _T("https://github.com/clsid2/mpc-hc/issues/382"), nullptr, nullptr, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), _T("https://github.com/clsid2/mpc-hc/issues/3494"), nullptr, nullptr, SW_SHOWDEFAULT);
 }
 
 void CMainFrame::OnHelpDonate()
