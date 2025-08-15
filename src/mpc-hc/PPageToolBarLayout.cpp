@@ -300,8 +300,13 @@ bool CPPageToolBarLayout::MoveButton(CMPCThemePlayerListCtrl& srcList, CMPCTheme
     int destRow = dstList.GetSelectionMark();
 
     if (!addingButton) {
-        if (destRow == -1) {
-            destRow = 0;
+        //unused buttons are sorted by svgIndex, so insert accordingly
+        int idx = supportedButtons[buttonID].svgIndex;
+        for (destRow = 0; destRow < dstList.GetItemCount(); destRow++) {
+            int tidCommand = (int)dstList.GetItemData(destRow);
+            if (supportedButtons[tidCommand].svgIndex > idx) {
+                break;
+            }
         }
     } else { //active
         if (destRow == -1) {
