@@ -145,17 +145,26 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale, CStringW
     CStringW basetbname;
     basetbname = L"buttons" + resolutionPostfix + L".";
 
+    auto isValidToolbarImage = [](const CImage& img) -> bool {
+        int height = img.GetHeight();
+        int width = img.GetWidth();
+        return (height % 4 == 0) && (width % (height / 4) == 0);
+    };
+
     // Try loading the external toolbar
     for (const auto& path : paths) {
         CStringW tbPath = PathUtils::CombinePaths(path, L"toolbars");
         tbPath = PathUtils::CombinePaths(tbPath, s.strToolbarName);
         if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(tbPath, basetbname + "svg"), image, svgscale))) {
-            return true;
+            if (isValidToolbarImage(image)) {
+                return true;
+            }
+            image.Destroy();
         }
         CImage src;
         if (SUCCEEDED(src.Load(PathUtils::CombinePaths(tbPath, basetbname + "png")))) {
             if (src.GetBPP() != 32) {
-                return false; //only 32 bit png allowed
+                continue; //only 32 bit png allowed
             }
             if (svgscale != 1.0) {
                 int width = src.GetWidth() * svgscale;
@@ -165,11 +174,16 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image, float svgscale, CStringW
                 image.Create(width, height, src.GetBPP(), CImage::createAlphaChannel);
 
                 auto success = stbir_resize(static_cast<BYTE*>(src.GetBits()), src.GetWidth(), src.GetHeight(), src.GetPitch(), static_cast<BYTE*>(image.GetBits()), width, height, image.GetPitch(), STBIR_BGRA, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, STBIR_FILTER_DEFAULT);
-
-                return nullptr != success;
+                if (success && isValidToolbarImage(image)) {
+                    return true;
+                }
+                image.Destroy();
             } else {
                 image.Attach(src.Detach());
-                return true;
+                if (isValidToolbarImage(image)) {
+                    return true;
+                }
+                image.Destroy();
             }
         }
     }
@@ -222,7 +236,7 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
     }
 
     bool buttonsImageLoaded = false;
-    if (LoadExternalToolBar(image, svgscale, resolutionPostfix) && image.GetHeight() % 4 == 0 && image.GetWidth() % (image.GetHeight() / 4) == 0) {
+    if (LoadExternalToolBar(image, svgscale, resolutionPostfix)) {
         buttonsImageLoaded = true;
     } else {
         s.nToolbarType = CAppSettings::INTERNAL_TOOLBAR;
