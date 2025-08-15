@@ -622,6 +622,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
     ON_WM_POWERBROADCAST()
 
+    // Support toolbar dropdown buttons
+    ON_NOTIFY(TBN_DROPDOWN, AFX_IDW_TOOLBAR, OnToolbarDropDown)
+    ON_UPDATE_COMMAND_UI(ID_AUDIOS, OnUpdateAudiosButton)
+    ON_UPDATE_COMMAND_UI(ID_SUBTITLES, OnUpdateSubtitlesButton)
+
     // Navigation panel
     ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
     ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
@@ -899,8 +904,8 @@ CMainFrame::CMainFrame()
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
     , m_bHasBDMeta(false)
-    , watchingFileDialog(false)
-    , fileDialogHookHelper(nullptr)
+    , watchingDialog(themableDialogTypes::None)
+    , dialogHookHelper(nullptr)
     , delayingFullScreen(false)
     , restoringWindowRect(false)
     , mediaTypesErrorDlg(nullptr)
@@ -918,6 +923,7 @@ CMainFrame::CMainFrame()
     , defaultVideoAngle(0)
     , m_media_trans_control()
     , recentFilesMenuFromMRUSequence(-1)
+    , m_bTBDropdownActive(false)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -3020,6 +3026,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                     SetupDVDChapters();
                 }
+                SetupSubtitlesSubMenu();
+                SetupAudioSubMenu();
             }
             break;
             case EC_DVD_DOMAIN_CHANGE: {
@@ -4194,13 +4202,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
     s.nCLSwitches &= ~CLSW_OPEN;  
 
-    // Ensure the dynamically added menu items are updated
-    SetupFiltersSubMenu();
-    SetupAudioSubMenu();
-    SetupSubtitlesSubMenu();
-    SetupVideoStreamsSubMenu();
-    SetupJumpToSubMenus();
-    SetupRecentFilesSubMenu();
+    LoadDynamicMenus();
 
     // notify listeners
     if (GetPlaybackMode() != PM_DIGITAL_CAPTURE) {
@@ -4427,6 +4429,50 @@ void CMainFrame::OnBossKey()
     // Enable animation
     AnimationInfo.iMinAnimate = m_WindowAnimationType;
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
+}
+
+void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
+    CRect r;
+    CMPCThemeMenu* subMenu = nullptr;
+    m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(pNMTB->iItem), r);
+    m_wndToolBar.ClientToScreen(r);
+    if (pNMTB->iItem == ID_AUDIOS) {
+        SetupAudioSubMenu();
+        subMenu = &m_audiosMenu;
+    } else if (pNMTB->iItem == ID_SUBTITLES) {
+        SetupSubtitlesSubMenu();
+        subMenu = &m_subtitlesMenu;
+    }
+
+    if (subMenu) {
+        if (AppNeedsThemedControls()) {
+            subMenu->fulfillThemeReqs();
+        }
+        m_bTBDropdownActive = true;
+        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
+
+        //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
+        if (0 == idClicked && IsLeftMouseButtonDown()) {
+            CPoint p;
+            CRect tbRect, bRect;
+            ::GetCursorPos(&p);
+            m_wndToolBar.GetWindowRect(tbRect);
+            if (PtInRect(&tbRect, p) && !PtInRect(&r, p)) {
+                m_wndToolBar.ScreenToClient(&p);
+                m_wndToolBar.PostMessageW(WM_LBUTTONDOWN, 0, MAKELPARAM(p.x, p.y));
+            }
+        }
+        m_bTBDropdownActive = false;
+    }
+}
+
+void CMainFrame::OnUpdateAudiosButton(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(GetLoadState() != MLS::LOADING && m_audiosMenu.GetMenuItemCount() > 0);
+}
+
+void CMainFrame::OnUpdateSubtitlesButton(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(GetLoadState() != MLS::LOADING && m_subtitlesMenu.GetMenuItemCount() > 0);
 }
 
 void CMainFrame::OnStreamAudio(UINT nID)
@@ -7862,10 +7908,15 @@ void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
     pCmdUI->Enable(enabled);
 }
 
+void CMainFrame::UpdatePlaylistButton() {
+    m_wndToolBar.SetPlaylist(m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST));
+}
+
 void CMainFrame::OnViewPlaylist()
 {
     m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
     m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
+    UpdatePlaylistButton();
 }
 
 void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
@@ -7877,6 +7928,7 @@ void CMainFrame::OnPlaylistToggleShuffle() {
     CAppSettings& s = AfxGetAppSettings();
     s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
     m_wndPlaylistBar.m_pl.SetShuffle(s.bShufflePlaylistItems);
+    m_wndToolBar.SetShuffle(s.bShufflePlaylistItems);
 }
 
 void CMainFrame::OnViewEditListEditor()
@@ -8046,6 +8098,7 @@ void CMainFrame::OnViewFullscreen()
     } else {
         ToggleFullscreen(true, true);
     }
+    m_wndToolBar.SetFullscreen(m_fFullScreen);
 }
 
 void CMainFrame::OnViewFullscreenSecondary()
@@ -8057,6 +8110,7 @@ void CMainFrame::OnViewFullscreenSecondary()
     } else {
         ToggleFullscreen(true, false);
     }
+    m_wndToolBar.SetFullscreen(m_fFullScreen);
 }
 
 void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
@@ -16149,6 +16203,17 @@ void CMainFrame::DestroyDynamicMenus()
     VERIFY(m_shadersMenu.DestroyMenu());
     VERIFY(m_recentFilesMenu.DestroyMenu());
     m_nJumpToSubMenusCount = 0;
+    recentFilesMenuFromMRUSequence = -1;
+}
+
+void CMainFrame::LoadDynamicMenus() {
+    // Ensure the dynamically added menu items are updated
+    SetupFiltersSubMenu();
+    SetupAudioSubMenu();
+    SetupSubtitlesSubMenu();
+    SetupVideoStreamsSubMenu();
+    SetupJumpToSubMenus();
+    SetupRecentFilesSubMenu();
 }
 
 void CMainFrame::SetupOpenCDSubMenu()
@@ -21003,11 +21068,17 @@ BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwS
     return FALSE;
 }
 
-void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper)
-{
+void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper) {
     if (AfxGetAppSettings().bWindows10DarkThemeActive) { //hard coded behavior for windows 10 dark theme file dialogs, irrespsective of theme loaded by user (fixing windows bugs)
-        watchingFileDialog = true;
-        fileDialogHookHelper = helper;
+        watchingDialog = themableDialogTypes::windowsFileDialog;
+        dialogHookHelper = helper;
+    }
+}
+
+void CMainFrame::enableDialogHook(CMPCThemeUtil* helper, themableDialogTypes type) {
+    if (AppIsThemeLoaded()) {
+        watchingDialog = type;
+        dialogHookHelper = helper;
     }
 }
 
@@ -21066,12 +21137,14 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
                 break;
         }
         return 0;
-    } else if (watchingFileDialog && nullptr != fileDialogHookHelper && message == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE) {
-        fileDialogHookHelper->fileDialogHandle = (HWND)lParam;
-        watchingFileDialog = false;
+    } else if (watchingDialog != themableDialogTypes::None && nullptr != dialogHookHelper && message == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE) {
+        dialogHookHelper->themableDialogHandle = (HWND)lParam;
+        foundDialog = watchingDialog;
+        watchingDialog = themableDialogTypes::None;
         //capture but process message normally
-    } else if (message == WM_GETICON && nullptr != fileDialogHookHelper && nullptr != fileDialogHookHelper->fileDialogHandle) {
-        fileDialogHookHelper->subClassFileDialog(this);
+    } else if (message == WM_GETICON && foundDialog == themableDialogTypes::windowsFileDialog && nullptr != dialogHookHelper && nullptr != dialogHookHelper->themableDialogHandle) {
+        dialogHookHelper->subClassFileDialog(this);
+        foundDialog = themableDialogTypes::None;
     }
 
     if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION && !m_pMVRSR) {
@@ -21373,6 +21446,7 @@ void CMainFrame::ReloadMenus() {
 
     // Reload the dynamic menus
     CreateDynamicMenus();
+    LoadDynamicMenus();
 }
 
 

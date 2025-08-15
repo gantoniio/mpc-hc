@@ -39,6 +39,7 @@
 #include "date/date.h"
 #include "PPageExternalFilters.h"
 #include "../VideoRenderers/MPCVRAllocatorPresenter.h"
+std::map<DWORD, const wmcmd_base*> CAppSettings::CommandIDToWMCMD;
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
@@ -114,6 +115,16 @@ CAppSettings::CAppSettings()
     , nVolumeStep(5)
     , nSpeedStep(0)
     , nDefaultToolbarSize(24)
+    , nToolbarAction1(0)
+    , nToolbarAction2(0)
+    , nToolbarAction3(0)
+    , nToolbarAction4(0)
+    , nToolbarRightAction1(0)
+    , nToolbarRightAction2(0)
+    , nToolbarRightAction3(0)
+    , nToolbarRightAction4(0)
+    , nToolbarType(INTERNAL_TOOLBAR)
+    , strToolbarName(L"")
     , eAfterPlayback(AfterPlayback::DO_NOTHING)
     , fUseDVDPath(false)
     , idMenuLang(0)
@@ -762,6 +773,7 @@ void CAppSettings::CreateCommands()
     for (const auto& wc : default_wmcmds) {
         wmcmd w = wmcmd(wc);
         w.fVirt |= FVIRTKEY | FNOINVERT;
+        CommandIDToWMCMD[wc.cmd] = &wc;
         wmcmds.AddTail(w);
     }
     ASSERT(wmcmds.GetCount() <= ACCEL_LIST_SIZE);
@@ -1283,7 +1295,20 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
                                  static_cast<int>(eSubtitleRenderer)));
 
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, nDefaultToolbarSize);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_DEFAULTTOOLBARSIZE, nDefaultToolbarSize);
+
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION1, nToolbarAction1);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION2, nToolbarAction2);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION3, nToolbarAction3);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION4, nToolbarAction4);
+
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION1, nToolbarRightAction1);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION2, nToolbarRightAction2);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION3, nToolbarRightAction3);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION4, nToolbarRightAction4);
+    pApp->WriteProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBAR_TYPE, nToolbarType);
+    pApp->WriteProfileString(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBAR_NAME, strToolbarName);
+
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, bSaveImagePosition);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, bSaveImageCurrentTime);
@@ -2218,7 +2243,20 @@ void CAppSettings::LoadSettings()
         bRenderSSAUsingLibass = true;
     }
 
-    nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, 24);
+    nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_DEFAULTTOOLBARSIZE, 24);
+
+    nToolbarAction1 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION1, 0);
+    nToolbarAction2 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION2, 0);
+    nToolbarAction3 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION3, 0);
+    nToolbarAction4 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARACTION4, 0);
+
+    nToolbarRightAction1 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION1, 0);
+    nToolbarRightAction2 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION2, 0);
+    nToolbarRightAction3 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION3, 0);
+    nToolbarRightAction4 = pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBARRIGHTACTION4, 0);
+    nToolbarType = (TOOLBAR_TYPE)pApp->GetProfileInt(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBAR_TYPE, INTERNAL_TOOLBAR);
+    strToolbarName = pApp->GetProfileString(IDS_R_PLAYERTOOLBAR, IDS_RS_TOOLBAR_NAME, L"");
+
 
     bSaveImagePosition = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, TRUE);
     bSaveImageCurrentTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, FALSE);
@@ -2280,7 +2318,7 @@ void CAppSettings::LoadSettings()
     iMouseLeftUpDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, 0);
 
     if (bMPCTheme) {
-        CMPCTheme::InitializeColors(eModernThemeMode);
+        CMPCTheme::InitializeColors();
     }
     // GUI theme can be used now
     static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded = bMPCTheme;

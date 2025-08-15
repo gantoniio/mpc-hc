@@ -179,6 +179,8 @@ public:
     virtual BOOL WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue) override;
     virtual BOOL WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue) override;
     bool HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry);
+    std::vector<int> GetProfileVectorInt(CString strSection, CString strKey);
+    void WriteProfileVectorInt(CString strSection, CString strKey, std::vector<int> vData);
 
     bool GetAppSavePath(CString& path);
     bool GetAppDataPath(CString& path);

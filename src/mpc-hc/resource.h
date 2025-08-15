@@ -73,6 +73,12 @@
 #define IDF_SHADER_EMPTY                701
 #define IDF_SHADER_FINAL                702
 #define IDF_SVG_TOOLBAR                 703
+#define IDF_SVG_ARROW                   704
+#define IDF_SVG_BUTTONS16               705
+#define IDF_SVG_BUTTONS24               706
+#define IDF_SVG_BUTTONS32               707
+#define IDF_SVG_BUTTONS48               708
+#define IDF_SVG_BUTTONS64               709
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802
@@ -269,6 +275,10 @@
 #define ID_PRESIZE_SHADERS_TOGGLE       998
 #define ID_POSTSIZE_SHADERS_TOGGLE      999
 #define ID_PANSCAN_ROTATEZP2            1000
+#define ID_BUTTON_FULLSCREEN            1001
+#define ID_BUTTON_PLAYLIST              1002
+#define ID_BUTTON_SHUFFLE               1003
+#define ID_BUTTON_REPEAT                1004
 #define ID_FILTERS_COPY_TO_CLIPBOARD    1999
 #define ID_FILTERS_SUBITEM_START        2000
 #define ID_FILTERS_SUBITEM_END          2099
@@ -318,7 +328,11 @@
 #define ID_PLAY_PLAYBACKRATE_END        5029
 #define ID_PLAYLIST_TOGGLE_SHUFFLE      5030
 #define ID_CMDLINE_SAVE_THUMBNAILS      5031
-#define ID_MOUSE_ADD_CMD                5032
+#define ID_COMBO_ADD_CMD                5032
+#define ID_CUSTOM_ACTION1               5033
+#define ID_CUSTOM_ACTION2               5034
+#define ID_CUSTOM_ACTION3               5035
+#define ID_CUSTOM_ACTION4               5036
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
@@ -629,6 +643,8 @@
 #define IDD_PPAGEDPICALC                20018
 #define IDD_RAR_ENTRY_SELECTOR          20019
 #define IDD_ADDCOMMAND_DLG              20020
+#define IDD_PPAGETOOLBAR                20021
+#define IDD_PPAGETOOLBARLAYOUT          20022
 #define IDB_DT_CB_96                    20050
 #define IDB_DT_CB_120                   20051
 #define IDB_DT_CB_144                   20052
@@ -651,7 +667,6 @@
 #define IDB_GRIPPER_144                 20071
 #define IDB_GRIPPER_192                 20073
 #define IDB_GRIPPER_96                  20074
-#define IDB_PNG1                        20075
 #define IDB_GRIPPER_120                 20075
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
@@ -774,12 +789,14 @@
 #define ID_SUBRESYNC_SHIFT_UP           32783
 #define ID_VIEW_DISPLAY_RENDERER_STATS  32784
 #define ID_VIEW_RESET_RENDERER_STATS    32785
+#define ID_MENU_NONE                    32786
 #define IDS_AG_CLOSE                    32830
 #define IDS_AG_NONE                     32832
 #define IDS_AG_COMMAND                  32833
 #define IDS_AG_KEY                      32834
 #define IDS_AG_MOUSE                    32836
 #define IDS_AG_APP_COMMAND              32838
+#define IDS_AG_BUILTIN_TOOLBAR          32839
 #define IDS_AG_MEDIAFILES               32871
 #define IDS_AG_ALLFILES                 32872
 #define IDS_AG_AUDIOFILES               32873
@@ -888,6 +905,13 @@
 #define IDS_OSD_SHOW_FILENAME           32983
 #define IDS_PLAY_DVD                    32984
 #define IDS_PLAY_BD                     32985
+#define IDS_AG_EXIT_FULLSCREEN          32986
+#define IDS_AG_SHOW_PLAYLIST            32987
+#define IDS_AG_HIDE_PLAYLIST            32988
+#define IDS_AG_ENABLE_SHUFFLE           32989
+#define IDS_AG_DISABLE_SHUFFLE          32990
+#define IDS_AG_ENABLE_REPEAT            32991
+#define IDS_AG_DISABLE_REPEAT           32992
 #define IDS_PPAGEWEBSERVER_0            32996
 #define IDS_MAINFRM_2                   33014
 #define IDS_AG_SUBTITLES_SAVED          33015
@@ -1479,6 +1503,8 @@
 #define IDS_MOUSE_ACTION                41710
 #define IDS_MOUSE_COMMAND               41711
 #define IDS_MOUSE_RIGHT_BUTTON          41712
+#define IDS_PPAGE_TOOLBAR_CUR_BUTTONS   41713
+#define IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS 41714
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347
@@ -1763,6 +1789,12 @@
 #define IDS_ARS_TIP_ALT_CHECK_FORMAT    57721
 #define IDS_FILTER_RESET_SETTINGS       57722
 #define IDS_AG_DEFAULT                  57723
+#define IDS_CUSTOM_ACTION1              57724
+#define IDS_CUSTOM_ACTION2              57725
+#define IDS_CUSTOM_ACTION3              57726
+#define IDS_CUSTOM_ACTION4              57727
+#define IDS_AUDIOS                      57728
+#define IDS_SUBTITLES                   57729
 
 // Next default values for new objects
 // 

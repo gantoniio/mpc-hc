@@ -128,7 +128,7 @@ BOOL CPPageMouse::OnInitDialog()
 
     AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_77), ID_MENU_PLAYER_SHORT);
     AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_78), ID_MENU_PLAYER_LONG);
-    AddStringData(m_cmbRightButtonClick, L"<...>", ID_MOUSE_ADD_CMD);
+    AddStringData(m_cmbRightButtonClick, L"<...>", ID_COMBO_ADD_CMD);
     if (s.nMouseRightClick != ID_MENU_PLAYER_LONG && s.nMouseRightClick != ID_MENU_PLAYER_SHORT) {
         AddCmdToRightClick(s.nMouseRightClick, m_cmbRightButtonClick.GetCount());
     }
@@ -285,7 +285,7 @@ void CPPageMouse::AddCmdToRightClick(WORD id, size_t idx) {
 
 void CPPageMouse::OnRightClickChange() {
     int curSel = m_cmbRightButtonClick.GetCurSel();
-    if (curSel != CB_ERR && m_cmbRightButtonClick.GetItemData(curSel) == ID_MOUSE_ADD_CMD) {
+    if (curSel != CB_ERR && m_cmbRightButtonClick.GetItemData(curSel) == ID_COMBO_ADD_CMD) {
         CAddCommandDlg dlg(this);
         if (dlg.DoModal() == IDOK) {
             const WORD id = dlg.GetSelectedCommandID();
