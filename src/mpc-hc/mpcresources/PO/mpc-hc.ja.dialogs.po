@@ -664,7 +664,7 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
 "Open previous/next file in folder on \"Skip back/forward\" when there is "
 "only one item in playlist"
-msgstr "再生リストに項目が 1 つしかない場合、 「戻る/進む」 でフォルダー内の前/次のファイルを開く"
+msgstr "再生リストに項目が 1 つしかない場合、 「前へ/次へ」 でフォルダー内の前/次のファイルを開く"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
