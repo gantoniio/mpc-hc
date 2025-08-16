@@ -4292,7 +4292,7 @@ msgstr "Na pripojenie je potrebné zadať prihlasovacie údaje k:"
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr "Stranový pomer: Predpokladať štvorcové pixely (SAR)"
+msgstr "Pomer strán: predpokladať štvorcové pixely (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
