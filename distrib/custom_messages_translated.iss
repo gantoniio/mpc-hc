@@ -215,7 +215,6 @@ ar.tsk_Other=مهام أخرى:
 ar.tsk_ResetSettings=إعادة ضبظ الإعدادات
 ar.types_DefaultInstallation=تثبيت افتراضي
 ar.types_CustomInstallation=تثبيت مخصص
-ar.ViewChangelog=عرض سجل التغيرات
 
 ; Belarusian
 be.langid=00001059
@@ -229,7 +228,6 @@ be.tsk_Other=Іншыя заданні:
 be.tsk_ResetSettings=Скінуць налады
 be.types_DefaultInstallation=Усталяванне па змаўчанні
 be.types_CustomInstallation=Адвольнае ўсталяванне
-be.ViewChangelog=Праглядзець спіс зменаў
 
 ; Bulgarian
 ;bg.langid=00001026
@@ -243,7 +241,6 @@ be.ViewChangelog=Праглядзець спіс зменаў
 ;bg.tsk_ResetSettings=Изчисти настройките
 ;bg.types_DefaultInstallation=Инсталация по подразбиране
 ;bg.types_CustomInstallation=Инсталация по избор
-;bg.ViewChangelog=Преглед на промените
 
 ; Bengali
 bn.langid=00001093
@@ -257,7 +254,6 @@ bn.tsk_Other=অন্যান্য কাজসমূহ:
 bn.tsk_ResetSettings=সেটিংসমূহ পুনর্বিন্যাস
 bn.types_DefaultInstallation=ডিফল্ট ইনস্টল প্রক্রিয়া
 bn.types_CustomInstallation=ব্যক্তি-নির্ধারিত ইনস্টল প্রক্রিয়া
-bn.ViewChangelog=পরিবর্তনতালিকা দেখুন
 
 ; Bosnian
 bs_BA.langid=00005146
@@ -271,7 +267,6 @@ bs_BA.tsk_Other=Drugi zadaci:
 bs_BA.tsk_ResetSettings=Resetuj podešavanja
 bs_BA.types_DefaultInstallation=Podrazumijevana instalacija
 bs_BA.types_CustomInstallation=Instalacija po želji
-bs_BA.ViewChangelog=Pogledaj listu izmjena
 
 ; Catalan
 ca.langid=00001027
@@ -285,7 +280,6 @@ ca.tsk_Other=Altres tasques:
 ca.tsk_ResetSettings=Restableix la configuració
 ca.types_DefaultInstallation=Instal·lació per defecte
 ca.types_CustomInstallation=Instal·lació personalitzada
-ca.ViewChangelog=Visualitza el Registre de canvis
 
 ; Czech
 cs.langid=00001029
@@ -299,7 +293,6 @@ cs.tsk_Other=Ostatní úlohy:
 cs.tsk_ResetSettings=Obnovit výchozí nastavení
 cs.types_DefaultInstallation=Standardní instalace
 cs.types_CustomInstallation=Volitelná instalace
-cs.ViewChangelog=Zobrazit seznam změn
 
 ; Danish
 da.langid=00001030
@@ -313,7 +306,6 @@ da.tsk_Other=Andre opgaver:
 da.tsk_ResetSettings=Nulstil indstillinger
 da.types_DefaultInstallation=Standardinstallation
 da.types_CustomInstallation=Brugerdefineret installation
-da.ViewChangelog=Vis ændringslog
 
 ; German (Neutral)
 de.langid=00001031
@@ -327,7 +319,6 @@ de.tsk_Other=Weitere Aufgaben:
 de.tsk_ResetSettings=Einstellungen zurücksetzen
 de.types_DefaultInstallation=Standard-Installation
 de.types_CustomInstallation=Benutzerdefinierte Installation
-de.ViewChangelog=Änderungsprotokoll anzeigen
 
 #if VER <= EncodeVer(5,5,9)
 ; Greek (Greece)
@@ -342,7 +333,6 @@ el.tsk_Other=Επιπλέον ενέργειες:
 el.tsk_ResetSettings=Επαναφορά ρυθμίσεων
 el.types_DefaultInstallation=Προκαθορισμένη εγκατάσταση
 el.types_CustomInstallation=Προσαρμοσμένη εγκατάσταση
-el.ViewChangelog=Εμφάνιση μητρώου αλλαγών
 #endif
 
 ; English (United Kingdom)
@@ -357,7 +347,6 @@ en_GB.tsk_Other=Other tasks:
 en_GB.tsk_ResetSettings=Reset settings
 en_GB.types_DefaultInstallation=Default installation
 en_GB.types_CustomInstallation=Custom installation
-en_GB.ViewChangelog=View Changelog
 
 ; Spanish
 es.langid=00003082
@@ -371,7 +360,6 @@ es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restablecer configuración
 es.types_DefaultInstallation=Instalación predeterminada
 es.types_CustomInstallation=Instalación personalizada
-es.ViewChangelog=Ver registro de cambios
 
 ; Basque
 eu.langid=00001069
@@ -385,7 +373,6 @@ eu.tsk_Other=Beste eginkizunak:
 eu.tsk_ResetSettings=Berrezarri ezarpenak
 eu.types_DefaultInstallation=Berezko ezarpena
 eu.types_CustomInstallation=Norbere ezarpena
-eu.ViewChangelog=Ikusi Aldaketa-oharra
 
 ; Finnish
 fi.langid=00001035
@@ -399,7 +386,6 @@ fi.tsk_Other=Muut tehtävät:
 fi.tsk_ResetSettings=Palauta asetukset
 fi.types_DefaultInstallation=Oletusasennus
 fi.types_CustomInstallation=Mukautettu asennus
-fi.ViewChangelog=Näytä muutosloki
 
 ; French (France)
 fr.langid=00001036
@@ -413,7 +399,6 @@ fr.tsk_Other=Autres tâches :
 fr.tsk_ResetSettings=Réinitialisation des paramètres
 fr.types_DefaultInstallation=Installation par défaut
 fr.types_CustomInstallation=Installation personnalisée
-fr.ViewChangelog=Visualiser le journal des modifications
 
 ; Galician
 gl.langid=00001110
@@ -427,7 +412,6 @@ gl.tsk_Other=Outras tarefas:
 gl.tsk_ResetSettings=Reiniciar axustes
 gl.types_DefaultInstallation=Instalación predefinida
 gl.types_CustomInstallation=Instalación personalizada
-gl.ViewChangelog=Ver rexistro de modificacións
 
 ; Hebrew (Israel)
 he.langid=00001037
@@ -441,7 +425,6 @@ he.tsk_Other=פעולות אחרות:
 he.tsk_ResetSettings=אפס הגדרות
 he.types_DefaultInstallation=התקנת ברירת מחדל
 he.types_CustomInstallation=התקנה מותאמת אישית
-he.ViewChangelog=הצג רשימת עדכונים
 
 ; Croatian
 hr.langid=00001050
@@ -455,7 +438,6 @@ hr.tsk_Other=Ostali zadaci:
 hr.tsk_ResetSettings=Vrati na početne postavke programa
 hr.types_DefaultInstallation=Standardna instalacija
 hr.types_CustomInstallation=Prilagođena instalacija
-hr.ViewChangelog=Pogledaj popis promjena
 
 ; Hungarian
 hu.langid=00001038
@@ -469,7 +451,6 @@ hu.tsk_Other=Egyéb feladatok:
 hu.tsk_ResetSettings=Beállítások alaphelyzetbe állítása
 hu.types_DefaultInstallation=Szokásos telepítés
 hu.types_CustomInstallation=Egyéni telepítés
-hu.ViewChangelog=Verziótörténet megtekintése
 
 ; Armenian (Armenia)
 hy.langid=00001067
@@ -483,7 +464,6 @@ hy.tsk_Other=Լրացուցիչ.
 hy.tsk_ResetSettings=Վերակայել կարգավորումները
 hy.types_DefaultInstallation=Սկզբնադիր տեղադրում
 hy.types_CustomInstallation=Հարմարեցված տեղակայում
-hy.ViewChangelog=Փոփոխությունների ցանկը
 
 ; Indonesian
 id.langid=00001057
@@ -497,7 +477,6 @@ id.tsk_Other=Tugas lain:
 id.tsk_ResetSettings=Setel ulang pengaturan
 id.types_DefaultInstallation=Pemasangan bawaan
 id.types_CustomInstallation=Pemasangan ubahsuai
-id.ViewChangelog=Lihat Catatan Perubahan
 
 ; Italian
 it.langid=00001040
@@ -511,7 +490,6 @@ it.tsk_Other=Altre operazioni:
 it.tsk_ResetSettings=Ripristina impostazioni
 it.types_DefaultInstallation=Installazione predefinita
 it.types_CustomInstallation=Installazione personalizzata
-it.ViewChangelog=Visualizza Changelog
 
 ; Japanese
 ja.langid=00001041
@@ -525,7 +503,6 @@ ja.tsk_Other=その他のタスク:
 ja.tsk_ResetSettings=設定をリセットする
 ja.types_DefaultInstallation=既定のインストール
 ja.types_CustomInstallation=カスタム インストール
-ja.ViewChangelog=変更履歴を表示する
 
 ; Korean
 ko.langid=00001042
@@ -539,7 +516,6 @@ ko.tsk_Other=다른 작업:
 ko.tsk_ResetSettings=설정 초기화
 ko.types_DefaultInstallation=기본 설치
 ko.types_CustomInstallation=사용자 정의 설치
-ko.ViewChangelog=버전 변경사항 보기
 
 ; Lithuanian
 lt.langid=00001063
@@ -553,7 +529,6 @@ lt.tsk_Other=Kitos užduotys:
 lt.tsk_ResetSettings=Atstatyti nustatymus
 lt.types_DefaultInstallation=Numatytasis diegimas
 lt.types_CustomInstallation=Pasirinktinis diegimas
-lt.ViewChangelog=Peržiūrėti pokyčių žurnalą
 
 ; Malay (Malaysia)
 ms_MY.langid=00001086
@@ -567,7 +542,6 @@ ms_MY.tsk_Other=Tugas lain:
 ms_MY.tsk_ResetSettings=Tetap semula tetapan
 ms_MY.types_DefaultInstallation=Pemasangan lalai
 ms_MY.types_CustomInstallation=Pemasangan suai
-ms_MY.ViewChangelog=Lihat Log Perubahan
 
 ; Dutch (Neutral)
 nl.langid=00001043
@@ -581,7 +555,6 @@ nl.tsk_Other=Andere taken:
 nl.tsk_ResetSettings=Instellingen resetten
 nl.types_DefaultInstallation=Standaard installatie
 nl.types_CustomInstallation=Aangepaste installatie
-nl.ViewChangelog=Toon changelog
 
 ; Polish
 pl.langid=00001045
@@ -595,7 +568,6 @@ pl.tsk_Other=Inne zadania:
 pl.tsk_ResetSettings=Resetuj ustawienia
 pl.types_DefaultInstallation=Instalacja standardowa
 pl.types_CustomInstallation=Instalacja niestandardowa
-pl.ViewChangelog=Pokaż zmiany
 
 ; Portuguese (Brazil)
 pt_BR.langid=00001046
@@ -609,7 +581,6 @@ pt_BR.tsk_Other=Outras tarefas:
 pt_BR.tsk_ResetSettings=Resetar configurações
 pt_BR.types_DefaultInstallation=Instalação padrão
 pt_BR.types_CustomInstallation=Instalação personalizada
-pt_BR.ViewChangelog=Visualizar Changelog
 
 ; Portuguese (Portugal)
 pt_PT.langid=00002070
@@ -623,7 +594,6 @@ pt_PT.tsk_Other=Outras tarefas:
 pt_PT.tsk_ResetSettings=Repor definições
 pt_PT.types_DefaultInstallation=Instalação predefinida
 pt_PT.types_CustomInstallation=Instalação personalizada
-pt_PT.ViewChangelog=Ver registo de alterações
 
 ; Romanian
 ro.langid=00001048
@@ -637,7 +607,6 @@ ro.tsk_Other=Alte activități:
 ro.tsk_ResetSettings=Restabilește stabilirile
 ro.types_DefaultInstallation=Instalare implicită
 ro.types_CustomInstallation=Instalare personalizată
-ro.ViewChangelog=Vezi istoricul modificărilor
 
 ; Russian
 ru.langid=00001049
@@ -651,7 +620,6 @@ ru.tsk_Other=Другие задачи:
 ru.tsk_ResetSettings=Восстановить настройки по умолчанию
 ru.types_DefaultInstallation=Установка по умолчанию
 ru.types_CustomInstallation=Выборочная установка
-ru.ViewChangelog=Посмотреть список изменений
 
 ; Slovak
 sk.langid=00001051
@@ -665,7 +633,6 @@ sk.tsk_Other=Iné úlohy:
 sk.tsk_ResetSettings=Obnoviť pôvodné nastavenia
 sk.types_DefaultInstallation=Predvolená inštalácia
 sk.types_CustomInstallation=Vlastná inštalácia
-sk.ViewChangelog=Zobraziť zoznam zmien
 
 ; Slovenian
 sl.langid=00001060
@@ -679,7 +646,6 @@ sl.tsk_Other=Ostala opravila:
 sl.tsk_ResetSettings=Ponastavi nastavitve
 sl.types_DefaultInstallation=Privzeta namestitev
 sl.types_CustomInstallation=Namestitev po meri
-sl.ViewChangelog=Poglej dnevnik sprememb
 
 #if VER <= EncodeVer(5,5,9)
 ; Serbian (Cyrillic)
@@ -694,7 +660,6 @@ sr.tsk_Other=Други задаци:
 sr.tsk_ResetSettings=Врати подразумеване поставке
 sr.types_DefaultInstallation=Уобичајена инсталација
 sr.types_CustomInstallation=Прилагођена инсталација
-sr.ViewChangelog=Погледај евиденцију промена
 #endif
 
 ; Swedish
@@ -709,7 +674,6 @@ sv.tsk_Other=Andra uppgifter:
 sv.tsk_ResetSettings=Återställ inställningar
 sv.types_DefaultInstallation=Standardinstallation
 sv.types_CustomInstallation=Anpassad installation
-sv.ViewChangelog=Visa ändringslogg
 
 ; Thai (Thailand)
 th_TH.langid=00001054
@@ -723,7 +687,6 @@ th_TH.tsk_Other=งานอื่น:
 th_TH.tsk_ResetSettings=คืนค่าการตั้งค่า
 th_TH.types_DefaultInstallation=การติดตั้งตามค่าตั้งต้น
 th_TH.types_CustomInstallation=การติดตั้งที่กำหนดเอง
-th_TH.ViewChangelog=ดูบันทึกการเปลี่ยนแปลง
 
 ; Turkish
 tr.langid=00001055
@@ -737,7 +700,6 @@ tr.tsk_Other=Diğer görevler:
 tr.tsk_ResetSettings=Ayarları sıfırla
 tr.types_DefaultInstallation=Varsayılan yükleme
 tr.types_CustomInstallation=Özel yükleme
-tr.ViewChangelog=Sürüm Notları
 
 ; Tatar
 tt.langid=00001092
@@ -751,7 +713,6 @@ tt.tsk_Other=Башка йомышлар:
 tt.tsk_ResetSettings=Килешү буенча шартларны торгызырга
 tt.types_DefaultInstallation=Килешү буенча урнаштыру
 tt.types_CustomInstallation=Сайлаулы урнаштыру
-tt.ViewChangelog=Үзгәрешләр журналын карарга
 
 ; Ukrainian
 uk.langid=00001058
@@ -765,7 +726,6 @@ uk.tsk_Other=Інші завдання:
 uk.tsk_ResetSettings=Скинути налаштування
 uk.types_DefaultInstallation=Типове встановлення
 uk.types_CustomInstallation=Вибіркове встановлення
-uk.ViewChangelog=Показати журнал змін
 
 ; Vietnamese
 vi.langid=00001066
@@ -779,7 +739,6 @@ vi.tsk_Other=Các tác vụ khác:
 vi.tsk_ResetSettings=Thiết lập lại
 vi.types_DefaultInstallation=Cài đặt mặc định
 vi.types_CustomInstallation=Cài đặt tùy chỉnh
-vi.ViewChangelog=Xem các thay đổi
 
 ; Chinese (P.R.C.)
 zh_CN.langid=00002052
@@ -793,7 +752,6 @@ zh_CN.tsk_Other=其他任务:
 zh_CN.tsk_ResetSettings=重置设置
 zh_CN.types_DefaultInstallation=默认安装方案
 zh_CN.types_CustomInstallation=自定义安装方案
-zh_CN.ViewChangelog=查看更新日志
 
 ; Chinese (Taiwan)
 zh_TW.langid=00001028
@@ -807,4 +765,3 @@ zh_TW.tsk_Other=其它工作：
 zh_TW.tsk_ResetSettings=重設設定
 zh_TW.types_DefaultInstallation=預設安裝
 zh_TW.types_CustomInstallation=自訂安裝
-zh_TW.ViewChangelog=檢視更新日誌
