@@ -2500,7 +2500,7 @@ msgstr "%s, %s %u Hz %d ビット %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "MPC-HC の再生リストに追加"
+msgstr "MPC-HC のプレイリストに追加"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
