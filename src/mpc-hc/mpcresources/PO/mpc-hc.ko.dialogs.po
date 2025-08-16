@@ -1969,7 +1969,7 @@ msgstr "사용자 정의 버튼 2"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 3"
-msgstr "맞춤형 버튼 3"
+msgstr "사용자 정의 버튼 3"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 4"
