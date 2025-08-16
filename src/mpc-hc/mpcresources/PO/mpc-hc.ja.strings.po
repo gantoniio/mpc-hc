@@ -725,7 +725,7 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "Blu-ray 再生リスト(&B)"
+msgstr "Blu-ray プレイリスト(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
