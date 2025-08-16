@@ -185,7 +185,7 @@ msgstr "自動調整(&F)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "レンダラーの設定(&E)"
+msgstr "レンダラー設定(&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -217,7 +217,7 @@ msgstr "16 - 235(&1)"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "表示(&P)"
+msgstr "描画処理(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
@@ -237,11 +237,11 @@ msgstr "強制的に 10-bit RGB 入力(&I)"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "完全な浮動小数点演算をする(&F)"
+msgstr "完全浮動小数点処理(&F)"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "半浮動小数点演算をする(&H)"
+msgstr "半精度浮動小数点処理(&H)"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
@@ -253,7 +253,7 @@ msgstr "フレーム時間補正を有効にする(&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "色の管理(&C)"
+msgstr "カラー マネジメント(&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
@@ -281,7 +281,7 @@ msgstr "SDTV PAL(&P)"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "環境光(&L)"
+msgstr "アンビエント ライト(&L)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -297,7 +297,7 @@ msgstr "暗い (ガンマ 2.4)(&A)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "レンダリングの目的(&R)"
+msgstr "レンダリング インテント(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -305,7 +305,7 @@ msgstr "知覚的(&P)"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "相対カラーメトリック(&R)"
+msgstr "相対的色域補正(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
@@ -313,7 +313,7 @@ msgstr "彩度(&S)"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "絶対カラーメトリック(&A)"
+msgstr "絶対的色域補正(&A)"
 
 msgctxt "POPUP"
 msgid "&VSync"
@@ -361,15 +361,15 @@ msgstr "リセット(&E)"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "既定のレンダラーの設定にリセット(&D)"
+msgstr "既定の設定にリセット(&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "最適なレンダラーの設定にリセット(&O)"
+msgstr "最適な設定にリセット(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "ビデオ フレーム(&F)"
+msgstr "映像フレーム(&F)"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
@@ -385,7 +385,7 @@ msgstr "2 倍のサイズ(&D)"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "ウィンドウの大きさに広げる(&S)"
+msgstr "ウィンドウに合わせて表示(&S)"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
@@ -437,7 +437,7 @@ msgstr "正方形ピクセルを想定 (&SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "モニターとデスクトップの縦横比の相違を補正(&C)"
+msgstr "モニターとデスクトップの比率差を補正(&C)"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
@@ -525,7 +525,7 @@ msgstr "再生中(&P)"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "ビデオの再生中(&V)"
+msgstr "動画の再生中(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -801,7 +801,7 @@ msgstr "コマンド ライン スイッチ(&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "ツール バーの画像をダウンロード(&T)"
+msgstr "ツールバー画像をダウンロード(&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

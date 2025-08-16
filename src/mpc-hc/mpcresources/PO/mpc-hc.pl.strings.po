@@ -9,15 +9,15 @@
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
 # Mirosław Żylewicz, 2021
 # Krzysztof Marcinek, 2024
-# Łukasz Janik, 2025
 # MPC-HC Developer, 2025
+# Łukasz Janik, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2025-05-21 22:58:36+0000\n"
+"POT-Creation-Date: 2025-08-15 11:24:59+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC-HC Developer, 2025\n"
+"Last-Translator: Łukasz Janik, 2025\n"
 "Language-Team: Polish (https://app.transifex.com/mpchc/teams/106126/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgstr "Drganie"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Szybkość transmisji"
+msgstr "Przepływność"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
@@ -617,19 +617,19 @@ msgstr "Odtwarzanie::Shadery"
 
 msgctxt "IDD_PPAGETOOLBAR"
 msgid "Player::ToolBar"
-msgstr ""
+msgstr "Program::Pasek narzędzi"
 
 msgctxt "IDD_PPAGETOOLBARLAYOUT"
 msgid "Player::ToolBar Layout"
-msgstr ""
+msgstr "Program::Układ paska narzędzi"
 
 msgctxt "IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS"
 msgid "Available Buttons"
-msgstr ""
+msgstr "Dostępne przyciski"
 
 msgctxt "IDS_PPAGE_TOOLBAR_CUR_BUTTONS"
 msgid "Current Buttons"
-msgstr ""
+msgstr "Bieżące przyciski"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -1403,7 +1403,7 @@ msgstr "Obrót klatki wideo Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P2"
 msgid "Video Frame Rotate Z+ (2 degrees)"
-msgstr ""
+msgstr "Klatka wideo – obrót Z+ (2°)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
@@ -1519,7 +1519,7 @@ msgstr "Polecenie programu"
 
 msgctxt "IDS_AG_BUILTIN_TOOLBAR"
 msgid "Built-in ToolBar"
-msgstr ""
+msgstr "Wbudowany pasek narzędzi"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -2228,7 +2228,7 @@ msgstr "Klatka wideo - powiększ wysokość "
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr "Rozmiar dziesiętny klatki wideo"
+msgstr "Klatka wideo - zmniejsz rozmiar"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
@@ -2306,39 +2306,39 @@ msgstr "Proszę wprowadzić liczbę z przedziału od 1 do 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr "Środek klatki wideo"
+msgstr "Klatka wideo – wyśrodkuj"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr "Klatka po lewej"
+msgstr "Klatka wideo – w lewo"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr "Klatka po prawej"
+msgstr "Klatka wideo – w prawo"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr "Klatka na górze"
+msgstr "Klatka wideo – w górę"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr "Klatka na dole"
+msgstr "Klatka wideo – w dół"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr "Klatka w lewym górnym"
+msgstr "Klatka wideo – w górę / w lewo"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr "Klatka w prawym górnym"
+msgstr "Klatka wideo – w górę / w prawo"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr "Klatka w lewym dolnym"
+msgstr "Klatka wideo – w dół / w lewo"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr "Klatka w prawym dolnym"
+msgstr "Klatka wideo – w dół / w prawo"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2546,7 +2546,7 @@ msgstr "Nie można zapisać napisów."
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Klatkaż"
+msgstr "Klatki na sekundę"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
@@ -2746,7 +2746,7 @@ msgstr "Nie można utworzyć miniatur dla plików o zerowej długości."
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Nie udało się pozyskać rozmiaru obrazu"
+msgstr "Nie udało się pobrać rozmiaru klatki wideo"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
@@ -3894,8 +3894,7 @@ msgstr "Błąd podczas przetwarzania wprowadzonej liczby klatek na sekundę!"
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
 msgstr ""
-"Nie można przejść o klatkę do przodu, proszę spróbować użyć innego renderera"
-" obrazu."
+"Nie można przejść o klatkę do przodu, spróbuj użyć innego renderera obrazu. "
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid ""
@@ -5026,52 +5025,52 @@ msgstr "/thumbnails\tUtwórz miniatury"
 
 msgctxt "IDS_CUSTOM_ACTION1"
 msgid "Custom Action 1"
-msgstr ""
+msgstr "Przycisk użytkownika 1"
 
 msgctxt "IDS_CUSTOM_ACTION2"
 msgid "Custom Action 2"
-msgstr ""
+msgstr "Przycisk użytkownika 2"
 
 msgctxt "IDS_CUSTOM_ACTION3"
 msgid "Custom Action 3"
-msgstr ""
+msgstr "Przycisk użytkownika 3"
 
 msgctxt "IDS_CUSTOM_ACTION4"
 msgid "Custom Action 4"
-msgstr ""
+msgstr "Przycisk użytkownika 4"
 
 msgctxt "IDS_AUDIOS"
 msgid "Audio Track"
-msgstr ""
+msgstr "Ścieżka audio"
 
 msgctxt "IDS_SUBTITLES"
 msgid "Subtitle Track"
-msgstr ""
+msgstr "Ścieżka napisów"
 
 msgctxt "IDS_AG_EXIT_FULLSCREEN"
 msgid "Exit Fullscreen"
-msgstr ""
+msgstr "Wyjdź z pełnego ekranu"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
-msgstr ""
+msgstr "Pokaż listę odtwarzania"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
-msgstr ""
+msgstr "Ukryj listę odtwarzania"
 
 msgctxt "IDS_AG_ENABLE_SHUFFLE"
 msgid "Enable Shuffle"
-msgstr ""
+msgstr "Włącz losowe odtwarzanie"
 
 msgctxt "IDS_AG_DISABLE_SHUFFLE"
 msgid "Disable Shuffle"
-msgstr ""
+msgstr "Wyłącz losowe odtwarzanie"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
-msgstr ""
+msgstr "Włącz powtarzanie"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
-msgstr ""
+msgstr "Wyłącz powtarzanie"

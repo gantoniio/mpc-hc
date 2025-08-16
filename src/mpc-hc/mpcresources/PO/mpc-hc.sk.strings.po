@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2025-05-21 22:58:36+0000\n"
+"POT-Creation-Date: 2025-08-15 11:24:59+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Marián Hikaník, 2025\n"
 "Language-Team: Slovak (https://app.transifex.com/mpchc/teams/106126/sk/)\n"
@@ -609,19 +609,19 @@ msgstr "Prehrávanie::Shadery"
 
 msgctxt "IDD_PPAGETOOLBAR"
 msgid "Player::ToolBar"
-msgstr ""
+msgstr "Prehrávač::Panel nástrojov"
 
 msgctxt "IDD_PPAGETOOLBARLAYOUT"
 msgid "Player::ToolBar Layout"
-msgstr ""
+msgstr "Prehrávač:Rozloženie panela nástrojov"
 
 msgctxt "IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS"
 msgid "Available Buttons"
-msgstr ""
+msgstr "Dostupné tlačidlá"
 
 msgctxt "IDS_PPAGE_TOOLBAR_CUR_BUTTONS"
 msgid "Current Buttons"
-msgstr ""
+msgstr "Aktuálne tlačidlá"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -641,7 +641,7 @@ msgstr "Prehrávanie::Záznam"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Prehrávanie::Nastavenie vykresľovania a synchronizácie"
+msgstr "Prehrávanie::Nastavenia synch. vykresľovača"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -1183,8 +1183,8 @@ msgid ""
 "Step\n"
 "Step"
 msgstr ""
-"Posunúť o jednu snímku\n"
-"Posunúť o jednu snímku"
+"Posunúť o jeden krok\n"
+"Posunúť o jeden krok"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid ""
@@ -1395,7 +1395,7 @@ msgstr "Snímka videa - otočenie Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P2"
 msgid "Video Frame Rotate Z+ (2 degrees)"
-msgstr ""
+msgstr "Snímka videa - otočenie Z+ (2 stupne)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
@@ -1479,11 +1479,11 @@ msgstr "Hodnotenie"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
-msgstr "Popis"
+msgstr "Opis"
 
 msgctxt "IDS_INFOBAR_DOMAIN"
 msgid "Domain"
-msgstr "Doména:"
+msgstr "Doména"
 
 msgctxt "IDS_AG_CLOSE"
 msgid "Close"
@@ -1511,7 +1511,7 @@ msgstr "Príkaz programu"
 
 msgctxt "IDS_AG_BUILTIN_TOOLBAR"
 msgid "Built-in ToolBar"
-msgstr ""
+msgstr "Zabudovaný panel nástrojov"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -2105,7 +2105,7 @@ msgstr "Predchádzajúci súbor"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Prepnúť do na celú obrazovku Direct3D"
+msgstr "Prepnúť zobrazenie na celú obrazovku Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -2677,7 +2677,7 @@ msgstr "Šírka obrázka"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Stranový pomer"
+msgstr "Pomer strán"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
@@ -2757,7 +2757,7 @@ msgstr "Nesprávny formát obrázka, nemožno vytvoriť náhľady z %d bpp súbo
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Veľkosť súboru: %s (%s bytov)\\N"
+msgstr "Veľkosť súboru: %s (%s bajtov)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
@@ -2791,11 +2791,11 @@ msgstr "Súbory s titulkami"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "Stranový pomer: %ld:%ld"
+msgstr "Pomer strán: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr "Stranový pomer: Predvolený (DAR)"
+msgstr "Pomer strán: predvolený (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3515,7 +3515,7 @@ msgstr "Rozlíšenie"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Stranový pomer"
+msgstr "Pomer strán"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
@@ -4292,7 +4292,7 @@ msgstr "Na pripojenie je potrebné zadať prihlasovacie údaje k:"
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr "Stranový pomer: Predpokladať štvorcové pixely (SAR)"
+msgstr "Pomer strán: predpokladať štvorcové pixely (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
@@ -5013,52 +5013,52 @@ msgstr "/thumbnails\tVytvoriť náhľady"
 
 msgctxt "IDS_CUSTOM_ACTION1"
 msgid "Custom Action 1"
-msgstr ""
+msgstr "Používateľská akcia 1"
 
 msgctxt "IDS_CUSTOM_ACTION2"
 msgid "Custom Action 2"
-msgstr ""
+msgstr "Používateľská akcia 2"
 
 msgctxt "IDS_CUSTOM_ACTION3"
 msgid "Custom Action 3"
-msgstr ""
+msgstr "Použivateľská akcia 3"
 
 msgctxt "IDS_CUSTOM_ACTION4"
 msgid "Custom Action 4"
-msgstr ""
+msgstr "Používateľská akcia 4"
 
 msgctxt "IDS_AUDIOS"
 msgid "Audio Track"
-msgstr ""
+msgstr "Zvuková stopa"
 
 msgctxt "IDS_SUBTITLES"
 msgid "Subtitle Track"
-msgstr ""
+msgstr "Stopa s titulkami"
 
 msgctxt "IDS_AG_EXIT_FULLSCREEN"
 msgid "Exit Fullscreen"
-msgstr ""
+msgstr "Ukončiť zobrazenie na celú obrazovku"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
-msgstr ""
+msgstr "Zobraziť playlist"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
-msgstr ""
+msgstr "Skryť playlist"
 
 msgctxt "IDS_AG_ENABLE_SHUFFLE"
 msgid "Enable Shuffle"
-msgstr ""
+msgstr "Zapnúť náhodné poradie"
 
 msgctxt "IDS_AG_DISABLE_SHUFFLE"
 msgid "Disable Shuffle"
-msgstr ""
+msgstr "Vypnúť náhodné poradie"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
-msgstr ""
+msgstr "Zapnúť opakovanie"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
-msgstr ""
+msgstr "Vypnúť opakovanie"
