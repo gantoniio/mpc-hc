@@ -77,7 +77,7 @@ msgstr "すべてのスタイルを上書き"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr "再生リスト"
+msgstr "プレイリスト"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
