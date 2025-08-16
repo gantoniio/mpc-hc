@@ -1479,7 +1479,7 @@ msgstr "Hodnotenie"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
-msgstr "Popis"
+msgstr "Opis"
 
 msgctxt "IDS_INFOBAR_DOMAIN"
 msgid "Domain"
