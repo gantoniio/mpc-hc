@@ -2795,7 +2795,7 @@ msgstr "Pomer strán: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr "Stranový pomer: Predvolený (DAR)"
+msgstr "Pomer strán: predvolený (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
