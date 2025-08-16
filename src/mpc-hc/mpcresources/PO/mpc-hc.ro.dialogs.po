@@ -1872,10 +1872,6 @@ msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
 msgstr "Culoare temă modernă:"
 
-msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
-msgid "Control buttons size:"
-msgstr "Dimensiunea butoanelor de control:"
-
 msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
 msgid "Seekbar"
 msgstr "Bara de căutare"
