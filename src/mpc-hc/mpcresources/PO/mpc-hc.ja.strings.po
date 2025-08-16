@@ -1028,7 +1028,7 @@ msgstr "テアリングを軽減しますが、ツールバーは表示されな
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "D3D に内蔵されている既定の垂直同期をバイパスして、テアリングを減らします。"
+msgstr "D3D に組み込まれた既定の垂直同期を回避して、テアリングを軽減します。"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
