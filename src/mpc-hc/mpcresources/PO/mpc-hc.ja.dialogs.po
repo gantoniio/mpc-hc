@@ -188,7 +188,7 @@ msgstr "キャンセル"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "開かずに再生リストに追加する"
+msgstr "開かずにプレイリストに追加する"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
