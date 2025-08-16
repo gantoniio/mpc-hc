@@ -395,7 +395,7 @@ msgstr "効果"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
-msgstr "再生リスト"
+msgstr "プレイリスト"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
