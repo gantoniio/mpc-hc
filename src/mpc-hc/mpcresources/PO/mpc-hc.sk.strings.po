@@ -1483,7 +1483,7 @@ msgstr "Opis"
 
 msgctxt "IDS_INFOBAR_DOMAIN"
 msgid "Domain"
-msgstr "Doména:"
+msgstr "Doména"
 
 msgctxt "IDS_AG_CLOSE"
 msgid "Close"
