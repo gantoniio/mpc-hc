@@ -561,7 +561,7 @@ msgstr "ファイル(&F)"
 
 msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
 msgid "&Playlist"
-msgstr "再生リスト(&P)"
+msgstr "プレイリスト(&P)"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
