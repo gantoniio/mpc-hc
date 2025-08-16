@@ -40,7 +40,6 @@
     #define localize = "true"
   #endif
 #endif
-#define sse2_required
 
 #if GetEnv('MPC_DRDUMP') == '1'
 #define USE_DRDUMP_CRASH_REPORTER 1
@@ -411,11 +410,8 @@ Type: files; Name: {app}\Lang\mpcresources.ua.dll
 
 
 [Code]
-#if defined(sse2_required)
 function IsProcessorFeaturePresent(Feature: Integer): Boolean;
 external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
-#endif
-
 
 function GetInstallFolder(Default: String): String;
 var
@@ -434,17 +430,11 @@ begin
   end;
 end;
 
-
-#if defined(sse2_required)
-
 function Is_SSE2_Supported(): Boolean;
 begin
   // PF_XMMI64_INSTRUCTIONS_AVAILABLE
   Result := IsProcessorFeaturePresent(10);
 end;
-
-#endif
-
 
 function IsUpgrade(): Boolean;
 var
@@ -560,11 +550,8 @@ function InitializeSetup(): Boolean;
 begin
     Result := True;
 
-#if defined(sse2_required)
     if not Is_SSE2_Supported() then begin
       SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbCriticalError, MB_OK, MB_OK);
       Result := False;
     end;
-#endif
-
 end;
