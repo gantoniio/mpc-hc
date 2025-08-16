@@ -4481,7 +4481,7 @@ msgstr "/add\t\t\"pathname\" をプレイリストに追加する, /open およ�
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr "/randomize\t再生リストをランダム化する"
+msgstr "/randomize\tプレイリストをランダム化する"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
