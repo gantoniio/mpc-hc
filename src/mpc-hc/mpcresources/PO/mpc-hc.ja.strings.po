@@ -1287,7 +1287,7 @@ msgstr "インターレース解除フィルター (ブレンド) をキャプ�
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr "再生リストのシャッフル再生 切り替え"
+msgstr "シャッフル再生 切り替え"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
