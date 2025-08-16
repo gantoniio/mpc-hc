@@ -4782,7 +4782,7 @@ msgid ""
 " a selection of files in Explorer. A too short threshold can result in only "
 "a part of your selection being added to playlist."
 msgstr ""
-"前のファイルからこのミリ秒以内にファイルを開くと、前のファイルを置き換えるのではなく、再生リストに追加されます。このリダイレクトは、エクスプローラーで選択したファイルを開くときに適切に処理するために必要です。しきい値が短すぎると、選択範囲の一部のみが再生リストに追加される可能性があります。"
+"前のファイルからこのミリ秒以内にファイルを開くと、前のファイルを置き換えるのではなく、プレイリストに追加されます。このリダイレクトは、エクスプローラーで選択したファイルを開くときに適切に処理するために必要です。しきい値が短すぎると、選択範囲の一部のみがプレイリストに追加される可能性があります。"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
