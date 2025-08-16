@@ -3515,7 +3515,7 @@ msgstr "Rozlíšenie"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Stranový pomer"
+msgstr "Pomer strán"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
