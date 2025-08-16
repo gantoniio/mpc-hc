@@ -2975,7 +2975,7 @@ msgstr "字幕調整バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "再生リスト バーの表示"
+msgstr "プレイリスト バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
