@@ -129,7 +129,7 @@ msgstr "字幕調整(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "再生リスト(&Y)"
+msgstr "プレイリスト(&Y)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
