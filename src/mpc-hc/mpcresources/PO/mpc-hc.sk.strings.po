@@ -2757,7 +2757,7 @@ msgstr "Nesprávny formát obrázka, nemožno vytvoriť náhľady z %d bpp súbo
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Veľkosť súboru: %s (%s bytov)\\N"
+msgstr "Veľkosť súboru: %s (%s bajtov)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid ""
