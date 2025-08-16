@@ -309,7 +309,7 @@ msgstr "最近使ったファイルの履歴を保存する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "終了時の再生リストを記憶する"
+msgstr "終了時のプレイリストを記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
