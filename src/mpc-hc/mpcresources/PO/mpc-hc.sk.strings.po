@@ -2791,7 +2791,7 @@ msgstr "Súbory s titulkami"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "Stranový pomer: %ld:%ld"
+msgstr "Pomer strán: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
