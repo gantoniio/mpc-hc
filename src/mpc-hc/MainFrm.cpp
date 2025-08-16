@@ -4452,8 +4452,10 @@ void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
         m_bTBDropdownActive = true;
         int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
 
-        //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
-        if (0 == idClicked && IsLeftMouseButtonDown()) {
+        if (idClicked) {
+            SendMessage(WM_COMMAND, idClicked); //apparently, TPM_RETURNCMD implies TPM_NONOTIFY, so we have to send this ourselves
+        } else if (IsLeftMouseButtonDown()) {
+            //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
             CPoint p;
             CRect tbRect, bRect;
             ::GetCursorPos(&p);
