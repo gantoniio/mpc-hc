@@ -4903,7 +4903,7 @@ msgstr "사용자 정의 작업 4"
 
 msgctxt "IDS_AUDIOS"
 msgid "Audio Track"
-msgstr "음향 트랙"
+msgstr "오디오 트랙"
 
 msgctxt "IDS_SUBTITLES"
 msgid "Subtitle Track"
