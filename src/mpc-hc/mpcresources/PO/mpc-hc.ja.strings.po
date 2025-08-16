@@ -4922,7 +4922,7 @@ msgstr "プレイリストを表示"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
-msgstr "再生リストを隠す"
+msgstr "プレイリストを隠す"
 
 msgctxt "IDS_AG_ENABLE_SHUFFLE"
 msgid "Enable Shuffle"
