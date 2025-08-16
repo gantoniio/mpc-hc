@@ -4493,7 +4493,7 @@ msgstr "/regaud\t\t音声ファイルに関連付ける"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr "/regpl\t\t再生リスト ファイルに関連付ける"
+msgstr "/regpl\t\tプレイリスト ファイルに関連付ける"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
