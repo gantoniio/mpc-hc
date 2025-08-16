@@ -2708,6 +2708,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                 style.charSet = !tag.paramsInt.IsEmpty()
                                 ? tag.paramsInt[0]
                                 : org.charSet;
+                if (style.charSet < 0) style.charSet = DEFAULT_CHARSET;
                 break;
             case SSA_fn:
                 style.fontName = (!tag.params.IsEmpty() && !tag.params[0].IsEmpty() && tag.params[0] != L"0")

@@ -414,8 +414,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PANNSCAN_PRESETS_START, ID_PANNSCAN_PRESETS_END, OnUpdateViewPanNScanPresets)
     ON_COMMAND_RANGE(ID_PANSCAN_ROTATEXP, ID_PANSCAN_ROTATEZM, OnViewRotate)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PANSCAN_ROTATEXP, ID_PANSCAN_ROTATEZM, OnUpdateViewRotate)
-    ON_COMMAND_RANGE(ID_PANSCAN_ROTATEZ270, ID_PANSCAN_ROTATEZ270, OnViewRotate)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_PANSCAN_ROTATEZ270, ID_PANSCAN_ROTATEZ270, OnUpdateViewRotate)
+    ON_COMMAND_RANGE(ID_PANSCAN_ROTATEZ270_OLD, ID_PANSCAN_ROTATEZ270_OLD, OnViewRotate)
+    ON_COMMAND_RANGE(ID_PANSCAN_ROTATEZP2, ID_PANSCAN_ROTATEZP2, OnViewRotate)
     ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
     ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
@@ -622,6 +622,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
     ON_WM_POWERBROADCAST()
 
+    // Support toolbar dropdown buttons
+    ON_NOTIFY(TBN_DROPDOWN, AFX_IDW_TOOLBAR, OnToolbarDropDown)
+    ON_UPDATE_COMMAND_UI(ID_AUDIOS, OnUpdateAudiosButton)
+    ON_UPDATE_COMMAND_UI(ID_SUBTITLES, OnUpdateSubtitlesButton)
+
     // Navigation panel
     ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
     ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
@@ -810,6 +815,7 @@ CMainFrame::CMainFrame()
     , m_nLastSkipDirection(0)
     , m_fCustomGraph(false)
     , m_fShockwaveGraph(false)
+    , m_iGraphID(0)
     , m_fFrameSteppingActive(false)
     , m_nStepForwardCount(0)
     , m_rtStepForwardStart(0)
@@ -898,8 +904,8 @@ CMainFrame::CMainFrame()
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
     , m_bHasBDMeta(false)
-    , watchingFileDialog(false)
-    , fileDialogHookHelper(nullptr)
+    , watchingDialog(themableDialogTypes::None)
+    , dialogHookHelper(nullptr)
     , delayingFullScreen(false)
     , restoringWindowRect(false)
     , mediaTypesErrorDlg(nullptr)
@@ -917,6 +923,7 @@ CMainFrame::CMainFrame()
     , defaultVideoAngle(0)
     , m_media_trans_control()
     , recentFilesMenuFromMRUSequence(-1)
+    , m_bTBDropdownActive(false)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -1263,7 +1270,9 @@ void CMainFrame::OnClose()
 
     SendAPICommand(CMD_DISCONNECT, L"\0");  // according to CMD_NOTIFYENDOFSTREAM (ctrl+f it here), you're not supposed to send NULL here
 
+    lockGraphAccess.Lock();
     AfxGetMyApp()->SetClosingState();
+    lockGraphAccess.Unlock();
 
     __super::OnClose();
 }
@@ -2921,15 +2930,27 @@ void CMainFrame::GraphEventComplete()
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
-    if (wParam != 0 || lParam != 0x4B00B1E5) {
+    if (wParam != 0) {
+        return E_INVALIDARG;
+    }
+
+    if (AfxGetMyApp()->m_fClosingState) {
+        return S_OK;
+    }
+    if (lParam != m_iGraphID) {
         ASSERT(false);
-#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
-        if (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted) {
-            if (CrashReporter::IsEnabled()) {
-                throw 1;
-            }
-        }
-#endif
+        return E_INVALIDARG;
+    }
+
+    lockGraphAccess.Lock();
+
+    if (AfxGetMyApp()->m_fClosingState) {
+        ASSERT(false);
+        return S_OK;
+    }
+    if (lParam != m_iGraphID) {
+        lockGraphAccess.Unlock();
+        ASSERT(false);
         return E_INVALIDARG;
     }
 
@@ -2939,7 +2960,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     while (!AfxGetMyApp()->m_fClosingState && m_pME && !m_fOpeningAborted && (GetLoadState() == MLS::LOADED || GetLoadState() == MLS::LOADING) && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
         if (evCode != EC_DVD_CURRENT_HMSF_TIME) {
-            TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
+            TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; id: %ld; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), lParam, evCode, GetEventString(evCode));
         }
 #endif
         CString str;
@@ -3005,6 +3026,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                     SetupDVDChapters();
                 }
+                SetupSubtitlesSubMenu();
+                SetupAudioSubMenu();
             }
             break;
             case EC_DVD_DOMAIN_CHANGE: {
@@ -3291,7 +3314,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                     m_closingmsg = !str.IsEmpty() ? str : CString(_T("Unspecified graph error"));
                     m_wndPlaylistBar.SetCurValid(false);
-                    return hr;
                 }
                 break;
             case EC_DVD_PLAYBACK_RATE_CHANGE:
@@ -3303,9 +3325,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_CLOCK_CHANGED:
+                /*
                 if (m_pBA && !m_fFrameSteppingActive) {
                     m_pBA->put_Volume(m_wndToolBar.Volume);
                 }
+                */
                 break;
             case 0xfa17:
                 // madVR changed graph state
@@ -3330,6 +3354,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 TRACE(_T("Unhandled graph event\n"));
         }
     }
+
+    if (!AfxGetMyApp()->m_fClosingState) {
+        lockGraphAccess.Unlock();
+    }    
 
     return hr;
 }
@@ -4174,13 +4202,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
     s.nCLSwitches &= ~CLSW_OPEN;  
 
-    // Ensure the dynamically added menu items are updated
-    SetupFiltersSubMenu();
-    SetupAudioSubMenu();
-    SetupSubtitlesSubMenu();
-    SetupVideoStreamsSubMenu();
-    SetupJumpToSubMenus();
-    SetupRecentFilesSubMenu();
+    LoadDynamicMenus();
 
     // notify listeners
     if (GetPlaybackMode() != PM_DIGITAL_CAPTURE) {
@@ -4407,6 +4429,50 @@ void CMainFrame::OnBossKey()
     // Enable animation
     AnimationInfo.iMinAnimate = m_WindowAnimationType;
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
+}
+
+void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
+    CRect r;
+    CMPCThemeMenu* subMenu = nullptr;
+    m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(pNMTB->iItem), r);
+    m_wndToolBar.ClientToScreen(r);
+    if (pNMTB->iItem == ID_AUDIOS) {
+        SetupAudioSubMenu();
+        subMenu = &m_audiosMenu;
+    } else if (pNMTB->iItem == ID_SUBTITLES) {
+        SetupSubtitlesSubMenu();
+        subMenu = &m_subtitlesMenu;
+    }
+
+    if (subMenu) {
+        if (AppNeedsThemedControls()) {
+            subMenu->fulfillThemeReqs();
+        }
+        m_bTBDropdownActive = true;
+        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
+
+        //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
+        if (0 == idClicked && IsLeftMouseButtonDown()) {
+            CPoint p;
+            CRect tbRect, bRect;
+            ::GetCursorPos(&p);
+            m_wndToolBar.GetWindowRect(tbRect);
+            if (PtInRect(&tbRect, p) && !PtInRect(&r, p)) {
+                m_wndToolBar.ScreenToClient(&p);
+                m_wndToolBar.PostMessageW(WM_LBUTTONDOWN, 0, MAKELPARAM(p.x, p.y));
+            }
+        }
+        m_bTBDropdownActive = false;
+    }
+}
+
+void CMainFrame::OnUpdateAudiosButton(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(GetLoadState() != MLS::LOADING && m_audiosMenu.GetMenuItemCount() > 0);
+}
+
+void CMainFrame::OnUpdateSubtitlesButton(CCmdUI* pCmdUI) {
+    pCmdUI->Enable(GetLoadState() != MLS::LOADING && m_subtitlesMenu.GetMenuItemCount() > 0);
 }
 
 void CMainFrame::OnStreamAudio(UINT nID)
@@ -6575,9 +6641,9 @@ void CMainFrame::OnFileSubtitlesLoad()
     // Set the current file directory as default folder
     CString curfile = m_wndPlaylistBar.GetCurFileName();
     if (!PathUtils::IsURL(curfile)) {
-        CPath defaultDir(curfile);
+        CPathW defaultDir(curfile);
         defaultDir.RemoveFileSpec();
-        if (!defaultDir.m_strPath.IsEmpty()) {
+        if (!defaultDir.m_strPath.IsEmpty() && defaultDir.IsDirectory()) {
             ofn.lpstrInitialDir = defaultDir.m_strPath;
         }
     }
@@ -6714,7 +6780,7 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
 
             isSaved = pRTS->SaveAs(
                 suggestedFileName, type, m_pCAP->GetFPS(), m_pCAP->GetSubtitleDelay(),
-                CTextFile::DEFAULT_ENCODING, s.bSubSaveExternalStyleFile);
+                pRTS->m_encoding, s.bSubSaveExternalStyleFile);
         } else {
             const std::vector<Subtitle::SubType> types = {
                 Subtitle::SRT,
@@ -7842,10 +7908,15 @@ void CMainFrame::OnUpdateViewSubresync(CCmdUI* pCmdUI)
     pCmdUI->Enable(enabled);
 }
 
+void CMainFrame::UpdatePlaylistButton() {
+    m_wndToolBar.SetPlaylist(m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST));
+}
+
 void CMainFrame::OnViewPlaylist()
 {
     m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
     m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
+    UpdatePlaylistButton();
 }
 
 void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
@@ -7857,6 +7928,7 @@ void CMainFrame::OnPlaylistToggleShuffle() {
     CAppSettings& s = AfxGetAppSettings();
     s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
     m_wndPlaylistBar.m_pl.SetShuffle(s.bShufflePlaylistItems);
+    m_wndToolBar.SetShuffle(s.bShufflePlaylistItems);
 }
 
 void CMainFrame::OnViewEditListEditor()
@@ -8026,6 +8098,7 @@ void CMainFrame::OnViewFullscreen()
     } else {
         ToggleFullscreen(true, true);
     }
+    m_wndToolBar.SetFullscreen(m_fFullScreen);
 }
 
 void CMainFrame::OnViewFullscreenSecondary()
@@ -8037,6 +8110,7 @@ void CMainFrame::OnViewFullscreenSecondary()
     } else {
         ToggleFullscreen(true, false);
     }
+    m_wndToolBar.SetFullscreen(m_fFullScreen);
 }
 
 void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
@@ -8550,13 +8624,14 @@ void CMainFrame::OnViewRotate(UINT nID)
             m_AngleZ = 0;
         }
         break;
-    case ID_PANSCAN_ROTATEZP:
+    case ID_PANSCAN_ROTATEZP2:
         if (!m_pCAP3) {
             m_AngleZ += 2;
             break;
         }
         [[fallthrough]];
     case ID_PANSCAN_ROTATEZ270:
+    case ID_PANSCAN_ROTATEZ270_OLD:
         if (m_AngleZ < 90) {
             m_AngleZ = 90;
         } else if (m_AngleZ >= 270) {
@@ -11340,7 +11415,7 @@ void CMainFrame::OnHelpCheckForUpdate()
 
 void CMainFrame::OnHelpToolbarImages()
 {
-    ShellExecute(m_hWnd, _T("open"), _T("https://github.com/clsid2/mpc-hc/issues/382"), nullptr, nullptr, SW_SHOWDEFAULT);
+    ShellExecute(m_hWnd, _T("open"), _T("https://github.com/clsid2/mpc-hc/issues/3494"), nullptr, nullptr, SW_SHOWDEFAULT);
 }
 
 void CMainFrame::OnHelpDonate()
@@ -11383,6 +11458,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     CSize windowSize;
     bool tRememberPos = s.fRememberWindowPos;
     MINMAXINFO mmi;
+    ZeroMemory(&mmi, sizeof(mmi));
     OnGetMinMaxInfo(&mmi);
 
     if (s.HasFixedWindowSize()) {
@@ -12346,18 +12422,31 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             double dScaledVRWidth  = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
 
-            auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
             double vertAlignOffset = 0;
-            if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
-                vertAlignOffset = -(dWRHeight - dScaledVRHeight) / 2;
-            } else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
-                vertAlignOffset = (dWRHeight - dScaledVRHeight) / 2;
+            if (dWRHeight > dScaledVRHeight) {
+                auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
+                if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
+                    vertAlignOffset = -(dWRHeight - dScaledVRHeight) / 2.0;
+                } else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
+                    vertAlignOffset = (dWRHeight - dScaledVRHeight) / 2.0;
+                }
             }
 
             // Position video frame
             // left and top parts are allowed to be negative
-            videoRect.left   = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
-            videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + vertAlignOffset);
+            if (dScaledVRWidth <= 2.5 * dWRWidth) {
+                videoRect.left = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
+            } else {
+                double dWDiff = dWRWidth - dScaledVRWidth;
+                videoRect.left = lround(((1.5 - m_PosX) * dWDiff) / 2.0);
+            }
+            if (dScaledVRHeight <= 2.5 * dWRHeight) {
+                videoRect.top  = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + vertAlignOffset);
+            } else {
+                double dHDiff = dWRHeight - dScaledVRHeight;
+                videoRect.top  = lround(((1.5 - m_PosY) * dHDiff) / 2.0 + vertAlignOffset);
+            }
+
             // right and bottom parts are always at picture center or beyond, so never negative
             videoRect.right  = lround(videoRect.left + dScaledVRWidth);
             videoRect.bottom = lround(videoRect.top  + dScaledVRHeight);
@@ -12461,10 +12550,7 @@ void CMainFrame::SetPreviewVideoPosition() {
             w = int(minw + (maxw - minw) * scale);
             h = MulDiv(w, arxy.cy, arxy.cx);
         }
-
-        const CPoint pos(int(m_PosX * (wr.Width() * 3 - w) - wr.Width()), int(m_PosY * (wr.Height() * 3 - h) - wr.Height()));
-        const CRect vr(pos, CSize(w, h));
-        
+     
         if (m_pMFVDC_preview) {
             m_pMFVDC_preview->SetVideoPosition(nullptr, wr);
             m_pMFVDC_preview->SetAspectRatioMode(MFVideoARMode_PreservePicture);
@@ -12476,10 +12562,9 @@ void CMainFrame::SetPreviewVideoPosition() {
         if (m_pCAP2_preview) {
             m_pCAP2_preview->SetPosition(wr, wr);
         }
-
         if (m_pBV_preview) {
             m_pBV_preview->SetDefaultSourcePosition();
-            m_pBV_preview->SetDestinationPosition(vr.left, vr.top, vr.Width(), vr.Height());
+            m_pBV_preview->SetDestinationPosition(0, 0, w, h);
         }
         if (m_pVW_preview) {
             m_pVW_preview->SetWindowPosition(wr.left, wr.top, wr.Width(), wr.Height());
@@ -13171,6 +13256,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
     m_fCustomGraph = false;
     m_fShockwaveGraph = false;
+    m_iGraphID++;
 
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -13286,7 +13372,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         throw (UINT)IDS_GRAPH_INTERFACES_ERROR;
     }
 
-    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0x4B00B1E5))) {
+    if (FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, (LPARAM)m_iGraphID))) {
         throw (UINT)IDS_GRAPH_TARGET_WND_ERROR;
     }
 
@@ -16117,6 +16203,17 @@ void CMainFrame::DestroyDynamicMenus()
     VERIFY(m_shadersMenu.DestroyMenu());
     VERIFY(m_recentFilesMenu.DestroyMenu());
     m_nJumpToSubMenusCount = 0;
+    recentFilesMenuFromMRUSequence = -1;
+}
+
+void CMainFrame::LoadDynamicMenus() {
+    // Ensure the dynamically added menu items are updated
+    SetupFiltersSubMenu();
+    SetupAudioSubMenu();
+    SetupSubtitlesSubMenu();
+    SetupVideoStreamsSubMenu();
+    SetupJumpToSubMenus();
+    SetupRecentFilesSubMenu();
 }
 
 void CMainFrame::SetupOpenCDSubMenu()
@@ -18513,10 +18610,6 @@ bool CMainFrame::BuildToCapturePreviewPin(
 
 bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPreview, bool fACapture)
 {
-    if (!m_pCGB) {
-        return false;
-    }
-
     OAFilterState fs = GetMediaState();
 
     if (fs != State_Stopped) {
@@ -18639,7 +18732,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         }
 
         m_pAMDF.Release();
-        if (FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF)))) {
+        if (m_pCGB && FAILED(m_pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, m_pVidCap, IID_PPV_ARGS(&m_pAMDF)))) {
             TRACE(_T("Warning: No IAMDroppedFrames interface for vidcap capture"));
         }
     }
@@ -18696,7 +18789,9 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     }
 
     REFERENCE_TIME stop = MAX_TIME;
-    hr = m_pCGB->ControlStream(&PIN_CATEGORY_CAPTURE, nullptr, nullptr, nullptr, &stop, 0, 0); // stop in the infinite
+    if (m_pCGB) {
+        hr = m_pCGB->ControlStream(&PIN_CATEGORY_CAPTURE, nullptr, nullptr, nullptr, &stop, 0, 0); // stop in the infinite
+    }
 
     CleanGraph();
 
@@ -19069,9 +19164,13 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         return;
     }
 
+    m_iGraphID++;
     if (m_pME) {
+        m_pME->SetNotifyFlags(AM_MEDIAEVENT_NONOTIFY);
         m_pME->SetNotifyWindow(NULL, 0, 0);
     }
+
+    CAutoLock ga(&lockGraphAccess);
 
     m_media_trans_control.close();
 
@@ -19086,6 +19185,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         // abort sub search
         m_pSubtitlesProviders->Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
         m_wndSubtitlesDownloadDialog.DoClear();
+        m_wndSubtitlesDownloadDialog.ShowWindow(SW_HIDE);
 
         // save playback position
         if (s.fKeepHistory && !bPendingFileDelete) {
@@ -19354,7 +19454,11 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
 #endif
                             msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
                         } else {
-                            msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                            if (m_pMVRS) {
+                                msg = L"Timeout when closing filter graph.\n\nIf this happens often, try one of these solutions:\n- Use MPC Video renderer instead of MadVR\n- Use AMD GPU driver 24.8.1 (or older)(newer ones have compatibility issue with MadVR)\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                            } else {
+                                msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
+                            }
                         }
                         if (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0)) {
                             processmsg = false;
@@ -20276,28 +20380,28 @@ void CMainFrame::SendSubtitleTracksToApi()
             if (m_pDVDI && SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
                 && ulStreamsAvailable > 0) {
                 LCID DefLanguage;
-                int i = 0, iSelected = -1;
+                int iSelected = -1;
 
                 DVD_SUBPICTURE_LANG_EXT ext;
                 if (FAILED(m_pDVDI->GetDefaultSubpictureLanguage(&DefLanguage, &ext))) {
                     return;
                 }
 
-                for (i = 0; i < ulStreamsAvailable; i++) {
+                for (ULONG i = 0; i < ulStreamsAvailable; i++) {
                     LCID Language;
                     if (FAILED(m_pDVDI->GetSubpictureLanguage(i, &Language))) {
                         continue;
                     }
 
                     if (i == ulCurrentStream) {
-                        iSelected = i;
+                        iSelected = (int)i;
                     }
 
                     CString str;
                     if (Language) {
                         GetLocaleString(Language, LOCALE_SENGLANGUAGE, str);
                     } else {
-                        str.Format(IDS_AG_UNKNOWN, i + 1);
+                        str.Format(IDS_AG_UNKNOWN, int(i + 1));
                     }
 
                     DVD_SubpictureAttributes ATR;
@@ -20964,11 +21068,17 @@ BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwS
     return FALSE;
 }
 
-void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper)
-{
+void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper) {
     if (AfxGetAppSettings().bWindows10DarkThemeActive) { //hard coded behavior for windows 10 dark theme file dialogs, irrespsective of theme loaded by user (fixing windows bugs)
-        watchingFileDialog = true;
-        fileDialogHookHelper = helper;
+        watchingDialog = themableDialogTypes::windowsFileDialog;
+        dialogHookHelper = helper;
+    }
+}
+
+void CMainFrame::enableDialogHook(CMPCThemeUtil* helper, themableDialogTypes type) {
+    if (AppIsThemeLoaded()) {
+        watchingDialog = type;
+        dialogHookHelper = helper;
     }
 }
 
@@ -20992,7 +21102,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         ASSERT(false);
         return 0;
     }
-    if (message == WM_ACTIVATE || message == WM_SETFOCUS) {
+    if (message == WM_ACTIVATE || message == WM_SETFOCUS || message == WM_GETMINMAXINFO) {
         if (AfxGetMyApp()->m_fClosingState) {
             TRACE(_T("Dropped WindowProc: message %u value %d\n"), message, LOWORD(wParam));
             return 0;
@@ -21027,12 +21137,14 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
                 break;
         }
         return 0;
-    } else if (watchingFileDialog && nullptr != fileDialogHookHelper && message == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE) {
-        fileDialogHookHelper->fileDialogHandle = (HWND)lParam;
-        watchingFileDialog = false;
+    } else if (watchingDialog != themableDialogTypes::None && nullptr != dialogHookHelper && message == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE) {
+        dialogHookHelper->themableDialogHandle = (HWND)lParam;
+        foundDialog = watchingDialog;
+        watchingDialog = themableDialogTypes::None;
         //capture but process message normally
-    } else if (message == WM_GETICON && nullptr != fileDialogHookHelper && nullptr != fileDialogHookHelper->fileDialogHandle) {
-        fileDialogHookHelper->subClassFileDialog(this);
+    } else if (message == WM_GETICON && foundDialog == themableDialogTypes::windowsFileDialog && nullptr != dialogHookHelper && nullptr != dialogHookHelper->themableDialogHandle) {
+        dialogHookHelper->subClassFileDialog(this);
+        foundDialog = themableDialogTypes::None;
     }
 
     if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION && !m_pMVRSR) {
@@ -21334,6 +21446,7 @@ void CMainFrame::ReloadMenus() {
 
     // Reload the dynamic menus
     CreateDynamicMenus();
+    LoadDynamicMenus();
 }
 
 
@@ -21955,6 +22068,9 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
         int p = baseurl.ReverseFind(_T('.'));
         if (p > 0 && (q - p <= 6)) {
             CString ext = baseurl.Mid(p);
+            if (ext == L".m3u8" || ext == L".mpd") {
+                return false;
+            }
             if (AfxGetAppSettings().m_Formats.FindExt(ext)) {
                 return false;
             }

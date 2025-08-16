@@ -272,7 +272,7 @@ struct AutoChangeFullscreenMode {
     unsigned                    uDelay = 0u;
 };
 
-#define ACCEL_LIST_SIZE 201
+#define ACCEL_LIST_SIZE 202
 
 struct wmcmd_base : public ACCEL {
     BYTE mouse;
@@ -555,6 +555,7 @@ public:
     // cmdline params
     UINT64 nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
+    static std::map<DWORD, const wmcmd_base*> CommandIDToWMCMD;
 
     // Initial position (used by command line flags)
     REFERENCE_TIME      rtShift;
@@ -646,6 +647,26 @@ public:
     MOUSE_ASSIGNMENT MouseWheelDown;
     MOUSE_ASSIGNMENT MouseWheelLeft;
     MOUSE_ASSIGNMENT MouseWheelRight;
+
+    // Toolbar
+    UINT            nToolbarAction1;
+    UINT            nToolbarAction2;
+    UINT            nToolbarAction3;
+    UINT            nToolbarAction4;
+    UINT            nToolbarRightAction1;
+    UINT            nToolbarRightAction2;
+    UINT            nToolbarRightAction3;
+    UINT            nToolbarRightAction4;
+
+    enum TOOLBAR_TYPE {
+        INTERNAL_TOOLBAR = 0,
+        EXTERNAL_TOOLBAR_NO_16,
+        EXTERNAL_TOOLBAR_WITH_16,
+        INVALID_TOOLBAR = 0xFFFFFFFF
+    };
+
+    TOOLBAR_TYPE nToolbarType;
+    CStringW strToolbarName;
 
     // Logo
     int             nLogoId;

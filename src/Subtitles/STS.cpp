@@ -1905,6 +1905,7 @@ bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
                     alpha = GetInt(pszBuff, nBuffLength);
                 }
                 style->charSet = GetInt(pszBuff, nBuffLength);
+                if (style->charSet < 0) style->charSet = DEFAULT_CHARSET;
                 if (style_param & (1)) {
                     style->relativeTo = (STSStyle::RelativeTo)GetInt(pszBuff, nBuffLength);
                 }

@@ -1377,6 +1377,33 @@ bool CMPlayerCApp::HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry)
     return ret;
 }
 
+std::vector<int> CMPlayerCApp::GetProfileVectorInt(CString strSection, CString strKey) {
+    std::vector<int> vData;
+    UINT uSize = theApp.GetProfileInt(strSection, strKey + _T("Size"), 0);
+    UINT uSizeRead = 0;
+    BYTE* temp = nullptr;
+    theApp.GetProfileBinary(strSection, strKey, &temp, &uSizeRead);
+    if (uSizeRead == uSize) {
+        vData.resize(uSizeRead / sizeof(int), 0);
+        memcpy(vData.data(), temp, uSizeRead);
+    }
+    delete[] temp;
+    temp = nullptr;
+    return vData;
+}
+
+
+void CMPlayerCApp::WriteProfileVectorInt(CString strSection, CString strKey, std::vector<int> vData) {
+    UINT uSize = static_cast<UINT>(sizeof(int) * vData.size());
+    theApp.WriteProfileBinary(
+        strSection,
+        strKey,
+        (LPBYTE)vData.data(),
+        uSize
+    );
+    theApp.WriteProfileInt(strSection, strKey + _T("Size"), uSize);
+}
+
 void CMPlayerCApp::PreProcessCommandLine()
 {
     m_cmdln.RemoveAll();
@@ -2179,8 +2206,6 @@ BOOL CMPlayerCApp::InitInstance()
         UpdateChecker::CheckForUpdate(true);
     }
 
-    if (!m_pMainWnd) return false;
-
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();
 
@@ -2451,7 +2476,7 @@ void CMPlayerCApp::OnAppAbout()
 void CMPlayerCApp::SetClosingState()
 {
     m_fClosingState = true;
-#if USE_DRDUMP_CRASH_REPORTER & (MPC_VERSION_REV < 20)
+#if USE_DRDUMP_CRASH_REPORTER & ((MPC_VERSION_REV < 10) || MPC_VERSION_PATCH == 1)
     DisableCrashReporter();
 #endif
 }

@@ -44,7 +44,7 @@ public:
         ,ProminentControlIDWidget
     };
 
-    HWND fileDialogHandle = nullptr;
+    HWND themableDialogHandle = nullptr;
     void enableFileDialogHook();
     void subClassFileDialogRecurse(CWnd* wnd, HWND hWnd, FileDialogWidgetSearch searchType);
     void subClassFileDialog(CWnd* wnd);

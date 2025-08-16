@@ -118,6 +118,8 @@ private:
     ULONGLONG m_tcLastSave;
     bool m_SaveDelayed;
 
+    CCritSec m_plEditLock;
+
 public:
     CPlayerPlaylistBar(CMainFrame* pMainFrame);
     virtual ~CPlayerPlaylistBar();

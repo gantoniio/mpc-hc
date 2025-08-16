@@ -611,6 +611,22 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Oynatım::Tonlayıcılar"
 
+msgctxt "IDD_PPAGETOOLBAR"
+msgid "Player::ToolBar"
+msgstr ""
+
+msgctxt "IDD_PPAGETOOLBARLAYOUT"
+msgid "Player::ToolBar Layout"
+msgstr ""
+
+msgctxt "IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS"
+msgid "Available Buttons"
+msgstr ""
+
+msgctxt "IDS_PPAGE_TOOLBAR_CUR_BUTTONS"
+msgid "Current Buttons"
+msgstr ""
+
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
 msgstr "Kaynaklar"
@@ -1381,6 +1397,10 @@ msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
 msgstr "Video karesi: Z+ ekseninde döndür"
 
+msgctxt "IDS_AG_PNS_ROTATEZ_P2"
+msgid "Video Frame Rotate Z+ (2 degrees)"
+msgstr ""
+
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
 msgstr "Video karesi: Z- ekseninde döndür"
@@ -1492,6 +1512,10 @@ msgstr "Fare"
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
 msgstr "Uygulama komutu"
+
+msgctxt "IDS_AG_BUILTIN_TOOLBAR"
+msgid "Built-in ToolBar"
+msgstr ""
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -4990,3 +5014,55 @@ msgstr "Varsayılan"
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
 msgstr "/thumbnails\tKüçük resimler oluştur"
+
+msgctxt "IDS_CUSTOM_ACTION1"
+msgid "Custom Action 1"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_ACTION2"
+msgid "Custom Action 2"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_ACTION3"
+msgid "Custom Action 3"
+msgstr ""
+
+msgctxt "IDS_CUSTOM_ACTION4"
+msgid "Custom Action 4"
+msgstr ""
+
+msgctxt "IDS_AUDIOS"
+msgid "Audio Track"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES"
+msgid "Subtitle Track"
+msgstr ""
+
+msgctxt "IDS_AG_EXIT_FULLSCREEN"
+msgid "Exit Fullscreen"
+msgstr ""
+
+msgctxt "IDS_AG_SHOW_PLAYLIST"
+msgid "Show Playlist"
+msgstr ""
+
+msgctxt "IDS_AG_HIDE_PLAYLIST"
+msgid "Hide Playlist"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLE_SHUFFLE"
+msgid "Enable Shuffle"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLE_SHUFFLE"
+msgid "Disable Shuffle"
+msgstr ""
+
+msgctxt "IDS_AG_ENABLE_REPEAT"
+msgid "Enable Repeat"
+msgstr ""
+
+msgctxt "IDS_AG_DISABLE_REPEAT"
+msgid "Disable Repeat"
+msgstr ""

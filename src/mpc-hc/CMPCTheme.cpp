@@ -455,8 +455,8 @@ const std::vector<CMPCTheme::pathPoint> CMPCTheme::hideIcon192({
     {13, 0, linePath},
 });
 
-
-void CMPCTheme::InitializeColors(ModernThemeMode themeMode) {
+CMPCTheme::ModernThemeMode CMPCTheme::EffectiveThemeMode() {
+    ModernThemeMode themeMode = AfxGetAppSettings().eModernThemeMode;
     if (themeMode == ModernThemeMode::WINDOWSDEFAULT) {
         if (AfxGetAppSettings().bWindows10DarkThemeActive) {
             themeMode = ModernThemeMode::DARK;
@@ -464,8 +464,11 @@ void CMPCTheme::InitializeColors(ModernThemeMode themeMode) {
             themeMode = ModernThemeMode::LIGHT;
         }
     }
+    return themeMode;
+}
 
-    if (themeMode == ModernThemeMode::DARK) {
+void CMPCTheme::InitializeColors() {
+    if (EffectiveThemeMode() == ModernThemeMode::DARK) {
         drawThemedControls = true;
 
         MenuBGColor = RGB(43, 43, 43);

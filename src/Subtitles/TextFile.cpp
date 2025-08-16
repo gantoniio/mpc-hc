@@ -754,6 +754,11 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 
 bool CWebTextFile::Open(LPCTSTR lpszFileName, DWORD& dwError)
 {
+    if (!m_buffer.m_p || !m_wbuffer.m_p) {
+        ASSERT(false);
+        return false;
+    }
+
     CString fn(lpszFileName);
 
     if (fn.Find(_T("://")) == -1) {

@@ -35,7 +35,6 @@ CMPCThemeUtil::~CMPCThemeUtil()
     }
 }
 
-
 void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /* = 0 */)
 {
     if (AppIsThemeLoaded()) {
@@ -128,6 +127,9 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /*
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, WC_COMBOBOX)) {
                     CMPCThemeComboBox* pObject = DEBUG_NEW CMPCThemeComboBox();
+                    makeThemed(pObject, tChild);
+                } else if (0 == _tcsicmp(windowClass, WC_LISTBOX)) {
+                    CMPCThemeListBox* pObject = DEBUG_NEW CMPCThemeListBox();
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, TRACKBAR_CLASS)) {
                     CMPCThemeSliderCtrl* pObject = DEBUG_NEW CMPCThemeSliderCtrl();
@@ -274,16 +276,16 @@ void CMPCThemeUtil::subClassFileDialog(CWnd* wnd) {
     if (AfxGetAppSettings().bWindows10DarkThemeActive) {
         initHelperObjects();
 
-        HWND duiview = ::FindWindowExW(fileDialogHandle, NULL, L"DUIViewWndClassName", NULL);
+        HWND duiview = ::FindWindowExW(themableDialogHandle, NULL, L"DUIViewWndClassName", NULL);
         HWND duihwnd = ::FindWindowExW(duiview, NULL, L"DirectUIHWND", NULL);
 
         if (duihwnd) { //we found the FileDialog
             if (dialogProminentControlStringID) { //if this is set, we assume there is a single prominent control (note, it's in the filedialog main window)
-                subClassFileDialogRecurse(wnd, fileDialogHandle, ProminentControlIDWidget);
+                subClassFileDialogRecurse(wnd, themableDialogHandle, ProminentControlIDWidget);
             } else {
                 subClassFileDialogRecurse(wnd, duihwnd, RecurseSinkWidgets);
             }
-            fileDialogHandle = nullptr;
+            themableDialogHandle = nullptr;
             ::RedrawWindow(duiview, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
         }
     }
