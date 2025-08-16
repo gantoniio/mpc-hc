@@ -1991,7 +1991,7 @@ msgstr "Používateľské tlačidlo 1"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Click"
-msgstr "Klik"
+msgstr "Kliknutie"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Right click"
