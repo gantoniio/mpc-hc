@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2025-05-21 22:58:36+0000\n"
+"POT-Creation-Date: 2025-08-15 11:24:59+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Marián Hikaník, 2025\n"
 "Language-Team: Slovak (https://app.transifex.com/mpchc/teams/106126/sk/)\n"
@@ -609,19 +609,19 @@ msgstr "Prehrávanie::Shadery"
 
 msgctxt "IDD_PPAGETOOLBAR"
 msgid "Player::ToolBar"
-msgstr ""
+msgstr "Prehrávač::Panel nástrojov"
 
 msgctxt "IDD_PPAGETOOLBARLAYOUT"
 msgid "Player::ToolBar Layout"
-msgstr ""
+msgstr "Prehrávač:Rozloženie panela nástrojov"
 
 msgctxt "IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS"
 msgid "Available Buttons"
-msgstr ""
+msgstr "Dostupné tlačidlá"
 
 msgctxt "IDS_PPAGE_TOOLBAR_CUR_BUTTONS"
 msgid "Current Buttons"
-msgstr ""
+msgstr "Aktuálne tlačidlá"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -1395,7 +1395,7 @@ msgstr "Snímka videa - otočenie Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P2"
 msgid "Video Frame Rotate Z+ (2 degrees)"
-msgstr ""
+msgstr "Snímka videa - otočenie Z+ (2 stupne)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
@@ -1511,7 +1511,7 @@ msgstr "Príkaz programu"
 
 msgctxt "IDS_AG_BUILTIN_TOOLBAR"
 msgid "Built-in ToolBar"
-msgstr ""
+msgstr "Zabudovaný panel nástrojov"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -2105,7 +2105,7 @@ msgstr "Predchádzajúci súbor"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Prepnúť do na celú obrazovku Direct3D"
+msgstr "Prepnúť zobrazenie na celú obrazovku Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -5013,52 +5013,52 @@ msgstr "/thumbnails\tVytvoriť náhľady"
 
 msgctxt "IDS_CUSTOM_ACTION1"
 msgid "Custom Action 1"
-msgstr ""
+msgstr "Používateľská akcia 1"
 
 msgctxt "IDS_CUSTOM_ACTION2"
 msgid "Custom Action 2"
-msgstr ""
+msgstr "Používateľská akcia 2"
 
 msgctxt "IDS_CUSTOM_ACTION3"
 msgid "Custom Action 3"
-msgstr ""
+msgstr "Použivateľská akcia 3"
 
 msgctxt "IDS_CUSTOM_ACTION4"
 msgid "Custom Action 4"
-msgstr ""
+msgstr "Používateľská akcia 4"
 
 msgctxt "IDS_AUDIOS"
 msgid "Audio Track"
-msgstr ""
+msgstr "Zvuková stopa"
 
 msgctxt "IDS_SUBTITLES"
 msgid "Subtitle Track"
-msgstr ""
+msgstr "Stopa s titulkami"
 
 msgctxt "IDS_AG_EXIT_FULLSCREEN"
 msgid "Exit Fullscreen"
-msgstr ""
+msgstr "Ukončiť zobrazenie na celú obrazovku"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
-msgstr ""
+msgstr "Zobraziť playlist"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
-msgstr ""
+msgstr "Skryť playlist"
 
 msgctxt "IDS_AG_ENABLE_SHUFFLE"
 msgid "Enable Shuffle"
-msgstr ""
+msgstr "Zapnúť náhodné poradie"
 
 msgctxt "IDS_AG_DISABLE_SHUFFLE"
 msgid "Disable Shuffle"
-msgstr ""
+msgstr "Vypnúť náhodné poradie"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
-msgstr ""
+msgstr "Zapnúť opakovanie"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
-msgstr ""
+msgstr "Vypnúť opakovanie"
