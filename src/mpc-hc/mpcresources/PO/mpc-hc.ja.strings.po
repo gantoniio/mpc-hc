@@ -4918,7 +4918,7 @@ msgstr "全画面表示を解除"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
-msgstr "再生リストを表示"
+msgstr "プレイリストを表示"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
