@@ -641,7 +641,7 @@ msgstr "Prehrávanie::Záznam"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Prehrávanie::Nastavenia vykresľovania a synchronizácie"
+msgstr "Prehrávanie::Nastavenia synch. vykresľovača"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
