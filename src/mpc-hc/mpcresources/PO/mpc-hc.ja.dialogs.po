@@ -613,7 +613,7 @@ msgstr "ディレクトリ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "Playlist"
-msgstr "再生リスト"
+msgstr "プレイリスト"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
