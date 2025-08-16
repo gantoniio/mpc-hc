@@ -729,7 +729,7 @@ msgstr "Blu-ray プレイリスト(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "再生リスト(&P)"
+msgstr "プレイリスト(&P)"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
