@@ -549,7 +549,7 @@ msgstr "コマ送り(&M)"
 
 msgctxt "POPUP"
 msgid "&Repeat"
-msgstr "繰り返し(&R)"
+msgstr "リピート再生(&R)"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
