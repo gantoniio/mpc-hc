@@ -2126,7 +2126,7 @@ msgstr "Fișierul precedent"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Comută ecranul complet (tot ecranul) Direct3D"
+msgstr "Comută din ecranul complet (de pe tot ecranul) Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
