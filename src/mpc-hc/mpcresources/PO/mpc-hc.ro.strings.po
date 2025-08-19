@@ -5091,7 +5091,7 @@ msgstr "Pista de subtitrări"
 
 msgctxt "IDS_AG_EXIT_FULLSCREEN"
 msgid "Exit Fullscreen"
-msgstr "Ieși din modul ecranul complet"
+msgstr "Ieși din modul ecranul complet (Ieși de pe tot ecranul)"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
