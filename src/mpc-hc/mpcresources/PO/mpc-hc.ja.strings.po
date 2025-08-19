@@ -173,7 +173,7 @@ msgstr "リピート モード: プレイリスト"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr "リピート再生モード: ファイル"
+msgstr "リピート モード: ファイル"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
