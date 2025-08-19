@@ -1498,7 +1498,7 @@ msgstr "Lansează fișierele în modul ecran complet (pe tot ecranul)"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Ascunde controalele în ecran complet"
+msgstr "Ascunde controalele în modul ecran complet"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
