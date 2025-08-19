@@ -2206,7 +2206,7 @@ msgstr "Vizualizare normală"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
-msgstr "Ecran complet"
+msgstr "Ecran complet (Pe tot ecranul)"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
