@@ -4596,7 +4596,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
-msgstr "/fullscreen\tPornește în modul ecran complet"
+msgstr "/fullscreen\tPornește în modul ecran complet (pe tot ecranul)"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
