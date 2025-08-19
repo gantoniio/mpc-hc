@@ -1432,7 +1432,7 @@ msgstr "Scalează pentru ecran ultra-lat,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "Ascunde în modul ecran complet"
+msgstr "Ascunde în modul ecran complet (pe tot ecranul)"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
