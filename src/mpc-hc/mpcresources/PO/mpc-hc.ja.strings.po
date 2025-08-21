@@ -185,7 +185,7 @@ msgstr "常時リピート: オフ"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "リピート再生"
+msgstr "常時リピート"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
