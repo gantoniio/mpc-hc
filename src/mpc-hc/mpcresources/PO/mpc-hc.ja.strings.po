@@ -4937,4 +4937,4 @@ msgstr "常時リピート: オン"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
-msgstr "リピート再生: オフ"
+msgstr "常時リピート: オフ"
