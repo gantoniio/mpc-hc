@@ -1199,7 +1199,7 @@ msgstr "お気に入りの整理..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "シャッフル再生(&U)"
+msgstr "シャッフル(&U)"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
