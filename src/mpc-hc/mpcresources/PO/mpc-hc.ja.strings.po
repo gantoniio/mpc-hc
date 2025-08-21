@@ -4933,7 +4933,7 @@ msgstr "シャッフル再生: オフ"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
-msgstr "リピート再生: オン"
+msgstr "常時リピート: オン"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
