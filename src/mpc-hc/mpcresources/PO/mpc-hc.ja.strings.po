@@ -4929,7 +4929,7 @@ msgstr "シャッフル: オン"
 
 msgctxt "IDS_AG_DISABLE_SHUFFLE"
 msgid "Disable Shuffle"
-msgstr "シャッフル再生: オフ"
+msgstr "シャッフル: オフ"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
