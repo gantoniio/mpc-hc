@@ -107,7 +107,7 @@ void CPPageToolBarLayout::ReloadImageLists() {
     m_list_inactive.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
 }
 
-void AutoSizeColumnSafe(CListCtrl& listCtrl) {
+void SetListCtrlFixedColumn(CListCtrl& listCtrl) {
     CRect clientRect;
     listCtrl.GetClientRect(&clientRect);
 
@@ -175,8 +175,9 @@ BOOL CPPageToolBarLayout::OnInitDialog()
     ReloadImageLists();
 
     LoadToolBarButtons();
-    AutoSizeColumnSafe(m_list_active);
-    AutoSizeColumnSafe(m_list_inactive);
+
+    SetListCtrlFixedColumn(m_list_active);
+    SetListCtrlFixedColumn(m_list_inactive);
 
     SetRedraw(TRUE);
 
