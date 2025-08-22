@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2025-05-21 22:58:36+0000\n"
+"POT-Creation-Date: 2025-08-15 11:24:59+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2025\n"
 "Language-Team: French (https://app.transifex.com/mpchc/teams/106126/fr/)\n"
@@ -611,19 +611,19 @@ msgstr "Lecture::Effets"
 
 msgctxt "IDD_PPAGETOOLBAR"
 msgid "Player::ToolBar"
-msgstr ""
+msgstr "Lecteur::Barre d'outils"
 
 msgctxt "IDD_PPAGETOOLBARLAYOUT"
 msgid "Player::ToolBar Layout"
-msgstr ""
+msgstr "Lecteur:: Disposition de la barre d'outils"
 
 msgctxt "IDS_PPAGE_TOOLBAR_AVAIL_BUTTONS"
 msgid "Available Buttons"
-msgstr ""
+msgstr "Boutons disponibles"
 
 msgctxt "IDS_PPAGE_TOOLBAR_CUR_BUTTONS"
 msgid "Current Buttons"
-msgstr ""
+msgstr "Boutons actuels"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -1408,7 +1408,7 @@ msgstr "Rotation Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P2"
 msgid "Video Frame Rotate Z+ (2 degrees)"
-msgstr ""
+msgstr "Rotation Z+ (2 degrés)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
@@ -1524,7 +1524,7 @@ msgstr "Commande"
 
 msgctxt "IDS_AG_BUILTIN_TOOLBAR"
 msgid "Built-in ToolBar"
-msgstr ""
+msgstr "Barre d'outils native"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -5056,52 +5056,52 @@ msgstr "/thumbnails\tCréer des miniatures"
 
 msgctxt "IDS_CUSTOM_ACTION1"
 msgid "Custom Action 1"
-msgstr ""
+msgstr "Action personnalisée 1"
 
 msgctxt "IDS_CUSTOM_ACTION2"
 msgid "Custom Action 2"
-msgstr ""
+msgstr "Action personnalisée 2"
 
 msgctxt "IDS_CUSTOM_ACTION3"
 msgid "Custom Action 3"
-msgstr ""
+msgstr "Action personnalisée 3"
 
 msgctxt "IDS_CUSTOM_ACTION4"
 msgid "Custom Action 4"
-msgstr ""
+msgstr "Action personnalisée 4"
 
 msgctxt "IDS_AUDIOS"
 msgid "Audio Track"
-msgstr ""
+msgstr "Piste audio"
 
 msgctxt "IDS_SUBTITLES"
 msgid "Subtitle Track"
-msgstr ""
+msgstr "Piste de sous-titres"
 
 msgctxt "IDS_AG_EXIT_FULLSCREEN"
 msgid "Exit Fullscreen"
-msgstr ""
+msgstr "Quitter le mode plein écran"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
-msgstr ""
+msgstr "Afficher la liste de lecture"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
-msgstr ""
+msgstr "Masquer la liste de lecture"
 
 msgctxt "IDS_AG_ENABLE_SHUFFLE"
 msgid "Enable Shuffle"
-msgstr ""
+msgstr "Activer la lecture aléatoire"
 
 msgctxt "IDS_AG_DISABLE_SHUFFLE"
 msgid "Disable Shuffle"
-msgstr ""
+msgstr "Désactiver la lecture aléatoire"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
-msgstr ""
+msgstr "Activer la répétition"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
-msgstr ""
+msgstr "Désactiver la répétition"
