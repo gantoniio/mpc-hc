@@ -923,9 +923,8 @@ public:
 
     afx_msg void OnBossKey();
 
-    void ToolbarContextMenu(int iItem, int nIndex);
+    void ToolbarContextMenu(int iItem, int nIndex, CRect buttonRect);
 
-    afx_msg void OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnUpdateAudiosButton(CCmdUI* pCmdUI);
     afx_msg void OnUpdateSubtitlesButton(CCmdUI* pCmdUI);
 

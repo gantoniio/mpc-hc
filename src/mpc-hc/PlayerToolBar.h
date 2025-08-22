@@ -126,11 +126,12 @@ public:
     virtual BOOL Create(CWnd* pParentWnd);
     //}}AFX_VIRTUAL
 
-    UINT CustomToCMD(UINT nID, bool left);
+    UINT CustomToCMD(UINT nID, int mouseButtonSource);
 
     // Generated message map functions
 protected:
     //{{AFX_MSG(CPlayerToolBar)
+    afx_msg BOOL OnMenuButton(UINT nID);
     afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnInitialUpdate();
@@ -158,7 +159,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 public:
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-    void DoCustomContextMenu(int itemId, int cmd, int buttonId);
+    void DoCustomContextMenu(int itemId, int cmd, int buttonId, int mouseButtonSource);
     afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
     afx_msg void OnTbnQueryDelete(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTbnQueryInsert(NMHDR* pNMHDR, LRESULT* pResult);

@@ -79,8 +79,8 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_STOP, {TBBS_CHECKGROUP, 2, 0, LOCK_LEFT}},
     {ID_NAVIGATE_SKIPBACK, {TBBS_BUTTON, 3}},
     {ID_NAVIGATE_SKIPFORWARD, {TBBS_BUTTON, 4}},
-    {ID_AUDIOS, {TBBS_BUTTON | TBBS_DROPDOWN, 5, IDS_AUDIOS}},
-    {ID_SUBTITLES, {TBBS_BUTTON | TBBS_DROPDOWN, 6, IDS_SUBTITLES}},
+    {ID_AUDIOS, {TBBS_BUTTON, 5, IDS_AUDIOS}},
+    {ID_SUBTITLES, {TBBS_BUTTON, 6, IDS_SUBTITLES}},
     {ID_PLAY_DECRATE, {TBBS_BUTTON, 7}},
     {ID_PLAY_INCRATE, {TBBS_BUTTON, 8}},
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
@@ -571,6 +571,8 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_UPDATE_COMMAND_UI(ID_BUTTON_REPEAT, OnUpdateRepeat)
     ON_UPDATE_COMMAND_UI_RANGE(ID_CUSTOM_ACTION1, ID_CUSTOM_ACTION4, OnUpdateCustomAction)
     ON_COMMAND_EX_RANGE(ID_CUSTOM_ACTION1, ID_CUSTOM_ACTION4, OnCustomAction)
+    ON_COMMAND_EX(ID_AUDIOS, OnMenuButton)
+    ON_COMMAND_EX(ID_SUBTITLES, OnMenuButton)
     ON_COMMAND_EX(ID_VOLUME_UP, OnVolumeUp)
     ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
     ON_COMMAND_EX(ID_BUTTON_FULLSCREEN, OnFullscreenButton)
@@ -740,7 +742,8 @@ bool CPlayerToolBar::CmdIsMenu(int cmd) {
         ;
 }
 
-UINT CPlayerToolBar::CustomToCMD(UINT nID, bool left) {
+UINT CPlayerToolBar::CustomToCMD(UINT nID, int mouseButtonSource) {
+    bool left = (mouseButtonSource == VK_LBUTTON);
     const auto& s = AfxGetAppSettings();
     UINT cmd = 0;
     switch (nID) {
@@ -760,10 +763,15 @@ UINT CPlayerToolBar::CustomToCMD(UINT nID, bool left) {
     return cmd;
 }
 
+BOOL CPlayerToolBar::OnMenuButton(UINT nID) {
+    DoCustomContextMenu(nID, nID, leftButtonIndex, VK_LBUTTON);
+    return TRUE;
+}
+
 BOOL CPlayerToolBar::OnCustomAction(UINT nID) {
-    UINT cmd = CustomToCMD(nID, true);
+    UINT cmd = CustomToCMD(nID, VK_LBUTTON);
     if (CmdIsMenu(cmd)) {
-        DoCustomContextMenu(nID, cmd, leftButtonIndex);
+        DoCustomContextMenu(nID, cmd, leftButtonIndex, VK_LBUTTON);
     } else {
         m_pMainFrame->PostMessage(WM_COMMAND, cmd);
     }
@@ -960,12 +968,31 @@ void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
     }
 }
 
-void CPlayerToolBar::DoCustomContextMenu(int itemId, int cmd, int buttonId) {
+void CPlayerToolBar::DoCustomContextMenu(int itemId, int cmd, int buttonId, int mouseButtonSource) {
     CToolBarCtrl& tb = GetToolBarCtrl();
+    CRect r;
+    GetItemRect(buttonId, r);
+    ClientToScreen(r);
 
     tb.PressButton(itemId, TRUE);
-    m_pMainFrame->ToolbarContextMenu(cmd, buttonId);
+    m_pMainFrame->ToolbarContextMenu(cmd, buttonId, r);
     tb.PressButton(itemId, FALSE);
+
+    CPoint p;
+    ::GetCursorPos(&p);
+
+    //they clicked a mouse button to open the menu, so we want to swallow clicks on the same button
+    if (PtInRect(&r, p)) {
+        MSG msg;
+        if (mouseButtonSource == VK_LBUTTON) {
+            leftButtonIndex = -1;
+            while (PeekMessageW(&msg, m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE) ||
+                PeekMessageW(&msg, m_hWnd, WM_LBUTTONDBLCLK, WM_LBUTTONDBLCLK, PM_REMOVE));
+        } else {
+            rightButtonIndex = -1;
+            while (PeekMessageW(&msg, m_hWnd, WM_RBUTTONDOWN, WM_RBUTTONDBLCLK, PM_REMOVE));
+        }
+    }
 }
 
 void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
@@ -999,22 +1026,16 @@ void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
                 messageId = ID_STREAM_AUDIO_NEXT;
                 break;
             case ID_CUSTOM_ACTION1:
-                messageId = s.nToolbarRightAction1;
-                break;
             case ID_CUSTOM_ACTION2:
-                messageId = s.nToolbarRightAction2;
-                break;
             case ID_CUSTOM_ACTION3:
-                messageId = s.nToolbarRightAction3;
-                break;
             case ID_CUSTOM_ACTION4:
-                messageId = s.nToolbarRightAction4;
+                messageId = CustomToCMD(itemId, VK_RBUTTON);
                 break;
         }
 
         if (messageId > 0) {
             if (CmdIsMenu(messageId)) {
-                DoCustomContextMenu(itemId, messageId, buttonId);
+                DoCustomContextMenu(itemId, messageId, buttonId, VK_RBUTTON);
             } else {
                 m_pMainFrame->PostMessage(WM_COMMAND, messageId);
             }

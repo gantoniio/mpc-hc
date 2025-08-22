@@ -623,7 +623,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_POWERBROADCAST()
 
     // Support toolbar dropdown buttons
-    ON_NOTIFY(TBN_DROPDOWN, AFX_IDW_TOOLBAR, OnToolbarDropDown)
     ON_UPDATE_COMMAND_UI(ID_AUDIOS, OnUpdateAudiosButton)
     ON_UPDATE_COMMAND_UI(ID_SUBTITLES, OnUpdateSubtitlesButton)
 
@@ -4435,11 +4434,8 @@ void CMainFrame::OnBossKey()
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 }
 
-void CMainFrame::ToolbarContextMenu(int iItem, int nIndex) {
-    CRect r;
+void CMainFrame::ToolbarContextMenu(int iItem, int nIndex, CRect buttonRect) {
     CMPCThemeMenu* subMenu = nullptr;
-    m_wndToolBar.GetItemRect(nIndex, r);
-    m_wndToolBar.ClientToScreen(r);
 
     if (iItem == ID_AUDIOS) {
         SetupAudioSubMenu();
@@ -4462,28 +4458,13 @@ void CMainFrame::ToolbarContextMenu(int iItem, int nIndex) {
             subMenu->fulfillThemeReqs();
         }
         m_bTBDropdownActive = true;
-        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
+        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, buttonRect.left, buttonRect.top, this);
 
         if (idClicked) {
             SendMessage(WM_COMMAND, idClicked); //apparently, TPM_RETURNCMD does not send the CMD
-        } else if (IsLeftMouseButtonDown()) {
-            //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
-            CPoint p;
-            CRect tbRect, bRect;
-            ::GetCursorPos(&p);
-            m_wndToolBar.GetWindowRect(tbRect);
-            if (PtInRect(&tbRect, p) && !PtInRect(&r, p)) {
-                m_wndToolBar.ScreenToClient(&p);
-                m_wndToolBar.PostMessageW(WM_LBUTTONDOWN, 0, MAKELPARAM(p.x, p.y));
-            }
         }
         m_bTBDropdownActive = false;
     }
-}
-
-void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
-    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
-    ToolbarContextMenu(pNMTB->iItem, m_wndToolBar.CommandToIndex(pNMTB->iItem));
 }
 
 void CMainFrame::OnUpdateAudiosButton(CCmdUI* pCmdUI) {
