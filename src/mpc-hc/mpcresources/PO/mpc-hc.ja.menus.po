@@ -185,7 +185,7 @@ msgstr "自動調整(&F)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "レンダラー設定(&E)"
+msgstr "レンダラーの設定(&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
