@@ -109,8 +109,6 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_nButtonHeight(16)
     , m_volumeCtrlSize(60)
-    , mouseDownL(false)
-    , mouseDownR(false)
     , volumeButtonIndex(12)
     , dummySeparatorIndex(11)
     , flexibleSpaceIndex(10)
@@ -650,8 +648,10 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
                     
                     if (pTBCD->nmcd.uItemState & CDIS_CHECKED) {
                         drawButtonBG(pTBCD->nmcd, CMPCTheme::PlayerButtonCheckedColor);
+                    } else if (pTBCD->nmcd.uItemState & CDIS_SELECTED) { //pressed
+                        drawButtonBG(pTBCD->nmcd, CMPCTheme::PlayerButtonClickedColor);
                     } else if (pTBCD->nmcd.uItemState & CDIS_HOT) {
-                        drawButtonBG(pTBCD->nmcd, mouseDownL ? CMPCTheme::PlayerButtonClickedColor : CMPCTheme::PlayerButtonHotColor);
+                        drawButtonBG(pTBCD->nmcd, CMPCTheme::PlayerButtonHotColor);
                     }
                 }
             }
@@ -733,24 +733,38 @@ void CPlayerToolBar::OnUpdateCustomAction(CCmdUI* pCmdUI) {
     }
 }
 
-BOOL CPlayerToolBar::OnCustomAction(UINT nID) {
+bool CPlayerToolBar::CmdIsMenu(int cmd) {
+    return cmd == ID_MENU_FILTERS
+        || cmd == ID_MENU_PLAYER_LONG
+        || cmd == ID_MENU_PLAYER_SHORT
+        ;
+}
+
+UINT CPlayerToolBar::CustomToCMD(UINT nID, bool left) {
     const auto& s = AfxGetAppSettings();
     UINT cmd = 0;
     switch (nID) {
-        case ID_CUSTOM_ACTION1:
-            cmd = s.nToolbarAction1;
-            break;
-        case ID_CUSTOM_ACTION2:
-            cmd = s.nToolbarAction2;
-            break;
-        case ID_CUSTOM_ACTION3:
-            cmd = s.nToolbarAction3;
-            break;
-        case ID_CUSTOM_ACTION4:
-            cmd = s.nToolbarAction4;
-            break;
+    case ID_CUSTOM_ACTION1:
+        cmd = left ? s.nToolbarAction1 : s.nToolbarRightAction1;
+        break;
+    case ID_CUSTOM_ACTION2:
+        cmd = left ? s.nToolbarAction2 : s.nToolbarRightAction2;
+        break;
+    case ID_CUSTOM_ACTION3:
+        cmd = left ? s.nToolbarAction3 : s.nToolbarRightAction3;
+        break;
+    case ID_CUSTOM_ACTION4:
+        cmd = left ? s.nToolbarAction4 : s.nToolbarRightAction4;
+        break;
     }
-    if (cmd) {
+    return cmd;
+}
+
+BOOL CPlayerToolBar::OnCustomAction(UINT nID) {
+    UINT cmd = CustomToCMD(nID, true);
+    if (CmdIsMenu(cmd)) {
+        DoCustomContextMenu(nID, cmd, leftButtonIndex);
+    } else {
         m_pMainFrame->PostMessage(WM_COMMAND, cmd);
     }
 
@@ -833,7 +847,6 @@ BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     int i = getHitButtonIdx(point);
-    mouseDownL = true;
 
     bool isShift = (MK_SHIFT & nFlags);
 
@@ -854,7 +867,6 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CPlayerToolBar::OnRButtonDown(UINT nFlags, CPoint point) {
     int i = getHitButtonIdx(point);
-    mouseDownR = true;
 
     if (!m_pMainFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED)))) {
         ClientToScreen(&point);
@@ -937,8 +949,6 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
-    mouseDownL = false;
-
     //rare crash restoring focus after close
     int buttonId = getHitButtonIdx(point);
     bool doRestoreFocus = (buttonId < 0 || buttonId != leftButtonIndex || GetItemID(buttonId) != ID_FILE_EXIT);
@@ -950,11 +960,18 @@ void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
     }
 }
 
+void CPlayerToolBar::DoCustomContextMenu(int itemId, int cmd, int buttonId) {
+    CToolBarCtrl& tb = GetToolBarCtrl();
+
+    tb.PressButton(itemId, TRUE);
+    m_pMainFrame->ToolbarContextMenu(cmd, buttonId);
+    tb.PressButton(itemId, FALSE);
+}
+
 void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
     CToolBar::OnRButtonUp(nFlags, point);
 
     const auto& s = AfxGetAppSettings();
-    mouseDownR = false;
 
     int buttonId = getHitButtonIdx(point);
     if (buttonId >= 0 && rightButtonIndex == buttonId) {
@@ -996,7 +1013,11 @@ void CPlayerToolBar::OnRButtonUp(UINT nFlags, CPoint point) {
         }
 
         if (messageId > 0) {
-            m_pMainFrame->PostMessage(WM_COMMAND, messageId);
+            if (CmdIsMenu(messageId)) {
+                DoCustomContextMenu(itemId, messageId, buttonId);
+            } else {
+                m_pMainFrame->PostMessage(WM_COMMAND, messageId);
+            }
         }
     }
 }

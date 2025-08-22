@@ -3779,13 +3779,17 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
     return TRUE;
 }
 
+CMPCThemeMenu* CMainFrame::GetShortMenu() {
+    if (!AfxGetAppSettings().bAlwaysUseShortMenu && (IsMenuHidden() || IsD3DFullScreenMode())) {
+        return m_mainPopupMenu.GetSubMenu(0);
+    } else {
+        return m_popupMenu.GetSubMenu(0);
+    }
+}
+
 void CMainFrame::OnMenuPlayerShort()
 {
-    if (!AfxGetAppSettings().bAlwaysUseShortMenu && (IsMenuHidden() || IsD3DFullScreenMode())) {
-        OnMenu(m_mainPopupMenu.GetSubMenu(0));
-    } else {
-        OnMenu(m_popupMenu.GetSubMenu(0));
-    }
+    OnMenu(GetShortMenu());
 }
 
 void CMainFrame::OnMenuPlayerLong()
@@ -4431,19 +4435,27 @@ void CMainFrame::OnBossKey()
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 }
 
-void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
-    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
+void CMainFrame::ToolbarContextMenu(int iItem, int nIndex) {
     CRect r;
     CMPCThemeMenu* subMenu = nullptr;
-    m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(pNMTB->iItem), r);
+    m_wndToolBar.GetItemRect(nIndex, r);
     m_wndToolBar.ClientToScreen(r);
-    if (pNMTB->iItem == ID_AUDIOS) {
+
+    if (iItem == ID_AUDIOS) {
         SetupAudioSubMenu();
         subMenu = &m_audiosMenu;
-    } else if (pNMTB->iItem == ID_SUBTITLES) {
+    } else if (iItem == ID_SUBTITLES) {
         SetupSubtitlesSubMenu();
         subMenu = &m_subtitlesMenu;
+    } else if (iItem == ID_MENU_FILTERS) {
+        SetupFiltersSubMenu();
+        subMenu = &m_filtersMenu;
+    } else if (iItem == ID_MENU_PLAYER_LONG) {
+        subMenu = m_mainPopupMenu.GetSubMenu(0);
+    } else if (iItem == ID_MENU_PLAYER_SHORT) {
+        subMenu = GetShortMenu();
     }
+    
 
     if (subMenu) {
         if (AppNeedsThemedControls()) {
@@ -4453,7 +4465,7 @@ void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
         int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
 
         if (idClicked) {
-            SendMessage(WM_COMMAND, idClicked); //apparently, TPM_RETURNCMD implies TPM_NONOTIFY, so we have to send this ourselves
+            SendMessage(WM_COMMAND, idClicked); //apparently, TPM_RETURNCMD does not send the CMD
         } else if (IsLeftMouseButtonDown()) {
             //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
             CPoint p;
@@ -4467,6 +4479,11 @@ void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
         }
         m_bTBDropdownActive = false;
     }
+}
+
+void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
+    ToolbarContextMenu(pNMTB->iItem, m_wndToolBar.CommandToIndex(pNMTB->iItem));
 }
 
 void CMainFrame::OnUpdateAudiosButton(CCmdUI* pCmdUI) {

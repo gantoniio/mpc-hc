@@ -910,6 +910,7 @@ public:
     afx_msg void OnEndSession(BOOL bEnding);
 
     BOOL OnMenu(CMenu* pMenu);
+    CMPCThemeMenu* GetShortMenu();
     afx_msg void OnMenuPlayerShort();
     afx_msg void OnMenuPlayerLong();
     afx_msg void OnMenuFilters();
@@ -921,6 +922,8 @@ public:
     void OnFilePostClosemedia(bool bNextIsQueued = false);
 
     afx_msg void OnBossKey();
+
+    void ToolbarContextMenu(int iItem, int nIndex);
 
     afx_msg void OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnUpdateAudiosButton(CCmdUI* pCmdUI);
