@@ -385,14 +385,13 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     // Should never be RTLed
     ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
 
-    SetMute(AfxGetAppSettings().fMute);
-
     m_volctrl.Create(this);
     m_volctrl.SetRange(0, 100);
 
     m_nButtonHeight = 16; // reset m_nButtonHeight
 
     LoadToolbarImage();
+    SetMute(AfxGetAppSettings().fMute);
 
     if (AppIsThemeLoaded()) {
         themedToolTip.enableFlickerHelper(); //avoid flicker on button hover
@@ -518,11 +517,6 @@ void CPlayerToolBar::SetRepeat(bool isEnabled) {
 
 bool CPlayerToolBar::IsMuted() const
 {
-    CToolBarCtrl& tb = GetToolBarCtrl();
-    TBBUTTONINFO bi = { sizeof(bi) };
-    bi.dwMask = TBIF_IMAGE;
-    tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
-    return (bi.iImage == VOLUMEBUTTON_SVG_INDEX + 1);
     return AfxGetAppSettings().fMute;
 }
 
