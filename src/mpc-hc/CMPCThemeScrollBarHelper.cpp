@@ -38,6 +38,22 @@ void CMPCThemeScrollBarHelper::createThemedScrollBars()
     hideNativeScrollBars();
 }
 
+void CMPCThemeScrollBarHelper::InvalidateScrollbarArea() {
+    if (window) {
+        CRect r;
+        if (vertSB) {
+            vertSB.GetWindowRect(r);
+            window->ScreenToClient(r);
+            window->InvalidateRect(r);
+        }
+        if (horzSB) {
+            horzSB.GetWindowRect(r);
+            window->ScreenToClient(r);
+            window->InvalidateRect(r);
+        }
+    }
+}
+
 void CMPCThemeScrollBarHelper::OnWindowPosChanged() {
     {
         std::lock_guard<std::recursive_mutex> lck(helperMutex);
