@@ -95,6 +95,7 @@ public:
     __declspec(property(get = GetVolume, put = SetVolume)) int Volume;
 
     TBBUTTON GetStandardButton(int cmdid);
+    void LoadButtonStrings();
     void ArrangeControls();
     void ToolbarChange();
     void ToolBarReset();

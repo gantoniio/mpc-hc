@@ -119,6 +119,8 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
         MpcEvent::DPI_CHANGED,
         MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED,
         MpcEvent::TOOLBAR_THEME_CHANGED,
+        MpcEvent::CHANGING_UI_LANGUAGE,
+
 }, std::bind(&CPlayerToolBar::EventCallback, this, std::placeholders::_1));
 }
 
@@ -345,21 +347,10 @@ TBBUTTON CPlayerToolBar::GetStandardButton(int cmdid) {
     return button;
 }
 
-BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
-{
-    VERIFY(__super::CreateEx(pParentWnd,
-                             TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_AUTOSIZE | TBSTYLE_CUSTOMERASE | CCS_ADJUSTABLE,
-                             WS_CHILD | WS_VISIBLE | CBRS_BOTTOM /*| CBRS_TOOLTIPS*/,
-                             CRect(2, 2, 0, 1)));
-
+void CPlayerToolBar::LoadButtonStrings() {
     auto& s = AfxGetAppSettings();
 
-    CToolBarCtrl& tb = GetToolBarCtrl();
-
-    dummySeparatorIndex = -1;
-    volumeButtonIndex = -1;
-    flexibleSpaceIndex = -1;
-
+    supportedSvgButtonsSeq.clear();
     for (auto& it : supportedSvgButtons) {
         if (it.second.svgIndex != -1) {
             DWORD dwname;
@@ -372,6 +363,22 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
             supportedSvgButtonsSeq.push_back(it.first);
         }
     }
+}
+
+BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
+{
+    VERIFY(__super::CreateEx(pParentWnd,
+                             TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_AUTOSIZE | TBSTYLE_CUSTOMERASE | CCS_ADJUSTABLE,
+                             WS_CHILD | WS_VISIBLE | CBRS_BOTTOM /*| CBRS_TOOLTIPS*/,
+                             CRect(2, 2, 0, 1)));
+
+    CToolBarCtrl& tb = GetToolBarCtrl();
+
+    dummySeparatorIndex = -1;
+    volumeButtonIndex = -1;
+    flexibleSpaceIndex = -1;
+
+    LoadButtonStrings();
 
     PlaceButtons(true);
 
@@ -553,6 +560,9 @@ void CPlayerToolBar::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::TOOLBAR_THEME_CHANGED:
             LoadToolbarImage(true);
+            break;
+        case MpcEvent::CHANGING_UI_LANGUAGE:
+            LoadButtonStrings();
             break;
         default:
             UNREACHABLE_CODE();
