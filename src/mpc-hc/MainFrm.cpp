@@ -4458,7 +4458,9 @@ void CMainFrame::ToolbarContextMenu(int iItem, int nIndex, CRect buttonRect) {
             subMenu->fulfillThemeReqs();
         }
         m_bTBDropdownActive = true;
-        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, buttonRect.left, buttonRect.top, this);
+        TPMPARAMS overlap = { sizeof(TPMPARAMS) };
+        overlap.rcExclude = buttonRect;
+        int idClicked = subMenu->TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, buttonRect.left, buttonRect.top, this, &overlap);
 
         if (idClicked) {
             SendMessage(WM_COMMAND, idClicked); //apparently, TPM_RETURNCMD does not send the CMD
