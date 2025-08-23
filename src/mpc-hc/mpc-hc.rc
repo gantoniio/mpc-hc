@@ -4222,6 +4222,8 @@ BEGIN
     IDS_AG_DISABLE_SHUFFLE  "Disable Shuffle"
     IDS_AG_ENABLE_REPEAT    "Enable Repeat"
     IDS_AG_DISABLE_REPEAT   "Disable Repeat"
+    IDS_SHUFFLE_ON          "Shuffle: On"
+    IDS_SHUFFLE_OFF         "Shuffle: Off"
 END
 
 #endif    // English (United States) resources

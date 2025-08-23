@@ -7931,6 +7931,7 @@ void CMainFrame::OnPlaylistToggleShuffle() {
     s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
     m_wndPlaylistBar.m_pl.SetShuffle(s.bShufflePlaylistItems);
     m_wndToolBar.SetShuffle(s.bShufflePlaylistItems);
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.bShufflePlaylistItems ? IDS_SHUFFLE_ON : IDS_SHUFFLE_OFF));
 }
 
 void CMainFrame::OnViewEditListEditor()
