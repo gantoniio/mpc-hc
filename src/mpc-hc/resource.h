@@ -624,6 +624,8 @@
 #define IDS_THEMEMODE_LIGHT             14214
 #define IDS_THEMEMODE_WINDOWS           14215
 #define IDS_SUB_OVERRIDE_ALL_STYLES     14216
+#define IDS_SHUFFLE_ON                  14217
+#define IDS_SHUFFLE_OFF                 14218
 #define IDD_TUNER_SCAN                  20002
 #define IDS_OSD_DISPLAY_RENDERER_STATS  20003
 #define IDD_PPAGELOGO2                  20003
