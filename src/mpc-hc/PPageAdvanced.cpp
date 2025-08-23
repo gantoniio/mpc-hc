@@ -188,7 +188,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(PAUSE_WHILE_DRAGGING_SEEKBAR, IDS_RS_PAUSE_WHILE_DRAGGING_SEEKBAR, true, s.bPauseWhileDraggingSeekbar, StrRes(IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR));
     addBoolItem(CONFIRM_FILE_DELETE, IDS_RS_CONFIRM_FILE_DELETE, true, s.bConfirmFileDelete, StrRes(IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE));
     addBoolItem(LIBASS_FOR_SRT, IDS_RS_LIBASS_FOR_SRT, false, s.bRenderSRTUsingLibass, StrRes(IDS_PPAGEADVANCED_LIBASS_FOR_SRT));
-    addBoolItem(SHOW_VOLUME_PERCENTAGE, IDS_RS_SHOW_VOLUME_PERCENTAGE, true, s.bShowVolumePercentage, L"Show percentage value on volume slider (in modern theme)");
+    addBoolItem(SHOW_VOLUME_PERCENTAGE, IDS_RS_SHOW_VOLUME_PERCENTAGE, true, s.bShowVolumePercentage, StrRes(IDS_PPAGEADVANCED_SHOW_VOLUMNE_PERCENTAGE));
 }
 
 BOOL CPPageAdvanced::OnApply()
