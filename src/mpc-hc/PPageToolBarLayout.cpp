@@ -107,6 +107,36 @@ void CPPageToolBarLayout::ReloadImageLists() {
     m_list_inactive.SetImageList(tb.GetCustomizeButtonImages().get(), LVSIL_SMALL);
 }
 
+void SetListCtrlFixedColumn(CListCtrl& listCtrl) {
+    CRect clientRect;
+    listCtrl.GetClientRect(&clientRect);
+
+    bool hasVScroll = (listCtrl.GetStyle() & WS_VSCROLL);
+
+    int availableWidth = clientRect.Width() - (hasVScroll ? 0 : GetSystemMetrics(SM_CXVSCROLL));
+
+    int columnCount = listCtrl.GetHeaderCtrl()->GetItemCount();
+    if (columnCount) {
+        listCtrl.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+        int headerWidth = listCtrl.GetColumnWidth(0);
+
+        listCtrl.SetColumnWidth(0, LVSCW_AUTOSIZE);
+        int contentWidth = listCtrl.GetColumnWidth(0);
+
+        int maxWidth = availableWidth;
+        int finalWidth = std::min(std::max(headerWidth, contentWidth), maxWidth);
+
+        listCtrl.SetColumnWidth(0, finalWidth);
+    }
+
+    CHeaderCtrl* pHeader = listCtrl.GetHeaderCtrl();
+    if (pHeader) {
+        DWORD dwStyle = pHeader->GetStyle();
+        dwStyle |= HDS_NOSIZING;
+        SetWindowLongPtrW(pHeader->m_hWnd, GWL_STYLE, dwStyle);
+    }
+}
+
 BOOL CPPageToolBarLayout::OnInitDialog()
 {
     __super::OnInitDialog();
@@ -145,6 +175,9 @@ BOOL CPPageToolBarLayout::OnInitDialog()
     ReloadImageLists();
 
     LoadToolBarButtons();
+
+    SetListCtrlFixedColumn(m_list_active);
+    SetListCtrlFixedColumn(m_list_inactive);
 
     SetRedraw(TRUE);
 
