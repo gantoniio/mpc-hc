@@ -1176,7 +1176,7 @@ BEGIN
     GROUPBOX        "Windows Integration",IDC_STATIC,181,138,168,43
     CONTROL         "Use enhanced taskbar features",IDC_CHECK_ENHANCED_TASKBAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,152,160,8
-    CONTROL         "Control via Windows UI (SMTC)",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,166,161,8
+    CONTROL         "Control via Windows UI (SMTC)",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,166,160,8
     GROUPBOX        "Language",IDC_STATIC21,181,184,168,33
     LTEXT           "Language:",IDC_STATIC5,187,198,80,8
     COMBOBOX        IDC_COMBO2,263,198,82,20,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
