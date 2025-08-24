@@ -5,7 +5,7 @@
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
 # Mirosław Żylewicz, 2021
-# Krzysztof Marcinek, 2024
+# Krzysztof, 2024
 # Łukasz Janik, 2025
 # 
 msgid ""
@@ -209,7 +209,8 @@ msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
 "This program is freeware and released under the GNU General Public License."
 msgstr ""
-"Ten program jest darmowy i wydawany na zasadach GNU General Public License."
+"Ten program jest darmowy i został wydany na licencji GNU General Public "
+"License."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
