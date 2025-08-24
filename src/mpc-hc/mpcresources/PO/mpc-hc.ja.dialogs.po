@@ -1637,7 +1637,7 @@ msgstr "有効なリサイズ前のシェーダー"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "リサイズ後に有効なシェーダー"
+msgstr "有効なリサイズ後のシェーダー"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC5"
 msgid ""
