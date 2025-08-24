@@ -1633,7 +1633,7 @@ msgstr "削除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "アクティブなリサイズ前のシェーダー"
+msgstr "リサイズ前に有効なシェーダー"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
