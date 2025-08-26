@@ -19,6 +19,18 @@ public:
 
 class CMPCThemePlayerListCtrl : public CListCtrl, CMPCThemeUtil, CMPCThemeScrollable
 {
+private:
+    CDC m_memDC;           // Persistent memory DC
+    CBitmap m_memBitmap;   // Persistent memory bitmap
+    CSize m_memSize;       // Current memory buffer size
+    bool m_bMemDCValid;    // Flag to track if memory DC is valid
+protected:
+    void InitializeMemoryDC();
+    void CleanupMemoryDC();
+    void EnsureMemoryDC(const CSize& requiredSize);
+    void DrawHeaderToMemoryDC(CDC* pDC, const CRect& drawRect);
+    void ExcludeChildWindows(CDC* pDC, CRgn* pClipRgn, CHeaderCtrl* pExceptHeader, const CPoint& borderOffset);
+
 public:
     CMPCThemePlayerListCtrl();
     virtual ~CMPCThemePlayerListCtrl();
@@ -31,6 +43,7 @@ public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     void setCheckedColors(COLORREF checkedBG, COLORREF checkedText, COLORREF uncheckedText);
     void subclassHeader();
+    void DrawAllItems(CDC* pDC, const CRect& drawRect);
     void setAdditionalStyles(DWORD styles);
     void setHasCBImages(bool on);
     void setItemTextWithDefaultFlag(int nItem, int nSubItem, LPCTSTR lpszText, bool flagged);
@@ -40,6 +53,7 @@ public:
     void DoDPIChanged();
 
     DECLARE_MESSAGE_MAP()
+    afx_msg void OnPaint();
     afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
     afx_msg void OnNcPaint();
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

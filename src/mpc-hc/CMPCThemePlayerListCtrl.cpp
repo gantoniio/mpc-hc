@@ -49,13 +49,14 @@ void CMPCThemePlayerListCtrl::PreSubclassWindow()
 IMPLEMENT_DYNAMIC(CMPCThemePlayerListCtrl, CListCtrl)
 
 BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CListCtrl)
+    ON_WM_PAINT()
     ON_WM_NCPAINT()
     ON_WM_CREATE()
     ON_NOTIFY_REFLECT_EX(LVN_ENDSCROLL, OnLvnEndScroll)
     ON_WM_MOUSEMOVE()
     ON_WM_MOUSEWHEEL()
     ON_WM_NCCALCSIZE()
-    ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
+    //ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
     ON_WM_ERASEBKGND()
     ON_WM_CTLCOLOR()
     ON_NOTIFY_EX(HDN_ENDTRACKA, 0, &OnHdnEndtrack)
@@ -85,6 +86,227 @@ void CMPCThemePlayerListCtrl::subclassHeader()
     if (nullptr != t && IsWindow(t->m_hWnd) && themedHdrCtrl.m_hWnd == NULL) {
         themedHdrCtrl.SubclassWindow(t->GetSafeHwnd());
     }
+}
+
+void CMPCThemePlayerListCtrl::EnsureMemoryDC(const CSize& requiredSize) {
+    InitializeMemoryDC();
+
+    // Check if we need to resize the memory buffer
+    if (requiredSize.cx > m_memSize.cx || requiredSize.cy > m_memSize.cy) {
+        // Clean up old bitmap
+        if (m_memBitmap.GetSafeHandle()) {
+            m_memDC.SelectObject((CBitmap*)NULL);
+            m_memBitmap.DeleteObject();
+        }
+
+        // Create new bitmap with some extra space to avoid frequent reallocations
+        CSize newSize(std::max(requiredSize.cx, m_memSize.cx) + 50,
+            std::max(requiredSize.cy, m_memSize.cy) + 50);
+
+        CClientDC dc(this);
+        m_memBitmap.CreateCompatibleBitmap(&dc, newSize.cx, newSize.cy);
+        m_memDC.SelectObject(&m_memBitmap);
+
+        m_memSize = newSize;
+        m_bMemDCValid = false; // Need to redraw everything
+    }
+}
+
+void CMPCThemePlayerListCtrl::DrawHeaderToMemoryDC(CDC* pDC, const CRect& drawRect) {
+
+    CHeaderCtrl* pHeader = GetHeaderCtrl();
+    if (!pHeader || !pHeader->IsWindowVisible()) {
+        TRACE(_T("No header or header not visible\n"));
+        return;
+    }
+
+    // Get header rectangle in our coordinates
+    CRect headerRect;
+    pHeader->GetWindowRect(&headerRect);
+    ScreenToClient(&headerRect);
+
+    TRACE(_T("DrawHeader - HeaderRect: %d,%d,%d,%d, DrawRect: %d,%d,%d,%d\n"),
+        headerRect.left, headerRect.top, headerRect.right, headerRect.bottom,
+        drawRect.left, drawRect.top, drawRect.right, drawRect.bottom);
+
+    // Force draw the entire header area that intersects
+    CRect intersectRect;
+    intersectRect.IntersectRect(&headerRect, &drawRect);
+
+    if (intersectRect.IsRectEmpty()) {
+        TRACE(_T("Header intersect rect is empty\n"));
+        return;
+    }
+
+    TRACE(_T("Drawing header at intersect rect: %d,%d,%d,%d\n"),
+        intersectRect.left, intersectRect.top, intersectRect.right, intersectRect.bottom);
+
+    // TEST: Fill entire client area with different color to see if ANYTHING draws
+    CRect clientRect;
+    GetClientRect(&clientRect);
+    pDC->FillSolidRect(&clientRect, RGB(255, 0, 0)); // RED - should cover everything
+
+    // TEST: Fill with bright color over intersection
+    pDC->FillSolidRect(&intersectRect, RGB(255, 0, 255)); // Magenta - very visible!
+
+    // Draw thick border around entire intersection
+    CBrush borderBrush(RGB(0, 255, 0)); // Green border
+    pDC->FrameRect(&intersectRect, &borderBrush);
+
+    // Draw a big X across the header area to make it super obvious
+    CPen xPen(PS_SOLID, 5, RGB(255, 255, 0)); // Thick yellow line
+    CPen* pOldPen = pDC->SelectObject(&xPen);
+
+    pDC->MoveTo(intersectRect.left, intersectRect.top);
+    pDC->LineTo(intersectRect.right, intersectRect.bottom);
+    pDC->MoveTo(intersectRect.right, intersectRect.top);
+    pDC->LineTo(intersectRect.left, intersectRect.bottom);
+
+    pDC->SelectObject(pOldPen);
+
+    TRACE(_T("Header drawing completed\n"));
+}
+
+void CMPCThemePlayerListCtrl::ExcludeChildWindows(CDC* pDC, CRgn* pClipRgn, CHeaderCtrl* pExceptHeader, const CPoint& borderOffset) {
+    DWORD style = GetStyle();
+    if (style & WS_CLIPCHILDREN) {
+
+        // Enumerate all child windows and exclude them from clipping (except the header)
+        CWnd* pChild = GetWindow(GW_CHILD);
+        while (pChild != NULL) {
+            // Skip the header control - we want to draw over it
+            if (pChild == pExceptHeader) {
+                pChild = pChild->GetWindow(GW_HWNDNEXT);
+                continue;
+            }
+
+            // Check if child window is visible
+            if (pChild->IsWindowVisible()) {
+                CRect childRect;
+                pChild->GetWindowRect(&childRect);
+                ScreenToClient(&childRect);
+
+                // Adjust child rectangle for border offset (CWindowDC coordinates)
+                childRect.OffsetRect(borderOffset);
+
+                // Create region for this child window
+                CRgn childRgn;
+                childRgn.CreateRectRgnIndirect(&childRect);
+
+                // Exclude this child from our clipping region
+                pClipRgn->CombineRgn(pClipRgn, &childRgn, RGN_DIFF);
+            }
+
+            pChild = pChild->GetWindow(GW_HWNDNEXT);
+        }
+    }
+}
+
+void CMPCThemePlayerListCtrl::OnPaint() {
+    CPaintDC dc(this);
+
+    // Get the invalidated region
+    CRect updateRect;
+    dc.GetClipBox(&updateRect);
+
+    if (updateRect.IsRectEmpty())
+        return;
+
+    // Get client rectangle
+    CRect clientRect;
+    GetClientRect(&clientRect);
+
+    // Get border offset for CWindowDC coordinate adjustment
+    CRect windowRect;
+    GetWindowRect(&windowRect);
+    CPoint borderOffset;
+    borderOffset.x = clientRect.left;
+    borderOffset.y = clientRect.top;
+
+    // Calculate border size by comparing window and client coordinates
+    CPoint clientTopLeft(0, 0);
+    ClientToScreen(&clientTopLeft);
+    borderOffset.x = clientTopLeft.x - windowRect.left;
+    borderOffset.y = clientTopLeft.y - windowRect.top;
+
+    // Ensure memory DC is large enough
+    EnsureMemoryDC(clientRect.Size());
+
+    // Set up the memory DC coordinate system
+    m_memDC.SetWindowOrg(0, 0);
+    m_memDC.SetViewportOrg(0, 0);
+
+    m_memDC.SetBkColor(dc.GetBkColor());
+    m_memDC.SetTextColor(dc.GetTextColor());
+    m_memDC.SetBkMode(dc.GetBkMode());
+    CFont* font = GetFont();
+    CFont* pOldFont = m_memDC.SelectObject(font);
+
+    // Determine what needs to be redrawn
+    CRect drawRect = updateRect;
+
+    // If the entire buffer is invalid, expand to client rect
+    if (!m_bMemDCValid) {
+        drawRect = clientRect;
+        m_bMemDCValid = true;
+    }
+
+    // Prepare final draw rect for BitBlt (will be expanded if header exists)
+    CRect finalDrawRect = drawRect;
+
+    // Clear the background
+    //m_memDC.FillSolidRect(&drawRect, CMPCTheme::DebugColorRed);
+
+    // Get header info
+    CHeaderCtrl* pHeader = GetHeaderCtrl();
+    CRect headerRect(0, 0, 0, 0);
+    CRect listArea = clientRect;
+
+    CRect rr, hr, wr;
+    GetSubItemRect(0, 0, LVIR_LABEL, rr);
+    themedHdrCtrl.GetItemRect(0, hr);
+    themedHdrCtrl.GetWindowRect(wr);
+    static int i = 0;
+    if (themedHdrCtrl && themedHdrCtrl.IsWindowVisible()) {
+        themedHdrCtrl.GetWindowRect(&headerRect);
+        ScreenToClient(&headerRect);
+        listArea.top = headerRect.bottom;
+        themedHdrCtrl.DrawAllItems(&m_memDC, headerRect.TopLeft());
+        finalDrawRect.UnionRect(&finalDrawRect, &headerRect);
+    }
+
+    // Draw list items in the area below header
+    CRect listDrawRect;
+    listDrawRect.IntersectRect(&drawRect, &listArea);
+
+    if (!listDrawRect.IsRectEmpty()) {
+        DrawAllItems(&m_memDC, listDrawRect);
+    }
+
+    // Use CWindowDC for all output but manually clip child windows (except header)
+    CWindowDC windowDC(this);
+
+    // Create clipping region that excludes child windows (except header)
+    // Adjust for border offset since CWindowDC uses window coordinates
+    CRect windowClipRect = finalDrawRect;
+    windowClipRect.OffsetRect(borderOffset);
+
+    CRgn clipRgn;
+    clipRgn.CreateRectRgnIndirect(&windowClipRect);
+
+    // Exclude all child windows except the header (adjusting for border offset)
+    ExcludeChildWindows(&windowDC, &clipRgn, pHeader, borderOffset);
+
+    // Set the clipping region
+    windowDC.SelectClipRgn(&clipRgn);
+
+    // Copy from memory DC to window DC with border offset adjustment
+    windowDC.BitBlt(finalDrawRect.left + borderOffset.x, finalDrawRect.top + borderOffset.y,
+        finalDrawRect.Width(), finalDrawRect.Height(),
+        &m_memDC, finalDrawRect.left, finalDrawRect.top, SRCCOPY);
+
+    // Clean up clipping region
+    windowDC.SelectClipRgn(NULL);
 }
 
 void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles)
@@ -231,6 +453,27 @@ LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM 
             return 1;
         }
     }
+
+    if (message == WM_NOTIFY) {
+        LPNMHDR pNMHDR = (LPNMHDR)lParam;
+
+        // Check if it's a message from our header control
+        CHeaderCtrl* pHeader = GetHeaderCtrl();
+        if (pHeader && pNMHDR->hwndFrom == pHeader->GetSafeHwnd()) {
+            // Handle header notifications that might cause repainting
+            switch (pNMHDR->code) {
+            case HDN_BEGINTRACK:
+            case HDN_TRACK:
+            case HDN_ENDTRACK:
+            case HDN_DIVIDERDBLCLICK:
+                // Column is being resized - invalidate our buffer
+                m_bMemDCValid = false;
+                Invalidate(FALSE);
+                break;
+            }
+        }
+    }
+
     return __super::WindowProc(message, wParam, lParam);
 }
 
@@ -327,18 +570,11 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
             pDC->SetBkColor(bgColor);
 
             rectDC = rRow;
-            CDC dcMem;
-            CBitmap bmMem;
-            CMPCThemeUtil::initMemDC(pDC, dcMem, bmMem, rectDC);
-            rect.OffsetRect(-rectDC.TopLeft());
-            rText.OffsetRect(-rectDC.TopLeft());
-            rIcon.OffsetRect(-rectDC.TopLeft());
-            rRow.OffsetRect(-rectDC.TopLeft());
 
             if (!IsWindowEnabled() && 0 == nSubItem) { //no gridlines, bg for full row
-                dcMem.FillSolidRect(rRow, CMPCTheme::ListCtrlDisabledBGColor);
+                pDC->FillSolidRect(rRow, CMPCTheme::ListCtrlDisabledBGColor);
             } else {
-                dcMem.FillSolidRect(rect, CMPCTheme::ContentBGColor); //no flicker because we have a memory dc
+                pDC->FillSolidRect(rect, CMPCTheme::ContentBGColor); //no flicker because we have a memory dc
             }
 
             rTextBG = rText;
@@ -382,7 +618,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                             rIcon.DeflateRect(0, (rIcon.Height() - rIcon.Width()) / 2); //as tall as wide
                         }
 
-                        CMPCThemeUtil::drawCheckBox(GetParent(), lvi.iImage, false, false, rIcon, &dcMem);
+                        CMPCThemeUtil::drawCheckBox(GetParent(), lvi.iImage, false, false, rIcon, pDC);
                     } else {
                         if (dwStyle == LVS_ICON) {
                         } else if (dwStyle == LVS_SMALLICON || dwStyle == LVS_LIST || dwStyle == LVS_REPORT) {
@@ -390,7 +626,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                             int cx, cy;
                             ImageList_GetIconSize(ilist->m_hImageList, &cx, &cy);
                             rIcon.top += (rIcon.Height() - cy) / 2;
-                            ilist->Draw(&dcMem, lvi.iImage, rIcon.TopLeft(), ILD_TRANSPARENT);
+                            ilist->Draw(pDC, lvi.iImage, rIcon.TopLeft(), ILD_TRANSPARENT);
                         }
                     }
                     if (align == HDF_LEFT) {
@@ -405,7 +641,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     int cbYMargin = (rect.Height() - cbSize - 1) / 2;
                     int cbXMargin = (contentLeft - rect.left - cbSize) / 2;
                     CRect rcb = { rect.left + cbXMargin, rect.top + cbYMargin, rect.left + cbXMargin + cbSize, rect.top + cbYMargin + cbSize };
-                    CMPCThemeUtil::drawCheckBox(GetParent(), isChecked, false, true, rcb, &dcMem);
+                    CMPCThemeUtil::drawCheckBox(GetParent(), isChecked, false, true, rcb, pDC);
                 }
             }
 
@@ -415,7 +651,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     bgColor = selectedBGColor;
                     if (LVS_REPORT != dwStyle) { //in list mode we don't fill the "whole" column
                         CRect tmp = rText;
-                        dcMem.DrawTextW(text, tmp, textFormat | DT_CALCRECT); //end of string
+                        pDC->DrawTextW(text, tmp, textFormat | DT_CALCRECT); //end of string
                         rTextBG.right = tmp.right + (rText.left - rTextBG.left); //end of string plus same indent from the left side
                     }
                     selected = true;
@@ -424,13 +660,13 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                         bgColor = checkedBGClr;
                     }
                     if (isChecked && checkedTextClr != -1) {
-                        dcMem.SetTextColor(checkedTextClr);
+                        pDC->SetTextColor(checkedTextClr);
                     }
                     if (!isChecked && uncheckedTextClr != -1) {
-                        dcMem.SetTextColor(uncheckedTextClr);
+                        pDC->SetTextColor(uncheckedTextClr);
                     }
                 }
-                dcMem.FillSolidRect(rTextBG, bgColor);
+                pDC->FillSolidRect(rTextBG, bgColor);
 
                 if (themeGridLines || (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid())) {
                     CRect rGrid = rect;
@@ -446,27 +682,27 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                         gridPenH.CreatePen(PS_SOLID, 1, CMPCTheme::ListCtrlGridColor);
                     }
 
-                    oldPen = dcMem.SelectObject(&gridPenV);
+                    oldPen = pDC->SelectObject(&gridPenV);
                     if (nSubItem != 0) {
-                        dcMem.MoveTo(rGrid.TopLeft());
-                        dcMem.LineTo(rGrid.left, rGrid.bottom);
+                        pDC->MoveTo(rGrid.TopLeft());
+                        pDC->LineTo(rGrid.left, rGrid.bottom);
                     } else {
-                        dcMem.MoveTo(rGrid.left, rGrid.bottom);
+                        pDC->MoveTo(rGrid.left, rGrid.bottom);
                     }
 
-                    dcMem.SelectObject(&gridPenH);
-                    dcMem.LineTo(rGrid.BottomRight());
+                    pDC->SelectObject(&gridPenH);
+                    pDC->LineTo(rGrid.BottomRight());
 
-                    dcMem.SelectObject(&gridPenV);
-                    dcMem.LineTo(rGrid.right, rGrid.top);
+                    pDC->SelectObject(&gridPenV);
+                    pDC->LineTo(rGrid.right, rGrid.top);
 
-                    dcMem.SelectObject(oldPen);
+                    pDC->SelectObject(oldPen);
                     gridPenV.DeleteObject();
                     gridPenH.DeleteObject();
                 } else if (selected) {
                     CBrush borderBG;
                     borderBG.CreateSolidBrush(CMPCTheme::ListCtrlDisabledBGColor);
-                    dcMem.FrameRect(rTextBG, &borderBG);
+                    pDC->FrameRect(rTextBG, &borderBG);
                     borderBG.DeleteObject();
                 }
             }
@@ -480,10 +716,9 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     listMPCThemeFontBold.CreateFontIndirect(&lf);
                 }
 
-                dcMem.SelectObject(listMPCThemeFontBold);
+                pDC->SelectObject(listMPCThemeFontBold);
             }
-            dcMem.DrawTextW(text, rText, textFormat);
-            CMPCThemeUtil::flushMemDC(pDC, dcMem, rectDC);
+            pDC->DrawTextW(text, rText, textFormat);
             pDC->SetTextColor(oldTextColor);
             pDC->SetBkColor(oldBkColor);
         }
@@ -634,4 +869,61 @@ BOOL CMPCThemePlayerListCtrl::OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
     }
     *pResult = 0;
     return FALSE;
+}
+
+void CMPCThemePlayerListCtrl::InitializeMemoryDC() {
+    if (m_memDC.GetSafeHdc() == NULL) {
+        CClientDC dc(this);
+        m_memDC.CreateCompatibleDC(&dc);
+        m_memDC.SetBkColor(dc.GetBkColor());
+        m_memDC.SetTextColor(dc.GetTextColor());
+        m_memDC.SetBkMode(dc.GetBkMode());
+        m_memDC.SelectObject(dc.GetCurrentFont());
+    }
+}
+
+void CMPCThemePlayerListCtrl::CleanupMemoryDC() {
+    if (m_memBitmap.GetSafeHandle()) {
+        m_memDC.SelectObject((CBitmap*)NULL);
+        m_memBitmap.DeleteObject();
+    }
+
+    if (m_memDC.GetSafeHdc()) {
+        m_memDC.DeleteDC();
+    }
+
+    m_memSize = CSize(0, 0);
+    m_bMemDCValid = false;
+}
+
+void CMPCThemePlayerListCtrl::DrawAllItems(CDC* pDC, const CRect& drawRect) {
+    // Get visible item range
+    int topIndex = GetTopIndex();
+    int itemCount = GetItemCount();
+    int visibleCount = GetCountPerPage();
+
+    // Calculate item range to draw (with some buffer)
+    int startItem = std::max(0, topIndex - 1);
+    int endItem = std::min(itemCount - 1, topIndex + visibleCount + 1);
+
+    // Get header control to determine number of columns
+    CHeaderCtrl* pHeader = GetHeaderCtrl();
+    int colCount = pHeader ? pHeader->GetItemCount() : 1;
+
+    // Loop through all visible items
+    for (int nItem = startItem; nItem <= endItem; nItem++) {
+        CRect itemRect;
+        GetItemRect(nItem, &itemRect, LVIR_BOUNDS);
+
+        // Check if this item intersects with the draw rectangle
+        CRect intersectRect;
+        if (!intersectRect.IntersectRect(&itemRect, &drawRect))
+            continue;
+
+        // Loop through all subitems (columns) for this item
+        for (int nSubItem = 0; nSubItem < colCount; nSubItem++) {
+            // Call the custom draw function for each item/subitem combination
+            drawItem(pDC, nItem, nSubItem);
+        }
+    }
 }

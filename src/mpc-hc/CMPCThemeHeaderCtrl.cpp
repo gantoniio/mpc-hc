@@ -20,8 +20,13 @@ BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
     ON_NOTIFY(HDN_TRACKW, 0, &CMPCThemeHeaderCtrl::OnHdnTrack)
     ON_WM_MOUSEMOVE()
     ON_WM_MOUSELEAVE()
+    ON_WM_ERASEBKGND()
     ON_WM_PAINT()
 END_MESSAGE_MAP()
+
+BOOL CMPCThemeHeaderCtrl::OnEraseBkgnd(CDC* pDC) {
+    return TRUE;
+}
 
 void CMPCThemeHeaderCtrl::drawSortArrow(CDC* dc, COLORREF arrowClr, CRect arrowRect, bool ascending)
 {
@@ -222,14 +227,19 @@ void CMPCThemeHeaderCtrl::OnPaint()
         return;
     }
 
+    ValidateRect(NULL);
+
+    /*
     CPaintDC dc(this); // device context for painting
     CMemDC memDC(dc, this);
     CDC* pDC = &memDC.GetDC();
+    DrawAllItems(pDC);
+    */
+}
+
+void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
     CFont* font = GetFont();
     CFont* pOldFont = pDC->SelectObject(font);
-
-    CRect rectClip;
-    dc.GetClipBox(rectClip);
 
     CRect rect;
     GetClientRect(rect);
@@ -246,6 +256,10 @@ void CMPCThemeHeaderCtrl::OnPaint()
 
         GetItemRect(i, rectItem);
 
+        xMax = max(xMax, rectItem.right);
+
+        rectItem.OffsetRect(offset);
+
         CRgn rgnClip;
         rgnClip.CreateRectRgnIndirect(&rectItem);
         pDC->SelectClipRgn(&rgnClip);
@@ -254,8 +268,6 @@ void CMPCThemeHeaderCtrl::OnPaint()
         drawItem(i, rectItem, pDC);
 
         pDC->SelectClipRgn(NULL);
-
-        xMax = max(xMax, rectItem.right);
     }
 
     // Draw "tail border":
@@ -267,6 +279,7 @@ void CMPCThemeHeaderCtrl::OnPaint()
         rectItem.right = rect.right + 1;
     }
 
-    drawItem(-1, rectItem, pDC);
+    rectItem.OffsetRect(offset);
+    //drawItem(-1, rectItem, pDC);
     pDC->SelectObject(pOldFont);
 }
