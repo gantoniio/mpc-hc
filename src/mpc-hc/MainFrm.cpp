@@ -19133,7 +19133,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMediaBeforeOpen()
 {
-    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING) {
+    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING || m_eMediaLoadState == MLS::FAILING) {
         CloseMedia(true);
     }
 }
