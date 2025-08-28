@@ -2326,7 +2326,7 @@ HRESULT CMpcAudioRenderer::CreateRenderClient(WAVEFORMATEX *pWaveFormatEx, const
 	TRACE(L"CMpcAudioRenderer::CreateRenderClient() - using period = %.2f ms\n", m_hnsBufferDuration / 10000.0f);
 
 	const auto ShareMode = IsExclusive(pWaveFormatEx) ? AUDCLNT_SHAREMODE_EXCLUSIVE : AUDCLNT_SHAREMODE_SHARED;
-	TRACE(L"CMpcAudioRenderer::CreateRenderClient() - using %s mode", ShareMode == AUDCLNT_SHAREMODE_SHARED ? L"Shared" : L"Exclusive\n");
+	TRACE(L"CMpcAudioRenderer::CreateRenderClient() - using %s mode\n", ShareMode == AUDCLNT_SHAREMODE_SHARED ? L"Shared" : L"Exclusive");
 
 	if (bCheckFormat) {
 		WAVEFORMATEX *pClosestMatch = nullptr;
