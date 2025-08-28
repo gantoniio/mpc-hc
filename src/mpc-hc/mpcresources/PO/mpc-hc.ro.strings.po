@@ -1598,7 +1598,7 @@ msgstr "Prestabilirea următoare a nuanțatoarelor (a shaderelor)"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Precedenta prestabilire a nuanțatoarelor (shaderelor)"
+msgstr "Prestabilirea următoare a nuanțatoarelor (a shaderelor)"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
