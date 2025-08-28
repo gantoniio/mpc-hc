@@ -2369,7 +2369,7 @@ msgstr "Scade volumul"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Volumul dat pe silențios/Mut"
+msgstr "Volumul dat pe silențios (pe mut)"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
