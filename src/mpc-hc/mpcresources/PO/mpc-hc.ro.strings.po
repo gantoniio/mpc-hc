@@ -2345,7 +2345,7 @@ msgstr "Cadrul video în jos"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr "Cadrul video în sus/ în stânga"
+msgstr "Cadrul video în sus / în stânga"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
