@@ -4696,19 +4696,6 @@ msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
 msgstr "Po přehrání posledního souboru v adresáři začne přehrávat od prvního."
 
-msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
-msgid ""
-"Requires Dark Theme. When enabled, the time seekbar and volume indicator "
-"don't show a dragger at current position, but instead are filled from left "
-"to right."
-msgstr ""
-"Vyžaduje tmavý režim. Při zapnutí panel hledání a ukazatel hlasitosti "
-"neukazují posuvník na aktuální pozici, ale jsou zaplňovány zleva doprava."
-
-msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
-msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr "Výška moderního panelu hledání (96 DPI, jinak bude škálován)"
-
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr ""
@@ -4751,6 +4738,10 @@ msgstr "Povolit shadery po změně velikosti"
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
 msgstr "Interval obnovení času stavového řádku (v milisekundách)"
+
+msgctxt "IDS_PPAGEADVANCED_SHOW_VOLUME_PERCENTAGE"
+msgid "Show percentage value on volume slider (in modern theme)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
@@ -5041,4 +5032,12 @@ msgstr ""
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
+msgstr ""
+
+msgctxt "IDS_SHUFFLE_ON"
+msgid "Shuffle: On"
+msgstr ""
+
+msgctxt "IDS_SHUFFLE_OFF"
+msgid "Shuffle: Off"
 msgstr ""

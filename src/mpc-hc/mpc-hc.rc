@@ -4119,8 +4119,8 @@ BEGIN
     IDS_POSTSIZE_SHADERS_TOGGLE "Enable Post-Resize Pixel Shaders"
     IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL 
                             "Refresh interval (in milliseconds) of time in status bar"
-    IDS_PPAGEADVANCED_SHOW_VOLUMNE_PERCENTAGE
-		                        "Show percentage value on volume slider (in modern theme)"
+    IDS_PPAGEADVANCED_SHOW_VOLUME_PERCENTAGE
+                            "Show percentage value on volume slider (in modern theme)"
 END
 
 STRINGTABLE
