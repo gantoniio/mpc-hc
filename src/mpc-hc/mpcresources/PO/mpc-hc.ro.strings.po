@@ -601,7 +601,7 @@ msgstr "Reglaje fine"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Filtre interne::Comutator audio"
+msgstr "Filtre interne::Comutatorul audio"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
