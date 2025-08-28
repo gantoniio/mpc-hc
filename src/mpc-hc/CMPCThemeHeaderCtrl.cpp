@@ -100,6 +100,7 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC)
     if (nItem == hotItem) {
         bgColor = CMPCTheme::ColumnHeaderHotColor;
     }
+
     pDC->FillSolidRect(rGrid, bgColor);
 
     CPen gridPen, *oldPen;
@@ -222,6 +223,8 @@ void CMPCThemeHeaderCtrl::OnMouseLeave()
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
 void CMPCThemeHeaderCtrl::OnPaint()
 {
+  if (AppNeedsThemedControls()) {
+
     if (GetStyle() & HDS_FILTERBAR) {
         Default();
         return;
@@ -235,6 +238,9 @@ void CMPCThemeHeaderCtrl::OnPaint()
     CDC* pDC = &memDC.GetDC();
     DrawAllItems(pDC);
     */
+  } else {
+    Default();
+  }
 }
 
 void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
@@ -280,6 +286,6 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
     }
 
     rectItem.OffsetRect(offset);
-    //drawItem(-1, rectItem, pDC);
+    drawItem(-1, rectItem, pDC);
     pDC->SelectObject(pOldFont);
 }

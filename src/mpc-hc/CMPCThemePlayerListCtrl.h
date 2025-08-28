@@ -3,6 +3,7 @@
 #include "CMPCThemeToolTipCtrl.h"
 #include "CMPCThemeUtil.h"
 #include "CMPCThemeHeaderCtrl.h"
+#include "MemoryDCBuffer.h"
 
 //undocumented state changes for LVS_EX_CHECKBOXES
 #define LVIS_UNCHECKED  0x1000
@@ -20,16 +21,10 @@ public:
 class CMPCThemePlayerListCtrl : public CListCtrl, CMPCThemeUtil, CMPCThemeScrollable
 {
 private:
-    CDC m_memDC;           // Persistent memory DC
-    CBitmap m_memBitmap;   // Persistent memory bitmap
-    CSize m_memSize;       // Current memory buffer size
-    bool m_bMemDCValid;    // Flag to track if memory DC is valid
+    MemoryDCBuffer m_listBuffer;
+    MemoryDCBuffer m_headerBuffer;
 protected:
-    void InitializeMemoryDC();
-    void CleanupMemoryDC();
-    void EnsureMemoryDC(const CSize& requiredSize);
-    void DrawHeaderToMemoryDC(CDC* pDC, const CRect& drawRect);
-    void ExcludeChildWindows(CDC* pDC, CRgn* pClipRgn, CHeaderCtrl* pExceptHeader, const CPoint& borderOffset);
+    void ExcludeChildWindows(CDC* pDC, CRgn* pClipRgn);
 
 public:
     CMPCThemePlayerListCtrl();
@@ -74,9 +69,11 @@ protected:
     bool hasCBImages;
     bool themeGridLines;
     bool fullRowSelect;
+    bool clipChildWindows;
     CMPCThemeHeaderCtrl themedHdrCtrl;
     CFont* listMPCThemeFont, listMPCThemeFontBold;
     CMPCThemeListCtrlCustomInterface* customThemeInterface;
+    BOOL EraseBkgnd(CDC* pDC);
     void drawItem(CDC* pDC, int nItem, int nSubItem);
     virtual void PreSubclassWindow();
 public:
