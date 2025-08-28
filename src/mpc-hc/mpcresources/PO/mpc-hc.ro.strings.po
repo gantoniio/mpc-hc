@@ -3209,7 +3209,7 @@ msgstr "Primul fișier din dosar (din folder) este deja încărcat."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr "Ultimul fișier din dosar (folder) este deja încărcat."
+msgstr "Ultimul fișier din dosar (din folder) este deja încărcat."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
