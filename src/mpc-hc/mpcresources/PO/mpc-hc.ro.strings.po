@@ -2357,7 +2357,7 @@ msgstr "Cadrul video în jos / în stânga"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr "Cadrul video în jos/ în dreapta"
+msgstr "Cadrul video în jos / în dreapta"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
