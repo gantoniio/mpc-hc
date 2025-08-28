@@ -649,7 +649,7 @@ msgstr "Redare::Setări pentru randorul de sincronizare"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Redare::Ecran complet (Pe tot ecranul)"
+msgstr "Redare::Ecran complet"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
