@@ -4727,7 +4727,7 @@ msgstr "Rotița în jos"
 
 msgctxt "IDS_MOUSE_WHEEL_LEFT"
 msgid "Wheel Left"
-msgstr "Rotița în stânga"
+msgstr "Rotița din stânga"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
