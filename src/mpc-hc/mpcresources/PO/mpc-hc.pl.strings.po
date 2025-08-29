@@ -8,7 +8,7 @@
 # Rudolph RD, 2020
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
 # Mirosław Żylewicz, 2021
-# Krzysztof Marcinek, 2024
+# Krzysztof, 2024
 # MPC-HC Developer, 2025
 # Łukasz Janik, 2025
 # 
@@ -201,7 +201,7 @@ msgstr "Nigdy"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr "Tylko podczas przełączania różnych typów wideo"
+msgstr "Tylko przy zmianie rodzaju wideo."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
