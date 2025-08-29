@@ -7,7 +7,7 @@
 # Rudolph RD, 2020
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
 # Mirosław Żylewicz, 2021
-# Krzysztof Marcinek, 2024
+# Krzysztof, 2024
 # Łukasz Janik, 2025
 # 
 msgid ""
@@ -581,7 +581,7 @@ msgstr "A-B (znacznik &B)"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
-msgstr "&Tempo"
+msgstr "&Prędkość odtwarzania"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
