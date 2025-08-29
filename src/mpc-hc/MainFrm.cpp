@@ -1262,6 +1262,9 @@ void CMainFrame::OnClose()
         CloseMedia();
     }
 
+    ASSERT(GetLoadState() == MLS::CLOSED);
+    ASSERT(!m_bOpenMediaActive);
+
     m_wndPlaylistBar.ClearExternalPlaylistIfInvalid();
 
     s.WinLircClient.DisConnect();
@@ -4322,8 +4325,6 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
 {
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS::CLOSED);
-
-    m_bOpenMediaActive = false;
 
     abRepeat = ABRepeat();
     m_kfs.clear();
@@ -19006,6 +19007,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         }
     }
 
+    if (m_bOpenMediaActive) {
+        TRACE(_T("CMainFrame::OpenMedia -> skipping because there already is an active OpenMedia call\n"));
+        return;
+    }
+    m_bOpenMediaActive = true;
+
     CloseMediaBeforeOpen();
 
     // if the file is on some removable drive and that drive is missing,
@@ -19032,14 +19039,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
                     }
                 }
                 if (ret != IDOK) {
+                    m_bOpenMediaActive = false;
                     return;
                 }
             }
         }
     }
-
-    ASSERT(!m_bOpenMediaActive);
-    m_bOpenMediaActive = true;
 
     // clear BD playlist if we are not currently opening something from it
     if (!m_bIsBDPlay) {
@@ -19133,7 +19138,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMediaBeforeOpen()
 {
-    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING) {
+    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING || m_eMediaLoadState == MLS::FAILING) {
         CloseMedia(true);
     }
 }
