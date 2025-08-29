@@ -329,7 +329,7 @@ msgstr "&Synchronizacja pionowa"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "&Dokładna"
+msgstr "&Dokładna synchronizacja pionowa"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
