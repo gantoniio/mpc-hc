@@ -933,7 +933,8 @@ BOOL CPPageAccelTbl::OnInitDialog()
         r, this, IDC_LIST1);
 
     //m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_GRIDLINES );
-    m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_GRIDLINES | WS_CLIPCHILDREN);
+    m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_GRIDLINES);
+    m_list.setAdditionalStyles(WS_CLIPCHILDREN, false);
     m_list.setColorInterface(this);
 
     //this list was created dynamically but lives in a dialog.  if we don't inherit the parent font,

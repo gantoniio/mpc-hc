@@ -230,14 +230,15 @@ void CMPCThemeHeaderCtrl::OnPaint()
         return;
     }
 
-    ValidateRect(NULL);
-
-    /*
-    CPaintDC dc(this); // device context for painting
-    CMemDC memDC(dc, this);
-    CDC* pDC = &memDC.GetDC();
-    DrawAllItems(pDC);
-    */
+    //note, we have no listview with owner draw and header, but in such a case the header must draw itself
+    if ((GetParent()->GetStyle() & (LVS_OWNERDRAWFIXED)) != 0) {
+        CPaintDC dc(this); // device context for painting
+        CMemDC memDC(dc, this);
+        CDC* pDC = &memDC.GetDC();
+        DrawAllItems(pDC, { 0,0 });
+    } else {
+        ValidateRect(NULL);
+    }
   } else {
     Default();
   }

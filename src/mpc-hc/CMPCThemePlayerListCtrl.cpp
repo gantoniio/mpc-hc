@@ -199,7 +199,7 @@ void CMPCThemePlayerListCtrl::OnPaint() {
   }
 }
 
-void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles)
+void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles, bool exStyle /* = true*/)
 {
     if (AppNeedsThemedControls()) {
         DWORD stylesToAdd = styles, stylesToRemove = 0;
@@ -226,9 +226,17 @@ void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles)
         handleStyle(LVS_EX_DOUBLEBUFFER, dummy);
         handleStyle(WS_CLIPCHILDREN, clipChildWindows);
 
-        SetExtendedStyle((GetExtendedStyle() | stylesToAdd) & ~stylesToRemove);
+        if (exStyle) {
+            SetExtendedStyle((GetExtendedStyle() | stylesToAdd) & ~stylesToRemove);
+        } else {
+            SetWindowLongPtrW(m_hWnd, GWL_STYLE, (GetStyle() | stylesToAdd) & ~stylesToRemove);
+        }
     } else {
-        SetExtendedStyle(GetExtendedStyle() | styles);
+        if (exStyle) {
+            SetExtendedStyle(GetExtendedStyle() | styles);
+        } else {
+            SetWindowLongPtrW(m_hWnd, GWL_STYLE, GetStyle() | styles);
+        }
     }
 }
 
@@ -778,33 +786,51 @@ BOOL CMPCThemePlayerListCtrl::OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 void CMPCThemePlayerListCtrl::DrawAllItems(CDC* pDC, const CRect& drawRect) {
-    // Get visible item range
-    int topIndex = GetTopIndex();
     int itemCount = GetItemCount();
-    int visibleCount = GetCountPerPage();
+    if (itemCount == 0) return;
 
-    // Calculate item range to draw (with some buffer)
-    int startItem = std::max(0, topIndex - 1);
-    int endItem = std::min(itemCount - 1, topIndex + visibleCount + 1);
+    DWORD style = GetStyle() & LVS_TYPEMASK;
 
-    // Get header control to determine number of columns
-    CHeaderCtrl* pHeader = GetHeaderCtrl();
-    int colCount = pHeader ? pHeader->GetItemCount() : 1;
+    if (style == LVS_REPORT) {
+        int topIndex = GetTopIndex();
+        int itemCount = GetItemCount();
+        int visibleCount = GetCountPerPage();
 
-    // Loop through all visible items
-    for (int nItem = startItem; nItem <= endItem; nItem++) {
-        CRect itemRect;
-        GetItemRect(nItem, &itemRect, LVIR_BOUNDS);
+        // Calculate item range to draw (with some buffer)
+        int startItem = std::max(0, topIndex - 1);
+        int endItem = std::min(itemCount - 1, topIndex + visibleCount + 1);
 
-        // Check if this item intersects with the draw rectangle
-        CRect intersectRect;
-        if (!intersectRect.IntersectRect(&itemRect, &drawRect))
-            continue;
+        // Get header control to determine number of columns
+        CHeaderCtrl* pHeader = GetHeaderCtrl();
+        int colCount = pHeader ? pHeader->GetItemCount() : 1;
 
-        // Loop through all subitems (columns) for this item
-        for (int nSubItem = 0; nSubItem < colCount; nSubItem++) {
-            // Call the custom draw function for each item/subitem combination
-            drawItem(pDC, nItem, nSubItem);
+        // Loop through all visible items
+        for (int nItem = startItem; nItem <= endItem; nItem++) {
+            CRect itemRect;
+            GetItemRect(nItem, &itemRect, LVIR_BOUNDS);
+
+            // Check if this item intersects with the draw rectangle
+            CRect intersectRect;
+            if (!intersectRect.IntersectRect(&itemRect, &drawRect))
+                continue;
+
+            // Loop through all subitems (columns) for this item
+            for (int nSubItem = 0; nSubItem < colCount; nSubItem++) {
+                // Call the custom draw function for each item/subitem combination
+                drawItem(pDC, nItem, nSubItem);
+            }
+        }
+    } else {
+        for (int nItem = 0; nItem < itemCount; nItem++) {
+            CRect itemRect;
+            GetItemRect(nItem, &itemRect, LVIR_BOUNDS);
+
+            // Check if this item intersects with the draw rectangle
+            CRect intersectRect;
+            if (intersectRect.IntersectRect(&itemRect, &drawRect)) {
+                // Non-report views only have one "column" (no subitems)
+                drawItem(pDC, nItem, 0);
+            }
         }
     }
 }

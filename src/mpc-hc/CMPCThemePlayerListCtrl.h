@@ -39,7 +39,7 @@ public:
     void setCheckedColors(COLORREF checkedBG, COLORREF checkedText, COLORREF uncheckedText);
     void subclassHeader();
     void DrawAllItems(CDC* pDC, const CRect& drawRect);
-    void setAdditionalStyles(DWORD styles);
+    void setAdditionalStyles(DWORD styles, bool exStyle = true);
     void setHasCBImages(bool on);
     void setItemTextWithDefaultFlag(int nItem, int nSubItem, LPCTSTR lpszText, bool flagged);
     void setFlaggedItem(int iItem, bool flagged);

@@ -303,6 +303,7 @@ BOOL CPPageFullscreen::OnInitDialog()
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() /*| LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER
                             | LVS_EX_GRIDLINES */ | LVS_EX_BORDERSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_CHECKBOXES | LVS_EX_FLATSB);
     m_list.setAdditionalStyles(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    m_list.setAdditionalStyles(WS_CLIPCHILDREN, false);
     m_list.InsertColumn(COL_N, ResStr(IDS_PPAGE_FS_CLN_ON_OFF), LVCFMT_LEFT, 60);
     m_list.InsertColumn(COL_FRAMERATE_START, ResStr(IDS_PPAGE_FS_CLN_FROM_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_FRAMERATE_STOP, ResStr(IDS_PPAGE_FS_CLN_TO_FPS), LVCFMT_RIGHT, 60);
