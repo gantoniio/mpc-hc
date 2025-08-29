@@ -665,7 +665,7 @@ msgstr "&Zwiększ prędkość"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Przy&wróć pierwotne tempo"
+msgstr "Zres&etuj prędkość"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
