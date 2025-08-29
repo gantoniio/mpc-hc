@@ -201,7 +201,7 @@ msgstr "Nigdy"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr "Tylko przy zmianie rodzaju wideo."
+msgstr "Tylko podczas przełączania różnych typów wideo"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
