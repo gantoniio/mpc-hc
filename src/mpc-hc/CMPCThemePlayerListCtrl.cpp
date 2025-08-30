@@ -453,6 +453,8 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
             rect.right = rText.right;
         }
 
+        CFont* curFont = pDC->GetCurrentFont();
+
         //issubitemvisible
         if (rClient.left <= rect.right && rClient.right >= rect.left && rClient.top <= rect.bottom && rClient.bottom >= rect.top) {
             COLORREF textColor = CMPCTheme::TextFGColor;
@@ -626,6 +628,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
             pDC->DrawTextW(text, rText, textFormat);
             pDC->SetTextColor(oldTextColor);
             pDC->SetBkColor(oldBkColor);
+            pDC->SelectObject(curFont);
         }
     }
 }
