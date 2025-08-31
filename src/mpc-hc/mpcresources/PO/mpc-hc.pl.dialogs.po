@@ -2007,7 +2007,7 @@ msgstr "Niestandardowy przycisk 3"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 4"
-msgstr "Przycisk użytkownika 4"
+msgstr "Niestandardowy przycisk 4"
 
 msgctxt "IDD_PPAGETOOLBARLAYOUT_IDC_BUTTON1"
 msgid "Default"
