@@ -5029,7 +5029,7 @@ msgstr "Niestandardowe działanie 1"
 
 msgctxt "IDS_CUSTOM_ACTION2"
 msgid "Custom Action 2"
-msgstr "Przycisk użytkownika 2"
+msgstr "Niestandardowe działanie 2"
 
 msgctxt "IDS_CUSTOM_ACTION3"
 msgid "Custom Action 3"
