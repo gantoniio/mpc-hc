@@ -5025,7 +5025,7 @@ msgstr "/thumbnails\tUtwórz miniatury"
 
 msgctxt "IDS_CUSTOM_ACTION1"
 msgid "Custom Action 1"
-msgstr "Przycisk użytkownika 1"
+msgstr "Niestandardowe działanie 1"
 
 msgctxt "IDS_CUSTOM_ACTION2"
 msgid "Custom Action 2"
