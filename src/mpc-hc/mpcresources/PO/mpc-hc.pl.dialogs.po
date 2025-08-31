@@ -1999,7 +1999,7 @@ msgstr "Prawy klik"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 2"
-msgstr "Przycisk użytkownika 2"
+msgstr "Niestandardowy przycisk 2"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 3"
