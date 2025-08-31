@@ -2003,7 +2003,7 @@ msgstr "Niestandardowy przycisk 2"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 3"
-msgstr "Przycisk użytkownika 3"
+msgstr "Niestandardowy przycisk 3"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 4"
