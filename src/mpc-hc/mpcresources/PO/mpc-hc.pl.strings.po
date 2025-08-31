@@ -5037,7 +5037,7 @@ msgstr "Niestandardowe działanie 3"
 
 msgctxt "IDS_CUSTOM_ACTION4"
 msgid "Custom Action 4"
-msgstr "Przycisk użytkownika 4"
+msgstr "Niestandardowe działanie 4"
 
 msgctxt "IDS_AUDIOS"
 msgid "Audio Track"
