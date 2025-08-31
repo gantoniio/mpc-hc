@@ -1987,7 +1987,7 @@ msgstr "Aktywny styl:"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Custom Button 1"
-msgstr "Przycisk użytkownika 1"
+msgstr "Niestandardowy przycisk 1"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Click"
