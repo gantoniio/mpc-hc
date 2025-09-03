@@ -57,7 +57,7 @@ BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CListCtrl)
     ON_WM_MOUSEMOVE()
     ON_WM_MOUSEWHEEL()
     ON_WM_NCCALCSIZE()
-    //ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
+    ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
     ON_WM_ERASEBKGND()
     ON_WM_CTLCOLOR()
     ON_NOTIFY_EX(HDN_ENDTRACKA, 0, &OnHdnEndtrack)
@@ -85,6 +85,7 @@ void CMPCThemePlayerListCtrl::subclassHeader()
 {
     CHeaderCtrl* t = GetHeaderCtrl();
     if (nullptr != t && IsWindow(t->m_hWnd) && themedHdrCtrl.m_hWnd == NULL) {
+        themedHdrCtrl.SetParent(this);
         themedHdrCtrl.SubclassWindow(t->GetSafeHwnd());
     }
 }
@@ -128,9 +129,33 @@ CPoint DetectHeaderOffset(CListCtrl* pList, CHeaderCtrl* pHeader) {
     return CPoint(offset, 0);
 }
 
+bool CMPCThemePlayerListCtrl::IsCustomDrawActive() {
+    if (!::IsWindow(m_hWnd)) {
+        return false;
+    }
+
+    CWnd* pParent = GetParent();
+    if (!pParent) {
+        return false;
+    }
+
+    NMLVCUSTOMDRAW nmcd = { 0 };
+    nmcd.nmcd.hdr.hwndFrom = m_hWnd;
+    nmcd.nmcd.hdr.idFrom = GetDlgCtrlID();
+    nmcd.nmcd.hdr.code = NM_CUSTOMDRAW;
+    nmcd.nmcd.dwDrawStage = CDDS_PREPAINT;
+
+    LRESULT lResult = pParent->SendMessage(WM_NOTIFY,  nmcd.nmcd.hdr.idFrom,  (LPARAM)&nmcd);
+
+    return (lResult != CDRF_DODEFAULT);
+}
+
+bool CMPCThemePlayerListCtrl::PaintHooksActive() {
+    return (GetStyle() & (LVS_OWNERDRAWFIXED)) != 0 || IsCustomDrawActive();
+}
 
 void CMPCThemePlayerListCtrl::OnPaint() {
-  if (AppNeedsThemedControls() && (GetStyle() & (LVS_OWNERDRAWFIXED)) == 0) {
+  if (AppNeedsThemedControls() && !PaintHooksActive()) {
     CPaintDC dc(this);
     CRect updateRect;
     dc.GetClipBox(&updateRect);
@@ -635,6 +660,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
 
 BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
+#if 1
     if (AppNeedsThemedControls()) {
         NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 
@@ -670,12 +696,13 @@ BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
         }
         return TRUE;
     }
+#endif
     return FALSE;
 }
 
 
 BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC) {
-    if ((GetStyle() & (LVS_OWNERDRAWFIXED)) != 0) {
+    if (PaintHooksActive()) {
         EraseBkgnd(pDC);
     }
 

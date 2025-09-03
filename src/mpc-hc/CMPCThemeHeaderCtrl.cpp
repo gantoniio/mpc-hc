@@ -4,10 +4,12 @@
 #include "CMPCThemeUtil.h"
 #include "DpiHelper.h"
 #include "mplayerc.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 CMPCThemeHeaderCtrl::CMPCThemeHeaderCtrl()
 {
     hotItem = -2;
+    parent = nullptr;
 }
 
 
@@ -25,7 +27,12 @@ BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
 END_MESSAGE_MAP()
 
 BOOL CMPCThemeHeaderCtrl::OnEraseBkgnd(CDC* pDC) {
-    return TRUE;
+    //header must draw itself 
+    if (!parent || parent->PaintHooksActive()) {
+        return __super::OnEraseBkgnd(pDC);
+    } else {
+        return TRUE;
+    }
 }
 
 void CMPCThemeHeaderCtrl::drawSortArrow(CDC* dc, COLORREF arrowClr, CRect arrowRect, bool ascending)
@@ -230,8 +237,8 @@ void CMPCThemeHeaderCtrl::OnPaint()
         return;
     }
 
-    //note, we have no listview with owner draw and header, but in such a case the header must draw itself
-    if ((GetParent()->GetStyle() & (LVS_OWNERDRAWFIXED)) != 0) {
+    //header must draw itself 
+    if (!parent || parent->PaintHooksActive()) {
         CPaintDC dc(this); // device context for painting
         CMemDC memDC(dc, this);
         CDC* pDC = &memDC.GetDC();

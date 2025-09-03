@@ -62,13 +62,14 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
 
     m_list.CreateEx(
         WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE,
-        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_TABSTOP | LVS_REPORT | LVS_OWNERDATA /*|LVS_SHOWSELALWAYS*/ | LVS_AUTOARRANGE | LVS_NOSORTHEADER,
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP | LVS_REPORT | LVS_OWNERDATA /*|LVS_SHOWSELALWAYS*/ | LVS_AUTOARRANGE | LVS_NOSORTHEADER,
         CRect(0, 0, 100, 100), this, IDC_SUBRESYNCLIST);
 
     ScaleFont();
 
     //m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
     m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    m_list.setAdditionalStyles(WS_CLIPCHILDREN, false);
     m_list.setColorInterface(this);
     m_strYes = m_strYesMenu = ResStr(IDS_SUBRESYNC_YES);
     m_strNo = m_strNoMenu = ResStr(IDS_SUBRESYNC_NO);

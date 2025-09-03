@@ -46,6 +46,8 @@ public:
     bool getFlaggedItem(int iItem);
     void setColorInterface(CMPCThemeListCtrlCustomInterface* iface) { customThemeInterface = iface; };
     void DoDPIChanged();
+    bool IsCustomDrawActive();
+    bool PaintHooksActive();
 
     DECLARE_MESSAGE_MAP()
     afx_msg void OnPaint();

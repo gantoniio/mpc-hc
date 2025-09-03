@@ -312,24 +312,27 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPageAdvanced::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+    *pResult = CDRF_DODEFAULT;
 
-    switch (pNMCD->dwDrawStage) {
+    //this custom draw is used only in classic mode
+    if (!AppNeedsThemedControls()) {
+        LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+
+        switch (pNMCD->dwDrawStage) {
         case CDDS_PREPAINT:
             *pResult = CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
             break;
         case CDDS_ITEMPREPAINT: {
-            auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData((int)pNMCD->dwItemSpec));
-            if (!IsDefault(eSetting)) {
-                ::SelectObject(pNMCD->hdc, m_fontBold.GetSafeHandle());
-                *pResult |= CDRF_NEWFONT;
-            } else {
-                *pResult = CDRF_DODEFAULT;
+                auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData((int)pNMCD->dwItemSpec));
+                if (!IsDefault(eSetting)) {
+                    ::SelectObject(pNMCD->hdc, m_fontBold.GetSafeHandle());
+                    *pResult |= CDRF_NEWFONT;
+                } else {
+                    *pResult = CDRF_DODEFAULT;
+                }
             }
+            break;
         }
-        break;
-        default:
-            *pResult = CDRF_DODEFAULT;
     }
 }
 

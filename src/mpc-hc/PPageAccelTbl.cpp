@@ -1128,17 +1128,20 @@ void CPPageAccelTbl::GetCustomGridColors(int nItem, COLORREF& horzGridColor, COL
 }
 
 void CPPageAccelTbl::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult) {
-    NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
+    //this custom draw is used only in classic mode
     *pResult = CDRF_DODEFAULT;
+    if (!AppNeedsThemedControls()) {
+        NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 
-    if (CDDS_PREPAINT == pLVCD->nmcd.dwDrawStage) {
-        *pResult = CDRF_NOTIFYITEMDRAW;
-    } else if (CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage) {
-        *pResult = CDRF_NOTIFYSUBITEMDRAW;
-    } else if ((CDDS_ITEMPREPAINT | CDDS_SUBITEM) == pLVCD->nmcd.dwDrawStage) {
-        bool ignore;
-        GetCustomTextColors(pLVCD->nmcd.dwItemSpec, pLVCD->iSubItem, pLVCD->clrText, pLVCD->clrTextBk, ignore);
-        *pResult = CDRF_DODEFAULT;
+        if (CDDS_PREPAINT == pLVCD->nmcd.dwDrawStage) {
+            *pResult = CDRF_NOTIFYITEMDRAW;
+        } else if (CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage) {
+            *pResult = CDRF_NOTIFYSUBITEMDRAW;
+        } else if ((CDDS_ITEMPREPAINT | CDDS_SUBITEM) == pLVCD->nmcd.dwDrawStage) {
+            bool ignore;
+            GetCustomTextColors(pLVCD->nmcd.dwItemSpec, pLVCD->iSubItem, pLVCD->clrText, pLVCD->clrTextBk, ignore);
+            *pResult = CDRF_DODEFAULT;
+        }
     }
 }
 
