@@ -805,7 +805,7 @@ msgstr "&Parametry wiersza poleceń..."
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Ściągnij &obrazy paska sterowania"
+msgstr "Pobierz ikony paska &narzędzi"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
