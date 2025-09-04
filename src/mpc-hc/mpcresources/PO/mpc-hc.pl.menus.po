@@ -801,7 +801,7 @@ msgstr "Sprawdź &aktualizacje"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Parametry wiersza poleceń..."
+msgstr "&Przełączniki wiersza poleceń..."
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
