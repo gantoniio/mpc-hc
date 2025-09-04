@@ -809,7 +809,7 @@ msgstr "Pobierz ikony paska &narzędzi"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "&Wspomóż"
+msgstr "&Wesprzyj"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
