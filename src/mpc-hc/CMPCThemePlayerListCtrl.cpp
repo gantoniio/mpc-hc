@@ -169,6 +169,9 @@ void CMPCThemePlayerListCtrl::OnPaint() {
     CPoint clientTopLeft(0, 0);
     ClientToScreen(&clientTopLeft);
 
+    if (nullptr != customThemeInterface) {
+        customThemeInterface->DoCustomPrePaint();
+    }
 
     CRect listArea = clientRect;
     bool hasHeader = themedHdrCtrl && themedHdrCtrl.IsWindowVisible();
@@ -660,7 +663,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
 
 BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
-#if 1
+#if 0
     if (AppNeedsThemedControls()) {
         NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 
