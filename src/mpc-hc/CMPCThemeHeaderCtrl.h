@@ -8,7 +8,7 @@ class CMPCThemeHeaderCtrl :
 {
 protected:
     int hotItem;
-    bool headerDrag = false;
+    bool colDrag = false;
     CMPCThemePlayerListCtrl* parent;
     void checkHot(CPoint point);
     void drawSortArrow(CDC* dc, COLORREF arrowClr, CRect arrowRect, bool ascending);

@@ -108,7 +108,7 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC)
     ScreenToClient(&ptCursor);
     checkHot(ptCursor);
 
-    if (nItem == hotItem && !headerDrag) {
+    if (nItem == hotItem && !colDrag) {
         bgColor = CMPCTheme::ColumnHeaderHotColor;
     }
 
@@ -313,13 +313,13 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
 
 void CMPCThemeHeaderCtrl::OnHdnBegintrack(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
-    headerDrag = true;
+    colDrag = true;
     *pResult = 0;
 }
 
 
 void CMPCThemeHeaderCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
-    headerDrag = false;
+    colDrag = false;
     *pResult = 0;
 }
