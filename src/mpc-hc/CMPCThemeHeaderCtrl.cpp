@@ -24,6 +24,10 @@ BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
     ON_WM_MOUSELEAVE()
     ON_WM_ERASEBKGND()
     ON_WM_PAINT()
+    ON_NOTIFY(HDN_BEGINTRACKA, 0, &CMPCThemeHeaderCtrl::OnHdnBegintrack)
+    ON_NOTIFY(HDN_BEGINTRACKW, 0, &CMPCThemeHeaderCtrl::OnHdnBegintrack)
+    ON_NOTIFY(HDN_ENDTRACKA, 0, &CMPCThemeHeaderCtrl::OnHdnEndtrack)
+    ON_NOTIFY(HDN_ENDTRACKW, 0, &CMPCThemeHeaderCtrl::OnHdnEndtrack)
 END_MESSAGE_MAP()
 
 BOOL CMPCThemeHeaderCtrl::OnEraseBkgnd(CDC* pDC) {
@@ -104,7 +108,7 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC)
     ScreenToClient(&ptCursor);
     checkHot(ptCursor);
 
-    if (nItem == hotItem) {
+    if (nItem == hotItem && !headerDrag) {
         bgColor = CMPCTheme::ColumnHeaderHotColor;
     }
 
@@ -203,7 +207,11 @@ void CMPCThemeHeaderCtrl::checkHot(CPoint point)
         hotItem = -2;
     }
     if (hotItem != prevHotItem) {
-        RedrawWindow();
+        if (!parent || parent->PaintHooksActive()) {
+            RedrawWindow();
+        } else if (parent) {
+            parent->RedrawHeader();
+        }
     }
 }
 
@@ -221,7 +229,11 @@ void CMPCThemeHeaderCtrl::OnMouseLeave()
 {
     if (hotItem >= 0) {
         hotItem = -1;
-        RedrawWindow();
+        if (!parent || parent->PaintHooksActive()) {
+            RedrawWindow();
+        } else if (parent) {
+            parent->RedrawHeader();
+        }
     }
     __super::OnMouseLeave();
 }
@@ -296,4 +308,18 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
     rectItem.OffsetRect(offset);
     drawItem(-1, rectItem, pDC);
     pDC->SelectObject(pOldFont);
+}
+
+
+void CMPCThemeHeaderCtrl::OnHdnBegintrack(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
+    headerDrag = true;
+    *pResult = 0;
+}
+
+
+void CMPCThemeHeaderCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult) {
+    LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
+    headerDrag = false;
+    *pResult = 0;
 }

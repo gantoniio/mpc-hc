@@ -154,6 +154,15 @@ bool CMPCThemePlayerListCtrl::PaintHooksActive() {
     return (GetStyle() & (LVS_OWNERDRAWFIXED)) != 0 || IsCustomDrawActive();
 }
 
+void CMPCThemePlayerListCtrl::RedrawHeader() {
+    if (themedHdrCtrl) {
+        CRect headerRect;
+        themedHdrCtrl.GetWindowRect(&headerRect);
+        ScreenToClient(&headerRect);
+        RedrawWindow(headerRect, 0, RDW_INVALIDATE);
+    }
+}
+
 void CMPCThemePlayerListCtrl::OnPaint() {
   if (AppNeedsThemedControls() && !PaintHooksActive()) {
     CPaintDC dc(this);
@@ -395,8 +404,9 @@ LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM 
             // Handle header notifications that might cause repainting
             switch (pNMHDR->code) {
             case HDN_BEGINTRACK:
-            case HDN_TRACK:
             case HDN_ENDTRACK:
+                pHeader->SendMessageW(WM_NOTIFY, pNMHDR->code, (LPARAM)pNMHDR);
+            case HDN_TRACK:
             case HDN_DIVIDERDBLCLICK:
                 // Column is being resized - invalidate our buffer
                 m_listBuffer.bValid = false;

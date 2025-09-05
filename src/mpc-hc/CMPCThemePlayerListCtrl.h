@@ -48,6 +48,7 @@ public:
     void DoDPIChanged();
     bool IsCustomDrawActive();
     bool PaintHooksActive();
+    void RedrawHeader();
 
     DECLARE_MESSAGE_MAP()
     afx_msg void OnPaint();
