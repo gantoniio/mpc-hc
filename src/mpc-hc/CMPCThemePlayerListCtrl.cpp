@@ -715,11 +715,11 @@ BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 
 BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC) {
-    if (PaintHooksActive()) {
-        EraseBkgnd(pDC);
+    if (AppNeedsThemedControls() && !PaintHooksActive()) {
+        return TRUE;
+    } else {
+        return EraseBkgnd(pDC);
     }
-
-    return TRUE;
 }
 
 
