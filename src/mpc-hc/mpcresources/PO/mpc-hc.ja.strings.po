@@ -153,7 +153,7 @@ msgstr "シグナル"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %ld%%"
-msgstr "強度: %d dB, 品質: %ld%%"
+msgstr "信号強度: %d dB, 受信品質: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
