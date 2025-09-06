@@ -19436,6 +19436,15 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     }
                     break;
                 case WAIT_TIMEOUT:
+                    if (!extendedwait) {
+                        ULONGLONG tcnow = GetTickCount64();
+                        if (tcnow > tckill && tcnow - tckill >= 2000ULL) {
+                            extendedwait = true;
+                            waitdur = 4000ULL;
+                            tckill = GetTickCount64() + waitdur;
+                            continue;
+                        }
+                    }
                     break;
                 default:
                     processmsg = false;
