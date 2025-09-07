@@ -216,7 +216,8 @@ void CMPCThemePlayerListCtrl::OnPaint() {
         listClipRgn.CreateRectRgnIndirect(&listClipRect);
         ExcludeChildWindows(&dc, &listClipRgn);
         dc.SelectClipRgn(&listClipRgn);
-        dc.BitBlt(listDrawRect.left, listDrawRect.top, listDrawRect.Width(), listDrawRect.Height(), &m_listBuffer.memDC, listDrawRect.left, listDrawRect.top, SRCCOPY);
+        dc.BitBlt(listDrawRect.left, listDrawRect.top, listDrawRect.Width(), listDrawRect.Height(), 
+		&m_listBuffer.memDC, listDrawRect.left, listDrawRect.top, SRCCOPY);
     }
 
     // Blit header
@@ -227,7 +228,8 @@ void CMPCThemePlayerListCtrl::OnPaint() {
         CRgn headerClipRgn;
         headerClipRgn.CreateRectRgnIndirect(&headerClipRect);
         clientDC.SelectClipRgn(&headerClipRgn);
-        clientDC.BitBlt(headerRect.left, headerRect.top, headerRect.Width(), headerRect.Height(), &m_headerBuffer.memDC, 0, 0, SRCCOPY);
+        clientDC.BitBlt(headerRect.left, headerRect.top, headerRect.Width(), headerRect.Height(), 
+		&m_headerBuffer.memDC, 0, 0, SRCCOPY);
 
         clientDC.SelectClipRgn(NULL);
     }
@@ -723,53 +725,118 @@ BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC) {
 }
 
 
-BOOL CMPCThemePlayerListCtrl::EraseBkgnd(CDC* pDC)
-{
+BOOL CMPCThemePlayerListCtrl::EraseBkgnd(CDC* pDC) {
     if (AppNeedsThemedControls()) {
         CRect r;
         GetClientRect(r);
+        CRect updateRect;
+        pDC->GetClipBox(&updateRect);
         int dcState = pDC->SaveDC();
-        for (int y = 0; y < GetItemCount(); y++) {
-            CRect clip;
-            GetItemRect(y, clip, LVIR_BOUNDS);
-            pDC->ExcludeClipRect(clip);
+        int topIndex = GetTopIndex();
+        int visibleCount = GetCountPerPage();
+        int startItem = std::max(0, topIndex - 1);
+        int endItem = std::min(GetItemCount() - 1, topIndex + visibleCount + 1);
+
+        std::vector<CRect> exclusionRegions;
+
+        if (endItem >= startItem) {
+            CRect combinedRect;
+            bool hasCombinedRect = false;
+
+            for (int y = startItem; y <= endItem; y++) {
+                CRect itemRect;
+                GetItemRect(y, itemRect, LVIR_BOUNDS);
+
+                // Only process if item intersects update region
+                if (itemRect.bottom >= updateRect.top && itemRect.top <= updateRect.bottom) {
+                    if (!hasCombinedRect) {
+                        // Start a new combined rectangle
+                        combinedRect = itemRect;
+                        hasCombinedRect = true;
+                    } else {
+                        // Check if this item is adjacent to the previous combined rectangle
+                        if (itemRect.top <= combinedRect.bottom + 1 &&
+                            itemRect.left == combinedRect.left &&
+                            itemRect.right == combinedRect.right) {
+                            // Extend the combined rectangle downward
+                            combinedRect.bottom = itemRect.bottom;
+                        } else {
+                            // Gap found - save the current combined rectangle and start a new one
+                            exclusionRegions.push_back(combinedRect);
+                            combinedRect = itemRect;
+                        }
+                    }
+                } else if (hasCombinedRect) {
+                    // Item doesn't intersect - break the combination
+                    exclusionRegions.push_back(combinedRect);
+                    hasCombinedRect = false;
+                }
+            }
+
+            // Add the final combined rectangle if we have one
+            if (hasCombinedRect) {
+                exclusionRegions.push_back(combinedRect);
+            }
         }
+
+        // Apply the combined exclusion regions
+        for (const auto& region : exclusionRegions) {
+            pDC->ExcludeClipRect(region);
+        }
+
         pDC->FillSolidRect(r, CMPCTheme::ContentBGColor);
 
+        // Grid line drawing remains the same...
         if (themeGridLines || (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid())) {
-
-            CPen gridPen, *oldPen;
+            CPen gridPen, * oldPen;
             gridPen.CreatePen(PS_SOLID, 1, CMPCTheme::ListCtrlGridColor);
             oldPen = pDC->SelectObject(&gridPen);
 
             if (GetItemCount() > 0) {
-                CRect gr;
+                // Vertical grid lines - clip to update region
                 for (int x = 0; x < themedHdrCtrl.GetItemCount(); x++) {
+                    CRect gr;
                     themedHdrCtrl.GetItemRect(x, gr);
-                    pDC->MoveTo(gr.right, r.top);
-                    pDC->LineTo(gr.right, r.bottom);
+
+                    if (gr.right >= updateRect.left && gr.right <= updateRect.right) {
+                        pDC->MoveTo(gr.right, std::max(r.top, updateRect.top));
+                        pDC->LineTo(gr.right, std::min(r.bottom, updateRect.bottom));
+                    }
                 }
-                gr.bottom = 0;
-                for (int y = 0; y < GetItemCount() || gr.bottom < r.bottom; y++) {
+
+                // Horizontal grid lines for visible rows
+                CRect gr;
+                for (int y = startItem; y <= endItem || gr.bottom < std::min(r.bottom, updateRect.bottom); y++) {
                     if (y >= GetItemCount()) {
+                        if (gr.IsRectEmpty()) break;
                         gr.OffsetRect(0, gr.Height());
                     } else {
                         GetItemRect(y, gr, LVIR_BOUNDS);
                     }
-                    {
+
+                    if (gr.bottom >= updateRect.top && gr.bottom <= updateRect.bottom) {
                         CPen horzPen;
-                        pDC->MoveTo(r.left, gr.bottom - 1);
+                        int lineY = gr.bottom - 1;
+                        int lineLeft = std::max(r.left, updateRect.left);
+                        int lineRight = std::min(r.right, updateRect.right);
+
+                        pDC->MoveTo(lineLeft, lineY);
+
                         if (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid()) {
                             COLORREF horzGridColor, tmp;
                             customThemeInterface->GetCustomGridColors(y, horzGridColor, tmp);
                             horzPen.CreatePen(PS_SOLID, 1, horzGridColor);
                             pDC->SelectObject(&horzPen);
-                            pDC->LineTo(r.right, gr.bottom - 1);
+                            pDC->LineTo(lineRight, lineY);
                             pDC->SelectObject(&gridPen);
                             horzPen.DeleteObject();
                         } else {
-                            pDC->LineTo(r.right, gr.bottom - 1);
+                            pDC->LineTo(lineRight, lineY);
                         }
+                    }
+
+                    if (y >= endItem && gr.bottom >= std::min(r.bottom, updateRect.bottom)) {
+                        break;
                     }
                 }
             }

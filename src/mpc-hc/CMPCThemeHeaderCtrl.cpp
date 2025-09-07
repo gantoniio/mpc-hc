@@ -103,11 +103,6 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC)
     rGrid.top -= 1;
     rGrid.bottom -= 1;
 
-    CPoint ptCursor;
-    ::GetCursorPos(&ptCursor);
-    ScreenToClient(&ptCursor);
-    checkHot(ptCursor);
-
     if (nItem == hotItem && !colDrag) {
         bgColor = CMPCTheme::ColumnHeaderHotColor;
     }
@@ -275,25 +270,17 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
 
     int xMax = 0;
 
+    CPoint ptCursor;
+    ::GetCursorPos(&ptCursor);
+    ScreenToClient(&ptCursor);
+    checkHot(ptCursor);
+
     for (int i = 0; i < nCount; i++) {
-        CPoint ptCursor;
-        ::GetCursorPos(&ptCursor);
-        ScreenToClient(&ptCursor);
-
         GetItemRect(i, rectItem);
-
         xMax = max(xMax, rectItem.right);
-
         rectItem.OffsetRect(offset);
 
-        CRgn rgnClip;
-        rgnClip.CreateRectRgnIndirect(&rectItem);
-        pDC->SelectClipRgn(&rgnClip);
-
-        // Draw item:
         drawItem(i, rectItem, pDC);
-
-        pDC->SelectClipRgn(NULL);
     }
 
     // Draw "tail border":
