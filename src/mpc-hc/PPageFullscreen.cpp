@@ -710,22 +710,26 @@ void CPPageFullscreen::OnListEndEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPageFullscreen::OnListCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
     *pResult = CDRF_DODEFAULT;
 
-    if (CDDS_PREPAINT == pLVCD->nmcd.dwDrawStage) {
-        *pResult = CDRF_NOTIFYITEMDRAW;
-    } else if (CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage) {
-        *pResult = CDRF_NOTIFYSUBITEMDRAW;
-    } else if ((CDDS_ITEMPREPAINT | CDDS_SUBITEM) == pLVCD->nmcd.dwDrawStage) {
-        COLORREF crText;
-        if (m_list.GetCheck((int)pLVCD->nmcd.dwItemSpec)) {
-            crText = RGB(0, 0, 0);
-        } else {
-            crText = RGB(128, 128, 128);
+    //this custom draw is used only in classic mode
+    if (!AppNeedsThemedControls()) {
+        NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
+
+        if (CDDS_PREPAINT == pLVCD->nmcd.dwDrawStage) {
+            *pResult = CDRF_NOTIFYITEMDRAW;
+        } else if (CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage) {
+            *pResult = CDRF_NOTIFYSUBITEMDRAW;
+        } else if ((CDDS_ITEMPREPAINT | CDDS_SUBITEM) == pLVCD->nmcd.dwDrawStage) {
+            COLORREF crText;
+            if (m_list.GetCheck((int)pLVCD->nmcd.dwItemSpec)) {
+                crText = RGB(0, 0, 0);
+            } else {
+                crText = RGB(128, 128, 128);
+            }
+            pLVCD->clrText = crText;
+            *pResult = CDRF_DODEFAULT;
         }
-        pLVCD->clrText = crText;
-        *pResult = CDRF_DODEFAULT;
     }
 }
 
