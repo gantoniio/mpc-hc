@@ -4606,7 +4606,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr "/unregall\t\tWyrejestrowuje wszystkie formaty"
+msgstr "/unregall\t\tUsuń wszystkie skojarzenia plików"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
