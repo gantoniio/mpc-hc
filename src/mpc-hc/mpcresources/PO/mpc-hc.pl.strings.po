@@ -4432,7 +4432,7 @@ msgstr "/logoff\t\tWyloguj się po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr "/lock\t\tBlokuje stacje roboczą po zakończeniu odtwarzania"
+msgstr "/lock\t\tZablokuj stację roboczą po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
