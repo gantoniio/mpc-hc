@@ -4403,7 +4403,7 @@ msgstr "/open\t\tOtwórz plik, nie rozpoczynaj automatycznie odtwarzania"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr "/play\t\tRozpoczyna odtwarzanie po uruchomieniu programu"
+msgstr "/play\t\tRozpocznij odtwarzanie pliku zaraz po uruchomieniu odtwarzacza"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid ""
