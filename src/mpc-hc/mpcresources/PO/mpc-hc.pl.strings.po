@@ -4414,7 +4414,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr "/shutdown\tZamyka system operacyjny po zakończeniu odtwarzania"
+msgstr "/shutdown\tWyłącz system operacyjny po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
