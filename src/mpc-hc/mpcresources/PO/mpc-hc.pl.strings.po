@@ -4428,7 +4428,7 @@ msgstr "/hibernate\t\tHibernuj system operacyjny po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr "/logoff\t\tWylogowuje użytkownika po zakończeniu odtwarzania"
+msgstr "/logoff\t\tWyloguj się po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
