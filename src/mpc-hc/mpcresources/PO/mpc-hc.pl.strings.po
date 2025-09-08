@@ -4592,7 +4592,7 @@ msgstr "/regvid\t\tUtwórz skojarzenia plików dla plików wideo"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr "/regaud\t\tRejestruje formaty dźwiękowe"
+msgstr "/regaud\t\tUtwórz skojarzenia plików dla plików audio"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
