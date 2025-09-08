@@ -4399,7 +4399,7 @@ msgstr "/device\t\tOtwórz domyślne urządzenie wideo"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr "/open\t\tOtwiera plik, nie rozpoczyna odtwarzania"
+msgstr "/open\t\tOtwórz plik, nie rozpoczynaj automatycznie odtwarzania"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
