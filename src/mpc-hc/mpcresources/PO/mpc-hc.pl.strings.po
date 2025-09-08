@@ -4574,7 +4574,7 @@ msgstr "/minimized\tUruchom w trybie zminimalizowanym"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr "/new\t\tUruchamia nowe wystąpienie programu"
+msgstr "/new\t\tUżyj nowej instancji odtwarzacza"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
