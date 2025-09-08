@@ -4634,8 +4634,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr ""
-"/monitor N\tUruchamia na N-tym ekranie, gdzie numer pierwszego ekranu to 1"
+msgstr "/monitor N\tUruchom odtwarzacz na monitorze N, gdzie N zaczyna się od 1"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid ""
