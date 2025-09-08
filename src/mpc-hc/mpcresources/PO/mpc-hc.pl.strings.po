@@ -4618,7 +4618,7 @@ msgstr "/startpos hh:mm:ss\tRozpocznij odtwarzanie od pozycji hh:mm:ss"
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
-msgstr "/ab_start hh:mm:ss \tA-B powtórz pozycję początkową"
+msgstr "/ab_start hh:mm:ss \tPozycja startowa powtarzania A-B"
 
 msgctxt "IDS_CMD_AB_END"
 msgid "/ab_end hh:mm:ss\tA-B repeat end position"
