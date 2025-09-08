@@ -4440,7 +4440,7 @@ msgstr "/monitoroff\tWyłącz monitor po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr "/playnext\t\tOtwiera następny plik w folderze po zakończeniu odtwarzania"
+msgstr "/playnext\t\tOtwórz następny plik w folderze po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid ""
