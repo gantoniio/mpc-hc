@@ -4588,7 +4588,7 @@ msgstr "/randomize\tLosowo przemieszaj listę odtwarzania"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr "/regvid\t\tRejestruje formaty wideo"
+msgstr "/regvid\t\tUtwórz skojarzenia plików dla plików wideo"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
