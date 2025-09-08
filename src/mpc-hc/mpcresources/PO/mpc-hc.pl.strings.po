@@ -4153,7 +4153,7 @@ msgstr "/iconsassoc\tPonownie skojarz ikony formatów"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr "/nofocus\t\tOtwiera MPC-HC w tle"
+msgstr "/nofocus\t\tOtwórz MPC-HC w tle"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
