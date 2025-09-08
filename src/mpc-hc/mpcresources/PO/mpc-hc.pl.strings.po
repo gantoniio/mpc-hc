@@ -5019,7 +5019,7 @@ msgstr "Domyślny"
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
-msgstr "/thumbnails\tUtwórz miniatury"
+msgstr "/thumbnails\tUtwórz miniaturki"
 
 msgctxt "IDS_CUSTOM_ACTION1"
 msgid "Custom Action 1"
