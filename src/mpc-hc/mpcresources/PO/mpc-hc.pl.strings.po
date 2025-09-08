@@ -4614,9 +4614,7 @@ msgstr "/start ms\t\tRozpocznij odtwarzanie od 'ms' (= milisekundy)"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
-"/startpos hh:mm:ss\tRozpoczyna odtwarzanie od określonego położenia "
-"wyrażonego w gg:mm:ss"
+msgstr "/startpos hh:mm:ss\tRozpocznij odtwarzanie od pozycji hh:mm:ss"
 
 msgctxt "IDS_CMD_AB_START"
 msgid "/ab_start hh:mm:ss\tA-B repeat start position"
