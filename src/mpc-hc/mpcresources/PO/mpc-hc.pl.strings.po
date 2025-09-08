@@ -4600,7 +4600,9 @@ msgstr "/regpl\t\tUtwórz skojarzenia plików dla plików list odtwarzania"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr "/regall\t\tRejestruje wszystkie obsługiwane formaty"
+msgstr ""
+"/regall\t\tUtwórz skojarzenia plików dla wszystkich obsługiwanych typów "
+"plików"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
