@@ -4165,7 +4165,7 @@ msgstr "/debug\t\tPokaż informacje debugowania w OSD"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\tWyłącza raportowanie usterek"
+msgstr "/nocrashreporter\tWyłącz raportowanie awarii"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
