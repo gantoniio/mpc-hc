@@ -4584,7 +4584,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr "/randomize\tMiesza listę odtwarzania"
+msgstr "/randomize\tLosowo przemieszaj listę odtwarzania"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
