@@ -4570,7 +4570,7 @@ msgstr "/fullscreen\tUruchom w trybie pełnoekranowym"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr "/minimized\tUruchamia zminimalizowany"
+msgstr "/minimized\tUruchom w trybie zminimalizowanym"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
