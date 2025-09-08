@@ -4436,7 +4436,7 @@ msgstr "/lock\t\tZablokuj stację roboczą po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr "/monitoroff\tWyłącza monitor po zakończeniu odtwarzania"
+msgstr "/monitoroff\tWyłącz monitor po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
