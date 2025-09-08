@@ -4646,7 +4646,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr "/shaderpreset „Pr”\tWybieranie konkretnego profilu shaderów"
+msgstr "/shaderpreset „Pr”\tRozpocznij używanie presetu shaderów 'Pr"
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
