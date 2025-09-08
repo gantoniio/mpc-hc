@@ -4157,7 +4157,7 @@ msgstr "/nofocus\t\tOtwórz MPC-HC w tle"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\tUruchamia interfejs internetowy na określonym porcie"
+msgstr "/webport N\tUruchom interfejs sieciowy na określonym porcie"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
