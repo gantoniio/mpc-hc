@@ -1929,7 +1929,7 @@ msgstr "Passa-tempos e lazer"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr "Mover pra Lixeira"
+msgstr "Mover para a Lixeira"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
