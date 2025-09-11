@@ -1949,7 +1949,7 @@ msgid ""
 "work correctly. This problem might be caused by an incompatibility with "
 "certain security software."
 msgstr ""
-"O MPC-HC encontrou um problema durante a inicialização. O playback do DVD "
+"O MPC-HC encontrou um problema durante a inicialização. A reprodução do DVD "
 "pode não funcionar corretamente. Este problema poderia ter sido causado por "
 "uma incompatibilidade com certos software de segurança."
 
