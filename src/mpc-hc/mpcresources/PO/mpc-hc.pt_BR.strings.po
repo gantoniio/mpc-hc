@@ -4420,7 +4420,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr "/shutdown\tDesliga o sistema operacional após o playback"
+msgstr "/shutdown\tDesliga o sistema operacional após a reprodução"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
