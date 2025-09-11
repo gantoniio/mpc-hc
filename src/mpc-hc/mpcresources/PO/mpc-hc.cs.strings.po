@@ -1378,7 +1378,7 @@ msgstr "Otočit video o 90° vpravo (Z+)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P2"
 msgid "Video Frame Rotate Z+ (2 degrees)"
-msgstr "Otočit video vpravo (o 2 stupně)"
+msgstr "Otočit video vpravo (Z+, o 2 stupně)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
