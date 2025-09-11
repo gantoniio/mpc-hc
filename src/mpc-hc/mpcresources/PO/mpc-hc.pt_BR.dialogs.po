@@ -1787,7 +1787,7 @@ msgstr "Nós lamentamos, parece que o MPC-HC teve um crash. :("
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
 msgstr ""
-"Envie um relatório de bugs pra nos ajudar a diagnosticar e consertar o "
+"Envie um relatório de bugs para nos ajudar a diagnosticar e consertar o "
 "problema."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
