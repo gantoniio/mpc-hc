@@ -805,7 +805,7 @@ msgstr "Renomear"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "Mover pra Cima"
+msgstr "Mover para Cima"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
