@@ -1423,7 +1423,7 @@ msgstr "Zoom para Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Zoom pra Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Zoom para Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
