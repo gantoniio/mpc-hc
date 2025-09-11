@@ -4348,7 +4348,7 @@ msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr ""
 "/dvd\t\tSpustí MPC-HC v DVD režimu, volitelný parametr\n"
-"\t\t\"pathname\" určuje DVD adresář"
+"\t\tparametr \"pathname\" udává DVD adresář (volitelný)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
