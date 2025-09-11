@@ -1844,7 +1844,7 @@ msgstr "Motiv vzhledu"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
-msgstr "Použij moderní motiv"
+msgstr "Použít moderní motiv"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
