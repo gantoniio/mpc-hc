@@ -64,7 +64,7 @@ msgstr ""
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
 msgstr ""
-"Visite nossa página do Wiki pra baixar imagens da barra de ferramentas"
+"Visite nossa página do Wiki para baixar imagens da barra de ferramentas"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
