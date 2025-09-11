@@ -579,7 +579,7 @@ msgstr "A-B (Marcar &B)"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
-msgstr "&Taxa do Playback"
+msgstr "&Taxa de Reprodução"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
