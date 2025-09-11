@@ -4313,7 +4313,7 @@ msgid ""
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
 "\"cesta\"\t\tSoubor nebo adresář, který má být otevřen\n"
-"\t\t(povoleny masky, \"-\" označuje standardní vstup)"
+"\t\t(zástupné znaky povoleny, \"-\" označuje standardní vstup)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
