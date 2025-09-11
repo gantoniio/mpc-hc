@@ -3990,7 +3990,7 @@ msgstr "Após a Reprodução: Sair"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Após o Playback: Aguardar"
+msgstr "Após a Reprodução: Aguardar"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
