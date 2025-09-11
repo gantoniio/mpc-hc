@@ -1419,7 +1419,7 @@ msgstr "Escalar para 16:9 TV,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Zoom pra Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Zoom para Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
