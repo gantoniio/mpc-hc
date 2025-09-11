@@ -577,7 +577,7 @@ msgstr "Aumentar o tamanho do texto da legenda"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
-msgstr "Playback"
+msgstr "Reprodução"
 
 msgctxt "IDD_PPAGEPLAYER"
 msgid "Player"
