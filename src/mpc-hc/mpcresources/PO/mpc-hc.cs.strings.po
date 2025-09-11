@@ -4364,7 +4364,7 @@ msgid ""
 "\t\t\"pathname\" means the drive path (optional)"
 msgstr ""
 "/cd\t\tNačte všechny stopy Audio CD nebo (S)VCD,\n"
-"\t\tparametr \"cesta\" udává písmeno CD mechaniky (volitelný)"
+"\t\tparametr \"pathname\" udává písmeno CD mechaniky (volitelný)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
