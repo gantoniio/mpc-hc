@@ -2296,7 +2296,7 @@ msgstr "Zoom: Auto (Só Maiores)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr "Clique duplo pra abrir local do arquivo"
+msgstr "Clique duplo para abrir o local do arquivo"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
