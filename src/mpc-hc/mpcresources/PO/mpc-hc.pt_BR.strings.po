@@ -1801,7 +1801,7 @@ msgstr "Após a Reprodução: Retroceder o arquivo atual"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr "Após o Playback: Fechar"
+msgstr "Após a Reprodução: Fechar"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization."
