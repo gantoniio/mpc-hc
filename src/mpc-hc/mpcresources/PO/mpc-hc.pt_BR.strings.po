@@ -2655,7 +2655,7 @@ msgid ""
 "\n"
 "Do you really want to activate this option?"
 msgstr ""
-"Esta opção é designada pra evitar rasgos. Contudo, também impedirá o MPC-HC de exibir o menu de contexto e qualquer caixa de dialogo durante o playback.\n"
+"Esta opção é designada para evitar rasgos. Contudo, também impedirá o MPC-HC de exibir o menu de contexto e qualquer caixa de dialogo durante a reprodução.\n"
 "\n"
 "Você realmente quer ativar esta opção?"
 
