@@ -88,7 +88,7 @@ msgstr "DVD"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
-msgstr "Opakování A-B: Reset pozic"
+msgstr "Opakování A-B: Resetovat pozice"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
