@@ -3072,7 +3072,7 @@ msgstr "Resetovat pozici videa"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr "Zrcadli video svisle"
+msgstr "Zrcadlit video svisle"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
