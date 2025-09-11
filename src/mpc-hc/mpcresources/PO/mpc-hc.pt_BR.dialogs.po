@@ -70,7 +70,7 @@ msgstr "Buffers de A/V:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "Do áudio pra wav"
+msgstr "Áudio para wav"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
