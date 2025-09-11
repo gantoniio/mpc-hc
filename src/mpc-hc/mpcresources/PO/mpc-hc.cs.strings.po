@@ -1366,7 +1366,7 @@ msgstr "Zrcadli video svisle"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr "Zrcadli video vodorovně"
+msgstr "Zrcadlit video vodorovně"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
