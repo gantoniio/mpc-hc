@@ -1370,11 +1370,11 @@ msgstr "Zrcadlit video vodorovně"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr "Zrcadli video vodorovně"
+msgstr "Zrcadlit video vodorovně"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr "Otoč video o 90° vpravo"
+msgstr "Otočit video o 90° vpravo"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P2"
 msgid "Video Frame Rotate Z+ (2 degrees)"
