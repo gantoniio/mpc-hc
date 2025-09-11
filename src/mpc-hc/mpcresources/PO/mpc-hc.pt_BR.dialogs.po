@@ -837,7 +837,7 @@ msgstr "Para cima"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
 msgid "Down"
-msgstr "Pra baixo"
+msgstr "Para baixo"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
 msgid "&Set"
