@@ -2010,7 +2010,7 @@ msgid ""
 "Are you sure you want to restore MPC-HC to its default settings?\n"
 "Be warned that ALL your current settings will be lost!"
 msgstr ""
-"Você tem certeza que você quer restarar o MPC-HC pra suas configurações padrão?\n"
+"Você tem certeza que você quer restaurar o MPC-HC para as suas configurações padrão?\n"
 "Esteja avisado que TODAS as suas configurações atuais serão perdidas!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
