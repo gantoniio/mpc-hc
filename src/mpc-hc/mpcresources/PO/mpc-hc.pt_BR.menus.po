@@ -703,7 +703,7 @@ msgstr "&Mudo"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Ap&ós o Playback"
+msgstr "Ap&ós a Reprodução"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
