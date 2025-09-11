@@ -4404,7 +4404,7 @@ msgstr "/device\t\tAbre o dispositivo de vídeo padrão"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr "/open\t\tAbre o arquivo, não inicia o playback automaticamente"
+msgstr "/open\t\tAbre o arquivo, não inicia a reprodução automaticamente"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
