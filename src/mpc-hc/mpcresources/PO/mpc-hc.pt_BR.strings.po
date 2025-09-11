@@ -4415,7 +4415,7 @@ msgctxt "IDS_CMD_CLOSE"
 msgid ""
 "/close\t\tClose the player after playback (only works when used with /play)"
 msgstr ""
-"/close\t\tFecha o player após o playback (só funciona quando usado com "
+"/close\t\tFecha o player após a reprodução (só funciona quando usado com "
 "/play)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
