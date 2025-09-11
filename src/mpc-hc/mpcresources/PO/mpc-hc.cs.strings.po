@@ -1394,7 +1394,7 @@ msgstr "Roztáhnout na 16:9 TV,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Přibliž na širokoúhlou obrazovku,%.3f,%.3f,%.3f,%.3f"
+msgstr "Přiblížit na širokoúhlou obrazovku,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
