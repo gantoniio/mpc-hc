@@ -1490,7 +1490,7 @@ msgstr "Esconder os painéis atracados"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Sair da tela cheia no fim do playback"
+msgstr "Sair da tela cheia no fim da reprodução"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
