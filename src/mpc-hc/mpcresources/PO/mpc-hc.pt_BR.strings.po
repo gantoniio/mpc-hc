@@ -4424,7 +4424,7 @@ msgstr "/shutdown\tDesliga o sistema operacional após a reprodução"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr "/standby\t\tPõe o sistema operacional no modo de espera após o playback"
+msgstr "/standby\t\tPõe o sistema operacional no modo de espera após a reprodução"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
