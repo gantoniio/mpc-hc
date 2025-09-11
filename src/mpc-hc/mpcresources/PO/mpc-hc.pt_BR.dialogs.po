@@ -833,7 +833,7 @@ msgstr "Apagar"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
-msgstr "Pra cima"
+msgstr "Para cima"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
 msgid "Down"
