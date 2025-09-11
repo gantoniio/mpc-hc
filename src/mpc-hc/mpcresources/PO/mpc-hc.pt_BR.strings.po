@@ -3775,7 +3775,7 @@ msgid ""
 msgstr ""
 "O MPC-HC v%s está agora disponível. Você está usando v%s.\n"
 "\n"
-"Você quer visitar o site da web do MPC-HC pra baixá-lo?"
+"Você quer visitar o site da web do MPC-HC para baixá-lo?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid ""
