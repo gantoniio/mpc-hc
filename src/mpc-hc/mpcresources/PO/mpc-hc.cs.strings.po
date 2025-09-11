@@ -1362,7 +1362,7 @@ msgstr "EDL - nastavit konec"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr "Zrcadlit video svisle"
+msgstr "Zrcadlit video svisle (X-)"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
