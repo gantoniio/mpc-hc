@@ -4432,7 +4432,7 @@ msgstr "/hibernate\t\tHiberna o sistema operacional após a reprodução"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr "/logoff\t\tFaz o log off após o playback"
+msgstr "/logoff\t\tFaz o logoff após a reprodução"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
