@@ -1382,7 +1382,7 @@ msgstr "Otočit video vpravo (o 2 stupně)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr "Otoč video o 90° vlevo"
+msgstr "Otočit video o 90° vlevo"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
