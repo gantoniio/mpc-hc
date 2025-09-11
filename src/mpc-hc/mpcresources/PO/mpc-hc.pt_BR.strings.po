@@ -4002,7 +4002,7 @@ msgstr "Após a Reprodução: Desligar"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Após o Playback: Log Off"
+msgstr "Após a Reprodução: Log Off"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
