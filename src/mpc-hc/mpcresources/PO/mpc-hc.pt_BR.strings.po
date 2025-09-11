@@ -4010,7 +4010,7 @@ msgstr "Após a Reprodução: Bloquear"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Após o Playback: Desligar o monitor"
+msgstr "Após a Reprodução: Desligar o monitor"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
