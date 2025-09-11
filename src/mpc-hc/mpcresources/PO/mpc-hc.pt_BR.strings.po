@@ -3986,7 +3986,7 @@ msgstr "Você precisa aplicar as novas configurações antes de testá-las."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Após o Playback: Sair"
+msgstr "Após a Reprodução: Sair"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
