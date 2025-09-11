@@ -2602,7 +2602,7 @@ msgid ""
 msgstr ""
 "O MPC-HC é um player de mídia de código fonte aberto de peso extremamente "
 "leve para Windows. Ele suporta todos os formatos de arquivo disponíveis de "
-"áudio e vídeo pra playback. Nós somos 100% livres de spyware, não há "
+"áudio e vídeo para reprodução. Nós somos 100% livres de spyware, não há "
 "anúncios ou barras de ferramentas."
 
 msgctxt "IDS_MAINFRM_12"
