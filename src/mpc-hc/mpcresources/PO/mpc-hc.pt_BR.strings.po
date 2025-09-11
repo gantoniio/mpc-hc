@@ -4954,7 +4954,7 @@ msgstr "Liberar dispositivo quando inativo"
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr "Ativar o crossfeed estéreo (pra fones de ouvido)"
+msgstr "Ativar o crossfeed estéreo (para fones de ouvido)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
