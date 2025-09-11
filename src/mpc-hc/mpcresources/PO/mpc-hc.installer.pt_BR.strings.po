@@ -68,7 +68,7 @@ msgstr ""
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
-msgstr "Pra todos os usuários"
+msgstr "Para todos os usuários"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
