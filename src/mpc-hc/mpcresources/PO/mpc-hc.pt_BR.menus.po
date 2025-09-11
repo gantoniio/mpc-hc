@@ -731,7 +731,7 @@ msgstr "&Hibernar"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "Desl&igamento"
+msgstr "Desl&igar"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
