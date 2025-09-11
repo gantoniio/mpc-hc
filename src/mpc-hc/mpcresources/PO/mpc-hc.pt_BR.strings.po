@@ -4018,7 +4018,7 @@ msgstr "Após a Reprodução: Reproduzir o próximo arquivo na pasta"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Após o Playback: Não fazer nada"
+msgstr "Após a Reprodução: Não fazer nada"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
