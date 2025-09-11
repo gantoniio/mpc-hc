@@ -4006,7 +4006,7 @@ msgstr "Após a Reprodução: Log Off"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Após o Playback: Trancar"
+msgstr "Após a Reprodução: Bloquear"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
