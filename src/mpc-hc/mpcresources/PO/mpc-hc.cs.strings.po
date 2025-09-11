@@ -56,7 +56,7 @@ msgstr "Přehrát Audio CD"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Přehrát DVD"
+msgstr "Přehrát DVD film"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
