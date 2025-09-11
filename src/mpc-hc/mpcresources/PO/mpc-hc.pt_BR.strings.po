@@ -4014,7 +4014,7 @@ msgstr "Após a Reprodução: Desligar o monitor"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "Após o Playback: Reproduzir o próximo arquivo na pasta"
+msgstr "Após a Reprodução: Reproduzir o próximo arquivo na pasta"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
