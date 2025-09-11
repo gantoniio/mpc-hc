@@ -1804,7 +1804,7 @@ msgid ""
 "to contact you for more information."
 msgstr ""
 "Seu endereço de e-mail é opcional e só será usado se os desenvolvedores "
-"precisarem contactar você pra mais informações."
+"precisarem entrar em contato com você para mais informações."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
