@@ -437,7 +437,7 @@ msgstr "Padrão do Sistema"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Falhou em consultar as interfaces necessárias pro playback"
+msgstr "Falhou em consultar as interfaces necessárias para a reprodução"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
