@@ -465,7 +465,7 @@ msgstr "L&impar"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Copiar pra área de transferência"
+msgstr "&Copiar para área de transferência"
 
 msgctxt "IDS_PLAYLIST_SAVE"
 msgid "Sa&ve"
