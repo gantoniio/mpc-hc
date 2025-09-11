@@ -4376,7 +4376,7 @@ msgstr "/open\t\tNačte soubor, ale nespustí přehrávání"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr "/play\t\tNačte soubor a přehraje ho"
+msgstr "/play\t\tSpustit přehrávání souboru ihned po spuštění přehrávače"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid ""
