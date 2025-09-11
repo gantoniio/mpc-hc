@@ -3998,7 +3998,7 @@ msgstr "Após a Reprodução: Hibernar"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Após o Playback: Desligamento"
+msgstr "Após a Reprodução: Desligamento"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
