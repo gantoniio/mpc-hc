@@ -122,7 +122,7 @@ msgstr "Segure o shift pra mudanças imediatas quando clicar em algo"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "Ir Pra..."
+msgstr "Ir Para..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
