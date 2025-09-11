@@ -755,7 +755,7 @@ msgstr "&Próximo"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Ir Pra..."
+msgstr "&Ir Para..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
