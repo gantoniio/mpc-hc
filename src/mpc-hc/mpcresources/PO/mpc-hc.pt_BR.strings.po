@@ -1797,7 +1797,7 @@ msgstr "Alta precisão"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "Após o Playback: Rebobinar o arquivo atual"
+msgstr "Após a Reprodução: Retroceder o arquivo atual"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
