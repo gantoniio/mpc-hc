@@ -77,7 +77,7 @@ msgstr "すべてのスタイルを上書き"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr "再生リスト"
+msgstr "プレイリスト"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -153,7 +153,7 @@ msgstr "シグナル"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %ld%%"
-msgstr "強度: %d dB, 品質: %ld%%"
+msgstr "信号強度: %d dB, 受信品質: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -169,23 +169,23 @@ msgstr ""
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr "繰り返しモード: 再生リスト"
+msgstr "リピート モード: プレイリスト"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr "繰り返しモード: ファイル"
+msgstr "リピート モード: ファイル"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "繰り返し再生: オン"
+msgstr "常時リピート: オン"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "繰り返し再生: オフ"
+msgstr "常時リピート: オフ"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "繰り返し再生"
+msgstr "常時リピート"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
@@ -395,7 +395,7 @@ msgstr "効果"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
-msgstr "再生リスト"
+msgstr "プレイリスト"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
@@ -411,7 +411,7 @@ msgstr "(FPS) まで"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "ディスプレイ モード (Hz)"
+msgstr "表示モード (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -725,11 +725,11 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "Blu-ray 再生リスト(&B)"
+msgstr "Blu-ray プレイリスト(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "再生リスト(&P)"
+msgstr "プレイリスト(&P)"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
@@ -1237,7 +1237,7 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
-msgstr "再生リストに項目を追加するときにファイルの再生時間を読み込みます (MediaInfo を使用し、結果は異なる場合があります)"
+msgstr "プレイリストに項目を追加するときにファイルの再生時間を読み込みます (MediaInfo を使用し、結果は異なる場合があります)"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
@@ -1249,7 +1249,7 @@ msgstr "字幕のダウンロードに失敗しました。"
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_PLAYLIST"
 msgid "Remember playback position in local M3U and MPCPL playlist files."
-msgstr "ローカルの M3U および MPCPL 再生リスト ファイルの再生位置を記憶します。"
+msgstr "ローカルの M3U および MPCPL プレイリスト ファイルの再生位置を記憶します。"
 
 msgctxt "IDS_PPAGEADVANCED_FILEPOS_TRACK_SELECTION"
 msgid ""
@@ -1287,7 +1287,7 @@ msgstr "インターレース解除フィルター (ブレンド) をキャプ�
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr "再生リストのシャッフル 切り替え"
+msgstr "プレイリストのシャッフル 切り替え"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
@@ -2500,7 +2500,7 @@ msgstr "%s, %s %u Hz %d ビット %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "MPC-HC の再生リストに追加"
+msgstr "MPC-HC のプレイリストに追加"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
@@ -2975,7 +2975,7 @@ msgstr "字幕調整バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "再生リスト バーの表示"
+msgstr "プレイリスト バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
@@ -4058,8 +4058,8 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
-"/pns \"名前か値\"\t使用する映像フレームのプリセット名、または位置とズームの値を\n"
-"\t\t\"px,py,zx,zy\" の形式で指定する"
+"/pns \"名前か値\"\t使用する映像フレームのプリセット名、または位置とズームの値を \"px,py,zx,zy\"\n"
+"\t\tの形式で指定する"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4108,8 +4108,7 @@ msgid ""
 "be loaded, lower values could result in incorrect subtitles being loaded, "
 "but there is no one perfect value. Pick one that works best for you."
 msgstr ""
-"自動的にダウンロードされる字幕スコアのしきい値です。値が高いほど、より正確に一致した字幕が読み込まれ、値が小さいと間違った字幕が読み込まれる可能性がありますが、完全な値は"
-" 1 つもありません。最適なものを選んでください。"
+"自動的にダウンロードされる字幕のスコア判定に使われる閾値です。値が高いほど一致精度の高い字幕が選ばれますが、低すぎると誤った字幕が読み込まれる可能性があります。最適な値は環境によって異なるため、使いやすい値を選んでください。"
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
@@ -4121,7 +4120,7 @@ msgstr "既定のツールバーのサイズ (ピクセル単位) です。"
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr "新しいベクター化されたツールバーの代わりに従来のものを使用します。"
+msgstr "新しいベクター形式のツールバーではなく、従来のツールバーを使用します。"
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
@@ -4477,15 +4476,15 @@ msgstr "/new\t\t新規プレーヤーを起動する"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr "/add\t\t\"pathname\" を再生リストに追加する, /open および /play と同時に使用できる"
+msgstr "/add\t\t\"pathname\" をプレイリストに追加する, /open および /play と同時に使用できる"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr "/randomize\t再生リストをランダム化する"
+msgstr "/randomize\tプレイリストをランダム化する"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr "\t/regvid\t\t動画ファイルに関連付ける"
+msgstr "/regvid\t\t動画ファイルに関連付ける"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
@@ -4493,7 +4492,7 @@ msgstr "/regaud\t\t音声ファイルに関連付ける"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr "/regpl\t\t再生リスト ファイルに関連付ける"
+msgstr "/regpl\t\tプレイリスト ファイルに関連付ける"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
@@ -4605,7 +4604,7 @@ msgstr "続行(&C)"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Override Default Style"
-msgstr "既定のスタイルの上書き 切り替え"
+msgstr "既定のスタイルを上書き 切り替え"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
@@ -4773,7 +4772,7 @@ msgid ""
 " a selection of files in Explorer. A too short threshold can result in only "
 "a part of your selection being added to playlist."
 msgstr ""
-"前のファイルからこのミリ秒以内にファイルを開くと、前のファイルを置き換えるのではなく、再生リストに追加されます。このリダイレクトは、エクスプローラーで選択したファイルを開くときに適切に処理するために必要です。しきい値が短すぎると、選択範囲の一部のみが再生リストに追加される可能性があります。"
+"前のファイルからこのミリ秒以内に別のファイルが開かれた場合、そのファイルは置き換えられず、プレイリストに追加されます。この処理は、エクスプローラーで複数ファイルを選択して開く際に正しく動作させるために必要です。閾値が短すぎると、選択したファイルの一部しかプレイリストに追加されない可能性があります。"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
@@ -4909,27 +4908,27 @@ msgstr "全画面表示を解除"
 
 msgctxt "IDS_AG_SHOW_PLAYLIST"
 msgid "Show Playlist"
-msgstr "再生リストを表示"
+msgstr "プレイリストを表示"
 
 msgctxt "IDS_AG_HIDE_PLAYLIST"
 msgid "Hide Playlist"
-msgstr "再生リストを隠す"
+msgstr "プレイリストを隠す"
 
 msgctxt "IDS_AG_ENABLE_SHUFFLE"
 msgid "Enable Shuffle"
-msgstr "シャッフル再生: オン"
+msgstr "シャッフル: オン"
 
 msgctxt "IDS_AG_DISABLE_SHUFFLE"
 msgid "Disable Shuffle"
-msgstr "シャッフル再生: オフ"
+msgstr "シャッフル: オフ"
 
 msgctxt "IDS_AG_ENABLE_REPEAT"
 msgid "Enable Repeat"
-msgstr "繰り返し再生: オン"
+msgstr "常時リピート: オン"
 
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
-msgstr "繰り返し再生: オフ"
+msgstr "常時リピート: オフ"
 
 msgctxt "IDS_SHUFFLE_ON"
 msgid "Shuffle: On"
