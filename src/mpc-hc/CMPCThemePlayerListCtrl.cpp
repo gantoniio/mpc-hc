@@ -216,22 +216,18 @@ void CMPCThemePlayerListCtrl::OnPaint() {
         listClipRgn.CreateRectRgnIndirect(&listClipRect);
         ExcludeChildWindows(&dc, &listClipRgn);
         dc.SelectClipRgn(&listClipRgn);
-        dc.BitBlt(listDrawRect.left, listDrawRect.top, listDrawRect.Width(), listDrawRect.Height(), 
-		&m_listBuffer.memDC, listDrawRect.left, listDrawRect.top, SRCCOPY);
+        dc.BitBlt(listDrawRect.left, listDrawRect.top, listDrawRect.Width(), listDrawRect.Height(), &m_listBuffer.memDC, listDrawRect.left, listDrawRect.top, SRCCOPY);
     }
 
     // Blit header
     if (hasHeader) {
-        CClientDC clientDC(this); //paint outside list area
-
         CRect headerClipRect = headerRect;
         CRgn headerClipRgn;
         headerClipRgn.CreateRectRgnIndirect(&headerClipRect);
-        clientDC.SelectClipRgn(&headerClipRgn);
-        clientDC.BitBlt(headerRect.left, headerRect.top, headerRect.Width(), headerRect.Height(), 
-		&m_headerBuffer.memDC, 0, 0, SRCCOPY);
+        dc.SelectClipRgn(&headerClipRgn);
+        dc.BitBlt(headerRect.left, headerRect.top, headerRect.Width(), headerRect.Height(), &m_headerBuffer.memDC, 0, 0, SRCCOPY);
 
-        clientDC.SelectClipRgn(NULL);
+        dc.SelectClipRgn(NULL);
     }
   } else {
     __super::OnPaint();

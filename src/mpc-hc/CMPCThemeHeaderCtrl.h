@@ -28,5 +28,8 @@ public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnHdnBegintrack(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
 };
+
+
 

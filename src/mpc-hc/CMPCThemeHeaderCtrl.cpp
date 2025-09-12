@@ -28,6 +28,7 @@ BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
     ON_NOTIFY(HDN_BEGINTRACKW, 0, &CMPCThemeHeaderCtrl::OnHdnBegintrack)
     ON_NOTIFY(HDN_ENDTRACKA, 0, &CMPCThemeHeaderCtrl::OnHdnEndtrack)
     ON_NOTIFY(HDN_ENDTRACKW, 0, &CMPCThemeHeaderCtrl::OnHdnEndtrack)
+    ON_WM_WINDOWPOSCHANGING()
 END_MESSAGE_MAP()
 
 BOOL CMPCThemeHeaderCtrl::OnEraseBkgnd(CDC* pDC) {
@@ -251,6 +252,7 @@ void CMPCThemeHeaderCtrl::OnPaint()
         CDC* pDC = &memDC.GetDC();
         DrawAllItems(pDC, { 0,0 });
     } else {
+        parent->RedrawHeader();
         ValidateRect(NULL);
     }
   } else {
@@ -309,4 +311,12 @@ void CMPCThemeHeaderCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
     colDrag = false;
     *pResult = 0;
+}
+
+
+void CMPCThemeHeaderCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos) {
+    if (parent && !parent->PaintHooksActive()) {
+        lpwndpos->flags |= SWP_NOCOPYBITS; //avoids shifting header pixels during scroll
+    }
+    __super::OnWindowPosChanging(lpwndpos);
 }
