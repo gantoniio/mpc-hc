@@ -67,8 +67,12 @@ END_MESSAGE_MAP()
 
 void CMPCThemePlayerListCtrl::OnWindowPosChanged(WINDOWPOS* lpwndpos) {
     if (AppNeedsThemedControls()) {
-        if (themedSBHelper && 0 != (GetStyle() & (WS_VSCROLL | WS_HSCROLL))) {
-            themedSBHelper->OnWindowPosChanged();
+        if (themedSBHelper) {
+            if (0 != (GetStyle() & (WS_VSCROLL | WS_HSCROLL))) {
+                themedSBHelper->OnWindowPosChanged();
+            } else {
+                themedSBHelper->InvalidateScrollbarArea();
+            }
         }
     }
     return __super::OnWindowPosChanged(lpwndpos);

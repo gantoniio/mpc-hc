@@ -1953,10 +1953,9 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 
     CString fmt, file, num;
 
-    fmt.Format(_T("[%%0%dd]\t"), (int)log10(0.1 + m_pl.GetCount()) + 1);
+    fmt.Format(_T("[%%0%dd]"), (int)log10(0.1 + m_pl.GetCount()) + 1);
     num.Format(fmt, nItem + 1);
-    CSize numWidth = pDC->GetTextExtent(num);
-    CSize spaceWidth = pDC->GetTextExtent(L" ");
+    CSize numWidth = pDC->GetTextExtent(num) + pDC->GetTextExtent(L"w");
 
     COLORREF bgColor, contentBGColor;
 

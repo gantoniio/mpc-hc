@@ -1176,7 +1176,7 @@ BEGIN
     GROUPBOX        "Windows Integration",IDC_STATIC,181,138,168,43
     CONTROL         "Use enhanced taskbar features",IDC_CHECK_ENHANCED_TASKBAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,152,160,8
-    CONTROL         "Control via Windows UI (SMTC)",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,166,161,8
+    CONTROL         "Control via Windows UI (SMTC)",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,166,160,8
     GROUPBOX        "Language",IDC_STATIC21,181,184,168,33
     LTEXT           "Language:",IDC_STATIC5,187,198,80,8
     COMBOBOX        IDC_COMBO2,263,198,82,20,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -4106,10 +4106,6 @@ STRINGTABLE
 BEGIN
     IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE 
                             "Loop back to first file in folder after playing the last file."
-    IDS_PPAGEADVANCED_MODERNSEEKBAR 
-                            "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
-    IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT 
-                            "Modern seekbar height (at 96dpi, otherwise scaled)"
     IDS_PPAGEADVANCED_FULLSCREEN_DELAY 
                             "Delay before showing fullscreen video, to prevent visual glitches."
     IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES "Render subtitles onto screenshots"
@@ -4123,6 +4119,8 @@ BEGIN
     IDS_POSTSIZE_SHADERS_TOGGLE "Enable Post-Resize Pixel Shaders"
     IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL 
                             "Refresh interval (in milliseconds) of time in status bar"
+    IDS_PPAGEADVANCED_SHOW_VOLUME_PERCENTAGE
+                            "Show percentage value on volume slider (in modern theme)"
 END
 
 STRINGTABLE
@@ -4222,6 +4220,8 @@ BEGIN
     IDS_AG_DISABLE_SHUFFLE  "Disable Shuffle"
     IDS_AG_ENABLE_REPEAT    "Enable Repeat"
     IDS_AG_DISABLE_REPEAT   "Disable Repeat"
+    IDS_SHUFFLE_ON          "Shuffle: On"
+    IDS_SHUFFLE_OFF         "Shuffle: Off"
 END
 
 #endif    // English (United States) resources

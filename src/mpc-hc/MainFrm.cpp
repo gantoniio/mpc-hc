@@ -623,7 +623,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_POWERBROADCAST()
 
     // Support toolbar dropdown buttons
-    ON_NOTIFY(TBN_DROPDOWN, AFX_IDW_TOOLBAR, OnToolbarDropDown)
     ON_UPDATE_COMMAND_UI(ID_AUDIOS, OnUpdateAudiosButton)
     ON_UPDATE_COMMAND_UI(ID_SUBTITLES, OnUpdateSubtitlesButton)
 
@@ -1262,6 +1261,9 @@ void CMainFrame::OnClose()
     if (GetLoadState() == MLS::LOADED || GetLoadState() == MLS::LOADING) {
         CloseMedia();
     }
+
+    ASSERT(GetLoadState() == MLS::CLOSED);
+    ASSERT(!m_bOpenMediaActive);
 
     m_wndPlaylistBar.ClearExternalPlaylistIfInvalid();
 
@@ -3779,13 +3781,17 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
     return TRUE;
 }
 
+CMPCThemeMenu* CMainFrame::GetShortMenu() {
+    if (!AfxGetAppSettings().bAlwaysUseShortMenu && (IsMenuHidden() || IsD3DFullScreenMode())) {
+        return m_mainPopupMenu.GetSubMenu(0);
+    } else {
+        return m_popupMenu.GetSubMenu(0);
+    }
+}
+
 void CMainFrame::OnMenuPlayerShort()
 {
-    if (!AfxGetAppSettings().bAlwaysUseShortMenu && (IsMenuHidden() || IsD3DFullScreenMode())) {
-        OnMenu(m_mainPopupMenu.GetSubMenu(0));
-    } else {
-        OnMenu(m_popupMenu.GetSubMenu(0));
-    }
+    OnMenu(GetShortMenu());
 }
 
 void CMainFrame::OnMenuPlayerLong()
@@ -4320,8 +4326,6 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     SetPlaybackMode(PM_NONE);
     SetLoadState(MLS::CLOSED);
 
-    m_bOpenMediaActive = false;
-
     abRepeat = ABRepeat();
     m_kfs.clear();
 
@@ -4431,40 +4435,34 @@ void CMainFrame::OnBossKey()
     ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 }
 
-void CMainFrame::OnToolbarDropDown(NMHDR* pNMHDR, LRESULT* pResult) {
-    LPNMTOOLBAR pNMTB = reinterpret_cast<LPNMTOOLBAR>(pNMHDR);
-    CRect r;
+void CMainFrame::ToolbarContextMenu(int iItem, int nIndex, CRect buttonRect) {
     CMPCThemeMenu* subMenu = nullptr;
-    m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(pNMTB->iItem), r);
-    m_wndToolBar.ClientToScreen(r);
-    if (pNMTB->iItem == ID_AUDIOS) {
+
+    if (iItem == ID_AUDIOS) {
         SetupAudioSubMenu();
         subMenu = &m_audiosMenu;
-    } else if (pNMTB->iItem == ID_SUBTITLES) {
+    } else if (iItem == ID_SUBTITLES) {
         SetupSubtitlesSubMenu();
         subMenu = &m_subtitlesMenu;
+    } else if (iItem == ID_MENU_FILTERS) {
+        SetupFiltersSubMenu();
+        subMenu = &m_filtersMenu;
+    } else if (iItem == ID_MENU_PLAYER_LONG) {
+        subMenu = m_mainPopupMenu.GetSubMenu(0);
+    } else if (iItem == ID_MENU_PLAYER_SHORT) {
+        subMenu = GetShortMenu();
     }
+    
 
     if (subMenu) {
         if (AppNeedsThemedControls()) {
             subMenu->fulfillThemeReqs();
         }
         m_bTBDropdownActive = true;
-        int idClicked = subMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN | TPM_RETURNCMD, r.left, r.top, this);
+        TPMPARAMS overlap = { sizeof(TPMPARAMS) };
+        overlap.rcExclude = buttonRect;
+        subMenu->TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL | TPM_BOTTOMALIGN, buttonRect.left, buttonRect.top, this, &overlap);
 
-        if (idClicked) {
-            SendMessage(WM_COMMAND, idClicked); //apparently, TPM_RETURNCMD implies TPM_NONOTIFY, so we have to send this ourselves
-        } else if (IsLeftMouseButtonDown()) {
-            //if the menu was not clicked, this code passes a click to the toolbar if the lbutton is currently down over the toolbar
-            CPoint p;
-            CRect tbRect, bRect;
-            ::GetCursorPos(&p);
-            m_wndToolBar.GetWindowRect(tbRect);
-            if (PtInRect(&tbRect, p) && !PtInRect(&r, p)) {
-                m_wndToolBar.ScreenToClient(&p);
-                m_wndToolBar.PostMessageW(WM_LBUTTONDOWN, 0, MAKELPARAM(p.x, p.y));
-            }
-        }
         m_bTBDropdownActive = false;
     }
 }
@@ -7931,6 +7929,7 @@ void CMainFrame::OnPlaylistToggleShuffle() {
     s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
     m_wndPlaylistBar.m_pl.SetShuffle(s.bShufflePlaylistItems);
     m_wndToolBar.SetShuffle(s.bShufflePlaylistItems);
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.bShufflePlaylistItems ? IDS_SHUFFLE_ON : IDS_SHUFFLE_OFF));
 }
 
 void CMainFrame::OnViewEditListEditor()
@@ -19008,6 +19007,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         }
     }
 
+    if (m_bOpenMediaActive) {
+        TRACE(_T("CMainFrame::OpenMedia -> skipping because there already is an active OpenMedia call\n"));
+        return;
+    }
+    m_bOpenMediaActive = true;
+
     CloseMediaBeforeOpen();
 
     // if the file is on some removable drive and that drive is missing,
@@ -19034,14 +19039,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
                     }
                 }
                 if (ret != IDOK) {
+                    m_bOpenMediaActive = false;
                     return;
                 }
             }
         }
     }
-
-    ASSERT(!m_bOpenMediaActive);
-    m_bOpenMediaActive = true;
 
     // clear BD playlist if we are not currently opening something from it
     if (!m_bIsBDPlay) {
@@ -19135,7 +19138,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMediaBeforeOpen()
 {
-    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING) {
+    if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING || m_eMediaLoadState == MLS::FAILING) {
         CloseMedia(true);
     }
 }
@@ -19433,6 +19436,15 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     }
                     break;
                 case WAIT_TIMEOUT:
+                    if (!extendedwait) {
+                        ULONGLONG tcnow = GetTickCount64();
+                        if (tcnow > tckill && tcnow - tckill >= 2000ULL) {
+                            extendedwait = true;
+                            waitdur = 4000ULL;
+                            tckill = GetTickCount64() + waitdur;
+                            continue;
+                        }
+                    }
                     break;
                 default:
                     processmsg = false;

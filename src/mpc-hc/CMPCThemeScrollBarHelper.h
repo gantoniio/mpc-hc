@@ -39,6 +39,7 @@ public:
     CMPCThemeScrollBarHelper(CWnd* scrollWindow);
     ~CMPCThemeScrollBarHelper();
     void createThemedScrollBars();
+    void InvalidateScrollbarArea();
     void OnWindowPosChanged();
     void setWindowRegionExclusive(HRGN h);
     void hideNativeScrollBars();
