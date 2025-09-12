@@ -5068,3 +5068,11 @@ msgstr "Ismétlés engedélyezése"
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
 msgstr "Ismétlés letiltása"
+
+msgctxt "IDS_SHUFFLE_ON"
+msgid "Shuffle: On"
+msgstr ""
+
+msgctxt "IDS_SHUFFLE_OFF"
+msgid "Shuffle: Off"
+msgstr ""

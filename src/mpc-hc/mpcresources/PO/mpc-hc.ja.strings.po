@@ -4929,3 +4929,11 @@ msgstr "常時リピート: オン"
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
 msgstr "常時リピート: オフ"
+
+msgctxt "IDS_SHUFFLE_ON"
+msgid "Shuffle: On"
+msgstr ""
+
+msgctxt "IDS_SHUFFLE_OFF"
+msgid "Shuffle: Off"
+msgstr ""

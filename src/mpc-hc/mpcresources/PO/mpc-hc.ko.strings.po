@@ -4927,3 +4927,11 @@ msgstr "반복 재생 활성화"
 msgctxt "IDS_AG_DISABLE_REPEAT"
 msgid "Disable Repeat"
 msgstr "반복 재생 비활성화"
+
+msgctxt "IDS_SHUFFLE_ON"
+msgid "Shuffle: On"
+msgstr ""
+
+msgctxt "IDS_SHUFFLE_OFF"
+msgid "Shuffle: Off"
+msgstr ""
