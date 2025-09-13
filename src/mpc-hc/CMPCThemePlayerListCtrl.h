@@ -76,7 +76,7 @@ protected:
     CMPCThemeHeaderCtrl themedHdrCtrl;
     CFont* listMPCThemeFont, listMPCThemeFontBold;
     CMPCThemeListCtrlCustomInterface* customThemeInterface;
-    BOOL EraseBkgnd(CDC* pDC);
+    BOOL EraseBkgnd(CDC* pDC, CRect updateRect);
     void drawItem(CDC* pDC, int nItem, int nSubItem);
     virtual void PreSubclassWindow();
 public:

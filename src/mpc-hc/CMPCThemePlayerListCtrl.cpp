@@ -195,21 +195,20 @@ void CMPCThemePlayerListCtrl::OnPaint() {
 
         // Create single buffer for entire client area
         m_listBuffer.EnsureInitialized(&dc, clientRect.Size(), GetFont());
-        CRect drawRect = m_listBuffer.bValid ? updateRect : clientRect;
-        m_listBuffer.bValid = true;
+
 
         // Draw list items
         CRect listDrawRect;
-        listDrawRect.IntersectRect(&drawRect, &listArea);
+        listDrawRect.IntersectRect(&updateRect, &listArea);
         if (!listDrawRect.IsRectEmpty()) {
-            EraseBkgnd(&m_listBuffer.memDC);
+            EraseBkgnd(&m_listBuffer.memDC, listDrawRect);
             DrawAllItems(&m_listBuffer.memDC, listDrawRect);
         }
 
         // Draw header if needed
         if (hasHeader) {
             CRect headerDrawRect;
-            headerDrawRect.IntersectRect(&drawRect, &headerRect);
+            headerDrawRect.IntersectRect(&updateRect, &headerRect);
             if (!headerDrawRect.IsRectEmpty()) {
                 CPoint headerOffset = DetectHeaderOffset(this, &themedHdrCtrl);
                 headerOffset += headerRect.TopLeft(); // Add position offset
@@ -219,10 +218,10 @@ void CMPCThemePlayerListCtrl::OnPaint() {
         }
 
         CRgn clipRgn;
-        clipRgn.CreateRectRgnIndirect(&drawRect);
+        clipRgn.CreateRectRgnIndirect(&updateRect);
         ExcludeChildWindows(&dc, &clipRgn);
         dc.SelectClipRgn(&clipRgn);
-        dc.BitBlt(drawRect.left, drawRect.top, drawRect.Width(), drawRect.Height(),  &m_listBuffer.memDC, drawRect.left, drawRect.top, SRCCOPY);
+        dc.BitBlt(updateRect.left, updateRect.top, updateRect.Width(), updateRect.Height(),  &m_listBuffer.memDC, updateRect.left, updateRect.top, SRCCOPY);
 
         dc.RestoreDC(dcCfg);
     } else {
@@ -399,12 +398,6 @@ LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM 
             case HDN_BEGINTRACK:
             case HDN_ENDTRACK:
                 pHeader->SendMessageW(WM_NOTIFY, pNMHDR->code, (LPARAM)pNMHDR);
-            case HDN_TRACK:
-            case HDN_DIVIDERDBLCLICK:
-                // Column is being resized - invalidate our buffer
-                m_listBuffer.bValid = false;
-                m_headerBuffer.bValid = false;
-                Invalidate(FALSE);
                 break;
             }
         }
@@ -711,17 +704,18 @@ BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC) {
     if (AppNeedsThemedControls() && !PaintHooksActive()) {
         return TRUE;
     } else {
-        return EraseBkgnd(pDC);
+        CRect updateRect;
+        pDC->GetClipBox(&updateRect);
+        return EraseBkgnd(pDC, updateRect);
     }
 }
 
 
-BOOL CMPCThemePlayerListCtrl::EraseBkgnd(CDC* pDC) {
+BOOL CMPCThemePlayerListCtrl::EraseBkgnd(CDC* pDC, CRect updateRect) {
     if (AppNeedsThemedControls()) {
         CRect r;
         GetClientRect(r);
-        CRect updateRect;
-        pDC->GetClipBox(&updateRect);
+
         int dcState = pDC->SaveDC();
         int topIndex = GetTopIndex();
         int visibleCount = GetCountPerPage();
