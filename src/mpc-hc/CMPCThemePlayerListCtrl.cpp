@@ -96,7 +96,7 @@ void CMPCThemePlayerListCtrl::ExcludeChildWindows(CDC* pDC, CRgn* pClipRgn) {
         CWnd* pChild = GetWindow(GW_CHILD);
         while (pChild != NULL) {
             // Check if child window is visible
-            if (pChild->IsWindowVisible()) {
+            if (pChild->IsWindowVisible() && pChild != &themedHdrCtrl) {
                 CRect childRect;
                 pChild->GetWindowRect(&childRect);
                 ScreenToClient(&childRect);
@@ -164,76 +164,71 @@ void CMPCThemePlayerListCtrl::RedrawHeader() {
 }
 
 void CMPCThemePlayerListCtrl::OnPaint() {
-  if (AppNeedsThemedControls() && !PaintHooksActive()) {
-    CPaintDC dc(this);
-    CRect updateRect;
-    dc.GetClipBox(&updateRect);
-    if (updateRect.IsRectEmpty()) {
-        return;
+    if (AppNeedsThemedControls() && !PaintHooksActive()) {
+        CPaintDC dc(this);
+        int dcCfg = dc.SaveDC();
+
+        CRect updateRect;
+        dc.GetClipBox(&updateRect);
+        if (updateRect.IsRectEmpty()) {
+            return;
+        }
+
+        // Setup
+        CRect clientRect;
+        GetClientRect(&clientRect);
+        CPoint clientTopLeft(0, 0);
+        ClientToScreen(&clientTopLeft);
+        if (nullptr != customThemeInterface) {
+            customThemeInterface->DoCustomPrePaint();
+        }
+
+        // Calculate areas
+        CRect listArea = clientRect;
+        bool hasHeader = themedHdrCtrl && themedHdrCtrl.IsWindowVisible();
+        CRect headerRect(0, 0, 0, 0);
+        if (hasHeader) {
+            themedHdrCtrl.GetWindowRect(&headerRect);
+            ScreenToClient(&headerRect);
+            listArea.top = headerRect.bottom;
+        }
+
+        // Create single buffer for entire client area
+        m_listBuffer.EnsureInitialized(&dc, clientRect.Size(), GetFont());
+        CRect drawRect = m_listBuffer.bValid ? updateRect : clientRect;
+        m_listBuffer.bValid = true;
+
+        // Draw list items
+        CRect listDrawRect;
+        listDrawRect.IntersectRect(&drawRect, &listArea);
+        if (!listDrawRect.IsRectEmpty()) {
+            EraseBkgnd(&m_listBuffer.memDC);
+            DrawAllItems(&m_listBuffer.memDC, listDrawRect);
+        }
+
+        // Draw header if needed
+        if (hasHeader) {
+            CRect headerDrawRect;
+            headerDrawRect.IntersectRect(&drawRect, &headerRect);
+            if (!headerDrawRect.IsRectEmpty()) {
+                CPoint headerOffset = DetectHeaderOffset(this, &themedHdrCtrl);
+                headerOffset += headerRect.TopLeft(); // Add position offset
+                themedHdrCtrl.DrawAllItems(&m_listBuffer.memDC, headerOffset, headerDrawRect);
+            }
+            themedHdrCtrl.ValidateRect(NULL);
+        }
+
+        CRgn clipRgn;
+        clipRgn.CreateRectRgnIndirect(&drawRect);
+        ExcludeChildWindows(&dc, &clipRgn);
+        dc.SelectClipRgn(&clipRgn);
+        dc.BitBlt(drawRect.left, drawRect.top, drawRect.Width(), drawRect.Height(),  &m_listBuffer.memDC, drawRect.left, drawRect.top, SRCCOPY);
+
+        dc.RestoreDC(dcCfg);
+    } else {
+        __super::OnPaint();
     }
-
-    // Setup
-    CRect clientRect;
-    GetClientRect(&clientRect);
-    CPoint clientTopLeft(0, 0);
-    ClientToScreen(&clientTopLeft);
-
-    if (nullptr != customThemeInterface) {
-        customThemeInterface->DoCustomPrePaint();
-    }
-
-    CRect listArea = clientRect;
-    bool hasHeader = themedHdrCtrl && themedHdrCtrl.IsWindowVisible();
-    CRect headerRect(0, 0, 0, 0);
-    if (hasHeader) {
-        themedHdrCtrl.GetWindowRect(&headerRect);
-        ScreenToClient(&headerRect);
-        listArea.top = headerRect.bottom;
-    }
-
-    m_listBuffer.EnsureInitialized(&dc, listArea.Size(), GetFont());
-    CRect drawRect = m_listBuffer.bValid ? updateRect : clientRect;
-    m_listBuffer.bValid = true;
-
-    // Create header DC and draw if needed
-    if (hasHeader) {
-        m_headerBuffer.EnsureInitialized(&dc, headerRect.Size(), GetFont());
-        themedHdrCtrl.DrawAllItems(&m_headerBuffer.memDC, DetectHeaderOffset(this, &themedHdrCtrl));
-    }
-
-    // Draw list items
-    CRect listDrawRect;
-    listDrawRect.IntersectRect(&drawRect, &listArea);
-    if (!listDrawRect.IsRectEmpty()) {
-        EraseBkgnd(&m_listBuffer.memDC);
-        DrawAllItems(&m_listBuffer.memDC, listDrawRect);
-    }
-
-    // Blit list
-    if (!listDrawRect.IsRectEmpty()) {
-        CRect listClipRect = listDrawRect;
-        CRgn listClipRgn;
-        listClipRgn.CreateRectRgnIndirect(&listClipRect);
-        ExcludeChildWindows(&dc, &listClipRgn);
-        dc.SelectClipRgn(&listClipRgn);
-        dc.BitBlt(listDrawRect.left, listDrawRect.top, listDrawRect.Width(), listDrawRect.Height(), &m_listBuffer.memDC, listDrawRect.left, listDrawRect.top, SRCCOPY);
-    }
-
-    // Blit header
-    if (hasHeader) {
-        CRect headerClipRect = headerRect;
-        CRgn headerClipRgn;
-        headerClipRgn.CreateRectRgnIndirect(&headerClipRect);
-        dc.SelectClipRgn(&headerClipRgn);
-        dc.BitBlt(headerRect.left, headerRect.top, headerRect.Width(), headerRect.Height(), &m_headerBuffer.memDC, 0, 0, SRCCOPY);
-
-        dc.SelectClipRgn(NULL);
-    }
-  } else {
-    __super::OnPaint();
-  }
 }
-
 void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles, bool exStyle /* = true*/)
 {
     if (AppNeedsThemedControls()) {

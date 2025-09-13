@@ -16,7 +16,7 @@ protected:
 public:
     CMPCThemeHeaderCtrl();
     virtual ~CMPCThemeHeaderCtrl();
-    void DrawAllItems(CDC* pDC, CPoint offset);
+    void DrawAllItems(CDC* pDC, CPoint offset, const CRect& clipRect);
     void SetParent(CMPCThemePlayerListCtrl* parent) { this->parent = parent; }
 
     DECLARE_MESSAGE_MAP()

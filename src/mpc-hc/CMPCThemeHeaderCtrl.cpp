@@ -245,22 +245,26 @@ void CMPCThemeHeaderCtrl::OnPaint()
         return;
     }
 
+    CPaintDC dc(this); // device context for painting
+    CRect updateRect;
+    dc.GetClipBox(&updateRect);
+
     //header must draw itself 
     if (!parent || parent->PaintHooksActive()) {
-        CPaintDC dc(this); // device context for painting
         CMemDC memDC(dc, this);
         CDC* pDC = &memDC.GetDC();
-        DrawAllItems(pDC, { 0,0 });
+        DrawAllItems(pDC, { 0,0 }, updateRect);
     } else {
-        parent->RedrawHeader();
-        ValidateRect(NULL);
+        if (!updateRect.IsRectEmpty()) {
+            parent->RedrawHeader();
+        }
     }
   } else {
     Default();
   }
 }
 
-void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
+void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset, const CRect& clipRect) {
     CFont* font = GetFont();
     CFont* pOldFont = pDC->SelectObject(font);
 
@@ -280,9 +284,14 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
     for (int i = 0; i < nCount; i++) {
         GetItemRect(i, rectItem);
         xMax = max(xMax, rectItem.right);
-        rectItem.OffsetRect(offset);
-
-        drawItem(i, rectItem, pDC);
+        
+        CRect offsetRectItem = rectItem;
+        offsetRectItem.OffsetRect(offset);
+        
+        CRect intersection;
+        if (intersection.IntersectRect(offsetRectItem, clipRect)) {
+            drawItem(i, offsetRectItem, pDC);
+        }
     }
 
     // Draw "tail border":
@@ -295,10 +304,14 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset) {
     }
 
     rectItem.OffsetRect(offset);
-    drawItem(-1, rectItem, pDC);
+    
+    CRect intersection;
+    if (intersection.IntersectRect(rectItem, clipRect)) {
+        drawItem(-1, rectItem, pDC);
+    }
+    
     pDC->SelectObject(pOldFont);
 }
-
 
 void CMPCThemeHeaderCtrl::OnHdnBegintrack(NMHDR* pNMHDR, LRESULT* pResult) {
     LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
@@ -318,5 +331,6 @@ void CMPCThemeHeaderCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos) {
     if (parent && !parent->PaintHooksActive()) {
         lpwndpos->flags |= SWP_NOCOPYBITS; //avoids shifting header pixels during scroll
     }
+
     __super::OnWindowPosChanging(lpwndpos);
 }
