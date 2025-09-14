@@ -96,6 +96,9 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
     CRect wr = i.wr; 
     CRect horzRect, vertRect;
     bool needsRegion = false;
+    CRect sbWRVert;
+    CRect sbWRHorz;
+
 
     if (IsWindow(vertSB.m_hWnd)) {
         if (i.canVSB) {
@@ -108,11 +111,9 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
             updateScrollInfo();
         } else {
             if (vertSB.IsWindowVisible()) {
-                CRect sbWR;
-                vertSB.GetWindowRect(sbWR);
+                vertSB.GetWindowRect(sbWRVert);
                 vertSB.ShowWindow(SW_HIDE);
-                window->ScreenToClient(sbWR);
-                window->RedrawWindow(sbWR, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
+                window->ScreenToClient(sbWRVert);
             }
         }
     }
@@ -128,11 +129,9 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
             updateScrollInfo();
         } else {
             if (horzSB.IsWindowVisible()) {
-                CRect sbWR;
-                horzSB.GetWindowRect(sbWR);
+                horzSB.GetWindowRect(sbWRHorz);
                 horzSB.ShowWindow(SW_HIDE);
-                window->ScreenToClient(sbWR);
-                window->RedrawWindow(sbWR, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
+                window->ScreenToClient(sbWRHorz);
             }
         }
     }
@@ -156,6 +155,8 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
     } else {
         setWindowRegionExclusive(NULL);
     }
+    if (!sbWRVert.IsRectEmpty()) window->RedrawWindow(sbWRVert, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
+    if (!sbWRHorz.IsRectEmpty()) window->RedrawWindow(sbWRHorz, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
 
 void CMPCThemeScrollBarHelper::updateScrollInfo(bool invalidate /*=false*/)
