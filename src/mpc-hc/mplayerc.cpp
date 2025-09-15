@@ -1687,7 +1687,7 @@ int WINAPI Mine_ScrollWindowEx(HWND hWnd, int dx, int dy, CONST RECT* prcScroll,
     CWnd* pWnd = CWnd::FromHandlePermanent(hWnd);
     if (pWnd) {
         CMPCThemePlayerListCtrl* pList = dynamic_cast<CMPCThemePlayerListCtrl*>(pWnd);
-        if (pList && prcClip && dx && !pList->PaintHooksActive()) {
+        if (pList && prcClip && dx && AppNeedsThemedControls() && !pList->PaintHooksActive()) {
             expandedClip = *prcClip;
             expandedClip.top = 0; //horizontal scroll will need to include header
             prcClip = &expandedClip;
