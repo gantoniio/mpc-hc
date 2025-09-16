@@ -8160,25 +8160,31 @@ void CMainFrame::OnViewModifySize(UINT nID) {
     } usedMethod;
 
     const CAppSettings& s = AfxGetAppSettings();
+
     MINMAXINFO mmi;
     CSize videoSize = GetVideoOrArtSize(mmi);
     int minWidth = (int)mmi.ptMinTrackSize.x;
 
     int mult = (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
-
     double videoRatio = double(videoSize.cy) / double(videoSize.cx);
 
-    CRect videoRect, workRect, maxRect;
+    CRect rect;
+    GetWindowRect(&rect);
+
+    CRect videoRect;
     videoRect = m_pVideoWnd->GetVideoRect();
+    if (videoRect.Width() == 0) { // logo or coverart
+        videoRect = rect;
+    }
     double videoRectRatio = double(videoRect.Height()) / double(videoRect.Width());
     bool previouslyProportional = IsNearlyEqual(videoRectRatio, videoRatio, 0.01);
 
+    CRect workRect, maxRect;
     GetWorkAreaRect(workRect);
     maxRect = GetZoomWindowRect(CSize(INT_MAX, INT_MAX), true);
-
-    CRect rect, zoomRect;
-    GetWindowRect(&rect);
+    
     CSize targetSize;
+    CRect zoomRect;
 
     auto calculateZoomWindowRect = [&](resizeMethod useMethod = autoChoose, CSize forceDimension = {0,0}) {
         int newWidth = videoRect.Width();
