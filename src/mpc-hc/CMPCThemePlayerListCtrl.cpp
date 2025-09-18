@@ -10,6 +10,7 @@ CMPCThemePlayerListCtrl::CMPCThemePlayerListCtrl() : CListCtrl()
     themeGridLines = false;
     fullRowSelect = false;
     themedSBHelper = nullptr;
+    clipChildWindows = false;
     hasCheckedColors = false;
     hasCBImages = false;
     customThemeInterface = nullptr;
@@ -49,6 +50,7 @@ void CMPCThemePlayerListCtrl::PreSubclassWindow()
 IMPLEMENT_DYNAMIC(CMPCThemePlayerListCtrl, CListCtrl)
 
 BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CListCtrl)
+    ON_WM_PAINT()
     ON_WM_NCPAINT()
     ON_WM_CREATE()
     ON_NOTIFY_REFLECT_EX(LVN_ENDSCROLL, OnLvnEndScroll)
@@ -83,34 +85,187 @@ void CMPCThemePlayerListCtrl::subclassHeader()
 {
     CHeaderCtrl* t = GetHeaderCtrl();
     if (nullptr != t && IsWindow(t->m_hWnd) && themedHdrCtrl.m_hWnd == NULL) {
+        themedHdrCtrl.SetParent(this);
         themedHdrCtrl.SubclassWindow(t->GetSafeHwnd());
     }
 }
 
-void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles)
+void CMPCThemePlayerListCtrl::ExcludeChildWindows(CDC* pDC, CRgn* pClipRgn) {
+    if (clipChildWindows) {
+        // Enumerate all child windows and exclude them from clipping (except the header)
+        CWnd* pChild = GetWindow(GW_CHILD);
+        while (pChild != NULL) {
+            // Check if child window is visible
+            if (pChild->IsWindowVisible() && pChild != &themedHdrCtrl) {
+                CRect childRect;
+                pChild->GetWindowRect(&childRect);
+                ScreenToClient(&childRect);
+
+                // Create region for this child window
+                CRgn childRgn;
+                childRgn.CreateRectRgnIndirect(&childRect);
+
+                // Exclude this child from our clipping region
+                pClipRgn->CombineRgn(pClipRgn, &childRgn, RGN_DIFF);
+            }
+
+            pChild = pChild->GetWindow(GW_HWNDNEXT);
+        }
+    }
+}
+
+CPoint DetectHeaderOffset(CListCtrl* pList, CHeaderCtrl* pHeader) {
+    CRect columnRect, headerItemRect, headerWindowRect;
+
+    if (!pList->GetSubItemRect(0, 0, LVIR_BOUNDS, columnRect) ||
+        !pHeader->GetItemRect(0, headerItemRect)) {
+        return CPoint(0, 0);
+    }
+
+    pHeader->GetWindowRect(&headerWindowRect);
+    pList->ScreenToClient(&headerWindowRect);
+
+    int offset = columnRect.left - (headerWindowRect.left + headerItemRect.left);
+    return CPoint(offset, 0);
+}
+
+bool CMPCThemePlayerListCtrl::IsCustomDrawActive() {
+    if (!::IsWindow(m_hWnd)) {
+        return false;
+    }
+
+    CWnd* pParent = GetParent();
+    if (!pParent) {
+        return false;
+    }
+
+    NMLVCUSTOMDRAW nmcd = { 0 };
+    nmcd.nmcd.hdr.hwndFrom = m_hWnd;
+    nmcd.nmcd.hdr.idFrom = GetDlgCtrlID();
+    nmcd.nmcd.hdr.code = NM_CUSTOMDRAW;
+    nmcd.nmcd.dwDrawStage = CDDS_PREPAINT;
+
+    LRESULT lResult = pParent->SendMessage(WM_NOTIFY,  nmcd.nmcd.hdr.idFrom,  (LPARAM)&nmcd);
+
+    return (lResult != CDRF_DODEFAULT);
+}
+
+bool CMPCThemePlayerListCtrl::PaintHooksActive() {
+    return (GetStyle() & (LVS_OWNERDRAWFIXED)) != 0 || IsCustomDrawActive();
+}
+
+void CMPCThemePlayerListCtrl::RedrawHeader(CRect headerRect) {
+    if (themedHdrCtrl) {
+        ScreenToClient(&headerRect);
+        RedrawWindow(headerRect, 0, RDW_INVALIDATE);
+    }
+}
+
+void CMPCThemePlayerListCtrl::OnPaint() {
+    if (AppNeedsThemedControls() && !PaintHooksActive()) {
+        CPaintDC dc(this);
+        int dcCfg = dc.SaveDC();
+
+        CRect updateRect;
+        dc.GetClipBox(&updateRect);
+        if (updateRect.IsRectEmpty()) {
+            return;
+        }
+
+        // Setup
+        CRect clientRect;
+        GetClientRect(&clientRect);
+        CPoint clientTopLeft(0, 0);
+        ClientToScreen(&clientTopLeft);
+        if (nullptr != customThemeInterface) {
+            customThemeInterface->DoCustomPrePaint();
+        }
+
+        // Calculate areas
+        CRect listArea = clientRect;
+        bool hasHeader = themedHdrCtrl && themedHdrCtrl.IsWindowVisible();
+        CRect headerRect(0, 0, 0, 0);
+        if (hasHeader) {
+            themedHdrCtrl.GetWindowRect(&headerRect);
+            ScreenToClient(&headerRect);
+            listArea.top = headerRect.bottom;
+        }
+
+        // Create single buffer for entire client area
+        m_listBuffer.EnsureInitialized(&dc, clientRect.Size(), GetFont());
+
+
+        // Draw list items
+        CRect listDrawRect;
+        listDrawRect.IntersectRect(&updateRect, &listArea);
+        if (!listDrawRect.IsRectEmpty()) {
+            EraseBkgnd(&m_listBuffer.memDC, listDrawRect);
+            DrawAllItems(&m_listBuffer.memDC, listDrawRect);
+        }
+
+        // Draw header if needed
+        if (hasHeader) {
+            CRect headerDrawRect;
+            headerDrawRect.IntersectRect(&updateRect, &headerRect);
+            if (!headerDrawRect.IsRectEmpty()) {
+                CPoint headerOffset = DetectHeaderOffset(this, &themedHdrCtrl);
+                headerOffset += headerRect.TopLeft(); // Add position offset
+                themedHdrCtrl.DrawAllItems(&m_listBuffer.memDC, headerOffset, headerDrawRect);
+            }
+            themedHdrCtrl.ValidateRect(NULL);
+        }
+
+        CRgn clipRgn;
+        clipRgn.CreateRectRgnIndirect(&updateRect);
+        ExcludeChildWindows(&dc, &clipRgn);
+        dc.SelectClipRgn(&clipRgn);
+
+        dc.BitBlt(updateRect.left, updateRect.top, updateRect.Width(), updateRect.Height(),  &m_listBuffer.memDC, updateRect.left, updateRect.top, SRCCOPY);
+
+
+        dc.RestoreDC(dcCfg);
+    } else {
+        __super::OnPaint();
+    }
+}
+void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles, bool exStyle /* = true*/)
 {
     if (AppNeedsThemedControls()) {
         DWORD stylesToAdd = styles, stylesToRemove = 0;
-        if (styles & LVS_EX_GRIDLINES) {
-            stylesToAdd &= ~LVS_EX_GRIDLINES;
-            stylesToRemove |= LVS_EX_GRIDLINES;
-            themeGridLines = true;
-        }
+        bool dummy;
+
+        auto handleStyle = [&](DWORD style, bool& flag) {
+          if (styles & style) {
+            stylesToAdd &= ~style;
+            stylesToRemove |= style;
+            flag = true;
+          }
+        };
+
+
         if (styles & LVS_EX_FULLROWSELECT) {
             //we need these to remain, or else other columns may not get refreshed on a selection change.
             //no regressions observed yet, but unclear why we removed this style for custom draw previously
             //error was observed with playersubresyncbar
-            //            stylesToAdd &= ~LVS_EX_FULLROWSELECT;
-            //            stylesToRemove |= LVS_EX_FULLROWSELECT;
-            fullRowSelect = true;
+            //handleStyle(LVS_EX_FULLROWSELECT, fullRowSelect);
+          fullRowSelect = true;
         }
-        if (styles & LVS_EX_DOUBLEBUFFER) { //we will buffer ourselves
-            stylesToAdd &= ~LVS_EX_DOUBLEBUFFER;
-            stylesToRemove |= LVS_EX_DOUBLEBUFFER;
+
+        handleStyle(LVS_EX_GRIDLINES, themeGridLines);
+        handleStyle(LVS_EX_DOUBLEBUFFER, dummy);
+        handleStyle(WS_CLIPCHILDREN, clipChildWindows);
+
+        if (exStyle) {
+            SetExtendedStyle((GetExtendedStyle() | stylesToAdd) & ~stylesToRemove);
+        } else {
+            SetWindowLongPtrW(m_hWnd, GWL_STYLE, (GetStyle() | stylesToAdd) & ~stylesToRemove);
         }
-        SetExtendedStyle((GetExtendedStyle() | stylesToAdd) & ~stylesToRemove);
     } else {
-        SetExtendedStyle(GetExtendedStyle() | styles);
+        if (exStyle) {
+            SetExtendedStyle(GetExtendedStyle() | styles);
+        } else {
+            SetWindowLongPtrW(m_hWnd, GWL_STYLE, GetStyle() | styles);
+        }
     }
 }
 
@@ -220,7 +375,7 @@ void CMPCThemePlayerListCtrl::updateSB()
 void CMPCThemePlayerListCtrl::updateScrollInfo(bool invalidate /*=false*/)
 {
     if (nullptr != themedSBHelper) {
-        themedSBHelper->updateScrollInfo(invalidate);
+        themedSBHelper->updateScrollInfo(invalidate ? SCROLL_INVALIDATE : SCROLL_NOPAINT);
     }
 }
 
@@ -231,6 +386,28 @@ LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM 
             return 1;
         }
     }
+
+    if (message == WM_NOTIFY) {
+        LPNMHDR pNMHDR = (LPNMHDR)lParam;
+
+        // Check if it's a message from our header control
+        CHeaderCtrl* pHeader = GetHeaderCtrl();
+        if (pHeader && pNMHDR->hwndFrom == pHeader->GetSafeHwnd()) {
+            // Handle header notifications that might cause repainting
+            switch (pNMHDR->code) {
+            case HDN_BEGINTRACK:
+            case HDN_ENDTRACK:
+                pHeader->SendMessageW(WM_NOTIFY, pNMHDR->code, (LPARAM)pNMHDR);
+                break;
+            case HDN_ITEMCHANGING:
+                if (nullptr != themedSBHelper) {
+                    themedSBHelper->updateScrollInfo(SCROLL_REDRAW);
+                }
+                break;
+            }
+        }
+    }
+
     return __super::WindowProc(message, wParam, lParam);
 }
 
@@ -305,6 +482,8 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
             rect.right = rText.right;
         }
 
+        CFont* curFont = pDC->GetCurrentFont();
+
         //issubitemvisible
         if (rClient.left <= rect.right && rClient.right >= rect.left && rClient.top <= rect.bottom && rClient.bottom >= rect.top) {
             COLORREF textColor = CMPCTheme::TextFGColor;
@@ -327,18 +506,11 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
             pDC->SetBkColor(bgColor);
 
             rectDC = rRow;
-            CDC dcMem;
-            CBitmap bmMem;
-            CMPCThemeUtil::initMemDC(pDC, dcMem, bmMem, rectDC);
-            rect.OffsetRect(-rectDC.TopLeft());
-            rText.OffsetRect(-rectDC.TopLeft());
-            rIcon.OffsetRect(-rectDC.TopLeft());
-            rRow.OffsetRect(-rectDC.TopLeft());
 
             if (!IsWindowEnabled() && 0 == nSubItem) { //no gridlines, bg for full row
-                dcMem.FillSolidRect(rRow, CMPCTheme::ListCtrlDisabledBGColor);
+                pDC->FillSolidRect(rRow, CMPCTheme::ListCtrlDisabledBGColor);
             } else {
-                dcMem.FillSolidRect(rect, CMPCTheme::ContentBGColor); //no flicker because we have a memory dc
+                pDC->FillSolidRect(rect, CMPCTheme::ContentBGColor); //no flicker because we have a memory dc
             }
 
             rTextBG = rText;
@@ -382,7 +554,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                             rIcon.DeflateRect(0, (rIcon.Height() - rIcon.Width()) / 2); //as tall as wide
                         }
 
-                        CMPCThemeUtil::drawCheckBox(GetParent(), lvi.iImage, false, false, rIcon, &dcMem);
+                        CMPCThemeUtil::drawCheckBox(GetParent(), lvi.iImage, false, false, rIcon, pDC);
                     } else {
                         if (dwStyle == LVS_ICON) {
                         } else if (dwStyle == LVS_SMALLICON || dwStyle == LVS_LIST || dwStyle == LVS_REPORT) {
@@ -390,7 +562,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                             int cx, cy;
                             ImageList_GetIconSize(ilist->m_hImageList, &cx, &cy);
                             rIcon.top += (rIcon.Height() - cy) / 2;
-                            ilist->Draw(&dcMem, lvi.iImage, rIcon.TopLeft(), ILD_TRANSPARENT);
+                            ilist->Draw(pDC, lvi.iImage, rIcon.TopLeft(), ILD_TRANSPARENT);
                         }
                     }
                     if (align == HDF_LEFT) {
@@ -405,7 +577,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     int cbYMargin = (rect.Height() - cbSize - 1) / 2;
                     int cbXMargin = (contentLeft - rect.left - cbSize) / 2;
                     CRect rcb = { rect.left + cbXMargin, rect.top + cbYMargin, rect.left + cbXMargin + cbSize, rect.top + cbYMargin + cbSize };
-                    CMPCThemeUtil::drawCheckBox(GetParent(), isChecked, false, true, rcb, &dcMem);
+                    CMPCThemeUtil::drawCheckBox(GetParent(), isChecked, false, true, rcb, pDC);
                 }
             }
 
@@ -415,7 +587,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     bgColor = selectedBGColor;
                     if (LVS_REPORT != dwStyle) { //in list mode we don't fill the "whole" column
                         CRect tmp = rText;
-                        dcMem.DrawTextW(text, tmp, textFormat | DT_CALCRECT); //end of string
+                        pDC->DrawTextW(text, tmp, textFormat | DT_CALCRECT); //end of string
                         rTextBG.right = tmp.right + (rText.left - rTextBG.left); //end of string plus same indent from the left side
                     }
                     selected = true;
@@ -424,13 +596,13 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                         bgColor = checkedBGClr;
                     }
                     if (isChecked && checkedTextClr != -1) {
-                        dcMem.SetTextColor(checkedTextClr);
+                        pDC->SetTextColor(checkedTextClr);
                     }
                     if (!isChecked && uncheckedTextClr != -1) {
-                        dcMem.SetTextColor(uncheckedTextClr);
+                        pDC->SetTextColor(uncheckedTextClr);
                     }
                 }
-                dcMem.FillSolidRect(rTextBG, bgColor);
+                pDC->FillSolidRect(rTextBG, bgColor);
 
                 if (themeGridLines || (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid())) {
                     CRect rGrid = rect;
@@ -446,27 +618,27 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                         gridPenH.CreatePen(PS_SOLID, 1, CMPCTheme::ListCtrlGridColor);
                     }
 
-                    oldPen = dcMem.SelectObject(&gridPenV);
+                    oldPen = pDC->SelectObject(&gridPenV);
                     if (nSubItem != 0) {
-                        dcMem.MoveTo(rGrid.TopLeft());
-                        dcMem.LineTo(rGrid.left, rGrid.bottom);
+                        pDC->MoveTo(rGrid.TopLeft());
+                        pDC->LineTo(rGrid.left, rGrid.bottom);
                     } else {
-                        dcMem.MoveTo(rGrid.left, rGrid.bottom);
+                        pDC->MoveTo(rGrid.left, rGrid.bottom);
                     }
 
-                    dcMem.SelectObject(&gridPenH);
-                    dcMem.LineTo(rGrid.BottomRight());
+                    pDC->SelectObject(&gridPenH);
+                    pDC->LineTo(rGrid.BottomRight());
 
-                    dcMem.SelectObject(&gridPenV);
-                    dcMem.LineTo(rGrid.right, rGrid.top);
+                    pDC->SelectObject(&gridPenV);
+                    pDC->LineTo(rGrid.right, rGrid.top);
 
-                    dcMem.SelectObject(oldPen);
+                    pDC->SelectObject(oldPen);
                     gridPenV.DeleteObject();
                     gridPenH.DeleteObject();
                 } else if (selected) {
                     CBrush borderBG;
                     borderBG.CreateSolidBrush(CMPCTheme::ListCtrlDisabledBGColor);
-                    dcMem.FrameRect(rTextBG, &borderBG);
+                    pDC->FrameRect(rTextBG, &borderBG);
                     borderBG.DeleteObject();
                 }
             }
@@ -480,18 +652,19 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                     listMPCThemeFontBold.CreateFontIndirect(&lf);
                 }
 
-                dcMem.SelectObject(listMPCThemeFontBold);
+                pDC->SelectObject(listMPCThemeFontBold);
             }
-            dcMem.DrawTextW(text, rText, textFormat);
-            CMPCThemeUtil::flushMemDC(pDC, dcMem, rectDC);
+            pDC->DrawTextW(text, rText, textFormat);
             pDC->SetTextColor(oldTextColor);
             pDC->SetBkColor(oldBkColor);
+            pDC->SelectObject(curFont);
         }
     }
 }
 
 BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
+#if 0
     if (AppNeedsThemedControls()) {
         NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 
@@ -527,57 +700,133 @@ BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
         }
         return TRUE;
     }
+#endif
     return FALSE;
 }
 
 
-BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC)
-{
+BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC) {
+    if (AppNeedsThemedControls() && !PaintHooksActive()) {
+        return TRUE;
+    } else {
+        CRect updateRect;
+        pDC->GetClipBox(&updateRect);
+        return EraseBkgnd(pDC, updateRect);
+    }
+}
+
+
+BOOL CMPCThemePlayerListCtrl::EraseBkgnd(CDC* pDC, CRect updateRect) {
     if (AppNeedsThemedControls()) {
         CRect r;
         GetClientRect(r);
+
         int dcState = pDC->SaveDC();
-        for (int y = 0; y < GetItemCount(); y++) {
-            CRect clip;
-            GetItemRect(y, clip, LVIR_BOUNDS);
-            pDC->ExcludeClipRect(clip);
+        int topIndex = GetTopIndex();
+        int visibleCount = GetCountPerPage();
+        int startItem = std::max(0, topIndex - 1);
+        int endItem = std::min(GetItemCount() - 1, topIndex + visibleCount + 1);
+
+        std::vector<CRect> exclusionRegions;
+
+        if (endItem >= startItem) {
+            CRect combinedRect;
+            bool hasCombinedRect = false;
+
+            for (int y = startItem; y <= endItem; y++) {
+                CRect itemRect;
+                GetItemRect(y, itemRect, LVIR_BOUNDS);
+
+                // Only process if item intersects update region
+                if (itemRect.bottom >= updateRect.top && itemRect.top <= updateRect.bottom) {
+                    if (!hasCombinedRect) {
+                        // Start a new combined rectangle
+                        combinedRect = itemRect;
+                        hasCombinedRect = true;
+                    } else {
+                        // Check if this item is adjacent to the previous combined rectangle
+                        if (itemRect.top <= combinedRect.bottom + 1 &&
+                            itemRect.left == combinedRect.left &&
+                            itemRect.right == combinedRect.right) {
+                            // Extend the combined rectangle downward
+                            combinedRect.bottom = itemRect.bottom;
+                        } else {
+                            // Gap found - save the current combined rectangle and start a new one
+                            exclusionRegions.push_back(combinedRect);
+                            combinedRect = itemRect;
+                        }
+                    }
+                } else if (hasCombinedRect) {
+                    // Item doesn't intersect - break the combination
+                    exclusionRegions.push_back(combinedRect);
+                    hasCombinedRect = false;
+                }
+            }
+
+            // Add the final combined rectangle if we have one
+            if (hasCombinedRect) {
+                exclusionRegions.push_back(combinedRect);
+            }
         }
+
+        // Apply the combined exclusion regions
+        for (const auto& region : exclusionRegions) {
+            pDC->ExcludeClipRect(region);
+        }
+
         pDC->FillSolidRect(r, CMPCTheme::ContentBGColor);
 
+        // Grid line drawing remains the same...
         if (themeGridLines || (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid())) {
-
-            CPen gridPen, *oldPen;
+            CPen gridPen, * oldPen;
             gridPen.CreatePen(PS_SOLID, 1, CMPCTheme::ListCtrlGridColor);
             oldPen = pDC->SelectObject(&gridPen);
 
             if (GetItemCount() > 0) {
-                CRect gr;
+                // Vertical grid lines - clip to update region
                 for (int x = 0; x < themedHdrCtrl.GetItemCount(); x++) {
+                    CRect gr;
                     themedHdrCtrl.GetItemRect(x, gr);
-                    pDC->MoveTo(gr.right, r.top);
-                    pDC->LineTo(gr.right, r.bottom);
+
+                    if (gr.right >= updateRect.left && gr.right <= updateRect.right) {
+                        pDC->MoveTo(gr.right, std::max(r.top, updateRect.top));
+                        pDC->LineTo(gr.right, std::min(r.bottom, updateRect.bottom));
+                    }
                 }
-                gr.bottom = 0;
-                for (int y = 0; y < GetItemCount() || gr.bottom < r.bottom; y++) {
+
+                // Horizontal grid lines for visible rows
+                CRect gr;
+                for (int y = startItem; y <= endItem || gr.bottom < std::min(r.bottom, updateRect.bottom); y++) {
                     if (y >= GetItemCount()) {
+                        if (gr.IsRectEmpty()) break;
                         gr.OffsetRect(0, gr.Height());
                     } else {
                         GetItemRect(y, gr, LVIR_BOUNDS);
                     }
-                    {
+
+                    if (gr.bottom >= updateRect.top && gr.bottom <= updateRect.bottom) {
                         CPen horzPen;
-                        pDC->MoveTo(r.left, gr.bottom - 1);
+                        int lineY = gr.bottom - 1;
+                        int lineLeft = std::max(r.left, updateRect.left);
+                        int lineRight = std::min(r.right, updateRect.right);
+
+                        pDC->MoveTo(lineLeft, lineY);
+
                         if (nullptr != customThemeInterface && customThemeInterface->UseCustomGrid()) {
                             COLORREF horzGridColor, tmp;
                             customThemeInterface->GetCustomGridColors(y, horzGridColor, tmp);
                             horzPen.CreatePen(PS_SOLID, 1, horzGridColor);
                             pDC->SelectObject(&horzPen);
-                            pDC->LineTo(r.right, gr.bottom - 1);
+                            pDC->LineTo(lineRight, lineY);
                             pDC->SelectObject(&gridPen);
                             horzPen.DeleteObject();
                         } else {
-                            pDC->LineTo(r.right, gr.bottom - 1);
+                            pDC->LineTo(lineRight, lineY);
                         }
+                    }
+
+                    if (y >= endItem && gr.bottom >= std::min(r.bottom, updateRect.bottom)) {
+                        break;
                     }
                 }
             }
@@ -634,4 +883,54 @@ BOOL CMPCThemePlayerListCtrl::OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
     }
     *pResult = 0;
     return FALSE;
+}
+
+void CMPCThemePlayerListCtrl::DrawAllItems(CDC* pDC, const CRect& drawRect) {
+    int itemCount = GetItemCount();
+    if (itemCount == 0) return;
+
+    DWORD style = GetStyle() & LVS_TYPEMASK;
+
+    if (style == LVS_REPORT) {
+        int topIndex = GetTopIndex();
+        int itemCount = GetItemCount();
+        int visibleCount = GetCountPerPage();
+
+        // Calculate item range to draw (with some buffer)
+        int startItem = std::max(0, topIndex - 1);
+        int endItem = std::min(itemCount - 1, topIndex + visibleCount + 1);
+
+        // Get header control to determine number of columns
+        CHeaderCtrl* pHeader = GetHeaderCtrl();
+        int colCount = pHeader ? pHeader->GetItemCount() : 1;
+
+        // Loop through all visible items
+        for (int nItem = startItem; nItem <= endItem; nItem++) {
+            CRect itemRect;
+            GetItemRect(nItem, &itemRect, LVIR_BOUNDS);
+
+            // Check if this item intersects with the draw rectangle
+            CRect intersectRect;
+            if (!intersectRect.IntersectRect(&itemRect, &drawRect))
+                continue;
+
+            // Loop through all subitems (columns) for this item
+            for (int nSubItem = 0; nSubItem < colCount; nSubItem++) {
+                // Call the custom draw function for each item/subitem combination
+                drawItem(pDC, nItem, nSubItem);
+            }
+        }
+    } else {
+        for (int nItem = 0; nItem < itemCount; nItem++) {
+            CRect itemRect;
+            GetItemRect(nItem, &itemRect, LVIR_BOUNDS);
+
+            // Check if this item intersects with the draw rectangle
+            CRect intersectRect;
+            if (intersectRect.IntersectRect(&itemRect, &drawRect)) {
+                // Non-report views only have one "column" (no subitems)
+                drawItem(pDC, nItem, 0);
+            }
+        }
+    }
 }
