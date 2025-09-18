@@ -1674,6 +1674,11 @@ HRESULT CMpcAudioRenderer::Transform(IMediaSample *pMediaSample)
 
 HRESULT CMpcAudioRenderer::PushToQueue(std::unique_ptr<CPacket>& p)
 {
+    if (!m_pWaveFormatExOutput) {
+        ASSERT(false);
+        return E_FAIL;
+    }
+
 	if (p && (!m_rtLastQueuedSampleTimeEnd || p->bDiscontinuity)) {
 		if (p->bDiscontinuity && (p->rtStop <= m_rtLastQueuedSampleTimeEnd)) {
 			TRACE(L"CMpcAudioRenderer::PushToQueue() - drop [%I64d]\n", p->rtStart);
