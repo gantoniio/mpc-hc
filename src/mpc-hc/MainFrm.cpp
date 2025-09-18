@@ -4771,7 +4771,9 @@ void CMainFrame::OnFileOpenmedia()
     }
 
     if (!dlg.GetAppendToPlaylist()) {
-        CloseMediaBeforeOpen();
+        if (!CloseMediaBeforeOpen()) {
+            return;
+        }
     }
 
     if (IsIconic()) {
@@ -5425,7 +5427,9 @@ void CMainFrame::OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect)
 
     // load http url with youtube-dl, if available
     if (CanSendToYoutubeDL(slFiles.GetHead())) {
-        CloseMediaBeforeOpen();
+        if (!CloseMediaBeforeOpen()) {
+            return;
+        }
         if (ProcessYoutubeDLURL(slFiles.GetHead(), bAppend)) {
             if (!bAppend) {
                 OpenCurPlaylistItem();
@@ -11318,7 +11322,9 @@ void CMainFrame::OnRecentFile(UINT nID)
         return;
     }
 
-    CloseMediaBeforeOpen();
+    if (!CloseMediaBeforeOpen()) {
+        return;
+    }
 
     if (fns.GetCount() == 1 && CanSendToYoutubeDL(r.fns.GetHead())) {
         if (ProcessYoutubeDLURL(fns.GetHead(), false)) {
@@ -18969,7 +18975,9 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen /* = fa
     }
 
     if (pli.m_bYoutubeDL && (reopen || pli.m_fns.GetHead() == pli.m_ydlSourceURL && m_sydlLastProcessURL != pli.m_ydlSourceURL)) {
-        CloseMediaBeforeOpen();
+        if (!CloseMediaBeforeOpen()) {
+            return;
+        }
         if (ProcessYoutubeDLURL(pli.m_ydlSourceURL, false, true)) {
             OpenCurPlaylistItem(rtStart, false);
             return;
@@ -19019,7 +19027,10 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     }
     m_bOpenMediaActive = true;
 
-    CloseMediaBeforeOpen();
+    if (!CloseMediaBeforeOpen()) {
+        m_bOpenMediaActive = false;
+        return;
+    }
 
     // if the file is on some removable drive and that drive is missing,
     // we yell at user before even trying to construct the graph
@@ -19142,11 +19153,21 @@ bool CMainFrame::DisplayChange()
     return true;
 }
 
-void CMainFrame::CloseMediaBeforeOpen()
+bool CMainFrame::CloseMediaBeforeOpen()
 {
     if (m_eMediaLoadState == MLS::LOADED || m_eMediaLoadState == MLS::LOADING || m_eMediaLoadState == MLS::FAILING) {
         CloseMedia(true);
+    } else if (m_eMediaLoadState == MLS::CLOSING) {
+        // was already busy closing, wait a little
+        for (int i = 0; i < 10; i++) {
+            Sleep(250);
+            if (m_eMediaLoadState == MLS::CLOSED) {
+                return true;
+            }
+        }
+        return (m_eMediaLoadState == MLS::CLOSED);
     }
+    return true;
 }
 
 void CMainFrame::ForceCloseProcess()
@@ -19170,8 +19191,19 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     m_bUseSeekPreview = false;
     m_bDVDStillOn = false;
 
-    if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
+    if (m_eMediaLoadState == MLS::CLOSED) {
         TRACE(_T("Ignoring duplicate close action.\n"));
+        return;
+    }
+    if (m_eMediaLoadState == MLS::CLOSING) {
+        TRACE(_T("Duplicate close action.\n"));
+        for (int i = 0; i < 10; i++) {
+            Sleep(250);
+            if (m_eMediaLoadState == MLS::CLOSED) {
+                break;
+            }
+        }
+        ASSERT(m_eMediaLoadState == MLS::CLOSED);
         return;
     }
 
