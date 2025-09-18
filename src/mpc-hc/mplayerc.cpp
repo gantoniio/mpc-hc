@@ -1685,12 +1685,20 @@ int WINAPI Mine_ScrollWindowEx(HWND hWnd, int dx, int dy, CONST RECT* prcScroll,
 {
     RECT expandedClip = { 0 };
     CWnd* pWnd = CWnd::FromHandlePermanent(hWnd);
-    if (pWnd) {
+    if (pWnd && prcClip && dx && AppNeedsThemedControls()) {
         CMPCThemePlayerListCtrl* pList = dynamic_cast<CMPCThemePlayerListCtrl*>(pWnd);
-        if (pList && prcClip && dx && AppNeedsThemedControls() && !pList->PaintHooksActive()) {
+        if (pList && !pList->PaintHooksActive()) {
             expandedClip = *prcClip;
             expandedClip.top = 0; //horizontal scroll will need to include header
             prcClip = &expandedClip;
+        } else {
+            CMPCThemeHeaderCtrl* pHeader = dynamic_cast<CMPCThemeHeaderCtrl*>(pWnd);
+            if (pHeader) {
+                pList = dynamic_cast<CMPCThemePlayerListCtrl*>(pWnd->GetParent());
+                if (pList && !pList->PaintHooksActive()) {
+                    prcClip = &expandedClip; //empty--do not scroll header window itself
+                }
+            }
         }
     }
 

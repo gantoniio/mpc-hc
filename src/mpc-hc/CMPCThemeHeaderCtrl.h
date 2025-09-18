@@ -10,7 +10,7 @@ protected:
     int hotItem;
     bool colDrag = false;
     CMPCThemePlayerListCtrl* parent;
-    void checkHot(CPoint point);
+    void checkHot(CPoint point, bool invalidate);
     void drawSortArrow(CDC* dc, COLORREF arrowClr, CRect arrowRect, bool ascending);
     void drawItem(int nItem, CRect rText, CDC* pDC);
 public:

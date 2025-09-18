@@ -191,7 +191,7 @@ void CMPCThemeHeaderCtrl::OnHdnTrack(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-void CMPCThemeHeaderCtrl::checkHot(CPoint point)
+void CMPCThemeHeaderCtrl::checkHot(CPoint point, bool invalidate)
 {
     HDHITTESTINFO hdHitTestInfo;
     hdHitTestInfo.pt = point;
@@ -202,11 +202,13 @@ void CMPCThemeHeaderCtrl::checkHot(CPoint point)
     if ((hdHitTestInfo.flags & HHT_ONHEADER) == 0) {
         hotItem = -2;
     }
-    if (hotItem != prevHotItem) {
+    if (hotItem != prevHotItem && invalidate) {
+        CRect wr;
+        GetWindowRect(wr);
         if (!parent || parent->PaintHooksActive()) {
-            RedrawWindow();
+            RedrawWindow(wr);
         } else if (parent) {
-            parent->RedrawHeader();
+            parent->RedrawHeader(wr);
         }
     }
 }
@@ -215,7 +217,7 @@ void CMPCThemeHeaderCtrl::checkHot(CPoint point)
 void CMPCThemeHeaderCtrl::OnMouseMove(UINT nFlags, CPoint point)
 {
     if ((nFlags & MK_LBUTTON) == 0) {
-        checkHot(point);
+        checkHot(point, true);
     }
 
     __super::OnMouseMove(nFlags, point);
@@ -225,10 +227,13 @@ void CMPCThemeHeaderCtrl::OnMouseLeave()
 {
     if (hotItem >= 0) {
         hotItem = -1;
+        CRect wr;
+        GetWindowRect(wr);
+
         if (!parent || parent->PaintHooksActive()) {
-            RedrawWindow();
+            RedrawWindow(wr);
         } else if (parent) {
-            parent->RedrawHeader();
+            parent->RedrawHeader(wr);
         }
     }
     __super::OnMouseLeave();
@@ -256,7 +261,8 @@ void CMPCThemeHeaderCtrl::OnPaint()
         DrawAllItems(pDC, { 0,0 }, updateRect);
     } else {
         if (!updateRect.IsRectEmpty()) {
-            parent->RedrawHeader();
+            ClientToScreen(updateRect);
+            parent->RedrawHeader(updateRect);
         }
     }
   } else {
@@ -279,7 +285,7 @@ void CMPCThemeHeaderCtrl::DrawAllItems(CDC* pDC, CPoint offset, const CRect& cli
     CPoint ptCursor;
     ::GetCursorPos(&ptCursor);
     ScreenToClient(&ptCursor);
-    checkHot(ptCursor);
+    checkHot(ptCursor, false);
 
     for (int i = 0; i < nCount; i++) {
         GetItemRect(i, rectItem);

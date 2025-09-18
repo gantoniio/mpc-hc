@@ -159,18 +159,22 @@ void CMPCThemeScrollBarHelper::hideNativeScrollBars()
     if (!sbWRHorz.IsRectEmpty()) window->RedrawWindow(sbWRHorz, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
 
-void CMPCThemeScrollBarHelper::updateScrollInfo(bool invalidate /*=false*/)
+void CMPCThemeScrollBarHelper::updateScrollInfo(UpdateScrollInfoAction action /*= UpdateScrollInfoAction::SCROLL_NONE*/)
 {
     if (IsWindow(vertSB.m_hWnd)) {
         vertSB.updateScrollInfo();
-        if (invalidate) {
+        if (action == SCROLL_INVALIDATE) {
             vertSB.Invalidate();
+        } else if (action == SCROLL_REDRAW) {
+            vertSB.RedrawWindow();
         }
     }
     if (IsWindow(horzSB.m_hWnd)) {
         horzSB.updateScrollInfo();
-        if (invalidate) {
+        if (action == SCROLL_INVALIDATE) {
             horzSB.Invalidate();
+        } else if (action == SCROLL_REDRAW) {
+            horzSB.RedrawWindow();
         }
     }
 }

@@ -154,10 +154,8 @@ bool CMPCThemePlayerListCtrl::PaintHooksActive() {
     return (GetStyle() & (LVS_OWNERDRAWFIXED)) != 0 || IsCustomDrawActive();
 }
 
-void CMPCThemePlayerListCtrl::RedrawHeader() {
+void CMPCThemePlayerListCtrl::RedrawHeader(CRect headerRect) {
     if (themedHdrCtrl) {
-        CRect headerRect;
-        themedHdrCtrl.GetWindowRect(&headerRect);
         ScreenToClient(&headerRect);
         RedrawWindow(headerRect, 0, RDW_INVALIDATE);
     }
@@ -221,7 +219,9 @@ void CMPCThemePlayerListCtrl::OnPaint() {
         clipRgn.CreateRectRgnIndirect(&updateRect);
         ExcludeChildWindows(&dc, &clipRgn);
         dc.SelectClipRgn(&clipRgn);
+
         dc.BitBlt(updateRect.left, updateRect.top, updateRect.Width(), updateRect.Height(),  &m_listBuffer.memDC, updateRect.left, updateRect.top, SRCCOPY);
+
 
         dc.RestoreDC(dcCfg);
     } else {
@@ -375,7 +375,7 @@ void CMPCThemePlayerListCtrl::updateSB()
 void CMPCThemePlayerListCtrl::updateScrollInfo(bool invalidate /*=false*/)
 {
     if (nullptr != themedSBHelper) {
-        themedSBHelper->updateScrollInfo(invalidate);
+        themedSBHelper->updateScrollInfo(invalidate ? SCROLL_INVALIDATE : SCROLL_NOPAINT);
     }
 }
 
@@ -398,6 +398,11 @@ LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM 
             case HDN_BEGINTRACK:
             case HDN_ENDTRACK:
                 pHeader->SendMessageW(WM_NOTIFY, pNMHDR->code, (LPARAM)pNMHDR);
+                break;
+            case HDN_ITEMCHANGING:
+                if (nullptr != themedSBHelper) {
+                    themedSBHelper->updateScrollInfo(SCROLL_REDRAW);
+                }
                 break;
             }
         }
