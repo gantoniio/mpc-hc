@@ -962,6 +962,8 @@ public:
     afx_msg void OnCmdLineSaveThumbnails();
     afx_msg void OnFileSaveThumbnails();
     afx_msg void OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI);
+    afx_msg void OnFileExportABClip();
+    afx_msg void OnUpdateFileExportABClip(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesLoad();
     afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesSave() { SubtitlesSave(); }

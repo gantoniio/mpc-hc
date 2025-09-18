@@ -332,6 +332,7 @@
 #define ID_CUSTOM_ACTION2               5034
 #define ID_CUSTOM_ACTION3               5035
 #define ID_CUSTOM_ACTION4               5036
+#define ID_FILE_EXPORT_AB_CLIP          5037
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
@@ -1791,8 +1792,15 @@
 #define IDS_CUSTOM_ACTION2              57725
 #define IDS_CUSTOM_ACTION3              57726
 #define IDS_CUSTOM_ACTION4              57727
-#define IDS_AUDIOS                      57728
-#define IDS_SUBTITLES                   57729
+#define IDS_EXPORT_AB_CLIP              57728
+#define IDS_AUDIOS                      57729
+#define IDS_SUBTITLES                   57730
+#define IDS_EXPORT_AB_CLIP_NO_RANGE     57731
+#define IDS_EXPORT_AB_CLIP_INVALID_SOURCE 57732
+#define IDS_EXPORT_AB_CLIP_NO_FFMPEG    57733
+#define IDS_EXPORT_AB_CLIP_DESTINATION  57734
+#define IDS_EXPORT_AB_CLIP_PROCESS_ERROR 57735
+#define IDS_EXPORT_AB_CLIP_STARTED      57736
 
 // Next default values for new objects
 // 
