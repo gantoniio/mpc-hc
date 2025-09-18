@@ -937,7 +937,6 @@ public:
     int             nCoverArtSizeLimit;
 
     bool            bEnableLogging;
-    bool            bUseLegacyToolbar;
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;

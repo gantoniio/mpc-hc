@@ -135,7 +135,6 @@ void CPPageAdvanced::InitSettings()
         m_list.SetItemData(iItem, nItem);
     };
 
-    addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
     addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 100, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 5, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));

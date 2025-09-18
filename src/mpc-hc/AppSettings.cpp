@@ -242,7 +242,6 @@ CAppSettings::CAppSettings()
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
     , bEnableLogging(false)
-    , bUseLegacyToolbar(false)
     , iLAVGPUDevice(DWORD_MAX)
     , nCmdVolume(0)
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
@@ -1290,7 +1289,6 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_LEGACY_TOOLBAR, bUseLegacyToolbar);
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
                                  static_cast<int>(eSubtitleRenderer)));
@@ -2235,7 +2233,6 @@ void CAppSettings::LoadSettings()
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);
 
     bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
-    bUseLegacyToolbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_LEGACY_TOOLBAR, FALSE);
 
     eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
     if (eSubtitleRenderer == SubtitleRenderer::RESERVED) {
