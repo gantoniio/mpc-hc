@@ -84,6 +84,7 @@ std::map<WORD, CPlayerToolBar::svgButtonInfo> CPlayerToolBar::supportedSvgButton
     {ID_PLAY_DECRATE, {TBBS_BUTTON, 7}},
     {ID_PLAY_INCRATE, {TBBS_BUTTON, 8}},
     {ID_PLAY_FRAMESTEP, {TBBS_BUTTON, 9}},
+    {ID_FILE_EXPORT_AB_CLIP, {TBBS_BUTTON, 20, IDS_EXPORT_AB_CLIP, LOCK_LEFT}},
     {ID_FILE_OPENMEDIA, {TBBS_BUTTON, 10}},
     {ID_VIEW_OPTIONS, {TBBS_BUTTON, 11}},
     {ID_BUTTON_FULLSCREEN, {TBBS_BUTTON, 12, IDS_AG_FULLSCREEN, LOCK_NONE, IDS_AG_EXIT_FULLSCREEN}},
@@ -438,6 +439,7 @@ void CPlayerToolBar::PlaceButtons(bool loadSavedLayout) {
         addButton(ID_PLAY_INCRATE);
         addButton(ID_NAVIGATE_SKIPFORWARD);
         addButton(ID_PLAY_FRAMESTEP);
+        addButton(ID_FILE_EXPORT_AB_CLIP);
     }
 
     addButton(ID_DUMMYSEPARATOR);

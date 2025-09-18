@@ -571,6 +571,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_SAVE_IMAGE,                 'I', FALT,              IDS_AG_SAVE_IMAGE },
     { ID_FILE_SAVE_IMAGE_AUTO,          VK_F5, 0,                 IDS_MPLAYERC_6 },
     { ID_FILE_SAVE_THUMBNAILS,              0, 0,                 IDS_FILE_SAVE_THUMBNAILS },
+    { ID_FILE_EXPORT_AB_CLIP,               0, 0,                 IDS_EXPORT_AB_CLIP },
     { ID_FILE_SUBTITLES_LOAD,             'L', FCONTROL,          IDS_AG_LOAD_SUBTITLES },
     { ID_FILE_SUBTITLES_SAVE,             'S', FCONTROL,          IDS_AG_SAVE_SUBTITLES },
     { ID_FILE_SUBTITLES_DOWNLOAD,         'D', 0,                 IDS_SUBTITLES_DOWNLOAD },

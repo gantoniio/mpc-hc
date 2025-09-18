@@ -104,6 +104,7 @@
 #include <qnetwork.h>
 
 #include "YoutubeDL.h"
+#include "MediaInfo/MediaInfoDLL.h"
 #include "CMPCThemeMenu.h"
 #include "CMPCThemeDockBar.h"
 #include "CMPCThemeMiniDockFrameWnd.h"
@@ -115,7 +116,184 @@
 #include "stb/stb_image_resize2.h"
 
 #include <dwmapi.h>
+#include <cmath>
+#include <initializer_list>
+#include <vector>
 #undef SubclassWindow
+
+namespace {
+
+constexpr int kPrimaryResolutionLimit = 1920;
+constexpr int kSecondaryResolutionLimit = 1080;
+constexpr LPCTSTR kExportDirectory = _T("z:\\");
+
+int FloorEven(double value)
+{
+    const int floored = static_cast<int>(std::floor(value));
+    int even = (floored % 2) ? (floored - 1) : floored;
+    return even < 2 ? 2 : even;
+}
+
+CSize ApplyResolutionLimit(const CSize& size, int primaryLimit = kPrimaryResolutionLimit, int secondaryLimit = kSecondaryResolutionLimit)
+{
+    int width = size.cx;
+    int height = size.cy;
+
+    if (width <= 0 || height <= 0) {
+        return size;
+    }
+
+    if (width >= height) {
+        bool reduced = false;
+        if (width > primaryLimit) {
+            const double scale = static_cast<double>(primaryLimit) / static_cast<double>(width);
+            width = FloorEven(width * scale);
+            height = FloorEven(height * scale);
+            reduced = true;
+        }
+        if (reduced && height > secondaryLimit) {
+            const double scale = static_cast<double>(secondaryLimit) / static_cast<double>(height);
+            width = FloorEven(width * scale);
+            height = FloorEven(height * scale);
+        }
+    } else {
+        bool reduced = false;
+        if (height > primaryLimit) {
+            const double scale = static_cast<double>(primaryLimit) / static_cast<double>(height);
+            width = FloorEven(width * scale);
+            height = FloorEven(height * scale);
+            reduced = true;
+        }
+        if (reduced && width > secondaryLimit) {
+            const double scale = static_cast<double>(secondaryLimit) / static_cast<double>(width);
+            width = FloorEven(width * scale);
+            height = FloorEven(height * scale);
+        }
+    }
+
+    return { width, height };
+}
+
+CString FormatReferenceTimeForFileName(REFERENCE_TIME rt)
+{
+    if (rt < 0) {
+        rt = 0;
+    }
+
+    const LONGLONG totalMilliseconds = rt / 10000;
+    const LONGLONG hours = totalMilliseconds / 3600000;
+    const LONGLONG minutes = (totalMilliseconds / 60000) % 60;
+    const LONGLONG seconds = (totalMilliseconds / 1000) % 60;
+    const LONGLONG milliseconds = totalMilliseconds % 1000;
+
+    CString formatted;
+    formatted.Format(_T("%02lld-%02lld-%02lld.%03lld"), hours, minutes, seconds, milliseconds);
+    return formatted;
+}
+
+bool ContainsAnyInsensitive(const CStringW& value, std::initializer_list<LPCWSTR> tokens)
+{
+    if (value.IsEmpty()) {
+        return false;
+    }
+
+    CStringW haystack(value);
+    haystack.MakeLower();
+
+    for (LPCWSTR token : tokens) {
+        CStringW needle(token);
+        needle.MakeLower();
+        if (!needle.IsEmpty() && haystack.Find(needle) >= 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool DetectHdrVideo(const CString& filePath, bool* hasAudio = nullptr)
+{
+    if (hasAudio) {
+        *hasAudio = false;
+    }
+
+    CString normalizedPath = PathUtils::Unquote(filePath);
+    if (normalizedPath.IsEmpty()) {
+        return false;
+    }
+
+    CString urlCheck(normalizedPath);
+    if (PathUtils::IsURL(urlCheck)) {
+        return false;
+    }
+
+    MediaInfoDLL::MediaInfo mediaInfo;
+    if (!mediaInfo.IsReady()) {
+        return false;
+    }
+
+    if (mediaInfo.Open(normalizedPath.GetString()) == 0) {
+        return false;
+    }
+
+    if (hasAudio) {
+        *hasAudio = mediaInfo.Count_Get(MediaInfoDLL::Stream_Audio) > 0;
+    }
+
+    if (mediaInfo.Count_Get(MediaInfoDLL::Stream_Video) == 0) {
+        mediaInfo.Close();
+        return false;
+    }
+
+    CStringW hdrFormat = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"HDR_Format/String").c_str();
+    if (hdrFormat.IsEmpty()) {
+        hdrFormat = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"HDR_Format").c_str();
+    }
+
+    bool hdr = ContainsAnyInsensitive(hdrFormat, {
+        L"hdr",
+        L"pq",
+        L"hlg",
+        L"dolby",
+        L"perceptual"
+    });
+
+    if (!hdr) {
+        CStringW transfer = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"Transfer_Characteristics/String").c_str();
+        if (transfer.IsEmpty()) {
+            transfer = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"Transfer_Characteristics").c_str();
+        }
+
+        hdr = ContainsAnyInsensitive(transfer, {
+            L"2084",
+            L"pq",
+            L"hlg",
+            L"perceptual"
+        });
+    }
+
+    if (!hdr) {
+        CStringW primaries = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"Colour_Primaries/String").c_str();
+        if (primaries.IsEmpty()) {
+            primaries = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"Colour_Primaries").c_str();
+        }
+
+        hdr = ContainsAnyInsensitive(primaries, {
+            L"2020",
+            L"p3"
+        });
+    }
+
+    if (!hdr) {
+        CStringW luminance = mediaInfo.Get(MediaInfoDLL::Stream_Video, 0, L"MasteringDisplay_Luminance").c_str();
+        hdr = !luminance.IsEmpty();
+    }
+
+    mediaInfo.Close();
+    return hdr;
+}
+
+} // namespace
 
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
@@ -346,6 +524,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND(ID_CMDLINE_SAVE_THUMBNAILS, OnCmdLineSaveThumbnails)
     ON_COMMAND(ID_FILE_SAVE_THUMBNAILS, OnFileSaveThumbnails)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_THUMBNAILS, OnUpdateFileSaveThumbnails)
+    ON_COMMAND(ID_FILE_EXPORT_AB_CLIP, OnFileExportABClip)
+    ON_UPDATE_COMMAND_UI(ID_FILE_EXPORT_AB_CLIP, OnUpdateFileExportABClip)
     ON_COMMAND(ID_FILE_SUBTITLES_LOAD, OnFileSubtitlesLoad)
     ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_LOAD, OnUpdateFileSubtitlesLoad)
     ON_COMMAND(ID_FILE_SUBTITLES_SAVE, OnFileSubtitlesSave)
@@ -6617,6 +6797,174 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
     OAFilterState fs = GetMediaState();
     UNREFERENCED_PARAMETER(fs);
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly && (GetPlaybackMode() == PM_FILE /*|| GetPlaybackMode() == PM_DVD*/));
+}
+
+void CMainFrame::OnFileExportABClip()
+{
+    if (GetLoadState() != MLS::LOADED || GetPlaybackMode() != PM_FILE || m_fAudioOnly) {
+        return;
+    }
+
+    REFERENCE_TIME positionA = 0;
+    REFERENCE_TIME positionB = 0;
+    if (!CheckABRepeat(positionA, positionB) || positionB <= positionA) {
+        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_EXPORT_AB_CLIP_NO_RANGE));
+        return;
+    }
+
+    CString inputPath = PathUtils::Unquote(lastOpenFile);
+    if (inputPath.IsEmpty()) {
+        AfxMessageBox(ResStr(IDS_EXPORT_AB_CLIP_INVALID_SOURCE), MB_ICONERROR);
+        return;
+    }
+
+    CString urlCheck(inputPath);
+    if (PathUtils::IsURL(urlCheck) || !PathUtils::IsFile(inputPath)) {
+        AfxMessageBox(ResStr(IDS_EXPORT_AB_CLIP_INVALID_SOURCE), MB_ICONERROR);
+        return;
+    }
+
+    if (!PathUtils::IsDir(kExportDirectory)) {
+        AfxMessageBox(ResStr(IDS_EXPORT_AB_CLIP_DESTINATION), MB_ICONERROR);
+        return;
+    }
+
+    CString ffmpegPath = PathUtils::CombinePaths(PathUtils::GetProgramPath(), _T("ffmpeg.exe"));
+    CString quotedFfmpeg;
+    if (PathUtils::IsFile(ffmpegPath)) {
+        quotedFfmpeg.Format(_T("\"%s\""), static_cast<LPCTSTR>(ffmpegPath));
+    } else {
+        TCHAR resolved[MAX_PATH] = {};
+        DWORD resolvedLength = SearchPath(nullptr, _T("ffmpeg.exe"), nullptr, _countof(resolved), resolved, nullptr);
+        if (resolvedLength == 0 || resolvedLength >= _countof(resolved)) {
+            AfxMessageBox(ResStr(IDS_EXPORT_AB_CLIP_NO_FFMPEG), MB_ICONERROR);
+            return;
+        }
+        quotedFfmpeg.Format(_T("\"%s\""), resolved);
+    }
+
+    const double startSeconds = static_cast<double>(positionA) / 10000000.0;
+    const double durationSeconds = static_cast<double>(positionB - positionA) / 10000000.0;
+    if (durationSeconds <= 0.0) {
+        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_EXPORT_AB_CLIP_NO_RANGE));
+        return;
+    }
+
+    CString startArg;
+    CString durationArg;
+    startArg.Format(_T("%.3f"), startSeconds);
+    durationArg.Format(_T("%.3f"), durationSeconds);
+
+    bool hasAudio = false;
+    const bool hdrVideo = DetectHdrVideo(inputPath, &hasAudio);
+
+    const CSize originalSize = GetVideoSize();
+    const CSize limitedSize = ApplyResolutionLimit(originalSize);
+    const bool applyScaling = limitedSize.cx > 0 && limitedSize.cy > 0
+        && (limitedSize.cx != originalSize.cx || limitedSize.cy != originalSize.cy);
+
+    std::vector<CString> filters;
+    if (hdrVideo) {
+        filters.emplace_back(_T("zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709:m=bt709:t=linear,tonemap=hable,zscale=t=bt709"));
+    }
+    if (applyScaling) {
+        CString scaleFilter;
+        scaleFilter.Format(_T("scale=%d:%d"), limitedSize.cx, limitedSize.cy);
+        filters.emplace_back(scaleFilter);
+    }
+
+    CString filterArgument;
+    if (!filters.empty()) {
+        filterArgument = filters.front();
+        for (size_t i = 1; i < filters.size(); ++i) {
+            filterArgument.AppendChar(',');
+            filterArgument.Append(filters[i]);
+        }
+    }
+
+    CString baseName = PathUtils::StripPathOrUrl(inputPath);
+    const int extensionPos = baseName.ReverseFind('.');
+    if (extensionPos > 0) {
+        baseName = baseName.Left(extensionPos);
+    }
+    CString sanitizedBase = PathUtils::FilterInvalidCharsFromFileName(baseName);
+    if (sanitizedBase.IsEmpty()) {
+        sanitizedBase = _T("clip");
+    }
+
+    const CString startLabel = FormatReferenceTimeForFileName(positionA);
+    const CString endLabel = FormatReferenceTimeForFileName(positionB);
+
+    CString outputBase;
+    outputBase.Format(_T("%s_%s-%s"), sanitizedBase.GetString(), startLabel.GetString(), endLabel.GetString());
+
+    CString outputPath = PathUtils::CombinePaths(kExportDirectory, outputBase + _T(".mkv"));
+    int suffix = 1;
+    while (PathUtils::IsFile(outputPath)) {
+        CString candidate;
+        candidate.Format(_T("%s_%d.mkv"), outputBase.GetString(), suffix++);
+        outputPath = PathUtils::CombinePaths(kExportDirectory, candidate);
+    }
+
+    CString commandLine;
+    commandLine.Format(_T("%s -y -ss %s -i \"%s\" -t %s -c:v hevc_nvenc -pix_fmt p010le -qp 5 -preset:v medium"),
+                      quotedFfmpeg.GetString(), startArg.GetString(), inputPath.GetString(), durationArg.GetString());
+
+    if (!filterArgument.IsEmpty()) {
+        commandLine.Append(_T(" -vf \"") + filterArgument + _T("\""));
+    }
+
+    if (hasAudio) {
+        commandLine.Append(_T(" -c:a aac -b:a 128K"));
+    } else {
+        commandLine.Append(_T(" -an"));
+    }
+
+    commandLine.Append(_T(" \"") + outputPath + _T("\""));
+
+    PROCESS_INFORMATION processInfo{};
+    STARTUPINFO startupInfo{};
+    startupInfo.cb = sizeof(startupInfo);
+    startupInfo.dwFlags = STARTF_USESHOWWINDOW;
+    startupInfo.wShowWindow = SW_HIDE;
+
+    LPTSTR buffer = commandLine.GetBuffer();
+    if (!CreateProcess(nullptr, buffer, nullptr, nullptr, FALSE, CREATE_NO_WINDOW, nullptr, nullptr, &startupInfo, &processInfo)) {
+        const DWORD errorCode = GetLastError();
+        commandLine.ReleaseBuffer();
+        CString message;
+        message.Format(ResStr(IDS_EXPORT_AB_CLIP_PROCESS_ERROR), errorCode);
+        AfxMessageBox(message, MB_ICONERROR);
+        return;
+    }
+    commandLine.ReleaseBuffer();
+
+    CloseHandle(processInfo.hProcess);
+    CloseHandle(processInfo.hThread);
+
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_EXPORT_AB_CLIP_STARTED));
+}
+
+void CMainFrame::OnUpdateFileExportABClip(CCmdUI* pCmdUI)
+{
+    REFERENCE_TIME positionA = 0;
+    REFERENCE_TIME positionB = 0;
+    bool enable = GetLoadState() == MLS::LOADED
+        && GetPlaybackMode() == PM_FILE
+        && !m_fAudioOnly
+        && CheckABRepeat(positionA, positionB)
+        && positionB > positionA;
+
+    if (enable) {
+        CString inputPath = PathUtils::Unquote(lastOpenFile);
+        CString urlCheck(inputPath);
+        enable = !inputPath.IsEmpty()
+            && !PathUtils::IsURL(urlCheck)
+            && PathUtils::IsFile(inputPath)
+            && PathUtils::IsDir(kExportDirectory);
+    }
+
+    pCmdUI->Enable(enable);
 }
 
 void CMainFrame::OnFileSubtitlesLoad()
